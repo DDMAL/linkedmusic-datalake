@@ -39,6 +39,7 @@ def convert_csv_to_turtle():
         g.add((absolute_uri, RDF.type, URIRef("http://www.wikidata.org/prop/direct/chant")))
         
         # extracting other informations
+        # TODO: is the source description texts needed?
         for k in row:
             # if this key is the first column, skip
             if k.__eq__(list(row.keys())[0]):
