@@ -7,7 +7,8 @@
     "mode_id_url":"https://www.wikidata.org/wiki/Q731978",
     "finalis":"https://www.wikidata.org/wiki/Q4484726",
     "src_link":"https://cantusdatabase.org/sources",
-    "cantus_id":"https://cantusindex.org/id",
-    "indexing_notes":"https://www.wikidata.org/wiki/Q263478",
-    "type":"http://www.wikidata.org/prop/direct/chant"
+    "cantus_id":"https://cantusdatabase.org/about/id-numbers",
+    "indexing_notes":"https://cantusdatabase.org/description/#IndexingNotes",
+    "type":"http://www.wikidata.org/prop/direct/chant",
+    "source_description": "https://schema.org/description"
 }
