@@ -3,65 +3,60 @@ from rdflib.namespace import RDF
 import csv
 import validators
 import sys
+import json
 
 # helper to get the predicate relation dictionary
 def get_ontology_dict () :
-    
-    # a specific config file for the predicates
-    # TODO: maybe change this part to make a more customized way of getting the predicates configurations
-    ontology_f = open("ontology_dict.csv", 'r')
-    ontology_reader = csv.DictReader(ontology_f)
-    ontology_dict = {}
-    
-    # converting the reader dict to the predicate dictionary
-    for row in ontology_reader:
-        ontology_dict[row[list(row.keys())[0]]] = row[list(row.keys())[1]]
-                
-    return ontology_dict
+    with open("relations_mapping.json", 'r') as mapper:
+        # a specific config file for the predicates
+        # TODO: maybe change this part to make a more customized way of getting the predicates configurations
+        data = json.load(mapper)
+    return data
     
 # a main operation function
 def convert_csv_to_turtle():
-    # TODO: maybe change this one to accomadate for multiple files
     if len(sys.argv) != 2:
-        raise ValueError("Invalid number of input filename") 
-    
-    g = Graph()
-
-    csv_file = open(sys.argv[1], 'r', encoding='utf-8')
-    
-    csv_reader = csv.DictReader(csv_file)
-    ontology_dict = get_ontology_dict()
-
-    # Convert each row to Turtle format and add it to the output
-    for row in csv_reader:
-        # the first column as the subject
-        absolute_uri = URIRef(row[list(row.keys())[0]])
-        g.add((absolute_uri, RDF.type, URIRef("http://www.wikidata.org/prop/direct/chant")))
+            raise ValueError("Invalid number of input filename") 
         
-        # extracting other informations
-        # TODO: is the source description texts needed?
-        for k in row:
-            # if this key is the first column, skip
-            if k.__eq__(list(row.keys())[0]):
-                continue
-            
-            # finding the predicate from csv in the config dictionary, if not exit, skip
-            if k in list(ontology_dict.keys()):
-                predicate = URIRef(ontology_dict[k])
-            else:
-                continue
-            
-            # the object might be an URI or a literal
-            if validators.url(row[k]):
-                obj = URIRef(row[k])
-            else:
-                obj = Literal(row[k])
-            
-            # add this triple (absolute uri, predicate, object) to the graph
-            g.add((absolute_uri, predicate, obj))    
+    with open(sys.argv[1], 'r', encoding='utf-8') as csv_file:
+        # TODO: maybe change this one to accomadate for multiple files
+
+        g = Graph()
         
-    csv_file.close()
-    
+        csv_reader = csv.reader(csv_file)
+        ontology_dict = get_ontology_dict()
+        
+        header = next(csv_reader)
+
+        # Convert each row to Turtle format and add it to the output
+        for row in csv_reader:
+            # the first column as the subject
+            key_attribute = URIRef(row[0])
+            if "type" in list(ontology_dict.keys()):
+                g.add((key_attribute, RDF.type, URIRef(ontology_dict["type"])))
+            
+            # extracting other informations
+            # TODO: is the source description texts needed?
+            for i in range(len(row)):
+                # if this key is the first column, skip
+                if i == 0:
+                    continue
+                
+                # finding the predicate from csv in the config dictionary, if not exit, skip
+                if header[i] in list(ontology_dict.keys()):
+                    predicate = URIRef(ontology_dict[header[i]])
+                else:
+                    continue
+                
+                # the object might be an URI or a literal
+                if validators.url(row[i]):
+                    obj = URIRef(row[i])
+                else:
+                    obj = Literal(row[i])
+                
+                # add this triple (absolute uri, predicate, object) to the graph
+                g.add((key_attribute, predicate, obj))    
+                
     return g
 
 # openrefine_csv_test.csv

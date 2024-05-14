@@ -1,4 +1,3 @@
-relation,URI
 absolute_url,
 incipit,http://www.wikidata.org/prop/direct/P1922
 genre,https://schema.org/genre
@@ -9,3 +8,4 @@ finalis,https://www.wikidata.org/wiki/Q4484726
 src_link,https://cantusdatabase.org/sources
 cantus_id,https://cantusindex.org/id
 indexing_notes,https://www.wikidata.org/wiki/Q263478
+type,http://www.wikidata.org/prop/direct/chant
