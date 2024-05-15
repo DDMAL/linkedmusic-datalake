@@ -5,6 +5,7 @@ import validators
 import sys
 import json
 
+
 # a main operation function
 def convert_csv_to_turtle(filename) -> Graph:
     """
@@ -12,10 +13,10 @@ def convert_csv_to_turtle(filename) -> Graph:
     @Pre: input filename must be type string.
     @Post: Returns a RDF.Graph that has all the triples
     """
-    
+
     if len(sys.argv) != 2:
         raise ValueError("Invalid number of input filename")
-    
+
     with open(filename, "r", encoding="utf-8") as csv_file:
         # TODO: maybe change this one to accomadate for multiple files
 
@@ -24,14 +25,14 @@ def convert_csv_to_turtle(filename) -> Graph:
         csv_reader = csv.reader(csv_file)
         with open("relations_mapping.json", "r") as mapper:
             ontology_dict = json.load(mapper)
-        
+
         header = next(csv_reader)
 
         # Convert each row to Turtle format and add it to the output
         for row in csv_reader:
             # the first column as the subject
             key_attribute = URIRef(row[0])
-            if "type" in list(ontology_dict.keys()):
+            if "type" in ontology_dict:
                 g.add((key_attribute, RDF.type, URIRef(ontology_dict["type"])))
             else:
                 raise ValueError("No type specifications in the mapper file.")
@@ -41,10 +42,10 @@ def convert_csv_to_turtle(filename) -> Graph:
             for i, element in enumerate(row[1:]):
                 predicate_cur = header[i]
                 # finding the predicate from csv in the config dictionary, if not exit, skip
-                if predicate_cur in list(ontology_dict.keys()):
-                    predicate = URIRef(ontology_dict[predicate_cur])
-                else:
+                if predicate_cur not in ontology_dict:
                     continue
+
+                predicate = URIRef(ontology_dict[predicate_cur])
 
                 # the object might be an URI or a literal
                 if validators.url(element):
