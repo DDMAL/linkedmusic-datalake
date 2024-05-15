@@ -33,7 +33,8 @@ def convert_csv_to_turtle(filename) -> Graph:
         for row in csv_reader:
             # the key is defined in the mapper
             for ontology_dict in ontology_dict_list:
-                subject = URIRef(row[header.index(ontology_dict["key"])])
+                key_attr = ontology_dict["key"]
+                subject = URIRef(row[header.index(key_attr)])
                 if "type" in ontology_dict:
                     g.add((subject, RDF.type, URIRef(ontology_dict["type"])))
                 else:
@@ -44,7 +45,7 @@ def convert_csv_to_turtle(filename) -> Graph:
                 for i, element in enumerate(row[1:]):
                     predicate_cur = header[i + 1]
                     # finding the predicate from csv in the config dictionary, if not exit, skip
-                    if predicate_cur not in ontology_dict:
+                    if predicate_cur not in ontology_dict or predicate_cur == key_attr:
                         continue
 
                     predicate = URIRef(ontology_dict[predicate_cur])

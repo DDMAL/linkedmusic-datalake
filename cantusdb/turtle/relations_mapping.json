@@ -1,6 +1,7 @@
 [
     {
         "key": "absolute_url",
+        "type":"https://www.wikidata.org/wiki/Q26473",
         "absolute_url": "",
         "incipit": "http://www.wikidata.org/prop/direct/P1922",
         "genre":"https://schema.org/genre",
@@ -10,9 +11,7 @@
         "finalis":"https://www.wikidata.org/wiki/Q4484726",
         "src_link":"https://cantusdatabase.org/sources",
         "cantus_id":"https://cantusdatabase.org/about/id-numbers",
-        "indexing_notes":"https://cantusdatabase.org/description/#IndexingNotes",
-        "type":"https://www.wikidata.org/wiki/Q26473",
-        "source_description":"https://schema.org/description"
+        "indexing_notes":"https://cantusdatabase.org/description/#IndexingNotes"
     },
     {
         "key":"src_link",

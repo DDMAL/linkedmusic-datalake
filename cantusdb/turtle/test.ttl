@@ -1,82 +1,85 @@
-@prefix ns1: <https://www.wikidata.org/wiki/> .
-@prefix ns2: <https://cantusdatabase.org/> .
-@prefix ns3: <http://www.wikidata.org/prop/direct/> .
+@prefix ns1: <http://www.wikidata.org/prop/direct/> .
+@prefix ns2: <https://www.wikidata.org/wiki/> .
+@prefix ns3: <https://cantusdatabase.org/> .
 @prefix ns4: <https://cantusdatabase.org/description/#> .
 @prefix ns5: <https://cantusdatabase.org/about/> .
 @prefix schema: <https://schema.org/> .
 
-<https://cantusdatabase.org/chant/467250> a ns1:Q26473 ;
-    ns3:P136 ns1:Q582093 ;
-    ns3:P1922 "Ad te domine levavi animam" ;
+<https://cantusdatabase.org/chant/467250> a ns2:Q26473 ;
+    ns1:P136 ns2:Q582093 ;
+    ns1:P1922 "Ad te domine levavi animam" ;
     ns5:id-numbers <https://cantusindex.org/id/001255> ;
     ns4:IndexingNotes "" ;
-    ns2:sources <https://cantusdatabase.org/source/123756> ;
+    ns3:sources <https://cantusdatabase.org/source/123756> ;
     schema:genre "Antiphon" ;
     schema:musicalKey "4T" ;
-    ns1:Q4484726 "A" ;
-    ns1:Q731978 "" .
+    ns2:Q4484726 "A" ;
+    ns2:Q731978 "" .
 
-<https://cantusdatabase.org/chant/557534> a ns1:Q26473 ;
-    ns3:P136 ns1:Q604748 ;
-    ns3:P1922 "Si diligis me Simon Petre" ;
+<https://cantusdatabase.org/chant/557534> a ns2:Q26473 ;
+    ns1:P136 ns2:Q604748 ;
+    ns1:P1922 "Si diligis me Simon Petre" ;
     ns5:id-numbers <https://cantusindex.org/id/007649> ;
     ns4:IndexingNotes "" ;
-    ns2:sources <https://cantusdatabase.org/source/123756> ;
+    ns3:sources <https://cantusdatabase.org/source/123756> ;
     schema:genre "Responsory" ;
     schema:musicalKey "6T" ;
-    ns1:Q4484726 "C" ;
-    ns1:Q731978 "" .
+    ns2:Q4484726 "C" ;
+    ns2:Q731978 "" .
 
-<https://cantusdatabase.org/chant/560736> a ns1:Q26473 ;
-    ns3:P136 ns1:Q604748 ;
-    ns3:P1922 "Stephanus servus dei quem lapidabant" ;
+<https://cantusdatabase.org/chant/560736> a ns2:Q26473 ;
+    ns1:P136 ns2:Q604748 ;
+    ns1:P1922 "Stephanus servus dei quem lapidabant" ;
     ns5:id-numbers <https://cantusindex.org/id/007704> ;
     ns4:IndexingNotes "" ;
-    ns2:sources <https://cantusdatabase.org/source/123756> ;
+    ns3:sources <https://cantusdatabase.org/source/123756> ;
     schema:genre "Responsory" ;
     schema:musicalKey "Hypomixolydian mode" ;
-    ns1:Q4484726 "G" ;
-    ns1:Q731978 ns1:Q57976142 .
+    ns2:Q4484726 "G" ;
+    ns2:Q731978 ns2:Q57976142 .
 
-<https://cantusdatabase.org/chant/562160> a ns1:Q26473 ;
-    ns3:P136 ns1:Q604748 ;
-    ns3:P1922 "Seniores populi consilium fecerunt ut" ;
+<https://cantusdatabase.org/chant/562160> a ns2:Q26473 ;
+    ns1:P136 ns2:Q604748 ;
+    ns1:P1922 "Seniores populi consilium fecerunt ut" ;
     ns5:id-numbers <https://cantusindex.org/id/007636> ;
     ns4:IndexingNotes "" ;
-    ns2:sources <https://cantusdatabase.org/source/123756> ;
+    ns3:sources <https://cantusdatabase.org/source/123756> ;
     schema:genre "Responsory" ;
     schema:musicalKey "dorian mode" ;
-    ns1:Q4484726 "D" ;
-    ns1:Q731978 ns1:Q960729 .
+    ns2:Q4484726 "D" ;
+    ns2:Q731978 ns2:Q960729 .
 
-<https://cantusdatabase.org/chant/562633> a ns1:Q26473 ;
-    ns3:P136 ns1:Q582093 ;
-    ns3:P1922 "Ecce nunc palam loqueris et" ;
+<https://cantusdatabase.org/chant/562633> a ns2:Q26473 ;
+    ns1:P136 ns2:Q582093 ;
+    ns1:P1922 "Ecce nunc palam loqueris et" ;
     ns5:id-numbers <https://cantusindex.org/id/002530> ;
     ns4:IndexingNotes "" ;
-    ns2:sources <https://cantusdatabase.org/source/123756> ;
+    ns3:sources <https://cantusdatabase.org/source/123755> ;
     schema:genre "Antiphon" ;
     schema:musicalKey "Hypomixolydian mode" ;
-    ns1:Q4484726 "G" ;
-    ns1:Q731978 ns1:Q57976142 .
+    ns2:Q4484726 "G" ;
+    ns2:Q731978 ns2:Q57976142 .
 
-<https://cantusdatabase.org/chant/671551> a ns1:Q26473 ;
-    ns3:P136 ns1:Q582093 ;
-    ns3:P1922 "Dominus tamquam ovis ad victimam" ;
+<https://cantusdatabase.org/chant/671551> a ns2:Q26473 ;
+    ns1:P136 ns2:Q582093 ;
+    ns1:P1922 "Dominus tamquam ovis ad victimam" ;
     ns5:id-numbers <https://cantusindex.org/id/002422> ;
     ns4:IndexingNotes "D in \"dominus\" is repeated in the MS" ;
-    ns2:sources <https://cantusdatabase.org/source/669163> ;
+    ns3:sources <https://cantusdatabase.org/source/669163> ;
     schema:genre "Antiphon" ;
     schema:musicalKey "hypodorian mode" ;
-    ns1:Q4484726 "D" ;
-    ns1:Q731978 ns1:Q842766 .
+    ns2:Q4484726 "D" ;
+    ns2:Q731978 ns2:Q842766 .
 
-<https://cantusdatabase.org/source/669163> a ns1:Q102014 ;
-    ns2:sources <https://cantusdatabase.org/source/669163> ;
+<https://cantusdatabase.org/source/123755> a ns2:Q102014 ;
+    schema:description "source1" ;
+    schema:yearBuilt "2002" .
+
+<https://cantusdatabase.org/source/669163> a ns2:Q102014 ;
+    schema:description "source2" ;
     schema:yearBuilt "2013" .
 
-<https://cantusdatabase.org/source/123756> a ns1:Q102014 ;
-    ns2:sources <https://cantusdatabase.org/source/123756> ;
-    schema:yearBuilt "2002",
-        "2021" .
+<https://cantusdatabase.org/source/123756> a ns2:Q102014 ;
+    schema:description "source3" ;
+    schema:yearBuilt "2021" .
 
