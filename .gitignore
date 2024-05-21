@@ -1,3 +1,7 @@
 *.pyc
 */__pycache__
 psqldump
+musicbrainz/.DS_Store
+/musicbrainz/data
+/musicbrainz/dont_go_here
+/musicbrainz/jsonld
