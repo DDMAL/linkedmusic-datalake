@@ -34,13 +34,14 @@ def convert_csv_to_turtle(filename) -> Graph:
             key_attribute = URIRef(row[0])
             if "type" in ontology_dict:
                 g.add((key_attribute, RDF.type, URIRef(ontology_dict["type"])))
-            else:
-                raise ValueError("No type specifications in the mapper file.")
 
             # extracting other informations
             # TODO: is the source description texts needed?
             for i, element in enumerate(row[1:]):
-                predicate_cur = header[i]
+                predicate_cur = header[i + 1]
+                if element == "" :
+                    continue
+                
                 # finding the predicate from csv in the config dictionary, if not exit, skip
                 if predicate_cur not in ontology_dict:
                     continue
