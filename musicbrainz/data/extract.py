@@ -41,7 +41,7 @@ for idx, url in enumerate(urls):
         jsonld_data = json.loads(output)
         
 
-        #add them all to a list
+        # add them all to a list
         jsonld_responses.append(jsonld_data) 
 
     except subprocess.CalledProcessError as e:
