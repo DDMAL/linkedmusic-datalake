@@ -1,6 +1,423 @@
-[{"life-span":{"ended":false,"begin":null,"end":null},"id":"6c6c3bbb-76aa-4260-b842-f04936573c71","ipis":[],"label-code":null,"sort-name":"Abstract Logix","type-id":null,"type":null,"tags":[],"relations":[{"attribute-values":{},"target-type":"url","target-credit":"","begin":null,"ended":false,"url":{"resource":"https://abstractlogix.bandcamp.com/","id":"74807b58-9e26-44bb-ad64-9d12fba31290"},"attributes":[],"end":null,"type":"bandcamp","type-id":"c535de4c-a112-4974-b138-5e0daa56eab5","direction":"forward","source-credit":"","attribute-ids":{}},{"attributes":[],"begin":null,"target-credit":"","url":{"resource":"https://www.discogs.com/label/84312","id":"0781274e-1a65-480f-87a5-fad4fca5cc49"},"ended":false,"attribute-values":{},"target-type":"url","source-credit":"","attribute-ids":{},"type-id":"5b987f87-25bc-4a2d-b3f1-3618795b8207","end":null,"type":"discogs","direction":"forward"},{"attribute-ids":{},"source-credit":"","direction":"forward","end":null,"type":"official site","type-id":"fe108f43-acb9-4ad1-8be3-57e6ec5b17b6","attributes":[],"ended":false,"url":{"resource":"http://www.abstractlogix.com/","id":"5622a177-1d45-4375-92d6-c240b0e7ff0b"},"begin":null,"target-credit":"","attribute-values":{},"target-type":"url"},{"attribute-values":{},"target-type":"url","url":{"id":"8ca2e1b8-b201-4044-8808-61d7bc2adf14","resource":"https://www.wikidata.org/wiki/Q96371418"},"ended":false,"target-credit":"","begin":null,"attributes":[],"direction":"forward","end":null,"type-id":"75d87e83-d927-4580-ba63-44dc76256f98","type":"wikidata","attribute-ids":{},"source-credit":""}],"rating":{"value":null,"votes-count":0},"isnis":[],"name":"Abstract Logix","country":null,"aliases":[{"ended":false,"end":null,"begin":null,"type":null,"type-id":null,"primary":null,"name":"AbstractLogix","locale":null,"sort-name":"AbstractLogix"}],"annotation":null,"genres":[],"disambiguation":"","area":{"iso-3166-2-codes":["US-NC"],"type-id":null,"type":null,"disambiguation":"","name":"North Carolina","sort-name":"North Carolina","id":"d4ab49e7-1d25-45e2-8659-b147e0ea3684"}}
-,{"type-id":"7aaa37fe-2def-3476-b359-80245850062d","type":"Original Production","isnis":[],"rating":{"votes-count":0,"value":null},"relations":[{"target-type":"url","attribute-values":{},"begin":null,"target-credit":"","url":{"resource":"https://www.discogs.com/label/51794","id":"0182eaa0-6e6a-402c-9d5d-eda61231dbe9"},"ended":false,"attributes":[],"end":null,"type":"discogs","type-id":"5b987f87-25bc-4a2d-b3f1-3618795b8207","direction":"forward","source-credit":"","attribute-ids":{}},{"end":null,"type":"official site","type-id":"fe108f43-acb9-4ad1-8be3-57e6ec5b17b6","direction":"forward","source-credit":"","attribute-ids":{},"target-credit":"","begin":null,"ended":false,"url":{"id":"d06a09af-431f-40da-9985-a1b2ca946d6f","resource":"http://idahomusic.com/"},"target-type":"url","attribute-values":{},"attributes":[]}],"tags":[],"life-span":{"ended":false,"begin":null,"end":null},"label-code":null,"sort-name":"Idaho Music","ipis":[],"id":"57eb5445-e445-4dee-a643-eb32d1623b21","area":{"iso-3166-1-codes":["US"],"type-id":null,"type":null,"disambiguation":"","name":"United States","id":"489ce91b-6658-3307-9877-795b68554c98","sort-name":"United States"},"disambiguation":"","genres":[],"annotation":null,"country":"US","name":"Idaho Music","aliases":[]}
-,{"country":"US","name":"Birth Records","aliases":[],"area":{"disambiguation":"","iso-3166-1-codes":["US"],"type-id":null,"type":null,"id":"489ce91b-6658-3307-9877-795b68554c98","sort-name":"United States","name":"United States"},"disambiguation":"imprint on Deanna Kirk release","genres":[],"annotation":null,"life-span":{"ended":false,"end":null,"begin":null},"label-code":null,"sort-name":"Birth Records","ipis":[],"id":"8f650e70-b105-4774-9100-96a65569f732","type":"Original Production","type-id":"7aaa37fe-2def-3476-b359-80245850062d","isnis":[],"rating":{"votes-count":0,"value":null},"tags":[],"relations":[]}
-,{"type-id":null,"type":null,"relations":[{"attributes":[],"ended":false,"target-credit":"","begin":null,"target-type":"artist","attribute-values":{},"attribute-ids":{},"source-credit":"","direction":"backward","artist":{"disambiguation":"percussionist","type":"Person","type-id":"b6e035f4-3ce9-331c-97df-83397230b0df","id":"048c04d7-2293-480f-b131-a26cd0512e6c","sort-name":"Martin, Billy","name":"Billy Martin"},"end":null,"type":"label founder","type-id":"577996f3-7ff9-45cf-877e-740fb1267a63"},{"attributes":[],"attribute-values":{},"target-type":"url","url":{"id":"fff195a3-15e3-4da5-8642-311fb444e866","resource":"https://www.discogs.com/label/56331"},"ended":false,"target-credit":"","begin":null,"attribute-ids":{},"source-credit":"","direction":"forward","end":null,"type-id":"5b987f87-25bc-4a2d-b3f1-3618795b8207","type":"discogs"},{"type":"wikidata","end":null,"type-id":"75d87e83-d927-4580-ba63-44dc76256f98","direction":"forward","source-credit":"","attribute-ids":{},"attribute-values":{},"target-type":"url","target-credit":"","begin":null,"ended":false,"url":{"id":"b3057327-5ca9-47fe-ad2b-51ff3d7ebdeb","resource":"https://www.wikidata.org/wiki/Q4748940"},"attributes":[]}],"tags":[],"rating":{"value":null,"votes-count":0},"isnis":[],"life-span":{"ended":false,"begin":null,"end":null},"id":"359ad13a-7eea-4a84-8387-6138a094f864","ipis":[],"label-code":null,"sort-name":"Amulet Records","annotation":null,"genres":[],"disambiguation":"","area":null,"name":"Amulet Records","country":null,"aliases":[]}
-,{"type":"Original Production","type-id":"7aaa37fe-2def-3476-b359-80245850062d","relations":[{"direction":"backward","end":null,"type-id":"ab7a9be0-c060-4852-8f2e-4faf5b33231e","type":"label ownership","attribute-ids":{},"source-credit":"","ended":false,"begin":"2008-10-01","target-credit":"","target-type":"label","attribute-values":{},"label":{"id":"8149ee2b-07fe-4f96-8a96-756f8857552e","sort-name":"Sony Music Entertainment Belgium NV/SA","label-code":null,"name":"Sony Music Entertainment Belgium NV/SA","disambiguation":"not for release label use! 2009–…","type":null,"type-id":null},"attributes":[]},{"direction":"backward","end":null,"type":"label ownership","type-id":"ab7a9be0-c060-4852-8f2e-4faf5b33231e","attribute-ids":{},"source-credit":"","ended":false,"begin":null,"target-credit":"","target-type":"label","attribute-values":{},"label":{"id":"f9ada3ae-3081-44df-8581-ca27a3462b68","label-code":13989,"sort-name":"Sony BMG Music Entertainment","name":"Sony BMG Music Entertainment","disambiguation":"Aug 5, 2004 – Oct 1, 2008","type":"Original Production","type-id":"7aaa37fe-2def-3476-b359-80245850062d"},"attributes":[]},{"attribute-ids":{},"source-credit":"","direction":"forward","type-id":"5b987f87-25bc-4a2d-b3f1-3618795b8207","end":null,"type":"discogs","attributes":[],"attribute-values":{},"target-type":"url","ended":false,"url":{"id":"c9a7f5fd-aaed-4dec-8fed-f18b6b8b67e8","resource":"https://www.discogs.com/label/13659"},"target-credit":"","begin":null}],"tags":[],"rating":{"votes-count":0,"value":null},"isnis":[],"life-span":{"begin":null,"end":null,"ended":false},"id":"c98047e7-24b0-4125-8d13-a3c85f52977f","ipis":[],"label-code":6772,"sort-name":"Dancity","genres":[],"annotation":null,"disambiguation":"","area":{"sort-name":"Belgium","id":"5b8a5ee5-0bb3-34cf-9a75-c27c44e341fc","name":"Belgium","disambiguation":"","iso-3166-1-codes":["BE"],"type-id":null,"type":null},"name":"Dancity","country":"BE","aliases":[]}
+[
+    {
+        "life-span": {
+            "ended": false,
+            "begin": null,
+            "end": null
+        },
+        "id": "6c6c3bbb-76aa-4260-b842-f04936573c71",
+        "ipis": [],
+        "label-code": null,
+        "sort-name": "Abstract Logix",
+        "type-id": null,
+        "type": null,
+        "tags": [],
+        "relations": [
+            {
+                "attribute-values": {},
+                "target-type": "url",
+                "target-credit": "",
+                "begin": null,
+                "ended": false,
+                "url": {
+                    "resource": "https://abstractlogix.bandcamp.com/",
+                    "id": "74807b58-9e26-44bb-ad64-9d12fba31290"
+                },
+                "attributes": [],
+                "end": null,
+                "type": "bandcamp",
+                "type-id": "c535de4c-a112-4974-b138-5e0daa56eab5",
+                "direction": "forward",
+                "source-credit": "",
+                "attribute-ids": {}
+            },
+            {
+                "attributes": [],
+                "begin": null,
+                "target-credit": "",
+                "url": {
+                    "resource": "https://www.discogs.com/label/84312",
+                    "id": "0781274e-1a65-480f-87a5-fad4fca5cc49"
+                },
+                "ended": false,
+                "attribute-values": {},
+                "target-type": "url",
+                "source-credit": "",
+                "attribute-ids": {},
+                "type-id": "5b987f87-25bc-4a2d-b3f1-3618795b8207",
+                "end": null,
+                "type": "discogs",
+                "direction": "forward"
+            },
+            {
+                "attribute-ids": {},
+                "source-credit": "",
+                "direction": "forward",
+                "end": null,
+                "type": "official site",
+                "type-id": "fe108f43-acb9-4ad1-8be3-57e6ec5b17b6",
+                "attributes": [],
+                "ended": false,
+                "url": {
+                    "resource": "http://www.abstractlogix.com/",
+                    "id": "5622a177-1d45-4375-92d6-c240b0e7ff0b"
+                },
+                "begin": null,
+                "target-credit": "",
+                "attribute-values": {},
+                "target-type": "url"
+            },
+            {
+                "attribute-values": {},
+                "target-type": "url",
+                "url": {
+                    "id": "8ca2e1b8-b201-4044-8808-61d7bc2adf14",
+                    "resource": "https://www.wikidata.org/wiki/Q96371418"
+                },
+                "ended": false,
+                "target-credit": "",
+                "begin": null,
+                "attributes": [],
+                "direction": "forward",
+                "end": null,
+                "type-id": "75d87e83-d927-4580-ba63-44dc76256f98",
+                "type": "wikidata",
+                "attribute-ids": {},
+                "source-credit": ""
+            }
+        ],
+        "rating": {
+            "value": null,
+            "votes-count": 0
+        },
+        "isnis": [],
+        "name": "Abstract Logix",
+        "country": null,
+        "aliases": [
+            {
+                "ended": false,
+                "end": null,
+                "begin": null,
+                "type": null,
+                "type-id": null,
+                "primary": null,
+                "name": "AbstractLogix",
+                "locale": null,
+                "sort-name": "AbstractLogix"
+            }
+        ],
+        "annotation": null,
+        "genres": [],
+        "disambiguation": "",
+        "area": {
+            "iso-3166-2-codes": [
+                "US-NC"
+            ],
+            "type-id": null,
+            "type": null,
+            "disambiguation": "",
+            "name": "North Carolina",
+            "sort-name": "North Carolina",
+            "id": "d4ab49e7-1d25-45e2-8659-b147e0ea3684"
+        }
+    },
+    {
+        "type-id": "7aaa37fe-2def-3476-b359-80245850062d",
+        "type": "Original Production",
+        "isnis": [],
+        "rating": {
+            "votes-count": 0,
+            "value": null
+        },
+        "relations": [
+            {
+                "target-type": "url",
+                "attribute-values": {},
+                "begin": null,
+                "target-credit": "",
+                "url": {
+                    "resource": "https://www.discogs.com/label/51794",
+                    "id": "0182eaa0-6e6a-402c-9d5d-eda61231dbe9"
+                },
+                "ended": false,
+                "attributes": [],
+                "end": null,
+                "type": "discogs",
+                "type-id": "5b987f87-25bc-4a2d-b3f1-3618795b8207",
+                "direction": "forward",
+                "source-credit": "",
+                "attribute-ids": {}
+            },
+            {
+                "end": null,
+                "type": "official site",
+                "type-id": "fe108f43-acb9-4ad1-8be3-57e6ec5b17b6",
+                "direction": "forward",
+                "source-credit": "",
+                "attribute-ids": {},
+                "target-credit": "",
+                "begin": null,
+                "ended": false,
+                "url": {
+                    "id": "d06a09af-431f-40da-9985-a1b2ca946d6f",
+                    "resource": "http://idahomusic.com/"
+                },
+                "target-type": "url",
+                "attribute-values": {},
+                "attributes": []
+            }
+        ],
+        "tags": [],
+        "life-span": {
+            "ended": false,
+            "begin": null,
+            "end": null
+        },
+        "label-code": null,
+        "sort-name": "Idaho Music",
+        "ipis": [],
+        "id": "57eb5445-e445-4dee-a643-eb32d1623b21",
+        "area": {
+            "iso-3166-1-codes": [
+                "US"
+            ],
+            "type-id": null,
+            "type": null,
+            "disambiguation": "",
+            "name": "United States",
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States"
+        },
+        "disambiguation": "",
+        "genres": [],
+        "annotation": null,
+        "country": "US",
+        "name": "Idaho Music",
+        "aliases": []
+    },
+    {
+        "country": "US",
+        "name": "Birth Records",
+        "aliases": [],
+        "area": {
+            "disambiguation": "",
+            "iso-3166-1-codes": [
+                "US"
+            ],
+            "type-id": null,
+            "type": null,
+            "id": "489ce91b-6658-3307-9877-795b68554c98",
+            "sort-name": "United States",
+            "name": "United States"
+        },
+        "disambiguation": "imprint on Deanna Kirk release",
+        "genres": [],
+        "annotation": null,
+        "life-span": {
+            "ended": false,
+            "end": null,
+            "begin": null
+        },
+        "label-code": null,
+        "sort-name": "Birth Records",
+        "ipis": [],
+        "id": "8f650e70-b105-4774-9100-96a65569f732",
+        "type": "Original Production",
+        "type-id": "7aaa37fe-2def-3476-b359-80245850062d",
+        "isnis": [],
+        "rating": {
+            "votes-count": 0,
+            "value": null
+        },
+        "tags": [],
+        "relations": []
+    },
+    {
+        "type-id": null,
+        "type": null,
+        "relations": [
+            {
+                "attributes": [],
+                "ended": false,
+                "target-credit": "",
+                "begin": null,
+                "target-type": "artist",
+                "attribute-values": {},
+                "attribute-ids": {},
+                "source-credit": "",
+                "direction": "backward",
+                "artist": {
+                    "disambiguation": "percussionist",
+                    "type": "Person",
+                    "type-id": "b6e035f4-3ce9-331c-97df-83397230b0df",
+                    "id": "048c04d7-2293-480f-b131-a26cd0512e6c",
+                    "sort-name": "Martin, Billy",
+                    "name": "Billy Martin"
+                },
+                "end": null,
+                "type": "label founder",
+                "type-id": "577996f3-7ff9-45cf-877e-740fb1267a63"
+            },
+            {
+                "attributes": [],
+                "attribute-values": {},
+                "target-type": "url",
+                "url": {
+                    "id": "fff195a3-15e3-4da5-8642-311fb444e866",
+                    "resource": "https://www.discogs.com/label/56331"
+                },
+                "ended": false,
+                "target-credit": "",
+                "begin": null,
+                "attribute-ids": {},
+                "source-credit": "",
+                "direction": "forward",
+                "end": null,
+                "type-id": "5b987f87-25bc-4a2d-b3f1-3618795b8207",
+                "type": "discogs"
+            },
+            {
+                "type": "wikidata",
+                "end": null,
+                "type-id": "75d87e83-d927-4580-ba63-44dc76256f98",
+                "direction": "forward",
+                "source-credit": "",
+                "attribute-ids": {},
+                "attribute-values": {},
+                "target-type": "url",
+                "target-credit": "",
+                "begin": null,
+                "ended": false,
+                "url": {
+                    "id": "b3057327-5ca9-47fe-ad2b-51ff3d7ebdeb",
+                    "resource": "https://www.wikidata.org/wiki/Q4748940"
+                },
+                "attributes": []
+            }
+        ],
+        "tags": [],
+        "rating": {
+            "value": null,
+            "votes-count": 0
+        },
+        "isnis": [],
+        "life-span": {
+            "ended": false,
+            "begin": null,
+            "end": null
+        },
+        "id": "359ad13a-7eea-4a84-8387-6138a094f864",
+        "ipis": [],
+        "label-code": null,
+        "sort-name": "Amulet Records",
+        "annotation": null,
+        "genres": [],
+        "disambiguation": "",
+        "area": null,
+        "name": "Amulet Records",
+        "country": null,
+        "aliases": []
+    },
+    {
+        "type": "Original Production",
+        "type-id": "7aaa37fe-2def-3476-b359-80245850062d",
+        "relations": [
+            {
+                "direction": "backward",
+                "end": null,
+                "type-id": "ab7a9be0-c060-4852-8f2e-4faf5b33231e",
+                "type": "label ownership",
+                "attribute-ids": {},
+                "source-credit": "",
+                "ended": false,
+                "begin": "2008-10-01",
+                "target-credit": "",
+                "target-type": "label",
+                "attribute-values": {},
+                "label": {
+                    "id": "8149ee2b-07fe-4f96-8a96-756f8857552e",
+                    "sort-name": "Sony Music Entertainment Belgium NV/SA",
+                    "label-code": null,
+                    "name": "Sony Music Entertainment Belgium NV/SA",
+                    "disambiguation": "not for release label use! 2009–…",
+                    "type": null,
+                    "type-id": null
+                },
+                "attributes": []
+            },
+            {
+                "direction": "backward",
+                "end": null,
+                "type": "label ownership",
+                "type-id": "ab7a9be0-c060-4852-8f2e-4faf5b33231e",
+                "attribute-ids": {},
+                "source-credit": "",
+                "ended": false,
+                "begin": null,
+                "target-credit": "",
+                "target-type": "label",
+                "attribute-values": {},
+                "label": {
+                    "id": "f9ada3ae-3081-44df-8581-ca27a3462b68",
+                    "label-code": 13989,
+                    "sort-name": "Sony BMG Music Entertainment",
+                    "name": "Sony BMG Music Entertainment",
+                    "disambiguation": "Aug 5, 2004 – Oct 1, 2008",
+                    "type": "Original Production",
+                    "type-id": "7aaa37fe-2def-3476-b359-80245850062d"
+                },
+                "attributes": []
+            },
+            {
+                "attribute-ids": {},
+                "source-credit": "",
+                "direction": "forward",
+                "type-id": "5b987f87-25bc-4a2d-b3f1-3618795b8207",
+                "end": null,
+                "type": "discogs",
+                "attributes": [],
+                "attribute-values": {},
+                "target-type": "url",
+                "ended": false,
+                "url": {
+                    "id": "c9a7f5fd-aaed-4dec-8fed-f18b6b8b67e8",
+                    "resource": "https://www.discogs.com/label/13659"
+                },
+                "target-credit": "",
+                "begin": null
+            }
+        ],
+        "tags": [],
+        "rating": {
+            "votes-count": 0,
+            "value": null
+        },
+        "isnis": [],
+        "life-span": {
+            "begin": null,
+            "end": null,
+            "ended": false
+        },
+        "id": "c98047e7-24b0-4125-8d13-a3c85f52977f",
+        "ipis": [],
+        "label-code": 6772,
+        "sort-name": "Dancity",
+        "genres": [],
+        "annotation": null,
+        "disambiguation": "",
+        "area": {
+            "sort-name": "Belgium",
+            "id": "5b8a5ee5-0bb3-34cf-9a75-c27c44e341fc",
+            "name": "Belgium",
+            "disambiguation": "",
+            "iso-3166-1-codes": [
+                "BE"
+            ],
+            "type-id": null,
+            "type": null
+        },
+        "name": "Dancity",
+        "country": "BE",
+        "aliases": []
+    }
 ]
