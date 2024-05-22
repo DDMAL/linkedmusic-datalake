@@ -4,6 +4,7 @@ import sys
 import json
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
+from typing import Optional
 
 # a main operation function
 def convert_csv_to_turtle(filename) -> Graph:
@@ -26,12 +27,15 @@ def convert_csv_to_turtle(filename) -> Graph:
             ontology_dict = json.load(mapper)
 
         header = next(csv_reader)
-
+        if "type" in ontology_dict:
+            ontology_type: Optional[str] = ontology_dict["type"]
+        else:
+            ontology_type = None
         # Convert each row to Turtle format and add it to the output
         for row in csv_reader:
             # the first column as the subject
             key_attribute = URIRef(row[0])
-            if "type" in ontology_dict:
+            if ontology_type:
                 g.add((key_attribute, RDF.type, URIRef(ontology_dict["type"])))
 
             # extracting other informations
