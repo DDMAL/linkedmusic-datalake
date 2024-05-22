@@ -3,7 +3,6 @@
 psqldump
 */.DS_Store
 .DS_Store
-musicbrainz/dont_go_here/label/mbdump/label
 cantusdb/turtle/test.ttl
 musicbrainz/dont_go_here/*
 
