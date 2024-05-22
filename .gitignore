@@ -1,10 +1,6 @@
 *.pyc
 */__pycache__
 psqldump
-musicbrainz/.DS_Store
-cantusdb/turtle/.DS_Store
-cantusdb/.DS_Store
-.DS_Store
-/musicbrainz/dont_go_here
-.DS_Store
-musicbrainz/jsonld/.DS_Store
+*/.DS_Store
+/Cantusdb/turtle/test.ttl
+/musicbrainz/jsonld/dont_go_here
