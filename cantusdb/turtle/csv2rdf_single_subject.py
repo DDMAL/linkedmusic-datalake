@@ -1,10 +1,9 @@
-from rdflib import Graph, URIRef, Literal
-from rdflib.namespace import RDF
 import csv
 import validators
 import sys
 import json
-
+from rdflib import Graph, URIRef, Literal
+from rdflib.namespace import RDF
 
 # a main operation function
 def convert_csv_to_turtle(filename) -> Graph:
