@@ -14,15 +14,30 @@ with open("json_init.json", 'r') as json_file:
 for element in json_data:
     value = {}
     for k in element:
-        if (not (isinstance(element[k], dict) or isinstance(element[k], list))):
+        v = element[k]
+        
+        if (isinstance(v, str)):
             if k not in header:
                 header.append(k)
-            temp = str(element[k]).replace("\r\n", "")
+            
+            temp = str(v).replace("\r\n", "")
             temp = temp.replace(",", "`")
             value[k] = temp
+            
+        elif (isinstance(v, dict)):
+            if "id" in v:
+                if k + "_id" not in header:
+                    header.append(k + "_id")
+                value[k + "_id"] = v["id"]
+            
+            if "name" in v:
+                if k + "_name" not in header:
+                    header.append(k + "_name")
+                value[k + "_name"] = v["name"]
+                            
     values.append(value)
                 
-# print(header)
+print(header)
 # print(values)
 
 with open("out.csv", "w") as out:
