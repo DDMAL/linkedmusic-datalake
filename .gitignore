@@ -5,6 +5,5 @@ psqldump
 .DS_Store
 cantusdb/turtle/test.ttl
 musicbrainz/dont_go_here/*
-
 musicbrainz/csv/out.csv
 musicbrainz/csv/json_init.json
