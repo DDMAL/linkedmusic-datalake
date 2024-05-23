@@ -41,7 +41,12 @@ def extract(data, first_level : bool=True, key : str="", value : dict={}):
         for element in data:
             rep_count += 1
             if (isinstance(element, dict)):
-                extract(element, first_level, key + str(rep_count), value)
+                if first_level:
+                    rep_count = 0
+                    extract(element, first_level, key, value)
+                else:
+                    extract(element, first_level, key + str(rep_count), value)
+
                 
     else:
         global header
@@ -54,7 +59,7 @@ def extract(data, first_level : bool=True, key : str="", value : dict={}):
 
 if __name__ == "__main__":
     extract(json_data)
-    # print(header)
+    print(header[0:90])
     # print(values)
     with open("out.csv", "w") as out:
         # write header
