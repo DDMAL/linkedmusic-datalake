@@ -37,7 +37,7 @@ for element in json_data:
                             
     values.append(value)
                 
-print(header)
+# print(header)
 # print(values)
 
 with open("out.csv", "w") as out:
