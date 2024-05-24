@@ -2,6 +2,7 @@
 # For OpenRefine Reconciling
 # Input file can be downloaded in 
 # https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/20240522-001002/
+# Output file can be imported to OpenRefine
 import json
 import copy
 
