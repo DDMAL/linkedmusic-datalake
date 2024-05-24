@@ -1,7 +1,6 @@
 *.pyc
 */__pycache__
 psqldump
-*/.DS_Store
 .DS_Store
 cantusdb/turtle/test.ttl
 musicbrainz/dont_go_here/*
