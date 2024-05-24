@@ -38,8 +38,6 @@ def convert_csv_to_turtle(filename) -> Graph:
         else:
             ontology_type = None
             
-            
-        print(predicates)
         # Convert each row to Turtle format and add it to the output
         for row in csv_reader:
             # the first column as the subject
