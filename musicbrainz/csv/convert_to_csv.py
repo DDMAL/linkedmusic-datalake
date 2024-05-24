@@ -1,6 +1,6 @@
 # This file converts a JSON Lines file from MusicBrainz to a CSV file
 # For OpenRefine Reconciling
-# Input file can be downloaded in 
+# Input file can be downloaded in
 # https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/20240522-001002/
 # Output file can be imported to OpenRefine
 import json
@@ -14,9 +14,13 @@ with open("test", "r") as f:
 
 # print(json_data)
 
+
 def extract(data, first_level: bool = True, key: str = "", value: dict = {}):
     if key != "":
         first_level = False
+    if key.startswith("relations") or key.startswith("aliases"):
+        # ignore relations and aliases to make output simplier
+        return
 
     if isinstance(data, dict):
         if first_level:
@@ -56,18 +60,17 @@ def extract(data, first_level: bool = True, key: str = "", value: dict = {}):
         if isinstance(data, str):
             data = data.replace(",", "")
             data = data.replace("\r\n", "")
-        
+
         if data == None:
             data = ""
-            
+
         value[key] = data
         return
 
 
 if __name__ == "__main__":
     extract(json_data)
-    # print(header[0:90])
-    # print(values)
+
     with open("out.csv", "w") as out:
         # write header
         line = "id,"
