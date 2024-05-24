@@ -9,7 +9,7 @@ import copy
 header = ["id"]
 values = []
 
-with open("test", "r") as f:
+with open("test2", "r") as f:
     json_data = [json.loads(m) for m in f]
 
 # print(json_data)
@@ -18,7 +18,7 @@ with open("test", "r") as f:
 def extract(data, first_level: bool = True, key: str = "", value: dict = {}):
     if key != "":
         first_level = False
-    if key.startswith("relations") or key.startswith("aliases"):
+    if "relations" in key or "aliases" in key:
         # ignore relations and aliases to make output simplier
         return
 
