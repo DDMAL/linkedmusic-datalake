@@ -5,10 +5,12 @@
 # Output file can be imported to OpenRefine
 import json
 import copy
+import csv
 
 header = ["id"]
 values = []
 
+# the file must be from MusicBrainz's JSON data dumps.
 with open("test2", "r") as f:
     json_data = [json.loads(m) for m in f]
 
@@ -56,7 +58,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
             header.append(key)
 
         if isinstance(data, str):
-            data = data.replace(",", "")
+            data = data.replace(",", "_")
             data = data.replace("\r\n", "")
 
         if data is None:
@@ -71,29 +73,21 @@ if __name__ == "__main__":
 
     with open("out.csv", "w") as out:
         # write header
-        line = "id,"
+        writer = csv.writer(out)
+        
         header.sort(key=len)
-        for column in header:
-            if column == "id":
-                continue
+        # id must be the first column of the csv file.
+        header.remove("id")
+        header.insert(0, "id")
+    
+        writer.writerow(header)
 
-            line += column
-
-            if column != header[-1]:
-                line += ","
-
-        out.writelines(line)
-        out.writelines("\n")
-
-        line = ""
+        line = []
         for row in values:
             for column in header:
                 if column in row:
-                    line += str(row[column])
-
-                if column != header[-1]:
-                    line += ","
-                else:
-                    line += "\n"
+                    line.append(row[column])
+            writer.writerow(line)
+            line = []
 
         out.writelines(line)
