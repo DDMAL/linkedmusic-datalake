@@ -15,31 +15,32 @@ with open("test2", "r") as f:
 # print(json_data)
 
 
-def extract(data, first_level: bool = True, key: str = "", value: dict = {}):
+def extract(data, value: dict, first_level: bool = True, key: str = ""):
     if key != "":
         first_level = False
-    if "relations" in key or "aliases" in key:
+    if "relations" in key or "aliases" in key or "tags" in key:
         # ignore relations and aliases to make output simplier
         return
 
     if isinstance(data, dict):
         if first_level:
             global values
+            value = {}
             for k in data:
-                extract(data[k], False, k, value)
+                extract(data[k], value, False, k)
             values.append(copy.deepcopy(value))
             value = {}
 
         else:
             for k in data:
                 if k == "id":
-                    extract(data["id"], first_level, key + "_id", value)
+                    extract(data["id"], value, first_level, key + "_ids")
 
                 if k == "name":
-                    extract(data["name"], first_level, key + "_name", value)
+                    extract(data["name"], value, first_level, key + "_name")
 
                 if isinstance(data[k], dict) or isinstance(data[k], list):
-                    extract(data[k], first_level, key + "_" + k, value)
+                    extract(data[k], value, first_level, key + "_" + k)
 
     elif isinstance(data, list):
         rep_count = 0
@@ -48,9 +49,9 @@ def extract(data, first_level: bool = True, key: str = "", value: dict = {}):
             if isinstance(element, dict) and rep_count <= 3:
                 if first_level:
                     rep_count = 0
-                    extract(element, first_level, key, value)
+                    extract(element, value, first_level, key)
                 else:
-                    extract(element, first_level, key + str(rep_count), value)
+                    extract(element, value, first_level, key + str(rep_count))
 
     else:
         global header
@@ -61,7 +62,7 @@ def extract(data, first_level: bool = True, key: str = "", value: dict = {}):
             data = data.replace(",", "")
             data = data.replace("\r\n", "")
 
-        if data == None:
+        if data is None:
             data = ""
 
         value[key] = data
@@ -69,7 +70,7 @@ def extract(data, first_level: bool = True, key: str = "", value: dict = {}):
 
 
 if __name__ == "__main__":
-    extract(json_data)
+    extract(json_data, {})
 
     with open("out.csv", "w") as out:
         # write header
