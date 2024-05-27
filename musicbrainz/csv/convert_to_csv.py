@@ -15,6 +15,16 @@ with open("test2", "r") as f:
     json_data = [json.loads(m) for m in f]
 
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
+    '''
+    (data, dict, bool, str) -> None
+    
+    Extract info from JSON Lines file and add a finite number of them into a list of dictionaries.
+    Arguments:
+        data : can be anytype, parsed based on its type
+        value : records the informations of the current dictionary
+        first_level : records if the current level is the first level of the JSON file.
+        key : the current key that will be added to a dictionary
+    '''
     if key != "":
         first_level = False
     if "relations" in key or "aliases" in key or "tags" in key:
