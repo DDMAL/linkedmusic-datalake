@@ -3,4 +3,4 @@
 psqldump
 */.DS_Store
 musicbrainz/*
-cantusdb/turtle/test.ttl
+cantusdb/turtle/out_rdf.ttl
