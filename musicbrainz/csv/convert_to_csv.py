@@ -97,6 +97,8 @@ if __name__ == "__main__":
             for column in header:
                 if column in row:
                     line.append(row[column])
+                else:
+                    line.append("")
             writer.writerow(line)
             line = []
 
