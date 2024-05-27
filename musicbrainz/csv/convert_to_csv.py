@@ -12,9 +12,6 @@ values = []
 with open("test2", "r") as f:
     json_data = [json.loads(m) for m in f]
 
-# print(json_data)
-
-
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
     if key != "":
         first_level = False
