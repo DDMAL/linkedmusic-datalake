@@ -2,10 +2,14 @@ import csv
 import validators
 import sys
 import json
+import os
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
 from typing import Optional
 
+dirname = os.path.dirname(__file__)
+mappername = os.path.join(dirname, 'relations_mapping.json')
+destname = os.path.join(dirname, 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filename) -> Graph:
     """
@@ -22,7 +26,7 @@ def convert_csv_to_turtle(filename) -> Graph:
         g = Graph()
 
         csv_reader = csv.reader(csv_file)
-        ontology_dict = json.load(open("relations_mapping.json", "r"))
+        ontology_dict = json.load(open(mappername, "r"))
 
         header = next(csv_reader)
         header_without_subject = header[1:]
@@ -67,4 +71,4 @@ if __name__ == "__main__":
         raise ValueError("Invalid number of input filename")
 
     turtle_data = convert_csv_to_turtle(sys.argv[1])
-    turtle_data.serialize(format="turtle", destination="out_rdf.ttl")
+    turtle_data.serialize(format="turtle", destination=destname)
