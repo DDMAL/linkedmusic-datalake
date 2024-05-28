@@ -2,6 +2,6 @@
 */__pycache__
 psqldump
 .DS_Store
-cantusdb/turtle/out_rdf.ttl
+cantusdb/*
 musicbrainz/dont_go_here/*
-musicbrainz/csv/out.csv
+musicbrainz/csv/data/*
