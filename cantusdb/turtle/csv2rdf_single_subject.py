@@ -42,7 +42,7 @@ def convert_csv_to_turtle(filename) -> Graph:
             # the first column as the subject
             key_attribute = URIRef(row[0])
             if ontology_type:
-                g.add((key_attribute, RDF.type, URIRef(ontology_dict["type"])))
+                g.add((key_attribute, RDF.type, URIRef(ontology_type)))
 
             # extracting other informations
             for i, element in enumerate(row[1:]):
