@@ -2,5 +2,4 @@
 */__pycache__
 psqldump
 */.DS_Store
-musicbrainz/*
 cantusdb/turtle/out_rdf.ttl
