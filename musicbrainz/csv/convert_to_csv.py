@@ -6,12 +6,17 @@
 import json
 import copy
 import csv
+import os
 
 header = ["id"]
 values = []
 
+filename = os.path.dirname(__file__)
+inputpath = os.path.join(filename, "data/test2")
+outputpath = os.path.join(filename, "data/out.csv")
+
 # the file must be from MusicBrainz's JSON data dumps.
-with open("test2", "r") as f:
+with open(inputpath, "r") as f:
     json_data = [json.loads(m) for m in f]
 
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
@@ -71,6 +76,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         for element in data:
             rep_count += 1
             if isinstance(element, dict) and rep_count <= 3:
+                key = key.removesuffix('s')
                 if first_level:
                     # if it's first level, we reset the counter.
                     rep_count = 0
@@ -101,7 +107,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 if __name__ == "__main__":
     extract(json_data, {})
 
-    with open("out.csv", "w") as out:
+    with open(outputpath, "w") as out:
         # write header
         writer = csv.writer(out)
         
