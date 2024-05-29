@@ -5,9 +5,9 @@ import re
 
 # Load the CSV file
 DIRNAME = os.path.dirname(__file__)
-FILENAME = os.path.join(DIRNAME, 'data/out.csv')
+FILENAME = os.path.join(DIRNAME, 'data', 'out.csv')
 data = pd.read_csv(FILENAME)
-OUTNAME = os.path.join(DIRNAME, 'data/reconciled.csv')
+OUTNAME = os.path.join(DIRNAME, 'data', 'reconciled.csv')
 OUTDATA = pd.DataFrame()
 
 # Function to reconcile IDs with MusicBrainz
