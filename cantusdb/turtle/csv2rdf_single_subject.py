@@ -8,7 +8,7 @@ from rdflib.namespace import RDF
 from typing import Optional
 
 DIRNAME = os.path.dirname(__file__)
-mapping_filename = os.path.join(DIRNAME, 'relations_mapping.json')
+mapping_filename = os.path.join(DIRNAME, 'ontology_dict.json')
 dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filename) -> Graph:
@@ -35,7 +35,10 @@ def convert_csv_to_turtle(filename) -> Graph:
             if column in ontology_dict:
                 predicates.append(URIRef(ontology_dict[column]))
 
-        ontology_type: Optional[str] = ontology_dict["type"]
+        try:
+            ontology_type: Optional[str] = ontology_dict["type"]
+        except KeyError:
+            ontology_type = None
 
         # Convert each row to Turtle format and add it to the output
         for row in csv_reader:
