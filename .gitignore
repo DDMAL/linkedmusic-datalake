@@ -2,7 +2,6 @@
 */__pycache__
 psqldump
 .DS_Store
-cantusdb/*
 musicbrainz/dont_go_here/*
 musicbrainz/csv/data/out.csv
 musicbrainz/csv/data/reconciled.csv
