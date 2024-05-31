@@ -1,4 +1,3 @@
-
 {
     "id": "https://www.wikidata.org/wiki/Q853614",
     "type": "https://www.wikidata.org/wiki/Property:P51",
@@ -49,5 +48,16 @@
     "artist-credit2_artist_genre3_name": "https://www.wikidata.org/wiki/Q483394",
     "artist-credit2_artist_genre3_url": "https://www.wikidata.org/wiki/Q483394",
     "artist-credit3_artist_genre1_name": "https://www.wikidata.org/wiki/Q483394",
-    "artist-credit3_artist_genre1_url": "https://www.wikidata.org/wiki/Q483394"
+    "artist-credit3_artist_genre1_url": "https://www.wikidata.org/wiki/Q483394",
+    "name": "https://www.wikidata.org/wiki/Property:P2561",
+    "label_name_url": "https://www.wikidata.org/wiki/Property:P2561",
+    "area": "https://www.wikidata.org/wiki/Property:P2046",
+    "type-id": "https://www.wikidata.org/wiki/Property:P2308",
+    "country": "https://www.wikidata.org/wiki/Property:P17",
+    "area_ids": "https://www.wikidata.org/wiki/Property:P2046",
+    "sort-name": "https://www.wikidata.org/wiki/Property:P2561",
+    "area_name": "https://www.wikidata.org/wiki/Property:P2046",
+    "area_url": "https://www.wikidata.org/wiki/Property:P2046",
+    "label-code": "https://www.wikidata.org/wiki/Property:P2561",
+    "genre1_url": "https://www.wikidata.org/wiki/Q483394"
 }
