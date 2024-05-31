@@ -34,7 +34,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         first_level = False
         
     if "relations" in key or "aliases" in key or "tags" in key:
-        # ignore relations, aliases, and tags to make output simplier
+        # ignore relations, aliases and tags to make output simplier
         return
 
     if isinstance(data, dict):
@@ -94,7 +94,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
         v = data
         if isinstance(data, str):
-            v = v.replace(",", "_")
+            v = v.replace(",", "\,")
             v = v.replace("\r\n", "")
 
         if data is None:
@@ -110,22 +110,16 @@ if __name__ == "__main__":
     with open(outputpath, "w") as out:
         # write header
         writer = csv.writer(out)
-        
-        header.sort(key=len)
-        # id must be the first column of the csv file. Reorder the header.
-        header.remove("id")
-        header.insert(0, "id")
-    
+        header.sort()
         writer.writerow(header)
-
-        line = []
+        
         for row in values:
+            line = []
             for column in header:
                 if column in row:
                     line.append(row[column])
                 else:
                     line.append("")
             writer.writerow(line)
-            line = []
 
         out.writelines(line)
