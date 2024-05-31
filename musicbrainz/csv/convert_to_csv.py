@@ -34,7 +34,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         first_level = False
         
     if "relations" in key or "aliases" in key or "tags" in key:
-        # ignore relations and aliases to make output simplier
+        # ignore relations, aliases, and tags to make output simplier
         return
 
     if isinstance(data, dict):
