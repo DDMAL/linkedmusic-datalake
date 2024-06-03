@@ -4,4 +4,5 @@ psqldump
 .DS_Store
 musicbrainz/dont_go_here/*
 musicbrainz/csv/data/out.csv
-musicbrainz/csv/data/reconciled.csv
+musicbrainz/csv/data/reconciled*.csv
+cantusdb/turtle/out_rdf.ttl
