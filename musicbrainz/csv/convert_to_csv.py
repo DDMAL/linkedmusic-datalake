@@ -12,7 +12,7 @@ header = ["id"]
 values = []
 
 DIRNAME = os.path.dirname(__file__)
-inputpath = os.path.join(DIRNAME, "data", "test")
+inputpath = os.path.join(DIRNAME, "data", "test2")
 outputpath = os.path.join(DIRNAME, "data", "out.csv")
 
 # the file must be from MusicBrainz's JSON data dumps.
@@ -60,7 +60,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
             for k in data:
                 if k == "id":
                     # extract its id
-                    extract(data["id"], value, first_level, key + "_ids")
+                    extract(data["id"], value, first_level, key + "_id")
 
                 if k == "name":
                     # extract its name
@@ -71,21 +71,10 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                     extract(data[k], value, first_level, key + "_" + k)
 
     elif isinstance(data, list):
-        rep_count = 0
         # extract each element of the list.
         for element in data:
-            rep_count += 1
-            if isinstance(element, dict) and rep_count <= 3:
-                key = key.removesuffix('s')
-                if first_level:
-                    # if it's first level, we reset the counter.
-                    rep_count = 0
-                    extract(element, value, first_level, key)
-                else:
-                    # we add the counter to the key string if it's not first level.
-                    # up to 3 elements from each list is extracted.
-                    extract(element, value, first_level, key + str(rep_count))
-
+            extract(element, value, first_level, key)
+                
     else:
         # if data is not a collection, we parse it and add to the current value dictionary.
         global header
@@ -100,26 +89,46 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         if data is None:
             v = ""
 
-        value[key] = v
+        try: 
+            value[key]
+        except KeyError:
+            value[key] = v
+        else:
+            if isinstance(value[key], list): (value[key]).append(v)
+            else: value[key] = [value[key]] + [v]
+       
         return
+    
+def convert_dict_to_csv(dictionary_list, filename):
+    with open(filename, mode='w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(header)
+        # Find the maximum length of lists in the dictionary
+        
+        for dictionary in dictionary_list:
+            max_length = max(len(v) if isinstance(v, list) else 1 for v in dictionary.values())
+
+            for i in range(max_length):
+                row = [dictionary['id']]
+                for key in header:
+                    if key == 'id':
+                        continue
+                    
+                    try: 
+                        value = dictionary[key]
+                    except KeyError:
+                        row.append('')
+                    else:
+                        if isinstance(value, list):
+                            # Append the i-th element of the list, or an empty string if index is out of range
+                            row.append(value[i] if i < len(value) else '')
+                        else:
+                            # Append the single value (for non-list entries, only on the first iteration)
+                            row.append(value if i == 0 else '')
+                writer.writerow(row)
 
 
 if __name__ == "__main__":
     extract(json_data, {})
-
-    with open(outputpath, "w") as out:
-        # write header
-        writer = csv.writer(out)
-        header.sort()
-        writer.writerow(header)
         
-        for row in values:
-            line = []
-            for column in header:
-                if column in row:
-                    line.append(row[column])
-                else:
-                    line.append("")
-            writer.writerow(line)
-
-        out.writelines(line)
+    convert_dict_to_csv(values, outputpath)
