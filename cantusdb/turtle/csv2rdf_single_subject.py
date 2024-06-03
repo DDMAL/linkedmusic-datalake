@@ -33,6 +33,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
             predicates = []
             for column in header_without_subject:
                 if column in ontology_dict:
+                    print(column)
                     predicates.append(URIRef(ontology_dict[column]))
 
             try:
@@ -48,7 +49,9 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                     g.add((key_attribute, RDF.type, URIRef(ontology_type)))
 
                 # extracting other informations
+                print(len(row), len(predicates))
                 for i, element in enumerate(row[1:]):
+                    # print(i,element)
                     if element == "":
                         continue
 
