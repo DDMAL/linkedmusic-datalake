@@ -1,4 +1,4 @@
-id,label-code,name,type-id,type,country,country_wiki,annotation,disambiguation,area_iso-3166-2-codes,area_name,area_id,area_iso-3166-1-codes,area,genres_id,genres_name,genres_wiki
+id,label-code,name,type-id,type-name,country,country_wiki,annotation,disambiguation,area_iso-3166-2-codes,area_name,area_id,area_iso-3166-1-codes,area,genres_id,genres_name,genres_wiki
 https://musicbrainz.org/label/6c6c3bbb-76aa-4260-b842-f04936573c71,,Abstract Logix,,,,,,,US-NC,North Carolina,https://musicbrainz.org/area/d4ab49e7-1d25-45e2-8659-b147e0ea3684,,,,,
 https://musicbrainz.org/label/57eb5445-e445-4dee-a643-eb32d1623b21,,Idaho Music,7aaa37fe-2def-3476-b359-80245850062d,Original Production,United States of America,https://www.wikidata.org/wiki/Q30,,,,United States of America,https://musicbrainz.org/area/489ce91b-6658-3307-9877-795b68554c98,US,,,,
 https://musicbrainz.org/label/8f650e70-b105-4774-9100-96a65569f732,,Birth Records,7aaa37fe-2def-3476-b359-80245850062d,Original Production,United States of America,https://www.wikidata.org/wiki/Q30,,imprint on Deanna Kirk release,,United States of America,https://musicbrainz.org/area/489ce91b-6658-3307-9877-795b68554c98,US,,,,
