@@ -12,7 +12,7 @@ header = ["id"]
 values = []
 
 DIRNAME = os.path.dirname(__file__)
-inputpath = os.path.join(DIRNAME, "data", "test2")
+inputpath = os.path.join(DIRNAME, "data", "test")
 outputpath = os.path.join(DIRNAME, "data", "out.csv")
 
 # the file must be from MusicBrainz's JSON data dumps.
