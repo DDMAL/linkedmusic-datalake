@@ -7,6 +7,9 @@ from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
 from typing import Optional, List
 
+# The "type" attribute of each CSV file must be entered in the mapper file in the 
+# same order as the input in commandline.
+
 DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, 'relations_mapping_mb.json')
 dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
