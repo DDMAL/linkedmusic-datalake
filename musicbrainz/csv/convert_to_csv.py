@@ -33,8 +33,8 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
     if key != "":
         first_level = False
         
-    if "relations" in key or "aliases" in key or "tags" in key:
-        # ignore relations, aliases and tags to make output simplier
+    if "aliases" in key or "tags" in key:
+        # ignore aliases and tags to make output simplier
         return
 
     if isinstance(data, dict):
@@ -72,8 +72,13 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
     elif isinstance(data, list):
         # extract each element of the list.
-        for element in data:
-            extract(element, value, first_level, key)
+        if key == 'relations':
+            for element in data:
+                if 'type' in element and element['type'] == "wikidata":
+                    extract((element['url'])['resource'], value, first_level, key + '_wiki')
+        else:
+            for element in data:
+                extract(element, value, first_level, key)
                 
     else:
         # if data is not a collection, we parse it and add to the current value dictionary.
@@ -89,13 +94,13 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         if data is None:
             v = ""
 
-        try: 
-            value[key]
-        except KeyError:
-            value[key] = v
+        if key in value:
+            if isinstance(value[key], list): 
+                value[key].append(v)
+            else: 
+                value[key] = [value[key]] + [v]
         else:
-            if isinstance(value[key], list): (value[key]).append(v)
-            else: value[key] = [value[key]] + [v]
+            value[key] = v
        
         return
     
@@ -113,18 +118,17 @@ def convert_dict_to_csv(dictionary_list, filename):
                 for key in header:
                     if key == 'id':
                         continue
-                    
-                    try: 
-                        value = dictionary[key]
-                    except KeyError:
-                        row.append('')
-                    else:
-                        if isinstance(value, list):
+
+                    if key in dictionary:
+                        if isinstance(dictionary[key], list):
                             # Append the i-th element of the list, or an empty string if index is out of range
-                            row.append(value[i] if i < len(value) else '')
+                            row.append((dictionary[key])[i] if i < len(dictionary[key]) else '')
                         else:
                             # Append the single value (for non-list entries, only on the first iteration)
-                            row.append(value if i == 0 else '')
+                            row.append(dictionary[key] if i == 0 else '')
+                    else:
+                        row.append('')
+                        
                 writer.writerow(row)
 
 
