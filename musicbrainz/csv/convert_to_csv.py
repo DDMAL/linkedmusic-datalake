@@ -3,16 +3,23 @@
 # Input file can be downloaded in
 # https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/20240522-001002/
 # Output file can be imported to OpenRefine
+# Both input and output files must be in data folder
+# The input filename can be directly entered in second argument of the commandline
 import json
 import copy
 import csv
 import os
+import sys
 
 header = ["id"]
 values = []
 
 DIRNAME = os.path.dirname(__file__)
-inputpath = os.path.join(DIRNAME, "data", "test")
+
+if len(sys.argv) < 2:
+    raise ValueError("Invalid number of input filenames")
+
+inputpath = os.path.join(DIRNAME, "data", sys.argv[1])
 outputpath = os.path.join(DIRNAME, "data", "out.csv")
 
 # the file must be from MusicBrainz's JSON data dumps.
@@ -25,7 +32,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
     
     Extract info from JSON Lines file and add a finite number of them into a list of dictionaries.
     Arguments:
-        data : can be anytype, parsed based on its type
+        data : can be any type, parsed based on its type
         value : records the informations of the current dictionary
         first_level : records if the current level is the first level of the JSON file.
         key : the current key that will be added to a dictionary
@@ -105,6 +112,16 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         return
     
 def convert_dict_to_csv(dictionary_list, filename):
+    """
+    (list, str) -> None
+    Writes a list of dictionaries into the given file. 
+    If there are multiple values against a single key, a new column with only the 
+    id and that value is created.
+    
+    Arguments: 
+        dictionary_list: the list of dictionary that contains all the data
+        filename: the destination filename
+    """
     with open(filename, mode='w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(header)
