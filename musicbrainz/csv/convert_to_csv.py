@@ -16,11 +16,12 @@ values = []
 
 DIRNAME = os.path.dirname(__file__)
 
-if len(sys.argv) < 2:
-    raise ValueError("Invalid number of input filenames")
+if len(sys.argv) != 3:
+    raise ValueError("Invalid number of arguments")
 
 inputpath = os.path.join(DIRNAME, "data", sys.argv[1])
 outputpath = os.path.join(DIRNAME, "data", "out.csv")
+entity_type = sys.argv[2]
 
 # the file must be from MusicBrainz's JSON data dumps.
 with open(inputpath, "r") as f:
@@ -55,7 +56,11 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
             # preserved between each recursive call.
             value = {}
             for k in data:
-                extract(data[k], value, False, k)
+                if k == 'id':
+                    id = data[k]
+                    extract(f"https://musicbrainz.org/{entity_type}/{id}", value, first_level, k)
+                else:
+                    extract(data[k], value, False, k)
             
             # after extracting every entry of the current line, append it to the list and empty it.
             values.append(copy.deepcopy(value))
@@ -67,7 +72,10 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
             for k in data:
                 if k == "id":
                     # extract its id
-                    extract(data["id"], value, first_level, key + "_id")
+                    keywords = key.split("_")
+                    word = keywords[-1]
+                    id = data['id']
+                    extract(f"https://musicbrainz.org/{word}/{id}", value, first_level, key + "_id")
 
                 if k == "name":
                     # extract its name
