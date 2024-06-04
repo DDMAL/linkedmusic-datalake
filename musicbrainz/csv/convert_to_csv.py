@@ -111,7 +111,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
        
         return
     
-def convert_dict_to_csv(dictionary_list, filename):
+def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
     """
     (list, str) -> None
     Writes a list of dictionaries into the given file. 
