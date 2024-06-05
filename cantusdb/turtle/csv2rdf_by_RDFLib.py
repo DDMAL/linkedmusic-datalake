@@ -7,26 +7,28 @@ from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
 from typing import Optional
 
-DIRNAME = os.path.dirname(__file__)
-mapping_filename = os.path.join(DIRNAME, 'relations_mapping_mb.json')
-dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
-
+# a main operation function
 def convert_csv_to_turtle(filename) -> Graph:
     """
     (str) -> Graph
 
     Adds all informations as RDF triples from the input filename into a graph and return it.
     *Important: This input file must have the first column as subjects of all triples
-    
+
     @Pre: type(filename) == str
     """
+
+    if len(sys.argv) != 2:
+        raise ValueError("Invalid number of input filename")
+
     with open(filename, "r", encoding="utf-8") as csv_file:
         # TODO: maybe change this one to accomadate for multiple files
 
         g = Graph()
 
         csv_reader = csv.reader(csv_file)
-        ontology_dict = json.load(open(mapping_filename, "r"))
+        with open("relations_mapping.json", "r") as mapper:
+            ontology_dict = json.load(mapper)
 
         header = next(csv_reader)
         header_without_subject = header[1:]
@@ -44,13 +46,20 @@ def convert_csv_to_turtle(filename) -> Graph:
         for row in csv_reader:
             # the first column as the subject
             key_attribute = URIRef(row[0])
-            if ontology_type:
-                g.add((key_attribute, RDF.type, URIRef(ontology_type)))
+            if "type" in list(ontology_dict.keys()):
+                g.add((key_attribute, RDF.type, URIRef(ontology_dict["type"])))
+            else:
+                raise ValueError("No type specifications in the mapper file.")
 
-                # extracting other informations
-                for i, element in enumerate(row[1:]):
-                    if element == "":
-                        continue
+            # extracting other informations
+            # TODO: is the source description texts needed?
+            for i, element in enumerate(row[1:]):
+                predicate_cur = header[i]
+                # finding the predicate from csv in the config dictionary, if not exit, skip
+                if predicate_cur in list(ontology_dict.keys()):
+                    predicate = URIRef(ontology_dict[predicate_cur])
+                else:
+                    continue
 
                 # the object might be an URI or a literal
                 if validators.url(element):
