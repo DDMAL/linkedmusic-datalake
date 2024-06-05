@@ -6,3 +6,4 @@ musicbrainz/dont_go_here/*
 musicbrainz/csv/data/out.csv
 musicbrainz/csv/data/reconciled*.csv
 cantusdb/turtle/out_rdf.ttl
+csv2rdf/out_rdf.ttl
