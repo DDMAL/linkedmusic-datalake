@@ -72,4 +72,3 @@ if __name__ == "__main__":
 
     filenames = sys.argv[1:]
     turtle_data = convert_csv_to_turtle(filenames)
-    turtle_data.serialize(format="turtle", destination=dest_filename)
