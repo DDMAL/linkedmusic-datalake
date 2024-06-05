@@ -3,7 +3,7 @@ import json
 import sys
 
 filenames = sys.argv[1:]
-output_name = "test.json"
+output_name = "mapping.json"
 dt = {}
 
 for filename in filenames:
