@@ -28,12 +28,12 @@ def convert_csv_to_turtle(filename) -> Graph:
         csv_reader = csv.reader(csv_file)
         ontology_dict = json.load(open(mapping_filename, "r"))
 
-        header = next(csv_reader)
-        header_without_subject = header[1:]
-        predicates = []
-        for column in header_without_subject:
-            if column in ontology_dict:
-                predicates.append(URIRef(ontology_dict[column]))
+            header = next(csv_reader)
+            header_without_subject = header[1:]
+            predicates = []
+            for column in header_without_subject:
+                if column in ontology_dict:
+                    predicates.append(URIRef(ontology_dict[column]))
 
         try:
             ontology_type: Optional[str] = ontology_dict["type"]
@@ -47,10 +47,10 @@ def convert_csv_to_turtle(filename) -> Graph:
             if ontology_type:
                 g.add((key_attribute, RDF.type, URIRef(ontology_type)))
 
-            # extracting other informations
-            for i, element in enumerate(row[1:]):
-                if element == "":
-                    continue
+                # extracting other informations
+                for i, element in enumerate(row[1:]):
+                    if element == "":
+                        continue
 
                 # the object might be an URI or a literal
                 if validators.url(element):
