@@ -17,11 +17,7 @@ header = ["id"]
 values = []
 
 DIRNAME = os.path.dirname(__file__)
-
-if len(sys.argv) != 3:
-    raise ValueError("Invalid number of arguments")
-
-inputpath = os.path.join(DIRNAME, "data", sys.argv[1])
+inputpath = os.path.join(DIRNAME, "data", "test2")
 outputpath = os.path.join(DIRNAME, "data", "out.csv")
 entity_type = sys.argv[2]
 
