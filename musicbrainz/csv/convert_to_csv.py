@@ -4,6 +4,8 @@
 # https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/20240522-001002/
 # Output file can be imported to OpenRefine
 # Both input and output files must be in data folder
+# Second input is the type of entities in the CSV file.
+# Example command: python3 convert_to_csv.py test2 recording
 # The input filename can be directly entered in second argument of the commandline
 import json
 import copy
