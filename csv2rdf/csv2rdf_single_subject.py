@@ -11,7 +11,7 @@ from typing import Optional, List
 # same order as the input in commandline.
 
 DIRNAME = os.path.dirname(__file__)
-mapping_filename = os.path.join(DIRNAME, 'relations_mapping_mb.json')
+mapping_filename = os.path.join(DIRNAME, 'test.json')
 dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
