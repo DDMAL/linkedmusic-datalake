@@ -8,7 +8,7 @@ from rdflib.namespace import RDF
 from typing import Optional, List
 
 DIRNAME = os.path.dirname(__file__)
-mapping_filename = os.path.join(DIRNAME, 'test.json')
+mapping_filename = os.path.join(DIRNAME, 'mapping.json')
 dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
