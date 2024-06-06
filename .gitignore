@@ -7,3 +7,4 @@ musicbrainz/csv/data/out.csv
 musicbrainz/csv/data/reconciled*.csv
 csv2rdf/out_rdf.ttl
 musicbrainz/csv/data/test_area
+.history/*
