@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "musicbrainz-to-csv"
+version = "0.1.0"
+description = ""
+authors = ["Yueqiao Zhang <yueqiao.zhang@mail.mcgill.ca>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.2"
+pandas = "^2.2.2"
+urllib3 = "^2.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
