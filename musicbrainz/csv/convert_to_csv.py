@@ -36,7 +36,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
     Extract info from JSON Lines file and add a finite number of them into a list of dictionaries.
     Arguments:
-        data : can be any type, parsed based on its type
+        data : can be any JSON object types: dict, list, str, boolean, int, float
         value : records the informations of the current dictionary
         first_level : records if the current level is the first level of the JSON file.
         key : the current key that will be added to a dictionary
