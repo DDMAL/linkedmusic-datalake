@@ -1,7 +1,7 @@
 # This file converts a JSON Lines file from MusicBrainz to a CSV file
 # For OpenRefine Reconciling
 # Input file can be downloaded in
-# https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/20240522-001002/
+# https://data.metabrainz.org/pub/musicbrainz/data/json-dumps
 # Output file can be imported to OpenRefine
 # Both input and output files must be in data folder
 # Second input is the type of entities in the CSV file.
