@@ -11,13 +11,12 @@ for filename in filenames:
         csv_reader = csv.reader(csv_file)
         header = next(csv_reader)
         
-    header.append("type")
+    header.append("entity_type")
 
     for item in header:
-        if item == "type":
-            dt[item] = []
-        else:
-            dt[item] = ""
+        dt[item] = ""
+        
+    dt["entity_type"] = []
 
 with open(output_name, "w") as out_json:
     json.dump(dt, out_json, indent=4)
