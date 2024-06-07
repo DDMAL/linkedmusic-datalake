@@ -13,17 +13,17 @@ import csv
 import os
 import sys
 
-header = ["id"]
-values = []
-
 DIRNAME = os.path.dirname(__file__)
 
 if len(sys.argv) != 3:
     raise ValueError("Invalid number of arguments")
 
-inputpath = os.path.join(DIRNAME, sys.argv[1])
-outputpath = os.path.join(DIRNAME, "data", "out.csv")
 entity_type = sys.argv[2]
+inputpath = os.path.join(DIRNAME, sys.argv[1])
+outputpath = os.path.join(DIRNAME, "data", f"{entity_type}.csv")
+
+header = [f"{entity_type}_id"]
+values = []
 
 # the file must be from MusicBrainz's JSON data dumps.
 with open(inputpath, "r") as f:
@@ -65,7 +65,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         f"https://musicbrainz.org/{entity_type}/{id}",
                         value,
                         first_level,
-                        k,
+                        f"{entity_type}_id",
                     )
                 else:
                     extract(data[k], value, False, k)
@@ -157,9 +157,9 @@ def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
             )
 
             for i in range(max_length):
-                row = [dictionary["id"]]
+                row = [dictionary[f"{entity_type}_id"]]
                 for key in header:
-                    if key == "id":
+                    if key == f"{entity_type}_id":
                         continue
 
                     if key in dictionary:
