@@ -11,7 +11,7 @@ from typing import Optional, List
 # same order as the input in commandline.
 
 DIRNAME = os.path.dirname(__file__)
-mapping_filename = os.path.join(DIRNAME, 'mapping.json')
+mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
@@ -27,7 +27,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
     ontology_dict = json.load(open(mapping_filename, "r"))
     try:
-        ontology_list : Optional[list] = ontology_dict["type"]
+        ontology_list : Optional[list] = ontology_dict["entity_type"]
     except KeyError:
         ontology_list = None
 
@@ -70,9 +70,9 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 # Convert the CSV data to Turtle format
 # out_rdf.ttl can be safely imported into Virtuoso.
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         raise ValueError("Invalid number of input filenames")
 
-    filenames = sys.argv[1:]
+    filenames = sys.argv[2:]
     turtle_data = convert_csv_to_turtle(filenames)
     turtle_data.serialize(format="turtle", destination=dest_filename)
