@@ -3,3 +3,4 @@
 psqldump
 .DS_Store
 cantusdb/turtle/out_rdf.ttl
+.history/*
