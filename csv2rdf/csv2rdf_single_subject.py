@@ -7,8 +7,11 @@ from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
 from typing import Optional, List
 
+# The "type" attribute of each CSV file must be entered in the mapper file in the 
+# same order as the input in commandline.
+
 DIRNAME = os.path.dirname(__file__)
-mapping_filename = os.path.join(DIRNAME, 'mapping.json')
+mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
@@ -23,8 +26,13 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     g = Graph()
 
     ontology_dict = json.load(open(mapping_filename, "r"))
+    try:
+        ontology_list : Optional[list] = ontology_dict["entity_type"]
+    except KeyError:
+        ontology_list = None
 
-    for filename in filenames:
+    for i, filename in enumerate(filenames):
+        ontology_type = ontology_list[i]
         with open(filename, "r", encoding="utf-8") as csv_file:
             csv_reader = csv.reader(csv_file)
 
@@ -34,11 +42,6 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
             for column in header_without_subject:
                 if column in ontology_dict:
                     predicates.append(URIRef(ontology_dict[column]))
-
-            try:
-                ontology_type: Optional[str] = ontology_dict["type"]
-            except KeyError:
-                ontology_type = None
 
             # Convert each row to Turtle format and add it to the output
             for row in csv_reader:
@@ -67,9 +70,9 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 # Convert the CSV data to Turtle format
 # out_rdf.ttl can be safely imported into Virtuoso.
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         raise ValueError("Invalid number of input filenames")
 
-    filenames = sys.argv[1:]
+    filenames = sys.argv[2:]
     turtle_data = convert_csv_to_turtle(filenames)
     turtle_data.serialize(format="turtle", destination=dest_filename)
