@@ -1,3 +1,7 @@
+# Run this file in the command line.
+# Args = the input reconciled csv files using openrefine
+# Convert the CSV data to Turtle format
+# out_rdf.ttl can be safely imported into Virtuoso.
 import csv
 import validators
 import sys
@@ -65,10 +69,6 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
     return g
 
-# Run this file in the command line.
-# Args = the input reconciled csv files using openrefine
-# Convert the CSV data to Turtle format
-# out_rdf.ttl can be safely imported into Virtuoso.
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         raise ValueError("Invalid number of input filenames")
