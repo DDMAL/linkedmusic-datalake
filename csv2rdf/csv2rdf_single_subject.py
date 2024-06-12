@@ -41,7 +41,13 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     ontology_list = ontology_dict.get("entity_type")
 
     for i, filename in enumerate(filenames):
-        ontology_type = ontology_list[i]
+        # If we use the get_relations.py to generate a mapping file, then
+        # the ontology_list is guaranteed to have a value.
+        try:
+            ontology_type = ontology_list[i]
+        except IndexError:
+            ontology_type = None
+            
         with open(filename, "r", encoding="utf-8") as csv_file:
             csv_reader = csv.reader(csv_file)
 
