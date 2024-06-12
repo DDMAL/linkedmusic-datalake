@@ -2,10 +2,11 @@
 Run this file in the command line to convert csv files containing
 reconciled data to turtle files.
 The script takes an arbitrary number of positional arguments.
-The first argument is a path to a relation mapping file for the
-data in the csvs. The relations mapping file is a json file where the
+The first argument is a relative path from the directory containing this file to a relation 
+mapping file for the data in the csvs. The relations mapping file is a json file where the
 keys are headers in the csv file and the values are URIs to Wikidata/Schema.org properties.
-The following arguments are paths to reconciled csv files to be converted.
+The following arguments are relative paths from the directory containing this file to 
+reconciled csv files to be converted.
 The script creates a file containing the turtle in the directory containing this
 file called 'out_rdf.ttl'.
 """
@@ -16,7 +17,7 @@ import json
 import os
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
-from typing import Optional, List
+from typing import List
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the 
 # same order as the input in commandline.
