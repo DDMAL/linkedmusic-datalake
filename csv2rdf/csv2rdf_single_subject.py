@@ -1,7 +1,14 @@
-# Run this file in the command line.
-# Args = the input reconciled csv files using openrefine
-# Convert the CSV data to Turtle format
-# out_rdf.ttl can be safely imported into Virtuoso.
+"""
+Run this file in the command line to convert csv files containing
+reconciled data to turtle files.
+The script takes an arbitrary number of positional arguments.
+The first argument is a path to a relation mapping file for the
+data in the csvs. The relations mapping file is a json file where the
+keys are headers in the csv file and the values are URIs to Wikidata/Schema.org properties.
+The following arguments are paths to reconciled csv files to be converted.
+The script creates a file containing the turtle in the directory containing this
+file called 'out_rdf.ttl'.
+"""
 import csv
 import validators
 import sys
@@ -30,10 +37,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     g = Graph()
 
     ontology_dict = json.load(open(mapping_filename, "r"))
-    try:
-        ontology_list : Optional[list] = ontology_dict["entity_type"]
-    except KeyError:
-        ontology_list = None
+    ontology_list = ontology_dict.get("entity_type")
 
     for i, filename in enumerate(filenames):
         ontology_type = ontology_list[i]
