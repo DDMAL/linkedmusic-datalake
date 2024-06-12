@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "csv2rdf"
+version = "0.1.0"
+description = ""
+authors = ["Yueqiao Zhang <yueqiao.zhang@mail.mcgill.ca>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+rdflib = "^7.0.0"
+validators = "^0.28.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

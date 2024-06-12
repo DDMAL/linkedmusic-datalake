@@ -1,3 +1,15 @@
+"""
+Run this file in the command line to convert csv files containing
+reconciled data to turtle files.
+The script takes an arbitrary number of positional arguments.
+The first argument is a relative path from the directory containing this file to a relation 
+mapping file for the data in the csvs. The relations mapping file is a json file where the
+keys are headers in the csv file and the values are URIs to Wikidata/Schema.org properties.
+The following arguments are relative paths from the directory containing this file to 
+reconciled csv files to be converted.
+The script creates a file containing the turtle in the directory containing this
+file called 'out_rdf.ttl'.
+"""
 import csv
 import validators
 import sys
@@ -5,10 +17,13 @@ import json
 import os
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
-from typing import Optional, List
+from typing import List
+
+# The "type" attribute of each CSV file must be entered in the mapper file in the 
+# same order as the input in commandline.
 
 DIRNAME = os.path.dirname(__file__)
-mapping_filename = os.path.join(DIRNAME, 'relations_mapping_mb.json')
+mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
@@ -23,8 +38,16 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     g = Graph()
 
     ontology_dict = json.load(open(mapping_filename, "r"))
+    ontology_list = ontology_dict.get("entity_type")
 
-    for filename in filenames:
+    for i, filename in enumerate(filenames):
+        # If we use the get_relations.py to generate a mapping file, then
+        # the ontology_list is guaranteed to have a value.
+        try:
+            ontology_type = ontology_list[i]
+        except IndexError:
+            ontology_type = None
+            
         with open(filename, "r", encoding="utf-8") as csv_file:
             csv_reader = csv.reader(csv_file)
 
@@ -34,11 +57,6 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
             for column in header_without_subject:
                 if column in ontology_dict:
                     predicates.append(URIRef(ontology_dict[column]))
-
-            try:
-                ontology_type: Optional[str] = ontology_dict["type"]
-            except KeyError:
-                ontology_type = None
 
             # Convert each row to Turtle format and add it to the output
             for row in csv_reader:
@@ -62,14 +80,10 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
     return g
 
-# Run this file in the command line.
-# Args = the input reconciled csv files using openrefine
-# Convert the CSV data to Turtle format
-# out_rdf.ttl can be safely imported into Virtuoso.
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         raise ValueError("Invalid number of input filenames")
 
-    filenames = sys.argv[1:]
+    filenames = sys.argv[2:]
     turtle_data = convert_csv_to_turtle(filenames)
     turtle_data.serialize(format="turtle", destination=dest_filename)
