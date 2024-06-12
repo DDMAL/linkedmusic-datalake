@@ -1,12 +1,21 @@
-# This file converts a JSON Lines file from MusicBrainz to a CSV file
-# For OpenRefine Reconciling
-# Input file can be downloaded in
-# https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/
-# Output file can be imported to OpenRefine
-# Both input and output files must be in data folder
-# Second input is the type of entities in the CSV file.
-# Example command: python3 convert_to_csv.py test2 recording
-# The input filename can be directly entered in second argument of the commandline
+"""
+Input file can be downloaded in
+https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/
+The input files should be in data folder, the output file will be generate in the data folder
+
+Run this file in the command line to convert raw JSON dumps from MusicBrainz to CSV file.
+The script takes 2 command line argument.
+The 1st argument is a relative path from the current dir where the script is located to 
+the input JSON line file.
+The 2nd argument is a string about the entity type of the input file. In the MusicBrainz JSON dumps,
+all data of each type of entity is stored in a single file. The user must specify the 
+entity type of the input JSON file.
+Example command: 
+    python3 convert_to_csv.py data/test_recording recording
+The script generates a file containing most of the data from the JSON dumps in CSV format
+called "{entity_type}.csv".
+"""
+
 import json
 import copy
 import csv
