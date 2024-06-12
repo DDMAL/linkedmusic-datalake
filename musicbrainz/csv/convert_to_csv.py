@@ -1,7 +1,6 @@
 """
 Input file can be downloaded in
 https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/
-The input files should be in data folder, the output file will be generate in the data folder
 
 Run this file in the command line to convert raw JSON dumps from MusicBrainz to CSV file.
 The script takes 2 command line argument.
@@ -12,8 +11,8 @@ all data of each type of entity is stored in a single file. The user must specif
 entity type of the input JSON file.
 Example command: 
     python3 convert_to_csv.py data/test_recording recording
-The script generates a file containing most of the data from the JSON dumps in CSV format
-called "{entity_type}.csv".
+The script generates a file in the data folder containing most of the data from the JSON dumps 
+in CSV format called "{entity_type}.csv".
 """
 
 import json
