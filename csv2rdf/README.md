@@ -6,7 +6,8 @@ Steps:
 2.  (Optional) Make that file into a CSV file and reconcile it. 
     *   for the same example, in musicbrainz/csv/history, there are JSON files that has the reconciliation process in OpenRefine.
 3.  Move the reconciled CSV file to this current folder.
-4.  Run get_relations.py to generate a mapping.json file, fill the empty values with the references to the key properties. For example:
+4.  Run get_relations.py to generate a mapping.json file. The mapping.json fill the empty values with the references to the key properties. 
+For example:
 {
     "id": "https://www.wikidata.org/wiki/Q853614",
     "entity_type": [
@@ -19,6 +20,6 @@ Steps:
 * Object "entity_type" should be a list of types with the same order.
 5. Run csv2rdf_single_subject.py. Example execution:
     python3 csv2rdf_single_subject.py mapping.json area.csv artist.csv genre.csv recording.csv ...
-There can be as many as needed input csv files, and they will be merged into one single .ttl file.
-6. This .ttl file can be imported into Virtuoso.
+There can be as many as needed input csv files, and they will be merged into one single out_rdf.ttl file.
+6. This out_rdf.ttl file can be imported into Virtuoso.
     
