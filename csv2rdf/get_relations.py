@@ -21,8 +21,6 @@ for filename in filenames:
         csv_reader = csv.reader(csv_file)
         header = next(csv_reader)
         
-    header.append("entity_type")
-
     for item in header:
         dt[item] = ""
         
