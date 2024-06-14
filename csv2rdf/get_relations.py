@@ -17,7 +17,7 @@ dt = {}
 dt["entity_type"] = []
 
 for filename in filenames:
-    with open(filename, "r") as csv_file:
+    with open(os.path.abspath(filename), "r") as csv_file:
         csv_reader = csv.reader(csv_file)
         header = next(csv_reader)
         
@@ -25,8 +25,6 @@ for filename in filenames:
 
     for item in header:
         dt[item] = ""
-        
-
         
 with open(output_name, "w") as out_json:
     json.dump(dt, out_json, indent=4)
