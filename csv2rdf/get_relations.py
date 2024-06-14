@@ -14,6 +14,7 @@ import os
 filenames = sys.argv[1:]
 output_name = "mapping.json"
 dt = {}
+dt["entity_type"] = []
 
 for filename in filenames:
     with open(filename, "r") as csv_file:
@@ -25,7 +26,6 @@ for filename in filenames:
     for item in header:
         dt[item] = ""
         
-    dt["entity_type"] = []
 
         
 with open(output_name, "w") as out_json:
