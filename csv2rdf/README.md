@@ -13,13 +13,24 @@ Steps:
     3.  Fill the empty values
     4.  For example:
 {
-    "id": "https://www.wikidata.org/wiki/Q853614",
+    "area_id": "https://www.wikidata.org/wiki/Property:P982",
+    "sort-name": "https://www.wikidata.org/wiki/Property:P2561",
+    "relations_wiki": "https://www.wikidata.org/wiki/Property:P1687",
+    "type": "https://www.wikidata.org/wiki/Property:P2308",
+    "annotation": "https://www.wikidata.org/wiki/Property:P2916",
+    "name": "https://www.wikidata.org/wiki/Property:P2561",
+    "disambiguation": "https://schema.org/disambiguatingDescription",
+    "type-id": "https://musicbrainz.org/doc/Label/Type",
+    "genres_name": "https://www.wikidata.org/wiki/Property:P136",
+    "genres_id": "https://www.wikidata.org/wiki/Property:P8052",
     "entity_type": [
+        "https://www.wikidata.org/wiki/Q11500",
+        "https://www.wikidata.org/wiki/Q1656682",
+        "https://www.wikidata.org/wiki/Q34379",
         "https://www.wikidata.org/wiki/Q18127",
-        "https://www.wikidata.org/wiki/Q13557414"
+        "https://www.wikidata.org/wiki/Q155171"
     ],
-    "disambiguation": "https://www.wikidata.org/wiki/Q115916384",
-    "video": "https://www.wikidata.org/wiki/Property:P10",      
+    "event_id": "https://www.wikidata.org/wiki/Property:P6423"
 }
 * Object "entity_type" should be a list of types (instances, not properties) with the same order as the order of input files.
 5. Run csv2rdf_single_subject.py. Example execution:
