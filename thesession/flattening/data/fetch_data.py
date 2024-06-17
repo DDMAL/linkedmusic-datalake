@@ -13,7 +13,6 @@ github_raw_links = [
     "https://raw.githubusercontent.com/adactio/TheSession-data/main/csv/events.csv",
     "https://raw.githubusercontent.com/adactio/TheSession-data/main/csv/sessions.csv",
     "https://raw.githubusercontent.com/adactio/TheSession-data/main/csv/sets.csv"
-    # Add more links as needed
 ]
 
 
