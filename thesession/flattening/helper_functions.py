@@ -42,6 +42,9 @@ def flatten_tunes():
 
 
 def flatten_recordings(with_recording, merged_on):
+    """
+    expand the recordings csv based on the column merged_on specified in the input arguments
+    """
     pivot_table = with_recording.pivot(
         index=merged_on,
         columns="index_suffix",
