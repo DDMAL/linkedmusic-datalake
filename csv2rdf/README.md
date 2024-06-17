@@ -6,7 +6,7 @@ Steps:
 2.  (Optional) Make that file into a CSV file and reconcile it. 
     *   for the same example, in musicbrainz/csv/history, there are JSON files that has the reconciliation process in OpenRefine.
 3.  Move the reconciled CSV file to this current folder.
-4.  Run get_relations.py to generate a mapping.json file. The mapping.json fill the empty values with the references to the key properties. This mapping.json file will contain all the headers from the input CSV files as keys in a JSON dictionary, and their respective values are empty strings. The users should fill all the empty values with corresponding Wikidata or Schema.org property links. 
+4.  Run get_relations.py to generate a mapping.json file. This mapping.json file will contain all the headers from the input CSV files as keys in a JSON dictionary, and their respective values are empty strings. The users should fill all the empty values with corresponding Wikidata or Schema.org property links. 
 5.  The operation flow should be:
     1.  Run get_relations.py with all CSV files needed.
     2.  Get the mapping.json
