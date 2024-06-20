@@ -1,5 +1,5 @@
 # Recordings:
--   Append the https://thesession.org/{entity_type}/{id} to the id and the tune_id to make them complete URIs
+-   Append the https://thesession.org/recordings/{id} to the id and https://thesession.org/tunes/{id} to the tune_id to make them complete URIs
 -   Rename the id to recording_id
 -   Reconcile the recording column against the type "album" Q482994
 -   Make a reconcile>facet>By judgement facet and a reconcile>facet>Best candidate's score facet if they are not present.
@@ -45,3 +45,43 @@
 # Aliases and Tune Popularity:
 -   Transform the tune_id by appending https://thesession.org/tunes/{id} to the cells.
 -   For Tune Popularity, move the tune_id to the beginning.
+
+# Events:
+-   Transform the id by appending https://thesession.org/events/{id} to the cells.
+-   Rename the id column to events_id
+-   Reconcile the country column against type 'country' Q6256.
+-   Make a reconcile>facet>By judgement facet and a reconcile>facet>Best candidate's score facet if they are not present.
+-   Choose none in the judgement facet and move the score to 54-101 in the score judgement.
+-   Match each cell to their best candidate.
+-   Move the score to 38-53, and ignore them by using create one new item for each cell.
+-   Delete the two facets.
+-   Add column with URLs of matched entities, name the new column country_wiki.
+-   Reconcile the area column against type 'administrative territorial entity' Q56061. In the reconciliation window, choose country as property 'country' P17.
+-   Move the score facet to 100-101, and match all entity to their best candidate.
+-   Move the score facet to 0-101, choose none in judgement facet, and reconcile the area column again against type 'human settlement' Q486972. In the reconciliation window, choose country as property 'country' P17.
+-   Move the score facet to 100-101, and match all entity to their best candidate.
+-   Move the score facet to 71-72, and match all entity to their best candidate.
+-   Move the score facet to 0-101, choose none in judgement facet, and reconcile the area column again against type 'territory' Q4835091. In the reconciliation window, choose country as property 'country' P17.
+-   Move the score facet to 100-101, and match all entity to their best candidate.
+
+# Sessions:
+-   Transform the id by appending https://thesession.org/sessions/{id} to the cells.
+-   Rename the id column to sessions_id
+-   Reconcile the country column against type 'country' Q6256.
+-   Make a reconcile>facet>By judgement facet and a reconcile>facet>Best candidate's score facet if they are not present.
+-   Choose none in the judgement facet and move the score to 60-101 in the score judgement.
+-   Match each cell to their best candidate.
+-   Move the score to 34-59, and ignore them by using create one new item for each cell.
+-   Delete the two facets.
+-   Add column with URLs of matched entities, name the new column country_wiki.
+-   Reconcile the area column against type 'administrative territorial entity' Q56061. In the reconciliation window, choose country as property 'country' P17.
+-   Move the score facet to 100-101, and match all entity to their best candidate.
+-   Move the score facet to 0-101, choose none in judgement facet, and reconcile the area column again against type 'human settlement' Q486972. In the reconciliation window, choose country as property 'country' P17.
+-   Move the score facet to 100-101, and match all entity to their best candidate.
+-   Move the score facet to 71-72, and match all entity to their best candidate.
+-   Move the score facet to 0-101, choose none in judgement facet, and reconcile the area column again against type 'territory' Q4835091. In the reconciliation window, choose country as property 'country' P17.
+-   Move the score facet to 100-101, and match all entity to their best candidate.
+-   Reconcile the town column against the type 'human settlement' Q486972. 
+-   Move the score facet to 71-101, inspect and match the reconciliation data.
+-   Move the score facet to 0-70, and create a new item for each cell.
+-   Add column with URLs of matched entities, name the new column town_wiki.
