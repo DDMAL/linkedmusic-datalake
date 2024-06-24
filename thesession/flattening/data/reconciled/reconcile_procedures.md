@@ -63,6 +63,10 @@
 -   Move the score facet to 71-72, and match all entity to their best candidate.
 -   Move the score facet to 0-101, choose none in judgement facet, and reconcile the area column again against type 'territory' Q4835091. In the reconciliation window, choose country as property 'country' P17.
 -   Move the score facet to 100-101, and match all entity to their best candidate.
+-   Reconcile the town column against the type 'human settlement' Q486972. 
+-   Move the score facet to 71-101, inspect and match the reconciliation data.
+-   Move the score facet to 0-70, and create a new item for each cell.
+-   Add column with URLs of matched entities, name the new column town_wiki.
 
 # Sessions:
 -   Transform the id by appending https://thesession.org/sessions/{id} to the cells.
