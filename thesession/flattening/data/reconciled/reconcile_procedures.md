@@ -65,7 +65,7 @@
 -   Move the score facet to 100-101, and match all entity to their best candidate.
 -   Reconcile the town column against the type 'human settlement' Q486972. 
 -   Move the score facet to 71-101, inspect and match the reconciliation data.
--   Move the score facet to 0-70, and create a new item for each cell.
+-   Move the score facet to 0-70, create a new item for each cell.
 -   Add column with URLs of matched entities, name the new column town_wiki.
 
 # Sessions:
@@ -87,5 +87,5 @@
 -   Move the score facet to 100-101, and match all entity to their best candidate.
 -   Reconcile the town column against the type 'human settlement' Q486972. 
 -   Move the score facet to 71-101, inspect and match the reconciliation data.
--   Move the score facet to 0-70, and create a new item for each cell.
+-   Move the score facet to 0-70, create a new item for each cell.
 -   Add column with URLs of matched entities, name the new column town_wiki.
