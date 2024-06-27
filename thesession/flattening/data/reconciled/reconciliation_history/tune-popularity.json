@@ -11,5 +11,11 @@
     "repeat": false,
     "repeatCount": 10,
     "description": "Text transform on cells in column tune_id using expression jython:return \"https://thesession.org/tunes/\"+value"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "tune_id",
+    "index": 0,
+    "description": "Move column tune_id to position 0"
   }
 ]
