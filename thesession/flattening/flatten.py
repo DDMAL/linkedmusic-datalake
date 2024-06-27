@@ -1,11 +1,11 @@
-import pandas as pd
-from helper_functions import flatten_aliases, flatten_recordings, flatten_tunes
-
 """
 How to run: 
 1. Put source csv files under the_session/flattening/data
 2. Run script flatten.py
 """
+import pandas as pd
+from helper_functions import flatten_aliases, flatten_recordings, flatten_tunes
+
 #create flattened file for aliases and tunes
 flatten_aliases()
 flatten_tunes()
@@ -15,10 +15,10 @@ csv_files = {
     #These are transformed
     'tunes': 'transformed/flatten_tunes.csv',
     'aliases': 'transformed/flatten_aliases.csv',
-    
+    'events': 'events.csv',
     'popularity': 'tune_popularity.csv', #Popularity doesn't need to be flattened
     'recordings': 'recordings.csv' #we will flatten recordings below
-    
+
 }
 
 # Load each CSV file into a DataFrame
@@ -34,7 +34,7 @@ dfs['tunes'] = dfs['tunes'].head(100) #choosing only the first 100 tunes for now
 merged_df = pd.merge(dfs['popularity'], dfs['tunes'], on='tune_id', how='right')
 no_recording = pd.merge(merged_df, dfs['aliases'], on='tune_id', how='left')
 
-# start merging recordings (unsure why it needs to be this complicated) 
+# start merging recordings (unsure why it needs to be this complicated)
 # TODO: cleanup recordings merging
 merged_on=['tune_id']
 with_recording = pd.merge(no_recording, dfs['recordings'], on='tune_id', how='left')
