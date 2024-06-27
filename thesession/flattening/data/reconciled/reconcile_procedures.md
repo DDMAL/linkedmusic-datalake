@@ -89,3 +89,8 @@
 -   Move the score facet to 71-101, inspect and match the reconciliation data.
 -   Move the score facet to 0-70, create a new item for each cell.
 -   Add column with URLs of matched entities, name the new column town_wiki.
+
+# Applying histories:
+-   In the reconciliation_history folder, the JSON files are generated in the OpenRefine>Undo/Redo>Extract...>Export.
+-   The can be applied to a certain CSV directly in OpenRefine again by Undo/Redo>Apply... and selecting the corresponding JSON.
+-   However, the step-by-step operation is recommanded since the reconciliation service is unstable and may produce different results everytime.
