@@ -1,0 +1,29 @@
+{
+    "entity_type": [
+        "https://www.wikidata.org/wiki/Q2188189",
+        "https://www.wikidata.org/wiki/Q31464082"
+    ],
+    "musical_work_id": "https://db.simssa.ca/musicalworks/",
+    "sacred_or_secular": "https://www.wikidata.org/wiki/Property:P140",
+    "source_id": "https://www.wikidata.org/wiki/Property:P1896",
+    "contribution_id": "https://db.simssa.ca/contributions/",
+    "VIAF ID": "https://www.wikidata.org/wiki/Property:P214",
+    "genre_style_@id": "https://schema.org/identifier",
+    "genre_style": "https://www.wikidata.org/wiki/Property:P135",
+    "genre_type": "https://www.wikidata.org/wiki/Property:P136",
+    "genre_type_@id": "https://schema.org/identifier",
+    "url_to_file": "https://db.simssa.ca/files/",
+    "contributor_role": "https://www.wikidata.org/wiki/Property:P3831",
+    "contributor_role_@id": "https://schema.org/identifier",
+    "source_instantiation_portion": "https://schema.org/source_instantiation_portion",
+    "source_title": "https://www.wikidata.org/wiki/Property:P1896",
+    "source_type": "https://www.wikidata.org/wiki/Property:P3865",
+    "source_url": "https://www.wikidata.org/wiki/Property:P854",
+    "file_type": "https://www.wikidata.org/wiki/Property:P2308",
+    "file_format": "https://www.wikidata.org/wiki/Property:P2701",
+    "file_format_@id": "https://schema.org/identifier",
+    "musical_work_variant_titles": "https://www.wikidata.org/wiki/Property:",
+    "file_version": "https://www.wikidata.org/wiki/Property:P9767",
+    "contributor_name": "https://www.wikidata.org/wiki/Property:P2561",
+    "contributor_name_@id": "https://www.wikidata.org/wiki/Property:P767"
+}
