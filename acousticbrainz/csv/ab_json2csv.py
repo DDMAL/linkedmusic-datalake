@@ -51,7 +51,7 @@ for column in df_merged.columns:
         df_merged[column].apply(lambda x: isinstance(x, dict)).any()
         or df_merged[column].apply(lambda x: isinstance(x, float)).any()
     ):
-        # Mark column for dropping if any element is a dictionary
+        # Mark column for dropping if any element is a dictionary or float
         columns_to_drop.append(column)
     elif df_merged[column].apply(lambda x: isinstance(x, list)).any():
         # Convert lists to strings
