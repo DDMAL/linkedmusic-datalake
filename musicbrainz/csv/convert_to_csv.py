@@ -89,6 +89,8 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                     # extract its id
                     keywords = key.split("_")
                     word = keywords[-1]
+                    if word.endswith("s"):
+                        word = word[:-1]
                     key_id = data["id"]
                     extract(
                         f"https://musicbrainz.org/{word}/{key_id}",
