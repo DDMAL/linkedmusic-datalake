@@ -62,9 +62,9 @@ df_merged.drop(columns=columns_to_drop, inplace=True)
 for column in df_merged.columns:
     if column.endswith("id"):
         keyword = (column.split("_")[-1])[:-2]
-        df_merged[column] = df_merged[column].apply(
-            lambda x: "https://musicbrainz.org/" + keyword + "/" + str(x)
-        )
+        df_merged[column] = [
+            "https://musicbrainz.org/" + keyword + "/" + l + " " for l in df_merged[column]
+        ]
 # print(df_merged)
 df_merged.to_csv(CSV_FILE, index=False)
 
