@@ -105,7 +105,16 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
                 if isinstance(data[k], dict) or isinstance(data[k], list):
                     # if there is still a nested instance, extract further
-                    extract(data[k], value, first_level, key + "_" + k)
+                    if key.split('_')[-1] not in [
+                        "area",
+                        "artist",
+                        "event",
+                        "instrument",
+                        "label",
+                        "recording",
+                        "genres",
+                    ]:
+                        extract(data[k], value, first_level, key + "_" + k)
 
     elif isinstance(data, list):
         # extract each element of the list.
