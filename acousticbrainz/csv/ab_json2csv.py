@@ -5,11 +5,12 @@ This script does not take any commandline arguments. It parses all the .JSON fil
 
 import os
 import json
+from fnmatch import fnmatch
 import pandas as pd
 
 # Load JSON data from a file
 JSON_FILES_PATH = "../data"
-JSON_FILES_DIR = os.listdir(JSON_FILES_PATH)
+PATTERN = "*.json"
 df_list = []
 
 
@@ -24,12 +25,14 @@ def list_to_string(value):
     return value
 
 
-for json_file in JSON_FILES_DIR:
-    with open(os.path.join(JSON_FILES_PATH, json_file), encoding="utf-8") as data_file:
-        data = json.load(data_file)
+for path, subdirs, json_files in os.walk(JSON_FILES_PATH):
+    for json_file in json_files:
+        with open(os.path.join(path, json_file), encoding="utf-8") as data_file:
+            if fnmatch(json_file, PATTERN):
+                data = json.load(data_file)
 
-    df = pd.json_normalize(data, max_level=2)
-    df_list.append(df)
+        df = pd.json_normalize(data, max_level=2)
+        df_list.append(df)
 
 # Convert to CSV
 CSV_FILE = "output.csv"
