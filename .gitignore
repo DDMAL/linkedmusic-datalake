@@ -2,6 +2,5 @@
 */__pycache__
 psqldump
 .DS_Store
-cantusdb/turtle/out_rdf.ttl
+Csv2rdf/out_rdf.ttl
 .history/*
-
