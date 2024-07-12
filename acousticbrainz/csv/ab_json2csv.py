@@ -9,20 +9,18 @@ from fnmatch import fnmatch
 import pandas as pd
 
 # Load JSON data from a file
-JSON_FILES_PATH = "../data"
+JSON_FILES_PATH = "../data/0a"
 PATTERN = "*.json"
 df_list = []
 
 
-# Function to convert lists to strings
-def list_to_string(value):
+def expand_lists(df, list_columns):
     """
-    This function takes a list as input argument and converts
-    its first element into a string
+    Expand each column containing lists
     """
-    if isinstance(value, list):
-        return str(value[0])
-    return value
+    for column in list_columns:
+        df = df.explode(column)
+    return df
 
 
 for path, subdirs, json_files in os.walk(JSON_FILES_PATH):
@@ -48,25 +46,35 @@ df_merged = df_merged[
 
 # Loop through columns and apply transformations
 columns_to_drop = []
+columns_with_lists = []
 
 for column in df_merged.columns:
     if (
         df_merged[column].apply(lambda x: isinstance(x, dict)).any()
-        or df_merged[column].apply(lambda x: isinstance(x, float)).any()
+        or df_merged[column].apply(lambda x: isinstance(x, float)).all()
     ):
         # Mark column for dropping if any element is a dictionary or float
         columns_to_drop.append(column)
     elif df_merged[column].apply(lambda x: isinstance(x, list)).any():
         # Convert lists to strings
-        df_merged[column] = df_merged[column].apply(list_to_string)
+        columns_with_lists.append(column)
 
 # Drop columns that contain dictionaries
 df_merged.drop(columns=columns_to_drop, inplace=True)
+df_merged = expand_lists(df_merged, columns_with_lists)
 for column in df_merged.columns:
     if column.endswith("id"):
-        keyword = (column.split("_")[-1])[:-2]
+        if " " in column:
+            keyword = column.split(" ")[-2]
+        else:
+            keyword = (column.split("_")[-1])[:-2]
         df_merged[column] = [
-            "https://musicbrainz.org/" + keyword + "/" + l + " " for l in df_merged[column]
+            (
+                "https://musicbrainz.org/" + keyword + "/" + str(l)
+                if str(l) != 'nan'
+                else ""
+            )
+            for l in df_merged[column]
         ]
 # print(df_merged)
 df_merged.to_csv(CSV_FILE, index=False)
