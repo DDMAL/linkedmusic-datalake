@@ -51,7 +51,7 @@ columns_with_lists = []
 for column in df_merged.columns:
     if (
         df_merged[column].apply(lambda x: isinstance(x, dict)).any()
-        or df_merged[column].apply(lambda x: isinstance(x, float)).all()
+        or df_merged[column].apply(lambda x: isinstance(x, float)).any()
     ):
         # Mark column for dropping if any element is a dictionary or float
         columns_to_drop.append(column)
@@ -64,10 +64,7 @@ df_merged.drop(columns=columns_to_drop, inplace=True)
 df_merged = expand_lists(df_merged, columns_with_lists)
 for column in df_merged.columns:
     if column.endswith("id"):
-        if " " in column:
-            keyword = column.split(" ")[-2]
-        else:
-            keyword = (column.split("_")[-1])[:-2]
+        keyword = (column.split("_")[-1])[:-2]
         df_merged[column] = [
             (
                 "https://musicbrainz.org/" + keyword + "/" + str(l)
