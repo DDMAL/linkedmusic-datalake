@@ -10,11 +10,11 @@
     "genres_name": "https://www.wikidata.org/wiki/Property:P136",
     "genres_id": "https://www.wikidata.org/wiki/Property:P8052",
     "entity_type": [
-        "https://www.wikidata.org/wiki/Q11500",
+        "https://www.wikidata.org/wiki/Q2221906",
         "https://www.wikidata.org/wiki/Q1656682",
         "https://www.wikidata.org/wiki/Q34379",
         "https://www.wikidata.org/wiki/Q18127",
-        "https://www.wikidata.org/wiki/Q155171"
+        "https://www.wikidata.org/wiki/Q15975575"
     ],
     "event_id": "https://www.wikidata.org/wiki/Property:P6423",
     "cancelled": "https://www.wikidata.org/wiki/Q30108381",
@@ -26,9 +26,9 @@
     "label-code": "https://www.wikidata.org/wiki/Property:P7320",
     "country": "https://www.wikidata.org/wiki/Property:P17",
     "area_iso-3166-2-codes": "https://www.wikidata.org/wiki/Property:P300",
-    "area_name": "https://www.wikidata.org/wiki/Property:P2046",
+    "area_name": "https://www.wikidata.org/wiki/Property:P276",
     "area_iso-3166-1-codes": "https://www.wikidata.org/wiki/Property:P299",
-    "area": "https://www.wikidata.org/wiki/Property:P2046",
+    "area": "https://www.wikidata.org/wiki/Property:P276",
     "ipis": "https://www.wikidata.org/wiki/Property:P3453",
     "isnis": "https://www.wikidata.org/wiki/Property:P213",
     "area_iso-3166-3-codes": "https://www.wikidata.org/wiki/Property:P301",
