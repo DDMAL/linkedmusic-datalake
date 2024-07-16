@@ -89,6 +89,8 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                     # extract its id
                     keywords = key.split("_")
                     word = keywords[-1]
+                    # if the header is an ID, since 'genre' in the JSON has a trailing 's',
+                    # but 'genres' is not a valid keyword in the URL link.
                     if word.endswith("s"):
                         word = word[:-1]
                     key_id = data["id"]
@@ -135,8 +137,6 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
         v = data
         if isinstance(data, str):
-            if "," in v:
-                v = f'"{v}"'
             v = v.replace("\r\n", "")
 
         if data is None:
