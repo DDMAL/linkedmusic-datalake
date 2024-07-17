@@ -76,7 +76,12 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                     if validators.url(element):
                         obj = URIRef(element)
                     else:
-                        obj = Literal(element)
+                        if element == "True" or element == "False":
+                            obj = Literal(element, datatype=XSD.boolean)
+                        elif element.isnumeric():
+                            obj = Literal(element, datatype=XSD.integer)
+                        else:
+                            obj = Literal(element)
 
                     g.add((key_attribute, predicates[i], obj))
 
