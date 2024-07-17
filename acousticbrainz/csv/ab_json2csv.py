@@ -14,13 +14,13 @@ PATTERN = "*.json"
 df_list = []
 
 
-def expand_lists(df, list_columns):
+def expand_lists(dataframe, list_columns):
     """
     Expand each column containing lists
     """
-    for column in list_columns:
-        df = df.explode(column)
-    return df
+    for col in list_columns:
+        dataframe = dataframe.explode(col)
+    return dataframe
 
 
 for path, subdirs, json_files in os.walk(JSON_FILES_PATH):
