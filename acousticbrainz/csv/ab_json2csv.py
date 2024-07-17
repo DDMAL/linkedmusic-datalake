@@ -9,7 +9,7 @@ from fnmatch import fnmatch
 import pandas as pd
 
 # Load JSON data from a file
-JSON_FILES_PATH = "../data/0a"
+JSON_FILES_PATH = "../data"
 PATTERN = "*.json"
 df_list = []
 
@@ -52,7 +52,7 @@ for column in df_merged.columns:
     if (
         df_merged[column].apply(lambda x: isinstance(x, dict)).any()
         or df_merged[column].apply(lambda x: isinstance(x, float)).any()
-    ):
+    ) and not column.endswith("id"):
         # Mark column for dropping if any element is a dictionary or float
         columns_to_drop.append(column)
     elif df_merged[column].apply(lambda x: isinstance(x, list)).any():
