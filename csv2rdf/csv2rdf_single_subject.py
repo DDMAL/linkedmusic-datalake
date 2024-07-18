@@ -10,21 +10,23 @@ reconciled csv files to be converted.
 The script creates a file containing the turtle in the directory containing this
 file called 'out_rdf.ttl'.
 """
+
 import csv
-import validators
+from typing import List
 import sys
 import json
 import os
+import validators
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF
-from typing import List
 
-# The "type" attribute of each CSV file must be entered in the mapper file in the 
+# The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
 
 DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, sys.argv[1])
-dest_filename = os.path.join(os.path.dirname(mapping_filename), 'out_rdf.ttl')
+dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
+
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
@@ -32,12 +34,12 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
     Adds all informations as RDF triples from the input filenames into a graph and return it.
     *Important: Each input file must have the first column as subjects of all triples
-    
+
     @Pre: type(filenames) == List[str]
     """
     g = Graph()
 
-    ontology_dict = json.load(open(mapping_filename, "r"))
+    ontology_dict = json.load(open(mapping_filename, "r", encoding='utf-8'))
     ontology_list = ontology_dict.get("entity_type")
 
     for i, filename in enumerate(filenames):
@@ -47,7 +49,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
             ontology_type = ontology_list[i]
         except IndexError:
             ontology_type = None
-            
+
         with open(filename, "r", encoding="utf-8") as csv_file:
             csv_reader = csv.reader(csv_file)
 
@@ -80,10 +82,11 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
     return g
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         raise ValueError("Invalid number of input filenames")
 
-    filenames = sys.argv[2:]
-    turtle_data = convert_csv_to_turtle(filenames)
+    fns = sys.argv[2:]
+    turtle_data = convert_csv_to_turtle(fns)
     turtle_data.serialize(format="turtle", destination=dest_filename)
