@@ -24,7 +24,7 @@ from typing import List
 
 DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, sys.argv[1])
-dest_filename = os.path.join(DIRNAME, 'out_rdf.ttl')
+dest_filename = os.path.join(os.path.dirname(mapping_filename), 'out_rdf.ttl')
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
