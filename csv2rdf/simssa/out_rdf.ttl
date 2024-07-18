@@ -1,28 +1,9 @@
-@prefix ns1: <http://www.wikidata.org/prop/direct/> .
-@prefix ns2: <http://www.wikidata.org/entity/> .
+@prefix ns1: <https://www.wikidata.org/entity/> .
+@prefix ns2: <https://www.wikidata.org/prop/direct/> .
 @prefix schema: <https://schema.org/> .
 
-<1.0> a ns2:Q2188189,
-        ns2:Q31464082 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Quanto più desiar sento’l mio core']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "3.0",
-        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Bernardo Pisano" ;
-    ns1:P2701 "midi",
-        "pdf",
-        "sibelius",
-        "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
-    ns1:P854 <http://www.proms.ac.uk/ms/82/> ;
+<1.0> a ns1:Q2188189,
+        ns1:Q31464082 ;
     <https://db.simssa.ca/contributions/> "1.0",
         "2.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/1>,
@@ -38,28 +19,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "1.0" .
-
-<10.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Perché donna non vuoi']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "12.0",
+    schema:source_instantiation_portion "1.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Quanto più desiar sento’l mio core']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "3.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "2714432.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Lorenzo Strozzi" ;
-    ns1:P2701 "midi",
+    ns2:P214 "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Bernardo Pisano" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P854 <http://www.proms.ac.uk/ms/82/> .
+
+<10.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "19.0",
         "20.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/37>,
@@ -75,168 +56,168 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "10.0" .
+    schema:source_instantiation_portion "10.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Perché donna non vuoi']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "12.0",
+        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
+    ns2:P214 "2714432.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Lorenzo Strozzi" ;
+    ns2:P2701 "midi",
+        "pdf",
+        "sibelius",
+        "xml" ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q61131269> .
 
-<100.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa L’homme armé  I']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<100.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "133.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa L’homme armé  I']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<101.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Ista est speciosa']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<101.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "134.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Ista est speciosa']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<102.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Pro fidelibus defunctis']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<102.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "135.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Pro fidelibus defunctis']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<103.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Tous les regretz']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<103.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "136.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Tous les regretz']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<104.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Conceptio tua']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<104.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "137.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Conceptio tua']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<105.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Almana']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<105.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "138.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Almana']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<106.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Nunca fue pena mayor']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<106.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "139.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Nunca fue pena mayor']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<107.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Gaudeamus']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<107.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "140.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Gaudeamus']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<108.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Sine nomine']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<108.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "141.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Sine nomine']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<109.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Pange lingua']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<109.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "142.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Pange lingua']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<11.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Chiare fresche et dolc’acque']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "13.0",
-        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
-        "pdf",
-        "sibelius",
-        "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+<11.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "21.0",
         "22.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/41>,
@@ -252,140 +233,140 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "11.0" .
+    schema:source_instantiation_portion "11.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Chiare fresche et dolc’acque']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "13.0",
+        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
+    ns2:P214 "39382430.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
+        "pdf",
+        "sibelius",
+        "xml" ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> .
 
-<110.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De beata virgine']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<110.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "143.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De beata virgine']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<111.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Ave Maris stella']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<111.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "144.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Ave Maris stella']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<112.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa L’homme armé sexti toni']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<112.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "145.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa L’homme armé sexti toni']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<113.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Malheur me bat']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<113.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "146.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Malheur me bat']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<114.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa L’homme armé super voces musicales']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<114.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "147.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa L’homme armé super voces musicales']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<115.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Hercules dux Ferrarie']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<115.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "148.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Hercules dux Ferrarie']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<116.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa La sol fa re mi']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<116.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "149.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa La sol fa re mi']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<117.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De tous biens ']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2561 "Josquin des Prez" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+<117.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "150.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De tous biens ']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2561 "Josquin des Prez" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<12.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Che deggio far che mi consigli Amore? [2, Pisano, F&H]']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "14.0",
-        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
-        "pdf",
-        "sibelius",
-        "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+<12.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "23.0",
         "24.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/45>,
@@ -401,28 +382,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "12.0" .
-
-<13.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Giamai non veder gli occhi']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "15.0",
+    schema:source_instantiation_portion "12.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Che deggio far che mi consigli Amore? [2, Pisano, F&H]']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "14.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "2714432.0",
+    ns2:P214 "39382430.0",
         "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Lorenzo Strozzi" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> .
+
+<13.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "25.0",
         "26.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/49>,
@@ -438,27 +419,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "13.0" .
-
-<14.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Chi della fede altrui piglia sospecto']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "16.0",
+    schema:source_instantiation_portion "13.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Giamai non veder gli occhi']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "15.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Bernardo Pisano" ;
-    ns1:P2701 "midi",
+    ns2:P214 "2714432.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Lorenzo Strozzi" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q61131269> .
+
+<14.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "27.0",
         "28.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/53>,
@@ -474,28 +456,27 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "14.0" .
-
-<15.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Cosi nel mio parlare voglio essere aspro']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "17.0",
+    schema:source_instantiation_portion "14.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Chi della fede altrui piglia sospecto']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "16.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "76504834.0",
-        "97105654.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Dante Alighieri" ;
-    ns1:P2701 "midi",
+    ns2:P214 "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Bernardo Pisano" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1067>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<15.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "29.0",
         "30.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/57>,
@@ -511,27 +492,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "15.0" .
-
-<16.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Tanta pietà cor mio talhor m'assale\"]" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "18.0",
+    schema:source_instantiation_portion "15.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Cosi nel mio parlare voglio essere aspro']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "17.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Bernardo Pisano" ;
-    ns1:P2701 "midi",
+    ns2:P214 "76504834.0",
+        "97105654.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Dante Alighieri" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1067>,
+        <https://www.wikidata.org/wiki/Q2920493> .
+
+<16.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "31.0",
         "32.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/61>,
@@ -547,28 +529,27 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "16.0" .
-
-<17.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Nuova angioletta sovra l'ale accorta\"]" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "19.0",
+    schema:source_instantiation_portion "16.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Tanta pietà cor mio talhor m'assale\"]" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "18.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P214 "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Bernardo Pisano" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<17.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "33.0",
         "34.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/65>,
@@ -584,27 +565,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "17.0" .
-
-<18.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Poich'io parti da cui partir non posso\"]" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "20.0",
+    schema:source_instantiation_portion "17.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Nuova angioletta sovra l'ale accorta\"]" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "19.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Bernardo Pisano" ;
-    ns1:P2701 "midi",
+    ns2:P214 "39382430.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> .
+
+<18.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "35.0",
         "36.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/69>,
@@ -620,28 +602,27 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "18.0" .
-
-<19.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Hor vedi Amore che giovinetta donna']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "21.0",
+    schema:source_instantiation_portion "18.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Poich'io parti da cui partir non posso\"]" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "20.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P214 "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Bernardo Pisano" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<19.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "37.0",
         "38.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/73>,
@@ -657,31 +638,29 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "19.0" .
-
-<2.0> a ns2:Q2188189,
-        ns2:Q31464082 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Si è debile el filo a cui s’attiene']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "4.0",
+    schema:source_instantiation_portion "19.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Hor vedi Amore che giovinetta donna']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "21.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
+    ns2:P214 "39382430.0",
         "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
         "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL",
-        "PRINT" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
-    ns1:P854 <https://docs.google.com/spreadsheets/d/1G1CPeHKjLAIXZPJSuwIOOIoq9BiPm7H97ikBEZ9ayNE/edit#gid=588272074> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> .
+
+<2.0> a ns1:Q2188189,
+        ns1:Q31464082 ;
     <https://db.simssa.ca/contributions/> "3.0",
         "4.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/5>,
@@ -697,27 +676,30 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "2.0" .
-
-<20.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Amor che mi tormenti']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "22.0",
+    schema:source_instantiation_portion "2.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Si è debile el filo a cui s’attiene']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "4.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P214 "39382430.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3865 "DIGITAL",
+        "PRINT" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns2:P854 <https://docs.google.com/spreadsheets/d/1G1CPeHKjLAIXZPJSuwIOOIoq9BiPm7H97ikBEZ9ayNE/edit#gid=588272074> .
+
+<20.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "39.0",
         "40.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/77>,
@@ -733,28 +715,27 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "20.0" .
-
-<21.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Quando el suave mio fido conforto']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "23.0",
+    schema:source_instantiation_portion "20.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Amor che mi tormenti']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "22.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0",
-        "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Petrarca",
+    ns2:P214 "32192513.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
         "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718>,
+        <https://www.wikidata.org/wiki/Q7442579> .
+
+<21.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "41.0",
         "42.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/81>,
@@ -770,28 +751,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "21.0" .
-
-<22.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Ben mi credea passar mio tempo homai']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "24.0",
+    schema:source_instantiation_portion "21.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Quando el suave mio fido conforto']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "23.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0",
+    ns2:P214 "32192513.0",
         "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Petrarca",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Petrarca",
         "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q7442579> .
+
+<22.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "43.0",
         "44.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/85>,
@@ -807,28 +788,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "22.0" .
-
-<23.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Amor se vuoi ch'io torni al giogho anticho\"]" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "25.0",
+    schema:source_instantiation_portion "22.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Ben mi credea passar mio tempo homai']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "24.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0",
+    ns2:P214 "32192513.0",
         "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Petrarca",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Petrarca",
         "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q7442579> .
+
+<23.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "45.0",
         "46.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/89>,
@@ -844,28 +825,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "23.0" .
-
-<24.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Perch'ai viso d'amor portava insegnia\"]" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "26.0",
+    schema:source_instantiation_portion "23.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Amor se vuoi ch'io torni al giogho anticho\"]" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "25.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0",
+    ns2:P214 "32192513.0",
         "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Petrarca",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Petrarca",
         "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q7442579> .
+
+<24.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "47.0",
         "48.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/93>,
@@ -881,28 +862,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "24.0" .
-
-<25.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Ο passi sparsi ο pensier vaghi et pronti']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "27.0",
+    schema:source_instantiation_portion "24.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Perch'ai viso d'amor portava insegnia\"]" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "26.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0",
+    ns2:P214 "32192513.0",
         "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Petrarca",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Petrarca",
         "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q7442579> .
+
+<25.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "49.0",
         "50.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/100>,
@@ -918,28 +899,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "25.0" .
-
-<26.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Amor quando fioriva mia speme']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "28.0",
+    schema:source_instantiation_portion "25.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Ο passi sparsi ο pensier vaghi et pronti']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "27.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0",
+    ns2:P214 "32192513.0",
         "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Petrarca",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Petrarca",
         "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q7442579> .
+
+<26.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "51.0",
         "52.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/101>,
@@ -955,27 +936,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "26.0" .
-
-<27.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Quanta mai leggiadria, quanta beliate']" ;
-    ns1:P136 "Frottola" ;
-    ns1:P1896 "29.0",
+    schema:source_instantiation_portion "26.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Amor quando fioriva mia speme']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "28.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "51876790.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Bartolomeo Tromboncino" ;
-    ns1:P2701 "midi",
+    ns2:P214 "32192513.0",
+        "39382430.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Petrarca",
+        "Sebastiano Festa" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718>,
-        <https://www.wikidata.org/wiki/Q809518> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q7442579> .
+
+<27.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "53.0",
         "54.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/105>,
@@ -991,23 +973,27 @@
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980>,
         <https://www.wikidata.org/wiki/Q944800> ;
-    schema:source_instantiation_portion "27.0" .
-
-<28.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Fralle infelice vivo più felice']" ;
-    ns1:P136 "Frottola" ;
-    ns1:P1896 "30.0",
+    schema:source_instantiation_portion "27.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Quanta mai leggiadria, quanta beliate']" ;
+    ns2:P136 "Frottola" ;
+    ns2:P1896 "29.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "51876790.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Bartolomeo Tromboncino" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718>,
+        <https://www.wikidata.org/wiki/Q809518> .
+
+<28.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "55.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/109>,
         <https://db.simssa.ca/files/110>,
@@ -1021,27 +1007,23 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q944800> ;
-    schema:source_instantiation_portion "28.0" .
-
-<29.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"S'il dixi mai ch'i vengha in odio a quella\"]" ;
-    ns1:P136 "Frottola" ;
-    ns1:P1896 "31.0",
+    schema:source_instantiation_portion "28.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Fralle infelice vivo più felice']" ;
+    ns2:P136 "Frottola" ;
+    ns2:P1896 "30.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<29.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "56.0",
         "57.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/113>,
@@ -1057,27 +1039,27 @@
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980>,
         <https://www.wikidata.org/wiki/Q944800> ;
-    schema:source_instantiation_portion "29.0" .
-
-<3.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['De perché in odio m’hai']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "5.0",
+    schema:source_instantiation_portion "29.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"S'il dixi mai ch'i vengha in odio a quella\"]" ;
+    ns2:P136 "Frottola" ;
+    ns2:P1896 "31.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Bernardo Pisano" ;
-    ns1:P2701 "midi",
+    ns2:P214 "39382430.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<3.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "5.0",
         "6.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/10>,
@@ -1093,27 +1075,27 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "3.0" .
-
-<30.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Quel foco ch'io pensai che fussi spento\"]" ;
-    ns1:P136 "Frottola" ;
-    ns1:P1896 "32.0",
+    schema:source_instantiation_portion "3.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['De perché in odio m’hai']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "5.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P214 "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Bernardo Pisano" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<30.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "58.0",
         "59.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/117>,
@@ -1129,24 +1111,27 @@
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980>,
         <https://www.wikidata.org/wiki/Q944800> ;
-    schema:source_instantiation_portion "30.0" .
-
-<31.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"So ben che lei non sa quanto chi l'amo\"]" ;
-    ns1:P136 "Villotta" ;
-    ns1:P1896 "33.0",
+    schema:source_instantiation_portion "30.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Quel foco ch'io pensai che fussi spento\"]" ;
+    ns2:P136 "Frottola" ;
+    ns2:P1896 "32.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "22328346.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Michele Pesenti" ;
-    ns1:P2701 "midi",
+    ns2:P214 "39382430.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3856752> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<31.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "60.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/121>,
         <https://db.simssa.ca/files/122>,
@@ -1160,24 +1145,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "31.0" .
-
-<32.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Quando lo pomo vien da lo pomaro']" ;
-    ns1:P136 "Villotta" ;
-    ns1:P1896 "34.0",
+    schema:source_instantiation_portion "31.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"So ben che lei non sa quanto chi l'amo\"]" ;
+    ns2:P136 "Villotta" ;
+    ns2:P1896 "33.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "51876790.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bartolomeo Tromboncino" ;
-    ns1:P2701 "midi",
+    ns2:P214 "22328346.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Michele Pesenti" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q809518> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q3856752> .
+
+<32.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "61.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/125>,
         <https://db.simssa.ca/files/126>,
@@ -1191,24 +1176,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "32.0" .
-
-<33.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Ο Dio che la brunetta mia']" ;
-    ns1:P136 "Villotta" ;
-    ns1:P1896 "35.0",
+    schema:source_instantiation_portion "32.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Quando lo pomo vien da lo pomaro']" ;
+    ns2:P136 "Villotta" ;
+    ns2:P1896 "34.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "22328346.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Michele Pesenti" ;
-    ns1:P2701 "midi",
+    ns2:P214 "51876790.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bartolomeo Tromboncino" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3856752> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q809518> .
+
+<33.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "62.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/129>,
         <https://db.simssa.ca/files/130>,
@@ -1222,24 +1207,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "33.0" .
-
-<34.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Hora è di maggio']" ;
-    ns1:P136 "Northern proto-villotta" ;
-    ns1:P1896 "36.0",
+    schema:source_instantiation_portion "33.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Ο Dio che la brunetta mia']" ;
+    ns2:P136 "Villotta" ;
+    ns2:P1896 "35.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "34643473.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Heinrich Isaac" ;
-    ns1:P2701 "midi",
+    ns2:P214 "22328346.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Michele Pesenti" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q316668> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q3856752> .
+
+<34.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "63.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/133>,
         <https://db.simssa.ca/files/134>,
@@ -1253,24 +1238,24 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         "Northern proto-villotta" ;
-    schema:source_instantiation_portion "34.0" .
-
-<35.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Che fa la ramanzina']" ;
-    ns1:P136 "Northern proto-villotta" ;
-    ns1:P1896 "37.0",
+    schema:source_instantiation_portion "34.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Hora è di maggio']" ;
+    ns2:P136 "Northern proto-villotta" ;
+    ns2:P1896 "36.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "14957872.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Loyset Compère" ;
-    ns1:P2701 "midi",
+    ns2:P214 "34643473.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Heinrich Isaac" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q316668> .
+
+<35.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "64.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/137>,
         <https://db.simssa.ca/files/138>,
@@ -1284,28 +1269,24 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         "Northern proto-villotta" ;
-    schema:source_instantiation_portion "35.0" .
-
-<36.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Che debbio far che mi consigli Amore? [3, Tromboncino, F&H]']" ;
-    ns1:P136 "Frottola" ;
-    ns1:P1896 "38.0",
+    schema:source_instantiation_portion "35.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Che fa la ramanzina']" ;
+    ns2:P136 "Northern proto-villotta" ;
+    ns2:P1896 "37.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "51876790.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bartolomeo Tromboncino",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P214 "14957872.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Loyset Compère" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q809518> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q975576> .
+
+<36.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "65.0",
         "66.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/141>,
@@ -1321,24 +1302,28 @@
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980>,
         <https://www.wikidata.org/wiki/Q944800> ;
-    schema:source_instantiation_portion "36.0" .
-
-<37.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['La tortorella el semplice uccelletto']" ;
-    ns1:P136 "Northern proto-villotta" ;
-    ns1:P1896 "39.0",
+    schema:source_instantiation_portion "36.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Che debbio far che mi consigli Amore? [3, Tromboncino, F&H]']" ;
+    ns2:P136 "Frottola" ;
+    ns2:P1896 "38.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "111839700.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Jacob Obrecht" ;
-    ns1:P2701 "midi",
+    ns2:P214 "39382430.0",
+        "51876790.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bartolomeo Tromboncino",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q311629> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q809518> .
+
+<37.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "67.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/145>,
         <https://db.simssa.ca/files/146>,
@@ -1352,24 +1337,24 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         "Northern proto-villotta" ;
-    schema:source_instantiation_portion "37.0" .
-
-<38.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Scaramella fa la guerra']" ;
-    ns1:P136 "Northern proto-villotta" ;
-    ns1:P1896 "40.0",
+    schema:source_instantiation_portion "37.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['La tortorella el semplice uccelletto']" ;
+    ns2:P136 "Northern proto-villotta" ;
+    ns2:P1896 "39.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "111839700.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Jacob Obrecht" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q311629> .
+
+<38.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "68.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/149>,
         <https://db.simssa.ca/files/150>,
@@ -1383,23 +1368,24 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         "Northern proto-villotta" ;
-    schema:source_instantiation_portion "38.0" .
-
-<39.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"[Zibaldone] C.: Fortuna disperata; Α.: Vidi la forosetta in un boschetto; T.: Voi m'havete svergognié; B.: Fortuna - mangio biscotti\"]" ;
-    ns1:P136 "Zibaldone" ;
-    ns1:P1896 "41.0",
+    schema:source_instantiation_portion "38.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Scaramella fa la guerra']" ;
+    ns2:P136 "Northern proto-villotta" ;
+    ns2:P1896 "40.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
+
+<39.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "69.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/153>,
         <https://db.simssa.ca/files/154>,
@@ -1413,28 +1399,23 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         "Zibaldone" ;
-    schema:source_instantiation_portion "39.0" .
-
-<4.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Son io donna qual mostri ogni tuo bene']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "6.0",
+    schema:source_instantiation_portion "39.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"[Zibaldone] C.: Fortuna disperata; Α.: Vidi la forosetta in un boschetto; T.: Voi m'havete svergognié; B.: Fortuna - mangio biscotti\"]" ;
+    ns2:P136 "Zibaldone" ;
+    ns2:P1896 "41.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "2714432.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Lorenzo Strozzi" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<4.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "7.0",
         "8.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/13>,
@@ -1450,23 +1431,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "4.0" .
-
-<40.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"J'am pris amours; [Zibaldone] C., Α., T. Musicola B.: Ma buce rit\"]" ;
-    ns1:P136 "Zibaldone" ;
-    ns1:P1896 "42.0",
+    schema:source_instantiation_portion "4.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Son io donna qual mostri ogni tuo bene']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "6.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "2714432.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Lorenzo Strozzi" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q61131269> .
+
+<40.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "70.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/157>,
         <https://db.simssa.ca/files/158>,
@@ -1480,23 +1466,23 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         "Zibaldone" ;
-    schema:source_instantiation_portion "40.0" .
-
-<41.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"[Zibaldone] C. : Donna tu pure invecchi Α.: Diventerò zenzaro T.: Ogniun fughi et pigli scampo; B: Dall'armata delle dee\"]" ;
-    ns1:P136 "Zibaldone" ;
-    ns1:P1896 "43.0",
+    schema:source_instantiation_portion "40.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"J'am pris amours; [Zibaldone] C., Α., T. Musicola B.: Ma buce rit\"]" ;
+    ns2:P136 "Zibaldone" ;
+    ns2:P1896 "42.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<41.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "71.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/161>,
         <https://db.simssa.ca/files/162>,
@@ -1510,24 +1496,23 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         "Zibaldone" ;
-    schema:source_instantiation_portion "41.0" .
-
-<42.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Donne venite al ballo [T]']" ;
-    ns1:P136 "Villotta" ;
-    ns1:P1896 "44.0",
+    schema:source_instantiation_portion "41.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"[Zibaldone] C. : Donna tu pure invecchi Α.: Diventerò zenzaro T.: Ogniun fughi et pigli scampo; B: Dall'armata delle dee\"]" ;
+    ns2:P136 "Zibaldone" ;
+    ns2:P1896 "43.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100224571.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Patavino" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3750431> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<42.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "72.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/165>,
         <https://db.simssa.ca/files/166>,
@@ -1541,24 +1526,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "42.0" .
-
-<43.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Un cavalier di Spagnia [T]; Cavalcha per la via']" ;
-    ns1:P136 "Villotta" ;
-    ns1:P1896 "45.0",
+    schema:source_instantiation_portion "42.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Donne venite al ballo [T]']" ;
+    ns2:P136 "Villotta" ;
+    ns2:P1896 "44.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100224571.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Francesco Patavino" ;
-    ns1:P2701 "midi",
+    ns2:P214 "100224571.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Patavino" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3750431> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q3750431> .
+
+<43.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "73.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/169>,
         <https://db.simssa.ca/files/170>,
@@ -1572,24 +1557,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "43.0" .
-
-<44.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"L'ultimo di di maggio [T]; Un bel mattino\"]" ;
-    ns1:P136 "Villotta" ;
-    ns1:P1896 "46.0",
+    schema:source_instantiation_portion "43.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Un cavalier di Spagnia [T]; Cavalcha per la via']" ;
+    ns2:P136 "Villotta" ;
+    ns2:P1896 "45.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "32192513.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Sebastiano Festa" ;
-    ns1:P2701 "midi",
+    ns2:P214 "100224571.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Francesco Patavino" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7442579> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q3750431> .
+
+<44.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "74.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/173>,
         <https://db.simssa.ca/files/174>,
@@ -1603,27 +1588,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "44.0" .
-
-<45.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Vaghe le montanine pasturelle ']" ;
-    ns1:P136 "Villotta" ;
-    ns1:P1896 "47.0",
+    schema:source_instantiation_portion "44.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"L'ultimo di di maggio [T]; Un bel mattino\"]" ;
+    ns2:P136 "Villotta" ;
+    ns2:P1896 "46.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "88851993.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Franco Sacchetti" ;
-    ns1:P2701 "midi",
+    ns2:P214 "32192513.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Sebastiano Festa" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1029676>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q7442579> .
+
+<45.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "75.0",
         "76.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/177>,
@@ -1639,27 +1621,27 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "45.0" .
-
-<46.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Solingho et vagho augello ']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "48.0",
+    schema:source_instantiation_portion "45.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Vaghe le montanine pasturelle ']" ;
+    ns2:P136 "Villotta" ;
+    ns2:P1896 "47.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "54144140.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous ",
-        "Pietro Bembo" ;
-    ns1:P2701 "midi",
+    ns2:P214 "88851993.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Franco Sacchetti" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
+    ns2:P3831 "AUTHOR",
         "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q334188>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1029676>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<46.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "77.0",
         "78.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/181>,
@@ -1675,24 +1657,27 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "45.5" .
-
-<47.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Entré je suis en gran pensier ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "49.0",
+    schema:source_instantiation_portion "45.5" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Solingho et vagho augello ']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "48.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "54144140.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous ",
+        "Pietro Bembo" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q334188>,
+        <https://www.wikidata.org/wiki/Q4233718> .
+
+<47.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "79.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/185>,
         <https://db.simssa.ca/files/186>,
@@ -1706,23 +1691,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "46.0" .
-
-<48.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Tant ravy suis en la bonté ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "50.0",
+    schema:source_instantiation_portion "46.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Entré je suis en gran pensier ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "49.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
+
+<48.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "80.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/189>,
         <https://db.simssa.ca/files/190>,
@@ -1736,23 +1722,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "47.0" .
-
-<49.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Amoreuse mi fault estre ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "51.0",
+    schema:source_instantiation_portion "47.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Tant ravy suis en la bonté ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "50.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<49.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "81.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/193>,
         <https://db.simssa.ca/files/194>,
@@ -1766,28 +1752,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "48.0" .
-
-<5.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Son io donna (2) qual mostri ogni tuo bene']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "7.0",
+    schema:source_instantiation_portion "48.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Amoreuse mi fault estre ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "51.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "2714432.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Lorenzo Strozzi" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<5.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "10.0",
         "9.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/17>,
@@ -1803,23 +1784,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "5.0" .
-
-<50.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Jouly mariner passe mon sene ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "52.0",
+    schema:source_instantiation_portion "5.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Son io donna (2) qual mostri ogni tuo bene']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "7.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "2714432.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Lorenzo Strozzi" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q61131269> .
+
+<50.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "82.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/197>,
         <https://db.simssa.ca/files/198>,
@@ -1833,24 +1819,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "49.0" .
-
-<51.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Notre chambrier sy malad'estet \"]" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "53.0",
+    schema:source_instantiation_portion "49.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Jouly mariner passe mon sene ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "52.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "301999266.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Ninot le Petit " ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<51.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "83.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/201>,
         <https://db.simssa.ca/files/202>,
@@ -1864,24 +1849,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "50.0" .
-
-<52.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Impotent suis et affollé ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "54.0",
+    schema:source_instantiation_portion "50.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Notre chambrier sy malad'estet \"]" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "53.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "87544497.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Antoine Bruhier" ;
-    ns1:P2701 "midi",
+    ns2:P214 "301999266.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Ninot le Petit " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q15973951> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q7039099> .
+
+<52.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "84.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/205>,
         <https://db.simssa.ca/files/206>,
@@ -1895,24 +1880,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "51.0" .
-
-<53.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Se j'ay perdu mon amy \"]" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "55.0",
+    schema:source_instantiation_portion "51.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Impotent suis et affollé ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "54.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "87544497.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Antoine Bruhier" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q15973951> .
+
+<53.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "85.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/209>,
         <https://db.simssa.ca/files/210>,
@@ -1926,24 +1911,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "52.0" .
-
-<54.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Et la la la la la la ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "56.0",
+    schema:source_instantiation_portion "52.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Se j'ay perdu mon amy \"]" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "55.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "301999266.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Ninot le Petit " ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
+
+<54.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "86.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/213>,
         <https://db.simssa.ca/files/214>,
@@ -1957,24 +1942,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "53.0" .
-
-<55.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"En l'ombre da ung bepin \"]" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "57.0",
+    schema:source_instantiation_portion "53.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Et la la la la la la ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "56.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "301999266.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Ninot le Petit " ;
-    ns1:P2701 "midi",
+    ns2:P214 "301999266.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Ninot le Petit " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q7039099> .
+
+<55.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "87.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/217>,
         <https://db.simssa.ca/files/218>,
@@ -1988,23 +1973,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "54.0" .
-
-<56.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Très dolce filette ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "58.0",
+    schema:source_instantiation_portion "54.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"En l'ombre da ung bepin \"]" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "57.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "301999266.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Ninot le Petit " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q7039099> .
+
+<56.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "88.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/221>,
         <https://db.simssa.ca/files/222>,
@@ -2018,24 +2004,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "55.0" .
-
-<57.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Frapes petit coup ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "59.0",
+    schema:source_instantiation_portion "55.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Très dolce filette ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "58.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "87544497.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Antoine Bruhier" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q15973951> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<57.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "89.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/225>,
         <https://db.simssa.ca/files/226>,
@@ -2049,24 +2034,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "56.0" .
-
-<58.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Jacquet Jacquet ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "60.0",
+    schema:source_instantiation_portion "56.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Frapes petit coup ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "59.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "87544497.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Antoine Bruhier" ;
-    ns1:P2701 "midi",
+    ns2:P214 "87544497.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Antoine Bruhier" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q15973951> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q15973951> .
+
+<58.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "90.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/229>,
         <https://db.simssa.ca/files/230>,
@@ -2080,24 +2065,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "57.0" .
-
-<59.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"N'as tu poynct mys ton hault bounet \"]" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "61.0",
+    schema:source_instantiation_portion "57.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Jacquet Jacquet ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "60.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "301999266.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Ninot le Petit " ;
-    ns1:P2701 "midi",
+    ns2:P214 "87544497.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Antoine Bruhier" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q15973951> .
+
+<59.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "91.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/233>,
         <https://db.simssa.ca/files/234>,
@@ -2111,28 +2096,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "58.0" .
-
-<6.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Nella stagion che’l ciel rapido inchina']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "8.0",
+    schema:source_instantiation_portion "58.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"N'as tu poynct mys ton hault bounet \"]" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "61.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P214 "301999266.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Ninot le Petit " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q7039099> .
+
+<6.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "11.0",
         "12.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/21>,
@@ -2148,23 +2129,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "6.0" .
-
-<60.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Adieu mes amours ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "62.0",
+    schema:source_instantiation_portion "6.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Nella stagion che’l ciel rapido inchina']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "8.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "39382430.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> .
+
+<60.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "92.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/237>,
         <https://db.simssa.ca/files/238>,
@@ -2178,23 +2164,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "59.0" .
-
-<61.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Forseullement l'atente que je meure \"]" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "63.0",
+    schema:source_instantiation_portion "59.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Adieu mes amours ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "62.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<61.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "93.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/241>,
         <https://db.simssa.ca/files/242>,
@@ -2208,24 +2194,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "60.0" .
-
-<62.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Forseullement l’atante que je meure ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "64.0",
+    schema:source_instantiation_portion "60.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Forseullement l'atente que je meure \"]" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "63.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "44566257.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Matthaeus Pipelare" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q289914> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<62.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "94.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/245>,
         <https://db.simssa.ca/files/246>,
@@ -2239,24 +2224,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "61.0" .
-
-<63.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"L'autre ior je cavacioye \"]" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "65.0",
+    schema:source_instantiation_portion "61.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Forseullement l’atante que je meure ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "64.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "14957872.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Loyset Compère" ;
-    ns1:P2701 "midi",
+    ns2:P214 "44566257.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Matthaeus Pipelare" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q289914> .
+
+<63.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "95.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/249>,
         <https://db.simssa.ca/files/250>,
@@ -2270,23 +2255,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "62.0" .
-
-<64.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Gentil galans de fransa ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "66.0",
+    schema:source_instantiation_portion "62.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"L'autre ior je cavacioye \"]" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "65.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "14957872.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Loyset Compère" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q975576> .
+
+<64.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "96.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/253>,
         <https://db.simssa.ca/files/254>,
@@ -2300,24 +2286,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "63.0" .
-
-<65.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "[\"Je suis amie d'un forier \"]" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "67.0",
+    schema:source_instantiation_portion "63.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Gentil galans de fransa ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "66.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "14957872.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Loyset Compère" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<65.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "97.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/257>,
         <https://db.simssa.ca/files/258>,
@@ -2331,24 +2316,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "64.0" .
-
-<66.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Alons fere nos barbes ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "68.0",
+    schema:source_instantiation_portion "64.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "[\"Je suis amie d'un forier \"]" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "67.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "14957872.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Loyset Compère" ;
-    ns1:P2701 "midi",
+    ns2:P214 "14957872.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Loyset Compère" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q975576> .
+
+<66.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "98.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/261>,
         <https://db.simssa.ca/files/262>,
@@ -2362,24 +2347,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "65.0" .
-
-<67.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Voles ouir une sanson de chyons ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "69.0",
+    schema:source_instantiation_portion "65.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Alons fere nos barbes ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "68.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "14957872.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Loyset Compère" ;
-    ns1:P2701 "midi",
+    ns2:P214 "14957872.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Loyset Compère" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q975576> .
+
+<67.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "99.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/265>,
         <https://db.simssa.ca/files/266>,
@@ -2393,28 +2378,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "66.0" .
-
-<68.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Plus nullez regretez ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "70.0",
+    schema:source_instantiation_portion "66.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Voles ouir une sanson de chyons ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "69.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0",
-        "97996712.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Jean Lemaire de Belges",
-        "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "14957872.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Loyset Compère" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1386187>,
-        <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q975576> .
+
+<68.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "100.0",
         "101.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/269>,
@@ -2430,23 +2411,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "67.0" .
-
-<69.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Ille etet ung bon homme ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "71.0",
+    schema:source_instantiation_portion "67.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Plus nullez regretez ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "70.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0",
+        "97996712.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Jean Lemaire de Belges",
+        "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1386187>,
+        <https://www.wikidata.org/wiki/Q143100> .
+
+<69.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "102.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/273>,
         <https://db.simssa.ca/files/274>,
@@ -2460,28 +2446,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "68.0" .
-
-<7.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Donna benché di rado et con riguardo']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "9.0",
+    schema:source_instantiation_portion "68.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Ille etet ung bon homme ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "71.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<7.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "13.0",
         "14.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/25>,
@@ -2497,24 +2478,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "7.0" .
-
-<70.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Une playsant fìlette ']" ;
-    ns1:P136 "Chanson" ;
-    ns1:P1896 "72.0",
+    schema:source_instantiation_portion "7.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Donna benché di rado et con riguardo']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "9.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "14957872.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Loyset Compère" ;
-    ns1:P2701 "midi",
+    ns2:P214 "39382430.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> .
+
+<70.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "103.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/277>,
         <https://db.simssa.ca/files/278>,
@@ -2528,23 +2513,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "69.0" .
-
-<71.0> a ns2:Q2188189 ;
-    ns1: "['ludica me Deus ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "73.0",
+    schema:source_instantiation_portion "69.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Une playsant fìlette ']" ;
+    ns2:P136 "Chanson" ;
+    ns2:P1896 "72.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "45811079.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Andreas De Silva" ;
-    ns1:P2701 "midi",
+    ns2:P214 "14957872.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Loyset Compère" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4755693> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q975576> .
+
+<71.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "104.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/281>,
         <https://db.simssa.ca/files/282>,
@@ -2558,24 +2544,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "70.0" .
-
-<72.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Prophetarum maxime ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "74.0",
+    schema:source_instantiation_portion "70.0" ;
+    ns2: "['ludica me Deus ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "73.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "34643473.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Heinrich Isaac" ;
-    ns1:P2701 "midi",
+    ns2:P214 "45811079.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Andreas De Silva" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q316668> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4755693> .
+
+<72.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "105.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/285>,
         <https://db.simssa.ca/files/286>,
@@ -2589,24 +2574,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "71.0" .
-
-<73.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Paratum cor meum Deus ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "75.0",
+    schema:source_instantiation_portion "71.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Prophetarum maxime ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "74.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "34643473.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Heinrich Isaac" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q316668> .
+
+<73.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "106.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/289>,
         <https://db.simssa.ca/files/290>,
@@ -2620,23 +2605,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "72.0" .
-
-<74.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Spem in alium numquam habui ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "76.0",
+    schema:source_instantiation_portion "72.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Paratum cor meum Deus ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "75.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Anonymous " ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
+
+<74.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "107.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/293>,
         <https://db.simssa.ca/files/294>,
@@ -2650,24 +2636,23 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "73.0" .
-
-<75.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Regem confessorum dominum venite ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "77.0",
+    schema:source_instantiation_portion "73.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Spem in alium numquam habui ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "76.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100249517.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Jean Mouton" ;
-    ns1:P2701 "midi",
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Anonymous " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1660965> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q4233718> .
+
+<75.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "108.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/297>,
         <https://db.simssa.ca/files/298>,
@@ -2681,24 +2666,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "74.0" .
-
-<76.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Bona vita bona refectio ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "78.0",
+    schema:source_instantiation_portion "74.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Regem confessorum dominum venite ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "77.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100249517.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Jean Mouton" ;
-    ns1:P2701 "midi",
+    ns2:P214 "100249517.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Jean Mouton" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1660965> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1660965> .
+
+<76.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "109.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/301>,
         <https://db.simssa.ca/files/302>,
@@ -2712,24 +2697,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "75.0" .
-
-<77.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Alma redemptoris mater (C., B.) / Ave regina coelorum (Α., T.)']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "79.0",
+    schema:source_instantiation_portion "75.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Bona vita bona refectio ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "78.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "100249517.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Jean Mouton" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1660965> .
+
+<77.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "110.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/305>,
         <https://db.simssa.ca/files/306>,
@@ -2743,24 +2728,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "76.0" .
-
-<78.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Ave Maria gratia plena … virgo serena']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "80.0",
+    schema:source_instantiation_portion "76.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Alma redemptoris mater (C., B.) / Ave regina coelorum (Α., T.)']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "79.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
+
+<78.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "111.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/309>,
         <https://db.simssa.ca/files/310>,
@@ -2774,24 +2759,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "77.0" .
-
-<79.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Miserere mei Deus ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "81.0",
+    schema:source_instantiation_portion "77.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Ave Maria gratia plena … virgo serena']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "80.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "56799307.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Carpentras " ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1150781> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
+
+<79.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "112.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/313>,
         <https://db.simssa.ca/files/314>,
@@ -2805,28 +2790,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "78.0" .
-
-<8.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Amore amor quando io speravo']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "10.0",
+    schema:source_instantiation_portion "78.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Miserere mei Deus ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "81.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "2714432.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Lorenzo Strozzi" ;
-    ns1:P2701 "midi",
+    ns2:P214 "56799307.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Carpentras " ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1150781> .
+
+<8.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "15.0",
         "16.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/29>,
@@ -2842,24 +2823,28 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "8.0" .
-
-<80.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missus est angelus Gabriel ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "82.0",
+    schema:source_instantiation_portion "8.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Amore amor quando io speravo']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "10.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "2714432.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Lorenzo Strozzi" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q2920493>,
+        <https://www.wikidata.org/wiki/Q61131269> .
+
+<80.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "113.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/317>,
         <https://db.simssa.ca/files/318>,
@@ -2873,24 +2858,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "79.0" .
-
-<81.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Felix namque es sacra Virgo Maria ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "83.0",
+    schema:source_instantiation_portion "79.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missus est angelus Gabriel ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "82.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100249517.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Jean Mouton" ;
-    ns1:P2701 "midi",
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1660965> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
+
+<81.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "114.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/321>,
         <https://db.simssa.ca/files/322>,
@@ -2904,24 +2889,24 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "80.0" .
-
-<82.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Ο bone et dulcis domine Yhesus ']" ;
-    ns1:P136 "Motet" ;
-    ns1:P1896 "84.0",
+    schema:source_instantiation_portion "80.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Felix namque es sacra Virgo Maria ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "83.0",
         "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "100226284.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "des Prez Josquin" ;
-    ns1:P2701 "midi",
+    ns2:P214 "100249517.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Jean Mouton" ;
+    ns2:P2701 "midi",
         "pdf",
         "sibelius",
         "xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1660965> .
+
+<82.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "115.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/325>,
         <https://db.simssa.ca/files/326>,
@@ -2935,53 +2920,53 @@
         <https://www.wikidata.org/wiki/Q36834>,
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692> ;
-    schema:source_instantiation_portion "81.0" .
+    schema:source_instantiation_portion "81.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Ο bone et dulcis domine Yhesus ']" ;
+    ns2:P136 "Motet" ;
+    ns2:P1896 "84.0",
+        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
+    ns2:P214 "100226284.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "des Prez Josquin" ;
+    ns2:P2701 "midi",
+        "pdf",
+        "sibelius",
+        "xml" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q143100> .
 
-<83.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De feria']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<83.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "116.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De feria']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<84.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Pascale']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<84.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "117.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Pascale']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<85.0> a ns2:Q2188189,
-        ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Sine nomine I']" ;
-    ns1:P136 "Mass" ;
-    ns1:P1896 "Josquin Research Project" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P2701 ".krn",
-        ".mid",
-        ".pdf",
-        ".sib",
-        ".xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<85.0> a ns1:Q2188189,
+        ns1:Q31464082 ;
     <https://db.simssa.ca/contributions/> "118.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/329>,
         <https://db.simssa.ca/files/330>,
@@ -3713,25 +3698,25 @@
         "96.0",
         "97.0",
         "98.0",
-        "99.0" .
-
-<86.0> a ns2:Q2188189,
-        ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa O salutaris hostia']" ;
-    ns1:P136 "Mass" ;
-    ns1:P1896 "La Rue Opera omnia vol. 2" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P2701 ".krn",
+        "99.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Sine nomine I']" ;
+    ns2:P136 "Mass" ;
+    ns2:P1896 "Josquin Research Project" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P2701 ".krn",
         ".mid",
         ".pdf",
         ".sib",
         ".xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
+
+<86.0> a ns1:Q2188189,
+        ns1:Q31464082 ;
     <https://db.simssa.ca/contributions/> "119.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/333>,
         <https://db.simssa.ca/files/369>,
@@ -3761,25 +3746,25 @@
         "5.0",
         "61.0",
         "70.0",
-        "89.0" .
-
-<87.0> a ns2:Q2188189,
-        ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De sancta Anna']" ;
-    ns1:P136 "Mass" ;
-    ns1:P1896 "La Rue Opera omnia vol. 3" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P2701 ".krn",
+        "89.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa O salutaris hostia']" ;
+    ns2:P136 "Mass" ;
+    ns2:P1896 "La Rue Opera omnia vol. 2" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P2701 ".krn",
         ".mid",
         ".pdf",
         ".sib",
         ".xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
+
+<87.0> a ns1:Q2188189,
+        ns1:Q31464082 ;
     <https://db.simssa.ca/contributions/> "120.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/342>,
         <https://db.simssa.ca/files/347>,
@@ -3809,25 +3794,25 @@
         "242.0",
         "27.0",
         "75.0",
-        "79.0" .
-
-<88.0> a ns2:Q2188189,
-        ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De sancto Antonio']" ;
-    ns1:P136 "Mass" ;
-    ns1:P1896 "La Rue Opera omnia vol. 4" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P2701 ".krn",
+        "79.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De sancta Anna']" ;
+    ns2:P136 "Mass" ;
+    ns2:P1896 "La Rue Opera omnia vol. 3" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P2701 ".krn",
         ".mid",
         ".pdf",
         ".sib",
         ".xml" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
+
+<88.0> a ns1:Q2188189,
+        ns1:Q31464082 ;
     <https://db.simssa.ca/contributions/> "121.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/355>,
         <https://db.simssa.ca/files/414>,
@@ -3847,42 +3832,38 @@
         "122.0",
         "185.0",
         "213.0",
-        "36.0" .
+        "36.0" ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De sancto Antonio']" ;
+    ns2:P136 "Mass" ;
+    ns2:P1896 "La Rue Opera omnia vol. 4" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P2701 ".krn",
+        ".mid",
+        ".pdf",
+        ".sib",
+        ".xml" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<89.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De virginibus']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<89.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "122.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De virginibus']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<9.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
-    ns1: "['Amor se vuoi ch’i torni al giogho anticho']" ;
-    ns1:P136 "Madrigal" ;
-    ns1:P1896 "11.0",
-        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
-    ns1:P214 "39382430.0",
-        "76504834.0" ;
-    ns1:P2308 "sym" ;
-    ns1:P2561 "Bernardo Pisano",
-        "Francesco Petrarca" ;
-    ns1:P2701 "midi",
-        "pdf",
-        "sibelius",
-        "xml" ;
-    ns1:P3831 "AUTHOR",
-        "COMPOSER" ;
-    ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+<9.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "17.0",
         "18.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/33>,
@@ -3898,145 +3879,164 @@
         <https://www.wikidata.org/wiki/Q42332>,
         <https://www.wikidata.org/wiki/Q4692>,
         <https://www.wikidata.org/wiki/Q482980> ;
-    schema:source_instantiation_portion "9.0" .
+    schema:source_instantiation_portion "9.0" ;
+    ns1:Q9174 "False" ;
+    ns2: "['Amor se vuoi ch’i torni al giogho anticho']" ;
+    ns2:P136 "Madrigal" ;
+    ns2:P1896 "11.0",
+        "Florence, Italy, Biblioteca Nazionale Centrale, MS Magliabechi XIX.164-167" ;
+    ns2:P214 "39382430.0",
+        "76504834.0" ;
+    ns2:P2308 "sym" ;
+    ns2:P2561 "Bernardo Pisano",
+        "Francesco Petrarca" ;
+    ns2:P2701 "midi",
+        "pdf",
+        "sibelius",
+        "xml" ;
+    ns2:P3831 "AUTHOR",
+        "COMPOSER" ;
+    ns2:P3865 "DIGITAL" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q1401>,
+        <https://www.wikidata.org/wiki/Q2920493> .
 
-<90.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa O gloriosa domina']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<90.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "123.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa O gloriosa domina']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<91.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Tandernaken']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<91.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "124.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Tandernaken']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<92.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Sub tuum presidium']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<92.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "125.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Sub tuum presidium']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<93.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De sancto Job']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<93.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "126.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De sancto Job']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<94.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Ave sanctissima Maria']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<94.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "127.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Ave sanctissima Maria']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<95.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Incessament']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<95.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "128.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Incessament']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<96.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa De septem doloribus']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<96.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "129.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa De septem doloribus']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<97.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Assumpta es Maria']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<97.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "130.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Assumpta es Maria']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<98.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Inviolata']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<98.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "131.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Inviolata']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
-<99.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
-    ns1: "['Missa Sancta dei genitrix']" ;
-    ns1:P136 "Mass" ;
-    ns1:P214 "265244429.0" ;
-    ns1:P2561 "Pierre La Rue" ;
-    ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+<99.0> a ns1:Q2188189 ;
     <https://db.simssa.ca/contributions/> "132.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
     schema:identifier <https://www.wikidata.org/wiki/Q217295>,
         <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+        <https://www.wikidata.org/wiki/Q4692> ;
+    ns1:Q9174 "True" ;
+    ns2: "['Missa Sancta dei genitrix']" ;
+    ns2:P136 "Mass" ;
+    ns2:P214 "265244429.0" ;
+    ns2:P2561 "Pierre La Rue" ;
+    ns2:P3831 "COMPOSER" ;
+    ns2:P767 <https://www.wikidata.org/wiki/Q370540> .
 
