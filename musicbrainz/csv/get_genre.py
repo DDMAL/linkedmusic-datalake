@@ -29,4 +29,4 @@ df = df[["id", "name", "disambiguation"]]
 df["id"] = "https://musicbrainz.org/genre/" + df["id"].astype(str)
 df.rename(columns={"id":"genre_id"})
 
-df.to_csv("data/genre.csv", index=False)
+df.to_csv("../data/genre.csv", index=False)
