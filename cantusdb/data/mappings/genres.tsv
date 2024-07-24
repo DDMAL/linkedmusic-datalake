@@ -1,0 +1,63 @@
+Genre	Description	Mass / Office
+A	Antiphon	Office
+AV	Antiphon verse	Office
+Ag	Agnus dei	Mass
+Al	Alleluia	Mass
+AlV	Alleluia verse	Mass
+BD	Benedicamus domino	Mass, Office
+BDTp	Benedicamus Domino trope	Mass/Office
+Ca	Canticle	Mass, Office
+CaV	Canticle verse	Mass, Office
+Cap	Capitulum	Office
+Cm	Communion	Mass
+CmR	Versus ad repetendum for the communion	Mass
+CmV	Communion verse	Mass
+Cn	Cantio	Mass, Office
+CnV	Cantio Verse	Mass, Office
+Co	Collect	Mass
+Cr	Credo	Mass
+D	Dramatic element	Mass, Office
+Gl	Gloria	Mass
+Gr	Gradual	Mass
+GrV	Gradual verse	Mass
+H	Hymn	Office
+HV	Hymn verse	Office
+I	Invitatory antiphon	Office
+IP	Invitatory psalm	Office
+Ig	Ingressa	Office
+In	Introit	Mass
+InR	Versus ad repetendum for the introit	Mass
+InV	Introit verse	Mass
+Ite	Ite missa est	Mass
+Ky	Kyrie	Mass
+L	Lesson	Mass
+Li	Litany	Office
+LiV	Litany verse	Mass, Office
+Of	Offertory	Mass
+OfV	Offertory verse	Mass
+Or	Oratio / Prayer	Mass, Office
+PRCS	Preces	Old Hispanic
+PRCSV	Verse for the Preces	Old Hispanic
+PS	Psalm	Office
+Pc	Postcommunion	Mass
+Pn	Pater noster	Mass, Office
+Pr	Prefatio	Mass
+Psa	Prosa	None
+Psl	Prosula	Mass, Office
+R	Responsory	Office
+Sa	Sanctus	Mass
+Sec	Oratio secreta	Mass
+Sq	Sequence	Mass
+SqV	Sequence verse	Mass
+Tc	Tract	Mass
+TcV	Tract verse	Mass
+Tp	Tropus	Mass, Office
+V	Responsory verse	Office
+Va	Varia	Mass, Office
+VaHW	Varia within Holy Week	Mass, Office
+W	Versicle	Office
+[?]	Unknown, ambiguous, unidentifiable, illegible	Mass, Office
+[GV]	Verse for a Mass chant	Mass
+[G]	Mass chant	Mass
+[MO]	Mass Ordinary	Mass
+[M]	"Miscellaneous"	Mass, Office
