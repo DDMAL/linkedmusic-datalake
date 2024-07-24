@@ -1,63 +1,63 @@
-Genre	Description	Mass / Office
-A	Antiphon	Office
-AV	Antiphon verse	Office
-Ag	Agnus dei	Mass
-Al	Alleluia	Mass
-AlV	Alleluia verse	Mass
-BD	Benedicamus domino	Mass, Office
-BDTp	Benedicamus Domino trope	Mass/Office
-Ca	Canticle	Mass, Office
-CaV	Canticle verse	Mass, Office
-Cap	Capitulum	Office
-Cm	Communion	Mass
-CmR	Versus ad repetendum for the communion	Mass
-CmV	Communion verse	Mass
-Cn	Cantio	Mass, Office
-CnV	Cantio Verse	Mass, Office
-Co	Collect	Mass
-Cr	Credo	Mass
-D	Dramatic element	Mass, Office
-Gl	Gloria	Mass
-Gr	Gradual	Mass
-GrV	Gradual verse	Mass
-H	Hymn	Office
-HV	Hymn verse	Office
-I	Invitatory antiphon	Office
-IP	Invitatory psalm	Office
-Ig	Ingressa	Office
-In	Introit	Mass
-InR	Versus ad repetendum for the introit	Mass
-InV	Introit verse	Mass
-Ite	Ite missa est	Mass
-Ky	Kyrie	Mass
-L	Lesson	Mass
-Li	Litany	Office
-LiV	Litany verse	Mass, Office
-Of	Offertory	Mass
-OfV	Offertory verse	Mass
-Or	Oratio / Prayer	Mass, Office
-PRCS	Preces	Old Hispanic
-PRCSV	Verse for the Preces	Old Hispanic
-PS	Psalm	Office
-Pc	Postcommunion	Mass
-Pn	Pater noster	Mass, Office
-Pr	Prefatio	Mass
-Psa	Prosa	None
-Psl	Prosula	Mass, Office
-R	Responsory	Office
-Sa	Sanctus	Mass
-Sec	Oratio secreta	Mass
-Sq	Sequence	Mass
-SqV	Sequence verse	Mass
-Tc	Tract	Mass
-TcV	Tract verse	Mass
-Tp	Tropus	Mass, Office
-V	Responsory verse	Office
-Va	Varia	Mass, Office
-VaHW	Varia within Holy Week	Mass, Office
-W	Versicle	Office
-[?]	Unknown, ambiguous, unidentifiable, illegible	Mass, Office
-[GV]	Verse for a Mass chant	Mass
-[G]	Mass chant	Mass
-[MO]	Mass Ordinary	Mass
-[M]	"Miscellaneous"	Mass, Office
+Genre	Description
+A	Antiphon
+AV	Antiphon verse
+Ag	Agnus dei
+Al	Alleluia
+AlV	Alleluia verse
+BD	Benedicamus domino
+BDTp	Benedicamus Domino trope
+Ca	Canticle
+CaV	Canticle verse
+Cap	Capitulum
+Cm	Communion
+CmR	Versus ad repetendum for the communion
+CmV	Communion verse
+Cn	Cantio
+CnV	Cantio Verse
+Co	Collect
+Cr	Credo
+D	Dramatic element
+Gl	Gloria
+Gr	Gradual
+GrV	Gradual verse
+H	Hymn
+HV	Hymn verse
+I	Invitatory antiphon
+IP	Invitatory psalm
+Ig	Ingressa
+In	Introit
+InR	Versus ad repetendum for the introit
+InV	Introit verse
+Ite	Ite missa est
+Ky	Kyrie
+L	Lesson
+Li	Litany
+LiV	Litany verse
+Of	Offertory
+OfV	Offertory verse
+Or	Oratio / Prayer
+PRCS	Preces
+PRCSV	Verse for the Preces
+PS	Psalm
+Pc	Postcommunion
+Pn	Pater noster
+Pr	Prefatio
+Psa	Prosa
+Psl	Prosula
+R	Responsory
+Sa	Sanctus
+Sec	Oratio secreta
+Sq	Sequence
+SqV	Sequence verse
+Tc	Tract
+TcV	Tract verse
+Tp	Tropus
+V	Responsory verse
+Va	Varia
+VaHW	Varia within Holy Week
+W	Versicle
+[?]	Unknown, ambiguous, unidentifiable, illegible
+[GV]	Verse for a Mass chant
+[G]	Mass chant
+[MO]	Mass Ordinary
+[M]	Miscellaneous
