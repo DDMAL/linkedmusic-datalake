@@ -18,14 +18,13 @@ max_records = dict(requests.get(url=URL, params=PARAMS, timeout=500).json())[
 for i in range(0, max_records, 50):
     PARAMS["offset"] = i
     resp = requests.get(url=URL, params=PARAMS, timeout=500)
+    if resp.status_code == 503:
+        time.sleep(1)
+        resp = requests.get(url=URL, params=PARAMS, timeout=500)
+
     temp = resp.json()
+    data += dict(temp)["genres"]
 
-    try:
-        data += dict(temp)["genres"]
-    except KeyError:
-        print(dict(temp))
-
-    time.sleep(0.1)
 
 df = pd.DataFrame(data)
 df = df[["id", "name", "disambiguation"]]
