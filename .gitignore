@@ -4,3 +4,4 @@ psqldump
 .DS_Store
 Csv2rdf/out_rdf.ttl
 .history/*
+cantusdb/data/*
