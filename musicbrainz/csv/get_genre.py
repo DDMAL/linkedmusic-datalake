@@ -10,13 +10,14 @@ from bs4 import BeautifulSoup
 
 URL = "https://musicbrainz.org/ws/2/genre/all"
 PARAMS = dict(fmt="json", limit="50")
+MAX_REQUEST_RETRIES = 3
 
 data = []
 max_records = requests.get(url=URL, params=PARAMS, timeout=500).json()["genre-count"]
 
 for i in range(0, max_records, 50):
     PARAMS["offset"] = i
-    for j in range(0, 3):
+    for j in range(MAX_REQUEST_RETRIES):
         try:
             resp = requests.get(url=URL, params=PARAMS, timeout=500)
             resp.raise_for_status()
