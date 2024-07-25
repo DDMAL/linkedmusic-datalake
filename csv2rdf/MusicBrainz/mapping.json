@@ -18,7 +18,7 @@
         "http://www.wikidata.org/entity/Q15975575"
     ],
     "event_id": "http://www.wikidata.org/prop/direct/P6423",
-    "cancelled": "http://www.wikidata.org/entity/Q30108381",
+    "cancelled": "https://musicbrainz.org/doc/Event#cancelled",
     "time": "http://www.wikidata.org/prop/direct/P585",
     "setlist": "http://www.wikidata.org/prop/direct/P9793",
     "instrument_id": "http://www.wikidata.org/prop/direct/P1330",
