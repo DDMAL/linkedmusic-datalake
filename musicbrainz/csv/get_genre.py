@@ -56,7 +56,7 @@ for rec in df["genre_id"]:
         wikidata_value = wikidata_row.find_next_sibling("td").find("a").text
         relations_wiki.append("http://www.wikidata.org/entity/" + wikidata_value)
     else:
-        relations_wiki.append()
+        relations_wiki.append("")
 df["relations_wiki"] = relations_wiki
 
 df.to_csv("../data/genre.csv", index=False)
