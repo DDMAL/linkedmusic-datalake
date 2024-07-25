@@ -29,6 +29,7 @@ for filename in os.listdir(INPUT_PATH):
     if filename.endswith(".csv"):
         # Read the CSV file into a DataFrame
         df = pd.read_csv(file_path)
+        df["source_id"] = "https://cantusdatabase.org/sources/" + str(filename.split(".")[0])
 
         # Append the DataFrame to the list
         dfs.append(df)
@@ -39,6 +40,7 @@ merged_df["genre"] = merged_df["genre"].map(genre_mappings)
 merged_df["office"] = merged_df["office"].map(service_mappings)
 merged_df["node_id"] = "https://cantusdatabase.org/chant/" + merged_df["node_id"].astype(str)
 merged_df["cantus_id"] = "https://cantusindex.org/id/" + merged_df["cantus_id"].astype(str)
+merged_df.insert(0, "source_id", merged_df.pop("source_id"))
 merged_df.insert(0, "chant_id", merged_df.pop("node_id"))
 
 merged_df.to_csv(OUTPUT_PATH, index=False)
