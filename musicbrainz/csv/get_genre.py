@@ -26,6 +26,8 @@ for i in range(0, max_records, 50):
             code = exc.response.status_code
 
             if code == 503:
+                if j == 2:
+                    raise
                 time.sleep(j)
                 continue
 
