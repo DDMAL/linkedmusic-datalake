@@ -48,7 +48,6 @@ relations_wiki = []
 for rec in df["genre_id"]:
     resp_wiki = requests.get(rec, timeout=500)
 
-
     soup = BeautifulSoup(resp_wiki.text, "html.parser")
     wikidata_row = soup.find("th", string="Wikidata:")
     wikidata_value = ""
@@ -57,6 +56,8 @@ for rec in df["genre_id"]:
         relations_wiki.append("http://www.wikidata.org/entity/" + wikidata_value)
     else:
         relations_wiki.append("")
+
+    time.sleep(0.1)
 df["relations_wiki"] = relations_wiki
 
 df.to_csv("../data/genre.csv", index=False)
