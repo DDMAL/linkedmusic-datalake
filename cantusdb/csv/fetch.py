@@ -16,8 +16,8 @@ with open(SOURCE_PATH, mode="r", encoding="utf-8") as f:
 
 # Send a GET request to the URL
 for src in SOURCE_LIST:
-    src_url = "https://cantusdatabase.org/source/" + str(src) + "/csv"
-    response = requests.get(src_url,  timeout=500)
+    SRC_URL = "https://cantusdatabase.org/source/" + str(src) + "/csv"
+    response = requests.get(SRC_URL,  timeout=500)
 
     # Check if the request was successful
     if response.status_code == 200:
