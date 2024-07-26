@@ -6,20 +6,17 @@
 >   3.  Export and process after
 
 ##  1. How to Get Data Dumps
-(Todo)
+
+In data/mappings folder, there is a sources.json file which contains a list of source ids in Cantus DB. In csv/ folder, the fetch.py makes API calls to Cantus DB and fetchs all the source CSV into the raw/ folder. Then the merge.py merges all the CSVs into one large cantus.csv that contains all the sources.
 
 ##  2. Reconciliation with OpenRefine
-### Organizing the IDs
-For column "cantus_id":
-1.  In the arrow beside column names, choose "Edit cells" > "Transform"
-2.  Copy and paste the following code to the box:
-```python
-if value is not None: return "https://cantusindex.org/id/" + value
-else: return None
-```
-3.  Delete the chant_id column by "Edit column" > "Remove this column"
-4.  Move the absolute_url to be beginning by "Edit column" > "Move column to beginning"
+
 ### Reconciliation
+
+1.  Reconcile the "office" column against "Prayer in the Catholic Church" instance Q3406098.
+2.  Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
+3.  Reset the best candidate's score facet, choose none in the judgement facet. Create new item for all of them.
+4.  Create new item for all of them.
 5.  Reconcile the "genre" column against "music genre" instance Q188451.
 6.  Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
 7.  Reset the best candidate's score facet, choose none in the judgement facet, create new item for all of them.
@@ -31,8 +28,9 @@ else: return None
 
 ##  3. Export and process after
 
+# DEPRECATED
+
 ##  2. Reconcile column names and generating json-ld 
-### DEPRECATED
 Currently the json-ld is generated as follow:
 In `jsonld/generate_jsonld.py`
 - Load the reconciled csv as a dataframe in pandas and convert them to json documents (each corresponds to an entry/line in the csv)
