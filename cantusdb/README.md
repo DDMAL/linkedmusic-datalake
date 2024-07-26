@@ -1,7 +1,7 @@
 #   CantusDB CSV
 
 > Summarize:   
->   1.  Get the data dumps for Cantus DB. (Todo)
+>   1.  Get the data dumps for Cantus DB.
 >   2.  Reconcile the flattened csv dump
 >   3.  Export and process after
 
