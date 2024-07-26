@@ -1,4 +1,4 @@
-#   CantusDB flattening and json-ld structures
+#   CantusDB CSV
 
 > Summarize:   
 >   1.  Get the data dumps for Cantus DB. (Todo)
