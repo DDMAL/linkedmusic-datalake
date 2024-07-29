@@ -3,10 +3,8 @@ This script does not take any commandline arguments. It parses all the .JSON fil
 ../data folder into a single CSV file named output.csv.
 """
 
-import os
 import json
 import glob
-from fnmatch import fnmatch
 import pandas as pd
 
 # Load JSON data from a file
