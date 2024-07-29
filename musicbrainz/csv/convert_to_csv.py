@@ -28,7 +28,7 @@ if len(sys.argv) != 3:
 
 entity_type = sys.argv[2]
 inputpath = os.path.join(DIRNAME, sys.argv[1])
-outputpath = os.path.join(DIRNAME, "data", f"{entity_type}.csv")
+outputpath = os.path.join(DIRNAME, "output", f"{entity_type}.csv")
 
 header = [f"{entity_type}_id"]
 values = []
@@ -52,7 +52,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
     if key != "":
         first_level = False
 
-    if "aliases" in key or "tags" in key:
+    if "aliases" in key or "tags" in key or "sort-name" in key:
         # ignore aliases and tags to make output simplier
         return
 
@@ -101,9 +101,9 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         key + "_id",
                     )
 
-                if k == "name":
-                    # extract its name
-                    extract(data["name"], value, first_level, key + "_name")
+                # if k == "name":
+                # TODO: determine if it's necessary to extract the name
+                #     extract(data["name"], value, first_level, key + "_name")
 
                 if isinstance(data[k], dict) or isinstance(data[k], list):
                     # if there is still a nested instance, extract further
