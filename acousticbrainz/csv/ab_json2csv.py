@@ -45,6 +45,14 @@ df_merged = df_merged[
 columns_to_drop = []
 columns_with_lists = []
 
+# The floats are the percentages for the genre features extraction.
+# Those data are too overwhelming and makes my inspection much more difficult.
+# Sometimes python sees an ID as a float, so I want to keep those.
+# If we normalize the higher level dictionaries, they makes the chart very large,
+# and if we not normalize the higher level dictionaries,
+# they will be left as dictionaries in the CSV, so not good as well.
+# Therefore I decide to drop any dictionaries after level 2.
+
 for column in df_merged.columns:
     if (
         df_merged[column].apply(lambda x: isinstance(x, dict)).any()
@@ -65,7 +73,7 @@ for column in df_merged.columns:
         df_merged[column] = [
             (
                 "https://musicbrainz.org/" + keyword + "/" + str(l)
-                if str(l) != 'nan'
+                if str(l) != "nan"
                 else ""
             )
             for l in df_merged[column]
