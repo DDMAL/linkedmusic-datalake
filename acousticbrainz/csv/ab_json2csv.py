@@ -31,6 +31,7 @@ for json_file in glob.glob(f"{JSON_FILES_PATH}/**/{PATTERN}", recursive=True):
 
 # Convert to CSV
 df_merged = pd.concat(df_list)
+# Reording columns
 df_merged = df_merged[
     ["metadata.tags.musicbrainz_recordingid"]
     + [
