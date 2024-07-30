@@ -101,9 +101,8 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         key + "_id",
                     )
 
-                # if k == "name":
-                # TODO: determine if it's necessary to extract the name
-                #     extract(data["name"], value, first_level, key + "_name")
+                if k == "name":
+                    extract(data["name"], value, first_level, key + "_name")
 
                 if isinstance(data[k], dict) or isinstance(data[k], list):
                     # if there is still a nested instance, extract further
