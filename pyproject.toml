@@ -10,6 +10,7 @@ package-mode = false
 python = "^3.12"
 rdflib = "^7.0.0"
 validators = "^0.33.0"
+pandas = "^2.2.2"
 
 
 [build-system]
