@@ -11,19 +11,27 @@ import csv
 import json
 import sys
 import os
+import glob
 
-filenames = sys.argv[1:]
-OUTPUT_NAME = "mapping.json"
-dt = {}
-dt["entity_type"] = []
+FILEPATH = sys.argv[1]
+OUTPUT_NAME = os.path.join(FILEPATH, "mapping.json")
+PATTERN = "*.csv"
 
-for filename in filenames:
-    with open(os.path.abspath(filename), "r", encoding='utf-8') as csv_file:
+try:
+    with open(OUTPUT_NAME, "r", encoding="utf-8") as mapping:
+        dt = json.load(mapping)
+except FileNotFoundError:
+    dt = {}
+    dt["entity_type"] = []
+
+for filename in glob.glob(f"{FILEPATH}/{PATTERN}", recursive=False):
+    with open(os.path.abspath(filename), "r", encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file)
         header = next(csv_reader)
 
     for item in header:
-        dt[item] = ""
+        if item not in dt.keys():
+            dt[item] = ""
 
-with open(OUTPUT_NAME, "w", encoding='utf-8') as out_json:
+with open(OUTPUT_NAME, "w", encoding="utf-8") as out_json:
     json.dump(dt, out_json, indent=4)
