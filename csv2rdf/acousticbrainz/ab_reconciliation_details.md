@@ -13,6 +13,22 @@ Since there is no properties in Wikidata and Schema.org, I choose the official d
 Build_sha and Git_sha are made-up URIs. It uses the same URI as essentia and gaia followed by a fragment identifier.
 The probability for all features are also made-up URIs. It uses the same URI as the feature followed by a ".probability".
 
+## made-up URIs:
+
+metadata.tags.engineer
+metadata.tags.mixer
+metadata.tags.compilation
+metadata.tags.notes
+metadata.tags.ensemble
+metadata.tags.replaygain_reference_loudness
+metadata.tags.acoustid_id
+metadata.tags.mp3gain_album_minmax
+metadata.tags.mp3gain_minmax
+metadata.tags.replaygain_album_gain
+metadata.tags.replaygain_album_peak
+metadata.tags.replaygain_track_gain
+metadata.tags.replaygain_track_peak
+
 #   Instances:
 For testing, the gender and genres are reconciled against Wikidata.
 Albums, artists, etc are reconciled against their MusicBrainz links since they already have MBIDs.
