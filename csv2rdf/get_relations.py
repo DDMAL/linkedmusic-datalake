@@ -5,9 +5,12 @@ It reads a mapping.json file and all .csv files in that folder.
 For each CSV file provided as input, the script performs the following steps:
 
 1.  Read folder: If a mapping file already exists, 
-then the script reads that file and append any additional predicates.
+then the script reads that file and saves any predicate mappings that exist in that file.
 2.  Extract Headers: The script extracts the headers from each CSV file.
-3.  Write to JSON: The script writes these headers to a JSON file,
+3.  Write to JSON: If a column header extracted from a CSV file was mapped
+in the existing mapping file, keep the existing mapping. If we find a header that
+did not exist in the existing mapping file, create a key for that header with a blank
+predicate value.  The script writes the resulting mapping to a JSON file,
 which will serve as the mapping file for the csv2rdf_single_subject.py script.
 """
 
