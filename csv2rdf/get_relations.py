@@ -1,10 +1,10 @@
 """
-This script takes as many as input parameters as needed.
-All the parameters will be the CSV files that need to be converted 
-and merged into one single RDF file.
-For all the CSV files, this script extracts their headers and write them
-to a JSON file, which is used as the mapping file for the 
-csv2rdf_single_subject.py script.
+This script accepts an arbitrary number of input parameters, each representing a CSV file that needs to be converted. All converted files will be merged into a single RDF file.
+
+For each CSV file provided as input, the script performs the following steps:
+
+1. Extract Headers: The script extracts the headers from each CSV file.
+2. Write to JSON: The script writes these headers to a JSON file, which will serve as the mapping file for the csv2rdf_single_subject.py script.
 """
 
 import csv
