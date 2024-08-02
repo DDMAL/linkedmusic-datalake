@@ -13,7 +13,7 @@ Since there is no properties in Wikidata and Schema.org, I choose the official d
 Build_sha and Git_sha are made-up URIs. It uses the same URI as essentia and gaia followed by a fragment identifier.
 The probability for all features are also made-up URIs. It uses the same URI as the feature followed by a ".probability".
 
-## made-up URIs:
+##  Made-up URIs:
 
 metadata.tags.engineer
 metadata.tags.mixer
@@ -28,6 +28,40 @@ metadata.tags.replaygain_album_gain
 metadata.tags.replaygain_album_peak
 metadata.tags.replaygain_track_gain
 metadata.tags.replaygain_track_peak
+metadata.tags.ripping tool
+metadata.tags.retail date
+metadata.tags.supplier
+metadata.tags.wcop
+metadata.tags.woaf
+metadata.tags.www
+metadata.tags.custom1
+all that contains map3 gain, replay gain
+metadata.tags.djmixer
+metadata.tags.trash
+metadata.tags.acoustid_fingerprint
+metadata.tags.gracenotefileid
+metadata.tags.gracenoteextdata
+metadata.tags.remixer
+metadata.tags.eaclog
+metadata.tags.accurateripcountalloffsets
+metadata.tags.accurateripcrc
+metadata.tags.accurateripcount
+metadata.tags.accurateripid
+metadata.tags.accurateriptotal
+
+##  Not accurate URIs:
+
+metadata.tags.rip date
+metadata.tags.white label: schema.org > MusicRelease, sell under multiple brands/labels
+metadata.tags.contentgroup: wikidata > member of, the content is a member of
+all album artist: wikidata > performer, since there's no album artist in wikidata and schema.org, so we use "artist", which is performer in wkd.
+all artist credit: wikidata > performer, since there's no artist credit in wikidata and schema.org, so we use performer with the same reason.
+[metadata.tags.artistwebpage,
+metadata.tags.paymentwebpage,
+metadata.tags.publisherwebpage,
+metadata.tags.radiostationwebpage]: schema.org > WebPage, no specification for artist's webpage.
+metadata.tags.jamendo-track-id: wikidata > Jamendo album ID, no track ID in wikidata. We use the Jamendo album ID.
+
 
 #   Instances:
 For testing, the gender and genres are reconciled against Wikidata.
