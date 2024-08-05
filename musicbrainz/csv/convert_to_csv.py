@@ -28,7 +28,7 @@ if len(sys.argv) != 3:
 
 entity_type = sys.argv[2]
 inputpath = os.path.join(DIRNAME, sys.argv[1])
-outputpath = os.path.join(DIRNAME, "output", f"{entity_type}.csv")
+outputpath = os.path.join(DIRNAME, "../data/output", f"{entity_type}.csv")
 
 header = [f"{entity_type}_id"]
 values = []
