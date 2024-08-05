@@ -4,6 +4,7 @@ fetch the test files
 
 import os
 import time
+import glob
 import tarfile
 import requests
 from bs4 import BeautifulSoup
@@ -52,16 +53,18 @@ def fetch_api_call(url):
         time.sleep(0.1)
 
 
-def extract_file(filepath, dest_folder):
+def extract_file(folderpath, dest_folder):
     """
     untar the downloaded files
     """
-    if filepath.endswith(".tar.xz"):
-        with tarfile.open(f"{filepath}/mbdump/", "r:xz") as tar:
-            tar.extractall(path=dest_folder)
-        print(f"Extracted {filepath} to {dest_folder}")
+    for filepath in glob.glob(folderpath, recursive=False):
+        if filepath.endswith(".tar.xz"):
+            with tarfile.open(f"{filepath}/mbdump/", "r:xz") as tar:
+                tar.extractall(path=dest_folder)
+            print(f"Extracted {filepath} to {dest_folder}")
 
 
 DEST_FOLDER = "../data/raw"
 latest_url = get_latest_json_dump_url()
 fetch_api_call(latest_url)
+extract_file(DEST_FOLDER, DEST_FOLDER + "/jsonl")
