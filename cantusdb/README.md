@@ -29,7 +29,11 @@ In data/mappings folder, there is a sources.json file which contains a list of s
 11. For all uncertain modes, create a new item for each.
 12. For the two reconciled columns, add column with URLs of matched entities.
 
-##  3. Export and process after
+##  3. Abbreviation mappings
+
+Some cells in the original CSV export are in abbreviations. Two TSV files in the data/mappings folder contains the official mappings for the abbreviations in Cantus DB. They are used to map the abbreviations in genres column and services colum to their real literals. This process ease reconciliation.
+
+##  4. Export and process after
 
 # DEPRECATED
 
