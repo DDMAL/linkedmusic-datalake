@@ -3,6 +3,7 @@ Merge all raw Cantus CSV into one Dataframe and export to a new CSV
 """
 
 import os
+import glob
 import pandas as pd
 
 INPUT_PATH = os.path.join(os.path.dirname(__file__), "../data/raw")
@@ -21,7 +22,7 @@ genre_mappings = dict(zip(genre_mappings["Genre"], genre_mappings["Description"]
 service_mappings = dict(zip(service_mappings["Service"], service_mappings["Description"]))
 
 # Iterate over all files in the directory
-for filename in os.listdir(INPUT_PATH):
+for filename in glob.glob(INPUT_PATH, recursive=False):
     # Construct the full file path
     file_path = os.path.join(INPUT_PATH, filename)
 
@@ -29,7 +30,8 @@ for filename in os.listdir(INPUT_PATH):
     if filename.endswith(".csv"):
         # Read the CSV file into a DataFrame
         df = pd.read_csv(file_path)
-        df["source_id"] = "https://cantusdatabase.org/sources/" + str(filename.split(".")[0])
+        entity_id = filename.split(".")[0]
+        df["source_id"] = f"https://cantusdatabase.org/sources/{entity_id}"
 
         # Append the DataFrame to the list
         dfs.append(df)
