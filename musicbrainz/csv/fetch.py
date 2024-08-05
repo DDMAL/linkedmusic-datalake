@@ -4,6 +4,7 @@ fetch the test files
 
 import os
 import time
+import tarfile
 import requests
 from bs4 import BeautifulSoup
 
@@ -49,6 +50,17 @@ def fetch_api_call(url):
 
         print(f"downloaded {local_filename}")
         time.sleep(0.1)
+
+
+def extract_file(filepath, dest_folder):
+    """
+    untar the downloaded files
+    """
+    if filepath.endswith(".tar.xz"):
+        with tarfile.open(f"{filepath}/mbdump/", "r:xz") as tar:
+            tar.extractall(path=dest_folder)
+        print(f"Extracted {filepath} to {dest_folder}")
+
 
 DEST_FOLDER = "../data/raw"
 latest_url = get_latest_json_dump_url()
