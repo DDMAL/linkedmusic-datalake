@@ -47,7 +47,7 @@ def fetch_api_call(url):
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
 
-        print(f"downloading {src_url}")
+        print(f"downloaded {local_filename}")
         time.sleep(0.1)
 
 DEST_FOLDER = "../data/raw"
