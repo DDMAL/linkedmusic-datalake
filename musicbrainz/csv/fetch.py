@@ -40,7 +40,7 @@ def fetch_api_call(url):
     for src_url in tar_xz_files:
         response = requests.get(src_url, timeout=500)
 
-        local_filename = os.path.join(DEST_FOLDER, url.split("/")[-2] + ".tar.xz")
+        local_filename = os.path.join(DEST_FOLDER, src_url.split("/")[-1])
         with requests.get(src_url, stream=True, timeout=500) as r:
             r.raise_for_status()
             with open(local_filename, "wb") as f:
