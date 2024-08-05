@@ -7,7 +7,7 @@
 
 ##  1. How to Get Data Dumps
 
-In data/mappings folder, there is a sources.json file which contains a list of source ids in Cantus DB. In csv/ folder, the fetch.py makes API calls to Cantus DB and fetchs all the source CSV into the raw/ folder. Then the merge.py merges all the CSVs into one large cantus.csv that contains all the sources.
+In data/mappings folder, there is a sources.json file which contains a list of source ids in Cantus DB. In csv/ folder, the fetch.py makes API calls to Cantus DB and fetchs all the source CSV into the data/raw/ folder. Then the merge.py merges all the CSVs into one large cantus.csv that contains all the sources.
 
 ##  2. Reconciliation with OpenRefine
 
