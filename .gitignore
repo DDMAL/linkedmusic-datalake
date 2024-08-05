@@ -4,5 +4,6 @@ psqldump
 .DS_Store
 Csv2rdf/out_rdf.ttl
 .history/*
-cantusdb/data/raw/*
-cantusdb/data/deprecated/*
+cantusdb/data/*
+acousticbrainz/data/*
+!acousticbrainz/data/reconciled/*
