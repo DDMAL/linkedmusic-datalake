@@ -22,19 +22,14 @@ genre_mappings = dict(zip(genre_mappings["Genre"], genre_mappings["Description"]
 service_mappings = dict(zip(service_mappings["Service"], service_mappings["Description"]))
 
 # Iterate over all files in the directory
-for filename in glob.glob(INPUT_PATH, recursive=False):
-    # Construct the full file path
-    file_path = os.path.join(INPUT_PATH, filename)
+for filename in glob.glob(f"{INPUT_PATH}/*.csv", recursive=False):
+    # Read the CSV file into a DataFrame
+    df = pd.read_csv(filename)
+    entity_id = (filename.split("/")[-1])[0:6] # get the 6-digit source id
+    df["source_id"] = f"https://cantusdatabase.org/sources/{entity_id}"
 
-    # Check if the file is a CSV file
-    if filename.endswith(".csv"):
-        # Read the CSV file into a DataFrame
-        df = pd.read_csv(file_path)
-        entity_id = filename.split(".")[0]
-        df["source_id"] = f"https://cantusdatabase.org/sources/{entity_id}"
-
-        # Append the DataFrame to the list
-        dfs.append(df)
+    # Append the DataFrame to the list
+    dfs.append(df)
 
 # Concatenate all DataFrames in the list into a single DataFrame
 merged_df = pd.concat(dfs, ignore_index=True)
