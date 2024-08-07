@@ -7,3 +7,4 @@ Csv2rdf/out_rdf.ttl
 cantusdb/data/*
 acousticbrainz/data/*
 !acousticbrainz/data/reconciled/*
+musicbrainz/data/raw/*
