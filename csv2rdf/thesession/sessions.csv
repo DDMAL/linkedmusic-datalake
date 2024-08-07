@@ -1,4 +1,4 @@
-sessions_id,name,address,town,town_wiki,area,area_wiki,country,country_wiki,latitude,date
+sessions_id,name,address,town,town_wiki,area,area_wiki,country,country_wiki,coordinate,date
 https://thesession.org/sessions/3331,A Confirmar,,Belgrano,https://www.wikidata.org/wiki/Q815569,Buenos Aires,https://www.wikidata.org/wiki/Q1486,Argentina,https://www.wikidata.org/wiki/Q414,Point(-34.56250000 -58.45833206),2013-03-06 21:02:44
 https://thesession.org/sessions/6010,Sláinte Irish Pub,Av. San Martín 6066,Buenos Aires,https://www.wikidata.org/wiki/Q1486,Buenos Aires,https://www.wikidata.org/wiki/Q1486,Argentina,https://www.wikidata.org/wiki/Q414,Point(-34.59538269 -58.50145340),2016-06-07 15:57:16
 https://thesession.org/sessions/7426,Parque Saavedra,,La Plata,https://www.wikidata.org/wiki/Q44059,Buenos Aires,https://www.wikidata.org/wiki/Q1486,Argentina,https://www.wikidata.org/wiki/Q414,Point(-34.93153763 -57.94090271),2022-05-03 16:04:43
