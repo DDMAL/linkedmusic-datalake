@@ -26,7 +26,7 @@ for filename in glob.glob(f"{INPUT_PATH}/*.csv", recursive=False):
     # Read the CSV file into a DataFrame
     df = pd.read_csv(filename)
     entity_id = (filename.split("/")[-1])[0:6] # get the 6-digit source id
-    df["source_id"] = f"https://cantusdatabase.org/sources/{entity_id}"
+    df["source_id"] = f"https://cantusdatabase.org/source/{entity_id}"
 
     # Append the DataFrame to the list
     dfs.append(df)
