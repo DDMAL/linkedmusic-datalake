@@ -34,8 +34,8 @@ for i in range(0, max_records, 50):
 
             raise
 
-    temp = resp.json()
-    data += temp["genres"]
+    resp_json_dict = resp.json()
+    data += resp_json_dict["genres"]
     time.sleep(1) # The max server request rate if we don't have an agreement with MusicBrainz is 1 req/sec.
 
 
