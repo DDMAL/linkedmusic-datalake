@@ -36,7 +36,7 @@ for i in range(0, max_records, 50):
 
     temp = resp.json()
     data += temp["genres"]
-    time.sleep(0.02)
+    time.sleep(1) # The max server request rate if we don't have an agreement with MusicBrainz is 1 req/sec.
 
 
 df = pd.DataFrame(data)
