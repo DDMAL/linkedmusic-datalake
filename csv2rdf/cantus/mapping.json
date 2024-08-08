@@ -10,5 +10,29 @@
     "cantus_id": "https://cantusdatabase.org/about/id-numbers",
     "indexing_notes": "https://cantusdatabase.org/description/#IndexingNotes",
     "source_description": "http://schema.org/description",
-    "entity_type": ["https://cantusdatabase.org/chant/"]
+    "entity_type": [
+        "https://cantusdatabase.org/chant/"
+    ],
+    "chant_id": "",
+    "source_id": "",
+    "siglum": "",
+    "marginalia": "",
+    "folio": "",
+    "sequence": "",
+    "feast": "",
+    "office": "",
+    "office_wiki": "",
+    "genre_wiki": "",
+    "position": "",
+    "mode": "",
+    "mode_wiki": "",
+    "differentia": "",
+    "differentiae_database": "",
+    "fulltext_standardized": "",
+    "fulltext_ms": "",
+    "volpiano": "",
+    "image_link": "",
+    "melody_id": "",
+    "addendum": "",
+    "extra": ""
 }
