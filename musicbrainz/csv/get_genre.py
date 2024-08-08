@@ -29,7 +29,7 @@ for i in range(0, max_records, 50):
             if code == 503:
                 if j == 2:
                     raise
-                time.sleep(j)
+                time.sleep(j + 1)
                 continue
 
             raise
