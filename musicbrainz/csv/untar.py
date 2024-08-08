@@ -5,11 +5,11 @@ def extract_file(folderpath, dest_folder):
     """
     untar the downloaded files
     """
-    for filepath in glob.glob(f"{folderpath}/*.csv", recursive=False):
+    for filepath in glob.glob(f"{folderpath}/*.tar.xz", recursive=False):
         with tarfile.open(f"{filepath}", "r:xz") as tar:
             for member in tar.getmembers():
                 if member.name.startswith("mbdump"):
-                    tar.extractall(path=dest_folder)
+                    tar.extract(member, path=dest_folder)
         print(f"Extracted {filepath} to {dest_folder}")
     
 
