@@ -1,5 +1,5 @@
 """
-Script for retrieving the "genre" dumps since they are not available online.
+Script for retrieving the "genre" dumps.
 """
 
 import time
