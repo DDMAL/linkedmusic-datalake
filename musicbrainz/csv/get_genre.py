@@ -13,13 +13,13 @@ PARAMS = dict(fmt="json", limit="50")
 MAX_REQUEST_RETRIES = 3
 
 data = []
-max_records = requests.get(url=URL, params=PARAMS, timeout=500).json()["genre-count"]
+max_records = requests.get(url=URL, params=PARAMS, timeout=50).json()["genre-count"]
 
 for i in range(0, max_records, 50):
     PARAMS["offset"] = i
     for j in range(MAX_REQUEST_RETRIES):
         try:
-            resp = requests.get(url=URL, params=PARAMS, timeout=500)
+            resp = requests.get(url=URL, params=PARAMS, timeout=50)
             resp.raise_for_status()
             break
 
@@ -47,7 +47,7 @@ df.rename(columns={"id": "genre_id"}, inplace=True)
 relations_wiki = []
 
 for rec in df["genre_id"]:
-    resp_wiki = requests.get(rec, timeout=500)
+    resp_wiki = requests.get(rec, timeout=50)
 
     soup = BeautifulSoup(resp_wiki.text, "html.parser")
     wikidata_row = soup.find("th", string="Wikidata:")
