@@ -10,10 +10,14 @@ from bs4 import BeautifulSoup
 
 URL = "https://musicbrainz.org/ws/2/genre/all"
 PARAMS = {"fmt": "json", "limit": "50"}
+HEADERS = {
+    'User-Agent': 'DDMAL-LinkedData-Datalake 1.0',
+    'From': 'yueqiao.zhang@mail.mcgill.ca'  # This is another valid field
+}
 MAX_REQUEST_RETRIES = 3
 
 data = []
-max_records = requests.get(url=URL, params=PARAMS, timeout=50).json()["genre-count"]
+max_records = requests.get(url=URL, headers=HEADERS, params=PARAMS, timeout=50).json()["genre-count"]
 
 for i in range(0, max_records, 50):
     PARAMS["offset"] = str(i)
