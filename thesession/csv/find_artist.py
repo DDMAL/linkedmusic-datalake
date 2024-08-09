@@ -16,10 +16,10 @@ def get_artist_url(page_url, artist_name):
     return None
 
 
-df = pandas.read_csv("reconciled/recordings.csv")
+df = pandas.read_csv("../data/reconciled/recordings.csv")
 
 artist_name = "By "
 
 # Get the URL of the artist
 df["artist_url"] = df["recording_id"].apply(lambda x: get_artist_url(x, artist_name))
-df.to_csv("reconciled/recordings.csv", index=False)
+df.to_csv("../data/reconciled/recordings.csv", index=False)
