@@ -3,6 +3,8 @@ import pandas
 from bs4 import BeautifulSoup
 
 
+artist_dict = {}
+
 def get_artist_url(page_url, artist_name):
     response = requests.get(page_url)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -12,7 +14,9 @@ def get_artist_url(page_url, artist_name):
     if artist_section:
         artist_link = artist_section.find_next("a", href=True)
         if artist_link:
-            return "https://thesession.org/" + artist_link["href"]
+            if artist_name not in artist_dict:
+                artist_dict[artist_name] = "https://thesession.org/" + artist_link["href"]
+            return artist_dict[artist_name]
     return None
 
 
