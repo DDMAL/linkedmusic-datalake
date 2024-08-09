@@ -12,7 +12,7 @@ URL = "https://musicbrainz.org/ws/2/genre/all"
 PARAMS = {"fmt": "json", "limit": "50"}
 HEADERS = {
     "User-Agent": "DDMAL-LinkedData-Datalake 1.0",
-    "From": "yueqiao.zhang@mail.mcgill.ca",  # This is another valid field
+    "From": "yueqiao.zhang@mail.mcgill.ca",
 }
 MAX_REQUEST_RETRIES = 3
 
