@@ -9,7 +9,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 URL = "https://musicbrainz.org/ws/2/genre/all"
-PARAMS = {"fmt"="json", "limit"="50"}
+PARAMS = {"fmt": "json", "limit": "50"}
 MAX_REQUEST_RETRIES = 3
 
 data = []
