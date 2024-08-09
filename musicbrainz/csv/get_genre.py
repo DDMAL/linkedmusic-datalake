@@ -16,7 +16,7 @@ data = []
 max_records = requests.get(url=URL, params=PARAMS, timeout=50).json()["genre-count"]
 
 for i in range(0, max_records, 50):
-    PARAMS["offset"] = i
+    PARAMS["offset"] = str(i)
     for j in range(MAX_REQUEST_RETRIES):
         try:
             resp = requests.get(url=URL, params=PARAMS, timeout=50)
