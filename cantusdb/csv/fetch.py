@@ -7,6 +7,11 @@ import os
 import time
 import requests
 
+# Retrieve the newest sources list
+resp = requests.get("https://cantusdatabase.org/json-sources/", timeout=50)
+with open("../data/mappings/sources.json", "w", encoding="utf-8") as sources_json:
+    sources_json.write((resp.json()).keys())
+
 # Read the sources to download
 SOURCE_PATH = os.path.join(
     os.path.dirname(__file__), "../data/mappings/sources_short.json"
