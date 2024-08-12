@@ -28,13 +28,13 @@ if len(sys.argv) != 3:
 
 entity_type = sys.argv[2]
 inputpath = os.path.join(DIRNAME, sys.argv[1])
-outputpath = os.path.join(DIRNAME, "data", f"{entity_type}.csv")
+outputpath = os.path.join(DIRNAME, "../data/output", f"{entity_type}.csv")
 
 header = [f"{entity_type}_id"]
 values = []
 
 # the file must be from MusicBrainz's JSON data dumps.
-with open(inputpath, "r") as f:
+with open(inputpath, "r", encoding="utf-8") as f:
     json_data = [json.loads(m) for m in f]
 
 
@@ -52,8 +52,8 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
     if key != "":
         first_level = False
 
-    if "aliases" in key or "tags" in key:
-        # ignore aliases and tags to make output simplier
+    if "aliases" in key or "tags" in key or "sort-name" in key:
+        # ignore aliases, tags, and sort-name to make output simplier
         return
 
     if isinstance(data, dict):
@@ -61,16 +61,15 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         # a list of dictionaries.
         if first_level:
             # if this dictionary is not nested i.e. first level, then we extract every entry.
-            global values
             # make a new entry for the value list, since each first level dictionary
             # in JSON file represents a new instance. This value dictionary is carried and
             # preserved between each recursive call.
             value = {}
             for k in data:
                 if k == "id":
-                    id = data[k]
+                    key_id = data[k]
                     extract(
-                        f"https://musicbrainz.org/{entity_type}/{id}",
+                        f"https://musicbrainz.org/{entity_type}/{key_id}",
                         value,
                         first_level,
                         f"{entity_type}_id",
@@ -90,21 +89,33 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                     # extract its id
                     keywords = key.split("_")
                     word = keywords[-1]
-                    id = data["id"]
+                    # if the header is an ID, since 'genre' in the JSON has a trailing 's',
+                    # but 'genres' is not a valid keyword in the URL link.
+                    if word.endswith("s"):
+                        word = word[:-1]
+                    key_id = data["id"]
                     extract(
-                        f"https://musicbrainz.org/{word}/{id}",
+                        f"https://musicbrainz.org/{word}/{key_id}",
                         value,
                         first_level,
                         key + "_id",
                     )
 
                 if k == "name":
-                    # extract its name
                     extract(data["name"], value, first_level, key + "_name")
 
                 if isinstance(data[k], dict) or isinstance(data[k], list):
                     # if there is still a nested instance, extract further
-                    extract(data[k], value, first_level, key + "_" + k)
+                    if key.split('_')[-1] not in [
+                        "area",
+                        "artist",
+                        "event",
+                        "instrument",
+                        "label",
+                        "recording",
+                        "genres",
+                    ]:
+                        extract(data[k], value, first_level, key + "_" + k)
 
     elif isinstance(data, list):
         # extract each element of the list.
@@ -120,13 +131,11 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
     else:
         # if data is not a collection, we parse it and add to the current value dictionary.
-        global header
         if key not in header:
             header.append(key)
 
         v = data
         if isinstance(data, str):
-            v = v.replace(",", "\,")
             v = v.replace("\r\n", "")
 
         if data is None:
@@ -154,7 +163,7 @@ def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
         dictionary_list: the list of dictionary that contains all the data
         filename: the destination filename
     """
-    with open(filename, mode="w", newline="") as csv_file:
+    with open(filename, mode="w", newline="", encoding="utf-8") as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(header)
         # Find the maximum length of lists in the dictionary
@@ -172,12 +181,14 @@ def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
 
                     if key in dictionary:
                         if isinstance(dictionary[key], list):
-                            # Append the i-th element of the list, or an empty string if index is out of range
+                            # Append the i-th element of the list,
+                            # or an empty string if index is out of range
                             row.append(
                                 (dictionary[key])[i] if i < len(dictionary[key]) else ""
                             )
                         else:
-                            # Append the single value (for non-list entries, only on the first iteration)
+                            # Append the single value
+                            # (for non-list entries, only on the first iteration)
                             row.append(dictionary[key] if i == 0 else "")
                     else:
                         row.append("")
