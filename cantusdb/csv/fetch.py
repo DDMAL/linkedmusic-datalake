@@ -29,4 +29,4 @@ for source_id in SOURCE_LIST:
     else:
         print(f"Failed to retrieve the file. Status code: {response.status_code}")
 
-    time.sleep(0.1)
+    time.sleep(1)
