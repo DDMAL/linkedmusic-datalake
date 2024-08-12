@@ -34,7 +34,7 @@ except FileNotFoundError:
 for filename in glob.glob(f"{FILEPATH}/{PATTERN}", recursive=False):
     with open(os.path.abspath(filename), "r", encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file)
-        header = next(csv_reader)
+        header = next(csv_reader)[1:]
 
     for item in header:
         if item not in dt.keys():
