@@ -17,12 +17,12 @@ SOURCE_PATH = os.path.join(
     os.path.dirname(__file__), "../data/mappings/sources_short.json"
 )
 with open(SOURCE_PATH, mode="r", encoding="utf-8") as f:
-    SOURCE_LIST = json.load(f)
+    source_list = json.load(f)
 
 # Send a GET request to the URL
-for source_id in SOURCE_LIST:
-    SRC_URL = f"https://cantusdatabase.org/source/{source_id}/csv"
-    response = requests.get(SRC_URL,  timeout=50)
+for source_id in source_list:
+    src_url = f"https://cantusdatabase.org/source/{source_id}/csv"
+    response = requests.get(src_url,  timeout=50)
 
     # Check if the request was successful
     if response.status_code == 200:
