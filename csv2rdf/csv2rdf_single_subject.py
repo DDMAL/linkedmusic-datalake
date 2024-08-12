@@ -40,13 +40,13 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     g = Graph()
 
     ontology_dict = json.load(open(mapping_filename, "r", encoding='utf-8'))
-    ontology_list = ontology_dict.get("entity_type")
+    type_dict = ontology_dict.get("entity_type")
 
-    for i, filename in enumerate(filenames):
+    for filename in filenames:
         # If we use the get_relations.py to generate a mapping file, then
         # the ontology_list is guaranteed to have a value.
         try:
-            ontology_type = ontology_list[i]
+            ontology_type = type_dict[filename]
         except IndexError:
             ontology_type = None
 
