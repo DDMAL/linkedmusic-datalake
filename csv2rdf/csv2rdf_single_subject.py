@@ -46,7 +46,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
         # If we use the get_relations.py to generate a mapping file, then
         # the ontology_list is guaranteed to have a value.
         try:
-            ontology_type = type_dict[filename]
+            ontology_type = type_dict[filename.rsplit("/", -1)[-1]]
         except IndexError:
             ontology_type = None
 
