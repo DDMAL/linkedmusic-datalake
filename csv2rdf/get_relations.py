@@ -32,6 +32,7 @@ except FileNotFoundError:
     dt["entity_type"] = []
     
 dt_out = {}
+dt_out["entity_type"] = dt["entity_type"]
 
 for filename in glob.glob(f"{FILEPATH}/{PATTERN}", recursive=False):
     with open(os.path.abspath(filename), "r", encoding="utf-8") as csv_file:
@@ -42,7 +43,7 @@ for filename in glob.glob(f"{FILEPATH}/{PATTERN}", recursive=False):
         if item not in dt.keys():
             dt_out[item] = ""
         else:
-            dt_out = dt[item]
+            dt_out[item] = dt[item]
 
 with open(OUTPUT_NAME, "w", encoding="utf-8") as out_json:
     json.dump(dt_out, out_json, indent=4)
