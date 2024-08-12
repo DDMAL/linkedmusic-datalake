@@ -1,0 +1,47 @@
+{
+    "entity_type": [# the following 7 types are corresponding sequentially to CSV files as events.csv, recordings.csv, sessions.csv, sets.csv, tunes_deleteAbc.csv, tunes-aliases.csv, tune-popularity.csv.
+        "http://www.wikidata.org/entity/Q1656682", #event
+        "http://www.wikidata.org/entity/Q49017950", #recorded music
+        "https://thesession.org/sessions",
+        "https://www.wikidata.org/wiki/Q1569406", #playlist
+        "http://www.wikidata.org/entity/Q170412", #melody:linear succession of musical tones in the foreground of a work of music
+        "http://www.wikidata.org/entity/Q170412",
+        "http://www.wikidata.org/entity/Q170412"
+    ],
+    "tune_id": "https://thesession.org/tunes",
+    "alias": "http://www.wikidata.org/prop/direct/P742", #It's "pseudonym" that is "alias used by someone". But I am not sure can this be used following an tune which is not a person.
+    "name": "http://www.wikidata.org/prop/direct/P2561", #name
+    "event": "http://www.wikidata.org/prop/direct/P2561", #It's just the name of an event.
+    "dtstart": "http://www.wikidata.org/prop/direct/P580", 
+    "dtend": "http://www.wikidata.org/prop/direct/P582",
+    "venue": "http://www.wikidata.org/prop/direct/P276", #location
+    "address": "http://www.wikidata.org/prop/direct/P6375", #street address
+    "town": "http://www.wikidata.org/prop/direct/P131", #located in the administrative territorial entity
+    "area": "http://www.wikidata.org/prop/direct/P276", #location
+    "area_wiki": "http://www.wikidata.org/prop/direct/P276",
+    "country": "http://www.wikidata.org/prop/direct/P17", #country
+    "country_wiki": "http://www.wikidata.org/prop/direct/P17",
+    "coordinate": "http://www.wikidata.org/prop/direct/P625", #coordinate location
+    "recording_id": "https://thesession.org/recordings", #Not sure if this is appropriate. Because "https://thesession.org/" pattern is more of describing a class instead of a property.
+    "artist": "https://musicbrainz.org/doc/Recording#Artist", #Ich once recommended to use "performer P175" of Wikidata. But we cannot guarantee all the property values are performers, because what if there are some composers who don't perform... So we decided to reuse metadata from musicbrainz. Using <https://musicbrainz.org/doc/Recording#Artist> is more rigorous. 
+    "recording": "http://www.wikidata.org/prop/direct/P2561", #name of the recording
+    "recording_wiki": "http://www.wikidata.org/prop/direct/P2888", #exact match
+    "track": "http://www.wikidata.org/prop/direct/P658", #tracklist
+    "number": "http://www.wikidata.org/prop/direct/P1114", #quantity
+    "tune": "http://www.wikidata.org/prop/direct/P1625", #has melody: this work has the melody of the following work
+    "sessions_id": "https://thesession.org/sessions", # Warning: We use the <https://thesession.org/sessions> as both a class and a property, though it's not invalid.
+    "town_wiki": "http://www.wikidata.org/prop/direct/P131", #located in the administrative territorial entity
+    "date": "http://www.wikidata.org/prop/direct/P585", #point in time. It's appropriate becasue the property values are like: 3/6/2013 9:02:44 PM, 6/7/2016 3:57:16 PM...
+    "tuneset_id": "https://thesession.org/tuneset_id",
+    "username": "http://www.wikidata.org/prop/direct/P554", #website username or ID
+    "setting_id": "https://thesession.org/setting_id",
+    "type": "http://www.wikidata.org/prop/direct/P136", #just genre
+    "type_wiki": "http://www.wikidata.org/prop/direct/P136", #just genre
+    "meter": "http://www.wikidata.org/prop/direct/P3440", #time signature: specification of beats in a musical bar or measure
+    "meter_wiki": "http://www.wikidata.org/prop/direct/P3440", 
+    "mode": "http://www.wikidata.org/prop/direct/P826", #tonality. Though not quite accurate.
+    "mode_wiki": "http://www.wikidata.org/prop/direct/P826",
+    "tunebooks": "https://thesession.org/tunebooks", # We made this arbitrarily.
+    "tune_type": "http://www.wikidata.org/prop/direct/P136",
+    "abc": "http://www.wikidata.org/prop/direct/P3030" #sheet music: media file containing the musical score (sheet music) for this item
+}
