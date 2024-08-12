@@ -39,7 +39,9 @@ https://cantusdatabase.org/extra
 
 ##  3. Abbreviation mappings
 
-Some cells in the original CSV export are in abbreviations. Two TSV files in the data/mappings folder contains the official mappings for the abbreviations in Cantus DB. They are used to map the abbreviations in genres column and services colum to their real literals. This process ease reconciliation.
+Some cells in the original CSV export are in abbreviations. Two TSV files in the data/mappings folder contains the official mappings for the abbreviations in Cantus DB. They are used to map the abbreviations in genres column and services colum to their real literals. This process ease reconciliation. 
+genres.tsv: "https://cantusdatabase.org/genres/", since the Mass/office column have no importance here, it's removed.
+services.tsv: "https://cantusdatabase.org/offices/"
 
 ##  4. Export and process after
 
