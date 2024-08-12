@@ -10,5 +10,5 @@
     "cantus_id": "https://cantusdatabase.org/about/id-numbers",
     "indexing_notes": "https://cantusdatabase.org/description/#IndexingNotes",
     "source_description": "http://schema.org/description",
-    "entity_type": ["https://cantusdatabase.org/chant/"]
+    "entity_type": {"reconciled_cantus.csv": "https://cantusdatabase.org/chant/"}
 }
