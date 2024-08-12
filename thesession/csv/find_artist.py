@@ -20,7 +20,7 @@ def get_artist_url(page_url, artist_name):
     return None
 
 
-df = pandas.read_csv("../data/reconciled/recordings.csv")
+df = pandas.read_csv("../data/raw/recordings.csv")
 
 artist_name = "By "
 
