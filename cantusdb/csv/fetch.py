@@ -1,5 +1,5 @@
 """
-fetch the sources CSV exports from Cantus DB 
+fetch the CSV exports from Cantus DB sources data dumps
 """
 
 import json
