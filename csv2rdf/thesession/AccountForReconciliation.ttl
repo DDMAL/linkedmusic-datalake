@@ -3,7 +3,7 @@
         "http://www.wikidata.org/entity/Q1656682", #event
         "http://www.wikidata.org/entity/Q49017950", #recorded music
         "https://thesession.org/sessions",
-        "https://www.wikidata.org/wiki/Q1569406", #playlist
+        "http://www.wikidata.org/entity/Q1569406", #playlist
         "http://www.wikidata.org/entity/Q170412", #melody:linear succession of musical tones in the foreground of a work of music
         "http://www.wikidata.org/entity/Q170412",
         "http://www.wikidata.org/entity/Q170412"
