@@ -8,3 +8,4 @@ cantusdb/data/raw/*.csv
 Cantusdb/data/deprecated/*
 acousticbrainz/data/*
 !acousticbrainz/data/reconciled/*
+musicbrainz/data/raw/*
