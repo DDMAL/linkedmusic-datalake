@@ -1,8 +1,10 @@
 """
 unzip the downloaded .tar.xz files into data/raw/extracted_jsonl
 """
+
 import glob
 import tarfile
+
 
 def extract_file(folderpath, dest_folder):
     """
@@ -14,8 +16,8 @@ def extract_file(folderpath, dest_folder):
                 if member.name.startswith("mbdump"):
                     tar.extract(member, path=dest_folder)
         print(f"Extracted {filepath} to {dest_folder}")
-    
+
 
 DEST_FOLDER = "../data/raw"
-        
+
 extract_file(DEST_FOLDER, DEST_FOLDER + "/extracted_jsonl")
