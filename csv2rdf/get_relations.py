@@ -28,17 +28,20 @@ try:
     with open(OUTPUT_NAME, "r", encoding="utf-8") as mapping:
         dt = json.load(mapping)
 except FileNotFoundError:
-    dt = {}
-    dt["entity_type"] = []
+    dt = {"entity_type" : []}
+    
+dt_out = {"entity_type" : dt["entity_type"]}
 
 for filename in glob.glob(f"{FILEPATH}/{PATTERN}", recursive=False):
     with open(os.path.abspath(filename), "r", encoding="utf-8") as csv_file:
         csv_reader = csv.reader(csv_file)
-        header = next(csv_reader)
+        header = next(csv_reader)[1:]
 
     for item in header:
         if item not in dt.keys():
-            dt[item] = ""
+            dt_out[item] = ""
+        else:
+            dt_out[item] = dt[item]
 
 with open(OUTPUT_NAME, "w", encoding="utf-8") as out_json:
-    json.dump(dt, out_json, indent=4)
+    json.dump(dt_out, out_json, indent=4)

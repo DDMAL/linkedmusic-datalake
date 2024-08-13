@@ -23,16 +23,17 @@ Steps:
     "type-id": "https://musicbrainz.org/doc/Label/Type",
     "genres_name": "https://www.wikidata.org/wiki/Property:P136",
     "genres_id": "https://www.wikidata.org/wiki/Property:P8052",
-    "entity_type": [
-        "https://www.wikidata.org/wiki/Q11500",
-        "https://www.wikidata.org/wiki/Q1656682",
-        "https://www.wikidata.org/wiki/Q34379",
-        "https://www.wikidata.org/wiki/Q18127",
-        "https://www.wikidata.org/wiki/Q155171"
-    ],
+    "entity_type": {
+        "area.csv": "http://www.wikidata.org/entity/Q2221906",
+        "event.csv": "http://www.wikidata.org/entity/Q1656682",
+        "genre.csv": "http://www.wikidata.org/entity/Q188451",
+        "instrument.csv": "http://www.wikidata.org/entity/Q34379",
+        "label.csv": "http://www.wikidata.org/entity/Q18127",
+        "recording.csv": "http://www.wikidata.org/entity/Q15975575"
+    },
     "event_id": "https://www.wikidata.org/wiki/Property:P6423"
 }
-* Object "entity_type" should be a list of types (instances, not properties) with the same order as the order of input files.
+* Object "entity_type" should be a dict of types (instances, not properties) mapped to the filename.
 5. Run csv2rdf_single_subject.py. Example execution:
     python3 csv2rdf_single_subject.py mapping.json area.csv artist.csv genre.csv recording.csv ...
 There can be as many input csv files as needed, and they will be merged into one single out_rdf.ttl file. The "entity_type" should contain the types of entities of these input files respectively.

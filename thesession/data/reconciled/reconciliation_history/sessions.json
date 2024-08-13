@@ -1,0 +1,975 @@
+[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "id",
+    "expression": "jython:return \"https://thesession.org/sessions/\"+value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column id using expression jython:return \"https://thesession.org/sessions/\"+value"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "id",
+    "newColumnName": "sessions_id",
+    "description": "Rename column id to sessions_id"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "country",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q6256",
+        "name": "country"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column country to type Q6256"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "country: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "country",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "country: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "country",
+          "from": 75,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country",
+    "description": "Match each cell to its best recon candidate in column country"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "country: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "country",
+          "from": 56,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country",
+    "similarValue": "Croatia (Hrvatska)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q224",
+      "name": "Croatia",
+      "types": [
+        "Q3624078",
+        "Q179164",
+        "Q51576574",
+        "Q6256"
+      ],
+      "score": 67
+    },
+    "shareNewTopics": false,
+    "description": "Match item Croatia (Q224) for cells containing \"Croatia (Hrvatska)\" in column country"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "country: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "country",
+          "from": 34,
+          "to": 62,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country",
+    "shareNewTopics": false,
+    "description": "Mark to create new items for cells in column country, one item for each cell"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "country",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "country_wiki",
+    "columnInsertIndex": 6,
+    "description": "Create column country_wiki at index 6 based on column country using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q56061",
+        "name": "administrative territorial entity"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column area to type Q56061"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "description": "Match each cell to its best recon candidate in column area"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 50,
+          "to": 100,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q486972",
+        "name": "human settlement"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column area to type Q486972"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "description": "Match each cell to its best recon candidate in column area"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q4835091",
+        "name": "territory"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column area to type Q4835091"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 71,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "description": "Match each cell to its best recon candidate in column area"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 52,
+          "to": 69,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "shareNewTopics": false,
+    "description": "Mark to create new items for cells in column area, one item for each cell"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "area",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "area_wiki",
+    "columnInsertIndex": 5,
+    "description": "Create column area_wiki at index 5 based on column area using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q486972",
+        "name": "human settlement"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column town to type Q486972"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "town: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "town",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q3257686",
+        "name": "locality"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column town to type Q3257686"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "town: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "town",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q3257686",
+        "name": "locality"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column town to type Q3257686"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "town: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "town",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 71,
+          "to": 72,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "country",
+          "expression": "value",
+          "columnName": "country",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "England",
+                "l": "England"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 71,
+          "to": 72,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "country",
+          "expression": "value",
+          "columnName": "country",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Ireland",
+                "l": "Ireland"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 71,
+          "to": 72,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "country",
+          "expression": "value",
+          "columnName": "country",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Northern Ireland",
+                "l": "Northern Ireland"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 71,
+          "to": 72,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "country",
+          "expression": "value",
+          "columnName": "country",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Scotland",
+                "l": "Scotland"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 71,
+          "to": 72,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "country",
+          "expression": "value",
+          "columnName": "country",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Wales",
+                "l": "Wales"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 71,
+          "to": 72,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "town: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "town",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "shareNewTopics": false,
+    "description": "Mark to create new items for cells in column town, one item for each cell"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 72,
+          "to": 99,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "town: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "town",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "similarValue": "Newry",
+    "judgment": "matched",
+    "match": {
+      "id": "Q269980",
+      "name": "Newry",
+      "types": [
+        "Q515"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Newry (Q269980) for cells containing \"Newry\" in column town"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 72,
+          "to": 99,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "town: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "town",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "town",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "town_wiki",
+    "columnInsertIndex": 4,
+    "description": "Create column town_wiki at index 4 based on column town using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  }
+]

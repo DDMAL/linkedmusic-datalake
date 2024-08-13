@@ -18,7 +18,7 @@ import json
 import os
 import validators
 from rdflib import Graph, URIRef, Literal
-from rdflib.namespace import RDF
+from rdflib.namespace import RDF, XSD
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
@@ -40,13 +40,13 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     g = Graph()
 
     ontology_dict = json.load(open(mapping_filename, "r", encoding='utf-8'))
-    ontology_list = ontology_dict.get("entity_type")
+    type_dict = ontology_dict.get("entity_type")
 
-    for i, filename in enumerate(filenames):
+    for filename in filenames:
         # If we use the get_relations.py to generate a mapping file, then
         # the ontology_list is guaranteed to have a value.
         try:
-            ontology_type = ontology_list[i]
+            ontology_type = type_dict[filename.rsplit("/", -1)[-1]]
         except IndexError:
             ontology_type = None
 
@@ -76,7 +76,12 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                     if validators.url(element):
                         obj = URIRef(element)
                     else:
-                        obj = Literal(element)
+                        if element == "True" or element == "False":
+                            obj = Literal(element, datatype=XSD.boolean)
+                        elif element.isnumeric():
+                            obj = Literal(element, datatype=XSD.integer)
+                        else:
+                            obj = Literal(element)
 
                     g.add((key_attribute, predicates[i], obj))
 
