@@ -1,3 +1,6 @@
+"""
+unzip the downloaded .tar.xz files into data/raw/extracted_jsonl
+"""
 import glob
 import tarfile
 
