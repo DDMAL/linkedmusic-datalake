@@ -3,7 +3,7 @@
         "events.csv":"http://www.wikidata.org/entity/Q1656682",
         "recordings.csv":"http://www.wikidata.org/entity/Q49017950",
         "sessions.csv":"https://thesession.org/sessions",
-        "sets.csv":"http://www.wikidata.org/wiki/Q1569406",
+        "sets.csv":"http://www.wikidata.org/entity/Q1569406",
         "tunes_deleteAbc.csv":"http://www.wikidata.org/entity/Q170412",
         "tunes-aliases.csv":"http://www.wikidata.org/entity/Q170412",
         "tunes-popularity.csv":"http://www.wikidata.org/entity/Q170412"
