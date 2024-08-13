@@ -24,6 +24,7 @@
     "coordinate": "http://www.wikidata.org/prop/direct/P625",
     "recording_id": "https://thesession.org/recordings",
     "artist": "https://musicbrainz.org/doc/Recording#Artist",
+    "artist_url": "https://musicbrainz.org/doc/Recording#Artist",
     "recording": "http://www.wikidata.org/prop/direct/P2561",
     "recording_wiki": "http://www.wikidata.org/prop/direct/P2888",
     "track": "http://www.wikidata.org/prop/direct/P658",
