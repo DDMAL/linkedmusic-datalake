@@ -1,7 +1,7 @@
 {
-    "entity_type": [
-        "http://www.wikidata.org/entity/Q23072435"
-    ],
+    "entity_type": {
+        "cantus-csv.csv": "http://www.wikidata.org/entity/Q23072435"
+    },
     "chant_id": "http://www.wikidata.org/prop/direct/P854",
     "source_id": "http://www.wikidata.org/prop/direct/P7482",
     "siglum": "http://www.wikidata.org/prop/direct/P11550",
