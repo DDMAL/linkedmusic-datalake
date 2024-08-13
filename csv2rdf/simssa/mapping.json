@@ -1,8 +1,8 @@
 {
-    "entity_type": [
-        "http://www.wikidata.org/entity/Q2188189",
-        "http://www.wikidata.org/entity/Q31464082"
-    ],
+    "entity_type": {
+        "mw_reconciled_WikiID_URI.csv": "http://www.wikidata.org/entity/Q2188189",
+        "sc_reconciled_WikiID_URI.csv": "http://www.wikidata.org/entity/Q31464082"
+    },
     "musical_work_id": "https://db.simssa.ca/musicalworks/",
     "sacred_or_secular": "http://www.wikidata.org/entity/Q9174",
     "source_id": "http://www.wikidata.org/prop/direct/P1896",
