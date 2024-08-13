@@ -53,7 +53,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         first_level = False
 
     if "aliases" in key or "tags" in key or "sort-name" in key:
-        # ignore aliases and tags to make output simplier
+        # ignore aliases, tags, and sort-name to make output simplier
         return
 
     if isinstance(data, dict):
