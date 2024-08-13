@@ -33,7 +33,7 @@ This mapping.json file will contain all the headers from the input CSV files as 
 ```
 * Object "entity_type" should be a dict of types (instances, not properties) mapped to the filename.
 
-5. Run csv2rdf_single_subject.py. 
+5.  Run csv2rdf_single_subject.py. 
 
 e.g.
 ```python3 csv2rdf_single_subject.py thesession/mapping.json thesession/*.csv```
@@ -42,4 +42,7 @@ e.g.
 
 There can be as many input csv files as needed, and they will be merged into one single `out_rdf.ttl` file inside the target database folder. 
 
-6. This `out_rdf.ttl` file can be imported into Virtuoso.
+6.  This `out_rdf.ttl` file can be imported into Virtuoso.
+
+7.  In (https://virtuoso.staging.simssa.ca)[url], navigate to ```Conductor > Login > Linked Data > Quad Store Upload > Choose File > Create graph explicitly > Rename the "Name Graph IRI*" > Upload```
+Before uploading to a existing graph, if you do not delete the existing graph in ```Linked Data > Graphs > Graphs > Delete the graph```, the upload process will append to the existing graph.
