@@ -9,5 +9,5 @@
 2.  This will match the artists URL to the recordings.csv.
 
 ##  Reconciliation
--   Using OpenRefine, follow the ```thesession/data/reconciled/reconcile_procedures.md```
+-   Using OpenRefine, follow the ```thesession/data/reconciled/reconcile_procedures.md``` manual for reconciliation.
 -   Optionally, use the files in ```reconciliation_history``` folder as import steps in Openrefine.
