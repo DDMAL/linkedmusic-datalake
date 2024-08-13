@@ -1,5 +1,5 @@
 """
-fetch the test files
+fetch the latest test data dump files
 """
 
 import os
