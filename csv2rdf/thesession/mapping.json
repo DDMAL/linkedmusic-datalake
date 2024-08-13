@@ -1,13 +1,13 @@
 {
-    "entity_type": [
-        "http://www.wikidata.org/entity/Q1656682",
-        "http://www.wikidata.org/entity/Q49017950",
-        "https://thesession.org/sessions",
-        "http://www.wikidata.org/wiki/Q1569406",
-        "http://www.wikidata.org/entity/Q170412",
-        "http://www.wikidata.org/entity/Q170412",
-        "http://www.wikidata.org/entity/Q170412"
-    ],
+    "entity_type": {
+        "events.csv":"http://www.wikidata.org/entity/Q1656682",
+        "recordings.csv":"http://www.wikidata.org/entity/Q49017950",
+        "sessions.csv":"https://thesession.org/sessions",
+        "sets.csv":"http://www.wikidata.org/wiki/Q1569406",
+        "tunes_deleteAbc.csv":"http://www.wikidata.org/entity/Q170412",
+        "tunes-aliases.csv":"http://www.wikidata.org/entity/Q170412",
+        "tunes-popularity.csv":"http://www.wikidata.org/entity/Q170412"
+    },
     "tune_id": "https://thesession.org/tunes",
     "alias": "http://www.wikidata.org/prop/direct/P742",
     "name": "http://www.wikidata.org/prop/direct/P2561",
