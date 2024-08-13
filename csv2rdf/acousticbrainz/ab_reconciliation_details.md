@@ -7,11 +7,15 @@ For genre properties, if the cells in that column is all literal objects, then t
 For the wikidata link objects, I have no choice but to use the wikidata property for "genre" (P136). Since the AcousticBrainz genre feature-extracted and is specified in much more details, this causes some loss of meaning in the detail of the genres. 
 The same principle applies to the columns for mood.
 
-## Machine Versions:
+##  Machine Versions:
 
 Since there is no properties in Wikidata and Schema.org, I choose the official download website for the feature extraction machines.
 Build_sha and Git_sha are made-up URIs. It uses the same URI as essentia and gaia followed by a fragment identifier.
 The probability for all features are also made-up URIs. It uses the same URI as the feature followed by a ".probability".
+
+##  Testing Purpose:
+
+An acoustic_brainz_reconciled_short.csv is used for testing with less records but same columns. It contains the first 3000 records of the full CSV.
 
 ##  Made-up URIs:
 
