@@ -47,7 +47,7 @@
 -   For Tune Popularity, move the tune_id to the beginning.
 
 # Events:
--   Transform the id by appending https://thesession.org/events/{id} to the cells.
+-   Transform the column "id" by appending https://thesession.org/events/{id} to the cells.
 -   Rename the id column to events_id
 -   Reconcile the country column against type 'country' Q6256.
 -   Make a reconcile>facet>By judgement facet and a reconcile>facet>Best candidate's score facet if they are not present.
@@ -67,6 +67,8 @@
 -   Move the score facet to 71-101, inspect and match the reconciliation data.
 -   Move the score facet to 0-70, create a new item for each cell.
 -   Add column with URLs of matched entities, name the new column town_wiki.
+-   Reconcile the "venue" column against type Q3469910, "town" column against type Q3957, "event" column against type Q1656682.
+-   Manually reconcile these columns since the rate of accurately reconciled cells are low.
 
 # Sessions:
 -   Transform the id by appending https://thesession.org/sessions/{id} to the cells.
