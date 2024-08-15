@@ -12,7 +12,7 @@
 
 # Sets:
 -   Append the https://thesession.org/members/{id} to the member_id. Join the member_id column with the tuneset column. 
--   Check the Delete joined columns box, the Write result in new column named box and enter 'tuneset_id', and enter '/sets/' in the Separator between the content of each column box.
+-   The Write result in new column named box and enter 'tuneset_id', and enter '/sets/' in the Separator between the content of each column box.
 -   Move the column tuneset_id to position 0.
 -   Transform the tune_id by appending https://thesession.org/tunes/{id} to the cells.
 -   Reconcile the column 'type' against the type "music genre" Q188451.
