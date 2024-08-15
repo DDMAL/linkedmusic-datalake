@@ -4,7 +4,8 @@
     "alias": "http://www.wikidata.org/prop/direct/P742",
     "area": "http://www.wikidata.org/prop/direct/P276",
     "area_wiki": "http://www.wikidata.org/prop/direct/P276",
-    "artist": "http://www.wikidata.org/prop/direct/P50",
+    "artist": "https://musicbrainz.org/doc/Recording#Artist",
+    "artist_url": "https://musicbrainz.org/doc/Recording#Artist",
     "coordinate": "http://www.wikidata.org/prop/direct/P625",
     "country": "http://www.wikidata.org/prop/direct/P17",
     "country_wiki": "http://www.wikidata.org/prop/direct/P17",
@@ -12,13 +13,13 @@
     "dtend": "http://www.wikidata.org/prop/direct/P582",
     "dtstart": "http://www.wikidata.org/prop/direct/P580",
     "entity_type": {
-        "aliases.csv": "http://www.wikidata.org/entity/Q61002",
         "events.csv": "http://www.wikidata.org/entity/Q1656682",
-        "recordings.csv": "http://www.wikidata.org/entity/Q273057",
-        "sessions.csv": "http://www.wikidata.org/entity/Q932410",
-        "sets.csv": "http://www.wikidata.org/entity/Q36161",
-        "tune-popularity.csv": "http://www.wikidata.org/entity/Q1357284",
-        "tunes.csv": "http://www.wikidata.org/entity/Q170412"
+        "recordings.csv": "http://www.wikidata.org/entity/Q49017950",
+        "sessions.csv": "https://thesession.org/sessions",
+        "sets.csv": "http://www.wikidata.org/entity/Q1569406",
+        "tunes-aliases.csv": "http://www.wikidata.org/entity/Q170412",
+        "tunes-popularity.csv": "http://www.wikidata.org/entity/Q170412",
+        "tunes_deleteAbc.csv": "http://www.wikidata.org/entity/Q170412"
     },
     "event": "http://www.wikidata.org/prop/direct/P2561",
     "meter": "http://www.wikidata.org/prop/direct/P3440",
@@ -38,7 +39,7 @@
     "tune_type": "http://www.wikidata.org/prop/direct/P136",
     "tunebooks": "https://thesession.org/tunebooks",
     "type": "http://www.wikidata.org/prop/direct/P136",
-    "type_wiki": "http://www.wikidata.org/prop/direct/P2308",
+    "type_wiki": "http://www.wikidata.org/prop/direct/P136",
     "username": "http://www.wikidata.org/prop/direct/P554",
     "venue": "http://www.wikidata.org/prop/direct/P276"
 }
