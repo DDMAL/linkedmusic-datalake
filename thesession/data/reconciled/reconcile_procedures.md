@@ -1,4 +1,4 @@
-# Recordings:
+#   Recordings:
 -   Append the https://thesession.org/recordings/{id} to the id and https://thesession.org/tunes/{id} to the tune_id to make them complete URIs
 -   Rename the id to recording_id
 -   Reconcile the recording column against the type "album" Q482994
@@ -40,7 +40,6 @@
 -   The meter column should all be matched. We use reconcile>actions>match each cell to its best candidate.
 -   The mode column should have ~73% percent matched. Choose none in the judgement facet, and match them. Then ignore the rest cells that are not present in Wikidata.
 -   Create meter_wiki column and mode_wiki column respectively.
--   *Remove column setting_id and username for experiment's convenience.
 
 # Aliases and Tune Popularity:
 -   Transform the tune_id by appending https://thesession.org/tunes/{id} to the cells.

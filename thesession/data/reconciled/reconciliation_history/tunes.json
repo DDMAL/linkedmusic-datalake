@@ -872,52 +872,162 @@
     "description": "Mark to create one single new item for all cells containing \"B dorian\" in column mode"
   },
   {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q188451",
+        "name": "music genre"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column type to type Q188451"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type",
+    "similarValue": "polka",
+    "judgment": "matched",
+    "match": {
+      "id": "Q153071",
+      "name": "polka",
+      "types": [
+        "Q188451",
+        "Q862597",
+        "Q107357104"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item polka (Q153071) for cells containing \"polka\" in column type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type",
+    "similarValue": "slip jig",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2604326",
+      "name": "slip jig",
+      "types": [
+        "Q188451",
+        "Q107357104"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item slip jig (Q2604326) for cells containing \"slip jig\" in column type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "type: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "type",
+    "similarValue": "barndance",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"barndance\" in column type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "type: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "type",
+    "similarValue": "three-two",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"three-two\" in column type"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "setting_id",
+    "newColumnName": "1",
+    "description": "Rename column setting_id to 1"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "tune_id",
+    "expression": "join ([coalesce(cells['tune_id'].value,''),coalesce(cells['1'].value,'')],'#setting')",
+    "onError": "keep-original",
+    "newColumnName": "setting_id",
+    "columnInsertIndex": 1,
+    "description": "Create column setting_id at index 1 based on column tune_id using expression join ([coalesce(cells['tune_id'].value,''),coalesce(cells['1'].value,'')],'#setting')"
+  },
+  {
     "op": "core/column-removal",
-    "columnName": "setting_id",
-    "description": "Remove column setting_id"
+    "columnName": "1",
+    "description": "Remove column 1"
   },
   {
     "op": "core/column-removal",
-    "columnName": "username",
-    "description": "Remove column username"
-  },
-  {
-    "op": "core/column-addition",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "baseColumnName": "type",
-    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
-    "onError": "set-to-blank",
-    "newColumnName": "tune_type",
-    "columnInsertIndex": 3,
-    "description": "Create column tune_type at index 3 based on column type using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
-  },
-  {
-    "op": "core/column-addition",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "baseColumnName": "meter",
-    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
-    "onError": "set-to-blank",
-    "newColumnName": "meter_wiki",
-    "columnInsertIndex": 5,
-    "description": "Create column meter_wiki at index 5 based on column meter using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
-  },
-  {
-    "op": "core/column-addition",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "baseColumnName": "mode",
-    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
-    "onError": "set-to-blank",
-    "newColumnName": "mode_wiki",
-    "columnInsertIndex": 7,
-    "description": "Create column mode_wiki at index 7 based on column mode using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+    "columnName": "abc",
+    "description": "Remove column abc"
   }
 ]
