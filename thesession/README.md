@@ -55,3 +55,7 @@
 
 -   Contains all the tunes
 -   The core entity is tune_id.
+
+#   Missing Data Dumps
+
+The "Trips", "Discussions", and "Members" entity appears in the search box of The Session DB front end, but it is not in the public data dumps that we can retrieve. They are not public to us.
