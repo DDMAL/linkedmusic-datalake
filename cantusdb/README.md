@@ -10,6 +10,10 @@
 In data/mappings folder, there is a sources.json file which contains a list of source ids in Cantus DB that is automatically updated when running ```fetch.py```. In csv/ folder, the fetch.py makes API calls to Cantus DB and fetchs all the source CSV into the data/raw/ folder. Then the merge.py merges all the CSVs into one large cantus.csv that contains all the sources.
 *   For testing: a sources_short.json is used. It uses the first 10 sources as samples.
 
+```python3 csv/fetch.py``` -> download all sources CSV into data/raw
+```python3 csv/merge.py``` -> merge all sources CSV in data/raw into a ```cantus.csv``` in data/
+The ```cantus.csv``` should be imported into OpenRefine for further operations.
+
 ##  2. Reconciliation with OpenRefine
 
 ### Reconciliation
