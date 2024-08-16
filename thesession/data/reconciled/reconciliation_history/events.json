@@ -1717,5 +1717,31 @@
     "judgment": "new",
     "shareNewTopics": true,
     "description": "Mark to create one single new item for all cells containing \"Baden-Wuerttenburg\" in column area"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "town",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "town_wiki",
+    "columnInsertIndex": 7,
+    "description": "Create column town_wiki at index 7 based on column town using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "venue",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "venue_wiki",
+    "columnInsertIndex": 5,
+    "description": "Create column venue_wiki at index 5 based on column venue using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
   }
 ]

@@ -1029,5 +1029,44 @@
     "op": "core/column-removal",
     "columnName": "abc",
     "description": "Remove column abc"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "type",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "type_wiki",
+    "columnInsertIndex": 4,
+    "description": "Create column type_wiki at index 4 based on column type using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "meter",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "meter_wiki",
+    "columnInsertIndex": 6,
+    "description": "Create column meter_wiki at index 6 based on column meter using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "mode",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "mode_wiki",
+    "columnInsertIndex": 8,
+    "description": "Create column mode_wiki at index 8 based on column mode using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
   }
 ]
