@@ -12,17 +12,9 @@ def get_latest_json_dump_url():
     """
     get the latest repo
     """
-    url = "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/"
-    response = requests.get(url, timeout=50)
-    soup = BeautifulSoup(response.text, "html.parser")
-
-    # Extract all directories
-    dirs = [a.text for a in soup.find_all("a") if a.text.startswith("latest-is-")]
-
-    latest_dir = dirs[-1]
-    latest_dir = latest_dir[10:]
-    resp_url = url + latest_dir + "/"
-    return resp_url
+    url = "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/LATEST"
+    resp = requests.get(url, timeout=50).text.strip()
+    return resp
 
 
 def fetch_api_call(url):
