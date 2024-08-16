@@ -44,6 +44,3 @@
     "username": "http://www.wikidata.org/prop/direct/P554",#website username or ID
     "venue": "http://www.wikidata.org/prop/direct/P276"#[uncertain]location. We may also consider using significant place (P7153)
 }
-
-#other omitted:
-    "sessions_id": "https://thesession.org/sessions", # Warning: We use the <https://thesession.org/sessions> as both a class and a property, though it's not invalid.
