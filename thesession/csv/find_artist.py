@@ -1,13 +1,22 @@
+"""
+for recording artists in The Session DB, since a large portion of them are not present on Wikidata,
+we match them against their artist's page on The Session through API calls.
+"""
+
+import time
 import requests
 import pandas
-import time
 from bs4 import BeautifulSoup
 
 
 artist_dict = {}
 
+
 def get_artist_url(page_url):
-    response = requests.get(page_url)
+    """
+    get the url for the artist using the recording page
+    """
+    response = requests.get(page_url, timeout=50)
     soup = BeautifulSoup(response.content, "html.parser")
 
     time.sleep(1)
@@ -19,6 +28,7 @@ def get_artist_url(page_url):
         if artist_link:
             return "https://thesession.org" + artist_link["href"]
     return None
+
 
 df = pandas.read_csv("../data/reconciled/recordings.csv")
 
