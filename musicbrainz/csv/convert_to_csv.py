@@ -86,7 +86,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
             # after extracting every entry of the current line, append it to the list and empty it.
             values.append(copy.deepcopy(value))
-            value = {}
+            value.clear()
 
         else:
             # if this dictionary is nested, then we do not extract all info,
