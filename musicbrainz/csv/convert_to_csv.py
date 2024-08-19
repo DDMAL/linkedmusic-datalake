@@ -215,3 +215,4 @@ if __name__ == "__main__":
                 writer = csv.writer(csv_file)
                 writer.writerow(header)
         convert_dict_to_csv(values)
+        values.clear()
