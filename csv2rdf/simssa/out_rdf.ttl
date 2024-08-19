@@ -1,10 +1,11 @@
 @prefix ns1: <http://www.wikidata.org/prop/direct/> .
 @prefix ns2: <http://www.wikidata.org/entity/> .
 @prefix schema: <https://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <1.0> a ns2:Q2188189,
         ns2:Q31464082 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Quanto più desiar sento’l mio core']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "3.0",
@@ -20,8 +21,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q4233718 ;
     ns1:P854 <http://www.proms.ac.uk/ms/82/> ;
     <https://db.simssa.ca/contributions/> "1.0",
         "2.0" ;
@@ -30,18 +31,18 @@
         <https://db.simssa.ca/files/3>,
         <https://db.simssa.ca/files/4> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "1.0" .
 
 <10.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Perché donna non vuoi']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "12.0",
@@ -58,8 +59,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q61131269 ;
     <https://db.simssa.ca/contributions/> "19.0",
         "20.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/37>,
@@ -67,158 +68,158 @@
         <https://db.simssa.ca/files/39>,
         <https://db.simssa.ca/files/40> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "10.0" .
 
 <100.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa L’homme armé  I']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "133.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <101.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Ista est speciosa']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "134.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <102.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Pro fidelibus defunctis']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "135.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <103.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Tous les regretz']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "136.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <104.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Conceptio tua']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "137.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <105.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Almana']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "138.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <106.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Nunca fue pena mayor']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "139.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <107.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Gaudeamus']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "140.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <108.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Sine nomine']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "141.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <109.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Pange lingua']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "142.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <11.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Chiare fresche et dolc’acque']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "13.0",
@@ -235,8 +236,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "21.0",
         "22.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/41>,
@@ -244,130 +245,130 @@
         <https://db.simssa.ca/files/43>,
         <https://db.simssa.ca/files/44> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "11.0" .
 
 <110.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De beata virgine']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "143.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <111.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Ave Maris stella']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "144.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <112.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa L’homme armé sexti toni']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "145.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <113.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Malheur me bat']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "146.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <114.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa L’homme armé super voces musicales']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "147.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <115.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Hercules dux Ferrarie']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "148.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <116.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa La sol fa re mi']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "149.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <117.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De tous biens ']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "100226284.0" ;
     ns1:P2561 "Josquin des Prez" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "150.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <12.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Che deggio far che mi consigli Amore? [2, Pisano, F&H]']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "14.0",
@@ -384,8 +385,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "23.0",
         "24.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/45>,
@@ -393,18 +394,18 @@
         <https://db.simssa.ca/files/47>,
         <https://db.simssa.ca/files/48> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "12.0" .
 
 <13.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Giamai non veder gli occhi']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "15.0",
@@ -421,8 +422,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q61131269 ;
     <https://db.simssa.ca/contributions/> "25.0",
         "26.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/49>,
@@ -430,18 +431,18 @@
         <https://db.simssa.ca/files/51>,
         <https://db.simssa.ca/files/52> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "13.0" .
 
 <14.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Chi della fede altrui piglia sospecto']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "16.0",
@@ -457,8 +458,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "27.0",
         "28.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/53>,
@@ -466,18 +467,18 @@
         <https://db.simssa.ca/files/55>,
         <https://db.simssa.ca/files/56> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "14.0" .
 
 <15.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Cosi nel mio parlare voglio essere aspro']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "17.0",
@@ -494,8 +495,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1067>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1067,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "29.0",
         "30.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/57>,
@@ -503,18 +504,18 @@
         <https://db.simssa.ca/files/59>,
         <https://db.simssa.ca/files/60> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "15.0" .
 
 <16.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Tanta pietà cor mio talhor m'assale\"]" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "18.0",
@@ -530,8 +531,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "31.0",
         "32.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/61>,
@@ -539,18 +540,18 @@
         <https://db.simssa.ca/files/63>,
         <https://db.simssa.ca/files/64> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "16.0" .
 
 <17.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Nuova angioletta sovra l'ale accorta\"]" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "19.0",
@@ -567,8 +568,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "33.0",
         "34.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/65>,
@@ -576,18 +577,18 @@
         <https://db.simssa.ca/files/67>,
         <https://db.simssa.ca/files/68> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "17.0" .
 
 <18.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Poich'io parti da cui partir non posso\"]" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "20.0",
@@ -603,8 +604,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "35.0",
         "36.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/69>,
@@ -612,18 +613,18 @@
         <https://db.simssa.ca/files/71>,
         <https://db.simssa.ca/files/72> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "18.0" .
 
 <19.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Hor vedi Amore che giovinetta donna']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "21.0",
@@ -640,8 +641,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "37.0",
         "38.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/73>,
@@ -649,19 +650,19 @@
         <https://db.simssa.ca/files/75>,
         <https://db.simssa.ca/files/76> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "19.0" .
 
 <2.0> a ns2:Q2188189,
         ns2:Q31464082 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Si è debile el filo a cui s’attiene']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "4.0",
@@ -679,8 +680,8 @@
         "COMPOSER" ;
     ns1:P3865 "DIGITAL",
         "PRINT" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     ns1:P854 <https://docs.google.com/spreadsheets/d/1G1CPeHKjLAIXZPJSuwIOOIoq9BiPm7H97ikBEZ9ayNE/edit#gid=588272074> ;
     <https://db.simssa.ca/contributions/> "3.0",
         "4.0" ;
@@ -689,18 +690,18 @@
         <https://db.simssa.ca/files/7>,
         <https://db.simssa.ca/files/8> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "2.0" .
 
 <20.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Amor che mi tormenti']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "22.0",
@@ -716,8 +717,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q4233718,
+        ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "39.0",
         "40.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/77>,
@@ -725,18 +726,18 @@
         <https://db.simssa.ca/files/79>,
         <https://db.simssa.ca/files/80> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "20.0" .
 
 <21.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Quando el suave mio fido conforto']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "23.0",
@@ -753,8 +754,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "41.0",
         "42.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/81>,
@@ -762,18 +763,18 @@
         <https://db.simssa.ca/files/83>,
         <https://db.simssa.ca/files/84> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "21.0" .
 
 <22.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Ben mi credea passar mio tempo homai']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "24.0",
@@ -790,8 +791,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "43.0",
         "44.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/85>,
@@ -799,18 +800,18 @@
         <https://db.simssa.ca/files/87>,
         <https://db.simssa.ca/files/88> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "22.0" .
 
 <23.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Amor se vuoi ch'io torni al giogho anticho\"]" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "25.0",
@@ -827,8 +828,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "45.0",
         "46.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/89>,
@@ -836,18 +837,18 @@
         <https://db.simssa.ca/files/91>,
         <https://db.simssa.ca/files/92> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "23.0" .
 
 <24.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Perch'ai viso d'amor portava insegnia\"]" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "26.0",
@@ -864,8 +865,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "47.0",
         "48.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/93>,
@@ -873,18 +874,18 @@
         <https://db.simssa.ca/files/95>,
         <https://db.simssa.ca/files/96> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "24.0" .
 
 <25.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Ο passi sparsi ο pensier vaghi et pronti']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "27.0",
@@ -901,8 +902,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "49.0",
         "50.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/100>,
@@ -910,18 +911,18 @@
         <https://db.simssa.ca/files/98>,
         <https://db.simssa.ca/files/99> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "25.0" .
 
 <26.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Amor quando fioriva mia speme']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "28.0",
@@ -938,8 +939,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "51.0",
         "52.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/101>,
@@ -947,18 +948,18 @@
         <https://db.simssa.ca/files/103>,
         <https://db.simssa.ca/files/104> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "26.0" .
 
 <27.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Quanta mai leggiadria, quanta beliate']" ;
     ns1:P136 "Frottola" ;
     ns1:P1896 "29.0",
@@ -974,8 +975,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718>,
-        <https://www.wikidata.org/wiki/Q809518> ;
+    ns1:P767 ns2:Q4233718,
+        ns2:Q809518 ;
     <https://db.simssa.ca/contributions/> "53.0",
         "54.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/105>,
@@ -983,18 +984,18 @@
         <https://db.simssa.ca/files/107>,
         <https://db.simssa.ca/files/108> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980>,
-        <https://www.wikidata.org/wiki/Q944800> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980,
+        ns2:Q944800 ;
     schema:source_instantiation_portion "27.0" .
 
 <28.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Fralle infelice vivo più felice']" ;
     ns1:P136 "Frottola" ;
     ns1:P1896 "30.0",
@@ -1007,24 +1008,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "55.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/109>,
         <https://db.simssa.ca/files/110>,
         <https://db.simssa.ca/files/111>,
         <https://db.simssa.ca/files/112> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q944800> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q944800 ;
     schema:source_instantiation_portion "28.0" .
 
 <29.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"S'il dixi mai ch'i vengha in odio a quella\"]" ;
     ns1:P136 "Frottola" ;
     ns1:P1896 "31.0",
@@ -1040,8 +1041,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "56.0",
         "57.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/113>,
@@ -1049,18 +1050,18 @@
         <https://db.simssa.ca/files/115>,
         <https://db.simssa.ca/files/116> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980>,
-        <https://www.wikidata.org/wiki/Q944800> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980,
+        ns2:Q944800 ;
     schema:source_instantiation_portion "29.0" .
 
 <3.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['De perché in odio m’hai']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "5.0",
@@ -1076,8 +1077,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "5.0",
         "6.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/10>,
@@ -1085,18 +1086,18 @@
         <https://db.simssa.ca/files/12>,
         <https://db.simssa.ca/files/9> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "3.0" .
 
 <30.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Quel foco ch'io pensai che fussi spento\"]" ;
     ns1:P136 "Frottola" ;
     ns1:P1896 "32.0",
@@ -1112,8 +1113,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "58.0",
         "59.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/117>,
@@ -1121,18 +1122,18 @@
         <https://db.simssa.ca/files/119>,
         <https://db.simssa.ca/files/120> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980>,
-        <https://www.wikidata.org/wiki/Q944800> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980,
+        ns2:Q944800 ;
     schema:source_instantiation_portion "30.0" .
 
 <31.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"So ben che lei non sa quanto chi l'amo\"]" ;
     ns1:P136 "Villotta" ;
     ns1:P1896 "33.0",
@@ -1146,24 +1147,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3856752> ;
+    ns1:P767 ns2:Q3856752 ;
     <https://db.simssa.ca/contributions/> "60.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/121>,
         <https://db.simssa.ca/files/122>,
         <https://db.simssa.ca/files/123>,
         <https://db.simssa.ca/files/124> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1092924>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1092924,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "31.0" .
 
 <32.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Quando lo pomo vien da lo pomaro']" ;
     ns1:P136 "Villotta" ;
     ns1:P1896 "34.0",
@@ -1177,24 +1178,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q809518> ;
+    ns1:P767 ns2:Q809518 ;
     <https://db.simssa.ca/contributions/> "61.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/125>,
         <https://db.simssa.ca/files/126>,
         <https://db.simssa.ca/files/127>,
         <https://db.simssa.ca/files/128> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1092924>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1092924,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "32.0" .
 
 <33.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Ο Dio che la brunetta mia']" ;
     ns1:P136 "Villotta" ;
     ns1:P1896 "35.0",
@@ -1208,24 +1209,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3856752> ;
+    ns1:P767 ns2:Q3856752 ;
     <https://db.simssa.ca/contributions/> "62.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/129>,
         <https://db.simssa.ca/files/130>,
         <https://db.simssa.ca/files/131>,
         <https://db.simssa.ca/files/132> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1092924>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1092924,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "33.0" .
 
 <34.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Hora è di maggio']" ;
     ns1:P136 "Northern proto-villotta" ;
     ns1:P1896 "36.0",
@@ -1239,24 +1240,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q316668> ;
+    ns1:P767 ns2:Q316668 ;
     <https://db.simssa.ca/contributions/> "63.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/133>,
         <https://db.simssa.ca/files/134>,
         <https://db.simssa.ca/files/135>,
         <https://db.simssa.ca/files/136> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         "Northern proto-villotta" ;
     schema:source_instantiation_portion "34.0" .
 
 <35.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Che fa la ramanzina']" ;
     ns1:P136 "Northern proto-villotta" ;
     ns1:P1896 "37.0",
@@ -1270,24 +1271,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns1:P767 ns2:Q975576 ;
     <https://db.simssa.ca/contributions/> "64.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/137>,
         <https://db.simssa.ca/files/138>,
         <https://db.simssa.ca/files/139>,
         <https://db.simssa.ca/files/140> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         "Northern proto-villotta" ;
     schema:source_instantiation_portion "35.0" .
 
 <36.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Che debbio far che mi consigli Amore? [3, Tromboncino, F&H]']" ;
     ns1:P136 "Frottola" ;
     ns1:P1896 "38.0",
@@ -1304,8 +1305,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q809518> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q809518 ;
     <https://db.simssa.ca/contributions/> "65.0",
         "66.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/141>,
@@ -1313,18 +1314,18 @@
         <https://db.simssa.ca/files/143>,
         <https://db.simssa.ca/files/144> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980>,
-        <https://www.wikidata.org/wiki/Q944800> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980,
+        ns2:Q944800 ;
     schema:source_instantiation_portion "36.0" .
 
 <37.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['La tortorella el semplice uccelletto']" ;
     ns1:P136 "Northern proto-villotta" ;
     ns1:P1896 "39.0",
@@ -1338,24 +1339,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q311629> ;
+    ns1:P767 ns2:Q311629 ;
     <https://db.simssa.ca/contributions/> "67.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/145>,
         <https://db.simssa.ca/files/146>,
         <https://db.simssa.ca/files/147>,
         <https://db.simssa.ca/files/148> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         "Northern proto-villotta" ;
     schema:source_instantiation_portion "37.0" .
 
 <38.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Scaramella fa la guerra']" ;
     ns1:P136 "Northern proto-villotta" ;
     ns1:P1896 "40.0",
@@ -1369,24 +1370,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "68.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/149>,
         <https://db.simssa.ca/files/150>,
         <https://db.simssa.ca/files/151>,
         <https://db.simssa.ca/files/152> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         "Northern proto-villotta" ;
     schema:source_instantiation_portion "38.0" .
 
 <39.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"[Zibaldone] C.: Fortuna disperata; Α.: Vidi la forosetta in un boschetto; T.: Voi m'havete svergognié; B.: Fortuna - mangio biscotti\"]" ;
     ns1:P136 "Zibaldone" ;
     ns1:P1896 "41.0",
@@ -1399,24 +1400,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "69.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/153>,
         <https://db.simssa.ca/files/154>,
         <https://db.simssa.ca/files/155>,
         <https://db.simssa.ca/files/156> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         "Zibaldone" ;
     schema:source_instantiation_portion "39.0" .
 
 <4.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Son io donna qual mostri ogni tuo bene']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "6.0",
@@ -1433,8 +1434,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q61131269 ;
     <https://db.simssa.ca/contributions/> "7.0",
         "8.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/13>,
@@ -1442,18 +1443,18 @@
         <https://db.simssa.ca/files/15>,
         <https://db.simssa.ca/files/16> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "4.0" .
 
 <40.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"J'am pris amours; [Zibaldone] C., Α., T. Musicola B.: Ma buce rit\"]" ;
     ns1:P136 "Zibaldone" ;
     ns1:P1896 "42.0",
@@ -1466,24 +1467,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "70.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/157>,
         <https://db.simssa.ca/files/158>,
         <https://db.simssa.ca/files/159>,
         <https://db.simssa.ca/files/160> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         "Zibaldone" ;
     schema:source_instantiation_portion "40.0" .
 
 <41.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"[Zibaldone] C. : Donna tu pure invecchi Α.: Diventerò zenzaro T.: Ogniun fughi et pigli scampo; B: Dall'armata delle dee\"]" ;
     ns1:P136 "Zibaldone" ;
     ns1:P1896 "43.0",
@@ -1496,24 +1497,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "71.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/161>,
         <https://db.simssa.ca/files/162>,
         <https://db.simssa.ca/files/163>,
         <https://db.simssa.ca/files/164> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         "Zibaldone" ;
     schema:source_instantiation_portion "41.0" .
 
 <42.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Donne venite al ballo [T]']" ;
     ns1:P136 "Villotta" ;
     ns1:P1896 "44.0",
@@ -1527,24 +1528,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3750431> ;
+    ns1:P767 ns2:Q3750431 ;
     <https://db.simssa.ca/contributions/> "72.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/165>,
         <https://db.simssa.ca/files/166>,
         <https://db.simssa.ca/files/167>,
         <https://db.simssa.ca/files/168> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1092924>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1092924,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "42.0" .
 
 <43.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Un cavalier di Spagnia [T]; Cavalcha per la via']" ;
     ns1:P136 "Villotta" ;
     ns1:P1896 "45.0",
@@ -1558,24 +1559,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q3750431> ;
+    ns1:P767 ns2:Q3750431 ;
     <https://db.simssa.ca/contributions/> "73.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/169>,
         <https://db.simssa.ca/files/170>,
         <https://db.simssa.ca/files/171>,
         <https://db.simssa.ca/files/172> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1092924>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1092924,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "43.0" .
 
 <44.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"L'ultimo di di maggio [T]; Un bel mattino\"]" ;
     ns1:P136 "Villotta" ;
     ns1:P1896 "46.0",
@@ -1589,24 +1590,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7442579> ;
+    ns1:P767 ns2:Q7442579 ;
     <https://db.simssa.ca/contributions/> "74.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/173>,
         <https://db.simssa.ca/files/174>,
         <https://db.simssa.ca/files/175>,
         <https://db.simssa.ca/files/176> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1092924>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1092924,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "44.0" .
 
 <45.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Vaghe le montanine pasturelle ']" ;
     ns1:P136 "Villotta" ;
     ns1:P1896 "47.0",
@@ -1622,8 +1623,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1029676>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q1029676,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "75.0",
         "76.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/177>,
@@ -1631,18 +1632,18 @@
         <https://db.simssa.ca/files/179>,
         <https://db.simssa.ca/files/180> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1092924>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1092924,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "45.0" .
 
 <46.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Solingho et vagho augello ']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "48.0",
@@ -1658,8 +1659,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q334188>,
-        <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q334188,
+        ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "77.0",
         "78.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/181>,
@@ -1667,18 +1668,18 @@
         <https://db.simssa.ca/files/183>,
         <https://db.simssa.ca/files/184> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "45.5" .
 
 <47.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Entré je suis en gran pensier ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "49.0",
@@ -1692,24 +1693,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "79.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/185>,
         <https://db.simssa.ca/files/186>,
         <https://db.simssa.ca/files/187>,
         <https://db.simssa.ca/files/188> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "46.0" .
 
 <48.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Tant ravy suis en la bonté ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "50.0",
@@ -1722,24 +1723,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "80.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/189>,
         <https://db.simssa.ca/files/190>,
         <https://db.simssa.ca/files/191>,
         <https://db.simssa.ca/files/192> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "47.0" .
 
 <49.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Amoreuse mi fault estre ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "51.0",
@@ -1752,24 +1753,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "81.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/193>,
         <https://db.simssa.ca/files/194>,
         <https://db.simssa.ca/files/195>,
         <https://db.simssa.ca/files/196> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "48.0" .
 
 <5.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Son io donna (2) qual mostri ogni tuo bene']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "7.0",
@@ -1786,8 +1787,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q61131269 ;
     <https://db.simssa.ca/contributions/> "10.0",
         "9.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/17>,
@@ -1795,18 +1796,18 @@
         <https://db.simssa.ca/files/19>,
         <https://db.simssa.ca/files/20> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "5.0" .
 
 <50.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Jouly mariner passe mon sene ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "52.0",
@@ -1819,24 +1820,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "82.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/197>,
         <https://db.simssa.ca/files/198>,
         <https://db.simssa.ca/files/199>,
         <https://db.simssa.ca/files/200> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "49.0" .
 
 <51.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Notre chambrier sy malad'estet \"]" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "53.0",
@@ -1850,24 +1851,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns1:P767 ns2:Q7039099 ;
     <https://db.simssa.ca/contributions/> "83.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/201>,
         <https://db.simssa.ca/files/202>,
         <https://db.simssa.ca/files/203>,
         <https://db.simssa.ca/files/204> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "50.0" .
 
 <52.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Impotent suis et affollé ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "54.0",
@@ -1881,24 +1882,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q15973951> ;
+    ns1:P767 ns2:Q15973951 ;
     <https://db.simssa.ca/contributions/> "84.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/205>,
         <https://db.simssa.ca/files/206>,
         <https://db.simssa.ca/files/207>,
         <https://db.simssa.ca/files/208> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "51.0" .
 
 <53.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Se j'ay perdu mon amy \"]" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "55.0",
@@ -1912,24 +1913,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "85.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/209>,
         <https://db.simssa.ca/files/210>,
         <https://db.simssa.ca/files/211>,
         <https://db.simssa.ca/files/212> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "52.0" .
 
 <54.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Et la la la la la la ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "56.0",
@@ -1943,24 +1944,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns1:P767 ns2:Q7039099 ;
     <https://db.simssa.ca/contributions/> "86.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/213>,
         <https://db.simssa.ca/files/214>,
         <https://db.simssa.ca/files/215>,
         <https://db.simssa.ca/files/216> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "53.0" .
 
 <55.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"En l'ombre da ung bepin \"]" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "57.0",
@@ -1974,24 +1975,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns1:P767 ns2:Q7039099 ;
     <https://db.simssa.ca/contributions/> "87.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/217>,
         <https://db.simssa.ca/files/218>,
         <https://db.simssa.ca/files/219>,
         <https://db.simssa.ca/files/220> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "54.0" .
 
 <56.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Très dolce filette ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "58.0",
@@ -2004,24 +2005,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "88.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/221>,
         <https://db.simssa.ca/files/222>,
         <https://db.simssa.ca/files/223>,
         <https://db.simssa.ca/files/224> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "55.0" .
 
 <57.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Frapes petit coup ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "59.0",
@@ -2035,24 +2036,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q15973951> ;
+    ns1:P767 ns2:Q15973951 ;
     <https://db.simssa.ca/contributions/> "89.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/225>,
         <https://db.simssa.ca/files/226>,
         <https://db.simssa.ca/files/227>,
         <https://db.simssa.ca/files/228> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "56.0" .
 
 <58.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Jacquet Jacquet ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "60.0",
@@ -2066,24 +2067,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q15973951> ;
+    ns1:P767 ns2:Q15973951 ;
     <https://db.simssa.ca/contributions/> "90.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/229>,
         <https://db.simssa.ca/files/230>,
         <https://db.simssa.ca/files/231>,
         <https://db.simssa.ca/files/232> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "57.0" .
 
 <59.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"N'as tu poynct mys ton hault bounet \"]" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "61.0",
@@ -2097,24 +2098,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q7039099> ;
+    ns1:P767 ns2:Q7039099 ;
     <https://db.simssa.ca/contributions/> "91.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/233>,
         <https://db.simssa.ca/files/234>,
         <https://db.simssa.ca/files/235>,
         <https://db.simssa.ca/files/236> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "58.0" .
 
 <6.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Nella stagion che’l ciel rapido inchina']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "8.0",
@@ -2131,8 +2132,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "11.0",
         "12.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/21>,
@@ -2140,18 +2141,18 @@
         <https://db.simssa.ca/files/23>,
         <https://db.simssa.ca/files/24> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "6.0" .
 
 <60.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Adieu mes amours ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "62.0",
@@ -2164,24 +2165,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "92.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/237>,
         <https://db.simssa.ca/files/238>,
         <https://db.simssa.ca/files/239>,
         <https://db.simssa.ca/files/240> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "59.0" .
 
 <61.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Forseullement l'atente que je meure \"]" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "63.0",
@@ -2194,24 +2195,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "93.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/241>,
         <https://db.simssa.ca/files/242>,
         <https://db.simssa.ca/files/243>,
         <https://db.simssa.ca/files/244> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "60.0" .
 
 <62.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Forseullement l’atante que je meure ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "64.0",
@@ -2225,24 +2226,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q289914> ;
+    ns1:P767 ns2:Q289914 ;
     <https://db.simssa.ca/contributions/> "94.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/245>,
         <https://db.simssa.ca/files/246>,
         <https://db.simssa.ca/files/247>,
         <https://db.simssa.ca/files/248> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "61.0" .
 
 <63.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"L'autre ior je cavacioye \"]" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "65.0",
@@ -2256,24 +2257,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns1:P767 ns2:Q975576 ;
     <https://db.simssa.ca/contributions/> "95.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/249>,
         <https://db.simssa.ca/files/250>,
         <https://db.simssa.ca/files/251>,
         <https://db.simssa.ca/files/252> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "62.0" .
 
 <64.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Gentil galans de fransa ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "66.0",
@@ -2286,24 +2287,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "96.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/253>,
         <https://db.simssa.ca/files/254>,
         <https://db.simssa.ca/files/255>,
         <https://db.simssa.ca/files/256> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "63.0" .
 
 <65.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "[\"Je suis amie d'un forier \"]" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "67.0",
@@ -2317,24 +2318,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns1:P767 ns2:Q975576 ;
     <https://db.simssa.ca/contributions/> "97.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/257>,
         <https://db.simssa.ca/files/258>,
         <https://db.simssa.ca/files/259>,
         <https://db.simssa.ca/files/260> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "64.0" .
 
 <66.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Alons fere nos barbes ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "68.0",
@@ -2348,24 +2349,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns1:P767 ns2:Q975576 ;
     <https://db.simssa.ca/contributions/> "98.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/261>,
         <https://db.simssa.ca/files/262>,
         <https://db.simssa.ca/files/263>,
         <https://db.simssa.ca/files/264> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "65.0" .
 
 <67.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Voles ouir une sanson de chyons ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "69.0",
@@ -2379,24 +2380,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns1:P767 ns2:Q975576 ;
     <https://db.simssa.ca/contributions/> "99.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/265>,
         <https://db.simssa.ca/files/266>,
         <https://db.simssa.ca/files/267>,
         <https://db.simssa.ca/files/268> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "66.0" .
 
 <68.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Plus nullez regretez ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "70.0",
@@ -2413,8 +2414,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1386187>,
-        <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q1386187,
+        ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "100.0",
         "101.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/269>,
@@ -2422,18 +2423,18 @@
         <https://db.simssa.ca/files/271>,
         <https://db.simssa.ca/files/272> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "67.0" .
 
 <69.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Ille etet ung bon homme ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "71.0",
@@ -2446,24 +2447,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "102.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/273>,
         <https://db.simssa.ca/files/274>,
         <https://db.simssa.ca/files/275>,
         <https://db.simssa.ca/files/276> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "68.0" .
 
 <7.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Donna benché di rado et con riguardo']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "9.0",
@@ -2480,8 +2481,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "13.0",
         "14.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/25>,
@@ -2489,18 +2490,18 @@
         <https://db.simssa.ca/files/27>,
         <https://db.simssa.ca/files/28> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "7.0" .
 
 <70.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Une playsant fìlette ']" ;
     ns1:P136 "Chanson" ;
     ns1:P1896 "72.0",
@@ -2514,20 +2515,20 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q975576> ;
+    ns1:P767 ns2:Q975576 ;
     <https://db.simssa.ca/contributions/> "103.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/277>,
         <https://db.simssa.ca/files/278>,
         <https://db.simssa.ca/files/279>,
         <https://db.simssa.ca/files/280> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q1062328>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q1062328,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "69.0" .
 
 <71.0> a ns2:Q2188189 ;
@@ -2544,24 +2545,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4755693> ;
+    ns1:P767 ns2:Q4755693 ;
     <https://db.simssa.ca/contributions/> "104.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/281>,
         <https://db.simssa.ca/files/282>,
         <https://db.simssa.ca/files/283>,
         <https://db.simssa.ca/files/284> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "70.0" .
 
 <72.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Prophetarum maxime ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "74.0",
@@ -2575,24 +2576,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q316668> ;
+    ns1:P767 ns2:Q316668 ;
     <https://db.simssa.ca/contributions/> "105.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/285>,
         <https://db.simssa.ca/files/286>,
         <https://db.simssa.ca/files/287>,
         <https://db.simssa.ca/files/288> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "71.0" .
 
 <73.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Paratum cor meum Deus ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "75.0",
@@ -2606,24 +2607,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "106.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/289>,
         <https://db.simssa.ca/files/290>,
         <https://db.simssa.ca/files/291>,
         <https://db.simssa.ca/files/292> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "72.0" .
 
 <74.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Spem in alium numquam habui ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "76.0",
@@ -2636,24 +2637,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q4233718> ;
+    ns1:P767 ns2:Q4233718 ;
     <https://db.simssa.ca/contributions/> "107.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/293>,
         <https://db.simssa.ca/files/294>,
         <https://db.simssa.ca/files/295>,
         <https://db.simssa.ca/files/296> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "73.0" .
 
 <75.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Regem confessorum dominum venite ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "77.0",
@@ -2667,24 +2668,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1660965> ;
+    ns1:P767 ns2:Q1660965 ;
     <https://db.simssa.ca/contributions/> "108.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/297>,
         <https://db.simssa.ca/files/298>,
         <https://db.simssa.ca/files/299>,
         <https://db.simssa.ca/files/300> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "74.0" .
 
 <76.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Bona vita bona refectio ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "78.0",
@@ -2698,24 +2699,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1660965> ;
+    ns1:P767 ns2:Q1660965 ;
     <https://db.simssa.ca/contributions/> "109.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/301>,
         <https://db.simssa.ca/files/302>,
         <https://db.simssa.ca/files/303>,
         <https://db.simssa.ca/files/304> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "75.0" .
 
 <77.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Alma redemptoris mater (C., B.) / Ave regina coelorum (Α., T.)']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "79.0",
@@ -2729,24 +2730,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "110.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/305>,
         <https://db.simssa.ca/files/306>,
         <https://db.simssa.ca/files/307>,
         <https://db.simssa.ca/files/308> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "76.0" .
 
 <78.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Ave Maria gratia plena … virgo serena']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "80.0",
@@ -2760,24 +2761,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "111.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/309>,
         <https://db.simssa.ca/files/310>,
         <https://db.simssa.ca/files/311>,
         <https://db.simssa.ca/files/312> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "77.0" .
 
 <79.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Miserere mei Deus ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "81.0",
@@ -2791,24 +2792,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1150781> ;
+    ns1:P767 ns2:Q1150781 ;
     <https://db.simssa.ca/contributions/> "112.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/313>,
         <https://db.simssa.ca/files/314>,
         <https://db.simssa.ca/files/315>,
         <https://db.simssa.ca/files/316> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "78.0" .
 
 <8.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Amore amor quando io speravo']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "10.0",
@@ -2825,8 +2826,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q2920493>,
-        <https://www.wikidata.org/wiki/Q61131269> ;
+    ns1:P767 ns2:Q2920493,
+        ns2:Q61131269 ;
     <https://db.simssa.ca/contributions/> "15.0",
         "16.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/29>,
@@ -2834,18 +2835,18 @@
         <https://db.simssa.ca/files/31>,
         <https://db.simssa.ca/files/32> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "8.0" .
 
 <80.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missus est angelus Gabriel ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "82.0",
@@ -2859,24 +2860,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "113.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/317>,
         <https://db.simssa.ca/files/318>,
         <https://db.simssa.ca/files/319>,
         <https://db.simssa.ca/files/320> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "79.0" .
 
 <81.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Felix namque es sacra Virgo Maria ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "83.0",
@@ -2890,24 +2891,24 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1660965> ;
+    ns1:P767 ns2:Q1660965 ;
     <https://db.simssa.ca/contributions/> "114.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/321>,
         <https://db.simssa.ca/files/322>,
         <https://db.simssa.ca/files/323>,
         <https://db.simssa.ca/files/324> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "80.0" .
 
 <82.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Ο bone et dulcis domine Yhesus ']" ;
     ns1:P136 "Motet" ;
     ns1:P1896 "84.0",
@@ -2921,53 +2922,53 @@
         "xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q143100> ;
+    ns1:P767 ns2:Q143100 ;
     <https://db.simssa.ca/contributions/> "115.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/325>,
         <https://db.simssa.ca/files/326>,
         <https://db.simssa.ca/files/327>,
         <https://db.simssa.ca/files/328> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q188285>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q188285,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692 ;
     schema:source_instantiation_portion "81.0" .
 
 <83.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De feria']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "116.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <84.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Pascale']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "117.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <85.0> a ns2:Q2188189,
         ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Sine nomine I']" ;
     ns1:P136 "Mass" ;
     ns1:P1896 "Josquin Research Project" ;
@@ -2981,7 +2982,7 @@
         ".xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "118.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/329>,
         <https://db.simssa.ca/files/330>,
@@ -3345,13 +3346,13 @@
         <https://db.simssa.ca/files/713>,
         <https://db.simssa.ca/files/714> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q217295,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         ".krn" ;
     schema:source_instantiation_portion "1.0",
         "10.0",
@@ -3717,7 +3718,7 @@
 
 <86.0> a ns2:Q2188189,
         ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa O salutaris hostia']" ;
     ns1:P136 "Mass" ;
     ns1:P1896 "La Rue Opera omnia vol. 2" ;
@@ -3731,7 +3732,7 @@
         ".xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "119.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/333>,
         <https://db.simssa.ca/files/369>,
@@ -3744,13 +3745,13 @@
         <https://db.simssa.ca/files/516>,
         <https://db.simssa.ca/files/541> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q217295,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         ".krn" ;
     schema:source_instantiation_portion "124.0",
         "130.0",
@@ -3765,7 +3766,7 @@
 
 <87.0> a ns2:Q2188189,
         ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De sancta Anna']" ;
     ns1:P136 "Mass" ;
     ns1:P1896 "La Rue Opera omnia vol. 3" ;
@@ -3779,7 +3780,7 @@
         ".xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "120.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/342>,
         <https://db.simssa.ca/files/347>,
@@ -3792,13 +3793,13 @@
         <https://db.simssa.ca/files/545>,
         <https://db.simssa.ca/files/546> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q217295,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         ".krn" ;
     schema:source_instantiation_portion "121.0",
         "135.0",
@@ -3813,7 +3814,7 @@
 
 <88.0> a ns2:Q2188189,
         ns2:Q31464082 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De sancto Antonio']" ;
     ns1:P136 "Mass" ;
     ns1:P1896 "La Rue Opera omnia vol. 4" ;
@@ -3827,7 +3828,7 @@
         ".xml" ;
     ns1:P3831 "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "121.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/355>,
         <https://db.simssa.ca/files/414>,
@@ -3835,13 +3836,13 @@
         <https://db.simssa.ca/files/489>,
         <https://db.simssa.ca/files/517> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
+    schema:identifier ns2:Q10610388,
+        ns2:Q2115,
+        ns2:Q217295,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
         ".krn" ;
     schema:source_instantiation_portion "110.0",
         "122.0",
@@ -3850,21 +3851,21 @@
         "36.0" .
 
 <89.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De virginibus']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "122.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <9.0> a ns2:Q2188189 ;
-    ns2:Q9174 "False" ;
+    ns2:Q9174 false ;
     ns1: "['Amor se vuoi ch’i torni al giogho anticho']" ;
     ns1:P136 "Madrigal" ;
     ns1:P1896 "11.0",
@@ -3881,8 +3882,8 @@
     ns1:P3831 "AUTHOR",
         "COMPOSER" ;
     ns1:P3865 "DIGITAL" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q1401>,
-        <https://www.wikidata.org/wiki/Q2920493> ;
+    ns1:P767 ns2:Q1401,
+        ns2:Q2920493 ;
     <https://db.simssa.ca/contributions/> "17.0",
         "18.0" ;
     <https://db.simssa.ca/files/> <https://db.simssa.ca/files/33>,
@@ -3890,153 +3891,153 @@
         <https://db.simssa.ca/files/35>,
         <https://db.simssa.ca/files/36> ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q10610388>,
-        <https://www.wikidata.org/wiki/Q193217>,
-        <https://www.wikidata.org/wiki/Q2115>,
-        <https://www.wikidata.org/wiki/Q27967347>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q42332>,
-        <https://www.wikidata.org/wiki/Q4692>,
-        <https://www.wikidata.org/wiki/Q482980> ;
+    schema:identifier ns2:Q10610388,
+        ns2:Q193217,
+        ns2:Q2115,
+        ns2:Q27967347,
+        ns2:Q36834,
+        ns2:Q42332,
+        ns2:Q4692,
+        ns2:Q482980 ;
     schema:source_instantiation_portion "9.0" .
 
 <90.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa O gloriosa domina']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "123.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <91.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Tandernaken']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "124.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <92.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Sub tuum presidium']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "125.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <93.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De sancto Job']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "126.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <94.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Ave sanctissima Maria']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "127.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <95.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Incessament']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "128.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <96.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa De septem doloribus']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "129.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <97.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Assumpta es Maria']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "130.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <98.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Inviolata']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "131.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
 <99.0> a ns2:Q2188189 ;
-    ns2:Q9174 "True" ;
+    ns2:Q9174 true ;
     ns1: "['Missa Sancta dei genitrix']" ;
     ns1:P136 "Mass" ;
     ns1:P214 "265244429.0" ;
     ns1:P2561 "Pierre La Rue" ;
     ns1:P3831 "COMPOSER" ;
-    ns1:P767 <https://www.wikidata.org/wiki/Q370540> ;
+    ns1:P767 ns2:Q370540 ;
     <https://db.simssa.ca/contributions/> "132.0" ;
     <https://db.simssa.ca/styles/> "Renaissance" ;
-    schema:identifier <https://www.wikidata.org/wiki/Q217295>,
-        <https://www.wikidata.org/wiki/Q36834>,
-        <https://www.wikidata.org/wiki/Q4692> .
+    schema:identifier ns2:Q217295,
+        ns2:Q36834,
+        ns2:Q4692 .
 
