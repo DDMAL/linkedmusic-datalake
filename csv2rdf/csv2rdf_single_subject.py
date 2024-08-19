@@ -39,7 +39,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
     g = Graph()
 
-    ontology_dict = json.load(open(mapping_filename, "r", encoding='utf-8'))
+    ontology_dict = json.load(open(mapping_filename, "r", encoding="utf-8"))
     type_dict = ontology_dict.get("entity_type")
 
     for filename in filenames:
@@ -74,7 +74,10 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
                     # the object might be an URI or a literal
                     if validators.url(element):
-                        element = element.replace("wiki", "entity")
+                        element = element.replace(
+                            "https://www.wikidata.org/wiki/",
+                            "http://www.wikidata.org/entity/",
+                        )
                         obj = URIRef(element)
                     else:
                         if element == "True" or element == "False":
