@@ -74,6 +74,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
                     # the object might be an URI or a literal
                     if validators.url(element):
+                        element = element.replace("wiki", "entity")
                         obj = URIRef(element)
                     else:
                         if element == "True" or element == "False":
