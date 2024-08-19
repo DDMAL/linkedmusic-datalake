@@ -37,7 +37,13 @@ values = []
 with open(inputpath, "r", encoding="utf-8") as f:
     json_data = [json.loads(m) for m in f]
 
-
+IGNORE_COLUMN = [
+    "alias",
+    "tags",
+    "sort-name",
+    "disambiguation",
+    "annotation"
+]
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
     """
     (data, dict, bool, str) -> None
@@ -52,9 +58,10 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
     if key != "":
         first_level = False
 
-    if "aliases" in key or "tags" in key or "sort-name" in key:
-        # ignore aliases, tags, and sort-name to make output simplier
-        return
+    for i in IGNORE_COLUMN:
+        if i in key:
+            # ignore aliases, tags, and sort-name to make output simplier
+            return
 
     if isinstance(data, dict):
         # the input JSON Lines format is lines of dictionaries, and the input data should be
