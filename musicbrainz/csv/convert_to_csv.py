@@ -160,7 +160,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         return
 
 
-def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
+def convert_dict_to_csv(dictionary_list: list) -> None:
     """
     (list, str) -> None
     Writes a list of dictionaries into the given file.
@@ -171,40 +171,45 @@ def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
         dictionary_list: the list of dictionary that contains all the data
         filename: the destination filename
     """
-    with open(filename, mode="w", newline="", encoding="utf-8") as csv_file:
-        writer = csv.writer(csv_file)
-        writer.writerow(header)
-        # Find the maximum length of lists in the dictionary
 
-        for dictionary in dictionary_list:
-            max_length = max(
-                len(v) if isinstance(v, list) else 1 for v in dictionary.values()
-            )
+    # Find the maximum length of lists in the dictionary
+    for dictionary in dictionary_list:
+        max_length = max(
+            len(v) if isinstance(v, list) else 1 for v in dictionary.values()
+        )
 
-            for i in range(max_length):
-                row = [dictionary[f"{entity_type}_id"]]
-                for key in header:
-                    if key == f"{entity_type}_id":
-                        continue
+        for i in range(max_length):
+            row = [dictionary[f"{entity_type}_id"]]
+            for key in header:
+                if key == f"{entity_type}_id":
+                    continue
 
-                    if key in dictionary:
-                        if isinstance(dictionary[key], list):
-                            # Append the i-th element of the list,
-                            # or an empty string if index is out of range
-                            row.append(
-                                (dictionary[key])[i] if i < len(dictionary[key]) else ""
-                            )
-                        else:
-                            # Append the single value
-                            # (for non-list entries, only on the first iteration)
-                            row.append(dictionary[key] if i == 0 else "")
+                if key in dictionary:
+                    if isinstance(dictionary[key], list):
+                        # Append the i-th element of the list,
+                        # or an empty string if index is out of range
+                        row.append(
+                            (dictionary[key])[i] if i < len(dictionary[key]) else ""
+                        )
                     else:
-                        row.append("")
+                        # Append the single value
+                        # (for non-list entries, only on the first iteration)
+                        row.append(dictionary[key] if i == 0 else "")
+                else:
+                    row.append("")
 
-                writer.writerow(row)
+            with open(outputpath, mode="a", newline="", encoding="utf-8") as csv_records:
+                writer_records = csv.writer(csv_records)
+                writer_records.writerow(row)
 
+CHUNK_SIZE = 10000
 
 if __name__ == "__main__":
-    extract(json_data, {})
+    # write header
+    with open(outputpath, mode="w", newline="", encoding="utf-8") as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(header)
 
-    convert_dict_to_csv(values, outputpath)
+    for index in range(0, len(json_data), CHUNK_SIZE):
+        extract(json_data[index: CHUNK_SIZE], {})
+        convert_dict_to_csv(values)
