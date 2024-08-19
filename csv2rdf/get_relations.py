@@ -28,9 +28,9 @@ try:
     with open(OUTPUT_NAME, "r", encoding="utf-8") as mapping:
         dt = json.load(mapping)
 except FileNotFoundError:
-    dt = {"entity_type" : []}
-    
-dt_out = {"entity_type" : dt["entity_type"]}
+    dt = {"entity_type": []}
+
+dt_out = {"entity_type": dt["entity_type"]}
 
 for filename in glob.glob(f"{FILEPATH}/{PATTERN}", recursive=False):
     with open(os.path.abspath(filename), "r", encoding="utf-8") as csv_file:
@@ -44,4 +44,4 @@ for filename in glob.glob(f"{FILEPATH}/{PATTERN}", recursive=False):
             dt_out[item] = dt[item]
 
 with open(OUTPUT_NAME, "w", encoding="utf-8") as out_json:
-    json.dump(dt_out, out_json, indent=4)
+    json.dump(dt_out, out_json, indent=4, sort_keys=True)
