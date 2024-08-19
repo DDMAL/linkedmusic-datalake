@@ -122,6 +122,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         "recording",
                         "genres",
                     ]:
+                        # avoid extracting duplicate data
                         extract(data[k], value, first_level, key + "_" + k)
 
     elif isinstance(data, list):
