@@ -205,11 +205,13 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
 CHUNK_SIZE = 10000
 
 if __name__ == "__main__":
-    # write header
-    with open(outputpath, mode="w", newline="", encoding="utf-8") as csv_file:
-        writer = csv.writer(csv_file)
-        writer.writerow(header)
+    
 
     for index in range(0, len(json_data), CHUNK_SIZE):
         extract(json_data[index: CHUNK_SIZE], {})
+        if index == 0:
+            # write header
+            with open(outputpath, mode="w", newline="", encoding="utf-8") as csv_file:
+                writer = csv.writer(csv_file)
+                writer.writerow(header)
         convert_dict_to_csv(values)
