@@ -14,7 +14,7 @@ def extract_file(folderpath, dest_folder):
         with tarfile.open(f"{filepath}", "r:xz") as tar:
             for member in tar.getmembers():
                 # in the tar file, we only need the dumps in this folder.
-                # Other files contains unecessary info.
+                # Other files contains unnecessary info.
                 if member.name.startswith("mbdump"):
                     tar.extract(member, path=dest_folder)
         print(f"Extracted {filepath} to {dest_folder}")
