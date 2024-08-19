@@ -28,7 +28,7 @@
     "mode": "http://www.wikidata.org/prop/direct/P826",#tonality. Though not quite accurate.[uncertain]
     "mode_wiki": "http://www.wikidata.org/prop/direct/P826",#[uncertain]
     "name": "http://www.wikidata.org/prop/direct/P2561",
-    "number": "http://www.wikidata.org/prop/direct/P1114",#quantity: number of instances of this subject in the universe of the subject (the actual number of instances in Wikidata may be lower or higher)[uncertain]
+    "number": "http://www.wikidata.org/prop/direct/P1114",#[uncertain]quantity: number of instances of this subject in the universe of the subject (the actual number of instances in Wikidata may be lower or higher)[uncertain]
     "recording": "http://www.wikidata.org/prop/direct/P2561",#name of the recording
     "recording_wiki": "http://www.wikidata.org/prop/direct/P2888",#exact match
     "setting_id": "https://thesession.org/setting_id",
