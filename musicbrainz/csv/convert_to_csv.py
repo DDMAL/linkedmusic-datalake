@@ -37,13 +37,9 @@ values = []
 with open(inputpath, "r", encoding="utf-8") as f:
     json_data = [json.loads(m) for m in f]
 
-IGNORE_COLUMN = [
-    "alias",
-    "tags",
-    "sort-name",
-    "disambiguation",
-    "annotation"
-]
+IGNORE_COLUMN = ["alias", "tags", "sort-name", "disambiguation", "annotation"]
+
+
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
     """
     (data, dict, bool, str) -> None
@@ -113,7 +109,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
                 if isinstance(data[k], dict) or isinstance(data[k], list):
                     # if there is still a nested instance, extract further
-                    if key.split('_')[-1] not in [
+                    if key.split("_")[-1] not in [
                         "area",
                         "artist",
                         "event",
@@ -198,21 +194,33 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
                 else:
                     row.append("")
 
-            with open(outputpath, mode="a", newline="", encoding="utf-8") as csv_records:
+            with open(
+                outputpath, mode="a", newline="", encoding="utf-8"
+            ) as csv_records:
                 writer_records = csv.writer(csv_records)
                 writer_records.writerow(row)
+
 
 CHUNK_SIZE = 10000
 
 if __name__ == "__main__":
-    
 
-    for index in range(0, len(json_data), CHUNK_SIZE):
-        extract(json_data[index: CHUNK_SIZE], {})
-        if index == 0:
-            # write header
-            with open(outputpath, mode="w", newline="", encoding="utf-8") as csv_file:
-                writer = csv.writer(csv_file)
-                writer.writerow(header)
-        convert_dict_to_csv(values)
-        values.clear()
+    # the file must be from MusicBrainz's JSON data dumps.
+    chunk = []
+
+    with open(inputpath, "r", encoding="utf-8") as f:
+        for line in f:
+            line_data = json.loads(line)  # Parse each line as a JSON object
+            chunk.append(line_data)  # Add the JSON object to the current chunk
+
+            # When the chunk reaches the desired size, process it
+            if len(chunk) == CHUNK_SIZE:
+                extract(chunk, {})
+                chunk.clear()  # Reset the chunk
+                convert_dict_to_csv(values)
+
+        # Process any remaining data in the last chunk
+        if chunk:
+            extract(chunk, {})
+            chunk.clear()
+            convert_dict_to_csv(values)
