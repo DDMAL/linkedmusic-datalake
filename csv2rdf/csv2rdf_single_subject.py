@@ -17,8 +17,9 @@ import sys
 import json
 import os
 import validators
+import re
 from rdflib import Graph, URIRef, Literal
-from rdflib.namespace import RDF, XSD
+from rdflib.namespace import RDF, XSD, WGS
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
@@ -26,6 +27,7 @@ from rdflib.namespace import RDF, XSD
 DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
+DT_PATTERN = r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$'
 
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
@@ -39,7 +41,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
     g = Graph()
 
-    ontology_dict = json.load(open(mapping_filename, "r", encoding='utf-8'))
+    ontology_dict = json.load(open(mapping_filename, "r", encoding="utf-8"))
     type_dict = ontology_dict.get("entity_type")
 
     for filename in filenames:
@@ -74,12 +76,20 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
                     # the object might be an URI or a literal
                     if validators.url(element):
+                        element = element.replace(
+                            "https://www.wikidata.org/wiki/",
+                            "http://www.wikidata.org/entity/",
+                        )
                         obj = URIRef(element)
                     else:
                         if element == "True" or element == "False":
                             obj = Literal(element, datatype=XSD.boolean)
                         elif element.isnumeric():
                             obj = Literal(element, datatype=XSD.integer)
+                        elif element.startswith("Point("):
+                            obj = Literal(element[5:], datatype=WGS.Point)
+                        elif re.match(DT_PATTERN, element):
+                            obj = Literal(element, datatype=XSD.dateTime)
                         else:
                             obj = Literal(element)
 
@@ -94,4 +104,4 @@ if __name__ == "__main__":
 
     fns = sys.argv[2:]
     turtle_data = convert_csv_to_turtle(fns)
-    turtle_data.serialize(format="turtle", destination=dest_filename)
+    turtle_data.serialize(format="turtle", destination=dest_filename,)
