@@ -46,6 +46,7 @@
 # Aliases and Tune Popularity:
 - Transform the `tune_id` by appending `https://thesession.org/tunes/{id}` to the cells.
 - For Tune Popularity, move the `tune_id` to the beginning.
+- Rename `aliases-csv.csv` to `tune-aliases-csv.csv`.
 
 # Events:
 - Transform the `id` by appending `https://thesession.org/events/{id}` to the cells.
