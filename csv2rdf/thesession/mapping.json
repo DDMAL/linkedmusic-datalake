@@ -1,11 +1,9 @@
 {
-    "abc": "http://www.wikidata.org/prop/direct/P3030",
     "address": "http://www.wikidata.org/prop/direct/P6375",
     "alias": "http://www.wikidata.org/prop/direct/P742",
     "area": "http://www.wikidata.org/prop/direct/P276",
     "area_wiki": "http://www.wikidata.org/prop/direct/P276",
     "artist": "https://musicbrainz.org/doc/Recording#Artist",
-    "artist_url": "https://musicbrainz.org/doc/Recording#Artist",
     "coordinate": "http://www.wikidata.org/prop/direct/P625",
     "country": "http://www.wikidata.org/prop/direct/P17",
     "country_wiki": "http://www.wikidata.org/prop/direct/P17",
@@ -22,6 +20,7 @@
         "tunes-csv.csv": "http://www.wikidata.org/entity/Q170412"
     },
     "event": "http://www.wikidata.org/prop/direct/P2561",
+    "member_id": "https://thesession.org/members/",
     "meter": "http://www.wikidata.org/prop/direct/P3440",
     "meter_wiki": "http://www.wikidata.org/prop/direct/P3440",
     "mode": "http://www.wikidata.org/prop/direct/P826",
@@ -31,15 +30,16 @@
     "recording": "http://www.wikidata.org/prop/direct/P2561",
     "recording_wiki": "http://www.wikidata.org/prop/direct/P2888",
     "setting_id": "https://thesession.org/setting_id",
+    "settingorder": "https://thesession.org/settingorder",
     "town": "http://www.wikidata.org/prop/direct/P131",
     "town_wiki": "http://www.wikidata.org/prop/direct/P131",
     "track": "http://www.wikidata.org/prop/direct/P658",
     "tune": "http://www.wikidata.org/prop/direct/P1625",
     "tune_id": "https://thesession.org/tunes",
-    "tune_type": "http://www.wikidata.org/prop/direct/P136",
     "tunebooks": "https://thesession.org/tunebooks",
     "type": "http://www.wikidata.org/prop/direct/P136",
     "type_wiki": "http://www.wikidata.org/prop/direct/P136",
     "username": "http://www.wikidata.org/prop/direct/P554",
-    "venue": "http://www.wikidata.org/prop/direct/P276"
+    "venue": "http://www.wikidata.org/prop/direct/P276",
+    "venue_wiki": "http://www.wikidata.org/prop/direct/P276"
 }
