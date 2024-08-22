@@ -33,10 +33,6 @@ outputpath = os.path.join(DIRNAME, "../data/output", f"{entity_type}.csv")
 header = [f"{entity_type}_id"]
 values = []
 
-# the file must be from MusicBrainz's JSON data dumps.
-with open(inputpath, "r", encoding="utf-8") as f:
-    json_data = [json.loads(m) for m in f]
-
 IGNORE_COLUMN = ["alias", "tags", "sort-name", "disambiguation", "annotation"]
 
 
