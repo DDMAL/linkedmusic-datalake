@@ -28,7 +28,7 @@ mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
 
 WD = Namespace("http://www.wikidata.org/entity/")
-WDT = Namespace("http://www.wikidata.org/prop/direct")
+WDT = Namespace("http://www.wikidata.org/prop/direct/")
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
