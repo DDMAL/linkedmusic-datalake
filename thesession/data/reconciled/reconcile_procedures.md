@@ -51,6 +51,8 @@
 # Events:
 - Transform the `id` by appending `https://thesession.org/events/{id}` to the cells.
 - Rename the `id` column to `events_id`.
+- Join the `longitude` and `latitude` columns into a new column named `coordinate`.
+- Text transform the cells to `return "Point(" + value + ")"`.
 - Reconcile the `country` column against the type "country" (Q6256).
 - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
 - In the `judgment` facet, choose "none" and move the score to 54-101 in the score facet.
@@ -75,6 +77,8 @@
 # Sessions:
 - Transform the `id` by appending `https://thesession.org/sessions/{id}` to the cells.
 - Rename the `id` column to `sessions_id`.
+- Join the `longitude` and `latitude` columns into a new column named `coordinate`.
+- Text transform the cells to `return "Point(" + value + ")"`.
 - Reconcile the `country` column against the type "country" (Q6256).
 - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
 - In the `judgment` facet, choose "none" and move the score to 60-101 in the score facet.
