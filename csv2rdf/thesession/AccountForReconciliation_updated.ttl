@@ -15,7 +15,7 @@
     "dtstart": "http://www.wikidata.org/prop/direct/P580",
     "entity_type": {
         "events.csv": "http://www.wikidata.org/entity/Q1656682",#event
-        "recordings.csv": "http://www.wikidata.org/entity/Q49017950",#recorded music
+        "recordings.csv": "http://www.wikidata.org/entity/Q482994",#album
         "sessions.csv": "https://thesession.org/sessions",
         "sets.csv": "http://www.wikidata.org/entity/Q1569406",#playlist[uncertain]
         "tunes-aliases.csv": "http://www.wikidata.org/entity/Q170412",#melody:linear succession of musical tones in the foreground of a work of music
