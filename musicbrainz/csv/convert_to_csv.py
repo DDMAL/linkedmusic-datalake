@@ -33,10 +33,6 @@ outputpath = os.path.join(DIRNAME, "../data/output", f"{entity_type}.csv")
 header = [f"{entity_type}_id"]
 values = []
 
-# the file must be from MusicBrainz's JSON data dumps.
-with open(inputpath, "r", encoding="utf-8") as f:
-    json_data = [json.loads(m) for m in f]
-
 IGNORE_COLUMN = ["alias", "tags", "sort-name", "disambiguation", "annotation"]
 
 
@@ -201,12 +197,14 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
                 writer_records.writerow(row)
 
 
-CHUNK_SIZE = 10000
+CHUNK_SIZE = 4096
 
 if __name__ == "__main__":
 
     # the file must be from MusicBrainz's JSON data dumps.
     chunk = []
+    print(0)
+    header_written = False
 
     with open(inputpath, "r", encoding="utf-8") as f:
         print(1)
@@ -219,6 +217,11 @@ if __name__ == "__main__":
                 print(2)
                 extract(chunk, {})
                 chunk.clear()  # Reset the chunk
+                if not header_written:
+                    with open(outputpath, "w", encoding="utf-8") as f:
+                        f.write(",".join(header))
+                        f.write("\n")
+                        header_written = True
                 convert_dict_to_csv(values)
 
             values.clear()
@@ -227,4 +230,9 @@ if __name__ == "__main__":
         if chunk:
             extract(chunk, {})
             chunk.clear()
+            if not header_written:
+                with open(outputpath, "w", encoding="utf-8") as f:
+                    f.write(",".join(header))
+                    f.write("\n")
+                    header_written = True
             convert_dict_to_csv(values)
