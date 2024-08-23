@@ -191,7 +191,7 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
                     row.append("")
 
             with open(
-                outputpath, mode="a", newline="", encoding="utf-8"
+                "temp.csv", mode="a", newline="", encoding="utf-8"
             ) as csv_records:
                 writer_records = csv.writer(csv_records)
                 writer_records.writerow(row)
@@ -203,9 +203,7 @@ if __name__ == "__main__":
 
     # the file must be from MusicBrainz's JSON data dumps.
     chunk = []
-    print(0)
-    header_written = False
-
+    
     with open(inputpath, "r", encoding="utf-8") as f:
         for line in f:
             line_data = json.loads(line)  # Parse each line as a JSON object
@@ -215,11 +213,6 @@ if __name__ == "__main__":
             if len(chunk) == CHUNK_SIZE:
                 extract(chunk, {})
                 chunk.clear()  # Reset the chunk
-                if not header_written:
-                    with open(outputpath, "w", encoding="utf-8") as f:
-                        f.write(",".join(header))
-                        f.write("\n")
-                        header_written = True
                 convert_dict_to_csv(values)
 
             values.clear()
@@ -228,9 +221,14 @@ if __name__ == "__main__":
         if chunk:
             extract(chunk, {})
             chunk.clear()
-            if not header_written:
-                with open(outputpath, "w", encoding="utf-8") as f:
-                    f.write(",".join(header))
-                    f.write("\n")
-                    header_written = True
             convert_dict_to_csv(values)
+
+    with open(outputpath, "w", encoding="utf-8") as f:
+        with open("temp.csv", "r", encoding="utf-8") as f_temp:
+            f.write(",".join(header))
+            f.write("\n")
+
+            for line in f_temp:
+                f.write(line)
+
+    os.remove("temp.csv")
