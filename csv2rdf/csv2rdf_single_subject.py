@@ -88,7 +88,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                             obj = Literal(element, datatype=XSD.integer)
                         elif element.startswith("Point("):
                             obj = Literal(element[5:], datatype=WGS.Point)
-                        elif re.match(DT_PATTERN, element):
+                        elif DT_PATTERN.match(element):
                             obj = Literal(element, datatype=XSD.dateTime)
                         else:
                             obj = Literal(element)
