@@ -68,4 +68,4 @@ for rec in df["genre_id"]:
     time.sleep(0.1)
 df["relations_wiki"] = relations_wiki
 
-df.to_csv("data/genre.csv", index=False)
+df.to_csv("../data/output/genre.csv", index=False)
