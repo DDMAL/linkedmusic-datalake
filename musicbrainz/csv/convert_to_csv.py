@@ -207,14 +207,12 @@ if __name__ == "__main__":
     header_written = False
 
     with open(inputpath, "r", encoding="utf-8") as f:
-        print(1)
         for line in f:
             line_data = json.loads(line)  # Parse each line as a JSON object
             chunk.append(line_data)  # Add the JSON object to the current chunk
 
             # When the chunk reaches the desired size, process it
             if len(chunk) == CHUNK_SIZE:
-                print(2)
                 extract(chunk, {})
                 chunk.clear()  # Reset the chunk
                 if not header_written:
