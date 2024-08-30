@@ -17,9 +17,14 @@ import sys
 import json
 import os
 import validators
+<<<<<<< HEAD
 import re
 from rdflib import Graph, URIRef, Literal
 from rdflib.namespace import RDF, XSD, WGS
+=======
+from rdflib import Graph, URIRef, Literal, Namespace
+from rdflib.namespace import RDF, XSD
+>>>>>>> main
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
@@ -29,6 +34,8 @@ mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
 DT_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$')
 
+WD = Namespace("http://www.wikidata.org/entity/")
+WDT = Namespace("http://www.wikidata.org/prop/direct/")
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
@@ -40,6 +47,8 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     @Pre: type(filenames) == List[str]
     """
     g = Graph()
+    g.bind("wd", WD)
+    g.bind("wdt", WDT)
 
     ontology_dict = json.load(open(mapping_filename, "r", encoding="utf-8"))
     type_dict = ontology_dict.get("entity_type")
