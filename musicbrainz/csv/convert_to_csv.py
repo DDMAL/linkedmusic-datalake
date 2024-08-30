@@ -228,10 +228,10 @@ if __name__ == "__main__":
 
         with open(os.path.join(outputpath, entity_type), "w", encoding="utf-8") as f:
             with open("temp.csv", "r", encoding="utf-8") as f_temp:
-                f.write(",".join(header))
-                f.write("\n")
+                writer = csv.writer(f_temp)
+                writer.writerow(header)
 
                 for line in f_temp:
-                    f.write(line)
+                    writer.writerow(line)
 
         os.remove("temp.csv")
