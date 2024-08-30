@@ -32,6 +32,7 @@ outputpath = os.path.relpath("../data/output")
 
 IGNORE_COLUMN = ["alias", "tags", "sort-name", "disambiguation", "annotation"]
 CHUNK_SIZE = 4096
+# 4096 was chosen because ChatGPT and StackOverflow examples typically use 4096 or 8192.
 entity_type = ""
 header = []
 values = []
