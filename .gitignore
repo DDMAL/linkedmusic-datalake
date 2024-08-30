@@ -9,3 +9,4 @@ Cantusdb/data/deprecated/*
 acousticbrainz/data/*
 !acousticbrainz/data/reconciled/*
 musicbrainz/data/raw/*
+csv2rdf/thesession/out_rdf.ttl
