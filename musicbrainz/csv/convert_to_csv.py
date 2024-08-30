@@ -113,6 +113,9 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         "label",
                         "recording",
                         "genres",
+                        "iso-3166-1-codes",
+                        "iso-3166-2-codes",
+                        "iso-3166-3-codes"
                     ]:
                         # avoid extracting duplicate data
                         extract(data[k], value, first_level, key + "_" + k)
