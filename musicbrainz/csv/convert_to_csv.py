@@ -229,7 +229,7 @@ if __name__ == "__main__":
                 chunk.clear()
                 convert_dict_to_csv(values)
 
-        with open(os.path.join(outputpath, file), "w", encoding="utf-8") as f:
+        with open(os.path.join(outputpath, entity_type), "w", encoding="utf-8") as f:
             with open("temp.csv", "r", encoding="utf-8") as f_temp:
                 f.write(",".join(header))
                 f.write("\n")
