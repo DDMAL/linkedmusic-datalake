@@ -16,9 +16,10 @@ from typing import List
 import sys
 import json
 import os
+import re
 import validators
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF, XSD
+from rdflib.namespace import RDF, XSD, GEO
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
@@ -26,6 +27,7 @@ from rdflib.namespace import RDF, XSD
 DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
+DT_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$')
 
 WD = Namespace("http://www.wikidata.org/entity/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
@@ -88,6 +90,10 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                             obj = Literal(element, datatype=XSD.boolean)
                         elif element.isnumeric():
                             obj = Literal(element, datatype=XSD.integer)
+                        elif element.startswith("Point("):
+                            obj = Literal(element.upper(), datatype=GEO.wktLiteral)
+                        elif DT_PATTERN.match(element):
+                            obj = Literal(element, datatype=XSD.dateTime)
                         else:
                             obj = Literal(element)
 
