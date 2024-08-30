@@ -155,7 +155,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
 def convert_dict_to_csv(dictionary_list: list) -> None:
     """
-    (list, str) -> None
+    (list) -> None
     Writes a list of dictionaries into the given file.
     If there are multiple values against a single key, a new column with only the
     id and that value is created.
