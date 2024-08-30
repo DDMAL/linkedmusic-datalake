@@ -4,9 +4,9 @@
 1.  Navigate to ```linkedmusic-datalake/musicbrainz/csv``` folder.
 1.  Run ```python3 fetch.py``` to get the latest tar.xz files from the MusicBrainz public data dumps into the local ```data/raw/``` folder.
 2.  Run ```python3 untar.py``` to unzip the files and extract the jsonl files needed into the local ```data/raw/extracted_jsonl/mbdump/``` folder.
-2.  Run convert_to_csv.py, specify the JSON file in the first argument and the entity type in the second argument.
+2.  Run convert_to_csv.py.
     *   Example command line: 
-        ```python3 convert_to_csv.py data/raw/extracted_jsonl/mbdump/area area```
+        ```python3 convert_to_csv.py```
 3.  A CSV file named by its entity type will be generated in ```data/output/``` folder. It can be used for further operations.
 
 #   2: The data details:
