@@ -205,7 +205,7 @@ if __name__ == "__main__":
 
     for file in glob.glob(f"{inputpath}/*"):
         # the file must be from MusicBrainz's JSON data dumps.
-        entity_type = file
+        entity_type = file.split("/")[-1]
         header = [f"{entity_type}_id"]
         values = []
         chunk = []
