@@ -82,7 +82,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                     else:
                         if element == "True" or element == "False":
                             obj = Literal(element, datatype=XSD.boolean)
-                        elif element.isnumeric():
+                        elif element.isdigit():
                             obj = Literal(element, datatype=XSD.integer)
                         else:
                             obj = Literal(element)

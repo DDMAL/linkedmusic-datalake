@@ -12,7 +12,7 @@
     "dtstart": "http://www.wikidata.org/prop/direct/P580",
     "entity_type": {
         "events-csv.csv": "http://www.wikidata.org/entity/Q1656682",
-        "recordings-csv.csv": "http://www.wikidata.org/entity/Q49017950",
+        "recordings-csv.csv": "http://www.wikidata.org/entity/Q482994",
         "sessions-csv.csv": "https://thesession.org/sessions",
         "sets-csv.csv": "http://www.wikidata.org/entity/Q1569406",
         "tune-aliases-csv.csv": "http://www.wikidata.org/entity/Q170412",

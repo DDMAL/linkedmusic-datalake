@@ -19,21 +19,22 @@ import json
 import copy
 import csv
 import os
+import glob
 import sys
 
 DIRNAME = os.path.dirname(__file__)
 
-if len(sys.argv) != 3:
+if len(sys.argv) != 1:
     raise ValueError("Invalid number of arguments")
 
-entity_type = sys.argv[2]
-inputpath = os.path.join(DIRNAME, sys.argv[1])
-outputpath = os.path.join(DIRNAME, "../data/output", f"{entity_type}.csv")
-
-header = [f"{entity_type}_id"]
-values = []
+inputpath = os.path.relpath("../data/raw/extracted_jsonl/mbdump")
+outputpath = os.path.relpath("../data/output")
 
 IGNORE_COLUMN = ["alias", "tags", "sort-name", "disambiguation", "annotation"]
+CHUNK_SIZE = 4096
+entity_type = ""
+header = []
+values = []
 
 
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
@@ -113,6 +114,9 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         "label",
                         "recording",
                         "genres",
+                        "iso-3166-1-codes",
+                        "iso-3166-2-codes",
+                        "iso-3166-3-codes",
                     ]:
                         # avoid extracting duplicate data
                         extract(data[k], value, first_level, key + "_" + k)
@@ -191,46 +195,46 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
                     row.append("")
 
             with open(
-                outputpath, mode="a", newline="", encoding="utf-8"
+                "temp.csv", mode="a", newline="", encoding="utf-8"
             ) as csv_records:
                 writer_records = csv.writer(csv_records)
                 writer_records.writerow(row)
 
 
-CHUNK_SIZE = 4096
-
 if __name__ == "__main__":
 
-    # the file must be from MusicBrainz's JSON data dumps.
-    chunk = []
-    print(0)
-    header_written = False
+    for file in glob.glob(f"{inputpath}/*"):
+        # the file must be from MusicBrainz's JSON data dumps.
+        entity_type = file.split("/")[-1]
+        header = [f"{entity_type}_id"]
+        values = []
+        chunk = []
 
-    with open(inputpath, "r", encoding="utf-8") as f:
-        for line in f:
-            line_data = json.loads(line)  # Parse each line as a JSON object
-            chunk.append(line_data)  # Add the JSON object to the current chunk
+        with open(file, "r", encoding="utf-8") as f:
+            for line in f:
+                line_data = json.loads(line)  # Parse each line as a JSON object
+                chunk.append(line_data)  # Add the JSON object to the current chunk
 
-            # When the chunk reaches the desired size, process it
-            if len(chunk) == CHUNK_SIZE:
+                # When the chunk reaches the desired size, process it
+                if len(chunk) == CHUNK_SIZE:
+                    extract(chunk, {})
+                    chunk.clear()  # Reset the chunk
+                    convert_dict_to_csv(values)
+
+                values.clear()
+
+            # Process any remaining data in the last chunk
+            if chunk:
                 extract(chunk, {})
-                chunk.clear()  # Reset the chunk
-                if not header_written:
-                    with open(outputpath, "w", encoding="utf-8") as f:
-                        f.write(",".join(header))
-                        f.write("\n")
-                        header_written = True
+                chunk.clear()
                 convert_dict_to_csv(values)
 
-            values.clear()
+        with open(os.path.join(outputpath, entity_type), "w", encoding="utf-8") as f:
+            with open("temp.csv", "r", encoding="utf-8") as f_temp:
+                f.write(",".join(header))
+                f.write("\n")
 
-        # Process any remaining data in the last chunk
-        if chunk:
-            extract(chunk, {})
-            chunk.clear()
-            if not header_written:
-                with open(outputpath, "w", encoding="utf-8") as f:
-                    f.write(",".join(header))
-                    f.write("\n")
-                    header_written = True
-            convert_dict_to_csv(values)
+                for line in f_temp:
+                    f.write(line)
+
+        os.remove("temp.csv")
