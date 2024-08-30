@@ -24,17 +24,17 @@ import sys
 
 DIRNAME = os.path.dirname(__file__)
 
-if len(sys.argv) != 3:
+if len(sys.argv) != 1:
     raise ValueError("Invalid number of arguments")
 
-entity_type = sys.argv[2]
 inputpath = os.path.relpath("../data/raw/extracted_jsonl/mbdump")
 outputpath = os.path.relpath("../data/output")
 
-header = [f"{entity_type}_id"]
-values = []
-
 IGNORE_COLUMN = ["alias", "tags", "sort-name", "disambiguation", "annotation"]
+CHUNK_SIZE = 4096
+entity_type = ""
+header = []
+values = []
 
 
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
@@ -201,12 +201,13 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
                 writer_records.writerow(row)
 
 
-CHUNK_SIZE = 4096
-
 if __name__ == "__main__":
 
     for file in glob.glob(f"{inputpath}/*"):
         # the file must be from MusicBrainz's JSON data dumps.
+        entity_type = file
+        header = [f"{entity_type}_id"]
+        values = []
         chunk = []
 
         with open(file, "r", encoding="utf-8") as f:
