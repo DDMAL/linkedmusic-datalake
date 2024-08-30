@@ -108,4 +108,4 @@ if __name__ == "__main__":
 
     fns = sys.argv[2:]
     turtle_data = convert_csv_to_turtle(fns)
-    turtle_data.serialize(format="turtle", destination=dest_filename,)
+    turtle_data.serialize(format="turtle", destination=dest_filename)
