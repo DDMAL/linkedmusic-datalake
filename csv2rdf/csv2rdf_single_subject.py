@@ -19,7 +19,7 @@ import os
 import re
 import validators
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF, XSD, WGS
+from rdflib.namespace import RDF, XSD, GEO
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
@@ -91,7 +91,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                         elif element.isnumeric():
                             obj = Literal(element, datatype=XSD.integer)
                         elif element.startswith("Point("):
-                            obj = Literal(element[5:], datatype=WGS.Point)
+                            obj = Literal(element.upper(), datatype=GEO.wktLiteral)
                         elif DT_PATTERN.match(element):
                             obj = Literal(element, datatype=XSD.dateTime)
                         else:
