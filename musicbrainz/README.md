@@ -16,6 +16,14 @@
 -   During the conversion process, for all ids of different entity type (genre_id, artist_id, area_id, etc.), we add the MusicBrainz reference to the id in the format: "https://musicbrainz.org/{entity_type}/{id}". It automatically converts the id to a URI reference.
 -   For any record, if it is reconciled with Wikidata link by MusicBrainz bots, then it should have an object in "relations" > "resources" > "url", with the Wikidata link as the value. If it exists, then it is extracted to the CSV file.
 
+# 3: Mapping
+- Made-up predicate URLs:
+    "packaging": "https://musicbrainz.org/packaging",
+    "packaging-id": "https://musicbrainz.org/packaging",
+    "media_pregap_id": "https://musicbrainz.org/pregap",
+    "media_discs_id": "https://musicbrainz.org/disc",
+
+
 #   DEPRECATED
 #   3: As an experiment data sets:
 -   For experiment purposes, you had better only use a small portion of each data dump:
