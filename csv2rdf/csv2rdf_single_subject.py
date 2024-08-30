@@ -16,15 +16,10 @@ from typing import List
 import sys
 import json
 import os
-import validators
-<<<<<<< HEAD
 import re
-from rdflib import Graph, URIRef, Literal
-from rdflib.namespace import RDF, XSD, WGS
-=======
+import validators
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF, XSD
->>>>>>> main
+from rdflib.namespace import RDF, XSD, WGS
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
