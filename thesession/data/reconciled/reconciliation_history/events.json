@@ -1758,24 +1758,27 @@
     "description": "Create column coordinate at index 14 based on column latitude using expression join ([coalesce(cells['latitude'].value,''),coalesce(cells['longitude'].value,'')],' ')"
   },
   {
-    "op": "core/column-reorder",
-    "columnNames": [
-      "events_id",
-      "event",
-      "dtstart",
-      "dtend",
-      "venue",
-      "venue_wiki",
-      "address",
-      "town",
-      "town_wiki",
-      "area",
-      "area_wiki",
-      "country",
-      "country_wiki",
-      "coordinate"
-    ],
-    "description": "Reorder columns"
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "coordinate",
+    "expression": "jython:if value is None: return None\nelse: return \"Point(\" + value + \")\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column coordinate using expression jython:if value is None: return None\nelse: return \"Point(\" + value + \")\""
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "latitude",
+    "description": "Remove column latitude"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "longitude",
+    "description": "Remove column longitude"
   },
   {
     "op": "core/text-transform",
@@ -1783,11 +1786,24 @@
       "facets": [],
       "mode": "row-based"
     },
-    "columnName": "coordinate",
-    "expression": "jython:return \"Point(\" + str(value) + \")\"",
+    "columnName": "dtstart",
+    "expression": "jython:if value is None: return None\nelse: return value[0:10] + \"T\" + value[11:]",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column coordinate using expression jython:return \"Point(\" + str(value) + \")\""
+    "description": "Text transform on cells in column dtstart using expression jython:if value is None: return None\nelse: return value[0:10] + \"T\" + value[11:]"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "dtend",
+    "expression": "jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column dtend using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
   }
 ]
