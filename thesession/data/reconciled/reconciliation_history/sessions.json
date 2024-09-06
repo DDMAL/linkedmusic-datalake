@@ -1403,18 +1403,5 @@
     "repeat": false,
     "repeatCount": 10,
     "description": "Text transform on cells in column coordinate using expression jython:if value is \"Point()\": return None\nelse: return value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "columnName": "date",
-    "expression": "jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column date using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
   }
 ]
