@@ -1763,35 +1763,12 @@
       "facets": [],
       "mode": "row-based"
     },
-    "columnName": "coordinate",
-    "expression": "jython:if value is None: return None\nelse: return \"Point(\" + value + \")\"",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column coordinate using expression jython:if value is None: return None\nelse: return \"Point(\" + value + \")\""
-  },
-  {
-    "op": "core/column-removal",
-    "columnName": "latitude",
-    "description": "Remove column latitude"
-  },
-  {
-    "op": "core/column-removal",
-    "columnName": "longitude",
-    "description": "Remove column longitude"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
     "columnName": "dtstart",
-    "expression": "jython:if value is None: return None\nelse: return value[0:10] + \"T\" + value[11:]",
+    "expression": "jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column dtstart using expression jython:if value is None: return None\nelse: return value[0:10] + \"T\" + value[11:]"
+    "description": "Text transform on cells in column dtstart using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
   },
   {
     "op": "core/text-transform",
@@ -1805,5 +1782,56 @@
     "repeat": false,
     "repeatCount": 10,
     "description": "Text transform on cells in column dtend using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "coordinate",
+    "description": "Remove column coordinate"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "latitude",
+    "expression": "join ([cells['latitude'].value,cells['longitude'].value],' ')",
+    "onError": "keep-original",
+    "newColumnName": "coordinate",
+    "columnInsertIndex": 14,
+    "description": "Create column coordinate at index 14 based on column latitude using expression join ([cells['latitude'].value,cells['longitude'].value],' ')"
+  },
+  {
+    "op": "core/column-reorder",
+    "columnNames": [
+      "events_id",
+      "event",
+      "dtstart",
+      "dtend",
+      "venue",
+      "venue_wiki",
+      "address",
+      "town",
+      "town_wiki",
+      "area",
+      "area_wiki",
+      "country",
+      "country_wiki",
+      "coordinate"
+    ],
+    "description": "Reorder columns"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "coordinate",
+    "expression": "jython:if str(value)==\"\": return None \nelse: return \"Point(\" + value + \")\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column coordinate using expression jython:if str(value)==\"\": return None \nelse: return \"Point(\" + value + \")\""
   }
 ]
