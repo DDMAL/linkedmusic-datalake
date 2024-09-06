@@ -29,6 +29,9 @@ DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
 DT_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")
+STRING_NUM_COLUMN_SETS = {
+    URIRef("https://musicbrainz.org/doc/Recording#Artist")
+}
 
 WD = Namespace("http://www.wikidata.org/entity/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
@@ -42,7 +45,7 @@ def check_for_num(s: str, t) -> bool:
     if "e" in s or "^" in s:
         return False
 
-    if t == URIRef("https://musicbrainz.org/doc/Recording#Artist"):
+    if t in STRING_NUM_COLUMN_SETS:
         return False
 
     return s.isdigit()
