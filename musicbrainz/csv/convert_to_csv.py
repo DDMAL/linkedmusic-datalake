@@ -227,12 +227,12 @@ if __name__ == "__main__":
                 chunk.clear()
                 convert_dict_to_csv(values)
 
-        with open(os.path.join(outputpath, entity_type), "w", encoding="utf-8") as f:
+        with open(os.path.join(outputpath, entity_type + ".csv"), "w", encoding="utf-8") as f:
             with open("temp.csv", "r", encoding="utf-8") as f_temp:
-                writer = csv.writer(f_temp)
+                writer = csv.writer(f)
                 writer.writerow(header)
 
-                for line in f_temp:
-                    writer.writerow(line)
+                for line in f_temp.readlines():
+                    writer.writerow(line.strip().split(","))
 
         os.remove("temp.csv")
