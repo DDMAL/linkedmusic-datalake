@@ -30,7 +30,7 @@ if len(sys.argv) != 1:
 inputpath = os.path.relpath("../data/raw/extracted_jsonl/mbdump")
 outputpath = os.path.relpath("../data/output")
 
-IGNORE_COLUMN = ["alias", "tags", "sort-name", "disambiguation", "annotation"]
+IGNORE_COLUMN = {"alias", "tags", "sort-name", "disambiguation", "annotation"}
 CHUNK_SIZE = 4096
 # 4096 was chosen because ChatGPT and StackOverflow examples typically use 4096 or 8192.
 entity_type = ""
@@ -104,7 +104,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
                 if isinstance(data[k], dict) or isinstance(data[k], list):
                     # if there is still a nested instance, extract further
-                    if key.split("_")[-1] not in [
+                    if key.split("_")[-1] not in {
                         "area",
                         "artist",
                         "event",
@@ -115,7 +115,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         "iso-3166-1-codes",
                         "iso-3166-2-codes",
                         "iso-3166-3-codes",
-                    ]:
+                    }:
                         # avoid extracting duplicate data
                         extract(data[k], value, first_level, key + "_" + k)
 
