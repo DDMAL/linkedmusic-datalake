@@ -27,10 +27,25 @@ from rdflib.namespace import RDF, XSD, GEO
 DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
-DT_PATTERN = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$')
+DT_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$")
 
 WD = Namespace("http://www.wikidata.org/entity/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
+
+
+def check_for_num(s: str, t) -> bool:
+    """
+    (str, str) -> bool
+    checks if the string s is a valid integer given the column title.
+    """
+    if 'e' in s or '^' in s:
+        return False
+
+    if t == URIRef("https://musicbrainz.org/doc/Recording#Artist"):
+        return False
+
+    return s.isdigit()
+
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
@@ -88,7 +103,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                     else:
                         if element == "True" or element == "False":
                             obj = Literal(element, datatype=XSD.boolean)
-                        elif element.isnumeric():
+                        elif check_for_num(element, predicates[i]):
                             obj = Literal(element, datatype=XSD.integer)
                         elif element.startswith("Point("):
                             obj = Literal(element.upper(), datatype=GEO.wktLiteral)
