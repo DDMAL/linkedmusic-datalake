@@ -110,7 +110,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                         elif DT_PATTERN.match(element):
                             obj = Literal(element, datatype=XSD.dateTime)
                         else:
-                            obj = Literal(element)
+                            obj = Literal(element, lang="en")
 
                     g.add((key_attribute, predicates[i], obj))
 
