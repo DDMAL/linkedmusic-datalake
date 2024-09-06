@@ -17,6 +17,7 @@ import sys
 import json
 import os
 import re
+from datetime import datetime
 import validators
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import RDF, XSD, GEO
@@ -108,6 +109,10 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                         elif element.startswith("Point("):
                             obj = Literal(element.upper(), datatype=GEO.wktLiteral)
                         elif DT_PATTERN.match(element):
+                            datetime_obj = datetime.strptime(element, "%Y-%m-%dT%H:%M:%S")
+                            day_of_week = datetime_obj.strftime("%A")
+                            day_of_week_obj = Literal(day_of_week, lang="en")
+                            g.add((key_attribute, predicates[i], day_of_week_obj))
                             obj = Literal(element, datatype=XSD.dateTime)
                         else:
                             obj = Literal(element, lang="en")
