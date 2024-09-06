@@ -54,7 +54,7 @@
 - Join the `longitude` and `latitude` columns into a new column named `coordinate`.
 - Text transform the cells to 
 ```
-if value is None: return None 
+if str(value)=="": return None 
 else: return "Point(" + value + ")"
 ```
 - Text transform the cells in column `dtstart` and `dtend` to
@@ -89,7 +89,7 @@ else: return None
 - Join the `longitude` and `latitude` columns into a new column named `coordinate`.
 - Text transform the cells to 
 ```
-if value is None: return None 
+if str(value)=="": return None 
 else: return "Point(" + value + ")"
 ```
 - Text transform the cells in column `date` to
