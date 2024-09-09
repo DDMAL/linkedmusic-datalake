@@ -195,7 +195,7 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
             with open(
                 "temp.csv", mode="a", newline="", encoding="utf-8"
             ) as csv_records:
-                writer_records = csv.writer(csv_records)
+                writer_records = csv.writer(csv_records, delimiter="\t")
                 writer_records.writerow(row)
 
 
@@ -233,6 +233,6 @@ if __name__ == "__main__":
                 writer.writerow(header)
 
                 for line in f_temp.readlines():
-                    writer.writerow(line.strip().split(","))
+                    writer.writerow(line.strip().split("\t"))
 
         os.remove("temp.csv")
