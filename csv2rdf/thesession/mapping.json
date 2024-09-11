@@ -3,7 +3,7 @@
     "alias": "http://www.wikidata.org/prop/direct/P742",
     "area": "http://www.wikidata.org/prop/direct/P276",
     "area_wiki": "http://www.wikidata.org/prop/direct/P276",
-    "artist": "https://musicbrainz.org/doc/Recording#Artist",
+    "artist": "http://www.wikidata.org/prop/direct/P175",
     "coordinate": "http://www.wikidata.org/prop/direct/P625",
     "country": "http://www.wikidata.org/prop/direct/P17",
     "country_wiki": "http://www.wikidata.org/prop/direct/P17",
