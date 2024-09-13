@@ -195,7 +195,7 @@ def convert_dict_to_csv(dictionary_list: list) -> None:
             with open(
                 "temp.csv", mode="a", newline="", encoding="utf-8"
             ) as csv_records:
-                writer_records = csv.writer(csv_records, delimiter="\t")
+                writer_records = csv.writer(csv_records, delimiter="\t", quotechar="|")
                 writer_records.writerow(row)
 
 
@@ -227,12 +227,16 @@ if __name__ == "__main__":
                 chunk.clear()
                 convert_dict_to_csv(values)
 
-        with open(os.path.join(outputpath, entity_type + ".csv"), "w", encoding="utf-8") as f:
+        with open(
+            os.path.join(outputpath, entity_type + ".csv"), "w", encoding="utf-8"
+        ) as f:
             with open("temp.csv", "r", encoding="utf-8") as f_temp:
                 writer = csv.writer(f)
                 writer.writerow(header)
 
-                for line in f_temp.readlines():
-                    writer.writerow(line.strip().split("\t"))
+                temp_reader = csv.reader(f_temp, delimiter="\t", quotechar="|")
+
+                for line in temp_reader:
+                    writer.writerow(line)
 
         os.remove("temp.csv")
