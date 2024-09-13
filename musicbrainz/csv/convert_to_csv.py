@@ -230,7 +230,7 @@ if __name__ == "__main__":
         with open(
             os.path.join(outputpath, entity_type + ".csv"), "w", encoding="utf-8"
         ) as f:
-            with open("temp.csv", "r", encoding="utf-8") as f_temp:
+            with open("temp.tsv", "r", encoding="utf-8") as f_temp:
                 writer = csv.writer(f)
                 writer.writerow(header)
 
