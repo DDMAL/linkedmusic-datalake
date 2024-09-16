@@ -5,8 +5,8 @@
     "alias": "http://www.wikidata.org/prop/direct/P742",#It's "pseudonym" that is "alias used by someone". But I am not sure can this be used following an tune which is not a person[uncertain]
     "area": "http://www.wikidata.org/prop/direct/P276",#location[uncertain]
     "area_wiki": "http://www.wikidata.org/prop/direct/P276",#[uncertain]
-    "artist": "https://musicbrainz.org/doc/Recording#Artist",#[uncertain]Ich recommend to use performer(P175)
-    "artist_url": "https://musicbrainz.org/doc/Recording#Artist",#[uncertain]
+    "artist": "http://www.wikidata.org/prop/direct/P175",#[uncertain]
+    "artist_url": "http://www.wikidata.org/prop/direct/P175",#[uncertain]Note:the values include human and music groups
     "coordinate": "http://www.wikidata.org/prop/direct/P625",#coordinate location
     "country": "http://www.wikidata.org/prop/direct/P17",#country
     "country_wiki": "http://www.wikidata.org/prop/direct/P17",
