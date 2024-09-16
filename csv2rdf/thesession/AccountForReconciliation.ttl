@@ -23,8 +23,8 @@
     "country_wiki": "http://www.wikidata.org/prop/direct/P17",
     "coordinate": "http://www.wikidata.org/prop/direct/P625", #coordinate location
     "recording_id": "https://thesession.org/recordings", #Not sure if this is appropriate. Because "https://thesession.org/" pattern is more of describing a class instead of a property.
-    "artist": "https://musicbrainz.org/doc/Recording#Artist", #Ich once recommended to use "performer P175" of Wikidata. But we cannot guarantee all the property values are performers, because what if there are some composers who don't perform... So we decided to reuse metadata from musicbrainz. Using <https://musicbrainz.org/doc/Recording#Artist> is more rigorous. 
-    "artist_url": "https://musicbrainz.org/doc/Recording#Artist",
+    "artist": "http://www.wikidata.org/prop/direct/P175", #performer
+    "artist_url": "http://www.wikidata.org/prop/direct/P175",
     "recording": "http://www.wikidata.org/prop/direct/P2561", #name of the recording
     "recording_wiki": "http://www.wikidata.org/prop/direct/P2888", #exact match
     "track": "http://www.wikidata.org/prop/direct/P658", #tracklist
