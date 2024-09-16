@@ -1,0 +1,46 @@
+#For those uncertain reconciliation, we mark [uncertain]; For those quite certain, we don't mark anything besides.
+{
+    "abc": "http://www.wikidata.org/prop/direct/P3030",#sheet music: media file containing the musical score (sheet music) for this item
+    "address": "http://www.wikidata.org/prop/direct/P6375",#street address
+    "alias": "http://www.wikidata.org/prop/direct/P742",#It's "pseudonym" that is "alias used by someone". But I am not sure can this be used following an tune which is not a person[uncertain]
+    "area": "http://www.wikidata.org/prop/direct/P276",#location[uncertain]
+    "area_wiki": "http://www.wikidata.org/prop/direct/P276",#[uncertain]
+    "artist": "https://musicbrainz.org/doc/Recording#Artist",#[uncertain]Ich recommend to use performer(P175)
+    "artist_url": "https://musicbrainz.org/doc/Recording#Artist",#[uncertain]
+    "coordinate": "http://www.wikidata.org/prop/direct/P625",#coordinate location
+    "country": "http://www.wikidata.org/prop/direct/P17",#country
+    "country_wiki": "http://www.wikidata.org/prop/direct/P17",
+    "date": "http://www.wikidata.org/prop/direct/P585",#point in time. It's appropriate becasue the property values are like: 3/6/2013 9:02:44 PM, 6/7/2016 3:57:16 PM...
+    "dtend": "http://www.wikidata.org/prop/direct/P582",
+    "dtstart": "http://www.wikidata.org/prop/direct/P580",
+    "entity_type": {
+        "events.csv": "http://www.wikidata.org/entity/Q1656682",#event
+        "recordings.csv": "http://www.wikidata.org/entity/Q482994",#album
+        "sessions.csv": "https://thesession.org/sessions",
+        "sets.csv": "http://www.wikidata.org/entity/Q1569406",#playlist[uncertain]
+        "tunes-aliases.csv": "http://www.wikidata.org/entity/Q170412",#melody:linear succession of musical tones in the foreground of a work of music
+        "tunes-popularity.csv": "http://www.wikidata.org/entity/Q170412",
+        "tunes_deleteAbc.csv": "http://www.wikidata.org/entity/Q170412"
+    },
+    "event": "http://www.wikidata.org/prop/direct/P2561",#It's just the name of an event.
+    "meter": "http://www.wikidata.org/prop/direct/P3440",#time signature: specification of beats in a musical bar or measure
+    "meter_wiki": "http://www.wikidata.org/prop/direct/P3440",
+    "mode": "http://www.wikidata.org/prop/direct/P826",#tonality. Though not quite accurate.[uncertain]
+    "mode_wiki": "http://www.wikidata.org/prop/direct/P826",#[uncertain]
+    "name": "http://www.wikidata.org/prop/direct/P2561",
+    "number": "http://www.wikidata.org/prop/direct/P1114",#[uncertain]quantity: number of instances of this subject in the universe of the subject (the actual number of instances in Wikidata may be lower or higher)[uncertain]
+    "recording": "http://www.wikidata.org/prop/direct/P2561",#name of the recording
+    "recording_wiki": "http://www.wikidata.org/prop/direct/P2888",#exact match
+    "setting_id": "https://thesession.org/setting_id",
+    "town": "http://www.wikidata.org/prop/direct/P131",#[uncertain]located in the administrative territorial entity
+    "town_wiki": "http://www.wikidata.org/prop/direct/P131",#[uncertain]
+    "track": "http://www.wikidata.org/prop/direct/P658",#tracklist[uncertain]
+    "tune": "http://www.wikidata.org/prop/direct/P1625",#has melody: this work has the melody of the following work
+    "tune_id": "https://thesession.org/tunes",
+    "tune_type": "http://www.wikidata.org/prop/direct/P136",
+    "tunebooks": "https://thesession.org/tunebooks",# We made this arbitrarily.
+    "type": "http://www.wikidata.org/prop/direct/P136",
+    "type_wiki": "http://www.wikidata.org/prop/direct/P136",
+    "username": "http://www.wikidata.org/prop/direct/P554",#website username or ID
+    "venue": "http://www.wikidata.org/prop/direct/P276"#[uncertain]location. We may also consider using significant place (P7153)
+}
