@@ -40,9 +40,6 @@ def check_for_num(s: str, t) -> bool:
     (str, str) -> bool
     checks if the string s is a valid integer given the column title.
     """
-    if "e" in s or "^" in s:
-        return False
-
     if t in STRING_NUM_COLUMN_SETS:
         return False
 
