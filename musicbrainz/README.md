@@ -1,27 +1,68 @@
-#   1: The procedure:
-*   Since all ids and Wikidata links are already reconciled in the conversion process, there's no need to turn to OpenRefine.
--   Steps:
-1.  Navigate to ```linkedmusic-datalake/musicbrainz/csv``` folder.
-1.  Run ```python3 fetch.py``` to get the latest tar.xz files from the MusicBrainz public data dumps into the local ```data/raw/``` folder.
-2.  Run ```python3 untar.py``` to unzip the files and extract the jsonl files needed into the local ```data/raw/extracted_jsonl/mbdump/``` folder.
-2.  Run convert_to_csv.py, specify the JSON file in the first argument and the entity type in the second argument.
-    *   Example command line: 
-        ```python3 convert_to_csv.py data/raw/extracted_jsonl/mbdump/area area```
-3.  A CSV file named by its entity type will be generated in ```data/output/``` folder. It can be used for further operations.
+## 1: Procedure
 
-#   2: The data details:
--   In the link provided as below(It provides 2 versions, we usually choose the latest such as 20240626-001001/), we can download archived files which end with suffix ".tar.xz". If we unzip any of them, we will see a "mbdump" folder with a file named by its entity type and without extension. This is the dump in "JSON Lines" format. Each line represents one record in the dump. 
--   The name of the file is just the type of the entity(the class of an instance) in the database. For example, there are types such as area, artist, event, instrument, label, place etc.
--   In every line, there must be an attribute named "id", which is the primary key of each record. When converted into CSV, we rename the id according to "{entity_type}_id" format to be more precise of which entity type we are working with.
--   During the conversion process, for all ids of different entity type (genre_id, artist_id, area_id, etc.), we add the MusicBrainz reference to the id in the format: "https://musicbrainz.org/{entity_type}/{id}". It automatically converts the id to a URI reference.
--   For any record, if it is reconciled with Wikidata link by MusicBrainz bots, then it should have an object in "relations" > "resources" > "url", with the Wikidata link as the value. If it exists, then it is extracted to the CSV file.
+### Prerequisites:
+- All IDs and Wikidata links are already reconciled during the conversion process, eliminating the need for OpenRefine.
 
-#   DEPRECATED
-#   3: As an experiment data sets:
--   For experiment purposes, you had better only use a small portion of each data dump:
--   So, use the command of bash(for example, extract 3000 entries of an entity), please find the "mbdump" folder and open the terminal at the folder, then exectute:
-        head -n 3000 "area">"test_area"
-    to get the first 3000 lines from the area data dumps.
--   All other data dumps perform the same procedure.
+### Steps:
+1. **Navigate to the target folder:**
+   - Go to the `linkedmusic-datalake/musicbrainz/csv` directory.
 
+2. **Fetch the latest data:**
+   - Run the following command to download the latest tar.xz files from the MusicBrainz public data dumps:
+     ```bash
+     python3 fetch.py
+     ```
+   - The files will be saved in the local `data/raw/` folder.
 
+3. **Extract the required files:**
+   - Unzip and extract the necessary JSON Lines (jsonl) files by running:
+     ```bash
+     python3 untar.py
+     ```
+   - The extracted files will be located in the `data/raw/extracted_jsonl/mbdump/` folder.
+
+4. **Convert data to CSV:**
+   - Execute the conversion script:
+     ```bash
+     python3 convert_to_csv.py
+     ```
+   - This will generate a CSV file, named according to its entity type, in the `data/output/` folder.
+
+5. **Output:**
+   - The generated CSV files are ready for further processing.
+
+---
+
+## 2: Data Details
+
+### Overview:
+- The data can be downloaded from the provided link, typically selecting the latest version (e.g., `20240626-001001/`).
+- The downloaded `.tar.xz` files contain a `mbdump` folder with files named by entity type (e.g., `area`, `artist`, `event`, `instrument`, `label`, `place`). Each file is in "JSON Lines" format, with each line representing a single record.
+
+### Important Notes:
+- **ID Attributes:** Each record has an `id` attribute, which serves as the primary key. When converting to CSV, this `id` is renamed to `{entity_type}_id` for clarity.
+- **URI Conversion:** All IDs (e.g., `genre_id`, `artist_id`, `area_id`) are converted to URIs in the format: `https://musicbrainz.org/{entity_type}/{id}`.
+- **Wikidata Links:** If a record is linked to a Wikidata entry by MusicBrainz bots, the link can be found under `"relations" > "resources" > "url"`. These are also extracted into the CSV.
+
+---
+
+## 3: Mapping
+
+### Custom Predicate URLs:
+- The following made-up predicate URLs are used in the data conversion:
+  - `"packaging"`: `https://musicbrainz.org/packaging`
+  - `"packaging-id"`: `https://musicbrainz.org/packaging`
+  - `"media_pregap_id"`: `https://musicbrainz.org/pregap`
+  - `"media_discs_id"`: `https://musicbrainz.org/disc`
+
+---
+
+## Deprecated: Experiment Data Sets
+
+### Experiment Guidelines:
+- For experimental purposes, it is recommended to use a small portion of each data dump.
+- Use the following bash command to extract the first 3000 entries of a specific entity (e.g., `area`):
+  ```bash
+  head -n 3000 "area" > "test_area"
+  ```
+- Apply the same process to other data dumps if needed.
