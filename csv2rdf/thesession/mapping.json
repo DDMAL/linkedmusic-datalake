@@ -3,7 +3,8 @@
     "alias": "http://www.wikidata.org/prop/direct/P742",
     "area": "http://www.wikidata.org/prop/direct/P276",
     "area_wiki": "http://www.wikidata.org/prop/direct/P276",
-    "artist": "https://musicbrainz.org/doc/Recording#Artist",
+    "artist": "http://www.wikidata.org/prop/direct/P175",
+    "artist_wiki": "http://www.wikidata.org/prop/direct/P175",
     "coordinate": "http://www.wikidata.org/prop/direct/P625",
     "country": "http://www.wikidata.org/prop/direct/P17",
     "country_wiki": "http://www.wikidata.org/prop/direct/P17",
@@ -12,7 +13,7 @@
     "dtstart": "http://www.wikidata.org/prop/direct/P580",
     "entity_type": {
         "events-csv.csv": "http://www.wikidata.org/entity/Q1656682",
-        "recordings-csv.csv": "http://www.wikidata.org/entity/Q49017950",
+        "recordings-csv.csv": "http://www.wikidata.org/entity/Q482994",
         "sessions-csv.csv": "https://thesession.org/sessions",
         "sets-csv.csv": "http://www.wikidata.org/entity/Q1569406",
         "tune-aliases-csv.csv": "http://www.wikidata.org/entity/Q170412",
