@@ -14,6 +14,7 @@
 - Move the `Best candidate's score` facet to 0-98.
 - These cells are not present in Wikidata. Ignore them by using `reconcile > actions > create a new item for each cell`.
 - Close both facets. Go to `reconcile > add column with URLs of matched entities`, and name the new column `recording_wiki`.
+- Reconcile artist column against type null.(Currently, we only reconcile the artists which have higher frequency of appearence in the Recordings spreadsheet.) 
 - Run `find_artist.py` in the `/thesession/csv` folder to get the artist URL from The Session DB.
 - Export the data to CSV.
 
