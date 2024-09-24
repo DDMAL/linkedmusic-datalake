@@ -12,7 +12,7 @@
     "begin-area_iso-3166-3-codes": "http://www.wikidata.org/prop/direct/P773",#CSV file: artist.csv
     "cancelled": "http://www.wikidata.org/prop/direct/P31",#instanc of. CSV file: event.csv
     "coordinates": "http://www.wikidata.org/prop/direct/P625",#CSV file: label.csv
-    "country": "http://www.wikidata.org/prop/direct/P17",#CSV file: artist/label/release.csv
+    "country": "http://www.wikidata.org/prop/direct/P17",#CSV file: artist/label/release.csv Actually, as far as I know about the country values in label, not all of the values represent countries. Hence it should be marked [uncertain]
     "date": "http://www.wikidata.org/prop/direct/P585",#CSV file: release.csv
     "description": "http://schema.org/description",#CSV file:instrument.csv
     "end-area": "http://www.wikidata.org/prop/direct/P1444",#[uncertain]
