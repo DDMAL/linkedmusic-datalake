@@ -36,11 +36,12 @@ This mapping.json file will contain all the headers from the input CSV files as 
 5.  Run csv2rdf_single_subject.py. 
 
 e.g.
-```python3 csv2rdf_single_subject.py thesession/mapping.json thesession/*.csv```
-```python3 csv2rdf_single_subject.py cantus/mapping.json cantus/*.csv```
+```python3 csv2rdf_single_subject.py thesession/mapping.json thesession/*.csv False```
+```python3 csv2rdf_single_subject.py cantus/mapping.json cantus/*.csv True```
 ...
 
-There can be as many input csv files as needed, and they will be merged into one single `out_rdf.ttl` file inside the target database folder. 
+There can be as many input csv files as needed, and they will be merged into one single `out_rdf.ttl` file inside the target database folder.
+The last parameter is a boolean that indicates whether the output TTL file should be in separate files identified by the CSV file (True) or if the output TTL should be in one single large graph (False).
 
 6.  This `out_rdf.ttl` file can be imported into Virtuoso.
 
