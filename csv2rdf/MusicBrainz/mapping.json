@@ -13,6 +13,7 @@
     "cancelled": "http://www.wikidata.org/prop/direct/P31",
     "coordinates": "http://www.wikidata.org/prop/direct/P625",
     "country": "http://www.wikidata.org/prop/direct/P17",
+    "country_uri": "http://www.wikidata.org/prop/direct/P17",
     "date": "http://www.wikidata.org/prop/direct/P585",
     "description": "http://schema.org/description",
     "end-area": "http://www.wikidata.org/prop/direct/P1444",
@@ -66,6 +67,7 @@
     "packaging-id": "https://musicbrainz.org/packaging",
     "primary-type": "https://musicbrainz.org/doc/Release_Group#Type",
     "primary-type-id": "https://musicbrainz.org/doc/Release_Group#Type",
+    "primary-type_uri": "https://musicbrainz.org/doc/Release_Group#Type",
     "quality": "http://www.wikidata.org/prop/direct/P1552",
     "relations_wiki": "http://www.wikidata.org/prop/direct/P2888",
     "release-events_area_id": "http://www.wikidata.org/prop/direct/P276",
@@ -79,9 +81,12 @@
     "setlist": "http://www.wikidata.org/prop/direct/P9793",
     "status": "http://www.wikidata.org/prop/direct/P6216",
     "status-id": "http://www.wikidata.org/prop/direct/P6216",
+    "status_uri": "http://www.wikidata.org/prop/direct/P6216",
     "time": "http://www.wikidata.org/prop/direct/P585",
     "title": "http://www.wikidata.org/prop/direct/P1476",
     "type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
     "type-id": "http://musicbrainz.org/doc/Label/Type",
+    "type-uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+    "type_uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
     "video": "http://www.wikidata.org/prop/direct/P31"
 }
