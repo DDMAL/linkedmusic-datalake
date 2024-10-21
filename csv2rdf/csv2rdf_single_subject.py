@@ -124,7 +124,7 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                             day_str = datetime_obj.strftime("%Y-%m-%dT%H:%M:%S")
                             obj = Literal(day_str, datatype=XSD.dateTime)
                         else:
-                            obj = Literal(element)
+                            obj = Literal(element, lang="en")
 
                     g.add((key_attribute, predicates[i], obj))
 
