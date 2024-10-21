@@ -49,6 +49,7 @@
     "label-code": "http://www.wikidata.org/prop/direct/P7320",
     "label-info_label_id": "http://www.wikidata.org/prop/direct/P264",
     "language": "http://www.wikidata.org/prop/direct/P407",
+    "language_uri": "http://www.wikidata.org/prop/direct/P407",
     "languages": "http://www.wikidata.org/prop/direct/P407",
     "length": "http://www.wikidata.org/prop/direct/P2047",
     "media_data-tracks_artist-credit_artist_id": "http://www.wikidata.org/prop/direct/P697",
@@ -78,6 +79,7 @@
     "release-group_secondary-types": "http://www.wikidata.org/prop/direct/P2308",
     "secondary-type-ids": "https://musicbrainz.org/doc/Release_Group#secondaryTypes",
     "secondary-types": "https://musicbrainz.org/doc/Release_Group#secondaryTypes",
+    "secondary-types_uri": "https://musicbrainz.org/doc/Release_Group#secondaryTypes",
     "setlist": "http://www.wikidata.org/prop/direct/P9793",
     "status": "http://www.wikidata.org/prop/direct/P6216",
     "status-id": "http://www.wikidata.org/prop/direct/P6216",
@@ -86,7 +88,8 @@
     "title": "http://www.wikidata.org/prop/direct/P1476",
     "type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
     "type-id": "http://musicbrainz.org/doc/Label/Type",
-    "type-uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
     "type_uri": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+    "typeOfContainedEntity": "https://musicbrainz.org/doc/Series#Type",
+    "typeOfContainedEntity_uri": "https://musicbrainz.org/doc/Series#Type",
     "video": "http://www.wikidata.org/prop/direct/P31"
 }
