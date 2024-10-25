@@ -30,6 +30,7 @@ mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
 DT_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")
 STRING_NUM_COLUMN_SETS = {URIRef("https://musicbrainz.org/doc/Recording#Artist")}
+multi_file = sys.argv[-1]
 
 WD = Namespace("http://www.wikidata.org/entity/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
@@ -128,13 +129,19 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
 
                     g.add((key_attribute, predicates[i], obj))
 
+        if multi_file:
+            g.serialize(format="turtle", destination=f"{os.path.dirname(mapping_filename)}/{filename.rsplit("/", -1)[-1]}.ttl")
+            continue
     return g
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         raise ValueError("Invalid number of input filenames")
 
-    fns = sys.argv[2:]
-    turtle_data = convert_csv_to_turtle(fns)
-    turtle_data.serialize(format="turtle", destination=dest_filename)
+    fns = sys.argv[2:-1]
+    if not multi_file:
+        turtle_data = convert_csv_to_turtle(fns)
+        turtle_data.serialize(format="turtle", destination=dest_filename)
+    else:
+        convert_csv_to_turtle(fns)

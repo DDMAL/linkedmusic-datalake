@@ -19,23 +19,23 @@ import json
 import copy
 import csv
 import os
+import glob
 import sys
 
 DIRNAME = os.path.dirname(__file__)
 
-if len(sys.argv) != 3:
+if len(sys.argv) != 1:
     raise ValueError("Invalid number of arguments")
 
-entity_type = sys.argv[2]
-inputpath = os.path.join(DIRNAME, sys.argv[1])
-outputpath = os.path.join(DIRNAME, "../data/output", f"{entity_type}.csv")
+inputpath = os.path.relpath("../data/raw/extracted_jsonl/mbdump")
+outputpath = os.path.relpath("../data/output")
 
-header = [f"{entity_type}_id"]
+IGNORE_COLUMN = {"alias", "tags", "sort-name", "disambiguation", "annotation"}
+CHUNK_SIZE = 4096
+# 4096 was chosen because ChatGPT and StackOverflow examples typically use 4096 or 8192.
+entity_type = ""
+header = []
 values = []
-
-# the file must be from MusicBrainz's JSON data dumps.
-with open(inputpath, "r", encoding="utf-8") as f:
-    json_data = [json.loads(m) for m in f]
 
 
 def extract(data, value: dict, first_level: bool = True, key: str = ""):
@@ -52,9 +52,10 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
     if key != "":
         first_level = False
 
-    if "aliases" in key or "tags" in key or "sort-name" in key:
-        # ignore aliases, tags, and sort-name to make output simplier
-        return
+    for i in IGNORE_COLUMN:
+        if i in key:
+            # ignore aliases, tags, and sort-name to make output simplier
+            return
 
     if isinstance(data, dict):
         # the input JSON Lines format is lines of dictionaries, and the input data should be
@@ -79,7 +80,7 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
 
             # after extracting every entry of the current line, append it to the list and empty it.
             values.append(copy.deepcopy(value))
-            value = {}
+            value.clear()
 
         else:
             # if this dictionary is nested, then we do not extract all info,
@@ -101,12 +102,9 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         key + "_id",
                     )
 
-                if k == "name":
-                    extract(data["name"], value, first_level, key + "_name")
-
                 if isinstance(data[k], dict) or isinstance(data[k], list):
                     # if there is still a nested instance, extract further
-                    if key.split('_')[-1] not in [
+                    if key.split("_")[-1] not in {
                         "area",
                         "artist",
                         "event",
@@ -114,7 +112,11 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
                         "label",
                         "recording",
                         "genres",
-                    ]:
+                        "iso-3166-1-codes",
+                        "iso-3166-2-codes",
+                        "iso-3166-3-codes",
+                    }:
+                        # avoid extracting duplicate data
                         extract(data[k], value, first_level, key + "_" + k)
 
     elif isinstance(data, list):
@@ -152,9 +154,9 @@ def extract(data, value: dict, first_level: bool = True, key: str = ""):
         return
 
 
-def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
+def convert_dict_to_csv(dictionary_list: list) -> None:
     """
-    (list, str) -> None
+    (list) -> None
     Writes a list of dictionaries into the given file.
     If there are multiple values against a single key, a new column with only the
     id and that value is created.
@@ -163,40 +165,78 @@ def convert_dict_to_csv(dictionary_list: list, filename: str) -> None:
         dictionary_list: the list of dictionary that contains all the data
         filename: the destination filename
     """
-    with open(filename, mode="w", newline="", encoding="utf-8") as csv_file:
-        writer = csv.writer(csv_file)
-        writer.writerow(header)
-        # Find the maximum length of lists in the dictionary
 
-        for dictionary in dictionary_list:
-            max_length = max(
-                len(v) if isinstance(v, list) else 1 for v in dictionary.values()
-            )
+    # Find the maximum length of lists in the dictionary
+    for dictionary in dictionary_list:
+        max_length = max(
+            len(v) if isinstance(v, list) else 1 for v in dictionary.values()
+        )
 
-            for i in range(max_length):
-                row = [dictionary[f"{entity_type}_id"]]
-                for key in header:
-                    if key == f"{entity_type}_id":
-                        continue
+        for i in range(max_length):
+            row = [dictionary[f"{entity_type}_id"]]
+            for key in header:
+                if key == f"{entity_type}_id":
+                    continue
 
-                    if key in dictionary:
-                        if isinstance(dictionary[key], list):
-                            # Append the i-th element of the list,
-                            # or an empty string if index is out of range
-                            row.append(
-                                (dictionary[key])[i] if i < len(dictionary[key]) else ""
-                            )
-                        else:
-                            # Append the single value
-                            # (for non-list entries, only on the first iteration)
-                            row.append(dictionary[key] if i == 0 else "")
+                if key in dictionary:
+                    if isinstance(dictionary[key], list):
+                        # Append the i-th element of the list,
+                        # or an empty string if index is out of range
+                        row.append(
+                            (dictionary[key])[i] if i < len(dictionary[key]) else ""
+                        )
                     else:
-                        row.append("")
+                        # Append the single value
+                        # (for non-list entries, only on the first iteration)
+                        row.append(dictionary[key] if i == 0 else "")
+                else:
+                    row.append("")
 
-                writer.writerow(row)
+            with open(
+                "temp.tsv", mode="a", newline="", encoding="utf-8"
+            ) as csv_records:
+                writer_records = csv.writer(csv_records, delimiter="\t", quotechar="|")
+                writer_records.writerow(row)
 
 
 if __name__ == "__main__":
-    extract(json_data, {})
 
-    convert_dict_to_csv(values, outputpath)
+    for file in glob.glob(f"{inputpath}/*"):
+        # the file must be from MusicBrainz's JSON data dumps.
+        entity_type = file.split("/")[-1]
+        header = [f"{entity_type}_id"]
+        values = []
+        chunk = []
+
+        with open(file, "r", encoding="utf-8") as f:
+            for line in f:
+                line_data = json.loads(line)  # Parse each line as a JSON object
+                chunk.append(line_data)  # Add the JSON object to the current chunk
+
+                # When the chunk reaches the desired size, process it
+                if len(chunk) == CHUNK_SIZE:
+                    extract(chunk, {})
+                    chunk.clear()  # Reset the chunk
+                    convert_dict_to_csv(values)
+
+                values.clear()
+
+            # Process any remaining data in the last chunk
+            if chunk:
+                extract(chunk, {})
+                chunk.clear()
+                convert_dict_to_csv(values)
+
+        with open(
+            os.path.join(outputpath, entity_type + ".csv"), "w", encoding="utf-8"
+        ) as f:
+            with open("temp.tsv", "r", encoding="utf-8") as f_temp:
+                writer = csv.writer(f)
+                writer.writerow(header)
+
+                temp_reader = csv.reader(f_temp, delimiter="\t", quotechar="|")
+
+                for line in temp_reader:
+                    writer.writerow(line)
+
+        os.remove("temp.tsv")
