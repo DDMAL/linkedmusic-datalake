@@ -13,3 +13,6 @@ Manually reconciled columns:
 
 ### label.csv
 - type -> type_uri, country -> country_uri
+
+### release.csv
+- status::cancelled unclarity: use https://www.wikidata.org/wiki/Q30108381
