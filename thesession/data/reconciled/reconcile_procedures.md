@@ -14,6 +14,7 @@
 - Move the `Best candidate's score` facet to 0-98.
 - These cells are not present in Wikidata. Ignore them by using `reconcile > actions > create a new item for each cell`.
 - Close both facets. Go to `reconcile > add column with URLs of matched entities`, and name the new column `recording_wiki`.
+- Reconcile artist column against type null.(Currently, we only reconcile the artists which have higher frequency of appearence in the Recordings spreadsheet.) 
 - Run `find_artist.py` in the `/thesession/csv` folder to get the artist URL from The Session DB.
 - Export the data to CSV.
 
@@ -52,7 +53,16 @@
 - Transform the `id` by appending `https://thesession.org/events/{id}` to the cells.
 - Rename the `id` column to `events_id`.
 - Join the `longitude` and `latitude` columns into a new column named `coordinate`.
-- Text transform the cells to `return "Point(" + value + ")"`.
+- Text transform the cells to 
+```
+if str(value)=="": return None 
+else: return "Point(" + value + ")"
+```
+- Text transform the cells in column `dtstart` and `dtend` to
+```
+if value is not None: return value[0:10] + "T" + value[11:]
+else: return None
+```
 - Reconcile the `country` column against the type "country" (Q6256).
 - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
 - In the `judgment` facet, choose "none" and move the score to 54-101 in the score facet.
@@ -78,7 +88,16 @@
 - Transform the `id` by appending `https://thesession.org/sessions/{id}` to the cells.
 - Rename the `id` column to `sessions_id`.
 - Join the `longitude` and `latitude` columns into a new column named `coordinate`.
-- Text transform the cells to `return "Point(" + value + ")"`.
+- Text transform the cells to 
+```
+if str(value)=="": return None 
+else: return "Point(" + value + ")"
+```
+- Text transform the cells in column `date` to
+```
+if value is not None: return value[0:10] + "T" + value[11:]
+else: return None
+```
 - Reconcile the `country` column against the type "country" (Q6256).
 - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
 - In the `judgment` facet, choose "none" and move the score to 60-101 in the score facet.

@@ -1751,11 +1751,11 @@
       "mode": "row-based"
     },
     "baseColumnName": "latitude",
-    "expression": "join ([coalesce(cells['latitude'].value,''),coalesce(cells['longitude'].value,'')],' ')",
+    "expression": "join ([cells['latitude'].value,cells['longitude'].value],' ')",
     "onError": "keep-original",
     "newColumnName": "coordinate",
     "columnInsertIndex": 14,
-    "description": "Create column coordinate at index 14 based on column latitude using expression join ([coalesce(cells['latitude'].value,''),coalesce(cells['longitude'].value,'')],' ')"
+    "description": "Create column coordinate at index 14 based on column latitude using expression join ([cells['latitude'].value,cells['longitude'].value],' ')"
   },
   {
     "op": "core/column-reorder",
@@ -1784,10 +1784,10 @@
       "mode": "row-based"
     },
     "columnName": "coordinate",
-    "expression": "jython:return \"Point(\" + str(value) + \")\"",
+    "expression": "jython:if str(value)==\"\": return None \nelse: return \"Point(\" + value + \")\"",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column coordinate using expression jython:return \"Point(\" + str(value) + \")\""
+    "description": "Text transform on cells in column coordinate using expression jython:if str(value)==\"\": return None \nelse: return \"Point(\" + value + \")\""
   }
 ]
