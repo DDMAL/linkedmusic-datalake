@@ -9,7 +9,7 @@ Steps:
 ```python3 get_relations.py thesession/``` -> generates `thesession/mapping.json`
 This mapping.json file will contain all the headers from the input CSV files as keys in a JSON dictionary, and their respective values are empty strings. The users should fill all the empty values with corresponding Wikidata or Schema.org property links, etc.
 
-3.  e.g. part from `thesession/mapping.json`:
+3.  e.g. snippet from `thesession/mapping.json`:
 ```
 {
     "entity_type": {

@@ -1,0 +1,87 @@
+{
+    "address": "http://www.wikidata.org/prop/direct/P6375",#CSV file: label.csv
+    "area": "http://www.wikidata.org/prop/direct/P276",#location. CSV file: artist/label.csv
+    "area_id": "http://www.wikidata.org/prop/direct/P276",#CSV file: artist/label.csv
+    "artist-credit_artist_id": "http://www.wikidata.org/prop/direct/P175",#CSV file: recording/release-group/release.csv
+    "asin": "http://www.wikidata.org/prop/direct/P5749",#Amazon Standard Identification Number. CSV file: release.csv
+    "barcode": "http://www.wikidata.org/prop/direct/P3962",#Global Trade Item Number. CSV file: release.csv
+    "begin-area": "http://www.wikidata.org/prop/direct/P1427",#[uncertain]
+    "begin-area_id": "http://www.wikidata.org/prop/direct/P1427",#CSV file: artist.csv [uncertain]
+    "begin-area_iso-3166-1-codes": "http://www.wikidata.org/prop/direct/P299",#CSV file: artist.csv
+    "begin-area_iso-3166-2-codes": "http://www.wikidata.org/prop/direct/P300",#CSV file: artist.csv
+    "begin-area_iso-3166-3-codes": "http://www.wikidata.org/prop/direct/P773",#CSV file: artist.csv
+    "cancelled": "http://www.wikidata.org/prop/direct/P31",#instanc of. CSV file: event.csv
+    "coordinates": "http://www.wikidata.org/prop/direct/P625",#CSV file: label.csv
+    "country": "http://www.wikidata.org/prop/direct/P17",#CSV file: artist/label/release.csv Actually, as far as I know about the country values in label, not all of the values represent countries. Hence it should be marked [uncertain]
+    "date": "http://www.wikidata.org/prop/direct/P585",#CSV file: release.csv
+    "description": "http://schema.org/description",#CSV file:instrument.csv
+    "end-area": "http://www.wikidata.org/prop/direct/P1444",#[uncertain]
+    "end-area_id": "http://www.wikidata.org/prop/direct/P1444",#[uncertain] CSV file: artist.csv
+    "end-area_iso-3166-1-codes": "http://www.wikidata.org/prop/direct/P299",#CSV file: artist.csv
+    "end-area_iso-3166-2-codes": "http://www.wikidata.org/prop/direct/P300",#CSV file: artist.csv
+    "end-area_iso-3166-3-codes": "http://www.wikidata.org/prop/direct/P773",#CSV file: artist.csv
+    "entity_type": {
+        "area.csv": "http://www.wikidata.org/entity/Q2221906",#geographic location
+        "artist.csv": "http://www.wikidata.org/entity/Q483501",#artist [uncertain] Artist in MusicBrainz is in a broader sense and more inclusive than that in Wikidata.
+        "event.csv": "http://www.wikidata.org/entity/Q1656682",#event [uncertain] whether we use music event (Q113162275) instead?
+        "genre.csv": "http://www.wikidata.org/entity/Q188451",#music genre
+        "instrument.csv": "http://www.wikidata.org/entity/Q34379",#musical instrument (Q34379)
+        "label.csv": "http://www.wikidata.org/entity/Q18127",#record label
+        "place.csv": "http://www.wikidata.org/entity/Q98929991",#place
+        "recording.csv": "http://www.wikidata.org/entity/Q5057302",#sound recording process [uncertain] As indicated on <https://musicbrainz.org/doc/Recording>, recording is inclusive of "Studio recording"(Q15975575) and "Live recording"(Q56123235), we had better not use either of them, so I chose to use the parent class of Studio recording 
+        "release-group.csv": "http://www.wikidata.org/entity/Q108346082",#release group
+        "release.csv": "http://www.wikidata.org/entity/Q3972943",#publishing:release [uncertain] Q3972943 seems a obstract concerpt, but release in MusicBrainz seems more concrete. 
+        "series.csv": "http://www.wikidata.org/entity/Q3511132",#series
+        "work.csv": "http://www.wikidata.org/entity/Q838948"#work of art
+    },
+    "first-release-date": "http://www.wikidata.org/prop/direct/P577",#publication date (P577). CSV file: release-group.csv [uncertain]
+    "gender": "http://www.wikidata.org/prop/direct/P21",#CSV file: artist.csv
+    "gender-id": "http://www.wikidata.org/prop/direct/P21",#CSV file: artist/release-group.csv
+    "genres_id": "http://www.wikidata.org/prop/direct/P136",#CSV file: area/artist/event/instrument/label/place/recording/series/work/release.csv
+    "ipis": "http://www.wikidata.org/prop/direct/P3453",#CSV file: artist/label.csv
+    "isnis": "http://www.wikidata.org/prop/direct/P213",#CSV file: artist/label.csv
+    "iso-3166-1-codes": "http://www.wikidata.org/prop/direct/P299",#CSV file: area.csv
+    "iso-3166-2-codes": "http://www.wikidata.org/prop/direct/P300",#CSV file: area.csv
+    "iso-3166-3-codes": "http://www.wikidata.org/prop/direct/P773",#CSV file: area.csv
+    "isrcs": "http://www.wikidata.org/prop/direct/P1243",#CSV file: recording.csv
+    "iswcs": "http://www.wikidata.org/prop/direct/P1827",#CSV file: works.csv
+    "label-code": "http://www.wikidata.org/prop/direct/P7320",#label-code. CSV file: label.csv
+    "label-info_label_id": "http://www.wikidata.org/prop/direct/P264",#CSV file: release.csv
+    "language": "http://www.wikidata.org/prop/direct/P407",#language of work or name (P407). CSV file: work.csv
+    "languages": "http://www.wikidata.org/prop/direct/P407",#CSV file: work.csv
+    "length": "http://www.wikidata.org/prop/direct/P2047",#CSV file: recording.csv
+    "media_data-tracks_artist-credit_artist_id": "http://www.wikidata.org/prop/direct/P697",#[uncertain]CSV file: release.csv
+    "media_data-tracks_id": "http://www.wikidata.org/prop/direct/P2550",#[uncertain]CSV file: release.csv
+    "media_data-tracks_recording_id": "http://www.wikidata.org/prop/direct/P2550",#[uncertain]CSV file: release.csv
+    "media_discs_id": "https://musicbrainz.org/disc",#[uncertain]CSV file: release.csv
+    "media_discs_offsets": "http://www.wikidata.org/prop/direct/P4153",#offset. CSV file: release.csv [uncertain]
+    "media_pregap_artist-credit_artist_id": "http://www.wikidata.org/prop/direct/P697",
+    "media_pregap_id": "https://musicbrainz.org/pregap",#[uncertain]CSV file: release.csv
+    "media_pregap_recording_id": "http://www.wikidata.org/prop/direct/P2550",#[uncertain]CSV file: release.csv
+    "media_tracks_artist-credit_artist_id": "http://www.wikidata.org/prop/direct/P175",#[uncertain] CSV file: release.csv
+    "media_tracks_id": "http://www.wikidata.org/prop/direct/P9831",#[uncertain]CSV file: release.csv
+    "media_tracks_recording_id": "http://www.wikidata.org/prop/direct/P2550",
+    "name": "http://www.wikidata.org/prop/direct/P2561",#name. CSV file: area/artist/genre/instrument/label/series.csv   
+    "packaging": "https://musicbrainz.org/packaging",#[uncertain]CSV file: release.csv
+    "packaging-id": "https://musicbrainz.org/packaging",#[uncertain]CSV file: release.csv 
+    "primary-type": "https://musicbrainz.org/doc/Release_Group#Type",#CSV file: release-group.csv [uncertain]
+    "primary-type-id": "https://musicbrainz.org/doc/Release_Group#Type",#CSV file: release-group.csv [uncertain]
+    "quality": "http://www.wikidata.org/prop/direct/P1552",#has characteristic. CSV file: release.csv [uncertain]
+    "relations_wiki": "http://www.wikidata.org/prop/direct/P2888",#exact match
+    "release-events_area_id": "http://www.wikidata.org/prop/direct/P276",#location. CSV file: release.csv [uncertain]
+    "release-group_artist-credit_artist_id": "http://www.wikidata.org/prop/direct/P697",#ex taxon author [uncertain] CSV file: release.csv
+    "release-group_genres_id": "http://www.wikidata.org/prop/direct/P136",#It's probably redundant. CSV file: release.csv [uncertain]
+    "release-group_id": "http://www.wikidata.org/prop/direct/P9831",#release of (P9831), release group this release belongs to CSV file: release.csv
+    "release-group_secondary-type-ids": "https://musicbrainz.org/doc/Release_Group#secondaryTypes",#CSV file: release-group/release.csv [uncertain]
+    "release-group_secondary-types": "https://musicbrainz.org/doc/Release_Group#secondaryTypes",#CSV file: release-group/release.csv [uncertain]
+    "secondary-type-ids": "http://www.wikidata.org/prop/direct/P2308",#[uncertain]CSV file: release-group.csv
+    "secondary-types": "http://www.wikidata.org/prop/direct/P2308",#[uncertain]CSV file: release-group.csv
+    "setlist": "http://www.wikidata.org/prop/direct/P9793",#CSV file: event.csv
+    "status": "http://www.wikidata.org/prop/direct/P6216",#copyright status. CSV file: release.csv. Note: Data type of wdt:P6216 is Item.
+    "status-id": "http://www.wikidata.org/prop/direct/P6216",#copyright status. CSV file: release.csv
+    "time": "http://www.wikidata.org/prop/direct/P585",#point in time. CSV file: event.csv
+    "title": "http://www.wikidata.org/prop/direct/P1476",#CSV file: recording/release-group/release/work.csv
+    "type": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",#CSV file: area/artist/series/works.csv
+    "type-id": "http://musicbrainz.org/doc/Label/Type",#CSV file: area/artist/event/instrument/label/place/series/work.csv [uncertain]
+    "video": "http://www.wikidata.org/prop/direct/P31"#CSV file: recording.csv
+}
