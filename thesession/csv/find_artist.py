@@ -30,7 +30,7 @@ def get_artist_url(page_url):
     return None
 
 
-df = pandas.read_csv("../data/reconciled/recordings.csv")
+df = pandas.read_csv("../data/reconciled/recordings-csv.csv")
 
 # Get the URL of the artist
 for i, artist in enumerate(df["artist"]):
@@ -38,4 +38,4 @@ for i, artist in enumerate(df["artist"]):
         artist_dict[artist] = get_artist_url(df["recording_id"][i])
 
 df["artist_url"] = df["artist"].map(artist_dict)
-df.to_csv("../data/reconciled/recordings.csv", index=False)
+df.to_csv("../data/reconciled/recordings-csv.csv", index=False)
