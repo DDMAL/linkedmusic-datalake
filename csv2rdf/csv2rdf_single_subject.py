@@ -16,9 +16,11 @@ from typing import List
 import sys
 import json
 import os
+import re
+from datetime import datetime
 import validators
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF, XSD
+from rdflib.namespace import RDF, XSD, GEO
 
 # The "type" attribute of each CSV file must be entered in the mapper file in the
 # same order as the input in commandline.
@@ -26,10 +28,24 @@ from rdflib.namespace import RDF, XSD
 DIRNAME = os.path.dirname(__file__)
 mapping_filename = os.path.join(DIRNAME, sys.argv[1])
 dest_filename = os.path.join(os.path.dirname(mapping_filename), "out_rdf.ttl")
+DT_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$")
+STRING_NUM_COLUMN_SETS = {URIRef("https://musicbrainz.org/doc/Recording#Artist")}
 multi_file = sys.argv[-1]
 
 WD = Namespace("http://www.wikidata.org/entity/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
+
+
+def check_for_num(s: str, t) -> bool:
+    """
+    (str, str) -> bool
+    checks if the string s is a valid integer given the column title.
+    """
+    if t in STRING_NUM_COLUMN_SETS:
+        return False
+
+    return s.isdigit()
+
 
 def convert_csv_to_turtle(filenames: List[str]) -> Graph:
     """
@@ -87,10 +103,29 @@ def convert_csv_to_turtle(filenames: List[str]) -> Graph:
                     else:
                         if element == "True" or element == "False":
                             obj = Literal(element, datatype=XSD.boolean)
-                        elif element.isdigit():
+                        elif check_for_num(element, predicates[i]):
                             obj = Literal(element, datatype=XSD.integer)
+                        elif element.startswith("Point("):
+                            obj = Literal(element.upper(), datatype=GEO.wktLiteral)
+                        elif DT_PATTERN.match(element):
+                            datetime_obj = datetime.strptime(
+                                element, "%Y-%m-%d %H:%M:%S"
+                            )
+
+                            day_of_week = datetime_obj.strftime("%A")
+                            day_of_week_obj = Literal(day_of_week)
+                            g.add(
+                                (
+                                    key_attribute,
+                                    URIRef("http://www.wikidata.org/prop/direct/P2894"),
+                                    day_of_week_obj,
+                                )
+                            )
+
+                            day_str = datetime_obj.strftime("%Y-%m-%dT%H:%M:%S")
+                            obj = Literal(day_str, datatype=XSD.dateTime)
                         else:
-                            obj = Literal(element)
+                            obj = Literal(element, lang="en")
 
                     g.add((key_attribute, predicates[i], obj))
 
