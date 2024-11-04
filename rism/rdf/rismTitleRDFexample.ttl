@@ -1,0 +1,999 @@
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051649>
+        dct:extent                    "1 parts" ;
+        dct:extent                    "5 parts" ;
+        dct:extent                    "score: 142f." ;
+        mo:key                        "false" ;
+        dct:identifier                "000051649" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051649#ex-ks30002202-M1201619> ;
+        rdagr1:otherTitleInformation  "true" ;
+        mo:arrangement_of             "V, vl (2), vla, b, ob (2), cl (2), fag, cor (2), tr (2)" ;
+        dct:format                    "Different sizes" ;
+        dct:description               "USA: Doublette?" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:issued                    "1790-1810 (18/19)" ;
+        dct:description               "USA: Fehlen Einzeleinträge?" ;
+        dct:description               "Modern cloth binding" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:description               "Cataloguer's note, f.2v: \"xxM120.16 | Allen A Brown | 10. June, 1898\"" .
+
+<http://data.rism.info/id/rismid/000051649#ex-ks30002202-M1201619>
+        daia:label  "M.120.16 (1-9)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051650>
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051650#ex-ks30002202-M120161> ;
+        rdagr1:otherTitleInformation  "false" ;
+        dct:identifier                "000051650" ;
+        dct:extent                    "3 parts" ;
+        dct:title                     "Tito Manlio. Excerpts" ;
+        dct:issued                    "1742 (1742p)" ;
+        dct:description               "other parts missing" ;
+        dc:subject                    "Arias (voc.)" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30030884> ;
+        dct:format                    "21,5 x 26,5 cm" ;
+        mo:key                        "true" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        mo:arrangement_of             "S, vl (2), b, cor (2)" ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe438> ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        bsbmo:incipit                 "=10/'4B8E''EEC/'AA4--/''F8.E6C'8.B6A/8AG4-" ;
+        dc:contributor                "Roccaforte, Gaetano" ;
+        dc:subject                    "Operas" ;
+        mo:lyrics                     "Padre con quest'amplesso" ;
+        dct:description               "At f.1: \"N|o 4\"" ;
+        dc:contributor                "Brown, Allen A." ;
+        bsbmo:incipit                 "''4B8{EB'''C''B}/{AA}6-{AGA}{BAGA}/" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        gnd:formerOwner               "Brown, Allen A." ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        mo:arrangement_of             "S, strings, cor (2)" .
+
+<http://data.rism.info/id/rismid/000051650#ex-ks30002202-M120161>
+        daia:label  "M.120.16 (1)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051651>
+        dc:contributor                "Tottola, Andrea Leone" ;
+        mo:lyrics                     "Amor de' miei sospiri" ;
+        dct:title                     "Adelaide maritata. Excerpts" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000022> ;
+        rdagr1:otherTitleInformation  "true" ;
+        dc:subject                    "Operas" ;
+        dct:format                    "23 x 29,5 cm" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:issued                    "1817 (1817p)" ;
+        mo:key                        "true" ;
+        bsbmo:incipit                 "=14/4-8-4-'8G/''4C8-4-8-/4-8C4E8C/'4A8A4-8-/" ;
+        gnd:formerOwner               "Brown, Allen A." ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051651#ex-ks30002202-M120162> ;
+        dct:extent                    "score: 12f." ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe30001070> ;
+        dct:identifier                "000051651" ;
+        mo:arrangement_of             "S, orch" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        mo:arrangement_of             "S, vl (2), vla, b, ob, fag, cor" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        dc:contributor                "Brown, Allen A." .
+
+<http://data.rism.info/id/rismid/000051651#ex-ks30002202-M120162>
+        daia:label  "M.120.16 (2)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051652>
+        dct:identifier                "000051652" ;
+        dct:extent                    "score: 23f." ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        bsbmo:incipit                 "=4/2-'8G6GG8GnA/nBB-BBBnAB/4G" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051652#ex-ks30002202-M120163> ;
+        mo:arrangement_of             "S, orch" ;
+        dc:contributor                "Brown, Allen A." ;
+        dct:issued                    "1817 (1817p)" ;
+        dc:subject                    "Operas" ;
+        mo:lyrics                     "Almen per breve istante" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000022> ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        rdagr1:otherTitleInformation  "true" ;
+        dct:format                    "23 x 29 cm" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        bsbmo:incipit                 "=23/4-8-'B/4.B8G/''4.E8D/CC4-/" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        mo:lyrics                     "Tu che di tigre ircana" ;
+        mo:key                        "true" ;
+        mo:arrangement_of             "S, vl (2), vla solo, vla, b, ob (2), cl (2), cor (2)" ;
+        gnd:formerOwner               "Brown, Allen A." ;
+        dc:contributor                "Tottola, Andrea Leone" ;
+        dct:title                     "Adelaide maritata. Excerpts" ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe30001070> .
+
+<http://data.rism.info/id/rismid/000051652#ex-ks30002202-M120163>
+        daia:label  "M.120.16 (3)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051653#ex-ks30002202-M120164>
+        daia:label  "M.120.16 (4)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051653>
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051653#ex-ks30002202-M120164> ;
+        rdagr1:otherTitleInformation  "true" ;
+        mo:lyrics                     "Ma troverò l'indegno" ;
+        dc:subject                    "Operas" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000022> ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:identifier                "000051653" ;
+        mo:arrangement_of             "S, B, vl (2), vla, b, fag, cor (2), tr (2)" ;
+        dct:format                    "23 x 30 cm" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        mo:key                        "true" ;
+        gnd:formerOwner               "Brown, Allen A." ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe30001070> ;
+        dct:issued                    "1817 (1817p)" ;
+        bsbmo:incipit                 "1(-)/''2E'4.B8G/4EE2(-)/=2/''2F4.D'8B/4AA2(-)/" ;
+        mo:lyrics                     "Versa il mio sangue" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        mo:lyrics                     "Adelaide tu taci" ;
+        dct:extent                    "score: 32f." ;
+        mo:arrangement_of             "V (2), orch" ;
+        dc:contributor                "Brown, Allen A." ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        dc:contributor                "Tottola, Andrea Leone" ;
+        bsbmo:incipit                 "=/4-8-6,EFG8G/2-4-8-G/FF-A4F8-A/AD6-DDE4F" ;
+        dct:title                     "Adelaide maritata. Excerpts" .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051654#ex-ks30002202-M120165>
+        daia:label  "M.120.16 (5)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051654>
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe41444> ;
+        dct:title                     "Enrico. Excerpts" ;
+        mo:lyrics                     "Quel chiaro rivo e placido" ;
+        mo:arrangement_of             "S, vl (2), vla, b" ;
+        mo:arrangement_of             "S, strings" ;
+        dct:extent                    "4 parts" ;
+        bsbmo:incipit                 "=13/2-4-''F/'BBBB/''2.C8{DE}/2.D4F/" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051654#ex-ks30002202-M120165> ;
+        dct:identifier                "000051654" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:description               "Score: at head of f.1: \"Del Sig: r Galuppi detto Burandello\"" ;
+        dc:subject                    "Operas" ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        gnd:formerOwner               "Brown, Allen A." ;
+        dct:format                    "22 x 29,5 cm" ;
+        mo:key                        "true" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:issued                    "1800-1824 (19.1q)" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        rdagr1:otherTitleInformation  "false" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        dc:contributor                "Brown, Allen A." .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051655>
+        dct:identifier                "000051655" ;
+        mo:arrangement_of             "S, vl (2), vla, b, ob, cor" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        foaf:isPrimaryTopicOf         <http://data.rism.info/id/rismauthorities/litwotg%201a.15%2F41> ;
+        gnd:formerOwner               "Belair, F. L. Henry de" ;
+        mo:lyrics                     "Ah non son io che parlo" ;
+        dc:contributor                "Belair, F. L. Henry de" ;
+        dc:subject                    "Operas" ;
+        dct:title                     "Ezio. Excerpts" ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe67338> ;
+        bsbmo:incipit                 "=/2-4-'D/2.D4D/AA-8AA/''2F4DD/" ;
+        dc:contributor                "Metastasio, Pietro" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051655#ex-ks30002202-M120166> ;
+        rdagr1:otherTitleInformation  "true" ;
+        mo:arrangement_of             "S, orch" ;
+        mo:lyrics                     "Misera dove son" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        mo:catalogue_number           "litwotg 1a.15/41" ;
+        dct:issued                    "1750 (1750p)" ;
+        dct:extent                    "score: 15f." ;
+        mo:key                        "true" ;
+        dct:format                    "22 x 30 cm" ;
+        dct:description               "Cataloguer's note, f.4, pencil: \"from Ezio\"" ;
+        bsbmo:incipit                 "=3/2-'6AD8D-''6D'A/4B-2-/4G8GAnBB-''D/" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe97823> .
+
+<http://data.rism.info/id/rismid/000051655#ex-ks30002202-M120166>
+        daia:label  "M.120.16 (6)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051656#ex-ks30002202-M120167>
+        daia:label  "M.120.16 (7)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051656>
+        gnd:formerOwner               "Belair, F. L. Henry de" ;
+        mo:lyrics                     "Ah non son io che parlo" ;
+        mo:key                        "true" ;
+        dc:contributor                "Belair, F. L. Henry de" ;
+        dct:identifier                "000051656" ;
+        dc:contributor                "Metastasio, Pietro" ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        bsbmo:incipit                 "=/2-4-'D/2.D4D/AA-8AA/''2F4DD/" ;
+        bsbmo:incipit                 "=3/2-'6AD8D-''6D'A/4B-2-/4G8GAnBB-''D/" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe97823> ;
+        foaf:isPrimaryTopicOf         <http://data.rism.info/id/rismauthorities/litwotg%201a.15%2F41> ;
+        dc:subject                    "Operas" ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe67338> ;
+        dct:description               "Cataloguer's note, f.4, pencil: \"from Ezio\"" ;
+        dct:title                     "Ezio. Excerpts" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:format                    "22 x 30 cm" ;
+        dct:extent                    "score: 36f." ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        mo:arrangement_of             "S, vl (2), vla, b, ob, cor" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        rdagr1:otherTitleInformation  "true" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        mo:arrangement_of             "S, orch" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051656#ex-ks30002202-M120167> ;
+        mo:lyrics                     "Misera dove son" ;
+        dct:issued                    "1750 (1750p)" ;
+        mo:catalogue_number           "litwotg 1a.15/41" .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051657#ex-ks30002202-M120168>
+        daia:label  "M.120.16 (8)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051657>
+        dc:contributor                "Brown, Allen A." ;
+        dct:description               "Cataloguer's note, at head of title, pencil: \"from La clemenza di Tito\"" ;
+        dct:extent                    "score: 10f." ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe97823> ;
+        dct:title                     "La clemenza di Tito. Excerpts" ;
+        mo:catalogue_number           "litwotg 1a.16/43" ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe67338> ;
+        gnd:formerOwner               "Brown, Allen A." ;
+        dct:issued                    "1752 (1752p)" ;
+        mo:arrangement_of             "S, vl (2), violetta, b, ob (2), fag, cor" ;
+        dc:contributor                "Metastasio, Pietro" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dc:subject                    "Operas" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        mo:lyrics                     "Al mio spirito dal seno disciolto" ;
+        rdagr1:otherTitleInformation  "true" ;
+        mo:lyrics                     "Se mai senti spirarti" ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        dct:identifier                "000051657" ;
+        foaf:isPrimaryTopicOf         <http://data.rism.info/id/rismauthorities/litwotg%201a.16%2F43> ;
+        mo:arrangement_of             "S, orch" ;
+        dct:format                    "22 x 29 cm" ;
+        mo:key                        "true" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051657#ex-ks30002202-M120168> ;
+        dct:description               "Contains 20p." ;
+        bsbmo:incipit                 "=11/2-''4DD/2G4DC/'2B4AG/''2.C8{DE}/4D" .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051658>
+        dc:contributor                "Marmontel, Jean-François" ;
+        mo:key                        "true" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe79133> ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000034> ;
+        dct:identifier                "000051658" ;
+        dct:extent                    "score: 14f." ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30027118> ;
+        gnd:formerOwner               "Re, Madame Jacques" ;
+        dc:contributor                "Re, Madame Jacques" ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000034> ;
+        dct:description               "f.2 contains an orchestra sketch of 6 measures" ;
+        dct:issued                    "1772 (1772p)" ;
+        mo:lyrics                     "Donne-la moi dans nos adieux" ;
+        dct:title                     "Céphale et Procris. Excerpts" ;
+        gnd:formerOwner               "Godefavig, Collete" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051658#ex-ks30002202-M120169> ;
+        bsbmo:incipit                 "=7/''2C8FD/4C8-CDC/'4B8-B''C'B/4B8A-''8.C'6A/" ;
+        mo:arrangement_of             "S, B, vl (2), vla, b, fl (2), cor" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dc:contributor                "Godefavig, Collete" ;
+        dct:description               "At head of title page: \"M.lle Colette Godefavig | Madame Jacques Re [torn off]\"" ;
+        dc:subject                    "Opéra-ballets" ;
+        rdagr1:otherTitleInformation  "true" ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30027118> ;
+        mo:arrangement_of             "V (2), orch" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/fre> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe83932> ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:format                    "21 x 26,5 cm" .
+
+<http://data.rism.info/id/rismid/000051658#ex-ks30002202-M120169>
+        daia:label  "M.120.16 (9)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051659#ex-ks30002202-M1201717>
+        daia:label  "M.120.17 (1-7)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051659>
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:format                    "Different sizes" ;
+        dct:identifier                "000051659" ;
+        dc:contributor                "Brown, Allen A." ;
+        dct:description               "Modern cloth binding" ;
+        dct:extent                    "21 parts" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        mo:arrangement_of             "V, vl (2), vla, b, fl (2), ob (2), cor (2)" ;
+        gnd:formerOwner               "Brown, Allen A." ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000024> ;
+        dct:extent                    "score: 66f." ;
+        mo:key                        "false" ;
+        dct:description               "Cataloguer's note, f.2v: \"Allen A. Brown | 1 January, 1898\"" ;
+        rdagr1:otherTitleInformation  "true" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051659#ex-ks30002202-M1201717> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051660>
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:extent                    "score (incpl): 4f." ;
+        bsbmo:incipit                 "''8.F6D/'4B8-BB''D/CC-CCE/DD4-8.D6F/q8F4.E" ;
+        bsbmo:incipit                 "=4/8---'GBB-''D/'BB6-BAG''8xCC" ;
+        mo:arrangement_of             "S (2), strings, cor (2)" ;
+        mo:lyrics                     "Sposo Timante" ;
+        dct:format                    "23 x 29,5 cm" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051660#ex-ks30002202-M120171> ;
+        dct:title                     "Lascia pur ch'io vada a morte" ;
+        mo:key                        "true" ;
+        mo:arrangement_of             "S (2), vl (2), vla, cor (2)" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        rdagr1:otherTitleInformation  "false" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe1368> ;
+        mo:lyrics                     "Lascia pur ch'io vada a morte" ;
+        dct:issued                    "1800-1824 (19.1q)" ;
+        dct:identifier                "000051660" ;
+        dc:subject                    "Duets (voc.)" .
+
+<http://data.rism.info/id/rismid/000051660#ex-ks30002202-M120171>
+        daia:label  "M.120.17 (1)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051661>
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe1368> ;
+        dct:extent                    "score: 24f." ;
+        mo:arrangement_of             "S, vl (2), vla, b, ob (2), cor" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30027170> ;
+        bsbmo:incipit                 "=24/2-4-8-'F/2B+4B''8{ED}/2.D8{GF}/{FD}'4B2-/" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        gnd:formerOwner               "Stolze, J. B." ;
+        dct:format                    "22,5 x 29 cm" ;
+        bsbmo:incipit                 "'8F/2.B''8{ED}/2.D8{GF}/4F6-{FGA}{BFFF}{'''C''FFF}/" ;
+        rdagr1:otherTitleInformation  "false" ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30027170> ;
+        dct:issued                    "1800-1824 (19.1q)" ;
+        mo:lyrics                     "Minaccia avverso il fato" ;
+        dc:subject                    "Operas" ;
+        dct:identifier                "000051661" ;
+        dct:title                     "Quinto Fabio. Excerpts" ;
+        dc:contributor                "Stolze, J. B." ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051661#ex-ks30002202-M120172> ;
+        mo:key                        "true" ;
+        dct:description               "At head of title: \"Poss. J. B. Stolze. 1820\"" ;
+        mo:arrangement_of             "S, orch" .
+
+<http://data.rism.info/id/rismid/000051661#ex-ks30002202-M120172>
+        daia:label  "M.120.17 (2)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051662#ex-ks30002202-M120173>
+        daia:label  "M.120.17 (3)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051662>
+        dct:title                     "Quinto Fabio. Excerpts" ;
+        dc:subject                    "Operas" ;
+        bsbmo:incipit                 "=24/2-4-8-'F/2B+4B''8{ED}/2.D8{GF}/{FD}'4B2-/" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051662#ex-ks30002202-M120173> ;
+        mo:key                        "true" ;
+        mo:lyrics                     "Minaccia avverso il fato" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe1368> ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:format                    "23 x 30 cm" ;
+        dct:issued                    "1800-1824 (19.1q)" ;
+        dct:extent                    "12 parts" ;
+        mo:arrangement_of             "S, orch" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        dct:identifier                "000051662" ;
+        rdagr1:otherTitleInformation  "false" ;
+        bsbmo:incipit                 "'8F/2.B''8{ED}/2.D8{GF}/4F6-{FGA}{BFFF}{'''C''FFF}/" ;
+        mo:arrangement_of             "S, vl (2), vla, b, ob (2), cor (2)" .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051663#ex-ks30002202-M120174>
+        daia:label  "M.120.17 (4)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051663>
+        mo:arrangement_of             "T, orch" ;
+        dct:title                     "L’incognita perseguitata. Excerpts" ;
+        dct:extent                    "score: 18f." ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30027197> ;
+        mo:arrangement_of             "T, vl (2), vla, b, ob (2), cor (2)" ;
+        dct:description               "score with 36p." ;
+        dc:subject                    "Operas" ;
+        dct:identifier                "000051663" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051663#ex-ks30002202-M120174> ;
+        mo:lyrics                     "Col rimbombo de' tamburi" ;
+        rdagr1:otherTitleInformation  "false" ;
+        mo:key                        "true" ;
+        dct:issued                    "1773 (1773p)" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe1368> ;
+        mo:lyrics                     "E così tratta il padre" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe386521> ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        bsbmo:incipit                 "=8/4-8-,6GG4G8GA/BB-B'DDCD/,4BB8-BAB/" ;
+        dc:contributor                "Petrosellini, Giuseppe" ;
+        dct:format                    "23,5 x 29,5 cm" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        dc:contributor                "Goldoni, Carlo" ;
+        bsbmo:incipit                 "=/2-4-'8.D6D/4D,A4.A'8D/,4BB-8.B6B/4.B8B'4D" .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051664#ex-ks30002202-M120175>
+        daia:label  "M.120.17 (5)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051664>
+        mo:arrangement_of             "S, vl (2), vla, b, ob (2), cor (2)" ;
+        dc:subject                    "Operas" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        mo:key                        "true" ;
+        dct:title                     "Antigono. Excerpts" ;
+        dct:identifier                "000051664" ;
+        dc:contributor                "Metastasio, Pietro" ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe1368> ;
+        dct:issued                    "1773 (1773p)" ;
+        mo:lyrics                     "Perché se tanti siete" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        mo:lyrics                     "Berenice che fai" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051664#ex-ks30002202-M120175> ;
+        bsbmo:incipit                 "=3/4-'8GG''4C8C'B/''CC4-C8CE/CC4-6.C3C8C6-CC'xF/" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        dct:format                    "23 x 30 cm" ;
+        gnd:formerOwner               "Belair, F. L. Henry de" ;
+        rdagr1:otherTitleInformation  "true" ;
+        dct:extent                    "score: 20f." ;
+        mo:arrangement_of             "S, orch" ;
+        dc:contributor                "Belair, F. L. Henry de" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe97823> ;
+        bsbmo:incipit                 "'8G/''4C--8-C/4.F8F4.F'8A/4GG-8-''E/4.8DF'B''D/" .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051665#ex-ks30002202-M1201767>
+        daia:label  "M.120.17 (6-7)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002202> .
+
+<http://data.rism.info/id/rismid/000051665>
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe30000058> ;
+        dct:format                    "Different sizes" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        mo:arrangement_of             "S, vl (2), vla, b, fl (2), cor (2)" ;
+        bsbmo:incipit                 "'1E/F/G/A/G/B/''C/D/" ;
+        dct:description               "At head of f.1: \"N|o 44 | La collectione musicae | L. Henry de Bila[ir]\"" ;
+        dct:identifier                "000051665" ;
+        gnd:formerOwner               "Belair, F. L. Henry de" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        rdagr1:otherTitleInformation  "false" ;
+        mo:key                        "true" ;
+        dc:contributor                "Belair, F. L. Henry de" ;
+        mo:lyrics                     "Caro sposo amato oggetto" ;
+        dc:subject                    "Arias (voc.)" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:extent                    "10 parts" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/ita> ;
+        bsbmo:incipit                 "=19/'2BB/{''8C'A}4E-E/A''CEC/C'B2-/" ;
+        dct:title                     "Caro sposo amato oggetto" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051665#ex-ks30002202-M1201767> ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30000029> ;
+        mo:arrangement_of             "S, orch" .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051755#ex-ks30002351-Ma21Y11A23LM4941>
+        daia:label  "Ma21.Y11.A23 (LM 4941)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002351> .
+
+<http://data.rism.info/id/rismid/000051755>
+        gnd:formerOwner               "Rinck, Johann Christian Heinrich" ;
+        gnd:formerOwner               "Mason, Lowell" ;
+        dct:description               "Contains 23p., p.21 and 24 are blank" ;
+        dct:description               "Watermark: \"Aufrechtstehender Löwe in gekröntem Schild\" (NBAKB, IV, 5 & 6, Teilband 1, p.149)" ;
+        mo:key                        "false" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051755#ex-ks30002351-Ma21Y11A23LM4941> ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe55399> ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        gnd:formerOwner               <http://data.rism.info/id/rismauthorities/pe30018167> ;
+        dc:contributor                "Mason, Lowell" ;
+        mo:arrangement_of             "org" ;
+        rdagr1:otherTitleInformation  "true" ;
+        dc:contributor                "Rinck, Johann Christian Heinrich" ;
+        dct:extent                    "score: 12f." ;
+        dct:issued                    "1805 (1805)" ;
+        dct:format                    "36 x 21 cm" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe55399> ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:identifier                "000051755" ;
+        dct:contributor               <http://data.rism.info/id/rismauthorities/pe30018167> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051756>
+        rdagr1:otherTitleInformation  "false" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051756#ex-ks30002351-Ma21Y11A23LM4941> ;
+        mo:key                        "true" ;
+        foaf:isPrimaryTopicOf         <http://data.rism.info/id/rismauthorities/litbwv%20578> ;
+        dc:subject                    "Fugues (inst.)" ;
+        dct:title                     "Fugues" ;
+        bsbmo:incipit                 "'4G''D'4.B8A/{GBAG}{xFA}4D/8{GDAD}" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dct:identifier                "000051756" ;
+        mo:catalogue_number           "litbwv 578" ;
+        dct:extent                    "score: p.1-3" ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe2539> ;
+        mo:arrangement_of             "org" .
+
+<http://data.rism.info/id/rismid/000051756#ex-ks30002351-Ma21Y11A23LM4941>
+        daia:label  "Ma21.Y11.A23 (LM 4941)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002351> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051757>
+        dct:identifier                "000051757" ;
+        dc:subject                    "Fugues (inst.)" ;
+        dct:extent                    "score: p.4-7" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        mo:key                        "true" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051757#ex-ks30002351-Ma21Y11A23LM4941> ;
+        bsbmo:incipit                 "4-8-'6{DE}8{FDAD}/4xC6-{AGA}{FADF}{bBGFD}/" ;
+        dct:title                     "Fugues" ;
+        mo:catalogue_number           "litbwv 948" ;
+        foaf:isPrimaryTopicOf         <http://data.rism.info/id/rismauthorities/litbwv%20948> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe2539> ;
+        mo:arrangement_of             "org" ;
+        rdagr1:otherTitleInformation  "false" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> .
+
+<http://data.rism.info/id/rismid/000051757#ex-ks30002351-Ma21Y11A23LM4941>
+        daia:label  "Ma21.Y11.A23 (LM 4941)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002351> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051758#ex-ks30002351-Ma21Y11A23LM4941>
+        daia:label  "Ma21.Y11.A23 (LM 4941)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002351> .
+
+<http://data.rism.info/id/rismid/000051758>
+        mo:arrangement_of             "org" ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe30001794> ;
+        dc:subject                    "Fugues (inst.)" ;
+        dct:extent                    "score: p.8-9" ;
+        bsbmo:incipit                 "8-{,G'D,B}{'6C %G-2CEDE}{,A'DCD}/8-{DGE}" ;
+        mo:key                        "true" ;
+        dct:identifier                "000051758" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:title                     "Fugues" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051758#ex-ks30002351-Ma21Y11A23LM4941> ;
+        rdagr1:otherTitleInformation  "false" ;
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> .
+@prefix rdagr1:  <http://rdvocab.info/Elements/> .
+@prefix cc:  <https://creativecommons.org/ns#> .
+@prefix mo:  <http://purl.org/ontology/mo/> .
+@prefix geonames:  <http://www.geonames.org/ontology#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix dcmitype:  <http://purl.org/dc/dcmitype/> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix bsbmo:  <http://bsb-muenchen.de/ont/bsbMusicOntology#> .
+@prefix frbr:  <http://purl.org/vocab/frbr/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix marcrel:  <http://id.loc.gov/vocabulary/relators/> .
+@prefix bibo:  <http://purl.org/ontology/bibo/> .
+@prefix daia:  <http://uri.gbv.de/ontology/daia/> .
+@prefix gnd:  <http://d-nb.info/standards/elementset/gnd#> .
+@prefix isbd:  <http://iflastandards.info/ns/isbd/elements/> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix dc:  <http://purl.org/dc/elements/1.1/> .
+
+<http://data.rism.info/id/rismid/000051759#ex-ks30002351-Ma21Y11A23LM4941>
+        daia:label  "Ma21.Y11.A23 (LM 4941)" ;
+        frbr:owner  <http://data.rism.info/id/rismauthorities/ks30002351> .
+
+<http://data.rism.info/id/rismid/000051759>
+        cc:License                    <http://creativecommons.org/licenses/by/3.0/de> ;
+        dc:subject                    "Inventions" ;
+        dct:identifier                "000051759" ;
+        dct:language                  <http://id.loc.gov/vocabulary/iso639-2/> ;
+        dct:title                     "Inventions" ;
+        bsbmo:incipit                 "6-{'FGA}8{D''D+}/{D6C'B}{''CD8E+}/{6E'AB''C}" ;
+        frbr:exemplar                 <http://data.rism.info/id/rismid/000051759#ex-ks30002351-Ma21Y11A23LM4941> ;
+        dct:creator                   <http://data.rism.info/id/rismauthorities/pe30004138> ;
+        mo:arrangement_of             "org" ;
+        rdagr1:otherTitleInformation  "false" ;
+        dct:extent                    "score: p.10-11" ;
+        mo:key                        "true" .
