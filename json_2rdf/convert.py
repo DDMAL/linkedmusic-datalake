@@ -43,8 +43,6 @@ g = Graph()
 # Define a namespace
 with open("namespace_mapping.json", "r", encoding="utf-8") as ns_mp:
     NS = json.load(ns_mp)
-    for k, v in NS.items():
-        v = Namespace(v)
 
 with open("pred_mapping.json", "r", encoding="utf-8") as pd_mp:
     PD = json.load(pd_mp)
@@ -52,6 +50,7 @@ with open("pred_mapping.json", "r", encoding="utf-8") as pd_mp:
 NUM_COLUMN = []
 LOC_COLUMN = []
 DATE_COLUMN = []
+IGNORE_COLUMN = ["annotation"]
 
 
 # Function to add triples to the graph
@@ -76,9 +75,12 @@ def add_triples(subject, predicates):
     """
 
     for predicate, obj in predicates.items():
+
+        if predicate in IGNORE_COLUMN:
+            continue
         # Define the predicate URI
-        namespace = NS[list(PD[predicate].keys())[0]]
-        value = list(PD[predicate].values())[1]
+        namespace = Namespace(NS[list(PD[predicate].keys())[0]])
+        value = list(PD[predicate].values())[0]
         pred_uri = URIRef(namespace[value])
 
         if isinstance(obj, str) and obj.startswith("http"):
@@ -113,16 +115,16 @@ def add_triples(subject, predicates):
             continue
         else:
             # Otherwise, treat it as a literal
-            if obj == "True" or obj == "False":
+            if obj == "":
+                continue
+            elif obj == "True" or obj == "False":
                 obj = Literal(obj, datatype=XSD.boolean)
             elif pred_uri in NUM_COLUMN:
                 obj = Literal(obj, datatype=XSD.integer)
             elif pred_uri in LOC_COLUMN:
                 obj = Literal(obj.upper(), datatype=GEO.wktLiteral)
             elif pred_uri in DATE_COLUMN:
-                datetime_obj = datetime.strptime(
-                    obj, "%Y-%m-%d %H:%M:%S"
-                )
+                datetime_obj = datetime.strptime(obj, "%Y-%m-%d %H:%M:%S")
 
                 day_of_week = datetime_obj.strftime("%A")
                 day_of_week_obj = Literal(day_of_week)
