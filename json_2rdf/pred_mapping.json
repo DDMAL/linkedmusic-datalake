@@ -1,0 +1,359 @@
+{
+    "target-credit": {
+        "": ""
+    },
+    "trumpet": {
+        "": ""
+    },
+    "saxophone": {
+        "": ""
+    },
+    "begin": {
+        "": ""
+    },
+    "electric guitar": {
+        "": ""
+    },
+    "harmonica": {
+        "": ""
+    },
+    "attribute-values": {
+        "": ""
+    },
+    "latitude": {
+        "": ""
+    },
+    "label-code": {
+        "": ""
+    },
+    "acoustic bass guitar": {
+        "": ""
+    },
+    "longitude": {
+        "": ""
+    },
+    "attribute-ids": {
+        "": ""
+    },
+    "partial": {
+        "": ""
+    },
+    "iswcs": {
+        "": ""
+    },
+    "target-type": {
+        "": ""
+    },
+    "clarinet": {
+        "": ""
+    },
+    "soprano saxophone": {
+        "": ""
+    },
+    "artist-credit": {
+        "": ""
+    },
+    "co": {
+        "": ""
+    },
+    "aliases": {
+        "": ""
+    },
+    "primary": {
+        "": ""
+    },
+    "spoken vocals": {
+        "": ""
+    },
+    "title": {
+        "": ""
+    },
+    "relations": {
+        "": ""
+    },
+    "woodwind": {
+        "": ""
+    },
+    "attribute-credits": {
+        "": ""
+    },
+    "locale": {
+        "": ""
+    },
+    "assistant": {
+        "": ""
+    },
+    "value": {
+        "": ""
+    },
+    "electric bass guitar": {
+        "": ""
+    },
+    "url": {
+        "": ""
+    },
+    "violin": {
+        "": ""
+    },
+    "alto saxophone": {
+        "": ""
+    },
+    "end": {
+        "": ""
+    },
+    "area": {
+        "": ""
+    },
+    "ordering-key": {
+        "": ""
+    },
+    "sousaphone": {
+        "": ""
+    },
+    "bouzouki": {
+        "": ""
+    },
+    "iso-3166-2-codes": {
+        "": ""
+    },
+    "number": {
+        "": ""
+    },
+    "accordion": {
+        "": ""
+    },
+    "guest": {
+        "": ""
+    },
+    "percussion": {
+        "": ""
+    },
+    "time": {
+        "": ""
+    },
+    "place": {
+        "": ""
+    },
+    "tags": {
+        "": ""
+    },
+    "cello": {
+        "": ""
+    },
+    "oud": {
+        "": ""
+    },
+    "guitar": {
+        "": ""
+    },
+    "count": {
+        "": ""
+    },
+    "tambourine": {
+        "": ""
+    },
+    "direction": {
+        "": ""
+    },
+    "series": {
+        "": ""
+    },
+    "attributes": {
+        "": ""
+    },
+    "keyboard": {
+        "": ""
+    },
+    "additional": {
+        "": ""
+    },
+    "label": {
+        "": ""
+    },
+    "sort-name": {
+        "": ""
+    },
+    "source-credit": {
+        "": ""
+    },
+    "votes-count": {
+        "": ""
+    },
+    "bass": {
+        "": ""
+    },
+    "background vocals": {
+        "": ""
+    },
+    "drums (drum set)": {
+        "": ""
+    },
+    "vibraphone": {
+        "": ""
+    },
+    "grand piano": {
+        "": ""
+    },
+    "reeds": {
+        "": ""
+    },
+    "trombone": {
+        "": ""
+    },
+    "banjo": {
+        "": ""
+    },
+    "languages": {
+        "": ""
+    },
+    "recording": {
+        "": ""
+    },
+    "choir vocals": {
+        "": ""
+    },
+    "address": {
+        "": ""
+    },
+    "disambiguation": {
+        "": ""
+    },
+    "flute": {
+        "": ""
+    },
+    "event": {
+        "": ""
+    },
+    "coordinates": {
+        "": ""
+    },
+    "lead vocals": {
+        "": ""
+    },
+    "guitar family": {
+        "": ""
+    },
+    "Rhodes piano": {
+        "": ""
+    },
+    "type": {
+        "": ""
+    },
+    "setlist": {
+        "": ""
+    },
+    "drum machine": {
+        "": ""
+    },
+    "tenor vocals": {
+        "": ""
+    },
+    "bass clarinet": {
+        "": ""
+    },
+    "work": {
+        "": ""
+    },
+    "synthesizer": {
+        "": ""
+    },
+    "fiddle": {
+        "": ""
+    },
+    "name": {
+        "": ""
+    },
+    "video": {
+        "": ""
+    },
+    "cover": {
+        "": ""
+    },
+    "ended": {
+        "": ""
+    },
+    "piano": {
+        "": ""
+    },
+    "bagpipe": {
+        "": ""
+    },
+    "joinphrase": {
+        "": ""
+    },
+    "viola": {
+        "": ""
+    },
+    "length": {
+        "": ""
+    },
+    "artist": {
+        "": ""
+    },
+    "genres": {
+        "": ""
+    },
+    "medley": {
+        "": ""
+    },
+    "isrcs": {
+        "": ""
+    },
+    "life-span": {
+        "": ""
+    },
+    "instrumental": {
+        "": ""
+    },
+    "resource": {
+        "": ""
+    },
+    "other vocals": {
+        "": ""
+    },
+    "iso-3166-1-codes": {
+        "": ""
+    },
+    "double bass": {
+        "": ""
+    },
+    "type-id": {
+        "": ""
+    },
+    "rating": {
+        "": ""
+    },
+    "executive": {
+        "": ""
+    },
+    "steel guitar": {
+        "": ""
+    },
+    "bass guitar": {
+        "": ""
+    },
+    "language": {
+        "": ""
+    },
+    "live": {
+        "": ""
+    },
+    "turntable": {
+        "": ""
+    },
+    "organ": {
+        "": ""
+    },
+    "cancelled": {
+        "": ""
+    },
+    "annotation": {
+        "": ""
+    },
+    "membranophone": {
+        "": ""
+    },
+    "tenor saxophone": {
+        "": ""
+    }
+}
