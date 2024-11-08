@@ -13,16 +13,18 @@ def load_rdf(file_path: str, f):
     # Parse the RDF data from the specified file
     g.parse(file_path, format=f)
 
-    df = pd.DataFrame()
-    subjects = df[0]
-    subj_dict = dict(zip(subjects, []))
+    rows = {}
     # Print all triples in the graph
     for subj, pred, obj in g:
         if not validators.url(obj):
             print(f"Subject: {subj}, Predicate: {pred}, Object: {obj}")
-            subj_dict[subj].append([pred, obj])
-            
-            
+            try:
+                rows[subj][pred] = obj
+            except KeyError:
+                rows[subj] = {pred: obj}
+
+    df = pd.DataFrame.from_dict(rows, orient='index')
+    df.to_csv("output.csv")
 
 
 # Example usage
