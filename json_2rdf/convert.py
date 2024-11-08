@@ -44,7 +44,7 @@ g = Graph()
 with open("namespace_mapping.json", "r", encoding="utf-8") as ns_mp:
     NS = json.load(ns_mp)
 
-with open("pred_mapping.json", "r", encoding="utf-8") as pd_mp:
+with open("./musicbrainz/pred_mapping.json", "r", encoding="utf-8") as pd_mp:
     PD = json.load(pd_mp)
 
 NUM_COLUMN = []
@@ -149,7 +149,7 @@ def add_triples(subject, predicates):
         g.add((subject, pred_uri, obj))
 
 
-with open("recording", "r", encoding="utf-8") as f:
+with open("./musicbrainz/recording", "r", encoding="utf-8") as f:
     for line in f:
         data = json.loads(line)  # Parse each JSON object in the file
 

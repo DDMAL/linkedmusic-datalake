@@ -1,11 +1,18 @@
-# 11-8-2024
-RISM: No progress. Andrew replied under the issue saying that my data is not the correct one. I stopped experimenting with the data, progress is same as last week.
-MusicBrainz & all other potential Databases: applied new logic:
-### Using JSON logic:
-> advantages:
-1. RDF have the same logic as JSON, conserves the data structure perfectly. No need to worry about having complex data structure which CSV could not handle.
-2. CSV had too much unecessary nested columns due to the JSON structure, making the reconciliation very confusing. This can prevent it, making reconciliation much more simplier.
-3. No data lost, unlike CSV, where we must cut some data, otherwise the CSV will have blank cells for the most part.
-4. RDF could also be imported into OpenRefine for reconciliation. We can skip CSV, which is an extra process.
-> disadvantage:
-1. Implemented using Blank Nodes, might be difficult to query.
+### 11-8-2024
+
+**RISM**:
+- No progress. Andrew responded under the issue, indicating that my data is incorrect. I have paused experimentation with this data, so progress remains the same as last week.
+
+**MusicBrainz & Other Potential Databases**:
+- Applied a new approach using JSON logic
+- Merged with old CSV2RDF logic for parsing JSON file
+
+#### Advantages of Using JSON Logic:
+1. **Data Structure Preservation**: RDF closely aligns with JSON’s structure, perfectly conserving complex data layouts without losing fidelity—unlike CSV, which struggles with nested or hierarchical data.
+2. **Simplified Reconciliation**: CSV files introduced excessive, nested columns due to the JSON structure, complicating reconciliation efforts. With RDF, we avoid this, making reconciliation more straightforward.
+3. **Data Integrity**: Unlike CSV, where data might be truncated or result in numerous blank cells, RDF maintains full data integrity.
+4. **Direct RDF Import for Reconciliation**: RDF files can be directly imported into OpenRefine for reconciliation, allowing us to skip the additional CSV conversion step.
+5. **Old functions preserved**: We can apply the exact same functions in the old CSV2RDF, like marking language, detecting datatype, etc.
+
+#### Disadvantage:
+1. **Query Complexity**: RDF is implemented using blank nodes, which can make querying the data more challenging.
