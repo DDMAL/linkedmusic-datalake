@@ -32,22 +32,26 @@ Example JSON input:
 """
 
 import json
+from datetime import datetime
 from rdflib import Graph, URIRef, Literal, Namespace, BNode
 from rdflib.namespace import RDF, XSD, GEO
 
-# Load JSON data
-with open("input.json", encoding="utf-8") as f:
-    data = json.load(f)
 
 # Initialize the RDF graph
 g = Graph()
 
 # Define a namespace
-EX = Namespace("http://example.org/")
-g.bind("ex", EX)
+with open("namespace_mapping.json", "r", encoding="utf-8") as ns_mp:
+    NS = json.load(ns_mp)
+    for k, v in NS.items():
+        v = Namespace(v)
 
-# Define the main subject based on the "id" field
-main_subject = URIRef(data["id"])
+with open("pred_mapping.json", "r", encoding="utf-8") as pd_mp:
+    PD = json.load(pd_mp)
+
+NUM_COLUMN = []
+LOC_COLUMN = []
+DATE_COLUMN = []
 
 
 # Function to add triples to the graph
@@ -72,7 +76,10 @@ def add_triples(subject, predicates):
     """
 
     for predicate, obj in predicates.items():
-        pred_uri = URIRef(EX[predicate])  # Define the predicate URI
+        # Define the predicate URI
+        namespace = NS[list(PD[predicate].keys())[0]]
+        value = list(PD[predicate].values())[1]
+        pred_uri = URIRef(namespace[value])
 
         if isinstance(obj, str) and obj.startswith("http"):
             # If the object is a URI (starts with http), treat it as URIRef
@@ -106,14 +113,46 @@ def add_triples(subject, predicates):
             continue
         else:
             # Otherwise, treat it as a literal
-            obj = Literal(item) if not str(item).startswith("http") else URIRef(item)
+            if obj == "True" or obj == "False":
+                obj = Literal(obj, datatype=XSD.boolean)
+            elif pred_uri in NUM_COLUMN:
+                obj = Literal(obj, datatype=XSD.integer)
+            elif pred_uri in LOC_COLUMN:
+                obj = Literal(obj.upper(), datatype=GEO.wktLiteral)
+            elif pred_uri in DATE_COLUMN:
+                datetime_obj = datetime.strptime(
+                    obj, "%Y-%m-%d %H:%M:%S"
+                )
+
+                day_of_week = datetime_obj.strftime("%A")
+                day_of_week_obj = Literal(day_of_week)
+                g.add(
+                    (
+                        subject,
+                        URIRef("http://www.wikidata.org/prop/direct/P2894"),
+                        day_of_week_obj,
+                    )
+                )
+
+                day_str = datetime_obj.strftime("%Y-%m-%dT%H:%M:%S")
+                obj = Literal(day_str, datatype=XSD.dateTime)
+            else:
+                obj = Literal(obj, lang="en")
 
         # Add the triple
         g.add((subject, pred_uri, obj))
 
 
-# Add triples for main subject
-add_triples(main_subject, {k: v for k, v in data.items() if k != "id"})
+with open("recording", "r", encoding="utf-8") as f:
+    for line in f:
+        data = json.loads(line)  # Parse each JSON object in the file
+
+        # Define the main subject based on the "id" field
+        main_subject = URIRef(data["id"])
+
+        # Add triples for each JSON object, excluding the "id" field
+        add_triples(main_subject, {k: v for k, v in data.items() if k != "id"})
+
 
 # Serialize the graph to a Turtle (.ttl) file
 g.serialize("output.ttl", format="turtle")
