@@ -78,12 +78,14 @@ def add_triples(subject, predicates):
 
         if predicate in IGNORE_COLUMN:
             continue
-        
+
         if obj == "" or obj is None:
             continue
-        
+
         # Define the predicate URI
-        namespace = Namespace(NS[list(PD[predicate].keys())[0]])
+        namespace_string = NS[list(PD[predicate].keys())[0]]
+        namespace = Namespace(namespace_string)
+        g.bind(list(PD[predicate].keys())[0], namespace=namespace)
         value = list(PD[predicate].values())[0]
         pred_uri = URIRef(namespace[value])
 
