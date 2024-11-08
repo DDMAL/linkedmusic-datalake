@@ -1,359 +1,362 @@
 {
     "target-credit": {
-        "": ""
+        "wdt": "P0"
     },
     "trumpet": {
-        "": ""
+        "wdt": "P1"
     },
     "saxophone": {
-        "": ""
+        "wdt": "P2"
     },
     "begin": {
-        "": ""
+        "wdt": "P3"
     },
     "electric guitar": {
-        "": ""
+        "wdt": "P4"
     },
     "harmonica": {
-        "": ""
+        "wdt": "P5"
     },
     "attribute-values": {
-        "": ""
+        "wdt": "P6"
     },
     "latitude": {
-        "": ""
+        "wdt": "P7"
     },
     "label-code": {
-        "": ""
+        "wdt": "P8"
     },
     "acoustic bass guitar": {
-        "": ""
+        "wdt": "P9"
     },
     "longitude": {
-        "": ""
+        "wdt": "P10"
     },
     "attribute-ids": {
-        "": ""
+        "wdt": "P11"
     },
     "partial": {
-        "": ""
+        "wdt": "P12"
     },
     "iswcs": {
-        "": ""
+        "wdt": "P13"
     },
     "target-type": {
-        "": ""
+        "wdt": "P14"
     },
     "clarinet": {
-        "": ""
+        "wdt": "P15"
     },
     "soprano saxophone": {
-        "": ""
+        "wdt": "P16"
     },
     "artist-credit": {
-        "": ""
+        "wdt": "P17"
     },
     "co": {
-        "": ""
+        "wdt": "P18"
     },
     "aliases": {
-        "": ""
+        "wdt": "P19"
     },
     "primary": {
-        "": ""
+        "wdt": "P20"
     },
     "spoken vocals": {
-        "": ""
+        "wdt": "P21"
     },
     "title": {
-        "": ""
+        "wdt": "P22"
     },
     "relations": {
-        "": ""
+        "wdt": "P23"
     },
     "woodwind": {
-        "": ""
+        "wdt": "P24"
     },
     "attribute-credits": {
-        "": ""
+        "wdt": "P25"
     },
     "locale": {
-        "": ""
+        "wdt": "P26"
     },
     "assistant": {
-        "": ""
+        "wdt": "P27"
     },
     "value": {
-        "": ""
+        "wdt": "P28"
     },
     "electric bass guitar": {
-        "": ""
+        "wdt": "P29"
     },
     "url": {
-        "": ""
+        "wdt": "P30"
     },
     "violin": {
-        "": ""
+        "wdt": "P31"
     },
     "alto saxophone": {
-        "": ""
+        "wdt": "P32"
     },
     "end": {
-        "": ""
+        "wdt": "P33"
     },
     "area": {
-        "": ""
+        "wdt": "P34"
     },
     "ordering-key": {
-        "": ""
+        "wdt": "P35"
     },
     "sousaphone": {
-        "": ""
+        "wdt": "P36"
     },
     "bouzouki": {
-        "": ""
+        "wdt": "P37"
     },
     "iso-3166-2-codes": {
-        "": ""
+        "wdt": "P38"
     },
     "number": {
-        "": ""
+        "wdt": "P39"
     },
     "accordion": {
-        "": ""
+        "wdt": "P40"
     },
     "guest": {
-        "": ""
+        "wdt": "P41"
     },
     "percussion": {
-        "": ""
+        "wdt": "P42"
     },
     "time": {
-        "": ""
+        "wdt": "P43"
     },
     "place": {
-        "": ""
+        "wdt": "P44"
     },
     "tags": {
-        "": ""
+        "wdt": "P45"
     },
     "cello": {
-        "": ""
+        "wdt": "P46"
     },
     "oud": {
-        "": ""
+        "wdt": "P47"
     },
     "guitar": {
-        "": ""
+        "wdt": "P48"
     },
     "count": {
-        "": ""
+        "wdt": "P49"
     },
     "tambourine": {
-        "": ""
+        "wdt": "P50"
     },
     "direction": {
-        "": ""
+        "wdt": "P51"
     },
     "series": {
-        "": ""
+        "wdt": "P52"
     },
     "attributes": {
-        "": ""
+        "wdt": "P53"
     },
     "keyboard": {
-        "": ""
+        "wdt": "P54"
     },
     "additional": {
-        "": ""
+        "wdt": "P55"
     },
     "label": {
-        "": ""
+        "wdt": "P56"
     },
     "sort-name": {
-        "": ""
+        "wdt": "P57"
     },
     "source-credit": {
-        "": ""
+        "wdt": "P58"
     },
     "votes-count": {
-        "": ""
+        "wdt": "P59"
     },
     "bass": {
-        "": ""
+        "wdt": "P60"
     },
     "background vocals": {
-        "": ""
+        "wdt": "P61"
     },
     "drums (drum set)": {
-        "": ""
+        "wdt": "P62"
     },
     "vibraphone": {
-        "": ""
+        "wdt": "P63"
     },
     "grand piano": {
-        "": ""
+        "wdt": "P64"
     },
     "reeds": {
-        "": ""
+        "wdt": "P65"
     },
     "trombone": {
-        "": ""
+        "wdt": "P66"
     },
     "banjo": {
-        "": ""
+        "wdt": "P67"
     },
     "languages": {
-        "": ""
+        "wdt": "P68"
     },
     "recording": {
-        "": ""
+        "wdt": "P69"
     },
     "choir vocals": {
-        "": ""
+        "wdt": "P70"
     },
     "address": {
-        "": ""
+        "wdt": "P71"
     },
     "disambiguation": {
-        "": ""
+        "wdt": "P72"
     },
     "flute": {
-        "": ""
+        "wdt": "P73"
     },
     "event": {
-        "": ""
+        "wdt": "P74"
     },
     "coordinates": {
-        "": ""
+        "wdt": "P75"
     },
     "lead vocals": {
-        "": ""
+        "wdt": "P76"
     },
     "guitar family": {
-        "": ""
+        "wdt": "P77"
     },
     "Rhodes piano": {
-        "": ""
+        "wdt": "P78"
     },
     "type": {
-        "": ""
+        "wdt": "P79"
     },
     "setlist": {
-        "": ""
+        "wdt": "P80"
     },
     "drum machine": {
-        "": ""
+        "wdt": "P81"
     },
     "tenor vocals": {
-        "": ""
+        "wdt": "P82"
     },
     "bass clarinet": {
-        "": ""
+        "wdt": "P83"
     },
     "work": {
-        "": ""
+        "wdt": "P84"
     },
     "synthesizer": {
-        "": ""
+        "wdt": "P85"
     },
     "fiddle": {
-        "": ""
+        "wdt": "P86"
     },
     "name": {
-        "": ""
+        "wdt": "P87"
     },
     "video": {
-        "": ""
+        "wdt": "P88"
     },
     "cover": {
-        "": ""
+        "wdt": "P89"
     },
     "ended": {
-        "": ""
+        "wdt": "P90"
     },
     "piano": {
-        "": ""
+        "wdt": "P91"
     },
     "bagpipe": {
-        "": ""
+        "wdt": "P92"
     },
     "joinphrase": {
-        "": ""
+        "wdt": "P93"
     },
     "viola": {
-        "": ""
+        "wdt": "P94"
     },
     "length": {
-        "": ""
+        "wdt": "P95"
     },
     "artist": {
-        "": ""
+        "wdt": "P96"
     },
     "genres": {
-        "": ""
+        "wdt": "P97"
     },
     "medley": {
-        "": ""
+        "wdt": "P98"
     },
     "isrcs": {
-        "": ""
+        "wdt": "P99"
     },
     "life-span": {
-        "": ""
+        "wdt": "P100"
     },
     "instrumental": {
-        "": ""
+        "wdt": "P101"
     },
     "resource": {
-        "": ""
+        "wdt": "P102"
     },
     "other vocals": {
-        "": ""
+        "wdt": "P103"
     },
     "iso-3166-1-codes": {
-        "": ""
+        "wdt": "P104"
     },
     "double bass": {
-        "": ""
+        "wdt": "P105"
     },
     "type-id": {
-        "": ""
+        "wdt": "P106"
     },
     "rating": {
-        "": ""
+        "wdt": "P107"
     },
     "executive": {
-        "": ""
+        "wdt": "P108"
     },
     "steel guitar": {
-        "": ""
+        "wdt": "P109"
     },
     "bass guitar": {
-        "": ""
+        "wdt": "P110"
     },
     "language": {
-        "": ""
+        "wdt": "P111"
     },
     "live": {
-        "": ""
+        "wdt": "P112"
     },
     "turntable": {
-        "": ""
+        "wdt": "P113"
     },
     "organ": {
-        "": ""
+        "wdt": "P114"
     },
     "cancelled": {
-        "": ""
+        "wdt": "P115"
     },
     "annotation": {
-        "": ""
+        "wdt": "P116"
     },
     "membranophone": {
-        "": ""
+        "wdt": "P117"
     },
     "tenor saxophone": {
-        "": ""
+        "wdt": "P118"
+    },
+    "id": {
+        "wdt": "P119"
     }
 }
