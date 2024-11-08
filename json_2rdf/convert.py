@@ -78,6 +78,10 @@ def add_triples(subject, predicates):
 
         if predicate in IGNORE_COLUMN:
             continue
+        
+        if obj == "" or obj is None:
+            continue
+        
         # Define the predicate URI
         namespace = Namespace(NS[list(PD[predicate].keys())[0]])
         value = list(PD[predicate].values())[0]
@@ -115,9 +119,7 @@ def add_triples(subject, predicates):
             continue
         else:
             # Otherwise, treat it as a literal
-            if obj == "":
-                continue
-            elif obj == "True" or obj == "False":
+            if obj == "True" or obj == "False":
                 obj = Literal(obj, datatype=XSD.boolean)
             elif pred_uri in NUM_COLUMN:
                 obj = Literal(obj, datatype=XSD.integer)
