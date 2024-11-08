@@ -1,7 +1,7 @@
 {
-    "wd":"http://www.wikidata.org/entity",
-    "wdt":"http://www.wikidata.org/prop/direct",
+    "wd":"http://www.wikidata.org/entity/",
+    "wdt":"http://www.wikidata.org/prop/direct/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    "xsd": "http://www.w3.org/2001/XMLSchema",
-    "ex": "http://example.org"
+    "xsd": "http://www.w3.org/2001/XMLSchema/",
+    "ex": "http://example.org/"
 }
