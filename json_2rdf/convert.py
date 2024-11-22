@@ -110,8 +110,8 @@ def add_triples(subject, predicates):
             # Handle lists by creating a blank node for each item in the list
             for item in obj:
                 list_node = BNode()
+                g.add((subject, pred_uri, list_node))
                 if isinstance(item, dict):
-                    g.add((subject, pred_uri, list_node))
                     add_triples(list_node, item)
                 else:
                     # If the item is not a dictionary, treat it as a literal or URI
