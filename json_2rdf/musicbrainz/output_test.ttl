@@ -1,27 +1,27 @@
 @prefix wdt: <http://www.wikidata.org/prop/direct/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<10b9c34b-821d-4cc8-9587-5c7d0cb68865> wdt:P17 [ wdt:P87 "Pigface" ;
+<https://musicbrainz.org/recording/10b9c34b-821d-4cc8-9587-5c7d0cb68865> wdt:P17 [ wdt:P87 "Pigface" ;
             wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
                     wdt:P119 "11137c88-a9a2-4ffa-a97d-fb058c6d6ce2" ;
-                    wdt:P45 [ wdt:P49 2 ;
-                            wdt:P87 "supergroup" ],
+                    wdt:P45 [ wdt:P49 1 ;
+                            wdt:P87 "electronic" ],
                         [ wdt:P49 1 ;
                             wdt:P87 "american" ],
                         [ wdt:P49 4 ;
                             wdt:P87 "industrial rock" ],
-                        [ wdt:P49 1 ;
-                            wdt:P87 "electronic" ] ;
+                        [ wdt:P49 2 ;
+                            wdt:P87 "supergroup" ] ;
                     wdt:P57 "Pigface" ;
                     wdt:P72 "industrial supergroup" ;
                     wdt:P79 "Group" ;
                     wdt:P87 "Pigface" ;
-                    wdt:P97 [ wdt:P119 "ffbc9907-c9be-4ace-876b-b7fd5b9d51f9" ;
-                            wdt:P49 4 ;
-                            wdt:P87 "industrial rock" ],
-                        [ wdt:P119 "89255676-1f14-4dd8-bbad-fca839d6aff4" ;
+                    wdt:P97 [ wdt:P119 "89255676-1f14-4dd8-bbad-fca839d6aff4" ;
                             wdt:P49 1 ;
-                            wdt:P87 "electronic" ] ] ] ;
+                            wdt:P87 "electronic" ],
+                        [ wdt:P119 "ffbc9907-c9be-4ace-876b-b7fd5b9d51f9" ;
+                            wdt:P49 4 ;
+                            wdt:P87 "industrial rock" ] ] ] ;
     wdt:P22 "Suck" ;
     wdt:P23 [ wdt:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
             wdt:P11 [ ] ;
@@ -35,9 +35,7 @@
                     wdt:P22 "Suck" ;
                     wdt:P79 "Song" ] ] .
 
-[] wdt:P13 "T-926.281.906-7" .
-
-[] wdt:P13 "T-905.188.140-4" .
+[] wdt:P13 "T-905.318.598-1" .
 
 [] wdt:P13 "T-900.245.777-4" .
 
@@ -45,5 +43,7 @@
 
 [] wdt:P13 "T-070.172.108-5" .
 
-[] wdt:P13 "T-905.318.598-1" .
+[] wdt:P13 "T-905.188.140-4" .
+
+[] wdt:P13 "T-926.281.906-7" .
 

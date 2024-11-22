@@ -162,7 +162,7 @@ with open("./musicbrainz/recording_test", "r", encoding="utf-8") as f:
         data = json.loads(line)  # Parse each JSON object in the file
 
         # Define the main subject based on the "id" field
-        main_subject = URIRef(data["id"])
+        main_subject = URIRef(f"https://musicbrainz.org/recording/{data["id"]}")
 
         # Add triples for each JSON object, excluding the "id" field
         add_triples(main_subject, {k: v for k, v in data.items() if k != "id"})
