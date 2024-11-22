@@ -32,3 +32,14 @@
   - **Issue**: OpenRefine allows RDF input but does not support RDF output, making it challenging to preserve the reconciliation data.
   - **Potential Solution**: Exploring alternative methods to merge OpenRefine data with the original RDF could address this issue.  
   - **Possible Advantage**: Retaining both the old reconciliation data and the original RDF file may streamline database updates in the long term.
+
+### 11-22-2024
+
+#### **RISM**
+- No progress was made this week due to unresolved challenges from the previous week.
+
+#### **RDF Reconciliation**
+- **Issue**:
+  - Encountered a problem during the process of merging reconciled CSV data into RDF. Some blank nodes were not correctly linked, resulting in inaccurate RDF output.
+  - Efforts are ongoing to debug and resolve the issue.
+  - If an object is a list of blank nodes, only the first item refers to the correct parent.
