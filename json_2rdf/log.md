@@ -16,3 +16,19 @@
 
 #### Disadvantage:
 1. **Query Complexity**: RDF is implemented using blank nodes, which can make querying the data more challenging.
+
+### 11-15-2024
+
+#### **RISM**
+- No progress was made this week, as the challenges from the previous week remain unresolved.
+
+#### **RDF Reconciliation**
+- Adjustments to the process included:
+  - Removing type recognition.
+  - Adding a "tags" column for testing purposes.
+
+#### **Challenges Encountered**
+- **RDF Reconciliation**:
+  - **Issue**: OpenRefine allows RDF input but does not support RDF output, making it challenging to preserve the reconciliation data.
+  - **Potential Solution**: Exploring alternative methods to merge OpenRefine data with the original RDF could address this issue.  
+  - **Possible Advantage**: Retaining both the old reconciliation data and the original RDF file may streamline database updates in the long term.
