@@ -6,22 +6,22 @@
                     wdt:P119 "11137c88-a9a2-4ffa-a97d-fb058c6d6ce2" ;
                     wdt:P45 [ wdt:P49 1 ;
                             wdt:P87 "electronic" ],
-                        [ wdt:P49 1 ;
-                            wdt:P87 "american" ],
+                        [ wdt:P49 2 ;
+                            wdt:P87 "supergroup" ],
                         [ wdt:P49 4 ;
                             wdt:P87 "industrial rock" ],
-                        [ wdt:P49 2 ;
-                            wdt:P87 "supergroup" ] ;
+                        [ wdt:P49 1 ;
+                            wdt:P87 "american" ] ;
                     wdt:P57 "Pigface" ;
                     wdt:P72 "industrial supergroup" ;
                     wdt:P79 "Group" ;
                     wdt:P87 "Pigface" ;
-                    wdt:P97 [ wdt:P119 "89255676-1f14-4dd8-bbad-fca839d6aff4" ;
-                            wdt:P49 1 ;
-                            wdt:P87 "electronic" ],
-                        [ wdt:P119 "ffbc9907-c9be-4ace-876b-b7fd5b9d51f9" ;
+                    wdt:P97 [ wdt:P119 "ffbc9907-c9be-4ace-876b-b7fd5b9d51f9" ;
                             wdt:P49 4 ;
-                            wdt:P87 "industrial rock" ] ] ] ;
+                            wdt:P87 "industrial rock" ],
+                        [ wdt:P119 "89255676-1f14-4dd8-bbad-fca839d6aff4" ;
+                            wdt:P49 1 ;
+                            wdt:P87 "electronic" ] ] ] ;
     wdt:P22 "Suck" ;
     wdt:P23 [ wdt:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
             wdt:P11 [ ] ;
@@ -32,18 +32,12 @@
             wdt:P84 [ wdt:P106 "f061270a-2fd6-32f1-a641-f0f8676d14e6" ;
                     wdt:P111 "eng" ;
                     wdt:P119 "20309de2-2847-3753-8a7a-d0e335f57176" ;
+                    wdt:P13 [ wdt:P13 "T-926.281.906-7" ],
+                        [ wdt:P13 "T-900.245.777-4" ],
+                        [ wdt:P13 "T-905.318.598-1" ],
+                        [ wdt:P13 "T-905.188.140-4" ],
+                        [ wdt:P13 "T-070.172.108-5" ] ;
                     wdt:P22 "Suck" ;
+                    wdt:P68 [ wdt:P68 "eng" ] ;
                     wdt:P79 "Song" ] ] .
-
-[] wdt:P13 "T-905.318.598-1" .
-
-[] wdt:P13 "T-900.245.777-4" .
-
-[] wdt:P68 "eng" .
-
-[] wdt:P13 "T-070.172.108-5" .
-
-[] wdt:P13 "T-905.188.140-4" .
-
-[] wdt:P13 "T-926.281.906-7" .
 
