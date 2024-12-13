@@ -1,5 +1,5 @@
 import csv
-from rdflib import Graph, URIRef, Literal
+from rdflib import Graph, URIRef, Literal, BNode
 
 
 # Load RDF file
@@ -11,7 +11,7 @@ def load_rdf(rdf_file):
 
 # Read and process CSV data
 def read_csv(csv_file):
-    data = []
+    data = {}
     with open(csv_file, "r", encoding="utf-8") as file:
         reader = csv.reader(file)
         headers = next(reader)  # First row contains subject and predicates
@@ -19,18 +19,47 @@ def read_csv(csv_file):
         for row in reader:
             subject = row[0]
             objects = row[1:]
-            data.append((subject, dict(zip(predicates, objects))))
+            data[subject] = dict(zip(predicates, objects))
     return data
 
 
 # Merge data into the RDF graph
-def merge_data(rdf_graph, csv_data):
-    for subject, predicate_objects in csv_data:
-        subject_uri = URIRef(subject)
+def merge_data(csv_data):
+    rdf_graph = Graph()
+    blank_nodes = {}  # To store blank nodes as we encounter them
+    prev_subject = None
+
+    for subject, predicate_objects in csv_data.items():
+        if subject != "":
+            # Check if the subject is a blank node by its length and content
+            if len(subject) == 32 and all(c in "0123456789abcdef" for c in subject):
+                # Create or retrieve the blank node
+                subj_node = blank_nodes.setdefault(subject, BNode())
+            else:
+                # Create a URI for non-blank-node subjects
+                subj_node = URIRef(subject)
+            prev_subject = URIRef(subj_node)
+        else:
+            subj_node = prev_subject
+
         for predicate, obj in predicate_objects.items():
-            predicate_uri = URIRef(predicate)
-            obj_node = Literal(obj) if not obj.startswith("http") else URIRef(obj)
-            rdf_graph.add((subject_uri, predicate_uri, obj_node))
+            if obj == "" or obj is None:
+                continue
+
+            # Reference another blank node if the object is a blank node
+            if len(obj) == 32 and all(c in "0123456789abcdef" for c in obj):
+                # Retrieve or create the referenced blank node
+                if subject == "":
+                    obj_node = rdf_graph.value(subj_node, URIRef(predicate),any=False)
+                    print(obj_node)
+                else:
+                    obj_node = blank_nodes.setdefault(obj, BNode())
+            else:
+                obj_node = Literal(obj) if not obj.startswith("http") else URIRef(obj)
+            # Add triple to the graph
+            rdf_graph.add((subj_node, URIRef(predicate), obj_node))
+
+    # print(blank_nodes)
     return rdf_graph
 
 
@@ -50,17 +79,17 @@ def main(rdf_input, csv_input, rdf_output):
     csv_data = read_csv(csv_input)
 
     print("Merging data into RDF...")
-    updated_graph = merge_data(rdf_graph, csv_data)
+    reconciled_graph = merge_data(csv_data)
 
     print("Saving updated RDF file...")
-    save_rdf(updated_graph, rdf_output)
+    save_rdf(reconciled_graph, rdf_output)
     print(f"Updated RDF saved to {rdf_output}")
 
 
 # Example usage
 if __name__ == "__main__":
-    rdf_input_file = "input_data.ttl"  # Replace with your RDF file
-    csv_input_file = "reconciliation_data.csv"  # Replace with your CSV file
-    rdf_output_file = "updated_data.ttl"  # Replace with desired output file name
+    rdf_input_file = "./musicbrainz/output_test.ttl"  # Replace with your RDF file
+    csv_input_file = "./musicbrainz/output-test-ttl.csv"  # Replace with your CSV file
+    rdf_output_file = "./musicbrainz/final.ttl"  # Replace with desired output file name
 
     main(rdf_input_file, csv_input_file, rdf_output_file)
