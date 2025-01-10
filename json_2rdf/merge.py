@@ -16,50 +16,41 @@ def read_csv(csv_file):
         reader = csv.reader(file)
         headers = next(reader)  # First row contains subject and predicates
         predicates = headers[1:]
+        prev_subject = None
         for row in reader:
-            subject = row[0]
+            if row[0] != "":
+                prev_subject = row[0]
+                subject = row[0]
+            else:
+                subject = prev_subject
             objects = row[1:]
-            data[subject] = dict(zip(predicates, objects))
+            if data.get(subject) is None:
+                data[subject] = []
+            for pred, obj in zip(predicates, objects):
+                data[subject].append((pred, obj))
     return data
 
 
 # Merge data into the RDF graph
-def merge_data(csv_data):
-    rdf_graph = Graph()
-    blank_nodes = {}  # To store blank nodes as we encounter them
-    prev_subject = None
+def merge_data(rdf_graph, csv_data):
 
-    for subject, predicate_objects in csv_data.items():
-        if subject != "":
-            # Check if the subject is a blank node by its length and content
-            if len(subject) == 32 and all(c in "0123456789abcdef" for c in subject):
-                # Create or retrieve the blank node
-                subj_node = blank_nodes.setdefault(subject, BNode())
-            else:
-                # Create a URI for non-blank-node subjects
-                subj_node = URIRef(subject)
-            prev_subject = URIRef(subj_node)
+    stack = []
+    for s0, p0, o0 in rdf_graph.triples((None, None, None)):
+        if isinstance(s0, URIRef):
+            o1 = next((o for x, o in csv_data[str(s0)] if x == str(p0)))
+            stack.append((s0, p0, o0, o1))
+            csv_data[str(s0)].remove((str(p0), o1))
+
+    while stack:
+        s, p, o, o_csv = stack.pop()
+        if isinstance(o, BNode):
+            for pn, on in rdf_graph.predicate_objects(o):
+                on_csv = next((o for x, o in csv_data[str(o_csv)] if x == str(pn)))
+                stack.append((o, pn, on, on_csv))
+                csv_data[str(o_csv)].remove((str(pn), on_csv))
         else:
-            subj_node = prev_subject
+            rdf_graph.set((s, p, Literal(o_csv)))
 
-        for predicate, obj in predicate_objects.items():
-            if obj == "" or obj is None:
-                continue
-
-            # Reference another blank node if the object is a blank node
-            if len(obj) == 32 and all(c in "0123456789abcdef" for c in obj):
-                # Retrieve or create the referenced blank node
-                if subject == "":
-                    obj_node = rdf_graph.value(subj_node, URIRef(predicate),any=False)
-                    print(obj_node)
-                else:
-                    obj_node = blank_nodes.setdefault(obj, BNode())
-            else:
-                obj_node = Literal(obj) if not obj.startswith("http") else URIRef(obj)
-            # Add triple to the graph
-            rdf_graph.add((subj_node, URIRef(predicate), obj_node))
-
-    # print(blank_nodes)
     return rdf_graph
 
 
@@ -79,7 +70,7 @@ def main(rdf_input, csv_input, rdf_output):
     csv_data = read_csv(csv_input)
 
     print("Merging data into RDF...")
-    reconciled_graph = merge_data(csv_data)
+    reconciled_graph = merge_data(rdf_graph, csv_data)
 
     print("Saving updated RDF file...")
     save_rdf(reconciled_graph, rdf_output)

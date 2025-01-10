@@ -1,41 +1,42 @@
-@prefix ns1: <http://www.wikidata.org/prop/direct/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
 
-<https://musicbrainz.org/recording/10b9c34b-821d-4cc8-9587-5c7d0cb68865> ns1:P17 [ ns1:P87 <https://www.wikidata.org/wiki/Q3174727> ;
-            ns1:P96 [ ns1:P45 [ ns1:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
-                            ns1:P87 <https://www.wikidata.org/wiki/Q215048> ] ] ] ;
-    ns1:P22 "Suck" ;
-    ns1:P23 [ ns1:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
-            ns1:P11 [ ] ;
-            ns1:P14 "work" ;
-            ns1:P51 "forward" ;
-            ns1:P6 [ ] ;
-            ns1:P79 "performance" ;
-            ns1:P84 [ ns1:P13 [ ns1:P13 "T-900.245.777-4" ] ] ] .
-
-[] ns1:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
-    ns1:P87 <https://www.wikidata.org/wiki/Q968730> .
-
-[] ns1:P119 "89255676-1f14-4dd8-bbad-fca839d6aff4" ;
-    ns1:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
-    ns1:P87 <https://www.wikidata.org/wiki/Q9778> .
-
-[] ns1:P13 "T-905.188.140-4" .
-
-[] ns1:P119 "ffbc9907-c9be-4ace-876b-b7fd5b9d51f9" ;
-    ns1:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
-    ns1:P87 <https://www.wikidata.org/wiki/Q968730> .
-
-[] ns1:P13 "T-070.172.108-5" .
-
-[] ns1:P13 "T-926.281.906-7" .
-
-[] ns1:P68 "eng" .
-
-[] ns1:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
-    ns1:P87 <https://www.wikidata.org/wiki/Q9778> .
-
-[] ns1:P13 "T-905.318.598-1" .
-
-[] ns1:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
-    ns1:P87 <https://www.wikidata.org/wiki/Q7976> .
+<https://musicbrainz.org/recording/10b9c34b-821d-4cc8-9587-5c7d0cb68865> wdt:P17 [ wdt:P87 "https://www.wikidata.org/wiki/Q3174727" ;
+            wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
+                    wdt:P119 "11137c88-a9a2-4ffa-a97d-fb058c6d6ce2" ;
+                    wdt:P45 [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "https://www.wikidata.org/wiki/Q7976" ],
+                        [ wdt:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "https://www.wikidata.org/wiki/Q968730" ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "https://www.wikidata.org/wiki/Q9778" ],
+                        [ wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "https://www.wikidata.org/wiki/Q215048" ] ;
+                    wdt:P57 "Pigface" ;
+                    wdt:P72 "industrial supergroup" ;
+                    wdt:P79 "Group" ;
+                    wdt:P87 "https://www.wikidata.org/wiki/Q3174727" ;
+                    wdt:P97 [ wdt:P119 "89255676-1f14-4dd8-bbad-fca839d6aff4" ;
+                            wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "https://www.wikidata.org/wiki/Q9778" ],
+                        [ wdt:P119 "ffbc9907-c9be-4ace-876b-b7fd5b9d51f9" ;
+                            wdt:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "https://www.wikidata.org/wiki/Q968730" ] ] ] ;
+    wdt:P22 "Suck" ;
+    wdt:P23 [ wdt:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "work" ;
+            wdt:P51 "forward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 "performance" ;
+            wdt:P84 [ wdt:P106 "f061270a-2fd6-32f1-a641-f0f8676d14e6" ;
+                    wdt:P111 "eng" ;
+                    wdt:P119 "20309de2-2847-3753-8a7a-d0e335f57176" ;
+                    wdt:P13 [ wdt:P13 "T-905.318.598-1" ],
+                        [ wdt:P13 "T-905.188.140-4" ],
+                        [ wdt:P13 "T-070.172.108-5" ],
+                        [ wdt:P13 "T-926.281.906-7" ],
+                        [ wdt:P13 "T-900.245.777-4" ] ;
+                    wdt:P22 "Suck" ;
+                    wdt:P68 [ wdt:P68 "eng" ] ;
+                    wdt:P79 "Song" ] ] .
 
