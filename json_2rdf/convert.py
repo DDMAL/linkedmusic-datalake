@@ -157,7 +157,7 @@ def add_triples(subject, predicates):
         g.add((subject, pred_uri, obj))
 
 
-with open("./musicbrainz/recording_test", "r", encoding="utf-8") as f:
+with open("./musicbrainz/recording_test_2", "r", encoding="utf-8") as f:
     for line in f:
         data = json.loads(line)  # Parse each JSON object in the file
 
