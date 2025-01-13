@@ -1,42 +1,288 @@
 @prefix wdt: <http://www.wikidata.org/prop/direct/> .
 
-<https://musicbrainz.org/recording/10b9c34b-821d-4cc8-9587-5c7d0cb68865> wdt:P17 [ wdt:P87 "https://www.wikidata.org/wiki/Q3174727" ;
+<https://musicbrainz.org/recording/10b9c34b-821d-4cc8-9587-5c7d0cb68865> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q3174727> ;
             wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
                     wdt:P119 "11137c88-a9a2-4ffa-a97d-fb058c6d6ce2" ;
                     wdt:P45 [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
-                            wdt:P87 "https://www.wikidata.org/wiki/Q7976" ],
-                        [ wdt:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
-                            wdt:P87 "https://www.wikidata.org/wiki/Q968730" ],
+                            wdt:P87 <https://www.wikidata.org/wiki/Q846570> ],
                         [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
-                            wdt:P87 "https://www.wikidata.org/wiki/Q9778" ],
+                            wdt:P87 <https://www.wikidata.org/wiki/Q9778> ],
+                        [ wdt:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q968730> ],
                         [ wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
-                            wdt:P87 "https://www.wikidata.org/wiki/Q215048" ] ;
-                    wdt:P57 "Pigface" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q215048> ] ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q3174727> ;
                     wdt:P72 "industrial supergroup" ;
-                    wdt:P79 "Group" ;
-                    wdt:P87 "https://www.wikidata.org/wiki/Q3174727" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215380> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q3174727> ;
                     wdt:P97 [ wdt:P119 "89255676-1f14-4dd8-bbad-fca839d6aff4" ;
                             wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
-                            wdt:P87 "https://www.wikidata.org/wiki/Q9778" ],
+                            wdt:P87 <https://www.wikidata.org/wiki/Q9778> ],
                         [ wdt:P119 "ffbc9907-c9be-4ace-876b-b7fd5b9d51f9" ;
                             wdt:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
-                            wdt:P87 "https://www.wikidata.org/wiki/Q968730" ] ] ] ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q968730> ] ] ] ;
     wdt:P22 "Suck" ;
     wdt:P23 [ wdt:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
             wdt:P11 [ ] ;
             wdt:P14 "work" ;
             wdt:P51 "forward" ;
             wdt:P6 [ ] ;
-            wdt:P79 "performance" ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q35140> ;
             wdt:P84 [ wdt:P106 "f061270a-2fd6-32f1-a641-f0f8676d14e6" ;
-                    wdt:P111 "eng" ;
+                    wdt:P111 <https://www.wikidata.org/wiki/Q1860> ;
                     wdt:P119 "20309de2-2847-3753-8a7a-d0e335f57176" ;
                     wdt:P13 [ wdt:P13 "T-905.318.598-1" ],
                         [ wdt:P13 "T-905.188.140-4" ],
-                        [ wdt:P13 "T-070.172.108-5" ],
                         [ wdt:P13 "T-926.281.906-7" ],
-                        [ wdt:P13 "T-900.245.777-4" ] ;
+                        [ wdt:P13 "T-900.245.777-4" ],
+                        [ wdt:P13 "T-070.172.108-5" ] ;
                     wdt:P22 "Suck" ;
-                    wdt:P68 [ wdt:P68 "eng" ] ;
-                    wdt:P79 "Song" ] ] .
+                    wdt:P68 [ wdt:P68 <https://www.wikidata.org/wiki/Q1860> ] ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q7366> ] ] .
+
+<https://musicbrainz.org/recording/17d3194b-c11d-4471-9938-829560e4383f> wdt:P17 [ wdt:P87 "Forbidden Pigs" ;
+            wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
+                    wdt:P119 "c7ac345b-057f-4553-9eaf-76c6ce824f96" ;
+                    wdt:P57 "Forbidden Pigs" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215380> ;
+                    wdt:P87 "Forbidden Pigs" ] ] ;
+    wdt:P22 "Mojo's Intro" ;
+    wdt:P95 "242000^^http://www.w3.org/2001/XMLSchema#integer" .
+
+<https://musicbrainz.org/recording/563656af-0ccf-48ab-9791-9a37d2d43f4a> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q1383968> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "cf682e14-a639-444b-9128-86ad5e5b9188" ;
+                    wdt:P45 [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q1209676> ] ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q1383968> ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q1383968> ] ] ;
+    wdt:P22 "Ramanda" ;
+    wdt:P23 [ wdt:P106 "59054b12-01ac-43ee-a618-285fd397e461" ;
+            wdt:P11 [ wdt:P5 "63e37f1a-30b6-4746-8a49-dfb55be3cdd1" ] ;
+            wdt:P14 "musician" ;
+            wdt:P25 [ ] ;
+            wdt:P51 "backward" ;
+            wdt:P53 [ wdt:P53 "harmonica" ] ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q34379> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "f6cb7a11-0305-4dcd-8ed1-436ef87a2ead" ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q1631859> ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q1631859> ] ],
+        [ wdt:P106 "5c0ceac3-feb4-41f0-868d-dc06f6e27fc0" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "musician" ;
+            wdt:P51 "backward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q47541952> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "6910d296-a185-4840-adca-4c178ee63f44" ;
+                    wdt:P57 "Haddad, Bob" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 "Bob Haddad" ] ] .
+
+<https://musicbrainz.org/recording/565de6d8-f93f-4b44-97e2-c1f3ffc2410a> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q35856> ;
+            wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
+                    wdt:P119 "3200cf86-ee25-491c-bffa-9feb2bc2f760" ;
+                    wdt:P45 [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q160232> ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q564862> ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q4> ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q133363> ],
+                        [ wdt:P49 "3^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q132438> ] ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q777180> ;
+                    wdt:P72 "Finnish black metal" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215380> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q35856> ;
+                    wdt:P97 [ wdt:P119 "12568698-97cc-49a9-80ab-9c5e3fe4dd33" ;
+                            wdt:P49 "3^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q132438> ] ] ] ;
+    wdt:P22 "The Calling" ;
+    wdt:P95 "264000^^http://www.w3.org/2001/XMLSchema#integer" .
+
+<https://musicbrainz.org/recording/7cd05a94-75cb-41fd-b432-da0401b64d0b> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q1383968> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "cf682e14-a639-444b-9128-86ad5e5b9188" ;
+                    wdt:P45 [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q1209676> ] ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q1383968> ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q1383968> ] ] ;
+    wdt:P22 "Second Wind" ;
+    wdt:P23 [ wdt:P106 "5c0ceac3-feb4-41f0-868d-dc06f6e27fc0" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "musician" ;
+            wdt:P51 "backward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q47541952> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "6910d296-a185-4840-adca-4c178ee63f44" ;
+                    wdt:P57 "Haddad, Bob" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 "Bob Haddad" ] ] .
+
+<https://musicbrainz.org/recording/907ed963-b8f3-470e-8ecb-33e2a61e392a> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q6411826> ;
+            wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
+                    wdt:P119 "82f8da4e-59e5-4bbf-b210-7d1a5644df48" ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q6411826> ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215380> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q6411826> ] ] ;
+    wdt:P22 "Brown Blood (Klute remix)" ;
+    wdt:P23 [ wdt:P106 "7950be4d-13a3-48e7-906b-5af562e39544" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "musician" ;
+            wdt:P51 "backward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q57936775> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "770ccf83-47ce-4fa1-83ec-d8fc24269784" ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q3815887> ;
+                    wdt:P72 "drum & bass artist Tom Withers" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q3815887> ] ] .
+
+<https://musicbrainz.org/recording/aec887db-4395-473e-8d4d-d3a484b0a9be> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q6411826> ;
+            wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
+                    wdt:P119 "82f8da4e-59e5-4bbf-b210-7d1a5644df48" ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q6411826> ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215380> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q6411826> ] ] ;
+    wdt:P22 "Freakmeister (Ronnie & Clyde remix)" ;
+    wdt:P23 [ wdt:P106 "7950be4d-13a3-48e7-906b-5af562e39544" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "musician" ;
+            wdt:P51 "backward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q57936775> ;
+            wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
+                    wdt:P119 "97fc5c92-a6d9-4bdc-9595-bcd59c6eb454" ;
+                    wdt:P57 "Ronnie & Clyde" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215380> ;
+                    wdt:P87 "Ronnie & Clyde" ] ] .
+
+<https://musicbrainz.org/recording/b26c15bd-9e01-4bc7-8bb0-63f58baa739b> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q544387> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "2ce02909-598b-44ef-a456-151ba0a3bd70" ;
+                    wdt:P45 [ wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q9759> ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q45981> ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q1684520> ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "2008 universal fire victim" ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 "aln-sh" ],
+                        [ wdt:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q131272> ],
+                        [ wdt:P49 "5^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q8341> ] ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q544387> ;
+                    wdt:P72 "soul musician, singer and songwriter" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q544387> ;
+                    wdt:P97 [ wdt:P119 "9702d99a-823f-47ba-b8c2-af0538c9640b" ;
+                            wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q1684520> ],
+                        [ wdt:P119 "1b5e7b16-336b-473e-a364-5120413a9827" ;
+                            wdt:P49 "4^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q131272> ],
+                        [ wdt:P119 "fe12b346-a10e-450f-bf81-fa20894b5ea2" ;
+                            wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q9759> ],
+                        [ wdt:P119 "a715278f-1580-409f-8078-4ffbc800e08b" ;
+                            wdt:P49 "5^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q8341> ] ] ] ;
+    wdt:P22 "Kiss-A-Me Baby" ;
+    wdt:P23 [ wdt:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "work" ;
+            wdt:P51 "forward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q35140> ;
+            wdt:P84 [ wdt:P106 "f061270a-2fd6-32f1-a641-f0f8676d14e6" ;
+                    wdt:P111 <https://www.wikidata.org/wiki/Q1860> ;
+                    wdt:P119 "a6490c5d-8f31-4109-92ee-a8a20980578b" ;
+                    wdt:P13 [ wdt:P13 "T-700.034.595-1" ] ;
+                    wdt:P22 "Kissa Me Baby" ;
+                    wdt:P68 [ wdt:P68 <https://www.wikidata.org/wiki/Q1860> ] ;
+                    wdt:P72 "Ray Charles song" ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q7366> ] ] .
+
+<https://musicbrainz.org/recording/c3b08392-b751-4301-97c8-be9f2d2c78e4> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q1186049> ;
+            wdt:P96 [ wdt:P106 "b6e035f4-3ce9-331c-97df-83397230b0df" ;
+                    wdt:P119 "ed29f6fa-ca96-47f7-9c7e-b9f2f11f30e4" ;
+                    wdt:P45 [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q43343> ],
+                        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q7482056> ] ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q1186049> ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215627> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q1186049> ;
+                    wdt:P97 [ wdt:P119 "3d88ed41-624d-4be9-bf9d-ca11991eb250" ;
+                            wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q7482056> ],
+                        [ wdt:P119 "a91eed3a-fdd0-494e-ade0-95ea4117f6eb" ;
+                            wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q43343> ] ] ] ;
+    wdt:P22 "Morning Glory" ;
+    wdt:P23 [ wdt:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "work" ;
+            wdt:P51 "forward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q35140> ;
+            wdt:P84 [ wdt:P106 "f061270a-2fd6-32f1-a641-f0f8676d14e6" ;
+                    wdt:P111 <https://www.wikidata.org/wiki/Q1860> ;
+                    wdt:P119 "9c8a949a-a218-4d93-8039-8d43e0a06d0b" ;
+                    wdt:P22 "Here’s to the Morning Glory" ;
+                    wdt:P68 [ wdt:P68 <https://www.wikidata.org/wiki/Q1860> ] ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q7366> ] ] .
+
+<https://musicbrainz.org/recording/f28b2394-bd5d-4f0c-a0de-55ce015a5c57> wdt:P17 [ wdt:P87 <https://www.wikidata.org/wiki/Q465220> ;
+            wdt:P96 [ wdt:P106 "e431f5f6-b5d2-343d-8b36-72607fffb74b" ;
+                    wdt:P119 "7f33e393-1827-4c2b-9bbd-e69a67b3d45e" ;
+                    wdt:P45 [ wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q253918> ],
+                        [ wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q2997058> ] ;
+                    wdt:P57 <https://www.wikidata.org/wiki/Q465220> ;
+                    wdt:P79 <https://www.wikidata.org/wiki/Q215380> ;
+                    wdt:P87 <https://www.wikidata.org/wiki/Q465220> ;
+                    wdt:P97 [ wdt:P119 "5eeb0431-8160-40a7-ae44-c2ad01fed156" ;
+                            wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q253918> ],
+                        [ wdt:P119 "74ed98e0-d2f4-4d34-9a51-0c18c1303726" ;
+                            wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+                            wdt:P87 <https://www.wikidata.org/wiki/Q2997058> ] ] ] ;
+    wdt:P22 "Whispering Shadows" ;
+    wdt:P23 [ wdt:P106 "a3005666-a872-32c3-ad06-98af558e99b0" ;
+            wdt:P11 [ ] ;
+            wdt:P14 "work" ;
+            wdt:P51 "forward" ;
+            wdt:P6 [ ] ;
+            wdt:P79 <https://www.wikidata.org/wiki/Q35140> ;
+            wdt:P84 [ wdt:P119 "ee22d617-36cc-3db8-9ae2-d12ada1b784c" ;
+                    wdt:P22 "Whispering Shadows" ] ] ;
+    wdt:P45 [ wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+            wdt:P87 <https://www.wikidata.org/wiki/Q483251> ],
+        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+            wdt:P87 <https://www.wikidata.org/wiki/Q8063> ],
+        [ wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+            wdt:P87 <https://www.wikidata.org/wiki/Q11426> ] ;
+    wdt:P97 [ wdt:P119 "0e3fc579-2d24-4f20-9dae-736e1ec78798" ;
+            wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+            wdt:P87 <https://www.wikidata.org/wiki/Q8063> ],
+        [ wdt:P119 "eacfa027-2fad-413f-a2f1-80fa43674f0b" ;
+            wdt:P49 "2^^http://www.w3.org/2001/XMLSchema#integer" ;
+            wdt:P87 <https://www.wikidata.org/wiki/Q483251> ],
+        [ wdt:P119 "cc28f5aa-5e19-487c-88e1-e56b022f1fdd" ;
+            wdt:P49 "1^^http://www.w3.org/2001/XMLSchema#integer" ;
+            wdt:P87 <https://www.wikidata.org/wiki/Q11426> ] .
 
