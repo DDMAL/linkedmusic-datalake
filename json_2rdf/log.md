@@ -58,3 +58,12 @@
 - There might be infinitely many predicates, making reconciliation extremely difficult. We can categorize them by using a single URI for a group of similar predicates.
 - Merging blank nodes is difficult since the internal code for each blank node when reading the RDF is different every time. Tracing the reconciled CSV is necessary during the iteration of the raw RDF.
 - Using a stack data structure to iterate the RDF structure to effectively trace the blank nodes.
+
+### 01-13-2025
+
+**Reconciliation discussion**:
+Countries and citizenships appears in some tags and genres for artist or recordings. Do we consider it to be the language, the culture, or the citizenship of the artist?
+"Death", "Hate" and similar genres, do we consider the original meaning of them or should they be considered as special literature genres?
+Which one to use for "Person"? Q5 or Q215627
+"Artist" as musician (Q639669)?
+"Work" as work (Q386724) or work (Q268378)?
