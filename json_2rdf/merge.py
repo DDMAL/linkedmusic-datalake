@@ -49,7 +49,10 @@ def merge_data(rdf_graph, csv_data):
                 stack.append((o, pn, on, on_csv))
                 csv_data[str(o_csv)].remove((str(pn), on_csv))
         else:
-            rdf_graph.set((s, p, Literal(o_csv)))
+            if not o_csv.startswith("http"):
+                rdf_graph.set((s, p, Literal(o_csv)))
+            else:
+                rdf_graph.set((s, p, URIRef(o_csv)))
 
     return rdf_graph
 
@@ -79,8 +82,8 @@ def main(rdf_input, csv_input, rdf_output):
 
 # Example usage
 if __name__ == "__main__":
-    rdf_input_file = "./musicbrainz/output_test.ttl"  # Replace with your RDF file
-    csv_input_file = "./musicbrainz/output-test-ttl.csv"  # Replace with your CSV file
+    rdf_input_file = "./musicbrainz/recording_test_2.ttl"  # Replace with your RDF file
+    csv_input_file = "./musicbrainz/recording-test-2-ttl.csv"  # Replace with your CSV file
     rdf_output_file = "./musicbrainz/final.ttl"  # Replace with desired output file name
 
     main(rdf_input_file, csv_input_file, rdf_output_file)
