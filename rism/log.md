@@ -1,5 +1,7 @@
 # 01-17-2025
 
+**Lab Meeting**
+
 **RISM data processing**:
 - Converted the raw RDF .ttl data to a prettier human-readable version and understanded its schema.
 - Uploaded to OpenRefine, suceeded to reconcile the "Person" and "Institution" subjects.
