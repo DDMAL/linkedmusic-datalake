@@ -3,13 +3,6 @@ import validators
 from rdflib import Graph, URIRef, Literal, BNode
 
 
-# Load RDF file
-def load_rdf(rdf_file):
-    rdf_graph = Graph()
-    rdf_graph.parse(rdf_file, format="turtle")  # Adjust format if necessary
-    return rdf_graph
-
-
 # Read and process CSV data
 def read_csv(csv_file):
     data = {}
@@ -35,64 +28,45 @@ def read_csv(csv_file):
 
 RECONCILIATION_COLUMNS = [
     "http://www.wikidata.org/prop/direct/P2308",
-    "http://www.wikidata.org/prop/direct/P2888"
+    "http://www.wikidata.org/prop/direct/P2888",
 ]
 
+LANG_COLUMNS = ["en", "de", "fr", "none"]
 
-# Merge data into the RDF graph
-def merge_data(rdf_graph, csv_data):
-    stack = []
-    for s0, p0, o0 in rdf_graph.triples((None, None, None)):
-        if isinstance(s0, URIRef):
-            for p0_csv, o0_csv in csv_data[str(s0)]:
-                # If predicate matches, add to stack
-                if p0_csv == str(p0):
-                    # In stack, we store the subject, predicate, object in RDF, and object in CSV
-                    stack.append((s0, p0, o0, o0_csv))
-                    if (p0_csv, o0_csv) in csv_data[str(s0)]:
-                        csv_data[str(s0)].remove((p0_csv, o0_csv))
-                    continue
 
-                # If predicate is in reconciliation column, add to stack. It's not in RDF graph
-                if p0_csv in RECONCILIATION_COLUMNS:
-                    stack.append((s0, URIRef(p0_csv), o0_csv, o0_csv))
-                    csv_data[str(s0)].remove((p0_csv, o0_csv))
+def merge_data(csv_data):
+    g = Graph()
+    for s in csv_data:
+        for p, o in csv_data[s]:
+            p = URIRef(p)
+            datatype = None
+            lang = None
 
-        while stack:
-            # Get current triple from stack plus the corresponding CSV object
-            s, p, o, o_csv = stack.pop()
-            if isinstance(o, BNode):
-                # Get all triples with the current object as subject
-                sn, sn_csv = o, o_csv
-                for pn, on in rdf_graph.predicate_objects(sn):
-                    for pn_csv, on_csv in csv_data[str(sn_csv)]:
-                        if on_csv == "":
-                            continue
+            if "^^" in o and validators.url(o.split("^^")[1]):
+                datatype = URIRef(o.split("^^")[1])
+                o = o.split("^^")[0]
 
-                        if pn_csv == str(pn):
-                            stack.append((sn, pn, on, on_csv))
-                            if (pn_csv, on_csv) in csv_data[str(sn_csv)]:
-                                csv_data[str(o_csv)].remove((pn_csv, on_csv))
-                            break
+            if "@" in o and o.split("@")[1] in LANG_COLUMNS:
+                lang = o.split("@")[1]
+                o = o.split("@")[0]
 
-                        if pn_csv in RECONCILIATION_COLUMNS:
-                            stack.append((sn, URIRef(pn), "reconciling", on_csv))
-                            csv_data[str(o_csv)].remove((pn_csv, on_csv))
-                            break
-
+            if validators.url(s):
+                s = URIRef(s)
+            elif len(s) == 32 and s.isalnum():
+                s = BNode(s)
             else:
-                if not validators.url(
-                    o_csv,
-                    public=True,
-                    allow_fragments=False,
-                    require_tld=True,
-                    require_protocol=True,
-                ):
-                    rdf_graph.set((s, p, Literal(o_csv)))
-                else:
-                    rdf_graph.set((s, p, URIRef(o_csv)))
+                break
 
-    return rdf_graph
+            if validators.url(o):
+                o = URIRef(o)
+            elif len(o) == 32 and o.isalnum():
+                o = BNode(o)
+            else:
+                o = Literal(o, lang=lang, datatype=datatype)
+
+            g.add((s, p, o))
+
+    return g
 
 
 # Save the updated RDF graph
@@ -103,17 +77,14 @@ def save_rdf(rdf_graph, output_file):
 
 
 # Main function
-def main(rdf_input, csv_input, rdf_output):
-    print("Loading RDF data...")
-    rdf_graph = load_rdf(rdf_input)
-    rdf_graph.bind("wd", "http://www.wikidata.org/entity/")
-    rdf_graph.bind("wdt", "http://www.wikidata.org/prop/direct/")
-
+def main(csv_input, rdf_output):
     print("Reading CSV data...")
     csv_data = read_csv(csv_input)
 
     print("Merging data into RDF...")
-    reconciled_graph = merge_data(rdf_graph, csv_data)
+    reconciled_graph = merge_data(csv_data)
+    reconciled_graph.bind("wd", "http://www.wikidata.org/entity/")
+    reconciled_graph.bind("wdt", "http://www.wikidata.org/prop/direct/")
 
     print("Saving updated RDF file...")
     save_rdf(reconciled_graph, rdf_output)
@@ -122,8 +93,7 @@ def main(rdf_input, csv_input, rdf_output):
 
 # Example usage
 if __name__ == "__main__":
-    rdf_input_file = "./output.ttl"  # Replace with your RDF file
     csv_input_file = "./output-ttl.csv"  # Replace with your CSV file
     rdf_output_file = "./merged.ttl"  # Replace with desired output file name
 
-    main(rdf_input_file, csv_input_file, rdf_output_file)
+    main(csv_input_file, rdf_output_file)
