@@ -1,1 +1,1 @@
-Data dump address: https://opac.rism.info/main-menu-/kachelmenu/data
+Data dump address: from Andrew Hankinson
