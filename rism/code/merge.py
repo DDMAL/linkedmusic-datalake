@@ -93,7 +93,7 @@ def main(csv_input, rdf_output):
 
 # Example usage
 if __name__ == "__main__":
-    csv_input_file = "./output-ttl.csv"  # Replace with your CSV file
-    rdf_output_file = "./merged.ttl"  # Replace with desired output file name
+    csv_input_file = "../data/reconciled/output-ttl.csv"  # Replace with your CSV file
+    rdf_output_file = "../data/output/merged.ttl"  # Replace with desired output file name
 
     main(csv_input_file, rdf_output_file)

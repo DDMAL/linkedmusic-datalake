@@ -1,6 +1,6 @@
 from rdflib import Graph
 
-FILE_PATH = "rism-test-100000.ttl"  # Replace with your RDF file
+FILE_PATH = "../data/raw/rism-test-100000.ttl"  # Replace with your RDF file
 
 
 def load_rdf(file_path: str, f):
@@ -18,4 +18,4 @@ def load_rdf(file_path: str, f):
 # Example usage
 if __name__ == "__main__":
     g = load_rdf(FILE_PATH, "ttl")
-    g.serialize("output.ttl", format="ttl")
+    g.serialize("../data/raw/output.ttl", format="ttl")
