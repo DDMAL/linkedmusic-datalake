@@ -1,5 +1,6 @@
 import csv
 import validators
+import json
 from rdflib import Graph, URIRef, Literal, BNode
 
 
@@ -76,13 +77,26 @@ def save_rdf(rdf_graph, output_file):
     )  # Adjust format if necessary
 
 
+def parse_mapping(mapping, graph):
+    for p in graph.predicates(unique=True):
+        if str(p) in mapping and mapping[str(p)] != "":
+            for s, o in graph.subject_objects(p):
+                graph.remove((s, p, o))
+                graph.add((s, URIRef(f"http://www.wikidata.org/prop/direct/{mapping[str(p)]}"), o))
+    return graph
+
+
 # Main function
-def main(csv_input, rdf_output):
+def main(csv_input, rdf_output, mapping_file):
+    print("Reading mapping data...")
+    mapping = json.load(open(mapping_file, "r", encoding="utf-8"))
+
     print("Reading CSV data...")
     csv_data = read_csv(csv_input)
 
     print("Merging data into RDF...")
     reconciled_graph = merge_data(csv_data)
+    reconciled_graph = parse_mapping(mapping, reconciled_graph)
     reconciled_graph.bind("wd", "http://www.wikidata.org/entity/")
     reconciled_graph.bind("wdt", "http://www.wikidata.org/prop/direct/")
 
@@ -94,6 +108,9 @@ def main(csv_input, rdf_output):
 # Example usage
 if __name__ == "__main__":
     csv_input_file = "../data/reconciled/output-ttl.csv"  # Replace with your CSV file
-    rdf_output_file = "../data/output/merged.ttl"  # Replace with desired output file name
+    rdf_output_file = (
+        "../data/output/merged.ttl"  # Replace with desired output file name
+    )
+    json_file = "../data/reconciled/mapping.json"
 
-    main(csv_input_file, rdf_output_file)
+    main(csv_input_file, rdf_output_file, json_file)
