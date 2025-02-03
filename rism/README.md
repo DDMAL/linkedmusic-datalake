@@ -7,3 +7,8 @@ In this folder, "rism-test-100000.ttl" is an excerpt from the original RISM RDF(
 3. reconciled
 Mapping.json is the record for classes and properties mapping
 "output-ttl.csv" is the output from open refine after reconciliation based on the input RDF (that is output.ttl of raw folder)
+
+for code folder:
+1. get_relations.py: for generating the "mapping.json"(in reconciled folder) file
+2. merge.py: for converting the output-ttl.csv file back into RDF
+3. read:...
