@@ -34,3 +34,16 @@
     - Using 32-bit string BNode IDs
     - Trade-off: Successful implementation but potentially reduced method generality
 - Open for further optimization and discussion
+
+# 01-31-2025
+
+**RISM Data Processing**:
+- Implemented graph partitioning solution for large RISM dataset
+- Working on preserving structural integrity during partitioning
+- Debugging partition boundary cases
+
+# 02-02-2025
+
+**RISM Data Processing**
+> Remote Working 
+- Ran into a bug during the partition method, trying to fix.
