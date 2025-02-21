@@ -1,0 +1,48 @@
+{
+    "entity_type": [],
+    "http://purl.org/dc/terms/creator": "P50",
+    // This was previously reconciled to P2309; Junjun doesn't think P2309 is used for relation in this case，so he deleted it:
+    "http://purl.org/dc/terms/relation": "",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "",
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": "",
+    "http://www.w3.org/2000/01/rdf-schema#label": "",
+    "http://www.wikidata.org/prop/direct/P2308": "",
+    "http://www.wikidata.org/prop/direct/P2888": "",
+    "https://rism.online/api/v1#dateStatement": "",
+    // not sure, because earliestDate is for describing event, while e.g., a manuscript is not an event:
+    "https://rism.online/api/v1#earliestDate": "P1319",
+    // point in time: "date something took place, existed or a statement was true; for providing time use the "refine date" property (P4241)":
+    "https://rism.online/api/v1#hasDates": "P585",
+    // Yueqiao: uesed P3294. Junjun: “P3294 is about the coding format categories;
+    // The values of P3294 in Wikidata are options such as hexadecimal, PAL(colour encoding system, NTST(analog television system...”:
+    "https://rism.online/api/v1#hasEncoding": "https://schema.org/encoding",
+    // Yueqiao: used P749. Junjun: parent organization (P749) is not suitable?:
+    "https://rism.online/api/v1#hasHolding": "",
+    // Yueqiao: used P749. Junjun: uesd P195--collection. The domain of the property is about "holding" which is not clarified in RISM front end:
+    "https://rism.online/api/v1#hasHoldingInstitution": "P195",
+    "https://rism.online/api/v1#hasIncipit": "P1922", first line
+    // Yueqiao: used P286 (head coach). Junjun: in RISM, the values of this property are such as,"F", "9t", "7t", "D", "D, E|b, F, D, G". They are about key or mode in context of music scores. There is not a suitable property in Wikidata for this:
+    "https://rism.online/api/v1#hasKeyMode": "",
+    // This is like a parent-property. We can refer to "Material description" of the frontEnd for a clear illustration:
+    "https://rism.online/api/v1#hasMaterialGroup": "",
+    // PAE is short for Plaine and Easie (code):
+    "https://rism.online/api/v1#hasPAEClef": "",
+    "https://rism.online/api/v1#hasPAEData": "",
+    "https://rism.online/api/v1#hasPAEKeysig": "",
+    "https://rism.online/api/v1#hasPAETimesig": "",
+    // Yueqiao: P2043(length). Junjun: doesn't think there is need for reconciling this envn if seperating the length and width:
+    "https://rism.online/api/v1#hasPhysicalDimensions": "",
+    "https://rism.online/api/v1#hasQualifier": "",
+    // Junjun: in this context, #hasRelationship has no difference with dcterms:relation:
+    "https://rism.online/api/v1#hasRelationship": "http://purl.org/dc/terms/relation",
+    // I am not sure if we need to reconcile this property which appears as a nested property under :hasRelationship:
+    "https://rism.online/api/v1#hasRole": "",
+    // Junjun: P144:"based on". To be confirmed:
+    "https://rism.online/api/v1#hasSourceItem": "P144", 
+    "https://rism.online/api/v1#hasSubject": "P921",
+    "https://rism.online/api/v1#hasSummary": "https://schema.org/description",
+    "https://rism.online/api/v1#isPartOf": "P361",
+    "https://rism.online/api/v1#latestDate": "P1326",
+    "https://rism.online/api/v1#meiEncoding": "",
+    "https://rism.online/api/v1#paeEncoding": ""
+}
