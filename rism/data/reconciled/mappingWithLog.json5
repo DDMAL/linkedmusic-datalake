@@ -13,9 +13,10 @@
     "https://rism.online/api/v1#earliestDate": "P1319",
     // point in time: "date something took place, existed or a statement was true; for providing time use the "refine date" property (P4241)":
     "https://rism.online/api/v1#hasDates": "P585",
-    // Yueqiao: uesed P3294. Junjun: “P3294 is about the coding format categories;
-    // The values of P3294 in Wikidata are options such as hexadecimal, PAL(colour encoding system, NTST(analog television system...”:
-    "https://rism.online/api/v1#hasEncoding": "https://schema.org/encoding",
+    // (1)Yueqiao: uesed P3294. (2)Junjun: “P3294 is about the coding format categories;
+    // The values of P3294 in Wikidata are options such as hexadecimal, PAL(colour encoding system, NTST(analog television system...”. (3) After further confirmation with Ichiro, 
+    // we have decided to use only properties from Wikidata and exclude all others, so we deleted "https://schema.org/encoding"
+    "https://rism.online/api/v1#hasEncoding": "",
     // Yueqiao: used P749. Junjun: parent organization (P749) is not suitable?:
     "https://rism.online/api/v1#hasHolding": "",
     // Yueqiao: used P749. Junjun: uesd P195--collection. The domain of the property is about "holding" which is not clarified in RISM front end:
@@ -33,14 +34,15 @@
     // Yueqiao: P2043(length). Junjun: doesn't think there is need for reconciling this envn if seperating the length and width:
     "https://rism.online/api/v1#hasPhysicalDimensions": "",
     "https://rism.online/api/v1#hasQualifier": "",
-    // Junjun: in this context, #hasRelationship has no difference with dcterms:relation:
-    "https://rism.online/api/v1#hasRelationship": "http://purl.org/dc/terms/relation",
+    // (1)Junjun: in this context, #hasRelationship has no difference with dcterms:relation (2) After further confirmation with Ichiro, we have decided to use only properties from Wikidata and exclude all others, so we deleted "http://purl.org/dc/terms/relation"
+    "https://rism.online/api/v1#hasRelationship": "",
     // I am not sure if we need to reconcile this property which appears as a nested property under :hasRelationship:
     "https://rism.online/api/v1#hasRole": "",
     // Junjun: P144:"based on". To be confirmed:
     "https://rism.online/api/v1#hasSourceItem": "P144", 
     "https://rism.online/api/v1#hasSubject": "P921",
-    "https://rism.online/api/v1#hasSummary": "https://schema.org/description",
+    // Junjun: After further confirmation with Ichiro, we have decided to use only properties from Wikidata and exclude all others, so we deleted “https://schema.org/description”
+    "https://rism.online/api/v1#hasSummary": "",
     "https://rism.online/api/v1#isPartOf": "P361",
     "https://rism.online/api/v1#latestDate": "P1326",
     "https://rism.online/api/v1#meiEncoding": "",
