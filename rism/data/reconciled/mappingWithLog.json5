@@ -21,7 +21,8 @@
     "https://rism.online/api/v1#hasHolding": "",
     // Yueqiao: used P749. Junjun: uesd P195--collection. The domain of the property is about "holding" which is not clarified in RISM front end:
     "https://rism.online/api/v1#hasHoldingInstitution": "P195",
-    "https://rism.online/api/v1#hasIncipit": "P1922", first line
+    // first line
+    "https://rism.online/api/v1#hasIncipit": "P1922",
     // Yueqiao: used P286 (head coach). Junjun: in RISM, the values of this property are such as,"F", "9t", "7t", "D", "D, E|b, F, D, G". They are about key or mode in context of music scores. There is not a suitable property in Wikidata for this:
     "https://rism.online/api/v1#hasKeyMode": "",
     // This is like a parent-property. We can refer to "Material description" of the frontEnd for a clear illustration:
