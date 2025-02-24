@@ -24,7 +24,7 @@
     "https://rism.online/api/v1#hasQualifier": "",
     "https://rism.online/api/v1#hasRelationship": "",
     "https://rism.online/api/v1#hasRole": "",
-    "https://rism.online/api/v1#hasSourceItem": "P144",
+    "https://rism.online/api/v1#hasSourceItem": "P144", 
     "https://rism.online/api/v1#hasSubject": "P921",
     "https://rism.online/api/v1#hasSummary": "",
     "https://rism.online/api/v1#isPartOf": "P361",
