@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 
-def force_split_ttl(input_file, output_dir, chunk_size_mb=2e3):
+def force_split_ttl(input_file, output_dir, chunk_size_mb=1e3):
     # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
