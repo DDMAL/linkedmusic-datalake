@@ -13,32 +13,27 @@ def force_split_ttl(input_file, output_dir, chunk_size_mb=1e3):
     file_number = 1
     current_size = 0
     current_file = None
-
     with open(input_file, "rb") as infile:
-        while True:
-            # Read chunk of data
-            chunk = infile.read(8192)  # Read in 8KB chunks
-
-            if not chunk:
-                if current_file:
-                    current_file.close()
-                break
-
+        for line in infile:
             # Open new file if needed
             if current_file is None:
                 output_path = os.path.join(output_dir, f"part_{file_number}.ttl")
                 current_file = open(output_path, "wb")
                 current_size = 0
 
-            # Write chunk to current file
-            current_file.write(chunk)
-            current_size += len(chunk)
+            # Write line to current file
+            current_file.write(line)
+            current_size += len(line)
 
             # Check if current file size exceeds chunk_size
             if current_size >= chunk_size:
                 current_file.close()
                 current_file = None
                 file_number += 1
+
+        # Close the last file if it's still open
+        if current_file:
+            current_file.close()
 
 
 if __name__ == "__main__":
