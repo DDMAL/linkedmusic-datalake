@@ -1,6 +1,6 @@
 from rdflib import Graph, BNode, URIRef
 
-FILE_PATH = "../data/raw/rism-test-100000.ttl"  # Replace with your RDF file
+FILE_PATH = "../data/raw/rism-dump.ttl"  # Replace with your RDF file
 
 
 def parse_bnode(graph: Graph, bnode: BNode):
@@ -24,6 +24,7 @@ def load_rdf(file_path: str, f, chunk_size=1e6):
     graph = Graph()
     # Parse the RDF data from the specified file
     graph.parse(file_path, format=f)
+    print("Reading Complete")
     chunks = []
     subgraph = Graph()
     subjects = set([s for s in graph.subjects() if isinstance(s, URIRef)])
@@ -37,6 +38,7 @@ def load_rdf(file_path: str, f, chunk_size=1e6):
 
             if len(subgraph) >= chunk_size:
                 chunks.append(subgraph)
+                print(f"Parsed {len(chunks)}/{len(graph)}")
                 subgraph = Graph()
 
     chunks.append(subgraph)
@@ -48,6 +50,7 @@ def load_rdf(file_path: str, f, chunk_size=1e6):
 if __name__ == "__main__":
     graphs = load_rdf(FILE_PATH, "ttl")
     counter = 0
+    print("Serializing")
     for g in graphs:
         g.serialize(f"../data/raw/output{counter}.ttl", format="ttl")
         counter += 1
