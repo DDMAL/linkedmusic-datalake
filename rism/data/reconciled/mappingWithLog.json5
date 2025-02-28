@@ -6,7 +6,7 @@
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": "",
     "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": "",
     "http://www.w3.org/2000/01/rdf-schema#label": "",
-    "http://www.wikidata.org/prop/direct/P2308": "",
+    "http://www.wikidata.org/prop/direct/P2308": "P31",
     "http://www.wikidata.org/prop/direct/P2888": "",
     "https://rism.online/api/v1#dateStatement": "",
     // not sure, because earliestDate is for describing event, while e.g., a manuscript is not an event:
