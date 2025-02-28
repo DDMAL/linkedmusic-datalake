@@ -95,9 +95,9 @@ QUERY = """{
 }"""
 
 for file in os.listdir(GRAPH_PATH):
-    print(file)
+    print(f"Parsing file {GRAPH_PATH + file}")
     graph = rdflib.Graph()
-    graph.parse(file, format="ttl")
+    graph.parse(GRAPH_PATH + file, format="ttl")
 
     graph_sources = rdflib.Graph()
     graph_persons = rdflib.Graph()
@@ -120,8 +120,10 @@ for file in os.listdir(GRAPH_PATH):
             graph_persons.add((s, p, o))
         elif source_triple in graph:
             graph_sources.add((s, p, o))
+    
+    print(f"Parsing graph {GRAPH_PATH + file} completed")
 
     get_wikidata_id(graph_persons, "Q5", auto_match=True)
     get_wikidata_id(graph_sources, "Q166118")
 
-    graph.serialize("../data/reconciled/rism-dump-wikidata.ttl", format="ttl")
+    graph.serialize("../data/reconciled/rism-dump-wikidata-{file}.ttl", format="ttl")
