@@ -1,34 +1,6 @@
 import requests
 import rdflib
-
-
-for s, p, o in graph.triples(
-    (None, rdflib.URIRef("http://www.w3.org/2000/01/rdf-schema#label"), None)
-):
-    person_triple = (
-        s,
-        rdflib.URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-        rdflib.URIRef("https://rism.online/api/v1#Person"),
-    )
-    source_triple = (
-        s,
-        rdflib.URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
-        rdflib.URIRef("https://rism.online/api/v1#Person"),
-    )
-
-    if person_triple in graph:
-        graph_persons.add((s, p, o))
-    elif source_triple in graph:
-        graph_sources.add((s, p, o))
-
-QUERY = """{
-    "q0": {
-        "query": "<object>",
-        "type": "<type>",
-        "limit": 5,
-        "type_strict": "should"
-    }
-}"""
+import os
 
 
 def get_wikidata_id(graph, type, auto_match=True):
@@ -113,13 +85,41 @@ Please choose manually:"""
 
 GRAPH_PATH = "split_output/"
 RECON_SERVICE = "https://wikidata.reconci.link/en/api"
+QUERY = """{
+    "q0": {
+        "query": "<object>",
+        "type": "<type>",
+        "limit": 5,
+        "type_strict": "should"
+    }
+}"""
 
-for file in os.walk
+for file in os.listdir(GRAPH_PATH):
+    print(file)
     graph = rdflib.Graph()
-    graph.parse(GRAPH_PATH, format="ttl")
+    graph.parse(file, format="ttl")
 
     graph_sources = rdflib.Graph()
     graph_persons = rdflib.Graph()
+
+    for s, p, o in graph.triples(
+        (None, rdflib.URIRef("http://www.w3.org/2000/01/rdf-schema#label"), None)
+    ):
+        person_triple = (
+            s,
+            rdflib.URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+            rdflib.URIRef("https://rism.online/api/v1#Person"),
+        )
+        source_triple = (
+            s,
+            rdflib.URIRef("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"),
+            rdflib.URIRef("https://rism.online/api/v1#Person"),
+        )
+
+        if person_triple in graph:
+            graph_persons.add((s, p, o))
+        elif source_triple in graph:
+            graph_sources.add((s, p, o))
 
     get_wikidata_id(graph_persons, "Q5", auto_match=True)
     get_wikidata_id(graph_sources, "Q166118")
