@@ -1,7 +1,7 @@
 import requests
 import rdflib
 
-GRAPH_PATH = "../data/raw/rism-test-100000.ttl"
+GRAPH_PATH = "../data/raw/rism-dump.ttl"
 RECON_SERVICE = "https://wikidata.reconci.link/en/api"
 
 graph = rdflib.Graph()
@@ -122,4 +122,4 @@ Please choose manually:"""
 get_wikidata_id(graph_persons, "Q5", auto_match=True)
 get_wikidata_id(graph_sources, "Q166118")
 
-graph.serialize("../data/reconciled/rism-test-100000-wikidata.ttl", format="ttl")
+graph.serialize("../data/reconciled/rism-dump-wikidata.ttl", format="ttl")
