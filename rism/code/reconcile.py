@@ -1,14 +1,6 @@
 import requests
 import rdflib
 
-GRAPH_PATH = "../data/raw/rism-dump.ttl"
-RECON_SERVICE = "https://wikidata.reconci.link/en/api"
-
-graph = rdflib.Graph()
-graph.parse(GRAPH_PATH, format="ttl")
-
-graph_sources = rdflib.Graph()
-graph_persons = rdflib.Graph()
 
 for s, p, o in graph.triples(
     (None, rdflib.URIRef("http://www.w3.org/2000/01/rdf-schema#label"), None)
@@ -119,7 +111,17 @@ Please choose manually:"""
                     )
 
 
-get_wikidata_id(graph_persons, "Q5", auto_match=True)
-get_wikidata_id(graph_sources, "Q166118")
+GRAPH_PATH = "split_output/"
+RECON_SERVICE = "https://wikidata.reconci.link/en/api"
 
-graph.serialize("../data/reconciled/rism-dump-wikidata.ttl", format="ttl")
+for file in os.walk
+    graph = rdflib.Graph()
+    graph.parse(GRAPH_PATH, format="ttl")
+
+    graph_sources = rdflib.Graph()
+    graph_persons = rdflib.Graph()
+
+    get_wikidata_id(graph_persons, "Q5", auto_match=True)
+    get_wikidata_id(graph_sources, "Q166118")
+
+    graph.serialize("../data/reconciled/rism-dump-wikidata.ttl", format="ttl")
