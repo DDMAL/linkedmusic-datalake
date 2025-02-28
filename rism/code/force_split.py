@@ -42,6 +42,6 @@ def force_split_ttl(input_file, output_dir, chunk_size_mb=2e3):
 
 
 if __name__ == "__main__":
-    input_file = "large_file.ttl"  # Replace with your input file
+    input_file = "../data/raw/rism-dump.ttl"  # Replace with your input file
     output_dir = "split_output"  # Replace with your desired output directory
     force_split_ttl(input_file, output_dir)
