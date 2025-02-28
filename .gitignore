@@ -11,3 +11,4 @@ acousticbrainz/data/*
 musicbrainz/data/*
 csv2rdf/MusicBrainz/*.csv
 Csv2rdf/MusicBrainz/*.ttl
+*.ttl
