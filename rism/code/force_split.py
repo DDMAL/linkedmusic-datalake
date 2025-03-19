@@ -3,19 +3,29 @@ import re
 import json
 from pathlib import Path
 
-def convert_blank_nodes_to_uris(ntriples_str, base_uri="http://example.org/bnode/"):
+def convert_blank_nodes_to_uris(ntriples_str, base_uri="http://dummy.org/bnode/"):
     return re.sub(r'_\:([a-zA-Z0-9]+)', lambda m: f'<{base_uri}{m.group(1)}>', ntriples_str)
+
+def convert_predicate_to_uri(ntriples_str, mapping_dict):
+    for k, v in mapping_dict.items():
+        if v == "":
+            continue
+        if k in ntriples_str:
+            ntriples_str = ntriples_str.replace(k, v)
+    return ntriples_str
 
 def get_mapping_dict(input_file):
     mapping_dict = {}
     with open(input_file, "r") as infile:
         json_data = json.load(infile)
         for k, v in json_data.items():
+            if v == '':  # Skip empty mappings
+                continue
             if isinstance(v, str):
                 mapping_dict[k] = f"http://www.wikidata.org/prop/direct/{v}"
     return mapping_dict
 
-def force_split_ttl(input_file, output_dir, chunk_size_mb=1e1):
+def force_split_ttl(input_file, output_dir, mapping_file, chunk_size_mb=1e1):
     # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -36,6 +46,7 @@ def force_split_ttl(input_file, output_dir, chunk_size_mb=1e1):
 
             # Write line to current file
             line = convert_blank_nodes_to_uris(line.decode("utf-8"))
+            line = convert_predicate_to_uri(line, get_mapping_dict(mapping_file))
             line = line.encode("utf-8")
             current_file.write(line)
             current_size += len(line)
@@ -55,4 +66,4 @@ if __name__ == "__main__":
     input_file = "../data/raw/rism-test-100000.ttl"  # Replace with your input file
     output_dir = "../data/split_output"  # Replace with your desired output directory
     mapping_file = "../data/reconciled/mapping.json"  # Replace with your mapping file
-    force_split_ttl(input_file, output_dir)
+    force_split_ttl(input_file, output_dir, mapping_file)

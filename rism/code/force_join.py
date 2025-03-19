@@ -2,7 +2,7 @@ import os
 import re 
 
 def convert_uris_to_blank_nodes(ntriples_str):
-    return re.sub(r'<http://example.org/bnode/([a-zA-Z0-9]+)>', lambda m: f'_:{m.group(1)}', ntriples_str)
+    return re.sub(r'<http://dummy.org/bnode/([a-zA-Z0-9]+)>', lambda m: f'_:{m.group(1)}', ntriples_str)
 
 def force_join_ttl(input_dir, output_file):
     with open(output_file, "wb") as outfile:
