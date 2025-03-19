@@ -1,0 +1,142 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "columnName": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "query": "person",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "http://www.w3.org/2000/01/rdf-schema#label",
+    "expression": "jython:return value[:-5]",
+    "onError": "set-to-blank",
+    "newColumnName": "p",
+    "columnInsertIndex": 4,
+    "description": "Create column p at index 4 based on column http://www.w3.org/2000/01/rdf-schema#label using expression jython:return value[:-5]"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "columnName": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "query": "person",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "p",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": "(",
+    "regex": false,
+    "maxColumns": 2,
+    "description": "Split column p by separator"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "columnName": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "query": "person",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "p 2",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": "-",
+    "regex": false,
+    "maxColumns": 2,
+    "description": "Split column p 2 by separator"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "columnName": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "query": "person",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "p 2 2",
+    "expression": "jython:return value[:4]",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column p 2 2 using expression jython:return value[:4]"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "columnName": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "query": "person",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "p 1",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "p 2 1",
+          "propertyName": "date of birth",
+          "propertyID": "P569"
+        },
+        {
+          "column": "p 2 2",
+          "propertyName": "date of death",
+          "propertyID": "P570"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column p 1 to type Q5"
+  }
+]

@@ -12,3 +12,4 @@ musicbrainz/data/*
 csv2rdf/MusicBrainz/*.csv
 Csv2rdf/MusicBrainz/*.ttl
 *.ttl
+/rism/data/split_input
