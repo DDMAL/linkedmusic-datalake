@@ -1,7 +1,10 @@
 import os
 import re
+import sys
 import json
 from pathlib import Path
+
+DEFAULT_CHUNK_SIZE_MB = 1e3
 
 def convert_blank_nodes_to_uris(ntriples_str, base_uri="http://dummy.org/bnode/"):
     return re.sub(r'_\:([a-zA-Z0-9]+)', lambda m: f'<{base_uri}{m.group(1)}>', ntriples_str)
@@ -25,7 +28,7 @@ def get_mapping_dict(input_file):
                 mapping_dict[k] = f"http://www.wikidata.org/prop/direct/{v}"
     return mapping_dict
 
-def force_split_ttl(input_file, output_dir, mapping_file, chunk_size_mb=1e1):
+def force_split_ttl(input_file, output_dir, mapping_file, chunk_size_mb=1e3):
     # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
@@ -66,4 +69,8 @@ if __name__ == "__main__":
     input_file = "../data/raw/rism-test-100000.ttl"  # Replace with your input file
     output_dir = "../data/split_output"  # Replace with your desired output directory
     mapping_file = "../data/reconciled/mapping.json"  # Replace with your mapping file
-    force_split_ttl(input_file, output_dir, mapping_file)
+    
+    if sys.argv[1] and isinstance(sys.argv[1], float):
+        DEFAULT_CHUNK_SIZE_MB = sys.argv[1]
+        
+    force_split_ttl(input_file, output_dir, mapping_file, DEFAULT_CHUNK_SIZE_MB)
