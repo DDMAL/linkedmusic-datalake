@@ -1,11 +1,11 @@
-# Data dump address: from Andrew Hankinson
+# Data Source: from RISM agent (Andrew Hankinson)
 
 # Steps
 
 ### Preparing OpenRefine
 - Install OpenRefine
-- Install RDF-extension based on <https://github.com/stkenny/grefine-rdf-extension>
-- Install RDF-transform based on <https://github.com/AtesComp/rdf-transform>
+- Install RDF-extension based on <https://github.com/stkenny/grefine-rdf-extension> which is for exporting data of OpenRefine projects in RDF format
+- Install RDF-transform based on <https://github.com/AtesComp/rdf-transform> which is for transforming OpenRefine project data to RDF-based formats
 
 ### Preparing the mapping file
 - Check `/linkedmusic-datalake/rism/data/reconciled/mapping.json`
