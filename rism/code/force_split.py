@@ -70,7 +70,7 @@ if __name__ == "__main__":
     output_dir = "../data/split_output"  # Replace with your desired output directory
     mapping_file = "../data/reconciled/mapping.json"  # Replace with your mapping file
     
-    if sys.argv[1] and isinstance(sys.argv[1], float):
+    if len(sys.argv) == 2 and isinstance(sys.argv[1], float):
         DEFAULT_CHUNK_SIZE_MB = sys.argv[1]
         
     force_split_ttl(input_file, output_dir, mapping_file, DEFAULT_CHUNK_SIZE_MB)
