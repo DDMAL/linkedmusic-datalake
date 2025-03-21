@@ -12,8 +12,8 @@
 - Decisions details are in `/linkedmusic-datalake/rism/data/reconciled/mappingWithLog.json5`
 
 ### Splitting the graph:
-- Open a terminal at `linkedmusic` folder
-- cd into `/linkedmusic-datalake/rism/code`
+- Open a terminal at `linkedmusic-datalake` folder
+- cd into `./rism/code`
 - run `python3 force_split.py` for default chunk size 1000MB.
 - run `python3 force_split.py ${size}` for custom chunk size.
 - files with correct predicates replaces should be in `/linkedmusic-datalake/rism/data/split_output`
