@@ -66,7 +66,7 @@ def force_split_ttl(input_file, output_dir, mapping_file, chunk_size_mb=1e3):
 
 
 if __name__ == "__main__":
-    input_file = "../data/raw/rism-test-100000.ttl"  # Replace with your input file
+    input_file = "../data/raw/rism-dump.ttl"  # Replace with your input file
     output_dir = "../data/split_output"  # Replace with your desired output directory
     mapping_file = "../data/reconciled/mapping.json"  # Replace with your mapping file
     
