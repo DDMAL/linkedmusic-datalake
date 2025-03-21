@@ -88,3 +88,32 @@
 - More precise reconciliation needed
 - Comparing pros and cons of OpenRefine reconciliation versus Wikidata API reconciliation
 - More details in [https://github.com/DDMAL/linkedmusic-datalake/issues/230]
+
+# 02-28-2025
+
+**Lab Meeting**
+
+- Testing the auto-reconciling script
+- New approach: trying force splitting graph to OpenRefine
+
+# 03-10-2025
+
+**Remote**
+
+- Debugging finished after the test for auto-reconciling script failed, continue to test
+
+# 03-14-2025
+
+**Lab Meeting**
+
+- Figuring out which method is not valid, thinking of new methods.
+- Read about OpenRefine RDF Skeleton and RDF-transform extensions. 
+- Start testing this process of OpenRefine outputting RDF.
+
+# 03-19-2025
+
+**Remote**
+
+- Applied mapping to raw file, convert blank nodes to URIs for OpenRefine to keep its original nodeID.
+- Testing entire process, cleaning the RDF Skeleton for RISM database
+- Writing a document about the entire process, including screen shots of detailed instructions.
