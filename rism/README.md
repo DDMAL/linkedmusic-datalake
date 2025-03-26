@@ -24,8 +24,8 @@
 ![RDF Skeleton](./assets/01.jpg)
 ![RDF Skeleton](./assets/02.jpg)
 ![RDF Skeleton](./assets/03.jpg)
-![RDF Skeleton](./assets/04.jpg)
 ![RDF Skeleton](./assets/14.jpg)
+![RDF Skeleton](./assets/04.jpg)
 3. To reconcile the type column:
 ![RDF Skeleton](./assets/05.jpg)
 ![RDF Skeleton](./assets/06.jpg)
