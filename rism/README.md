@@ -44,7 +44,7 @@ For each file in the split_output directory (starting with `part_1.ttl`):
     > Note: OpenRefine has a bug at this step where it may prompt you to select the file multiple times. Simply select the same file each time when prompted.
     ![RDF Skeleton](./assets/08.jpg)
 
-4. **Reconcile all names for Human/Person subjects**:
+4. **Reconcile all cell of the "label" predicates for Human/Person subjects**:
     ![RDF Skeleton](./assets/09.jpg)
     ![RDF Skeleton](./assets/10.jpg)
 
