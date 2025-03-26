@@ -1,51 +1,69 @@
-# Data Source: from RISM agent (Andrew Hankinson)
+# RISM Data Processing Guide
 
-# Steps
+This document outlines the process for handling RISM (Répertoire International des Sources Musicales) data provided by Andrew Hankinson.
 
-### Preparing OpenRefine
-- Install OpenRefine
-- Install RDF-extension based on <https://github.com/stkenny/grefine-rdf-extension> which is for exporting data of OpenRefine projects in RDF format
-- Install RDF-transform based on <https://github.com/AtesComp/rdf-transform> which is for transforming OpenRefine project data to RDF-based formats
+## Prerequisites
 
-### Preparing the mapping file
-- Check `/linkedmusic-datalake/rism/data/reconciled/mapping.json`
-- Decisions details are in `/linkedmusic-datalake/rism/data/reconciled/mappingWithLog.json5`
+### OpenRefine Setup
+1. Install [OpenRefine](https://openrefine.org/)
+2. Install the [RDF-extension](https://github.com/stkenny/grefine-rdf-extension) for exporting OpenRefine data in RDF format
+3. Install [RDF-transform](https://github.com/AtesComp/rdf-transform) for transforming OpenRefine project data to RDF-based formats
 
-### Splitting the graph:
-- Open a terminal at `linkedmusic-datalake` folder
-- cd into `./rism/code`
-- run `python3 force_split.py` for default chunk size 1000MB.
-- or run `python3 force_split.py ${size}` for custom chunk size. E.g., if the chunk sized is expected to be 500MB, then execute `python3 force_split.py 500`
-- files with correct predicates replaces should be in `/linkedmusic-datalake/rism/data/split_output`
+### Mapping Configuration
+- Review the mapping file at `/linkedmusic-datalake/rism/data/reconciled/mapping.json`
+- Detailed mapping decisions are documented in `/linkedmusic-datalake/rism/data/reconciled/mappingWithLog.json5`
 
-### OpenRefine
-1. Open `/linkedmusic-datalake/rism/data/split_output/part_1.ttl` and create project.
-2. To apply the RDF skeleton for RISM:
-![RDF Skeleton](./assets/01.jpg)
-![RDF Skeleton](./assets/02.jpg)
-![RDF Skeleton](./assets/03.jpg)
-![RDF Skeleton](./assets/14.jpg)
-![RDF Skeleton](./assets/04.jpg)
-3. To reconcile the type column:
-![RDF Skeleton](./assets/05.jpg)
-![RDF Skeleton](./assets/06.jpg)
-![RDF Skeleton](./assets/07.jpg)
-![RDF Skeleton](./assets/08.jpg)
-4. To reconcile all names for Human/Person subjects:
-![RDF Skeleton](./assets/09.jpg)
-![RDF Skeleton](./assets/10.jpg)
-5. Now perform your own judges for unreconciled cells. After you finish your choices, preceed to:
-> ***NOTE: No accurate judges in this repo are made based on testing purposes. Please make your own decisions!***
-![RDF Skeleton](./assets/11.jpg)
-![RDF Skeleton](./assets/12.jpg)
-6. Reconcile other columns that you think is necessary. You can refer to the steps history.
-7. Output the file based on the RDF skeleton.
-![RDF Skeleton](./assets/13.jpg)
-8. Repeat steps 1-6 for all other files in `/linkedmusic-datalake/rism/data/split_output/`.
-9. Move all of the reconciled `.nt` files into `/linkedmusic-datalake/rism/data/split_input/`.
+## Processing Workflow
 
-### Force join
-- cd into `/linkedmusic-datalake/rism/code`.
-- run `python3 force_join.py`
-- You should see `/linkedmusic-datalake/rism/data/joined_output.ttl`.
-- This is the final output for RISM.
+### 1. Splitting the Graph
+1. Open a terminal in the `linkedmusic-datalake` directory
+2. Navigate to `./rism/code`
+3. Run the splitting script using either:
+    - `python3 force_split.py` for the default 500MB chunk size
+    - `python3 force_split.py [size]` for a custom chunk size (e.g., `python3 force_split.py 500` for 500MB)
+4. The processed files with corrected predicates will be saved to `/linkedmusic-datalake/rism/data/split_output`
+
+### 2. Processing with OpenRefine
+> Note: Red circles or rectangles in screenshots indicate elements you need to click on. Other annotations are for reference only.
+
+For each file in the split_output directory (starting with `part_1.ttl`):
+
+1. **Create a new OpenRefine project**:
+    - Open the file from `/linkedmusic-datalake/rism/data/split_output/part_1.ttl`
+
+2. **Apply the RDF skeleton for RISM**:
+    ![RDF Skeleton](./assets/01.png)
+    ![RDF Skeleton](./assets/02.jpg)
+    ![RDF Skeleton](./assets/03.jpg)
+    ![RDF Skeleton](./assets/04.png)
+
+3. **Reconcile the type column**:
+    ![RDF Skeleton](./assets/05.jpg)
+    ![RDF Skeleton](./assets/06.jpg)
+    ![RDF Skeleton](./assets/07.jpg)
+    > Note: OpenRefine has a bug at this step where it may prompt you to select the file multiple times. Simply select the same file each time when prompted.
+    ![RDF Skeleton](./assets/08.jpg)
+
+4. **Reconcile all names for Human/Person subjects**:
+    ![RDF Skeleton](./assets/09.jpg)
+    ![RDF Skeleton](./assets/10.jpg)
+
+5. **Apply judgment to unreconciled cells**:
+    > **IMPORTANT**: Make your own informed decisions for unreconciled cells. The repository does not contain predefined judgments as this is for testing purposes.
+    ![RDF Skeleton](./assets/11.jpg)
+    ![RDF Skeleton](./assets/12.jpg)
+
+6. **Reconcile other relevant columns** as needed (refer to the step history for guidance)
+
+7. **Export the RDF data**:
+    ![RDF Skeleton](./assets/13.jpg)
+
+8. **Repeat steps 1-7** for all remaining files in `/linkedmusic-datalake/rism/data/split_output/`
+
+9. **Move all reconciled files** (`.nt` format) to `/linkedmusic-datalake/rism/data/split_input/`
+
+### 3. Joining the Processed Files
+1. Navigate to `/linkedmusic-datalake/rism/code`
+2. Run `python3 force_join.py`
+3. The final output will be created at `/linkedmusic-datalake/rism/data/joined_output.ttl`
+4. This joined file is the complete processed RISM dataset
