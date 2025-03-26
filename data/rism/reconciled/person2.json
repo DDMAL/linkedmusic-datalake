@@ -1,0 +1,46 @@
+[
+  {
+    "op": "core/column-removal",
+    "columnName": "p 2 1",
+    "description": "Remove column p 2 1"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "p 2 2",
+    "description": "Remove column p 2 2"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "columnName": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+          "query": "person",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "p 1",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "pr",
+    "columnInsertIndex": 5,
+    "description": "Create column pr at index 5 based on column p 1 using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "p 1",
+    "description": "Remove column p 1"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "pr",
+    "newColumnName": "http://wikidata.org/prop/direct/P2888",
+    "description": "Rename column pr to http://wikidata.org/prop/direct/P2888"
+  }
+]

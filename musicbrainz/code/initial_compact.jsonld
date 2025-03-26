@@ -1,0 +1,4273 @@
+[
+  {
+    "@id": "http://musicbrainz.org/release/20027ad4-6667-49b6-bd07-5ac12d57f8dd",
+    "recordLabel": {
+      "@id": "http://musicbrainz.org/label/d476b74d-670d-44ab-be5c-2c17caea20a9",
+      "name": "Philo",
+      "@type": "MusicLabel"
+    },
+    "image": {
+      "thumbnail": [
+        {
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/20027ad4-6667-49b6-bd07-5ac12d57f8dd/28092634341-250.jpg",
+          "@type": "ImageObject"
+        },
+        {
+          "@type": "ImageObject",
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/20027ad4-6667-49b6-bd07-5ac12d57f8dd/28092634341-500.jpg"
+        },
+        {
+          "@type": "ImageObject",
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/20027ad4-6667-49b6-bd07-5ac12d57f8dd/28092634341-1200.jpg"
+        }
+      ],
+      "encodingFormat": "jpg",
+      "representativeOfPage": "True",
+      "@type": "ImageObject",
+      "contentUrl": "//coverartarchive.org/release/20027ad4-6667-49b6-bd07-5ac12d57f8dd/28092634341.jpg"
+    },
+    "@type": "MusicRelease",
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "releaseOf": {
+      "creditedTo": "Johnny McGreevy & S\u00e9amus Cooley",
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "@type": "MusicAlbum",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "@id": "http://musicbrainz.org/release-group/cb5877ee-65dd-4968-aa98-b883826274d2",
+      "name": "McGreevy & Cooley",
+      "byArtist": [
+        {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "Johnny McGreevy",
+          "@id": "http://musicbrainz.org/artist/de8f8c4b-a768-460f-ae9e-1ca8bbaf426f"
+        },
+        {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/5439eef7-2d99-4024-9b21-482a4c8550b3",
+          "name": "S\u00e9amus Cooley"
+        }
+      ]
+    },
+    "name": "McGreevy & Cooley",
+    "track": [
+      {
+        "name": "The Broken Pledge / Julia Delaney (reels)",
+        "@id": "http://musicbrainz.org/recording/d506fa4b-733e-4864-8b41-29c5c510024e",
+        "trackNumber": "1.1",
+        "@type": "MusicRecording"
+      },
+      {
+        "name": "Se\u00e1n sa Ceo / Michael Preston's (reels)",
+        "@id": "http://musicbrainz.org/recording/b59c6d66-e6c1-4902-a673-953f84c17577",
+        "@type": "MusicRecording",
+        "trackNumber": "1.2"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.3",
+        "@id": "http://musicbrainz.org/recording/efdbad07-70af-4057-b525-704a94096174",
+        "name": "Jimmy Neary's / Jim Ward's (jigs)"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/bb245713-1178-4891-871a-c98c3a9bf451",
+        "name": "Down the Broom / The Gatehouse Maid (reels)",
+        "@type": "MusicRecording",
+        "trackNumber": "1.4"
+      },
+      {
+        "name": "Sliabh na mBan / Mo Bhuirnin Ban (airs)",
+        "@id": "http://musicbrainz.org/recording/3759a5eb-cdc2-4bb7-bd4a-5adc2b71e26e",
+        "trackNumber": "1.5",
+        "@type": "MusicRecording"
+      },
+      {
+        "name": "Se\u00e1n Ryan's (hornpipes)",
+        "@id": "http://musicbrainz.org/recording/cd5fb5ef-b795-4339-8f15-21d0cc452fb3",
+        "trackNumber": "1.6",
+        "@type": "MusicRecording"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.7",
+        "@id": "http://musicbrainz.org/recording/33147eb3-d5b6-4655-b256-42583b25923b",
+        "name": "Ginny's Favourite / The Bird in the Bush (reels)"
+      },
+      {
+        "name": "The Reel of Bogie",
+        "@id": "http://musicbrainz.org/recording/37a34bbf-2a28-4d0a-a047-9e6589696c03",
+        "@type": "MusicRecording",
+        "trackNumber": "1.8"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.9",
+        "@id": "http://musicbrainz.org/recording/1d04276e-0bbe-4ab5-bde3-507fd05cbd32",
+        "name": "The Crooked Road to Dublin / The Moving Bog (reels)"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.10",
+        "name": "The Skylark / Roaring Mary (reels)",
+        "@id": "http://musicbrainz.org/recording/94a04e93-3702-45fd-9323-aacc38508e1f"
+      },
+      {
+        "name": "The Plains of Boyle / The Boys of Bluehill (hornpipes)",
+        "@id": "http://musicbrainz.org/recording/c382d06d-61be-4977-b1d9-a51b2e2d6102",
+        "@type": "MusicRecording",
+        "trackNumber": "1.11"
+      },
+      {
+        "name": "McGreevy's / Father Kelly's 2 (reels)",
+        "@id": "http://musicbrainz.org/recording/c2391cc3-8130-4852-a28a-bfe09184570d",
+        "trackNumber": "1.12",
+        "@type": "MusicRecording"
+      },
+      {
+        "name": "The Lilting Banshee / The Butcher's March (jigs)",
+        "@id": "http://musicbrainz.org/recording/9543c272-fbd8-48d8-ada6-415de1415ef5",
+        "@type": "MusicRecording",
+        "trackNumber": "1.13"
+      },
+      {
+        "trackNumber": "1.14",
+        "@type": "MusicRecording",
+        "name": "Ownie Davy's / Money in Both Pockets (reels)",
+        "@id": "http://musicbrainz.org/recording/057b6f03-6555-4c25-95e7-2d6f0aee2b6a"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/3358da5f-d580-40ab-92b0-13b8817d5387",
+        "name": "Tim Maloney's / Cooley's (reels)",
+        "trackNumber": "1.15",
+        "@type": "MusicRecording"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.16",
+        "@id": "http://musicbrainz.org/recording/20409b65-c2af-4d5e-b946-f48739863be0",
+        "name": "The Chicago / Reidy's (reels)"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.17",
+        "name": "The Trip to Vermont (hornpipe)",
+        "@id": "http://musicbrainz.org/recording/4f4a4dac-8115-4e3b-95bf-f34cdeeafc81"
+      }
+    ],
+    "musicReleaseFormat": "http://schema.org/VinylFormat",
+    "hasReleaseRegion": [
+      {
+        "releaseDate": "1974",
+        "releaseCountry": {
+          "@id": "http://musicbrainz.org/area/489ce91b-6658-3307-9877-795b68554c98",
+          "name": "United States",
+          "@type": "Country"
+        },
+        "@type": "CreativeWorkReleaseRegion"
+      }
+    ],
+    "creditedTo": "Johnny McGreevy & S\u00e9amus Cooley",
+    "catalogNumber": "PH 2005",
+    "sameAs": "https://www.amazon.com/gp/product/B001RF74KG"
+  },
+  {
+    "hasReleaseRegion": [
+      {
+        "releaseCountry": {
+          "@type": "Country",
+          "name": "Ireland",
+          "@id": "http://musicbrainz.org/area/390b05d4-11ec-3bce-a343-703a366b34a5"
+        },
+        "releaseDate": "2010",
+        "@type": "CreativeWorkReleaseRegion"
+      }
+    ],
+    "creditedTo": "Michael Cooney",
+    "inLanguage": "en",
+    "catalogNumber": "002",
+    "duration": "PT59M24S",
+    "recordLabel": {
+      "name": "Gortnahoo",
+      "@id": "http://musicbrainz.org/label/699f13f1-c6d7-485f-a31e-92459c34657a",
+      "@type": "MusicLabel"
+    },
+    "musicReleaseFormat": "http://schema.org/CDFormat",
+    "name": "Just Piping",
+    "@id": "http://musicbrainz.org/release/4c9190a2-6098-41f4-bbbf-7e9d41e3539e",
+    "track": [
+      {
+        "trackNumber": "1.1",
+        "name": "Frieze Britches",
+        "@id": "http://musicbrainz.org/recording/b58d3c66-a22a-4659-a06b-b05ce16082d5",
+        "duration": "PT02M44S",
+        "@type": "MusicRecording"
+      },
+      {
+        "trackNumber": "1.2",
+        "duration": "PT04M33S",
+        "name": "Colonel Frazier",
+        "@id": "http://musicbrainz.org/recording/718f1532-45a2-4135-86c2-f5dd5c6b0be4",
+        "@type": "MusicRecording"
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT04M42S",
+        "@id": "http://musicbrainz.org/recording/a7359af1-d8e7-4433-b0a7-df88f0e9414d",
+        "name": "Andy's & The Shaskeen",
+        "trackNumber": "1.3"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/415cbf95-edbf-4b9c-b4b6-f1a542e9fa73",
+        "name": "Two Jigs",
+        "duration": "PT03M15S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.4"
+      },
+      {
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/6c6f1bd0-c4eb-47a7-9b59-c34ecb493053",
+        "name": "McGreevy's 1 & 2 and the Master's Return",
+        "duration": "PT04M15S",
+        "trackNumber": "1.5"
+      },
+      {
+        "trackNumber": "1.6",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/4f58aab4-6155-4941-83fb-7fb60ce08220",
+        "name": "Dear Irish Boy",
+        "duration": "PT03M04S"
+      },
+      {
+        "trackNumber": "1.7",
+        "@type": "MusicRecording",
+        "duration": "PT03M47S",
+        "@id": "http://musicbrainz.org/recording/06be7dbf-6158-4f54-abe8-d3ca750f93df",
+        "name": "The Inishcaultra Selection"
+      },
+      {
+        "name": "Crehan's, Droney's & McGreevy's",
+        "@id": "http://musicbrainz.org/recording/41bb730f-1aaf-4fea-9218-267e4f15c5bd",
+        "duration": "PT03M20S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.8"
+      },
+      {
+        "trackNumber": "1.9",
+        "duration": "PT04M40S",
+        "name": "Garden of Daisies & The Job of Journeywork",
+        "@id": "http://musicbrainz.org/recording/408ddba0-0dbb-46c8-830c-d45065319767",
+        "@type": "MusicRecording"
+      },
+      {
+        "trackNumber": "1.10",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/c3141805-11fe-4667-8fbf-0bfd35d7d0b2",
+        "name": "Sean Dwyer",
+        "duration": "PT03M20S"
+      },
+      {
+        "trackNumber": "1.11",
+        "@id": "http://musicbrainz.org/recording/b8530e31-a002-493d-9b64-c9bb1f06d18c",
+        "name": "Humours of Ballyloughlin",
+        "duration": "PT02M17S",
+        "@type": "MusicRecording"
+      },
+      {
+        "duration": "PT02M22S",
+        "@id": "http://musicbrainz.org/recording/0e951712-be5f-4b3d-9d4d-9b79605a041d",
+        "name": "Bucks of Oranmore",
+        "@type": "MusicRecording",
+        "trackNumber": "1.12"
+      },
+      {
+        "trackNumber": "1.13",
+        "duration": "PT05M07S",
+        "@id": "http://musicbrainz.org/recording/02a1e71d-7532-499e-9947-9a38ecc744ac",
+        "name": "New House Selection",
+        "@type": "MusicRecording"
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT02M52S",
+        "name": "Blind Mary",
+        "@id": "http://musicbrainz.org/recording/48dc4396-052d-4d73-beb8-8c3b0d66f511",
+        "trackNumber": "1.14"
+      },
+      {
+        "trackNumber": "1.15",
+        "duration": "PT02M33S",
+        "name": "Boy in the Boat & Pretty Girls of Mayo",
+        "@id": "http://musicbrainz.org/recording/20f4e8c6-14e8-43a1-823e-8a39ebf25a21",
+        "@type": "MusicRecording"
+      },
+      {
+        "duration": "PT03M18S",
+        "@id": "http://musicbrainz.org/recording/fa9f664d-915e-4502-aa1e-1d781c6008c3",
+        "name": "The Commons Polkas",
+        "@type": "MusicRecording",
+        "trackNumber": "1.16"
+      },
+      {
+        "trackNumber": "1.17",
+        "duration": "PT03M15S",
+        "@id": "http://musicbrainz.org/recording/ccb0454c-69a3-4be1-ab60-c31d5103c048",
+        "name": "The Tempest & People's 1 & 2",
+        "@type": "MusicRecording"
+      }
+    ],
+    "sameAs": "https://rateyourmusic.com/release/album/michael_cooney_f2/just_piping.p/",
+    "releaseOf": {
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "byArtist": {
+        "@type": [
+          "Person",
+          "MusicGroup"
+        ],
+        "@id": "http://musicbrainz.org/artist/b53568e7-9c3b-4186-9226-b5b1013f2780",
+        "name": "Michael Cooney"
+      },
+      "creditedTo": "Michael Cooney",
+      "name": "Just Piping",
+      "@id": "http://musicbrainz.org/release-group/9939251d-839c-4a0c-bd0c-5ae224e7fcb9",
+      "@type": "MusicAlbum"
+    },
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "@type": "MusicRelease"
+  },
+  {
+    "image": {
+      "contentUrl": "//coverartarchive.org/release/a1ede063-6042-49da-9d82-0e928074649f/13358280597.jpg",
+      "thumbnail": [
+        {
+          "contentUrl": "//coverartarchive.org/release/a1ede063-6042-49da-9d82-0e928074649f/13358280597-250.jpg",
+          "encodingFormat": "jpg",
+          "@type": "ImageObject"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/a1ede063-6042-49da-9d82-0e928074649f/13358280597-500.jpg",
+          "encodingFormat": "jpg",
+          "@type": "ImageObject"
+        },
+        {
+          "encodingFormat": "jpg",
+          "@type": "ImageObject",
+          "contentUrl": "//coverartarchive.org/release/a1ede063-6042-49da-9d82-0e928074649f/13358280597-1200.jpg"
+        }
+      ],
+      "representativeOfPage": "True",
+      "encodingFormat": "jpg",
+      "@type": "ImageObject"
+    },
+    "name": "Ave Maria",
+    "releaseOf": {
+      "name": "Ave Maria",
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "creditedTo": "Sue Ann Pinner",
+      "@type": "MusicAlbum",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "@id": "http://musicbrainz.org/release-group/70bc241d-ef99-4edf-9b08-444e2dc434f6",
+      "byArtist": {
+        "@type": [
+          "Person",
+          "MusicGroup"
+        ],
+        "@id": "http://musicbrainz.org/artist/5f0c9de9-becf-4f58-bf64-6add4544694a",
+        "name": "Sue Ann Pinner"
+      }
+    },
+    "track": [
+      {
+        "@id": "http://musicbrainz.org/recording/72ccb718-c603-4eef-ade9-588093ebbe50",
+        "@type": "MusicRecording",
+        "duration": "PT01M24S",
+        "trackNumber": "1.1",
+        "name": "Ave Maria (Gregorian Chant)"
+      },
+      {
+        "name": "Ave Maria (Arcadelt)",
+        "trackNumber": "1.2",
+        "duration": "PT02M31S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/97e19822-529b-4113-90d2-5f4818b2a626"
+      },
+      {
+        "name": "Ave Maria (de Victoria)",
+        "@id": "http://musicbrainz.org/recording/61cf5990-9304-43b5-b1ed-acc63d2d8999",
+        "duration": "PT02M21S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.3"
+      },
+      {
+        "name": "Ave Maria (Bach/Gounod)",
+        "duration": "PT02M56S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/75bbdb56-37dd-4d36-997d-0cbd721604fe",
+        "trackNumber": "1.4"
+      },
+      {
+        "trackNumber": "1.5",
+        "@id": "http://musicbrainz.org/recording/d0583490-5b2f-427f-9afc-6a3d8bb40e3d",
+        "@type": "MusicRecording",
+        "duration": "PT01M13S",
+        "name": "Ave Maria (Mozart)"
+      },
+      {
+        "name": "Ave Maria (Schubert)",
+        "trackNumber": "1.6",
+        "@id": "http://musicbrainz.org/recording/ddaab295-9407-4bcc-8d78-ee35a219a722",
+        "@type": "MusicRecording",
+        "duration": "PT06M14S"
+      },
+      {
+        "name": "Ave Maria (Franck)",
+        "trackNumber": "1.7",
+        "@id": "http://musicbrainz.org/recording/bb50ec09-cf8f-4de4-8770-05966468474a",
+        "duration": "PT02M24S",
+        "@type": "MusicRecording"
+      },
+      {
+        "trackNumber": "1.8",
+        "@type": "MusicRecording",
+        "duration": "PT03M35S",
+        "@id": "http://musicbrainz.org/recording/81524097-d231-4528-998b-0cf901e13dd9",
+        "name": "Ave Maria (Brahms)"
+      },
+      {
+        "trackNumber": "1.9",
+        "@id": "http://musicbrainz.org/recording/f77337dd-4fb6-4e88-9dbb-e96b61ca97f9",
+        "@type": "MusicRecording",
+        "duration": "PT04M34S",
+        "name": "Ave Maria (Verdi)"
+      },
+      {
+        "name": "Ave Maria (Rachmaninoff)",
+        "trackNumber": "1.10",
+        "duration": "PT04M36S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/0368c863-26a9-417e-9567-1f4c6718d777"
+      },
+      {
+        "name": "Salve Regina (Gregorian Chant)",
+        "@type": "MusicRecording",
+        "duration": "PT02M26S",
+        "@id": "http://musicbrainz.org/recording/63422018-fe4e-472f-9cb0-fb28d97bfcdd",
+        "trackNumber": "1.11"
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT14M52S",
+        "@id": "http://musicbrainz.org/recording/43296cb8-653c-449f-99b1-f88e3c35fe47",
+        "trackNumber": "1.12",
+        "name": "Salve Regina (Scarlatti)"
+      },
+      {
+        "name": "Alma Redemptoris Mater (da Palestrina)",
+        "trackNumber": "1.13",
+        "@id": "http://musicbrainz.org/recording/9f95980a-031e-4b04-96f4-3b2fb8419bde",
+        "@type": "MusicRecording",
+        "duration": "PT03M10S"
+      },
+      {
+        "name": "Like The Dawning (Marian Hymn)",
+        "trackNumber": "1.14",
+        "@type": "MusicRecording",
+        "duration": "PT03M27S",
+        "@id": "http://musicbrainz.org/recording/c61ec8d5-34b6-4b5b-ba1a-639d13c130ca"
+      },
+      {
+        "name": "Ave Maris Stella (Grieg)",
+        "trackNumber": "1.15",
+        "@id": "http://musicbrainz.org/recording/cf3fd0b5-52d3-489d-a0fd-c336c3a4cfbf",
+        "@type": "MusicRecording",
+        "duration": "PT02M38S"
+      },
+      {
+        "name": "Magnificat (Gregorian Chant)",
+        "trackNumber": "1.16",
+        "@type": "MusicRecording",
+        "duration": "PT05M17S",
+        "@id": "http://musicbrainz.org/recording/3e1de584-27fb-46ca-9255-75c379452c59"
+      },
+      {
+        "name": "Magnificat (Schiavone)",
+        "@id": "http://musicbrainz.org/recording/2dc811a0-1fc7-469a-826c-44e9c5584028",
+        "@type": "MusicRecording",
+        "duration": "PT05M40S",
+        "trackNumber": "1.17"
+      }
+    ],
+    "@type": "MusicRelease",
+    "catalogNumber": "VQR 2046",
+    "creditedTo": "Sue Ann Pinner",
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "musicReleaseFormat": "http://schema.org/CDFormat",
+    "hasReleaseRegion": [
+      {
+        "releaseDate": "1990",
+        "releaseCountry": {
+          "@id": "http://musicbrainz.org/area/489ce91b-6658-3307-9877-795b68554c98",
+          "@type": "Country",
+          "name": "United States"
+        },
+        "@type": "CreativeWorkReleaseRegion"
+      }
+    ],
+    "duration": "PT1H09M18S",
+    "sameAs": [
+      "https://www.allmusic.com/album/release/mr0002672270",
+      "https://www.amazon.com/gp/product/B0000021R7",
+      "https://www.discogs.com/release/4334880"
+    ],
+    "recordLabel": {
+      "@id": "http://musicbrainz.org/label/ed8ea7d2-fc70-46ec-a591-09fc9dd5f609",
+      "@type": "MusicLabel",
+      "name": "VQR Digital"
+    },
+    "@id": "http://musicbrainz.org/release/a1ede063-6042-49da-9d82-0e928074649f"
+  },
+  {
+    "track": [
+      {
+        "name": "Le Ranz des Vaches",
+        "duration": "PT01M10S",
+        "@id": "http://musicbrainz.org/recording/2edaf396-7778-4dd9-98ee-768cd0972508",
+        "trackNumber": "1.1",
+        "@type": "MusicRecording"
+      },
+      {
+        "trackNumber": "1.2",
+        "@type": "MusicRecording",
+        "name": "Les armaillis (Le Ranz de Vaches)",
+        "duration": "PT01M03S",
+        "@id": "http://musicbrainz.org/recording/441e68bc-b923-45d3-97b0-a22bdff694d3"
+      },
+      {
+        "trackNumber": "1.3",
+        "@type": "MusicRecording",
+        "name": "Veni tote a la montagne",
+        "duration": "PT01M52S",
+        "@id": "http://musicbrainz.org/recording/7ea83332-9d5a-4445-9645-adf33878000c"
+      },
+      {
+        "name": "Por lo bin fit\u00e2",
+        "duration": "PT01M21S",
+        "@id": "http://musicbrainz.org/recording/d331644d-d7a0-412a-b7ad-27f0b85d5885",
+        "trackNumber": "1.4",
+        "@type": "MusicRecording"
+      },
+      {
+        "duration": "PT02M21S",
+        "@id": "http://musicbrainz.org/recording/32deaeda-91ba-4acc-95f5-dbca2679345e",
+        "name": "L'ayvait on yadz'",
+        "@type": "MusicRecording",
+        "trackNumber": "1.5"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/141b20fa-40d6-49a0-b4e8-ae4b3508aedd",
+        "duration": "PT02M10S",
+        "name": "C\u00e9l\u00e9brons en rond",
+        "trackNumber": "1.6",
+        "@type": "MusicRecording"
+      },
+      {
+        "name": "Minne gebiutet mir",
+        "duration": "PT05M10S",
+        "@id": "http://musicbrainz.org/recording/eb3e9a09-48ce-4664-9ce4-8d644381af76",
+        "@type": "MusicRecording",
+        "trackNumber": "1.7"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.8",
+        "duration": "PT08M23S",
+        "@id": "http://musicbrainz.org/recording/a51cdd5e-c1c3-4f5a-b53a-861155fc5892",
+        "name": "A Medley of Minnesinger tunes"
+      },
+      {
+        "name": "Gewan ich ze Minnen",
+        "duration": "PT03M34S",
+        "@id": "http://musicbrainz.org/recording/11e1a4ef-75a9-4dda-9ab2-a3154a9b4a3c",
+        "@type": "MusicRecording",
+        "trackNumber": "1.9"
+      },
+      {
+        "trackNumber": "1.10",
+        "@type": "MusicRecording",
+        "name": "Der Appenzeller Jureyen",
+        "@id": "http://musicbrainz.org/recording/379e6799-2826-4432-a4a7-b716d65308fb",
+        "duration": "PT01M49S"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.11",
+        "@id": "http://musicbrainz.org/recording/b628158c-63af-4217-b020-1366d5111c4f",
+        "duration": "PT02M12S",
+        "name": "Elslin, liebes Elselin min"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/bacc2d6f-4c92-4997-8ce8-b4050e3e9a54",
+        "duration": "PT01M47S",
+        "name": "Omnes sitientes venite ad aquas",
+        "@type": "MusicRecording",
+        "trackNumber": "1.12"
+      },
+      {
+        "name": "Sede a dextris",
+        "duration": "PT01M26S",
+        "@id": "http://musicbrainz.org/recording/05639dbf-3888-416a-8aca-0e01db2c35c6",
+        "trackNumber": "1.13",
+        "@type": "MusicRecording"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.14",
+        "name": "Fidelia omnia mandata ejus",
+        "@id": "http://musicbrainz.org/recording/e3ab2b79-14f6-4ddf-ae68-6f17e96813f2",
+        "duration": "PT01M32S"
+      },
+      {
+        "trackNumber": "1.15",
+        "@type": "MusicRecording",
+        "name": "Buvons, ma comere",
+        "duration": "PT01M37S",
+        "@id": "http://musicbrainz.org/recording/c4edb6fa-4b38-4b8f-950a-961c90ef4f75"
+      },
+      {
+        "name": "Le printemps faict florir",
+        "duration": "PT02M01S",
+        "@id": "http://musicbrainz.org/recording/8ba9ae0f-cb58-486a-9d0c-3fb5e7fc53f7",
+        "@type": "MusicRecording",
+        "trackNumber": "1.16"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/9ef70666-d9ce-4dab-8dff-b3a99cb1dc5b",
+        "duration": "PT01M36S",
+        "name": "Morir d'aymer a dame si jolye",
+        "@type": "MusicRecording",
+        "trackNumber": "1.17"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/65961326-6295-4e51-b597-ca1e3df2e88e",
+        "duration": "PT01M10S",
+        "name": "Gentilz galans, compaignons du raisin",
+        "@type": "MusicRecording",
+        "trackNumber": "1.18"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.19",
+        "name": "Im Maien",
+        "duration": "PT02M14S",
+        "@id": "http://musicbrainz.org/recording/6b00f0f2-9f15-48ea-801e-6125e307f255"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.20",
+        "@id": "http://musicbrainz.org/recording/a0457930-cec4-4301-a4b6-3f9c300a4ebb",
+        "duration": "PT02M20S",
+        "name": "Das Lang"
+      },
+      {
+        "name": "Ich wei\u00df ein' stolze M\u00fcllerin",
+        "@id": "http://musicbrainz.org/recording/fd2b9624-c98f-4128-86e2-05989f78b551",
+        "duration": "PT04M19S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.21"
+      },
+      {
+        "name": "Es taget vor dem Walde",
+        "duration": "PT00M54S",
+        "@id": "http://musicbrainz.org/recording/72c6e13e-b904-4845-86b0-0498f7abf65c",
+        "@type": "MusicRecording",
+        "trackNumber": "1.22"
+      },
+      {
+        "trackNumber": "1.23",
+        "@type": "MusicRecording",
+        "name": "Ach Elselein, liebes Elselein mein",
+        "duration": "PT02M29S",
+        "@id": "http://musicbrainz.org/recording/9a179a3d-7cb3-42e0-964f-842f599b5519"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.24",
+        "name": "Wann ich des Morgens fr\u00fceh aufsteh'",
+        "duration": "PT01M41S",
+        "@id": "http://musicbrainz.org/recording/a2833f7d-d892-42d2-a93b-037a17eeabcb"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "1.25",
+        "name": "Quodlibet: Es taget / Ach Elselein / Wann ich des Morgens",
+        "duration": "PT02M27S",
+        "@id": "http://musicbrainz.org/recording/f35ff653-0896-452a-9ae4-eb3e336fae6d"
+      },
+      {
+        "trackNumber": "1.26",
+        "@type": "MusicRecording",
+        "name": "Lamentatio",
+        "duration": "PT02M24S",
+        "@id": "http://musicbrainz.org/recording/c0c72931-b390-4609-bfdc-65116f959004"
+      },
+      {
+        "name": "Es Wollt' ein Maidlein Wasser hol'n",
+        "duration": "PT01M08S",
+        "@id": "http://musicbrainz.org/recording/a8929ae3-3882-4f49-a113-83d72d82eb1c",
+        "@type": "MusicRecording",
+        "trackNumber": "1.27"
+      },
+      {
+        "duration": "PT00M56S",
+        "@id": "http://musicbrainz.org/recording/380f516f-b3ea-45c0-8540-7b124d4ff894",
+        "name": "Ich wei\u00df nit, was er ihr verhie\u00df - a 5",
+        "@type": "MusicRecording",
+        "trackNumber": "1.28"
+      },
+      {
+        "trackNumber": "1.29",
+        "@type": "MusicRecording",
+        "name": "Ich wei\u00df nit, was er ihr verhie\u00df - a 4",
+        "duration": "PT00M40S",
+        "@id": "http://musicbrainz.org/recording/3469c653-5b07-41c8-a604-98c6ed951611"
+      },
+      {
+        "name": "Ich wei\u00df nit, was er ihr verhie\u00df - a 5 reprise",
+        "@id": "http://musicbrainz.org/recording/0dde8a06-1c97-4266-be8e-b21433b68d0e",
+        "duration": "PT00M57S",
+        "trackNumber": "1.30",
+        "@type": "MusicRecording"
+      }
+    ],
+    "creditedTo": "The Folger Consort",
+    "inLanguage": "en",
+    "@id": "http://musicbrainz.org/release/cd5d7022-84e0-4ba2-86aa-9272dec2f210",
+    "@type": "MusicRelease",
+    "catalogNumber": "BDCD 1-9712",
+    "hasReleaseRegion": [
+      {
+        "releaseCountry": {
+          "@type": "Country",
+          "@id": "http://musicbrainz.org/area/489ce91b-6658-3307-9877-795b68554c98",
+          "name": "United States"
+        },
+        "releaseDate": "1997-10",
+        "@type": "CreativeWorkReleaseRegion"
+      }
+    ],
+    "releaseOf": {
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "@type": "MusicAlbum",
+      "name": "Alpine Airs: Music of Switzerland, 13th-16th Centuries",
+      "@id": "http://musicbrainz.org/release-group/5fa7b8fc-d600-4b32-8095-d2d132b00658",
+      "creditedTo": "The Folger Consort",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "byArtist": {
+        "name": "The Folger Consort",
+        "@id": "http://musicbrainz.org/artist/48df8357-41c1-464c-bd03-054940e8b1d5",
+        "@type": "MusicGroup"
+      }
+    },
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "duration": "PT1H04M43S",
+    "musicReleaseFormat": "http://schema.org/DigitalFormat",
+    "name": "Alpine Airs: Music of Switzerland, 13th-16th Centuries",
+    "recordLabel": {
+      "@type": "MusicLabel",
+      "name": "Bard Records",
+      "@id": "http://musicbrainz.org/label/55750020-d8f8-4bbd-9c4a-4ced1c2f2e37"
+    }
+  },
+  {
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "musicReleaseFormat": "http://schema.org/CDFormat",
+    "catalogNumber": [
+      "99937",
+      "99937/1",
+      "99937/2",
+      "99937/3",
+      "99937/4",
+      "99937/5"
+    ],
+    "creditedTo": "Various Artists",
+    "name": "Renaissance Masterpieces",
+    "@type": "MusicRelease",
+    "gtin14": "5028421993713",
+    "track": [
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "2.1",
+        "@id": "http://musicbrainz.org/recording/da70aff7-3a23-4bd0-8e47-f45c68fd005f",
+        "name": "Aurora lucis rutilat"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "2.2",
+        "@id": "http://musicbrainz.org/recording/f1357d4f-fddd-4570-ae65-ccd86f39f117",
+        "name": "Tristis est anima mea"
+      },
+      {
+        "name": "Missa \"Tous les regretz\": Kyrie",
+        "@id": "http://musicbrainz.org/recording/a91d300b-3331-48cf-9ac1-c3dd224c90e6",
+        "trackNumber": "2.3",
+        "@type": "MusicRecording"
+      },
+      {
+        "trackNumber": "2.4",
+        "@type": "MusicRecording",
+        "name": "Missa \"Tous les regretz\": Gloria",
+        "@id": "http://musicbrainz.org/recording/d160a0c1-b4c8-4e77-8912-4fdf610df559"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "2.5",
+        "@id": "http://musicbrainz.org/recording/5f4cb4ff-883d-4adb-bef7-23a1159b2f3c",
+        "name": "Ave verum corpus"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "2.6",
+        "@id": "http://musicbrainz.org/recording/1cd27991-eabb-4f8f-86ad-b643374c5e4b",
+        "name": "Surgens Jesus"
+      },
+      {
+        "name": "Missa \"Tous les regretz\": Credo",
+        "@id": "http://musicbrainz.org/recording/06c16fc9-8f80-4cc7-859b-18d219e6f4b2",
+        "trackNumber": "2.7",
+        "@type": "MusicRecording"
+      },
+      {
+        "name": "Timor et tremor",
+        "@id": "http://musicbrainz.org/recording/cd461bc2-6b7d-4f0d-bd69-a944a6030409",
+        "trackNumber": "2.8",
+        "@type": "MusicRecording"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "2.9",
+        "@id": "http://musicbrainz.org/recording/9ec1bcb1-c23f-4c1e-bb73-b32adfa7ab08",
+        "name": "Domine convertere"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/a6ddff8e-adc7-4535-9c7d-c16acdf1899d",
+        "name": "Missa \"Tous les regretz\": Sanctus",
+        "@type": "MusicRecording",
+        "trackNumber": "2.10"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/7391e657-3e3d-4871-af31-9bcb9d150fff",
+        "name": "Missa \"Tous les regretz\": Benedictus",
+        "@type": "MusicRecording",
+        "trackNumber": "2.11"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "2.12",
+        "@id": "http://musicbrainz.org/recording/7e4fff3a-1e18-4d85-87c8-e99679ccb7d9",
+        "name": "Missa \"Tous les regretz\""
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/643904d1-4dff-4a58-8e47-282579c2725b",
+        "name": "Salve Regina",
+        "@type": "MusicRecording",
+        "trackNumber": "2.13"
+      },
+      {
+        "@type": "MusicRecording",
+        "trackNumber": "2.14",
+        "@id": "http://musicbrainz.org/recording/52b5af27-7c6b-4d68-b792-befe1b194c35",
+        "name": "Veni Creator"
+      }
+    ],
+    "releaseOf": {
+      "byArtist": {
+        "@type": "MusicGroup",
+        "@id": "http://musicbrainz.org/artist/89ad4ac3-39f7-470e-963a-56509c546377",
+        "name": "Various Artists"
+      },
+      "@id": "http://musicbrainz.org/release-group/a9128c57-6fd0-40d6-8c55-72f34c0e37d1",
+      "creditedTo": "Various Artists",
+      "name": "Renaissance Masterpieces",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "@type": "MusicAlbum",
+      "albumProductionType": "http://schema.org/CompilationAlbum"
+    },
+    "sameAs": "https://www.discogs.com/release/10344516",
+    "@id": "http://musicbrainz.org/release/cd3e5b98-c384-41fe-8171-ae91bc24b278",
+    "hasReleaseRegion": [
+      {
+        "releaseDate": "2003-04-29",
+        "@type": "CreativeWorkReleaseRegion",
+        "releaseCountry": {
+          "@type": "Country",
+          "@id": "http://musicbrainz.org/area/ef1b7cc0-cd26-36f4-8ea0-04d9623786c7",
+          "name": "Netherlands"
+        }
+      }
+    ],
+    "recordLabel": {
+      "name": "Brilliant Classics",
+      "@id": "http://musicbrainz.org/label/92432ebc-91f7-453a-9c5a-9490efa2c1a9",
+      "@type": "MusicLabel"
+    }
+  },
+  {
+    "@id": "http://musicbrainz.org/release/f0b0bd94-9743-4114-98c1-9d4dd8ab95cc",
+    "creditedTo": "La Compagnie M\u00e9di\u00e9vale & Ensemble Witiza",
+    "recordLabel": [
+      {
+        "@type": "MusicLabel",
+        "@id": "http://musicbrainz.org/label/283b1e4b-fe43-4901-bbb7-b99c2685a21c",
+        "name": "Disques du Solstice"
+      },
+      {
+        "@type": "MusicLabel",
+        "@id": "http://musicbrainz.org/label/67d45ede-9aea-431b-84c2-defd009b4c43",
+        "name": "FY"
+      }
+    ],
+    "@type": "MusicRelease",
+    "gtin14": "3279791552037",
+    "catalogNumber": "SOCD 155",
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "track": [
+      {
+        "name": "Cantigas De Santa Maria 28 / 264",
+        "trackNumber": "1.1",
+        "@id": "http://musicbrainz.org/recording/03082752-8488-4a9b-82da-e2555c92517c",
+        "@type": "MusicRecording",
+        "duration": "PT11M31S"
+      },
+      {
+        "name": "Cantiga De Santa Maria 25",
+        "@type": "MusicRecording",
+        "duration": "PT03M42S",
+        "@id": "http://musicbrainz.org/recording/6fe7ac3c-1755-4dc0-9783-efa8fff0f720",
+        "trackNumber": "1.2"
+      },
+      {
+        "name": "Ahi ! Amours",
+        "duration": "PT05M54S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/88fc7a4c-6511-4010-8c44-09c24f0853f4",
+        "trackNumber": "1.3"
+      },
+      {
+        "name": "Cantiga De Santa Maria 271",
+        "duration": "PT03M10S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/69d4ed66-0424-4669-a22e-07edee1c8e4d",
+        "trackNumber": "1.4"
+      },
+      {
+        "trackNumber": "1.5",
+        "duration": "PT01M52S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/ddb3c97d-8a8a-4b7b-9309-48ef0e70cff8",
+        "name": "Illumina Oculos Meos"
+      },
+      {
+        "name": "Veni Creator",
+        "trackNumber": "1.6",
+        "@id": "http://musicbrainz.org/recording/927bcc5f-d7c5-4dfb-87dd-50a243008493",
+        "@type": "MusicRecording",
+        "duration": "PT03M13S"
+      },
+      {
+        "trackNumber": "1.7",
+        "@id": "http://musicbrainz.org/recording/a8a3f22a-5824-4651-897b-b0bf46232a16",
+        "duration": "PT05M51S",
+        "@type": "MusicRecording",
+        "name": "Nafes"
+      },
+      {
+        "name": "Alkhamriya",
+        "trackNumber": "1.8",
+        "@id": "http://musicbrainz.org/recording/a2647115-4d6a-4bc8-add8-85415a4cd1aa",
+        "@type": "MusicRecording",
+        "duration": "PT06M59S"
+      },
+      {
+        "duration": "PT03M34S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/b6d760c7-ef53-4106-9630-0842de21a50d",
+        "trackNumber": "1.9",
+        "name": "Laetatus Sum"
+      },
+      {
+        "name": "Jerusalem Se Plaint",
+        "@id": "http://musicbrainz.org/recording/89d01cdb-2236-4a0a-822c-8e5f2a8d2a37",
+        "duration": "PT04M32S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.10"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/60023bb7-636c-49a8-ad73-6eeb78d2d6bd",
+        "duration": "PT05M15S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.11",
+        "name": "Dame, Ainsi Est"
+      },
+      {
+        "name": "Cantiga De Santa Maria 344",
+        "trackNumber": "1.12",
+        "@type": "MusicRecording",
+        "duration": "PT11M58S",
+        "@id": "http://musicbrainz.org/recording/127b03a2-d092-44b1-b9ce-7fb86ac2f7c4"
+      }
+    ],
+    "musicReleaseFormat": "http://schema.org/CDFormat",
+    "image": {
+      "thumbnail": [
+        {
+          "encodingFormat": "jpg",
+          "@type": "ImageObject",
+          "contentUrl": "//coverartarchive.org/release/f0b0bd94-9743-4114-98c1-9d4dd8ab95cc/26114576920-250.jpg"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/f0b0bd94-9743-4114-98c1-9d4dd8ab95cc/26114576920-500.jpg",
+          "@type": "ImageObject",
+          "encodingFormat": "jpg"
+        },
+        {
+          "@type": "ImageObject",
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/f0b0bd94-9743-4114-98c1-9d4dd8ab95cc/26114576920-1200.jpg"
+        }
+      ],
+      "@type": "ImageObject",
+      "encodingFormat": "jpg",
+      "representativeOfPage": "True",
+      "contentUrl": "//coverartarchive.org/release/f0b0bd94-9743-4114-98c1-9d4dd8ab95cc/26114576920.jpg"
+    },
+    "name": "Croisade",
+    "inLanguage": "fr",
+    "duration": "PT1H07M31S",
+    "sameAs": [
+      "http://www.leorichomme.fr/croisade/",
+      "https://www.discogs.com/release/4139934"
+    ],
+    "releaseOf": {
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "@id": "http://musicbrainz.org/release-group/df9c1b47-ce5d-4575-a35b-a9e3f5f1250f",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "name": "Croisade",
+      "creditedTo": "La Compagnie M\u00e9di\u00e9vale & Ensemble Witiza",
+      "@type": "MusicAlbum",
+      "byArtist": [
+        {
+          "@type": "MusicGroup",
+          "@id": "http://musicbrainz.org/artist/79dbcbe1-1c75-4e77-961d-eddfa23a05ce",
+          "name": "La Compagnie M\u00e9di\u00e9vale"
+        },
+        {
+          "@id": "http://musicbrainz.org/artist/3812be01-cae9-4be3-bd54-043e261ca2da",
+          "@type": "MusicGroup",
+          "name": "Ensemble Witiza"
+        }
+      ]
+    },
+    "hasReleaseRegion": [
+      {
+        "releaseDate": "1997",
+        "releaseCountry": {
+          "name": "France",
+          "@id": "http://musicbrainz.org/area/08310658-51eb-3801-80de-5a0739207115",
+          "@type": "Country"
+        },
+        "@type": "CreativeWorkReleaseRegion"
+      }
+    ]
+  },
+  {
+    "duration": "PT47M25S",
+    "genre": [
+      "http://musicbrainz.org/genre/797e2e85-5ffd-495c-a757-8b4079052f0e",
+      "http://musicbrainz.org/genre/e4581b76-a842-440b-9b0f-1aa7a00a5c57"
+    ],
+    "track": [
+      {
+        "sameAs": [
+          "http://musicbrainz.org/recording/0aa9a625-17ad-4181-8062-4a9a832a8a0f",
+          "http://musicbrainz.org/recording/0e1571d8-d6d4-4786-9f2d-1f86ec026da4",
+          "http://musicbrainz.org/recording/2de29669-d8dd-47fa-aff7-a14434f05806",
+          "http://musicbrainz.org/recording/392da4ef-6c04-45aa-9170-890ea980d2ee",
+          "http://musicbrainz.org/recording/4aabcfac-3845-4fb8-835b-77ac8c76ce78",
+          "http://musicbrainz.org/recording/4dfa796a-7028-4c95-bcaa-ea990db8eee8",
+          "http://musicbrainz.org/recording/64b8fcf5-231a-4829-8c04-8b4fd06245a3",
+          "http://musicbrainz.org/recording/764a5650-6aec-4629-9288-c5af7328a4c2",
+          "http://musicbrainz.org/recording/7c72c116-37c1-4fdc-884e-25d617bd31ef",
+          "http://musicbrainz.org/recording/7dc09a39-f2ed-4285-af70-db6e7e34ecd2",
+          "http://musicbrainz.org/recording/82eda381-2e04-4ee8-b195-9cb7e948a614",
+          "http://musicbrainz.org/recording/877f595b-d8f9-4af9-806d-4cced6e137f4",
+          "http://musicbrainz.org/recording/8c368eef-5807-4e56-b546-085b250445ba",
+          "http://musicbrainz.org/recording/970fcc17-233a-491f-ac0a-1ff339e71aed",
+          "http://musicbrainz.org/recording/9c10b8ec-1885-4e92-9903-2c91d40ca2e2",
+          "http://musicbrainz.org/recording/9c705597-ba55-4bdd-a11c-e01cb23f7aea",
+          "http://musicbrainz.org/recording/9d6e846f-c608-4b9b-8d6a-4358537a3dbf",
+          "http://musicbrainz.org/recording/a8ab16fb-47d5-4389-a723-01ff898172d0",
+          "http://musicbrainz.org/recording/aac9e2e3-9e00-494f-86ce-8fce07058122",
+          "http://musicbrainz.org/recording/b15a13b6-e109-4dbd-ba63-708caa4c6ccc",
+          "http://musicbrainz.org/recording/c1abdb0d-5d8d-433b-942b-23c44b726d25",
+          "http://musicbrainz.org/recording/cdaff212-e31a-4b93-905e-de2e3636eb32",
+          "http://musicbrainz.org/recording/e113c56f-c4d4-4bfb-b9f0-6f90a172b5a9",
+          "http://musicbrainz.org/recording/e18698d0-82d2-4e76-bd3f-7e689fd969ac",
+          "http://musicbrainz.org/recording/e2012b7a-e48b-401a-a73a-92e341840fc1",
+          "http://musicbrainz.org/recording/e55d586f-c3d8-4889-82ba-c29e888b57c0",
+          "http://musicbrainz.org/recording/ef251ebd-930d-437b-a012-dff1e5c0cb6f"
+        ],
+        "contributor": [
+          {
+            "roleName": [
+              "1968 Ludwig Hollywood Maple",
+              "maracas"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr"
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison"
+            },
+            "roleName": "1957 Gibson Les Paul Standard",
+            "@type": "OrganizationRole"
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "lead vocals",
+              "background vocals",
+              "electric guitar",
+              "1968 Fender Rhodes Seventy-Three Sparkle Top",
+              "handclaps",
+              "tambourine"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "John Lennon"
+            }
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "1964 Rickenbacker 4001 S"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney"
+            }
+          }
+        ],
+        "duration": "PT04M20S",
+        "@type": "MusicRecording",
+        "producer": {
+          "name": "George Martin",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+        },
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=191",
+            "http://www.wikidata.org/entity/Q210482",
+            "https://secondhandsongs.com/work/424"
+          ],
+          "@id": "http://musicbrainz.org/work/bcd490e5-dac7-3b8a-b423-ae17e1209f3d",
+          "@type": "MusicComposition",
+          "name": "Come Together"
+        },
+        "name": "Come Together",
+        "isrcCode": [
+          "GBAYE0000944",
+          "GBAYE0601690"
+        ],
+        "@id": "http://musicbrainz.org/recording/485bbe7f-d0f7-4ffe-8adb-0f1093dd2dbf",
+        "trackNumber": "1.1"
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT03M03S",
+        "contributor": [
+          {
+            "roleName": [
+              "1968 Ludwig Hollywood Maple",
+              "handclaps"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Ringo Starr",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13"
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison",
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            },
+            "roleName": [
+              "lead vocals",
+              "1957 Gibson Les Paul Standard",
+              "electric guitar",
+              "handclaps"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "John Lennon"
+            },
+            "roleName": "piano",
+            "@type": "OrganizationRole"
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/8a7cf497-dc5c-4523-932d-3fcbc9a69d38",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Billy Preston"
+            },
+            "roleName": "Hammond organ",
+            "@type": "OrganizationRole"
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "1964 Rickenbacker 4001 S",
+              "handclaps"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            }
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/03affb40-b143-48b9-8b93-65ddbdb98c7a",
+          "http://musicbrainz.org/recording/1749a86c-67fd-46c2-be6d-03b6b9062ee8",
+          "http://musicbrainz.org/recording/1b1ebab8-69da-4b39-bc55-2834a7934f3c",
+          "http://musicbrainz.org/recording/2d034ad6-0c72-4b1e-a989-12a6889515f0",
+          "http://musicbrainz.org/recording/343fdd7c-4c14-498e-af85-410f4b8eb194",
+          "http://musicbrainz.org/recording/50d9157d-0d56-4079-a660-b25cfa6af7e3",
+          "http://musicbrainz.org/recording/52926074-46e2-4c9a-89b0-006146af3145",
+          "http://musicbrainz.org/recording/537df74d-71f0-46f6-b803-7a0b084c4f50",
+          "http://musicbrainz.org/recording/6f59de08-8e4f-4054-b82c-c2c171476e28",
+          "http://musicbrainz.org/recording/776da35b-d85f-45cb-9d20-038cf82da232",
+          "http://musicbrainz.org/recording/875b0a49-1003-4acc-8593-6e7ed24ce52a",
+          "http://musicbrainz.org/recording/8afb7dc6-d336-4803-a961-3735b32bcfc2",
+          "http://musicbrainz.org/recording/8bb85eae-691a-4d4f-8582-d130c39c5401",
+          "http://musicbrainz.org/recording/8d417a6d-e1f7-4427-a0f3-5ede43096aba",
+          "http://musicbrainz.org/recording/97f77592-ac02-4de2-9b4f-45eb269f2093",
+          "http://musicbrainz.org/recording/9ce8be8f-ee01-48eb-945e-4040ee888bae",
+          "http://musicbrainz.org/recording/a1b45025-9445-44c5-b07e-74de12c92f7c",
+          "http://musicbrainz.org/recording/a32dd5f3-4bfc-4d0f-b630-a40d9cbdfa33",
+          "http://musicbrainz.org/recording/b5a679ff-a3f9-48d6-9614-c729f7786757",
+          "http://musicbrainz.org/recording/c6ae4eb0-dd9f-4e66-89ea-eb5721cd976f",
+          "http://musicbrainz.org/recording/cab3e642-eb58-4e17-b06c-582e9b173ef2",
+          "http://musicbrainz.org/recording/dc426b42-c3e7-49fb-b19c-257008521fd0",
+          "http://musicbrainz.org/recording/f74e227a-2898-4a4f-bceb-363c05560420",
+          "http://musicbrainz.org/recording/fdae8b76-f5b8-4458-bf32-81885000980b"
+        ],
+        "producer": [
+          {
+            "@id": "http://musicbrainz.org/artist/2a25263b-54ad-42c5-acea-e50b3913369c",
+            "name": "Chris Thomas",
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ]
+          },
+          {
+            "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+            "name": "George Martin",
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ]
+          }
+        ],
+        "@id": "http://musicbrainz.org/recording/b849acd4-0638-49ea-8e40-7391613d4890",
+        "isrcCode": [
+          "GBAYE0000943",
+          "GBAYE0601691"
+        ],
+        "name": "Something",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=192",
+            "http://www.wikidata.org/entity/Q210485",
+            "https://secondhandsongs.com/work/2658"
+          ],
+          "@type": "MusicComposition",
+          "name": "Something",
+          "@id": "http://musicbrainz.org/work/028542a9-b5d9-3e48-86f1-53e283b62d5e"
+        },
+        "trackNumber": "1.2"
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT03M27S",
+        "sameAs": [
+          "http://musicbrainz.org/recording/0a6f3cf0-8323-46cf-9cc5-82f8f15b1717",
+          "http://musicbrainz.org/recording/41bda993-8017-4874-8b41-1720e916ef8c",
+          "http://musicbrainz.org/recording/79b06302-c74e-45d4-8818-2c542124b949",
+          "http://musicbrainz.org/recording/8825fd68-dbb6-443b-91e5-8cb6db569ef1",
+          "http://musicbrainz.org/recording/cc2a1cdd-3595-494f-bed1-bbc3a01d2450",
+          "http://musicbrainz.org/recording/e567b8e9-7197-4db6-add7-dcb088f764b0"
+        ],
+        "contributor": [
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+              "name": "George Martin",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "@type": "OrganizationRole",
+            "roleName": "Hammond organ"
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "anvil",
+              "drums (drum set)"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr"
+            }
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "electric guitar",
+              "electric bass guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "name": "George Harrison",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "lead vocals",
+              "piano",
+              "Moog"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          }
+        ],
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "George Martin"
+        },
+        "name": "Maxwell\u2019s Silver Hammer",
+        "isrcCode": "GBAYE0601692",
+        "@id": "http://musicbrainz.org/recording/a92380e6-f10d-4407-aceb-5825b17fed5a",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/fe806a59-c401-3562-b1b1-60150b7da1f8",
+          "name": "Maxwell\u2019s Silver Hammer",
+          "@type": "MusicComposition",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=193",
+            "http://www.wikidata.org/entity/Q210391",
+            "https://secondhandsongs.com/work/9366"
+          ]
+        },
+        "trackNumber": "1.3"
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT03M27S",
+        "contributor": [
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr"
+            },
+            "@type": "OrganizationRole",
+            "roleName": "drums (drum set)"
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison",
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "electric bass guitar"
+            ]
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ],
+            "contributor": {
+              "name": "John Lennon",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9"
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney",
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            },
+            "roleName": [
+              "background vocals",
+              "lead vocals",
+              "piano"
+            ],
+            "@type": "OrganizationRole"
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/26457540-e3ce-46b4-a56f-3229bbac45f0",
+          "http://musicbrainz.org/recording/47b1c06f-9396-424a-b2d8-27d7107d4572",
+          "http://musicbrainz.org/recording/493532c0-47ee-49bd-8129-44a624ebf4f0",
+          "http://musicbrainz.org/recording/4ee21dd1-2229-49f1-ab59-293611326e23",
+          "http://musicbrainz.org/recording/5b1973cf-715f-41be-b4cb-e8aeb4d8d615",
+          "http://musicbrainz.org/recording/73eb1af0-c486-43a5-9e84-1583f5f95afa",
+          "http://musicbrainz.org/recording/7c61c126-6c5c-4efb-81b6-e0976bc511fc",
+          "http://musicbrainz.org/recording/8d0bbdbc-e472-4841-a280-9f859d7adc8e",
+          "http://musicbrainz.org/recording/a995f24d-608f-4669-b0a8-daebe82fa175",
+          "http://musicbrainz.org/recording/c5a6116d-1f82-4817-8f8b-b4cb11933aa1"
+        ],
+        "producer": [
+          {
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ],
+            "name": "Chris Thomas",
+            "@id": "http://musicbrainz.org/artist/2a25263b-54ad-42c5-acea-e50b3913369c"
+          },
+          {
+            "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ],
+            "name": "George Martin"
+          }
+        ],
+        "isrcCode": "GBAYE0601693",
+        "@id": "http://musicbrainz.org/recording/de896c41-463d-4eaa-8fe4-d826e2afa0f8",
+        "name": "Oh! Darling",
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "name": "Oh! Darling",
+          "@id": "http://musicbrainz.org/work/53027b47-d8b3-3749-8e73-0f5d4e5fe242",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=194",
+            "http://www.wikidata.org/entity/Q210399",
+            "https://secondhandsongs.com/work/10527"
+          ]
+        },
+        "trackNumber": "1.4"
+      },
+      {
+        "trackNumber": "1.5",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q210389",
+            "https://secondhandsongs.com/work/29150",
+            "https://www.songfacts.com/facts/the-beatles/octopuss-garden"
+          ],
+          "@id": "http://musicbrainz.org/work/4986b89e-1316-3143-ba60-173fb0bd7a03",
+          "@type": "MusicComposition",
+          "name": "Octopus\u2019s Garden"
+        },
+        "isrcCode": "GBAYE0601694",
+        "@id": "http://musicbrainz.org/recording/15127932-c879-466e-b0f8-a1c5022d16e7",
+        "name": "Octopus\u2019s Garden",
+        "producer": [
+          {
+            "@id": "http://musicbrainz.org/artist/2a25263b-54ad-42c5-acea-e50b3913369c",
+            "name": "Chris Thomas",
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ]
+          },
+          {
+            "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+            "name": "George Martin",
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ]
+          }
+        ],
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "lead vocals",
+              "1968 Ludwig Hollywood Maple",
+              "percussion",
+              "drums (drum set)"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr"
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison",
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            },
+            "roleName": [
+              "background vocals",
+              "1968 Fender Rosewood Telecaster"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "roleName": "1965 Epiphone ES-230TD Casino",
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "John Lennon"
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "roleName": [
+              "background vocals",
+              "Hamburg Steinway Baby Grand",
+              "1964 Rickenbacker 4001 S",
+              "piano"
+            ],
+            "@type": "OrganizationRole"
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/046394e4-a94c-405a-842b-dfcd88681dfd",
+          "http://musicbrainz.org/recording/42dae689-43f1-4bc3-8483-17bf3e369a1c",
+          "http://musicbrainz.org/recording/65ad71a1-b10b-4a8e-9745-7dbe39486b98",
+          "http://musicbrainz.org/recording/6f1b28a8-aa46-4fc8-a00a-d4f430855eca",
+          "http://musicbrainz.org/recording/72019abe-e89f-467f-aec4-cca1f00e9b12",
+          "http://musicbrainz.org/recording/a0a8de0d-ddac-4623-a006-d290cbc8f969",
+          "http://musicbrainz.org/recording/a3dbbc13-fa98-4618-9de3-ac393d5a30ab",
+          "http://musicbrainz.org/recording/b747e327-8343-436f-a469-fd783355a6fd",
+          "http://musicbrainz.org/recording/bd55e22e-e1d8-4631-925e-b118be784624",
+          "http://musicbrainz.org/recording/c05bc7a7-e373-437e-be6c-e5bba4024bd4",
+          "http://musicbrainz.org/recording/c6b4c735-a357-4984-9df3-7e9d8f808053",
+          "http://musicbrainz.org/recording/c7ecd665-d036-4751-b5f3-4f1b3d6bce7e",
+          "http://musicbrainz.org/recording/d3dd8336-91d2-4aad-8664-aa654124de27",
+          "http://musicbrainz.org/recording/e35d1210-ab31-4baf-a754-3582d06e4f79",
+          "http://musicbrainz.org/recording/e58f6884-b063-4d9e-b0f3-20af5c9d2533",
+          "http://musicbrainz.org/recording/fcdf3867-4389-49fa-8355-8dab21e12f7d"
+        ],
+        "@type": "MusicRecording",
+        "duration": "PT02M51S"
+      },
+      {
+        "producer": [
+          {
+            "@id": "http://musicbrainz.org/artist/9bea300f-ad94-4c0b-b0e2-f41776b53af0",
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ],
+            "name": "Glyn Johns"
+          },
+          {
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ],
+            "name": "Chris Thomas",
+            "@id": "http://musicbrainz.org/artist/2a25263b-54ad-42c5-acea-e50b3913369c"
+          },
+          {
+            "name": "George Martin",
+            "@type": [
+              "Person",
+              "MusicGroup"
+            ],
+            "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/0e8bf76c-fa85-4fb6-b16f-3872d225a0ec",
+          "http://musicbrainz.org/recording/1e146b11-aff9-4a44-a069-8fdeff0c9f4b",
+          "http://musicbrainz.org/recording/32775cdc-275d-43f5-9bf2-ba0c4105c652",
+          "http://musicbrainz.org/recording/4f8e157b-5b36-4646-b340-d39827b7b0c2",
+          "http://musicbrainz.org/recording/52929a64-6a7f-4c1e-9f2a-30782665fbb9",
+          "http://musicbrainz.org/recording/d27c4e1e-efa9-4018-9082-76aaf4863fba"
+        ],
+        "contributor": [
+          {
+            "roleName": [
+              "congas",
+              "drums (drum set)"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr",
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13"
+            }
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "name": "George Harrison",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "John Lennon"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "lead vocals",
+              "Moog",
+              "electric guitar"
+            ]
+          },
+          {
+            "contributor": {
+              "name": "Billy Preston",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/8a7cf497-dc5c-4523-932d-3fcbc9a69d38"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "organ",
+              "Hammond organ"
+            ]
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "electric bass guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney"
+            }
+          }
+        ],
+        "@type": "MusicRecording",
+        "duration": "PT07M47S",
+        "trackNumber": "1.6",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=196",
+            "http://www.wikidata.org/entity/Q210409",
+            "https://secondhandsongs.com/work/13799"
+          ],
+          "@id": "http://musicbrainz.org/work/baf203e7-6383-352e-9d82-50504dd70f3c",
+          "@type": "MusicComposition",
+          "name": "I Want You (She\u2019s So Heavy)"
+        },
+        "name": "I Want You (She\u2019s So Heavy)",
+        "isrcCode": "GBAYE0601695",
+        "@id": "http://musicbrainz.org/recording/a9a83384-3da3-4c84-af6d-33fcdb1c3e27"
+      },
+      {
+        "trackNumber": "1.7",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/8549de8e-f65b-3e64-b8a2-08c90cc5fdd1",
+          "name": "Here Comes the Sun",
+          "@type": "MusicComposition",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=197",
+            "http://www.wikidata.org/entity/Q210401",
+            "https://secondhandsongs.com/work/383"
+          ]
+        },
+        "isrcCode": "GBAYE0601696",
+        "@id": "http://musicbrainz.org/recording/440f60e8-0b25-4ec4-abb1-c6beec624ab0",
+        "name": "Here Comes the Sun",
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "George Martin"
+        },
+        "contributor": [
+          {
+            "contributor": {
+              "name": "Ringo Starr",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13"
+            },
+            "roleName": [
+              "1968 Ludwig Hollywood Maple",
+              "handclaps",
+              "drums (drum set)"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "lead vocals",
+              "1967 Moog IIIp",
+              "handclaps",
+              "1968 Gibson J-200",
+              "1968 Fender Rosewood Telecaster",
+              "electric guitar",
+              "guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison",
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney"
+            },
+            "roleName": [
+              "background vocals",
+              "1964 Rickenbacker 4001 S",
+              "handclaps"
+            ],
+            "@type": "OrganizationRole"
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/0d7bc896-b060-4b8b-9e93-70897f7fac21",
+          "http://musicbrainz.org/recording/34047b0e-71af-4d1c-9d1f-1555d91612f6",
+          "http://musicbrainz.org/recording/3834dba3-c3fb-4486-b5ed-88a512b1d838",
+          "http://musicbrainz.org/recording/5ddd279b-2279-47b5-a6b1-dc9985df0f43",
+          "http://musicbrainz.org/recording/6247825f-a043-4c84-81b4-bbdddd4cebc6",
+          "http://musicbrainz.org/recording/7ea0d658-b2a9-4a8d-a346-48fb2b8acf6a",
+          "http://musicbrainz.org/recording/8915a9e2-28bb-4349-b007-dc094f7c9b7f",
+          "http://musicbrainz.org/recording/a8bea620-046b-4ae4-acbf-e3eb837d163c",
+          "http://musicbrainz.org/recording/aed62a4c-7ba2-4502-bb6f-1005c2897c21",
+          "http://musicbrainz.org/recording/b0d7823e-7ff7-44d8-be67-2f6c05aa51a3",
+          "http://musicbrainz.org/recording/c35af884-58fa-4feb-ae9e-27b0fdbadcd7",
+          "http://musicbrainz.org/recording/cf3669cb-229d-4904-8f8a-81397bb294a6",
+          "http://musicbrainz.org/recording/d2caf033-2ce9-4fe7-a2b5-778eb38b542e",
+          "http://musicbrainz.org/recording/e61ebdf3-3ae0-4c25-be74-dc478beddc9c",
+          "http://musicbrainz.org/recording/e67a4e26-58a9-4ce6-b05e-54a7a7b37e9e",
+          "http://musicbrainz.org/recording/ee0b7987-41cf-477e-8889-8303a4039135",
+          "http://musicbrainz.org/recording/fa33a3bd-2d52-4344-81d8-9fe97b692bd8"
+        ],
+        "@type": "MusicRecording",
+        "duration": "PT03M06S"
+      },
+      {
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "George Martin"
+        },
+        "@type": "MusicRecording",
+        "duration": "PT02M46S",
+        "sameAs": [
+          "http://musicbrainz.org/recording/03c48b3e-780e-4b0b-a1ec-31de287dcc83",
+          "http://musicbrainz.org/recording/539bb349-9a59-43a8-bc08-510cf3f997dd",
+          "http://musicbrainz.org/recording/551b3432-2080-488c-a283-e768e79d281b",
+          "http://musicbrainz.org/recording/99404541-2bf3-4a65-b0ab-bd8aa5c5c4a7",
+          "http://musicbrainz.org/recording/e8640077-57c6-4069-a880-c78e6a58743e",
+          "http://musicbrainz.org/recording/ee105c9b-6e47-4e11-9b34-a337bae394be"
+        ],
+        "contributor": [
+          {
+            "roleName": "harpsichord",
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "George Martin",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison",
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            },
+            "roleName": [
+              "lead vocals",
+              "Moog"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "roleName": [
+              "lead vocals",
+              "electric guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9",
+              "name": "John Lennon",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "lead vocals",
+              "electric bass guitar"
+            ]
+          }
+        ],
+        "trackNumber": "1.8",
+        "name": "Because",
+        "@id": "http://musicbrainz.org/recording/1e1d1f33-346c-4f9a-ad05-03aa715c2f37",
+        "isrcCode": "GBAYE0601697",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=198",
+            "http://www.wikidata.org/entity/Q210395",
+            "https://secondhandsongs.com/work/1924"
+          ],
+          "name": "Because",
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/b1002811-37ca-3aed-a3d1-f3e9474c28a7"
+        }
+      },
+      {
+        "sameAs": [
+          "http://musicbrainz.org/recording/482fe397-3509-411c-b5aa-4e1589087bd7",
+          "http://musicbrainz.org/recording/7aaac476-9847-4330-a4ae-e3d75194deb9",
+          "http://musicbrainz.org/recording/8b2971ee-e100-4a85-9818-59959fd73aeb",
+          "http://musicbrainz.org/recording/d28e6554-d095-45e8-9790-64b85e9ed11b",
+          "http://musicbrainz.org/recording/f8830854-4783-4f91-94fc-d0f8f2133322"
+        ],
+        "contributor": [
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "name": "Ringo Starr",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "roleName": [
+              "tambourine",
+              "drums (drum set)"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison"
+            }
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "John Lennon"
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney",
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            },
+            "roleName": [
+              "background vocals",
+              "lead vocals",
+              "electric bass guitar",
+              "tubular bells",
+              "piano"
+            ],
+            "@type": "OrganizationRole"
+          }
+        ],
+        "duration": "PT04M02S",
+        "@type": "MusicRecording",
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "George Martin"
+        },
+        "recordingOf": {
+          "name": "You Never Give Me Your Money",
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/a9311585-66b2-39fc-989b-cfca04f2775e",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=199",
+            "http://www.wikidata.org/entity/Q210304",
+            "https://secondhandsongs.com/work/9102"
+          ]
+        },
+        "name": "You Never Give Me Your Money",
+        "@id": "http://musicbrainz.org/recording/474546e9-0b30-4881-9269-c6c1c8bbf07b",
+        "isrcCode": "GBAYE0601698",
+        "trackNumber": "1.9"
+      },
+      {
+        "duration": "PT02M26S",
+        "@type": "MusicRecording",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "roleName": "electronic organ",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+              "name": "George Martin",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr",
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "maracas",
+              "tambourine",
+              "drums (drum set)"
+            ]
+          },
+          {
+            "roleName": [
+              "lead vocals",
+              "electric guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "name": "George Harrison",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "name": "John Lennon",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "lead vocals",
+              "piano",
+              "electric guitar"
+            ]
+          },
+          {
+            "contributor": {
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            },
+            "roleName": [
+              "lead vocals",
+              "electric bass guitar"
+            ],
+            "@type": "OrganizationRole"
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/2ed9fc38-61e5-4fad-9e81-60f464462448",
+          "http://musicbrainz.org/recording/46ae2260-008b-419b-a602-0b9d9c99da76",
+          "http://musicbrainz.org/recording/62072456-d6b1-4068-ba2c-2f66bce3680d",
+          "http://musicbrainz.org/recording/c25cb454-d596-485c-ab74-a94740eedd3b",
+          "http://musicbrainz.org/recording/cc0b4fca-6f76-47f3-a5bd-99494fdbae95"
+        ],
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "George Martin"
+        },
+        "@id": "http://musicbrainz.org/recording/d057c75d-04eb-438f-be0b-74f629f2953c",
+        "isrcCode": "GBAYE0601699",
+        "name": "Sun King",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/9626f219-5937-393e-a28f-3a7c7a121527",
+          "@type": "MusicComposition",
+          "name": "Sun King",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=200",
+            "http://www.wikidata.org/entity/Q210397",
+            "https://secondhandsongs.com/work/30619"
+          ]
+        },
+        "trackNumber": "1.10"
+      },
+      {
+        "duration": "PT01M06S",
+        "@type": "MusicRecording",
+        "sameAs": [
+          "http://musicbrainz.org/recording/1c7b2335-846a-4b59-b3b9-78e13c4b1d87",
+          "http://musicbrainz.org/recording/5b2bdd5e-a2d1-43af-b578-ae0accfe07da",
+          "http://musicbrainz.org/recording/86e7b87d-6242-41fc-bdf8-7b3b0a082673",
+          "http://musicbrainz.org/recording/ace112d2-2154-4d77-87fc-bc6eb1a77611",
+          "http://musicbrainz.org/recording/c6fc377d-e7bb-4635-8573-4e20ac75fc68",
+          "http://musicbrainz.org/recording/e0617ecc-ab58-4bd2-8a24-e5ee58fea5c8"
+        ],
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "maracas",
+              "tambourine",
+              "drums (drum set)"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr"
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison",
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            },
+            "@type": "OrganizationRole",
+            "roleName": "electric guitar"
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "lead vocals",
+              "electric guitar",
+              "piano"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9",
+              "name": "John Lennon",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "electric bass guitar"
+            ]
+          }
+        ],
+        "producer": {
+          "name": "George Martin",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+        },
+        "name": "Mean Mr Mustard",
+        "@id": "http://musicbrainz.org/recording/99c004fb-ba87-41be-afd4-e0157b40516a",
+        "isrcCode": "GBAYE0601700",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=201",
+            "http://www.wikidata.org/entity/Q210299",
+            "https://secondhandsongs.com/work/24094"
+          ],
+          "@type": "MusicComposition",
+          "name": "Mean Mr Mustard",
+          "@id": "http://musicbrainz.org/work/6e1870ec-cbc4-34ba-be79-a5123def7793"
+        },
+        "trackNumber": "1.11"
+      },
+      {
+        "trackNumber": "1.12",
+        "isrcCode": "GBAYE0601701",
+        "@id": "http://musicbrainz.org/recording/65ca55c8-d857-4a3b-9246-835b1e54fe4d",
+        "name": "Polythene Pam",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=202",
+            "http://www.wikidata.org/entity/Q210475",
+            "https://secondhandsongs.com/work/24095"
+          ],
+          "@id": "http://musicbrainz.org/work/9e87795e-dca9-3d97-8597-55d89eceb4e4",
+          "@type": "MusicComposition",
+          "name": "Polythene Pam"
+        },
+        "producer": {
+          "name": "George Martin",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+        },
+        "@type": "MusicRecording",
+        "duration": "PT01M13S",
+        "contributor": [
+          {
+            "roleName": [
+              "percussion",
+              "maracas",
+              "tambourine",
+              "drums (drum set)"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Ringo Starr",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13"
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Harrison"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ]
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "John Lennon",
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9"
+            },
+            "roleName": [
+              "lead vocals",
+              "12 string guitar"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "roleName": [
+              "background vocals",
+              "electric bass guitar"
+            ],
+            "@type": "OrganizationRole"
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/32a9af01-3fc6-471a-bd87-134d1e2d8438",
+          "http://musicbrainz.org/recording/9da49a69-650f-4511-8864-419b0fad0ea6",
+          "http://musicbrainz.org/recording/ab59be2f-5c50-489a-ba26-eb41aa6e6a65",
+          "http://musicbrainz.org/recording/f3abf7a6-23a4-4aad-ae67-891c2e339603",
+          "http://musicbrainz.org/recording/f3c9792f-c6aa-4b1e-9feb-ce75a30b1f34"
+        ]
+      },
+      {
+        "sameAs": [
+          "http://musicbrainz.org/recording/13250ad5-4eaf-4ab1-81d3-3be9f1b9c69b",
+          "http://musicbrainz.org/recording/ac466f96-c332-4a6e-8942-55b77b9cdfb9",
+          "http://musicbrainz.org/recording/d2a7db0f-378b-4fe5-a76b-22a9a938c21c",
+          "http://musicbrainz.org/recording/dbbe983f-83cf-4b59-87ac-9250047665ae",
+          "http://musicbrainz.org/recording/ebe852ec-469f-490a-a64f-d4a71a93ac5e"
+        ],
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "percussion",
+              "maracas",
+              "tambourine",
+              "drums (drum set)"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr"
+            }
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "name": "George Harrison",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "12 string guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "John Lennon",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9"
+            }
+          },
+          {
+            "roleName": [
+              "background vocals",
+              "lead vocals",
+              "electric bass guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            }
+          }
+        ],
+        "@type": "MusicRecording",
+        "duration": "PT01M58S",
+        "producer": {
+          "name": "George Martin",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+        },
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=203",
+            "http://www.wikidata.org/entity/Q210306",
+            "https://secondhandsongs.com/work/1777"
+          ],
+          "@type": "MusicComposition",
+          "name": "She Came In Through the Bathroom Window",
+          "@id": "http://musicbrainz.org/work/ddce89a2-7ead-344c-b879-56ffbe88b202"
+        },
+        "name": "She Came In Through the Bathroom Window",
+        "@id": "http://musicbrainz.org/recording/c19db4d3-6640-4732-a0b2-e358ed80c5c4",
+        "isrcCode": "GBAYE0601702",
+        "trackNumber": "1.13"
+      },
+      {
+        "sameAs": [
+          "http://musicbrainz.org/recording/1b49e9ef-8389-418a-91a0-0bb8ac3fcd46",
+          "http://musicbrainz.org/recording/429c0437-fd4a-47dc-b812-314b1e8cbcbc",
+          "http://musicbrainz.org/recording/5d07bd70-5348-4d96-8bdc-ca0d34607d31",
+          "http://musicbrainz.org/recording/608a270c-eac0-4675-ac6e-780312ffdf98",
+          "http://musicbrainz.org/recording/652b3f5c-f1c8-466a-adaf-a501c65a5fea",
+          "http://musicbrainz.org/recording/b9f7c73c-8e17-4e2a-bf93-b1da597b68b6"
+        ],
+        "contributor": [
+          {
+            "roleName": "conductor",
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "George Martin",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+            }
+          },
+          {
+            "roleName": "drums (drum set)",
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr",
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13"
+            }
+          },
+          {
+            "roleName": [
+              "electric guitar",
+              "electric bass guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0",
+              "name": "George Harrison",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney",
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            },
+            "roleName": [
+              "lead vocals",
+              "piano"
+            ],
+            "@type": "OrganizationRole"
+          }
+        ],
+        "@type": "MusicRecording",
+        "duration": "PT01M32S",
+        "producer": {
+          "name": "George Martin",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+        },
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=204",
+            "http://www.wikidata.org/entity/Q210406",
+            "https://secondhandsongs.com/work/6097"
+          ],
+          "@type": "MusicComposition",
+          "name": "Golden Slumbers",
+          "@id": "http://musicbrainz.org/work/c5960d63-ebc3-3f7e-87da-eb72c0ce4dc7"
+        },
+        "name": "Golden Slumbers",
+        "@id": "http://musicbrainz.org/recording/3d7f2000-123d-4cac-862b-e04ead24c5f2",
+        "isrcCode": "GBAYE0601703",
+        "trackNumber": "1.14"
+      },
+      {
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "roleName": "conductor",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "George Martin",
+              "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2"
+            }
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "lead vocals",
+              "drums (drum set)"
+            ],
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ringo Starr",
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13"
+            }
+          },
+          {
+            "roleName": [
+              "lead vocals",
+              "electric guitar",
+              "electric bass guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "George Harrison",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            }
+          },
+          {
+            "roleName": "lead vocals",
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "John Lennon",
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9"
+            }
+          },
+          {
+            "contributor": {
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            },
+            "@type": "OrganizationRole",
+            "roleName": [
+              "lead vocals",
+              "piano"
+            ]
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/281d273d-b41b-4e9d-95e6-ba874ac22d03",
+          "http://musicbrainz.org/recording/73e15035-b1d6-4dc7-9070-01e21f5e1c95",
+          "http://musicbrainz.org/recording/8858a3dc-4099-4a10-a7a0-ce752fb5199e",
+          "http://musicbrainz.org/recording/9c0ea40b-f018-459c-9cdd-31ebdd408edc",
+          "http://musicbrainz.org/recording/b55cd638-c08e-44cc-9160-15228a5d48e6",
+          "http://musicbrainz.org/recording/bad7cc85-5905-408a-bfbd-b526e5f1fff0",
+          "http://musicbrainz.org/recording/bb01df37-f6a3-4772-b852-a065b4fb3379",
+          "http://musicbrainz.org/recording/e8c9907d-ff64-463c-8eff-fc78fd38884d"
+        ],
+        "@type": "MusicRecording",
+        "duration": "PT01M37S",
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "name": "George Martin",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=205",
+            "http://www.wikidata.org/entity/Q1045409",
+            "https://secondhandsongs.com/work/6099"
+          ],
+          "@type": "MusicComposition",
+          "name": "Carry That Weight",
+          "@id": "http://musicbrainz.org/work/b97caa46-b381-36e8-9482-0c9c6d6ea030"
+        },
+        "isrcCode": "GBAYE0601704",
+        "@id": "http://musicbrainz.org/recording/daaee15a-8a4c-4275-a7c1-5b6211f0ec69",
+        "name": "Carry That Weight",
+        "trackNumber": "1.15"
+      },
+      {
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "George Martin"
+        },
+        "sameAs": [
+          "http://musicbrainz.org/recording/3bf1c015-d796-40e1-bef0-8fe92139fba1",
+          "http://musicbrainz.org/recording/51aea3b5-aa95-4145-a1a3-5701c6fff2d1",
+          "http://musicbrainz.org/recording/7bb11340-1af8-4450-b2ba-0824558c0ad4",
+          "http://musicbrainz.org/recording/8956ecf8-1ad3-469a-a04f-a7ba47516739"
+        ],
+        "contributor": [
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/300c4c73-33ac-4255-9d57-4e32627f5e13",
+              "name": "Ringo Starr",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "roleName": [
+              "background vocals",
+              "drums (drum set)"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "contributor": {
+              "name": "George Harrison",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/42a8f507-8412-4611-854f-926571049fa0"
+            },
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ],
+            "@type": "OrganizationRole"
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "background vocals",
+              "electric guitar"
+            ],
+            "contributor": {
+              "name": "John Lennon",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/4d5447d7-c61c-4120-ba1b-d7f471d385b9"
+            }
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": [
+              "lead vocals",
+              "electric guitar",
+              "electric bass guitar",
+              "piano"
+            ],
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Paul McCartney"
+            }
+          }
+        ],
+        "duration": "PT02M20S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.16",
+        "recordingOf": {
+          "name": "The End",
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/758a4781-726a-35b8-9fe6-a4ba175e07c6",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=206",
+            "http://www.wikidata.org/entity/Q210301",
+            "https://secondhandsongs.com/work/1132"
+          ]
+        },
+        "name": "The End",
+        "@id": "http://musicbrainz.org/recording/5ad78393-77c2-451e-beb1-074df7e06e57",
+        "isrcCode": "GBAYE0601705"
+      },
+      {
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+          "name": "George Martin",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        "contributor": [
+          {
+            "roleName": [
+              "lead vocals",
+              "acoustic guitar"
+            ],
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Paul McCartney",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/ba550d0e-adac-4864-b88b-407cab5e76af"
+            }
+          }
+        ],
+        "sameAs": [
+          "http://musicbrainz.org/recording/021499f4-4fdd-4260-a8e6-ab11daa349e1",
+          "http://musicbrainz.org/recording/9f66a64b-0be5-4d25-84c2-9af09b02c914",
+          "http://musicbrainz.org/recording/c5811034-46de-4957-90d9-d057cf007de5",
+          "http://musicbrainz.org/recording/c9111507-66ef-4dc8-b030-a548e57b448d"
+        ],
+        "duration": "PT00M23S",
+        "@type": "MusicRecording",
+        "trackNumber": "1.17",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=207",
+            "http://www.wikidata.org/entity/Q210642",
+            "https://secondhandsongs.com/work/24096"
+          ],
+          "@id": "http://musicbrainz.org/work/201df4f4-a878-365f-96f9-841deaaea058",
+          "@type": "MusicComposition",
+          "name": "Her Majesty"
+        },
+        "@id": "http://musicbrainz.org/recording/ed8d1b3b-8757-447a-baba-3efe027f2765",
+        "isrcCode": "GBAYE0601706",
+        "name": "Her Majesty"
+      }
+    ],
+    "image": {
+      "encodingFormat": "jpg",
+      "thumbnail": [
+        {
+          "contentUrl": "//coverartarchive.org/release/d6010be3-98f8-422c-a6c9-787e2e491e58/1229601191-250.jpg",
+          "@type": "ImageObject",
+          "encodingFormat": "jpg"
+        },
+        {
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/d6010be3-98f8-422c-a6c9-787e2e491e58/1229601191-500.jpg",
+          "@type": "ImageObject"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/d6010be3-98f8-422c-a6c9-787e2e491e58/1229601191-1200.jpg",
+          "@type": "ImageObject",
+          "encodingFormat": "jpg"
+        }
+      ],
+      "contentUrl": "//coverartarchive.org/release/d6010be3-98f8-422c-a6c9-787e2e491e58/1229601191.jpg",
+      "representativeOfPage": "True",
+      "@type": "ImageObject"
+    },
+    "catalogNumber": "PCS 7088",
+    "name": "Abbey Road",
+    "creditedTo": "The Beatles",
+    "producer": {
+      "@id": "http://musicbrainz.org/artist/26fa8b67-6c7f-406c-ad64-a1d070092df2",
+      "@type": [
+        "Person",
+        "MusicGroup"
+      ],
+      "name": "George Martin"
+    },
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "@type": "MusicRelease",
+    "hasReleaseRegion": [
+      {
+        "releaseCountry": {
+          "@id": "http://musicbrainz.org/area/8a754a16-0027-3a29-b6d7-2b40ea0481ed",
+          "@type": "Country",
+          "name": "United Kingdom"
+        },
+        "@type": "CreativeWorkReleaseRegion",
+        "releaseDate": "1969-09-26"
+      }
+    ],
+    "inLanguage": "en",
+    "sameAs": "https://www.discogs.com/release/2498807",
+    "musicReleaseFormat": "http://schema.org/VinylFormat",
+    "@id": "http://musicbrainz.org/release/d6010be3-98f8-422c-a6c9-787e2e491e58",
+    "releaseOf": {
+      "creditedTo": "The Beatles",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "byArtist": {
+        "@id": "http://musicbrainz.org/artist/b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d",
+        "@type": "MusicGroup",
+        "name": "The Beatles"
+      },
+      "@type": "MusicAlbum",
+      "@id": "http://musicbrainz.org/release-group/9162580e-5df4-32de-80cc-f45a8d8a9b1d",
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "name": "Abbey Road"
+    },
+    "recordLabel": {
+      "@id": "http://musicbrainz.org/label/cf7fc5cf-e011-4ef4-b511-cd0188537910",
+      "@type": "MusicLabel",
+      "name": "Apple Records"
+    }
+  },
+  {
+    "@id": "http://musicbrainz.org/release/2b52af44-db64-4055-9c1b-ad94080400ba",
+    "creditedTo": "Julie London",
+    "catalogNumber": "LRP-3006",
+    "recordLabel": {
+      "@id": "http://musicbrainz.org/label/f1452309-a828-4665-a70c-aacdf94d154b",
+      "@type": "MusicLabel",
+      "name": "Liberty"
+    },
+    "@type": "MusicRelease",
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "image": {
+      "encodingFormat": "jpg",
+      "@type": "ImageObject",
+      "contentUrl": "//coverartarchive.org/release/2b52af44-db64-4055-9c1b-ad94080400ba/30567232697.jpg",
+      "representativeOfPage": "True",
+      "thumbnail": [
+        {
+          "contentUrl": "//coverartarchive.org/release/2b52af44-db64-4055-9c1b-ad94080400ba/30567232697-250.jpg",
+          "@type": "ImageObject",
+          "encodingFormat": "jpg"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/2b52af44-db64-4055-9c1b-ad94080400ba/30567232697-500.jpg",
+          "@type": "ImageObject",
+          "encodingFormat": "jpg"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/2b52af44-db64-4055-9c1b-ad94080400ba/30567232697-1200.jpg",
+          "@type": "ImageObject",
+          "encodingFormat": "jpg"
+        }
+      ]
+    },
+    "musicReleaseFormat": "http://schema.org/VinylFormat",
+    "track": [
+      {
+        "name": "Cry Me a River",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Julie London",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5"
+            }
+          }
+        ],
+        "@id": "http://musicbrainz.org/recording/ed3f6884-97d5-49f3-ae6b-573c6e26bb09",
+        "isrcCode": "USEM39200253",
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "Bobby Troup"
+        },
+        "@type": "MusicRecording",
+        "recordingOf": {
+          "name": "Cry Me a River",
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/29641434-08ec-34f5-80e2-81098b74da9a",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q2530778",
+            "https://secondhandsongs.com/work/2158"
+          ]
+        },
+        "duration": "PT02M57S",
+        "sameAs": [
+          "http://musicbrainz.org/recording/00d604c9-1643-4f47-959d-e18a7db79668",
+          "http://musicbrainz.org/recording/01bff524-1966-43a9-8fbd-0bd86965e0c3",
+          "http://musicbrainz.org/recording/07d8282a-09d4-42d1-bc87-921bf504c6cc",
+          "http://musicbrainz.org/recording/0af7c00d-8be6-4dd6-81d0-7070a42c4ac9",
+          "http://musicbrainz.org/recording/1431c8d5-de6a-42dc-9d32-41b7b27ecbc2",
+          "http://musicbrainz.org/recording/1bb379b4-de4f-480d-896a-5cf1ae5acb5c",
+          "http://musicbrainz.org/recording/1c715798-8e52-4790-b293-2cecbcf0d9d8",
+          "http://musicbrainz.org/recording/208be875-233b-4b31-a094-390853c9f517",
+          "http://musicbrainz.org/recording/21e1cf6d-07af-44fe-8b3e-c6b008272fbc",
+          "http://musicbrainz.org/recording/225c1b6d-7458-4bdc-b8f8-908181accb33",
+          "http://musicbrainz.org/recording/22c76f18-a9d9-442f-9e19-572a6424a28a",
+          "http://musicbrainz.org/recording/2373aa7a-3e6f-47f4-bb48-c1e119ec3811",
+          "http://musicbrainz.org/recording/25b86c9f-ca9d-41bf-88b9-ad27477b7368",
+          "http://musicbrainz.org/recording/26b41e64-5e03-4ed8-a137-28f2a3e9a515",
+          "http://musicbrainz.org/recording/2870ea2b-78a9-455d-9b51-3c8f4a6104ee",
+          "http://musicbrainz.org/recording/2a5acdba-ccd3-4b31-a06c-4decbda4b81d",
+          "http://musicbrainz.org/recording/3182f167-1550-4bb2-8903-fb983b830102",
+          "http://musicbrainz.org/recording/35098909-56b9-4324-bf5a-e4707403271f",
+          "http://musicbrainz.org/recording/36ae8b16-eb47-4df5-85f6-6d4df1bc8e51",
+          "http://musicbrainz.org/recording/3a4c7333-e121-4ea4-9c1f-0f79b41017f5",
+          "http://musicbrainz.org/recording/3b732cb5-803c-4f22-ad54-afd5eb6c3d04",
+          "http://musicbrainz.org/recording/3dbd748f-77d7-442d-8acf-3348ec197a07",
+          "http://musicbrainz.org/recording/40b911be-bbab-4f7c-a56e-b59c7d21c98d",
+          "http://musicbrainz.org/recording/41a7e9ee-3fad-4bbf-aef3-aab84ba6e5fa",
+          "http://musicbrainz.org/recording/44cdb4fd-0dc4-4fbd-af67-d218996c4511",
+          "http://musicbrainz.org/recording/4854fdca-6afc-4530-9263-e0751ddfd67a",
+          "http://musicbrainz.org/recording/54c7f09e-3c2f-4194-99be-ac5c1c54bbb8",
+          "http://musicbrainz.org/recording/55730dd7-0b8f-4350-8c85-279ad0851860",
+          "http://musicbrainz.org/recording/5a746ebf-400c-475e-8d1d-675684c9acb6",
+          "http://musicbrainz.org/recording/5c1e0199-b805-4622-b195-c0499f6fd1a3",
+          "http://musicbrainz.org/recording/5d4a4cb9-abd2-41dd-a499-6550c42cb491",
+          "http://musicbrainz.org/recording/64218d94-9474-4982-a52d-a6cdf205ad78",
+          "http://musicbrainz.org/recording/6cac0cd0-1991-4adc-9b2d-5307980ef144",
+          "http://musicbrainz.org/recording/6cd13527-2655-42a4-854d-dd058a919e23",
+          "http://musicbrainz.org/recording/6f12643f-8253-4c31-a28b-240af00a921d",
+          "http://musicbrainz.org/recording/733e2361-f22d-4640-abfc-0d259d035f9a",
+          "http://musicbrainz.org/recording/78bddc42-ce74-4221-8d70-c93b8234b24c",
+          "http://musicbrainz.org/recording/7d970546-8772-4404-9716-dbc5b2ab515e",
+          "http://musicbrainz.org/recording/7eabf1cc-1b10-4e75-98c4-fa06b7dc48ae",
+          "http://musicbrainz.org/recording/83583d7b-e02a-4474-87ae-fae083baa937",
+          "http://musicbrainz.org/recording/83cf97ab-4763-4705-846b-8ce55a058ea7",
+          "http://musicbrainz.org/recording/848d9a66-b3bf-4bf5-892b-f6cc393dfb6c",
+          "http://musicbrainz.org/recording/8cb82761-fd1f-4d10-91e9-88a113e43671",
+          "http://musicbrainz.org/recording/8f5e526c-21f4-4272-8889-b60f8107e110",
+          "http://musicbrainz.org/recording/91f9305a-b5d5-4eef-a89a-d81dcc24e1d5",
+          "http://musicbrainz.org/recording/92ffead6-de6f-4594-be10-63b1707e7d90",
+          "http://musicbrainz.org/recording/94b217fd-ec8d-4130-bfa9-eecf40ad8940",
+          "http://musicbrainz.org/recording/95492646-152d-4058-a9a4-ec42f0381d58",
+          "http://musicbrainz.org/recording/985f2e2b-b8ab-4a76-ba93-e550bc0f7a12",
+          "http://musicbrainz.org/recording/98f07d7b-6d87-4fd7-875d-b37511ba239f",
+          "http://musicbrainz.org/recording/9926a998-4bfb-4bd9-a571-d96f095d35a1",
+          "http://musicbrainz.org/recording/9a4ba946-13f2-48cb-8877-4273d06f8fb0",
+          "http://musicbrainz.org/recording/a3b9529c-801e-41a9-ab7f-ee99e287ded2",
+          "http://musicbrainz.org/recording/a4844824-4ecf-40cd-b1ba-8af00b67e471",
+          "http://musicbrainz.org/recording/aea13882-a674-43d6-a3c4-b299fe33b7cf",
+          "http://musicbrainz.org/recording/b179b9f7-7010-4be5-9020-99d693c0d1fb",
+          "http://musicbrainz.org/recording/b8356d4f-5161-40c6-84ad-b63e8917b584",
+          "http://musicbrainz.org/recording/b98a2eb0-b3fa-42e1-94c8-dd746453fa36",
+          "http://musicbrainz.org/recording/bb78bdb5-2912-4395-ba4f-d0b79f2585f1",
+          "http://musicbrainz.org/recording/bf30217d-5c99-4b96-83b9-bfadab11ab96",
+          "http://musicbrainz.org/recording/c29db32f-e10c-4bf0-8439-807fef27e2c5",
+          "http://musicbrainz.org/recording/cab166c5-872a-4006-8321-6a909576841d",
+          "http://musicbrainz.org/recording/d0beed93-30e6-4779-b350-1b2d69f3d9d0",
+          "http://musicbrainz.org/recording/d1bda8c1-f61a-4f4a-8e16-48224697a7b2",
+          "http://musicbrainz.org/recording/d4e8144c-cfcd-4e32-9e29-f1fcb294d80f",
+          "http://musicbrainz.org/recording/d64c4c75-4e3b-4b29-851e-20b594a337e1",
+          "http://musicbrainz.org/recording/d8be5845-2707-4ccc-9084-23dc120cf206",
+          "http://musicbrainz.org/recording/d91dc670-74ef-43f2-b29d-bd1187f6fe43",
+          "http://musicbrainz.org/recording/daad6c43-f0c8-4b62-92c0-bbaeb08f4691",
+          "http://musicbrainz.org/recording/dd159dea-c2e1-4c54-88e2-efbe6173487d",
+          "http://musicbrainz.org/recording/e31de774-8708-4d3f-9944-505a704833dd",
+          "http://musicbrainz.org/recording/e521f1b8-f218-445b-a2a4-7d60cb89e928",
+          "http://musicbrainz.org/recording/e5ea9e5e-4215-43f9-815d-a87543b58b95",
+          "http://musicbrainz.org/recording/e8afe422-6d38-470f-8b0d-d5c4b072ab98",
+          "http://musicbrainz.org/recording/eb36870b-24af-47fb-a68f-cc10a79f38af",
+          "http://musicbrainz.org/recording/eb605c6a-340e-4280-8ae6-bf1083aa040d",
+          "http://musicbrainz.org/recording/f016ca72-422d-47f1-8fe3-2d7e09cf1a43",
+          "http://musicbrainz.org/recording/f1d66e46-3a4d-432b-82aa-d7b6ceca2f97",
+          "http://musicbrainz.org/recording/f8a9beb3-1a0e-4d28-8b1a-b8f2be85d658",
+          "http://musicbrainz.org/recording/fc9b5b18-79cd-49cb-893f-2ab6e53e4f75",
+          "http://musicbrainz.org/recording/ff1ebc42-3065-4e4a-9c0d-84b067e3dc9f"
+        ],
+        "trackNumber": "1.1"
+      },
+      {
+        "sameAs": [
+          "http://musicbrainz.org/recording/29f7aad8-da02-44a9-bfd5-640efb306446",
+          "http://musicbrainz.org/recording/3734d336-2c74-4215-9cd8-3a66829747b6",
+          "http://musicbrainz.org/recording/68408e10-402b-484f-818f-9ab535918ecf",
+          "http://musicbrainz.org/recording/6980fc1f-0a3b-4c89-be0f-69ec81cda866",
+          "http://musicbrainz.org/recording/94ca37be-8c8f-4737-b827-167aed7aae67",
+          "http://musicbrainz.org/recording/a74ce5c7-7ded-4343-bba9-837b0e3404f1",
+          "http://musicbrainz.org/recording/ba695c09-7758-48e6-83be-9821eaef5298",
+          "http://musicbrainz.org/recording/bc9ce51c-e852-44a3-a750-2f2af823426d",
+          "http://musicbrainz.org/recording/cbbda8e6-26fb-4c28-a74b-09688dfa8fc9"
+        ],
+        "trackNumber": "1.2",
+        "recordingOf": {
+          "name": "I Should Care",
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/6895abad-22e4-36f5-ac33-d6ae61b18f9f",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q1655268",
+            "https://secondhandsongs.com/work/111854"
+          ]
+        },
+        "@type": "MusicRecording",
+        "duration": "PT03M17S",
+        "producer": {
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "name": "Bobby Troup"
+        },
+        "isrcCode": "USCA25500176",
+        "@id": "http://musicbrainz.org/recording/380ad37e-3abe-420d-9f19-a409b7033fae",
+        "contributor": [
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "name": "Julie London"
+            },
+            "@type": "OrganizationRole"
+          }
+        ],
+        "name": "I Should Care"
+      },
+      {
+        "producer": {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "name": "Bobby Troup"
+        },
+        "sameAs": [
+          "http://musicbrainz.org/recording/1d8c7859-3284-4010-b06f-b590ef80dc71",
+          "http://musicbrainz.org/recording/1dae2e5e-1c06-46f2-88ec-872420f28bac",
+          "http://musicbrainz.org/recording/3d2e8363-b635-4e83-bcbe-92a7e480b170",
+          "http://musicbrainz.org/recording/47c68d4b-bb43-4fa2-a40c-aa53fa4370d0",
+          "http://musicbrainz.org/recording/4fb5c902-78de-4da3-9c5b-3407ed4e3b78",
+          "http://musicbrainz.org/recording/5090ee0f-fc71-4c1b-a7e3-5984b0c39024",
+          "http://musicbrainz.org/recording/53db77b2-ef08-4780-8870-51d7ca0aa1ff",
+          "http://musicbrainz.org/recording/53de43d7-c69d-49df-9440-e63743af4426",
+          "http://musicbrainz.org/recording/64dbeccc-9c27-4dae-977a-8d4d82396843",
+          "http://musicbrainz.org/recording/6f32cab9-fc91-4476-b7df-2128ef180cb4",
+          "http://musicbrainz.org/recording/75bbaa3a-58d7-4cec-b28e-edd13e8b0569",
+          "http://musicbrainz.org/recording/846c35e9-25fd-4261-b3fd-62860d6c8f7c",
+          "http://musicbrainz.org/recording/8662d504-821a-4859-bbac-e085dba8ca60",
+          "http://musicbrainz.org/recording/9823cf29-64eb-447b-bb7f-bdf1249f7a31",
+          "http://musicbrainz.org/recording/ad2693e2-ca2d-4a95-8d2d-f2b3aac99f93",
+          "http://musicbrainz.org/recording/b56f930c-4a30-47a9-b430-981a6d0bc5f8",
+          "http://musicbrainz.org/recording/b867565f-6f64-4288-a2ca-343fd9e605ee",
+          "http://musicbrainz.org/recording/be8ef2c0-be41-4322-a6b1-d04adf568970",
+          "http://musicbrainz.org/recording/c8df3db2-d23c-49a7-b7c7-6e7defc1430e",
+          "http://musicbrainz.org/recording/d9e69759-5a27-448f-a373-583110c2e996",
+          "http://musicbrainz.org/recording/e46bb6b3-87a1-437f-852e-0cc00759e8df",
+          "http://musicbrainz.org/recording/fe996353-76b1-46b3-bdb3-503bf282df35"
+        ],
+        "trackNumber": "1.3",
+        "recordingOf": {
+          "name": "I\u2019m in the Mood for Love",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q3646185",
+            "https://en.wikipedia.org/wiki/I'm_in_the_Mood_for_Love",
+            "https://secondhandsongs.com/work/10902"
+          ],
+          "@id": "http://musicbrainz.org/work/6bd559d6-5880-320e-acb7-29d29ae5ede4",
+          "@type": "MusicComposition"
+        },
+        "duration": "PT02M30S",
+        "@type": "MusicRecording",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Julie London",
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          }
+        ],
+        "name": "I\u2019m in the Mood for Love",
+        "isrcCode": "USEM38900296",
+        "@id": "http://musicbrainz.org/recording/2ea02282-876b-4e14-84ce-e6f6c9fd5b71"
+      },
+      {
+        "trackNumber": "1.4",
+        "sameAs": [
+          "http://musicbrainz.org/recording/164fcbfa-f92c-4868-90df-915a03b4f4c1",
+          "http://musicbrainz.org/recording/ad468464-2113-4b1b-ab5f-c02b57842f47",
+          "http://musicbrainz.org/recording/e95878dc-e960-4bbb-83d3-f1ee5cbb6380",
+          "http://musicbrainz.org/recording/e9d6c550-e7ba-4334-880b-9efa8220bcb1"
+        ],
+        "@type": "MusicRecording",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/2cfe5f75-75db-36bc-95ec-d95a06e6bd57",
+          "@type": "MusicComposition",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q5966267",
+            "https://secondhandsongs.com/work/97460"
+          ],
+          "name": "I\u2019m Glad There Is You"
+        },
+        "duration": "PT02M26S",
+        "producer": {
+          "name": "Bobby Troup",
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        "isrcCode": "USEM39200300",
+        "@id": "http://musicbrainz.org/recording/f87fd2fe-1e44-4d16-93ab-3aa8b14796aa",
+        "name": "I\u2019m Glad There Is You",
+        "contributor": [
+          {
+            "contributor": {
+              "name": "Julie London",
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "@type": "OrganizationRole"
+          }
+        ]
+      },
+      {
+        "isrcCode": "USCA20707806",
+        "@id": "http://musicbrainz.org/recording/ef1073fc-997e-4db2-bfe5-820b354bbf38",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Julie London",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5"
+            }
+          }
+        ],
+        "name": "Can\u2019t Help Lovin\u2019 That Man",
+        "sameAs": [
+          "http://musicbrainz.org/recording/15b88668-e022-48c5-a15e-460fe18cc7bc",
+          "http://musicbrainz.org/recording/720245f5-ef32-42b7-b714-5af10cf3bc4e",
+          "http://musicbrainz.org/recording/a175dfec-5079-482f-bd44-de691c39b131",
+          "http://musicbrainz.org/recording/a4be735b-f364-4d7f-aab9-2f81252c62a7",
+          "http://musicbrainz.org/recording/d611d3a4-2d42-44ae-9a12-0bd2a1680b60",
+          "http://musicbrainz.org/recording/facb37dc-bfc6-4c77-82f9-95ddce5f2e68",
+          "http://musicbrainz.org/recording/fe0788f9-f6a4-4d15-9c88-a3cac04cadcf"
+        ],
+        "trackNumber": "1.5",
+        "@type": "MusicRecording",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q5028908",
+            "https://secondhandsongs.com/work/29487"
+          ],
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/76356076-323b-3f8a-b6dd-5f49261b4eb7",
+          "name": "Can\u2019t Help Lovin\u2019 Dat Man"
+        },
+        "duration": "PT03M10S",
+        "producer": {
+          "name": "Bobby Troup",
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        }
+      },
+      {
+        "producer": {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "name": "Bobby Troup"
+        },
+        "sameAs": [
+          "http://musicbrainz.org/recording/12141590-f900-46fb-891d-b3c8c1751a65",
+          "http://musicbrainz.org/recording/5384abc9-f2c2-4365-b3b6-405d9369df48",
+          "http://musicbrainz.org/recording/58d37cbd-7fdc-406e-8fd9-393e918a423b",
+          "http://musicbrainz.org/recording/61a0b613-85de-4780-9b65-94570af2225d",
+          "http://musicbrainz.org/recording/78de0152-95ed-415d-9364-7ccc45d66f8a",
+          "http://musicbrainz.org/recording/a5ea8ba9-53f2-427e-89ee-4f0b4e5e7554",
+          "http://musicbrainz.org/recording/d318fb44-a417-4168-826f-e03701b2a300",
+          "http://musicbrainz.org/recording/eab7f562-8a10-40fb-873f-3ff8de829b59"
+        ],
+        "trackNumber": "1.6",
+        "duration": "PT01M52S",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q5978223",
+            "https://castalbums.org/songs/I-Love-You/14198",
+            "https://secondhandsongs.com/work/13870"
+          ],
+          "@id": "http://musicbrainz.org/work/32a55da1-b03c-4cdd-873f-cbb86757e494",
+          "@type": "MusicComposition",
+          "name": "I Love You"
+        },
+        "@type": "MusicRecording",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "name": "Julie London"
+            }
+          }
+        ],
+        "name": "I Love You",
+        "isrcCode": "USCA25500177",
+        "@id": "http://musicbrainz.org/recording/09eea1d6-39b2-4fa8-ba73-b5963ba48cfb"
+      },
+      {
+        "isrcCode": "USEM39200305",
+        "@id": "http://musicbrainz.org/recording/85472751-4ea1-4aa0-8cbc-5c40b51910c5",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Julie London"
+            }
+          }
+        ],
+        "name": "Say It Isn\u2019t So",
+        "trackNumber": "1.7",
+        "sameAs": [
+          "http://musicbrainz.org/recording/1586e293-f545-424c-8690-1325796e00b7",
+          "http://musicbrainz.org/recording/36dc6a63-d175-48f1-8fd6-b0bda2bfce11",
+          "http://musicbrainz.org/recording/40e8ad55-a16d-4667-98b7-8b16e97b83f8",
+          "http://musicbrainz.org/recording/83e9c4ec-7529-4555-816c-ed5f4e5a759a",
+          "http://musicbrainz.org/recording/fce717ab-01c8-4669-a414-518c7f530067"
+        ],
+        "duration": "PT02M01S",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q7428967",
+            "https://secondhandsongs.com/work/124199"
+          ],
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/77b8292d-cde7-358e-81e4-7d3a5db24f22",
+          "name": "Say It Isn\u2019t So"
+        },
+        "@type": "MusicRecording",
+        "producer": {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "name": "Bobby Troup"
+        }
+      },
+      {
+        "name": "It Never Entered My Mind",
+        "contributor": [
+          {
+            "contributor": {
+              "name": "Julie London",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5"
+            },
+            "@type": "OrganizationRole"
+          }
+        ],
+        "isrcCode": "USEM39200306",
+        "@id": "http://musicbrainz.org/recording/1816e23c-0dff-4988-8cb0-317adddfb839",
+        "producer": {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "name": "Bobby Troup"
+        },
+        "sameAs": [
+          "http://musicbrainz.org/recording/0aacc838-b103-413b-95dc-9fd022a0ab47",
+          "http://musicbrainz.org/recording/53f7739e-9edb-4133-b56b-5dd7e2005b43",
+          "http://musicbrainz.org/recording/5d21255b-90a7-4dc6-bc92-c7f0ce770285",
+          "http://musicbrainz.org/recording/a53ddb3e-ff0e-49ca-85be-1e1d77c036de",
+          "http://musicbrainz.org/recording/b0d9f105-351c-460c-a671-5b6f9dbdd717"
+        ],
+        "trackNumber": "1.8",
+        "duration": "PT02M25S",
+        "recordingOf": {
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q6091953",
+            "https://secondhandsongs.com/work/22961"
+          ],
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/5cec5322-d9df-340f-aa1c-5428dc61095f",
+          "name": "It Never Entered My Mind"
+        },
+        "@type": "MusicRecording"
+      },
+      {
+        "name": "Easy Street",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "roleName": "bass",
+            "contributor": {
+              "name": "Ray Leatherwood",
+              "@id": "http://musicbrainz.org/artist/0bcba604-bb6a-43d0-b721-5f78a259f8e3",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/cf347470-d1d1-48b4-bda1-8171418ef5a7",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Barney Kessel"
+            },
+            "roleName": "guitar",
+            "@type": "OrganizationRole"
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Julie London"
+            },
+            "@type": "OrganizationRole"
+          }
+        ],
+        "isrcCode": "USCA29201660",
+        "@id": "http://musicbrainz.org/recording/bc3611c1-006a-44a5-a147-6813a67ed409",
+        "producer": {
+          "name": "Bobby Troup",
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        "trackNumber": "1.9",
+        "sameAs": [
+          "http://musicbrainz.org/recording/257d140e-998a-4f85-8eb5-5dea63e9d8bc",
+          "http://musicbrainz.org/recording/4176f2cd-2b55-446c-b4c7-794d0a4833b4",
+          "http://musicbrainz.org/recording/6a2ad69d-5b65-4cf3-b067-0f3b0a9c751c",
+          "http://musicbrainz.org/recording/7aeceba1-1927-4284-8b7d-ad9473b9321c",
+          "http://musicbrainz.org/recording/82c18222-a819-4f26-b82c-37d9301e0549",
+          "http://musicbrainz.org/recording/97635cac-dc09-4c84-9983-3a0e1312c414",
+          "http://musicbrainz.org/recording/b3e25117-488b-461a-a489-ed36febd875a",
+          "http://musicbrainz.org/recording/d7c9d426-b288-4c43-9501-584d609c5bfc"
+        ],
+        "duration": "PT03M14S",
+        "recordingOf": {
+          "sameAs": "http://www.wikidata.org/entity/Q63195494",
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/c7ec418d-ed92-4d35-a82c-8acc21a6b79b",
+          "name": "Easy Street"
+        },
+        "@type": "MusicRecording"
+      },
+      {
+        "contributor": [
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Julie London"
+            },
+            "@type": "OrganizationRole"
+          }
+        ],
+        "name": "\u2019S Wonderful",
+        "@id": "http://musicbrainz.org/recording/b9a2232b-7772-46d3-a65b-ac974de5ae0d",
+        "isrcCode": "USCA25600141",
+        "producer": {
+          "name": "Bobby Troup",
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        "recordingOf": {
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q2156594",
+            "https://secondhandsongs.com/work/23770"
+          ],
+          "@id": "http://musicbrainz.org/work/f583f1d2-a199-3c7b-b8bd-6a61b1d3e0cb",
+          "@type": "MusicComposition",
+          "name": "\u2019S Wonderful"
+        },
+        "duration": "PT01M34S",
+        "@type": "MusicRecording",
+        "sameAs": [
+          "http://musicbrainz.org/recording/0a853ff9-bc06-4d21-8f98-85a705bebb8d",
+          "http://musicbrainz.org/recording/1b8d2f92-0398-4cc8-9f1a-dda1918040c5",
+          "http://musicbrainz.org/recording/1bd04e47-4f8e-44cb-bc30-6371d25da39e",
+          "http://musicbrainz.org/recording/3bf81f5d-2778-4e40-b1a4-cb65f72fafd6",
+          "http://musicbrainz.org/recording/52a70593-827c-47d0-80a1-be8b3f0fe94f",
+          "http://musicbrainz.org/recording/6a42afb3-8c14-4060-9f38-6deccc3c205b",
+          "http://musicbrainz.org/recording/77ebbc46-7721-4e1a-98fe-440c6fbc0152",
+          "http://musicbrainz.org/recording/7ee58c96-f479-4eaf-b52b-9c5d35065772",
+          "http://musicbrainz.org/recording/9cc442b2-4031-444d-95c1-86938508d518",
+          "http://musicbrainz.org/recording/bc96215e-d0e0-4d3c-913c-70e286534093",
+          "http://musicbrainz.org/recording/c14939fd-ea09-4989-8075-653fc3541371",
+          "http://musicbrainz.org/recording/d715cd51-15ea-4be4-9215-ccb79f56a0f8",
+          "http://musicbrainz.org/recording/e75628a7-b165-4eb4-bd2e-7cefe14de1ec",
+          "http://musicbrainz.org/recording/f571ff3f-95c3-4c11-bd3b-af8100afbac3"
+        ],
+        "trackNumber": "1.10"
+      },
+      {
+        "recordingOf": {
+          "name": "No Moon at All",
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/5f075acb-7a86-3ec4-9aee-64206c9846f2",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q48798260",
+            "https://secondhandsongs.com/work/146806"
+          ]
+        },
+        "@type": "MusicRecording",
+        "duration": "PT01M53S",
+        "sameAs": [
+          "http://musicbrainz.org/recording/28b4402f-fd9a-41e0-aea2-68cc51ca45ce",
+          "http://musicbrainz.org/recording/2a734da4-dfd1-4614-af52-3f9853d423de",
+          "http://musicbrainz.org/recording/99146154-570f-4a14-a620-1d73d41fb331",
+          "http://musicbrainz.org/recording/9c3d9650-6a8c-4163-91ce-65fa16d18049",
+          "http://musicbrainz.org/recording/a873f526-f887-4a43-853d-d59c05ba9b4c",
+          "http://musicbrainz.org/recording/cded7fb9-b9e7-40f0-a4a1-65a779a4bbab",
+          "http://musicbrainz.org/recording/f7853e98-5cd8-4616-bd2a-d8f2f0fc8ff4"
+        ],
+        "trackNumber": "1.11",
+        "producer": {
+          "name": "Bobby Troup",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5"
+        },
+        "@id": "http://musicbrainz.org/recording/fca2ae16-74df-49b6-81db-48c5aafc250f",
+        "isrcCode": "USEM39200309",
+        "name": "No Moon at All",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/0bcba604-bb6a-43d0-b721-5f78a259f8e3",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ray Leatherwood"
+            },
+            "roleName": "bass"
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": "guitar",
+            "contributor": {
+              "name": "Barney Kessel",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/cf347470-d1d1-48b4-bda1-8171418ef5a7"
+            }
+          },
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "name": "Julie London",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5"
+            }
+          }
+        ]
+      },
+      {
+        "producer": {
+          "name": "Bobby Troup",
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        "trackNumber": "1.12",
+        "sameAs": [
+          "http://musicbrainz.org/recording/1e13ab94-5dd6-4f08-ad0d-7f34cd6a3510",
+          "http://musicbrainz.org/recording/3c14546d-8241-446f-b26f-61f4dc2c9065",
+          "http://musicbrainz.org/recording/4302bb08-bac1-45d3-a638-4984ec2608d6",
+          "http://musicbrainz.org/recording/823e15fb-27d4-423e-a006-faacc3360c48",
+          "http://musicbrainz.org/recording/a729946c-522a-4853-b3cb-252d39ebfc60",
+          "http://musicbrainz.org/recording/dda952f2-8abd-407d-ba06-cadf42aa483b"
+        ],
+        "duration": "PT01M44S",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/e94668c6-dcf8-33f0-99fd-b0037e681fa0",
+          "@type": "MusicComposition",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q3827723",
+            "https://secondhandsongs.com/work/27492"
+          ],
+          "name": "Laura"
+        },
+        "@type": "MusicRecording",
+        "name": "Laura",
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "name": "Julie London"
+            }
+          }
+        ],
+        "isrcCode": "USEM39200310",
+        "@id": "http://musicbrainz.org/recording/b7773306-b452-40e4-9053-dd03a17c2be5"
+      },
+      {
+        "producer": {
+          "name": "Bobby Troup",
+          "@id": "http://musicbrainz.org/artist/715b2348-45c3-4826-a6f8-55080a1b3fe5",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        "trackNumber": "1.13",
+        "sameAs": [
+          "http://musicbrainz.org/recording/047b3429-053c-4e6b-8e06-8cf37c772d98",
+          "http://musicbrainz.org/recording/2ff9cb4b-cc1a-4580-abac-c6504112eec9",
+          "http://musicbrainz.org/recording/540fcf28-7752-468f-86a1-792e482769e7",
+          "http://musicbrainz.org/recording/5eae0eb3-14ff-4e7a-8613-e869067e265b",
+          "http://musicbrainz.org/recording/61819e74-b5b8-432e-9d6d-e7808a1f531f",
+          "http://musicbrainz.org/recording/691c0a18-0069-4a92-82df-b23eb9efc7be",
+          "http://musicbrainz.org/recording/c1184e85-6607-4aa9-869b-ae57ca1e8ae0",
+          "http://musicbrainz.org/recording/c7c4897a-c966-434f-8242-39b96ac21aa8",
+          "http://musicbrainz.org/recording/ed241958-6a90-47f9-a43d-e34839b93659"
+        ],
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/5a4941b9-bd1b-3c19-ac29-4c029c24e48d",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q5581645",
+            "https://secondhandsongs.com/work/11794"
+          ],
+          "name": "Gone With the Wind"
+        },
+        "@type": "MusicRecording",
+        "duration": "PT02M07S",
+        "name": "Gone With the Wind",
+        "contributor": [
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/0bcba604-bb6a-43d0-b721-5f78a259f8e3",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Ray Leatherwood"
+            },
+            "roleName": "bass",
+            "@type": "OrganizationRole"
+          },
+          {
+            "roleName": "guitar",
+            "contributor": {
+              "name": "Barney Kessel",
+              "@id": "http://musicbrainz.org/artist/cf347470-d1d1-48b4-bda1-8171418ef5a7",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "@type": "OrganizationRole"
+          },
+          {
+            "contributor": {
+              "name": "Julie London",
+              "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            },
+            "@type": "OrganizationRole"
+          }
+        ],
+        "isrcCode": "USEM39200311",
+        "@id": "http://musicbrainz.org/recording/5a82fcfb-c87d-4a14-aca1-60fcf1f7c8d2"
+      }
+    ],
+    "name": "Julie Is Her Name",
+    "inLanguage": "en",
+    "sameAs": "https://www.discogs.com/release/2180721",
+    "duration": "PT31M03S",
+    "hasReleaseRegion": [
+      {
+        "releaseCountry": {
+          "name": "United States",
+          "@type": "Country",
+          "@id": "http://musicbrainz.org/area/489ce91b-6658-3307-9877-795b68554c98"
+        },
+        "@type": "CreativeWorkReleaseRegion",
+        "releaseDate": "1955-12"
+      }
+    ],
+    "releaseOf": {
+      "@id": "http://musicbrainz.org/release-group/c2ee4be6-8e36-3fe3-80fe-e207ea88cdc4",
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "creditedTo": "Julie London",
+      "name": "Julie Is Her Name",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "@type": "MusicAlbum",
+      "byArtist": {
+        "name": "Julie London",
+        "@type": [
+          "Person",
+          "MusicGroup"
+        ],
+        "@id": "http://musicbrainz.org/artist/e7ee5f13-baf5-4a87-b58b-f871c137d4f5"
+      }
+    }
+  },
+  {
+    "hasReleaseRegion": [
+      {
+        "releaseCountry": {
+          "@type": "Country",
+          "name": "United States",
+          "@id": "http://musicbrainz.org/area/489ce91b-6658-3307-9877-795b68554c98"
+        },
+        "@type": "CreativeWorkReleaseRegion",
+        "releaseDate": "1947"
+      }
+    ],
+    "releaseOf": {
+      "creditedTo": "Debussy, Ravel; The Philadelphia Orchestra, Eugene Ormandy, Bidu Say\u00e3o, Rosalind Nadell, Robert Casadesus",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "byArtist": [
+        {
+          "name": "Claude Debussy",
+          "@id": "http://musicbrainz.org/artist/be50643c-0377-4968-b48c-47e06b2e2a3b",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/6fdd3b3e-1ea6-4da9-8d6f-8f8de01c133a",
+          "name": "Maurice Ravel"
+        },
+        {
+          "@type": "MusicGroup",
+          "@id": "http://musicbrainz.org/artist/ff3fcff7-6c85-49d6-b954-ed7011a44e5a",
+          "name": "The Philadelphia Orchestra"
+        },
+        {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/c70e7c06-65e9-42bd-9059-4973fd20e127",
+          "name": "Eugene Ormandy"
+        },
+        {
+          "@id": "http://musicbrainz.org/artist/70e819f3-781f-4092-b1f7-c885c906e5d2",
+          "name": "Bidu Say\u00e3o",
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ]
+        },
+        {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/0a8eb2c8-fcb1-455f-839b-1377743d4064",
+          "name": "Rosalind Nadell"
+        },
+        {
+          "@type": [
+            "Person",
+            "MusicGroup"
+          ],
+          "@id": "http://musicbrainz.org/artist/6b5fbc3e-d08a-4a92-b6fe-de9c11d73fa9",
+          "name": "Robert Casadesus"
+        }
+      ],
+      "@type": "MusicAlbum",
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "@id": "http://musicbrainz.org/release-group/1baf5f39-e798-4cdb-bff3-c098338fba0d",
+      "name": "La damoiselle \u00e9lue / Piano Concerto for the Left Hand"
+    },
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "name": "La damoiselle \u00e9lue / Piano Concerto for the Left Hand",
+    "musicReleaseFormat": "http://schema.org/VinylFormat",
+    "recordLabel": {
+      "@type": "MusicLabel",
+      "name": "Columbia",
+      "@id": "http://musicbrainz.org/label/011d1192-6f65-45bd-85c4-0400dd45693e"
+    },
+    "duration": "PT36M55S",
+    "image": {
+      "@type": "ImageObject",
+      "thumbnail": [
+        {
+          "encodingFormat": "jpg",
+          "@type": "ImageObject",
+          "contentUrl": "//coverartarchive.org/release/6c3d4577-b205-4719-a63d-fa2d5ef4aa68/17608524872-250.jpg"
+        },
+        {
+          "@type": "ImageObject",
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/6c3d4577-b205-4719-a63d-fa2d5ef4aa68/17608524872-500.jpg"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/6c3d4577-b205-4719-a63d-fa2d5ef4aa68/17608524872-1200.jpg",
+          "encodingFormat": "jpg",
+          "@type": "ImageObject"
+        }
+      ],
+      "encodingFormat": "jpg",
+      "representativeOfPage": "True",
+      "contentUrl": "//coverartarchive.org/release/6c3d4577-b205-4719-a63d-fa2d5ef4aa68/17608524872.jpg"
+    },
+    "track": [
+      {
+        "name": "La Damoiselle \u00e9lue, L 62",
+        "duration": "PT20M10S",
+        "@id": "http://musicbrainz.org/recording/fde3663c-9986-4334-88b7-57ab40c9a80f",
+        "recordingOf": {
+          "name": "La Damoiselle \u00e9lue, L. 62, CD 69",
+          "@id": "http://musicbrainz.org/work/40ce7425-f0f1-42e6-92e6-9d7af59acd74",
+          "sameAs": [
+            "http://viaf.org/viaf/182665142",
+            "http://www.wikidata.org/entity/Q24938126",
+            "https://catalogue.bnf.fr/ark:/12148/cb13911374z",
+            "https://d-nb.info/gnd/300041829",
+            "https://www.allmusic.com/composition/mc0002360636"
+          ],
+          "@type": "MusicComposition"
+        },
+        "@type": "MusicRecording",
+        "trackNumber": "1.1",
+        "contributor": [
+          {
+            "contributor": {
+              "@type": "MusicGroup",
+              "@id": "http://musicbrainz.org/artist/67038789-9258-4963-a013-d421b8046c8e",
+              "name": "Women\u2019s Chorus of the University of Pennsylvania"
+            },
+            "@type": "OrganizationRole",
+            "roleName": "choir vocals"
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "name": "Bidu Say\u00e3o",
+              "@id": "http://musicbrainz.org/artist/70e819f3-781f-4092-b1f7-c885c906e5d2"
+            },
+            "roleName": "soprano vocals",
+            "@type": "OrganizationRole"
+          },
+          {
+            "@type": "OrganizationRole",
+            "roleName": "conductor",
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/c70e7c06-65e9-42bd-9059-4973fd20e127",
+              "name": "Eugene Ormandy"
+            }
+          },
+          {
+            "contributor": {
+              "name": "The Philadelphia Orchestra",
+              "@id": "http://musicbrainz.org/artist/ff3fcff7-6c85-49d6-b954-ed7011a44e5a",
+              "@type": "MusicGroup"
+            },
+            "roleName": "orchestra",
+            "@type": "OrganizationRole"
+          }
+        ]
+      },
+      {
+        "name": "Piano Concerto for the Left Hand",
+        "@id": "http://musicbrainz.org/recording/d43eaf2a-b259-4094-bc37-587abd6205fa",
+        "duration": "PT17M05S",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/1abda5c6-93ca-31a6-996e-0503522504ec",
+          "name": "Concerto for Piano and Orchestra for the Left Hand in D major",
+          "@type": "MusicComposition",
+          "sameAs": [
+            "http://www.wikidata.org/entity/Q1190499",
+            "https://www.allmusic.com/composition/mc0002369464"
+          ]
+        },
+        "contributor": [
+          {
+            "@type": "OrganizationRole",
+            "roleName": "piano",
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/6b5fbc3e-d08a-4a92-b6fe-de9c11d73fa9",
+              "name": "Robert Casadesus",
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ]
+            }
+          },
+          {
+            "contributor": {
+              "@type": [
+                "Person",
+                "MusicGroup"
+              ],
+              "@id": "http://musicbrainz.org/artist/c70e7c06-65e9-42bd-9059-4973fd20e127",
+              "name": "Eugene Ormandy"
+            },
+            "roleName": "conductor",
+            "@type": "OrganizationRole"
+          },
+          {
+            "contributor": {
+              "@id": "http://musicbrainz.org/artist/ff3fcff7-6c85-49d6-b954-ed7011a44e5a",
+              "name": "The Philadelphia Orchestra",
+              "@type": "MusicGroup"
+            },
+            "@type": "OrganizationRole",
+            "roleName": "orchestra"
+          }
+        ],
+        "trackNumber": "1.2",
+        "@type": "MusicRecording"
+      }
+    ],
+    "inLanguage": "en",
+    "creditedTo": "Debussy, Ravel; The Philadelphia Orchestra, Eugene Ormandy, Bidu Say\u00e3o, Rosalind Nadell, Robert Casadesus",
+    "@id": "http://musicbrainz.org/release/6c3d4577-b205-4719-a63d-fa2d5ef4aa68",
+    "catalogNumber": "ml4075",
+    "sameAs": "https://www.discogs.com/release/3578482",
+    "@type": "MusicRelease"
+  },
+  {
+    "musicReleaseFormat": "http://schema.org/DigitalFormat",
+    "hasReleaseRegion": [
+      {
+        "@type": "CreativeWorkReleaseRegion",
+        "releaseCountry": {
+          "@type": "Country",
+          "name": "United Kingdom",
+          "@id": "http://musicbrainz.org/area/8a754a16-0027-3a29-b6d7-2b40ea0481ed"
+        },
+        "releaseDate": "2008"
+      }
+    ],
+    "creditedTo": "Radiohead",
+    "inLanguage": "en",
+    "sameAs": "https://www.discogs.com/release/1379425",
+    "@id": "http://musicbrainz.org/release/023abf42-e340-4a45-84d1-1fc95eaa46e9",
+    "name": "In Rainbows: From the Basement",
+    "track": [
+      {
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/31b93da2-f675-31e2-8822-392216904f6b",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=9546",
+            "https://secondhandsongs.com/work/133162"
+          ],
+          "name": "15 Step"
+        },
+        "@id": "http://musicbrainz.org/recording/c66a0dba-af1e-4f81-af73-4d3eb6094fec",
+        "duration": "PT03M52S",
+        "@type": "MusicRecording",
+        "name": "15 Step",
+        "trackNumber": "1.1"
+      },
+      {
+        "trackNumber": "1.2",
+        "name": "Bodysnatchers",
+        "@type": "MusicRecording",
+        "duration": "PT04M16S",
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/08e722cf-f9f3-3884-b2c3-934eb07f238c",
+          "sameAs": "https://secondhandsongs.com/work/107842",
+          "name": "Bodysnatchers"
+        },
+        "@id": "http://musicbrainz.org/recording/5a0d6666-7613-4d26-85ae-f074214e3fe5"
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT05M29S",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/28bd85ad-0b27-31b3-a1ec-039c890753a4",
+          "sameAs": "http://www.songfacts.com/detail.php?id=9554",
+          "name": "House of Cards",
+          "@type": "MusicComposition"
+        },
+        "@id": "http://musicbrainz.org/recording/a22dd85c-19f3-46e8-b7b7-fdfa36da1cbc",
+        "trackNumber": "1.3",
+        "name": "House of Cards"
+      },
+      {
+        "trackNumber": "1.4",
+        "name": "Bangers + Mash",
+        "duration": "PT03M31S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/c3b3af1d-9d57-48ee-9518-5bbe4bf104a6",
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/dde8c1ad-883b-41e9-aa7a-941ec30894d6",
+          "name": "Bangers + Mash"
+        }
+      },
+      {
+        "recordingOf": {
+          "name": "Videotape",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=9555",
+            "https://secondhandsongs.com/work/107839"
+          ],
+          "@id": "http://musicbrainz.org/work/ea702a40-3f19-3d98-90f5-8157b969929d",
+          "@type": "MusicComposition"
+        },
+        "@id": "http://musicbrainz.org/recording/bdf7c162-00bf-4cba-8632-5a86d69559b0",
+        "@type": "MusicRecording",
+        "duration": "PT04M45S",
+        "name": "Videotape",
+        "trackNumber": "1.5"
+      },
+      {
+        "trackNumber": "1.6",
+        "name": "Reckoner",
+        "duration": "PT05M03S",
+        "@type": "MusicRecording",
+        "@id": "http://musicbrainz.org/recording/694065b4-3910-49c8-a4dd-cb5d270201a1",
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "name": "Reckoner",
+          "sameAs": "http://www.songfacts.com/detail.php?id=9552",
+          "@id": "http://musicbrainz.org/work/80dce2c2-2655-3915-9a46-72a4fd19d9ac"
+        }
+      },
+      {
+        "@type": "MusicRecording",
+        "duration": "PT03M52S",
+        "@id": "http://musicbrainz.org/recording/4b7cacf0-75f9-4a33-91bc-cf9d307d02ef",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/557eaf26-2453-4ada-9e5e-056608ea980c",
+          "name": "Go Slowly",
+          "@type": "MusicComposition"
+        },
+        "trackNumber": "1.7",
+        "name": "Go Slowly"
+      },
+      {
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/bffb345a-6112-3546-a6c7-c72bbab8b77f",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=9550",
+            "https://secondhandsongs.com/work/145259"
+          ],
+          "name": "All I Need"
+        },
+        "@id": "http://musicbrainz.org/recording/e71db042-a86a-45c7-b800-3f3d226ae8f8",
+        "@type": "MusicRecording",
+        "duration": "PT04M19S",
+        "name": "All I Need",
+        "trackNumber": "1.8"
+      },
+      {
+        "recordingOf": {
+          "@type": "MusicComposition",
+          "@id": "http://musicbrainz.org/work/5f1153cd-8b45-3733-a4ef-940800b89db8",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=9548",
+            "http://www.wikidata.org/entity/Q1341414"
+          ],
+          "name": "Nude"
+        },
+        "@id": "http://musicbrainz.org/recording/aef59581-ab90-49e6-93b7-c90982f04a09",
+        "duration": "PT04M21S",
+        "@type": "MusicRecording",
+        "name": "Nude",
+        "trackNumber": "1.9"
+      },
+      {
+        "@id": "http://musicbrainz.org/recording/b8d8b3df-8d0e-4cae-8065-cf9910f95067",
+        "recordingOf": {
+          "@id": "http://musicbrainz.org/work/6f053f22-a4e5-3115-a0a9-d3a3dcd94111",
+          "sameAs": [
+            "http://www.songfacts.com/detail.php?id=9549",
+            "https://secondhandsongs.com/work/133164"
+          ],
+          "name": "Weird Fishes/Arpeggi",
+          "@type": "MusicComposition"
+        },
+        "duration": "PT05M20S",
+        "@type": "MusicRecording",
+        "name": "Weird Fishes/Arpeggi",
+        "trackNumber": "1.10"
+      }
+    ],
+    "recordLabel": {
+      "name": "_Xurbia_Xendless Limited",
+      "@id": "http://musicbrainz.org/label/22434a7f-88eb-4e30-b33a-6920aad57525",
+      "@type": "MusicLabel"
+    },
+    "image": {
+      "thumbnail": [
+        {
+          "encodingFormat": "jpg",
+          "@type": "ImageObject",
+          "contentUrl": "//coverartarchive.org/release/023abf42-e340-4a45-84d1-1fc95eaa46e9/1985160265-250.jpg"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/023abf42-e340-4a45-84d1-1fc95eaa46e9/1985160265-500.jpg",
+          "encodingFormat": "jpg",
+          "@type": "ImageObject"
+        },
+        {
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/023abf42-e340-4a45-84d1-1fc95eaa46e9/1985160265-1200.jpg",
+          "@type": "ImageObject"
+        }
+      ],
+      "contentUrl": "//coverartarchive.org/release/023abf42-e340-4a45-84d1-1fc95eaa46e9/1985160265.jpg",
+      "representativeOfPage": "True",
+      "encodingFormat": "jpg",
+      "@type": "ImageObject"
+    },
+    "@type": "MusicRelease",
+    "duration": "PT44M58S",
+    "@context": "https://schema.org/docs/jsonldcontext.json",
+    "releaseOf": {
+      "albumProductionType": "http://schema.org/LiveAlbum",
+      "@type": "MusicAlbum",
+      "creditedTo": "Radiohead",
+      "@id": "http://musicbrainz.org/release-group/d2f48ef0-9a77-42bc-95af-89dd0c8452b4",
+      "albumReleaseType": "http://schema.org/AlbumRelease",
+      "byArtist": {
+        "@type": "MusicGroup",
+        "name": "Radiohead",
+        "@id": "http://musicbrainz.org/artist/a74b1b7f-71a5-4011-9441-d0b5e4122711"
+      },
+      "name": "In Rainbows: From the Basement"
+    }
+  },
+  {
+    "image": {
+      "contentUrl": "//coverartarchive.org/release/46637412-a759-4fd2-bdce-9340be3675e4/26357284285.jpg",
+      "representativeOfPage": "True",
+      "@type": "ImageObject",
+      "encodingFormat": "jpg",
+      "thumbnail": [
+        {
+          "@type": "ImageObject",
+          "encodingFormat": "jpg",
+          "contentUrl": "//coverartarchive.org/release/46637412-a759-4fd2-bdce-9340be3675e4/26357284285-250.jpg"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/46637412-a759-4fd2-bdce-9340be3675e4/26357284285-500.jpg",
+          "encodingFormat": "jpg",
+          "@type": "ImageObject"
+        },
+        {
+          "contentUrl": "//coverartarchive.org/release/46637412-a759-4fd2-bdce-9340be3675e4/26357284285-1200.jpg",
+          "@type": "ImageObject",
+          "encodingFormat": "jpg"
+        }
+      ]
+    },
+    "track": [
+      {
+        "duration": "PT03M44S",
+        "@type": "MusicRecording",
+        "sameAs": "http://musicbrainz.org/recording/e62680d2-fb6e-4936-be97-fd7681692a17",
+        "trackNumber": "1.1",
+        "name": "Street by Street",
+        "@id": "http://musicbrainz.org/recording/8af2025b-64de-460b-819f-745d00d4c48f",
+        "isrcCode": "QZDA42007629"
+      }
+    ],
+    "musicReleaseFormat": "http://schema.org/DigitalFormat",
+    "inLanguage": "en",
+    "name": "Street by Street",
+    "duration": "PT03M44S",
+    "hasReleaseRegion": [
+      {
+        "@type": "CreativeWorkReleaseRegion",
+        "releaseCountry": {
+          "name": "[Worldwide]",
+          "@id": "http://musicbrainz.org/area/525d4e18-3d00-31b9-a58b-a146a916de8f"
+        },
+        "releaseDate": "2020-04-06"
+      }
+    ],
+    "releaseOf": {
+      "@id": "http://musicbrainz.org/release-group/6cbfe76c-012b-41bb-b6fd-c1bc89267898",
+      "albumProductionType": "http://schema.org/StudioAlbum",
+      "name": "Street by Street",
+      "albumReleaseType": "http://schema.org/SingleRelease",
+      "creditedTo": "Laufey",
+      "@type": "MusicAlbum",
+      "byArtist": {
+        "name": "Laufey",
+        "@type": [
+          "Person",
+          "MusicGroup"
+        ],
+        "@id": "http://musicbrainz.org/artist/21a89505-10a9-4ac0-8388-833bc07b9f86"
+      }
+    },
+    "@id": "http://musicbrainz.org/release/46637412-a759-4fd2-bdce-9340be3675e4",
+    "creditedTo": "Laufey",
+    "recordLabel": {
+      "name": "[no label]",
+      "@type": "MusicLabel",
+      "@id": "http://musicbrainz.org/label/157afde4-4bf5-4039-8ad2-5a15acc85176"
+    },
+    "@type": "MusicRelease",
+    "@context": "https://schema.org/docs/jsonldcontext.json"
+  }
+]
