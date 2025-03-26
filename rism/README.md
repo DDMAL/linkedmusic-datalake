@@ -15,7 +15,7 @@
 - Open a terminal at `linkedmusic-datalake` folder
 - cd into `./rism/code`
 - run `python3 force_split.py` for default chunk size 1000MB.
-- run `python3 force_split.py ${size}` for custom chunk size. E.g., if the chunk sized is expected to be 800MB, then execute `python3 force_split.py 800`
+- or run `python3 force_split.py ${size}` for custom chunk size. E.g., if the chunk sized is expected to be 500MB, then execute `python3 force_split.py 500`
 - files with correct predicates replaces should be in `/linkedmusic-datalake/rism/data/split_output`
 
 ### OpenRefine
