@@ -4,14 +4,14 @@ This GitHub repo contains codes, documentations, and test files used to
 -   fetch the original data dumps from databases, 
 -   convert them to CSV, 
 -   reconcile, 
--   convert the reconciled CSV to RDF turtle,
--   and the upload from the turtle of different databases to the Virtuoso Staging. 
+-   convert the reconciled CSV to RDF turtle, then upload them to the Virtuoso Staging. 
 
 #   Virtual Environment
 
 Open an terminal at the ```/linkedmusic-datalake``` folder.
 Run ```poetry shell``` in the terminal. This will enter the virtual environment required for this project.
 If some packages are still missing, run ```poetry add {the required package}``` to install.
+(related documents: poetry.lock, pyproject.toml)
 
 #   Database Intro
 
@@ -45,6 +45,10 @@ The Session is a community website dedicated to Irish traditional music.
 Find https://github.com/DDMAL/linkedmusic-datalake/blob/main/thesession/README.md for further manual.
 
 ##  AcousticBrainz
+
 https://acousticbrainz.org/
 Between 2015 and 2022, AcousticBrainz helped to crowd source acoustic information from music recordings. This acoustic information describes the acoustic characteristics of music and includes low-level spectral information and information for genres, moods, keys, scales and much more.
 Find https://github.com/DDMAL/linkedmusic-datalake/blob/main/acousticbrainz/README.md for further manual.
+
+## csv2rdf
+In this folder are corresponding files for different databases related to the procedures of csv2rdf (except for RSIM).
