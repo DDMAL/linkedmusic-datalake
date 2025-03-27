@@ -65,7 +65,7 @@ for rec in df["genre_id"]:
     else:
         relations_wiki.append(wikidata_value)
 
-    time.sleep(0.1)
+    time.sleep(1)
 df["relations_wiki"] = relations_wiki
 
 df.to_csv("../data/output/genre.csv", index=False)

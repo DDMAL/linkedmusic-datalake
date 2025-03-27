@@ -1,0 +1,57 @@
+[
+  {
+    "op": "core/column-addition-by-fetching-urls",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "@id",
+    "urlExpression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "name",
+    "columnInsertIndex": 1,
+    "delay": 500,
+    "cacheResponses": true,
+    "httpHeadersJson": [
+      {
+        "name": "authorization",
+        "value": ""
+      },
+      {
+        "name": "user-agent",
+        "value": "OpenRefine 3.7.4 [05e9de9]"
+      },
+      {
+        "name": "accept",
+        "value": "application/ld+json"
+      }
+    ],
+    "description": "Create column name at index 1 by fetching URLs based on column @id using expression jython:return value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "name",
+    "expression": "jython:import json\nsameAs = json.loads(value)['sameAs']\nif type(sameAs) == list:\n   for i in sameAs:\n      \n      if \"wikidata\" in i: #.startswith(\"https://www.wikidata.org/\"):\n          return i\nelse: \n   if \"wikidata\" in sameAs:\n        return sameAs",
+    "onError": "set-to-blank",
+    "newColumnName": "sameAs",
+    "columnInsertIndex": 2,
+    "description": "Create column sameAs at index 2 based on column name using expression jython:import json\nsameAs = json.loads(value)['sameAs']\nif type(sameAs) == list:\n   for i in sameAs:\n      \n      if \"wikidata\" in i: #.startswith(\"https://www.wikidata.org/\"):\n          return i\nelse: \n   if \"wikidata\" in sameAs:\n        return sameAs"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "expression": "jython:import json\ntry:\n   return json.loads(value)['name']\nexcept:\n   start_tag = '<title>'\nend_tag = '</title>'\n\nstart_index = value.find(start_tag)\nend_index = value.find(end_tag)\n\n# Extract the content between the <title> tags\nif start_index != -1 and end_index != -1:\n    title_content = value[start_index + len(start_tag):end_index]\n\n    # Remove leading and trailing whitespace\n    title_content = title_content.split('-')[0]\n    title_content = title_content.strip()\n\n    # Print the title content\n    return title_content",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column name using expression jython:import json\ntry:\n   return json.loads(value)['name']\nexcept:\n   start_tag = '<title>'\nend_tag = '</title>'\n\nstart_index = value.find(start_tag)\nend_index = value.find(end_tag)\n\n# Extract the content between the <title> tags\nif start_index != -1 and end_index != -1:\n    title_content = value[start_index + len(start_tag):end_index]\n\n    # Remove leading and trailing whitespace\n    title_content = title_content.split('-')[0]\n    title_content = title_content.strip()\n\n    # Print the title content\n    return title_content"
+  }
+]

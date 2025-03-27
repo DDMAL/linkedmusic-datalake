@@ -1,0 +1,3521 @@
+{
+    "format": "csv",
+    "separator": ",",
+    "lineSeparator": "\n",
+    "encoding": "UTF-8",
+    "quoteAll": false,
+    "outputColumnHeaders": true,
+    "outputBlankRows": false,
+    "columns": [
+        {
+            "name": "musical_work_id",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "sacred_or_secular",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "contribution_id",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "contributor_certainty_of_attribution",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "contributor_auth_url",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "VIAF ID",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "genre_style_@id",
+            "reconSettings": {
+                "output": "entity-id",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "genre_style",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "genre_type",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "genre_type_@id",
+            "reconSettings": {
+                "output": "entity-id",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "url_to_file",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "contributor_role",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "contributor_role_@id",
+            "reconSettings": {
+                "output": "entity-id",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "source_id",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "source_instantiation_portion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "source_title",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "source_type",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "source_url",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "file_type",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "file_format",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "file_format_@id",
+            "reconSettings": {
+                "output": "entity-id",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "musical_work_variant_titles",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "file_version",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "contributor_name_@id",
+            "reconSettings": {
+                "output": "entity-id",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "contributor_name",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Most_Common_Rhythmic_Value",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "None",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Median_Rhythmic_Value_Offset",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Second_Strongest_Rhythmic_Pulse",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Value_Variability_in_Run_Lengths_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Sevenths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Distance_Between_Two_Most_Common_Vertical_Intervals",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "String_Ensemble_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Rhythmic_Value",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Common_Pitch_Classes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Number_of_Independent_Voices",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Tempo_Variability",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Contrary_Motion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Most_Common_Vertical_Interval",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Last_Pitch",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Stepwise_Motion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Dissonance_Ratio",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Moderate_Rhythmic_Pulses_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Rhythmic_Value_Offsets",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Common_Rhythmic_Values_Present",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Maximum_Number_of_Independent_Voices",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Note_Density_Variability",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Chromatic_Motion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Median_Complete_Rest_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Medium_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strength_of_Second_Strongest_Rhythmic_Pulse_-_Tempo_Standardize",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Electric_Instrument_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Parallel_Motion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Longest_Partial_Rest",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Harmonicity_of_Two_Strongest_Rhythmic_Pulses",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Simple_Initial_Meter",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Longest_Complete_Rest",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Last_Pitch_Class",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Octaves",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Importance_of_Bass_Register",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "First_Pitch_Class",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Voice_Equality_-_Number_of_Notes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Interval_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Unpitched_Percussion_Instrument_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitched_Instruments_Present",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Voice_Equality_-_Melodic_Leaps",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Moderate_Rhythmic_Pulses",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Variability_of_Time_Between_Attacks_for_Each_Voice",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Prevalence_of_Top_Pitch_Classes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Perfect_Fourths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Perfect_Fifths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Variability_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Complete_Rest_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Acoustic_Guitar_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Rhythmic_Value_Offset",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Seventh_Chords",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Range_of_Glissandos",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Voice_Equality_-_Dynamics",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Note_Density_per_Quarter_Note_per_Voice",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Kurtosis",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Diminished_and_Augmented_Triads",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Thirds",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Glissando_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Non-Standard_Chords",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Range_of_Loudest_Voice",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Class_Skewness_After_Folding",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Total_Number_of_Notes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Partial_Rests_Fraction",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Unpitched_Instruments_Present",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Minor_Third_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Pitch",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Interval_Between_Most_Prevalent_Pitch_Classes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Relatively_Strong_Rhythmic_Pulses",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Most_Common_Pitch_Class",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Median_Partial_Rest_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Dynamic_Range",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Size_of_Melodic_Intervals_in_Lowest_Line",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Maximum_Note_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variation_of_Dynamics",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Value_Skewness",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strength_of_Strongest_Rhythmic_Pulse_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Voice_Separation",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Perfect_Fifths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Most_Common_Pitch_Class",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Second_Most_Common_Vertical_Interval",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Number_of_Simultaneous_Pitches",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_Across_Voices_of_Combined_Rests",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Time_Between_Attacks",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Note_Density",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Sixths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Time_Between_Attacks",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Shortest_Rhythmic_Value",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Median_Rhythmic_Value_Run_Length",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Folded_Fifths_Pitch_Class_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Note_to_Note_Change_in_Dynamics",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Violin_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Most_Common_Melodic_Interval",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Most_Common_Rhythmic_Value",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Note_Density_per_Quarter_Note",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Embellishments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Polyrhythms",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_in_Rhythmic_Value_Run_Lengths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Quadruple_Initial_Meter",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Sixths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Looseness_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Note_Durations",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Basic_Pitch_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Long_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Minor_Seconds",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Major_or_Minor",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Range",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Strong_Rhythmic_Pulses",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Interval_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Minor_Major_Melodic_Third_Ratio",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Voice_Equality_-_Range",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Large_Intervals",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Rhythmic_Value_Run_Length",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Difference_Between_Most_Common_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Wrapped_Vertical_Interval_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Pitch_Variety",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Value_Median_Run_Lengths_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Sevenths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Triple_Initial_Meter",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strength_of_Second_Strongest_Rhythmic_Pulse",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Note_Durations_of_Lowest_Line",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Repeated_Notes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Microtone_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Importance_of_Middle_Register",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Most_Common_Pitch",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Relatively_Strong_Rhythmic_Pulses_-_Tempo_Standardize",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Complex_Initial_Meter",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Partial_Chords",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Metrical_Diversity",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Strong_Rhythmic_Pulses_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Different_Rhythmic_Values_Present",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Number_of_Simultaneous_Pitch_Classes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Initial_Tempo",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Polyrhythms_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Skewness",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Major_Third_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strength_Ratio_of_Two_Strongest_Rhythmic_Pulses_-_Tempo_Standar",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strength_Ratio_of_Two_Strongest_Rhythmic_Pulses",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strength_of_Strongest_Rhythmic_Pulse",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Prevalence_of_Most_Common_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Amount_of_Staccato",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Pitch_Classes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Dotted_Notes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Parallel_Octaves",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Time_Prevalence_of_Pitched_Instruments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Value_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Note_Density_per_Quarter_Note_Variability",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Tempo",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "String_Keyboard_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Woodwinds_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Voice_Equality_-_Note_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Thirds",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Variability",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Duration_in_Seconds",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Initial_Time_Signature",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Second_Strongest_Rhythmic_Pulse_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Importance_of_High_Register",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Number_of_Simultaneous_Pitches",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Prevalence_of_Top_Pitches",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Oblique_Motion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Number_of_Independent_Voices",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Class_Kurtosis",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Combined_Strength_of_Two_Strongest_Rhythmic_Pulses_-_Tempo_Stan",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Importance_of_Loudest_Voice",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Prevalence_of_Most_Common_Melodic_Intervals",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Voice_Separation",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Distance_Between_Most_Prevalent_Melodic_Intervals",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Class_Skewness",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Combined_Strength_of_Two_Strongest_Rhythmic_Pulses",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Length_of_Melodic_Arcs",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Class_Variability",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Second_Most_Common_Vertical_Interval",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Melodic_Interval",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variation_of_Dynamics_In_Each_Voice",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Pitch_Class",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Brass_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Pitched_Instruments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Beat_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Tritones",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Pitches",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Value_Variability",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Octaves",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Interval_Spanned_by_Melodic_Arcs",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Note_Prevalence_of_Pitched_Instruments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Short_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Chord_Type_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Compound_Initial_Meter",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Minor_Major_Triad_Ratio",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Minimum_Note_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Voice_Overlap",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Range_Isolation_of_Loudest_Voice",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Class_Kurtosis_After_Folding",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Note_Prevalence_of_Unpitched_Instruments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vibrato_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Chord_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Variability",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Looseness",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strongest_Rhythmic_Pulse_-_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Orchestral_Strings_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Direction_of_Melodic_Motion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Dominant_Spread",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Common_Pitches",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Dominant_Seventh_Chords",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Note_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Duple_Initial_Meter",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Range_of_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strongest_Rhythmic_Pulse",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Very_Short_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Similar_Motion",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Number_of_Simultaneous_Pitch_Classes",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Parallel_Fifths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Note_Prevalence_of_Unpitched_Instruments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Vertical_Unisons",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Rhythmic_Value_Kurtosis",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Saxophone_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Time_Between_Attacks_for_Each_Voice",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Complete_Rests_Fraction",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Unpitched_Instruments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Standard_Triads",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Amount_of_Arpeggiation",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Most_Common_Melodic_Interval",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Most_Common_Pitch",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Perfect_Fourths",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Note_Prevalence_of_Pitched_Instruments",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Electric_Guitar_Prevalence",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Partial_Rest_Durations",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Very_Long_Rhythmic_Values",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Number_of_Common_Melodic_Intervals",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Harmonicity_of_Two_Strongest_Rhythmic_Pulses_-_Tempo_Standardiz",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Longest_Rhythmic_Value",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Class_Variability_After_Folding",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Note_Density_of_Highest_Line",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Average_Rest_Fraction_Across_Voices",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Pitch_Class_Histogram",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Variability_of_Complete_Rest_Durations",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_of_Most_Common_Vertical_Interval",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "First_Pitch",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Perfect_Vertical_Intervals",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Mean_Partial_Rest_Duration",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Complex_Chords",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Interval_Between_Most_Prevalent_Pitches",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Strong_Tonal_Centres",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Relative_Range_of_Highest_Line",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Melodic_Tritones",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Prevalence_Ratio_of_Two_Most_Common_Vertical_Intervals",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        },
+        {
+            "name": "Beat_Histogram_Tempo_Standardized",
+            "reconSettings": {
+                "output": "entity-name",
+                "blankUnmatchedCells": false,
+                "linkToEntityPages": true
+            },
+            "dateSettings": {
+                "format": "iso-8601",
+                "useLocalTimeZone": false,
+                "omitTime": false
+            }
+        }
+    ]
+}
