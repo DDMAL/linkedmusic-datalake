@@ -26,12 +26,13 @@ This document outlines the process for handling RISM (Répertoire International 
 ### 2. Processing with OpenRefine
 > Note: Red circles or rectangles in screenshots indicate elements you need to click on. Other annotations are for reference only.
 
-For each file in the split_output directory (starting with `part_1.ttl`):
+For each file in the split_output directory (starting with e.g., `part_1.ttl`, in which all the blank nodes from the original RDF n-triples file are already converted to specific URIs):
 
 1. **Create a new OpenRefine project**:
     - Open the file from `/linkedmusic-datalake/rism/data/split_output/part_1.ttl`
 
 2. **Apply the RDF skeleton for RISM**:
+Please execute along with clicking in order of sequence number: 
     ![RDF Skeleton](./assets/01.png)
     ![RDF Skeleton](./assets/02.jpg)
     ![RDF Skeleton](./assets/03.jpg)
