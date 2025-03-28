@@ -117,3 +117,17 @@
 - Applied mapping to raw file, convert blank nodes to URIs for OpenRefine to keep its original nodeID.
 - Testing entire process, cleaning the RDF Skeleton for RISM database
 - Writing a document about the entire process, including screen shots of detailed instructions.
+
+# 03-21-2025
+
+**Lab Meeting**
+
+- Discussed workflow with Junjun, fixing some part of it.
+
+# 03-26-2025
+
+**In-person**
+
+- Discussed workflow with Junjun, 
+- While OpenRefine loading, clearified the file structures for the data lake repo
+- Going over all scripts, clearified all the documents.
