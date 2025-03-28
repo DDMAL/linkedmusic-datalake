@@ -1,71 +1,128 @@
 """
-Script for retrieving the "genre" dumps.
+Script for retrieving the "genre" dumps from MusicBrainz.
 """
 
 import time
+import os
+import argparse
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
+# Constants
 URL = "https://musicbrainz.org/ws/2/genre/all"
-PARAMS = {"fmt": "json", "limit": "50"}
 HEADERS = {
     "User-Agent": "DDMAL-LinkedData-Datalake/1.0 (yueqiao.zhang@mail.mcgill.ca)",
     "From": "yueqiao.zhang@mail.mcgill.ca",
 }
 MAX_REQUEST_RETRIES = 3
+BATCH_SIZE = 50
+RATE_LIMIT_DELAY = 1  # Default delay between requests (seconds)
 
-data = []
-max_records = requests.get(url=URL, headers=HEADERS, params=PARAMS, timeout=50).json()[
-    "genre-count"
-]
-time.sleep(1)
 
-for i in range(0, max_records, 50):
-    PARAMS["offset"] = str(i)
-    for j in range(MAX_REQUEST_RETRIES):
+def make_request(url, params=None, retries=MAX_REQUEST_RETRIES, timeout=60):
+    """Make an HTTP request with retry logic."""
+    for attempt in range(retries):
         try:
-            resp = requests.get(url=URL, headers=HEADERS, params=PARAMS, timeout=60)
-            resp.raise_for_status()
-            break
+            response = requests.get(
+                url=url, headers=HEADERS, params=params, timeout=timeout
+            )
+            response.raise_for_status()
+            return response
+        except (
+            requests.exceptions.HTTPError,
+            requests.exceptions.ConnectTimeout,
+            requests.exceptions.ReadTimeout,
+            requests.exceptions.ConnectionError,
+        ) as exc:
+            print(f"Request error occurred: {exc}. Retry attempt {attempt+1}/{retries}")
 
-        except (requests.exceptions.HTTPError, requests.exceptions.ConnectTimeout, 
-                requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError) as exc:
-            print(f"Request error occurred: {exc}. Retry attempt {j+1}/{MAX_REQUEST_RETRIES}")
+            if response.status_code == 503:
+                # Rate limiting - wait longer
+                delay = 30
+                print(f"Rate limited. Waiting {delay} seconds...")
+            else:
+                delay = 10
 
-            # if code == 503:
-            if j == MAX_REQUEST_RETRIES - 1:
+            if attempt == retries - 1:
                 raise
-            time.sleep(10)
-            continue
+            time.sleep(delay)
 
 
-    resp_json_dict = resp.json()
-    data += resp_json_dict["genres"]
-    time.sleep(5)
-    # The max server request rate if we don't have an agreement with MusicBrainz is 1 req/sec.
+def fetch_genres():
+    """Fetch all genre data from MusicBrainz."""
+    params = {"fmt": "json", "limit": str(BATCH_SIZE)}
+
+    # Get total count
+    initial_response = make_request(URL, params=params)
+    max_records = initial_response.json()["genre-count"]
+    time.sleep(RATE_LIMIT_DELAY)
+
+    data = []
+    # Use tqdm for progress tracking
+    for offset in tqdm(range(0, max_records, BATCH_SIZE), desc="Fetching genres"):
+        params["offset"] = str(offset)
+        response = make_request(URL, params=params)
+        data.extend(response.json()["genres"])
+        time.sleep(RATE_LIMIT_DELAY)
+
+    return data
 
 
-df = pd.DataFrame(data)
-df = df[["id", "name"]]
+def fetch_wikidata_relations(genre_ids):
+    """Fetch Wikidata relations for each genre."""
+    relations = []
 
-df["id"] = "https://musicbrainz.org/genre/" + df["id"].astype(str)
-df.rename(columns={"id": "genre_id"}, inplace=True)
-relations_wiki = []
+    for genre_id in tqdm(genre_ids, desc="Fetching Wikidata relations"):
+        response = make_request(genre_id, timeout=50)
 
-for rec in df["genre_id"]:
-    resp_wiki = requests.get(rec, timeout=50)
+        soup = BeautifulSoup(response.text, "html.parser")
+        wikidata_row = soup.find("th", string="Wikidata:")
 
-    soup = BeautifulSoup(resp_wiki.text, "html.parser")
-    wikidata_row = soup.find("th", string="Wikidata:")
-    wikidata_value = ""
-    if wikidata_row:
-        wikidata_value = wikidata_row.find_next_sibling("td").find("a").text
-        relations_wiki.append("http://www.wikidata.org/entity/" + wikidata_value)
-    else:
-        relations_wiki.append(wikidata_value)
+        if wikidata_row and wikidata_row.find_next_sibling("td").find("a"):
+            wikidata_value = wikidata_row.find_next_sibling("td").find("a").text
+            relations.append(f"http://www.wikidata.org/entity/{wikidata_value}")
+        else:
+            relations.append("")
 
-    time.sleep(1)
-df["relations_wiki"] = relations_wiki
+        time.sleep(RATE_LIMIT_DELAY)
 
-df.to_csv("../data/output/genre.csv", index=False)
+    return relations
+
+
+def main(output_path="../data/output/genre.csv"):
+    """Main function to run the genre data collection process."""
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    # Fetch genre data
+    print("Fetching genre data from MusicBrainz...")
+    genre_data = fetch_genres()
+
+    # Create dataframe
+    df = pd.DataFrame(genre_data)
+    df = df[["id", "name"]]
+
+    # Transform IDs
+    df["genre_id"] = "https://musicbrainz.org/genre/" + df["id"].astype(str)
+    df.drop("id", axis=1, inplace=True)
+
+    # Fetch wiki relations
+    print("Fetching Wikidata relations...")
+    df["relations_wiki"] = fetch_wikidata_relations(df["genre_id"])
+
+    # Save to CSV
+    df.to_csv(output_path, index=False)
+    print(f"Saved {len(df)} genres to {output_path}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Fetch genre data from MusicBrainz")
+    parser.add_argument(
+        "--output",
+        default="../data/output/genre.csv",
+        help="Path to save the output CSV file",
+    )
+    args = parser.parse_args()
+
+    main(args.output)
