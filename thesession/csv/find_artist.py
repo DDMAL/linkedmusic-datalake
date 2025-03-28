@@ -1,6 +1,6 @@
 """
 for recording artists in The Session DB, since a large portion of them are not present on Wikidata,
-we match them against their artist's page on The Session through API calls.
+we match them against their artist's webpage on The Session through API calls.
 """
 
 import time
@@ -14,7 +14,7 @@ artist_dict = {}
 
 def get_artist_url(page_url):
     """
-    get the url for the artist using the recording page
+    Defines a function that extracts an artist's URL from a recording's page.
     """
     response = requests.get(page_url, timeout=50)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -39,3 +39,6 @@ for i, artist in enumerate(df["artist"]):
 
 df["artist_url"] = df["artist"].map(artist_dict)
 df.to_csv("../data/reconciled/recordings-csv.csv", index=False)
+
+
+# This script helps create more comprehensive linked data by connecting artists in The Session database to their profile pages when Wikidata entries are not available.

@@ -1,4 +1,4 @@
-## 1: Procedure
+## 1: Procedure for preparation of data 
 
 ### Prerequisites:
 - All IDs and Wikidata links are already reconciled during the conversion process, eliminating the need for OpenRefine.
@@ -26,7 +26,7 @@
      ```bash
      python3 convert_to_csv.py
      ```
-   - This will generate a CSV file, named according to its entity type, in the `data/output/` folder.
+   - This will generate a CSV file, named according to its entity type, in the `musicbrainz/data/output/` folder.
 
 5. **Output:**
    - The generated CSV files are ready for further processing.
@@ -42,7 +42,7 @@
 ### Important Notes:
 - **ID Attributes:** Each record has an `id` attribute, which serves as the primary key. When converting to CSV, this `id` is renamed to `{entity_type}_id` for clarity.
 - **URI Conversion:** All IDs (e.g., `genre_id`, `artist_id`, `area_id`) are converted to URIs in the format: `https://musicbrainz.org/{entity_type}/{id}`.
-- **Wikidata Links:** If a record is linked to a Wikidata entry by MusicBrainz bots, the link can be found under `"relations" > "resources" > "url"`. These are also extracted into the CSV.
+- **Wikidata Links:** If a record is linked to a Wikidata entry by "MusicBrainz bots"(from musicbrainz website), the link can be found under `"relations" > "resources" > "url"`. These are also extracted into the CSV.
 
 ---
 

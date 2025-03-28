@@ -4,7 +4,7 @@ reconciled data to turtle files.
 The script takes an arbitrary number of positional arguments.
 The first argument is a relative path from the directory containing this file to a relation 
 mapping file for the data in the csvs. The relations mapping file is a json file where the
-keys are headers in the csv file and the values are URIs to Wikidata/Schema.org properties.
+keys are headers in the csv file and the values are mostly URIs of Wikidata(/Schema.org/etc.) properties [except for "entity_type" (please refer to README.md)].
 The following arguments are relative paths from the directory containing this file to 
 reconciled csv files to be converted.
 The script creates a file containing the turtle in the directory containing this

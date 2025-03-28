@@ -16,3 +16,5 @@ Manually reconciled columns:
 
 ### release.csv
 - status::cancelled unclarity: use https://www.wikidata.org/wiki/Q30108381
+
+### the genre.csv is copy-pasted from linkedmusic-datalake/MusicBrainz/data/output/genre.csv
