@@ -15,3 +15,5 @@ Csv2rdf/MusicBrainz/*.ttl
 /rism/data/split_input
 rdb2rdf/
 *.nt
+*.xz
+*.jsonl
