@@ -122,12 +122,24 @@
 
 **Lab Meeting**
 
-- Discussed workflow with Junjun, fixing some part of it.
+**Workflow Discussion**:
+- Conducted detailed workflow review with Junjun
+- Identified and resolved specific workflow issues
+- Documented necessary adjustments for improved process efficiency
+- Planned implementation timeline for workflow modifications
 
 # 03-26-2025
 
 **In-person**
 
-- Discussed workflow with Junjun, 
-- While OpenRefine loading, clearified the file structures for the data lake repo
-- Going over all scripts, clearified all the documents.
+**Workflow Refinement**:
+- Conducted detailed workflow review with Junjun
+- Clarified file structure organization for the data lake repository
+- During OpenRefine processing time:
+    - Documented proper directory hierarchy
+    - Established naming conventions for future data
+- Performed comprehensive script audit:
+    - Ensured all scripts are properly documented
+    - Updated documentation to reflect current workflow
+    - Identified opportunities for optimization
+- Next steps: Implement agreed workflow improvements and finalize documentation
