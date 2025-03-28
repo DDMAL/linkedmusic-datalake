@@ -7,13 +7,13 @@
 3. Ensure you have the following files: `aliases.csv`, `events.csv`, `recordings.csv`, `sessions.csv`, `sets.csv`, `tune-popularity.csv`, and `tunes.csv` (7 in total).
 
 ## Retrieving Artists
-
+(To realize that every artist as an entity has its URI, though not from Wikidata at this stage)
 1. Run `python3 find_artist.py` in the `thesession/csv` folder.
 2. This script will match artist URLs to the `recordings.csv` file.
 3. Please note, this process is slow; do not close your device while it is running.
 
 ## Reconciliation
-
+(The sibling folder of `thesession/data/reconciled` is `/raw`, the raw data before reconciliation)
 - Using OpenRefine, follow the instructions in the `thesession/data/reconciled/reconcile_procedures.md` manual for reconciliation.
 - Optionally, you can use the files in the `reconciliation_history` folder as import steps in OpenRefine.
 
@@ -22,7 +22,7 @@
 ## `aliases.csv`
 
 - Contains all alias names for specific tunes.
-- The core entity is `tune_id`.
+- The core entity is (corresponding to) `tune_id`.
 - Note: The core entity is not the alias; it uses `tune_id` as the subject and the alias name as an attribute.
 
 ## `events.csv`
