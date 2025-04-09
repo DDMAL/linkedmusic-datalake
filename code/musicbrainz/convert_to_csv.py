@@ -1,242 +1,171 @@
-"""
-Input file can be downloaded in
-https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/
-
-Run this file in the command line to convert raw JSON dumps from MusicBrainz to CSV file.
-The script takes 2 command line argument.
-The 1st argument is a relative path from the current dir where the script is located to 
-the input JSON line file.
-The 2nd argument is a string about the entity type of the input file. In the MusicBrainz JSON dumps,
-all data of each type of entity is stored in a single file. The user must specify the 
-entity type of the input JSON file.
-Example command: 
-    python3 convert_to_csv.py data/test_recording recording
-The script generates a file in the data folder containing most of the data from the JSON dumps 
-in CSV format called "{entity_type}.csv".
-"""
-
 import json
-import copy
-import csv
-import os
-import glob
 import sys
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+from queue import Queue
+from rdflib import Graph, URIRef, BNode, Literal, Namespace
+from rdflib.namespace import RDF
 
-DIRNAME = os.path.dirname(__file__)
+SCHEMA = Namespace("http://schema.org/")
+MB = Namespace("https://musicbrainz.org/")
+WDT = Namespace("http://www.wikidata.org/prop/direct/")
+# Define mapping from MusicBrainz to Wikidata
+MB_SCHEMA = {
+    "artist": "P434",
+    "release-group": "P436",
+    "release": "P5813",
+    "recording": "P4404",
+    "work": "P435",
+    "label": "P966",
+    "area": "P982",
+    "place": "P1004",
+    "event": "P6423",
+    "series": "P1407",
+    "instrument": "P1330",
+    "genre": "P8052",
+    "url": "P2888"
+}
 
-if len(sys.argv) != 1:
-    raise ValueError("Invalid number of arguments")
+def worker(chunk, entity_type, mb_schema, namespaces):
+    """Worker function to process data chunks"""
+    g = Graph()
+    # Bind namespaces
+    for prefix, ns in namespaces.items():
+        g.bind(prefix, ns)
+    
+    MB_ENTITY_TYPES = {
+        'artist', 'release', 'recording', 'label', 'work',
+        'area', 'genre', 'event', 'place', 'series', 'instrument'
+    }
+    
+    for line in chunk:
+        try:
+            data = json.loads(line.strip())
+            entity_id = data.get('id')
+            if not entity_id:
+                continue
 
-inputpath = os.path.relpath("../data/raw/extracted_jsonl/mbdump")
-outputpath = os.path.relpath("../data/output")
+            # Create subject URI
+            subject_uri = URIRef(f"https://musicbrainz.org/{entity_type}/{entity_id}")
 
-IGNORE_COLUMN = {"alias", "tags", "sort-name", "disambiguation", "annotation"}
-CHUNK_SIZE = 4096
-# 4096 was chosen because ChatGPT and StackOverflow examples typically use 4096 or 8192.
-entity_type = ""
-header = []
-values = []
+            # Process name
+            if 'name' in data:
+                g.add((subject_uri, URIRef(f"{WDT}P2561"), Literal(data['name'])))
 
+            # Process type
+            if 'type' in data:
+                g.add((subject_uri, RDF.type, Literal(data['type'])))
 
-def extract(data, value: dict, first_level: bool = True, key: str = ""):
-    """
-    (data, dict, bool, str) -> None
+            # Process aliases
+            if 'aliases' in data:
+                for alias in data['aliases']:
+                    if alias_name := alias.get('name'):
+                        blank_node = BNode()
+                        g.add((subject_uri, URIRef(f"{WDT}P4970"), blank_node))
+                        try:
+                            g.add((blank_node, URIRef(f"{WDT}P2561"), Literal(alias_name, lang=alias.get('locale', 'none'))))
+                        except ValueError:
+                            g.add((blank_node, URIRef(f"{WDT}P2561"), Literal(alias_name)))
+                            # Process alias language
+                            if 'locale' in alias:
+                                g.add((blank_node, URIRef(f"{WDT}P1412"), Literal(alias['locale'])))
 
-    Extract info from JSON Lines file and add a finite number of them into a list of dictionaries.
-    Arguments:
-        data : can be any JSON object types: dict, list, str, boolean, int, float
-        value : records the informations of the current dictionary
-        first_level : records if the current level is the first level of the JSON file.
-        key : the current key that will be added to a dictionary
-    """
-    if key != "":
-        first_level = False
+            # Process genres
+            if 'genres' in data:
+                for genre in data['genres']:
+                    if genre_id := genre.get('id'):
+                        genre_uri = URIRef(f"https://musicbrainz.org/genre/{genre_id}")
+                        g.add((subject_uri, URIRef(f"{WDT}{MB_SCHEMA['genre']}"), genre_uri))
 
-    for i in IGNORE_COLUMN:
-        if i in key:
-            # ignore aliases, tags, and sort-name to make output simplier
-            return
+            # Process relationships
+            if 'relations' in data:
+                for relation in data['relations']:
+                    if not (rel_type := relation.get('target-type')):
+                        continue
+                    
+                    target_uri = None
+                    for key in relation:
+                        if key in MB_ENTITY_TYPES:
+                            if target_id := relation[key].get('id'):
+                                target_uri = URIRef(f"https://musicbrainz.org/{key}/{target_id}")
+                                break
+                        elif key == 'url':
+                            if url_resource := relation[key].get('resource'):
+                                target_uri = URIRef(url_resource)
+                                break
 
-    if isinstance(data, dict):
-        # the input JSON Lines format is lines of dictionaries, and the input data should be
-        # a list of dictionaries.
-        if first_level:
-            # if this dictionary is not nested i.e. first level, then we extract every entry.
-            # make a new entry for the value list, since each first level dictionary
-            # in JSON file represents a new instance. This value dictionary is carried and
-            # preserved between each recursive call.
-            value = {}
-            for k in data:
-                if k == "id":
-                    key_id = data[k]
-                    extract(
-                        f"https://musicbrainz.org/{entity_type}/{key_id}",
-                        value,
-                        first_level,
-                        f"{entity_type}_id",
-                    )
-                else:
-                    extract(data[k], value, False, k)
+                    if target_uri and rel_type in mb_schema:
+                        pred_uri = URIRef(f"{WDT}{MB_SCHEMA[rel_type]}")
+                        g.add((subject_uri, pred_uri, target_uri))
+        except json.JSONDecodeError:
+            continue
+            
+    return g
 
-            # after extracting every entry of the current line, append it to the list and empty it.
-            values.append(copy.deepcopy(value))
-            value.clear()
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 convert_to_rdf.py <input_file>")
+        sys.exit(1)
 
-        else:
-            # if this dictionary is nested, then we do not extract all info,
-            # we only need the id and the name of that dictionary.
-            for k in data:
-                if k == "id":
-                    # extract its id
-                    keywords = key.split("_")
-                    word = keywords[-1]
-                    # if the header is an ID, since 'genre' in the JSON has a trailing 's',
-                    # but 'genres' is not a valid keyword in the URL link.
-                    if word.endswith("s"):
-                        word = word[:-1]
-                    key_id = data["id"]
-                    extract(
-                        f"https://musicbrainz.org/{word}/{key_id}",
-                        value,
-                        first_level,
-                        key + "_id",
-                    )
-
-                if isinstance(data[k], dict) or isinstance(data[k], list):
-                    # if there is still a nested instance, extract further
-                    if key.split("_")[-1] not in {
-                        "area",
-                        "artist",
-                        "event",
-                        "instrument",
-                        "label",
-                        "recording",
-                        "genres",
-                        "iso-3166-1-codes",
-                        "iso-3166-2-codes",
-                        "iso-3166-3-codes",
-                    }:
-                        # avoid extracting duplicate data
-                        extract(data[k], value, first_level, key + "_" + k)
-
-    elif isinstance(data, list):
-        # extract each element of the list.
-        if key == "relations":
-            for element in data:
-                if "type" in element and element["type"] == "wikidata":
-                    extract(
-                        (element["url"])["resource"], value, first_level, key + "_wiki"
-                    )
-        else:
-            for element in data:
-                extract(element, value, first_level, key)
-
-    else:
-        # if data is not a collection, we parse it and add to the current value dictionary.
-        if key not in header:
-            header.append(key)
-
-        v = data
-        if isinstance(data, str):
-            v = v.replace("\r\n", "")
-
-        if data is None:
-            v = ""
-
-        if key in value:
-            if isinstance(value[key], list):
-                value[key].append(v)
-            else:
-                value[key] = [value[key]] + [v]
-        else:
-            value[key] = v
-
-        return
+    input_file = sys.argv[1]
+    entity_type = Path(input_file).stem  # Get entity type from filename
 
 
-def convert_dict_to_csv(dictionary_list: list) -> None:
-    """
-    (list) -> None
-    Writes a list of dictionaries into the given file.
-    If there are multiple values against a single key, a new column with only the
-    id and that value is created.
+    # Initialize namespaces
+    namespaces = {
+        "schema": SCHEMA,
+        "mb": MB,
+        "wdt": WDT
+    }
+    
 
-    Arguments:
-        dictionary_list: the list of dictionary that contains all the data
-        filename: the destination filename
-    """
+    # Configure output directory
+    output_dir = Path('./data/musicbrainz/rdf/')
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f"{entity_type}.ttl"
 
-    # Find the maximum length of lists in the dictionary
-    for dictionary in dictionary_list:
-        max_length = max(
-            len(v) if isinstance(v, list) else 1 for v in dictionary.values()
-        )
+    # Create task queue
+    chunk_queue = Queue()
+    CHUNK_SIZE = 500  # Adjustable chunk size
+    
+    # Read file and split into chunks
+    with open(input_file, 'r', encoding='utf-8') as f:
+        chunk = []
+        for line in f:
+            chunk.append(line)
+            if len(chunk) >= CHUNK_SIZE:
+                chunk_queue.put(chunk)
+                chunk = []
+        if chunk:  # Process the remaining last chunk
+            chunk_queue.put(chunk)
 
-        for i in range(max_length):
-            row = [dictionary[f"{entity_type}_id"]]
-            for key in header:
-                if key == f"{entity_type}_id":
-                    continue
+    # Create thread pool
+    main_graph = Graph()
+    for prefix, ns in namespaces.items():
+        main_graph.bind(prefix, ns)
 
-                if key in dictionary:
-                    if isinstance(dictionary[key], list):
-                        # Append the i-th element of the list,
-                        # or an empty string if index is out of range
-                        row.append(
-                            (dictionary[key])[i] if i < len(dictionary[key]) else ""
-                        )
-                    else:
-                        # Append the single value
-                        # (for non-list entries, only on the first iteration)
-                        row.append(dictionary[key] if i == 0 else "")
-                else:
-                    row.append("")
+    with ThreadPoolExecutor() as executor:
+        futures = []
+        while not chunk_queue.empty():
+            chunk = chunk_queue.get()
+            futures.append(
+                executor.submit(
+                    worker,
+                    chunk,
+                    entity_type,
+                    MB_SCHEMA,
+                    namespaces
+                )
+            )
 
-            with open(
-                "temp.tsv", mode="a", newline="", encoding="utf-8"
-            ) as csv_records:
-                writer_records = csv.writer(csv_records, delimiter="\t", quotechar="|")
-                writer_records.writerow(row)
+        # Merge all subgraphs
+        for future in futures:
+            subgraph = future.result()
+            main_graph += subgraph
 
+    # Save the final result
+    main_graph.serialize(destination=output_file, format='turtle')
+    print(f"Successfully saved RDF data to: {output_file}")
 
 if __name__ == "__main__":
-
-    for file in glob.glob(f"{inputpath}/*"):
-        # the file must be from MusicBrainz's JSON data dumps.
-        entity_type = file.split("/")[-1]
-        header = [f"{entity_type}_id"]
-        values = []
-        chunk = []
-
-        with open(file, "r", encoding="utf-8") as f:
-            for line in f:
-                line_data = json.loads(line)  # Parse each line as a JSON object
-                chunk.append(line_data)  # Add the JSON object to the current chunk
-
-                # When the chunk reaches the desired size, process it
-                if len(chunk) == CHUNK_SIZE:
-                    extract(chunk, {})
-                    chunk.clear()  # Reset the chunk
-                    convert_dict_to_csv(values)
-
-                values.clear()
-
-            # Process any remaining data in the last chunk
-            if chunk:
-                extract(chunk, {})
-                chunk.clear()
-                convert_dict_to_csv(values)
-
-        with open(
-            os.path.join(outputpath, entity_type + ".csv"), "w", encoding="utf-8"
-        ) as f:
-            with open("temp.tsv", "r", encoding="utf-8") as f_temp:
-                writer = csv.writer(f)
-                writer.writerow(header)
-
-                temp_reader = csv.reader(f_temp, delimiter="\t", quotechar="|")
-
-                for line in temp_reader:
-                    writer.writerow(line)
-
-        os.remove("temp.tsv")
+    main()
