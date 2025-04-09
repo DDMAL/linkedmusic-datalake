@@ -24,8 +24,10 @@
 4. **Convert data to CSV:**
    - Execute the conversion script:
      ```bash
-     python3 convert_to_rdf.py
+     python3 code/musicbrainz/convert_to_rdf.py data/musicbrainz/raw/extracted_jsonl/mbdump/[file].jsonl data/musicbrainz/rdf/
      ```
+   - Run this script for each file in the extracted jsonl folder to monitor its states and avoid memory issues.
+      - TODO: make this run on the entire folder
    - This will generate a RDF file in turtle format, named according to its entity type, in the `linkedmusic-datalake/data/musicbrainz/rdf/` folder.
 
 5. **Getting genre.ttl**
