@@ -10,18 +10,18 @@ This document outlines the process for handling RISM (Répertoire International 
 3. Install [RDF-transform](https://github.com/AtesComp/rdf-transform) for transforming OpenRefine project data to RDF-based formats
 
 ### Mapping Configuration
-- Review the mapping file at `/linkedmusic-datalake/rism/data/reconciled/mapping.json`
-- Detailed mapping decisions are documented in `/linkedmusic-datalake/rism/data/reconciled/mappingWithLog.json5`
+- Review the mapping file at `/linkedmusic-datalake/data/rism/reconciled/mapping.json`
+- Detailed mapping decisions are documented in `/linkedmusic-datalake/data/rism/reconciled/mappingWithLog.json5`
 
 ## Processing Workflow
 
 ### 1. Splitting the Graph
 1. Open a terminal in the `linkedmusic-datalake` directory
-2. Navigate to `./rism/code`
+2. Navigate to `./code/rism`
 3. Run the splitting script using either:
     - `python3 force_split.py` for the default 500MB chunk size
     - `python3 force_split.py [size]` for a custom chunk size (e.g., `python3 force_split.py 500` for 500MB)
-4. The processed files with corrected predicates will be saved to `/linkedmusic-datalake/rism/data/split_output`
+4. The processed files with corrected predicates will be saved to `/linkedmusic-datalake/data/rism/split_output`
 
 ### 2. Processing with OpenRefine
 > Note: Red circles or rectangles in screenshots indicate elements you need to click on. Other annotations are for reference only.
@@ -29,7 +29,7 @@ This document outlines the process for handling RISM (Répertoire International 
 For each file in the split_output directory (starting with e.g., `part_1.ttl`, in which all the blank nodes from the original RDF n-triples file are already converted to specific URIs):
 
 1. **Create a new OpenRefine project**:
-    - Open the file from `/linkedmusic-datalake/rism/data/split_output/part_1.ttl`
+    - Open the file from `/linkedmusic-datalake/data/rism/split_output/part_1.ttl`
 
 2. **Apply the RDF skeleton for RISM**:
 Please execute along with clicking in order of sequence number: 
@@ -64,12 +64,12 @@ Please execute along with clicking in order of sequence number:
 7. **Export the RDF data**:
     ![RDF Skeleton](./assets/13.jpg)
 
-8. **Repeat steps 1-7** for all remaining files in `/linkedmusic-datalake/rism/data/split_output/`
+8. **Repeat steps 1-7** for all remaining files in `/linkedmusic-datalake/data/rism/split_output/`
 
-9. **Move all reconciled files** (`.nt` format) to `/linkedmusic-datalake/rism/data/split_input/`
+9. **Move all reconciled files** (`.nt` format) to `/linkedmusic-datalake/data/rism/split_input/`
 
 ### 3. Joining the Processed Files
-1. Navigate to `/linkedmusic-datalake/rism/code`
+1. Navigate to `/linkedmusic-datalake/code/rism/`
 2. Run `python3 force_join.py`
-3. The final output will be created at `/linkedmusic-datalake/rism/data/joined_output.ttl`
+3. The final output will be created at `/linkedmusic-datalake/data/rism/joined_output.ttl`
 4. This joined file is the complete processed RISM dataset
