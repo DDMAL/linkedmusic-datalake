@@ -128,25 +128,6 @@ def worker(chunk, entity_type, mb_schema, namespaces):
     return g
 
 def main():
-    if len(sys.argv) != 3:
-        print("Usage: python3 convert_to_rdf.py <input_file> <output_file>")
-        sys.exit(1)
-
-    parser = argparse.ArgumentParser(
-        description="Convert MusicBrainz JSON data to RDF Turtle format."
-    )
-    parser.add_argument(
-        "input_file",
-        default="../../data/musicbrainz/raw/extracted_jsonl/mbdump",
-        help="Path to the line-delimited MusicBrainz JSON file."
-    )
-    parser.add_argument(
-        "output_dir",
-        default="../../data/musicbrainz/rdf/",
-        help="Directory where the output Turtle file will be saved (default: ../../data/musicbrainz/rdf/)."
-    )
-    args = parser.parse_args()
-
     input_file = args.input_file
     entity_type = Path(input_file).stem  # Get entity type from filename
 
@@ -222,4 +203,22 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 3:
+        print("Usage: python3 convert_to_rdf.py <input_file> <output_file>")
+        sys.exit(1)
+
+    parser = argparse.ArgumentParser(
+        description="Convert MusicBrainz JSON data to RDF Turtle format."
+    )
+    parser.add_argument(
+        "input_file",
+        default="../../data/musicbrainz/raw/extracted_jsonl/mbdump",
+        help="Path to the line-delimited MusicBrainz JSON file."
+    )
+    parser.add_argument(
+        "output_dir",
+        default="../../data/musicbrainz/rdf/",
+        help="Directory where the output Turtle file will be saved (default: ../../data/musicbrainz/rdf/)."
+    )
+    args = parser.parse_args()
+    main(args)
