@@ -119,14 +119,14 @@ def main():
     }
 
     # Configure output directory
-    output_dir = Path('./data/musicbrainz/rdf/')
+    output_dir = Path('../../data/musicbrainz/rdf/')
     output_dir.mkdir(parents=True, exist_ok=True)
     output_file = output_dir / f"{entity_type}.ttl"
 
     # Create task queue
     chunk_queue = Queue()
     CHUNK_SIZE = 500  # Adjustable chunk size
-    
+
     # Read file and split into chunks
     with open(input_file, 'r', encoding='utf-8') as f:
         chunk = []
