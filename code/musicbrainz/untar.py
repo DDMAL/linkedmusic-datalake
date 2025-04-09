@@ -1,5 +1,5 @@
 """
-unzip the downloaded .tar.xz files into linkedmusic-datalake/data/musicbrainz/raw
+unzip the downloaded .tar.xz files into linkedmusic-datalake/data/musicbrainz/raw/archived
 """
 
 import glob
@@ -39,4 +39,4 @@ if not os.path.exists(INPUT_FOLDER):
 if not os.path.exists(DEST_FOLDER):
     os.makedirs(DEST_FOLDER)
 
-extract_file = extract_file_multithread
+extract_file = extract_file_multithread(INPUT_FOLDER, DEST_FOLDER)
