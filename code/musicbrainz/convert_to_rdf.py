@@ -137,10 +137,11 @@ def main():
     )
     parser.add_argument(
         "input_file",
+        default="../../data/musicbrainz/raw/extracted_jsonl/mbdump",
         help="Path to the line-delimited MusicBrainz JSON file."
     )
     parser.add_argument(
-        "--output_dir",
+        "output_dir",
         default="../../data/musicbrainz/rdf/",
         help="Directory where the output Turtle file will be saved (default: ../../data/musicbrainz/rdf/)."
     )
