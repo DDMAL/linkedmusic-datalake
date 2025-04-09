@@ -127,7 +127,7 @@ def worker(chunk, entity_type, mb_schema, namespaces):
             
     return g
 
-def main():
+def main(args):
     input_file = args.input_file
     entity_type = Path(input_file).stem  # Get entity type from filename
 
@@ -204,21 +204,35 @@ def main():
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python3 convert_to_rdf.py <input_file> <output_file>")
+        print("Usage: python3 convert_to_rdf.py <input_folder> <output_dir>")
         sys.exit(1)
 
     parser = argparse.ArgumentParser(
-        description="Convert MusicBrainz JSON data to RDF Turtle format."
+        description="Convert MusicBrainz JSON data in a folder to RDF Turtle format."
     )
     parser.add_argument(
-        "input_file",
+        "input_folder",
         default="../../data/musicbrainz/raw/extracted_jsonl/mbdump",
-        help="Path to the line-delimited MusicBrainz JSON file."
+        help="Path to the folder containing line-delimited MusicBrainz JSON files."
     )
     parser.add_argument(
         "output_dir",
         default="../../data/musicbrainz/rdf/",
-        help="Directory where the output Turtle file will be saved (default: ../../data/musicbrainz/rdf/)."
+        help="Directory where the output Turtle files will be saved (default: ../../data/musicbrainz/rdf/)."
     )
     args = parser.parse_args()
-    main(args)
+
+    input_folder = Path(args.input_folder)
+    if not input_folder.is_dir():
+        print(f"{input_folder} is not a valid directory.")
+        sys.exit(1)
+
+    for input_file in input_folder.iterdir():
+        if input_file.is_file():
+            print(f"Processing file: {input_file}")
+            # Create a new namespace for the current file using its stem as entity type
+            sub_args = argparse.Namespace(
+                input_file=str(input_file),
+                output_dir=args.output_dir
+            )
+            main(sub_args)
