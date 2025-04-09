@@ -47,7 +47,7 @@
 # Data Upload
 - Upload all RDF to Virtuoso.
 
-## Deprecated: Experiment Data Sets
+# Deprecated: Experimental Data Sets
 
 ### Experiment Guidelines:
 - For experimental purposes, it is recommended to use a small portion of each data dump.
