@@ -5,19 +5,19 @@
 
 ### Steps:
 1. **Navigate to the target folder:**
-   - Go to the `linkedmusic-datalake/code/musicbrainz` directory.
+   - Go to the `linkedmusic-datalake/` directory.
 
 2. **Fetch the latest data:**
    - Run the following command to download the latest tar.xz files from the MusicBrainz public data dumps:
      ```bash
-     python3 fetch.py
+     python3 code/musicbrainz/fetch.py
      ```
    - The files will be saved in the local `linkedmusic-datalake/data/musicbrainz/raw/archived/` folder.
 
 3. **Extract the required files:**
    - Unzip and extract the necessary JSON Lines (jsonl) files by running:
      ```bash
-     python3 untar.py
+     python3 code/musicbrainz/untar.py data/musicbrainz/raw/archived data/musicbrainz/raw/extracted_jsonl
      ```
    - The extracted files will be located in the `linkedmusic-datalake/data/raw/extracted_jsonl/mbdump/` folder.
 
@@ -26,9 +26,16 @@
      ```bash
      python3 convert_to_rdf.py
      ```
-   - This will generate a RDF file in turtle format, named according to its entity type, in the `linkedmusic-datalake/musicbrainz/data/output/` folder.
+   - This will generate a RDF file in turtle format, named according to its entity type, in the `linkedmusic-datalake/data/musicbrainz/rdf/` folder.
 
-5. **Output:**
+5. **Getting genre.ttl**
+   - Execute the get genre script:
+     ```bash
+     python3 code/musicbrainz/get_genre.py
+     ```
+   - This will web-scrape the genre and its reconciled WikiData ID into `linkedmusic-datalake/data/musicbrainz/rdf/`
+
+6. **Output:**
    - The generated RDF files are ready for further processing.
 > Extracted properties: name, type, aliases, genre, relation to all other musicbrainz entity types, and all relations to outside links, including WikiData.
 
