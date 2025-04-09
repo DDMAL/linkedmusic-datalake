@@ -1,61 +1,51 @@
-## 1: Procedure for preparation of data 
+# Data Preprocessing 
 
 ### Prerequisites:
 - All IDs and Wikidata links are already reconciled during the conversion process, eliminating the need for OpenRefine.
 
 ### Steps:
 1. **Navigate to the target folder:**
-   - Go to the `linkedmusic-datalake/musicbrainz/csv` directory.
+   - Go to the `linkedmusic-datalake/code/musicbrainz` directory.
 
 2. **Fetch the latest data:**
    - Run the following command to download the latest tar.xz files from the MusicBrainz public data dumps:
      ```bash
      python3 fetch.py
      ```
-   - The files will be saved in the local `data/raw/` folder.
+   - The files will be saved in the local `linkedmusic-datalake/data/musicbrainz/raw/archived/` folder.
 
 3. **Extract the required files:**
    - Unzip and extract the necessary JSON Lines (jsonl) files by running:
      ```bash
      python3 untar.py
      ```
-   - The extracted files will be located in the `data/raw/extracted_jsonl/mbdump/` folder.
+   - The extracted files will be located in the `linkedmusic-datalake/data/raw/extracted_jsonl/mbdump/` folder.
 
 4. **Convert data to CSV:**
    - Execute the conversion script:
      ```bash
-     python3 convert_to_csv.py
+     python3 convert_to_rdf.py
      ```
-   - This will generate a CSV file, named according to its entity type, in the `musicbrainz/data/output/` folder.
+   - This will generate a RDF file in turtle format, named according to its entity type, in the `linkedmusic-datalake/musicbrainz/data/output/` folder.
 
 5. **Output:**
-   - The generated CSV files are ready for further processing.
+   - The generated RDF files are ready for further processing.
+> Extracted properties: name, type, aliases, genre, relation to all other musicbrainz entity types, and all relations to outside links, including WikiData.
 
 ---
 
-## 2: Data Details
+# Data Postprocessing
 
 ### Overview:
-- The data can be downloaded from the provided link, typically selecting the latest version (e.g., `20240626-001001/`).
-- The downloaded `.tar.xz` files contain a `mbdump` folder with files named by entity type (e.g., `area`, `artist`, `event`, `instrument`, `label`, `place`). Each file is in "JSON Lines" format, with each line representing a single record.
-
-### Important Notes:
-- **ID Attributes:** Each record has an `id` attribute, which serves as the primary key. When converting to CSV, this `id` is renamed to `{entity_type}_id` for clarity.
-- **URI Conversion:** All IDs (e.g., `genre_id`, `artist_id`, `area_id`) are converted to URIs in the format: `https://musicbrainz.org/{entity_type}/{id}`.
-- **Wikidata Links:** If a record is linked to a Wikidata entry by "MusicBrainz bots"(from musicbrainz website), the link can be found under `"relations" > "resources" > "url"`. These are also extracted into the CSV.
+- The data can be downloaded from the provided link, typically selecting the latest version.
+- The downloaded `.tar.xz` files contain a `mbdump` folder with files named by entity type (e.g., `area`, `artist`, `event`, `instrument`, `label`, `place`). Each file is in "JSON Lines" format, with each line representing a single JSON format record.
+- All entity types are reconciled to WikiData in OpenRefine automatically. If an entity is not reconciled, then it might not be present on WikiData.
+- None of MusicBrainz types are reconciled to WikiData. Consider Reconciling it using OpenRefine.
 
 ---
 
-## 3: Mapping
-
-### Custom Predicate URLs:
-- The following made-up predicate URLs are used in the data conversion:
-  - `"packaging"`: `https://musicbrainz.org/packaging`
-  - `"packaging-id"`: `https://musicbrainz.org/packaging`
-  - `"media_pregap_id"`: `https://musicbrainz.org/pregap`
-  - `"media_discs_id"`: `https://musicbrainz.org/disc`
-
----
+# Data Upload
+- Upload all RDF to Virtuoso.
 
 ## Deprecated: Experiment Data Sets
 
