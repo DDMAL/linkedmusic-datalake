@@ -91,7 +91,7 @@ def fetch_wikidata_relations(genre_ids):
     return relations
 
 
-def main(output_path="../data/output/genre.rdf"):
+def main(output_path="../../data/musicbrainz/rdf/"):
     """Main function to run the genre data collection process and save RDF."""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -123,7 +123,7 @@ def main(output_path="../data/output/genre.rdf"):
             g.add((genre_uri, SCHEMA.sameAs, URIRef(row["relations_wiki"])))
 
     # Serialize RDF graph to output file (RDF/XML format)
-    g.serialize(destination=output_path, format="ttl")
+    g.serialize(destination=f"{output_path}/genre.ttl", format="turtle")
     print(f"Saved {len(df)} genres to {output_path}")
 
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fetch genre data from MusicBrainz")
     parser.add_argument(
         "--output",
-        default="../../data/musicbrainz/rdf/genre.ttl",
+        default="../../data/musicbrainz/rdf/",
         help="Path to save the output RDF file",
     )
     args = parser.parse_args()
