@@ -117,7 +117,6 @@ def main():
         "mb": MB,
         "wdt": WDT
     }
-    
 
     # Configure output directory
     output_dir = Path('./data/musicbrainz/rdf/')
