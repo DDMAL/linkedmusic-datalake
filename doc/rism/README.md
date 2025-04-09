@@ -6,12 +6,12 @@ This document outlines the process for handling RISM (Répertoire International 
 
 ### OpenRefine Setup
 1. Install [OpenRefine](https://openrefine.org/), version 3.9 and above.
-2. Install the [RDF-extension](https://github.com/stkenny/grefine-rdf-extension) for exporting OpenRefine data in RDF format
-3. Install [RDF-transform](https://github.com/AtesComp/rdf-transform) for transforming OpenRefine project data to RDF-based formats
+2. Install the [RDF-extension](https://github.com/stkenny/grefine-rdf-extension).
+3. Install [RDF-transform](https://github.com/AtesComp/rdf-transform) for transforming OpenRefine project data to RDF-based formats, based on RDF-extension.
 
 ### Mapping Configuration
-- Review the mapping file at `/linkedmusic-datalake/data/rism/reconciled/mapping.json`
-- Detailed mapping decisions are documented in `/linkedmusic-datalake/data/rism/reconciled/mappingWithLog.json5`
+- Review the mapping file at `/linkedmusic-datalake/data/rism/reconciled/mapping.json`.
+- Detailed mapping decisions are documented in `/linkedmusic-datalake/data/rism/reconciled/mappingWithLog.json5`.
 
 ## Processing Workflow
 
