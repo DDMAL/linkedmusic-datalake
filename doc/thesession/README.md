@@ -1,65 +1,82 @@
-# The Session DB
+# The Session Database
 
-## Getting the Data Dumps
+This document provides instructions for retrieving data dumps and additional information regarding data reconciliation for The Session Database.
 
-1. Run `python3 fetch_data.py` in the `thesession/csv` folder.
-2. This will download all data dumps from The Session database into the `thesession/data/raw` folder.
-3. Ensure you have the following files: `aliases.csv`, `events.csv`, `recordings.csv`, `sessions.csv`, `sets.csv`, `tune-popularity.csv`, and `tunes.csv` (7 in total).
+## Data processing
 
-## Retrieving Artists
-(To realize that every artist as an entity has its URI, though not from Wikidata at this stage)
-1. Run `python3 find_artist.py` in the `thesession/csv` folder.
-2. This script will match artist URLs to the `recordings.csv` file.
-3. Please note, this process is slow; do not close your device while it is running.
+### Getting the Data Dumps
 
-## Reconciliation
-(The sibling folder of `thesession/data/reconciled` is `/raw`, the raw data before reconciliation)
-- Using OpenRefine, follow the instructions in the `thesession/data/reconciled/reconcile_procedures.md` manual for reconciliation.
-- Optionally, you can use the files in the `reconciliation_history` folder as import steps in OpenRefine.
+> All folders are based on the linkedmusic-datalake repository.
+1. In the `code/thesession/` folder, run:
+    ```
+    python3 fetch_data.py
+    ```
+2. This command will download all data dumps from The Session Database into the `data/thesession/raw/` folder.
+3. Verify that the following files are present:
+    - `aliases.csv`
+    - `events.csv`
+    - `recordings.csv`
+    - `sessions.csv`
+    - `sets.csv`
+    - `tune-popularity.csv`
+    - `tunes.csv`
 
-# Description of the Data Dumps
+### Retrieving Artists
 
-## `aliases.csv`
+This step assigns a unique URI to each artist, even though these URIs are not currently sourced from Wikidata.
 
-- Contains all alias names for specific tunes.
-- The core entity is (corresponding to) `tune_id`.
-- Note: The core entity is not the alias; it uses `tune_id` as the subject and the alias name as an attribute.
+1. In the `code/thesession/` folder, run:
+    ```
+    python3 find_artist.py
+    ```
+2. The script matches artist URLs to entries in `recordings.csv`.
+3. Please note: This process may take some time. Do not shut down your device until it completes.
 
-## `events.csv`
+### Data Reconciliation
 
-- Contains musical events and their associated attributes.
-- The core entity is `events_id`.
+Data reconciliation involves cleaning and standardizing raw data. Two methods are available:
 
-## `recordings.csv`
+- Use OpenRefine and follow the instructions in the `thesession/data/reconciled/reconcile_procedures.md` file.
+- Alternatively, import the steps listed in the `reconciliation_history` folder into OpenRefine for reference.
 
-- Contains recordings related to the tunes.
-- The core entity is `recording_id`.
+## Data Description
 
-## `sessions.csv`
+### aliases.csv
+- Contains alias names for tunes.
+- Core entity: `tune_id` (used as the subject, with alias name as an attribute).
 
-- Contains music sessions and their associated attributes.
-- The core entity is `sessions_id`.
+### events.csv
+- Contains details of musical events.
+- Core entity: `events_id`.
 
-## `sets.csv`
+### recordings.csv
+- Contains recordings associated with tunes.
+- Core entity: `recording_id`.
 
-- Contains user-made tune sets (playlists).
-- The core entity is `tuneset_id`, which is associated with `members_id`.
+### sessions.csv
+- Contains information about music sessions.
+- Core entity: `sessions_id`.
 
-## `tune-popularity.csv`
+### sets.csv
+- Contains user-generated tune sets (playlists).
+- Core entity: `tuneset_id` (linked to `members_id`).
 
-- Contains tunes along with their popularity scores.
-- The core entity is `tune_id`.
-- Note: The core entity is not the popularity; it uses `tune_id` as the subject and the popularity score as an attribute.
+### tune-popularity.csv
+- Contains popularity scores for tunes.
+- Core entity: `tune_id` (the score is stored as an attribute of the tune).
 
-## `tunes.csv`
+### tunes.csv
+- Contains details for all tunes.
+- Core entity: `tune_id`.
 
-- Contains all the tunes.
-- The core entity is `tune_id`.
+## Missing Data Dumps
 
-# Missing Data Dumps
+The following entities are visible in the front-end search interface of The Session Database, but their data is not publicly available:
+- Trips
+- Discussions
+- Members
 
-The "Trips," "Discussions," and "Members" entities appear in the search box of The Session DB front end, but they are not included in the public data dumps that we can access. These entities are not publicly available.
+## Abandoned Columns
 
-# Abandoned Columns
+- **abc:** This column may include illegal characters, which could prevent successful upload into Virtuoso.
 
-- `abc`: This column may contain illegal characters that prevent it from being uploaded to Virtuoso.
