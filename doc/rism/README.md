@@ -32,9 +32,12 @@ For each file in the split_output directory (starting with e.g., `part_1.ttl`, i
     - Open the file from `/linkedmusic-datalake/data/rism/split_output/part_1.ttl`
 
 2. **Apply the RDF skeleton for RISM**:
-Please execute along with clicking in order of sequence number: 
+    > Please execute along with clicking in order of sequence number: 
     ![RDF Skeleton](./assets/01.png)
     ![RDF Skeleton](./assets/02.jpg)
+
+    > Note: The ontology file is moved to `/linkedmusic-datalake/code/rism/ontology`
+
     ![RDF Skeleton](./assets/03.jpg)
     ![RDF Skeleton](./assets/04.png)
 
@@ -43,6 +46,8 @@ Please execute along with clicking in order of sequence number:
     ![RDF Skeleton](./assets/06.png)
     
     Navigate to rism/data/reconciled:
+
+    > Note: The OpenRefine step files are moved to `/linkedmusic-datalake/code/rism/openrefine`
 
     ![RDF Skeleton](./assets/07.jpg)
 
