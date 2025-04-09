@@ -7,9 +7,9 @@ This document provides instructions for retrieving data dumps and additional inf
 ### Getting the Data Dumps
 
 > All folders are based on the linkedmusic-datalake repository.
-1. In the `code/thesession/` folder, run:
+1. Run:
     ```
-    python3 fetch_data.py
+    python3 code/thesession/fetch_data.py
     ```
 2. This command will download all data dumps from The Session Database into the `data/thesession/raw/` folder.
 3. Verify that the following files are present:
@@ -25,9 +25,9 @@ This document provides instructions for retrieving data dumps and additional inf
 
 This step assigns a unique URI to each artist, even though these URIs are not currently sourced from Wikidata.
 
-1. In the `code/thesession/` folder, run:
+1. Run:
     ```
-    python3 find_artist.py
+    python3 code/thesession/find_artist.py
     ```
 2. The script matches artist URLs to entries in `recordings.csv`.
 3. Please note: This process may take some time. Do not shut down your device until it completes.
@@ -36,8 +36,9 @@ This step assigns a unique URI to each artist, even though these URIs are not cu
 
 Data reconciliation involves cleaning and standardizing raw data. Two methods are available:
 
-- Use OpenRefine and follow the instructions in the `thesession/data/reconciled/reconcile_procedures.md` file.
+- Use OpenRefine and follow the instructions in the `/doc/thesession/reconcile_procedures.md` file.
 - Alternatively, import the steps listed in the `reconciliation_history` folder into OpenRefine for reference.
+> Careful when using this step, since OpenRefine and The Session changes over time and there is no garentee that this will work. Please examine the data after performing these steps.
 
 ## Data Description
 
