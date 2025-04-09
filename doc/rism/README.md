@@ -41,8 +41,11 @@ Please execute along with clicking in order of sequence number:
 3. **Reconcile the type column**:
     ![RDF Skeleton](./assets/05.jpg)
     ![RDF Skeleton](./assets/06.jpg)
+    
+    Navigate to rism/data/reconciled:
     ![RDF Skeleton](./assets/07.jpg)
-    > Note: OpenRefine has a bug at this step where it may prompt you to select the file multiple times. Simply select the same file each time when prompted.
+    > Note: OpenRefine has a bug at this step that may prompt you to select the file multiple times. Simply reselect the same file each time when prompted.
+    
     ![RDF Skeleton](./assets/08.jpg)
 
 4. **Reconcile all cell of the "label" predicates for Human/Person subjects**:
