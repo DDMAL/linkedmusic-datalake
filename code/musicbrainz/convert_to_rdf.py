@@ -186,16 +186,19 @@ def main():
                 )
             )
 
-        # Merge all subgraphs
+        # Process results
+        subgraphs = []
         for future in tqdm(as_completed(futures), total=len(futures), desc="Processing chunks"):
             try:
                 future.result()  # Raise exception if any occurred in worker
             except Exception as e:
                 print(f"Error processing chunk: {e}")
                 continue
-            subgraph = future.result()
-            main_graph += subgraph
+            subgraphs.append(future.result())
 
+    for subgraph in tqdm(subgraphs, desc="Merging subgraphs"):
+        main_graph += subgraph
+    
     # Save the final result
     main_graph.serialize(destination=output_file, format='turtle')
     print(f"Successfully saved RDF data to: {output_file}")
