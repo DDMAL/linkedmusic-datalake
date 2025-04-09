@@ -1,0 +1,3 @@
+- In Junjun Cao's DDMAL desktop mac, there is a file in this folder: "Rism_part_2_reconciliationWithPerson'sTypeAndInstance.ttl" that is not synchronized with GitHub because it's too large
+- In this folder, Rism_part_2_reconciliationWithPerson'sTypeAndInstance.ttl is a partially reconciled n-triple file based on part_2.ttl in the sibling folder "split_output" (which file is also not synchronized with GitHub bacause of being oversize):
+- To review the reconciled content, please examine triples with the properties wdt:P31 and wdt:P2888
