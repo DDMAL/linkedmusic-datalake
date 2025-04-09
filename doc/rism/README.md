@@ -68,6 +68,9 @@ Please execute along with clicking in order of sequence number:
 
 9. **Move all reconciled files** (`.nt` format) to `/linkedmusic-datalake/data/rism/split_input/`
 
+> An error might happen here where the output file is empty.
+10. **Preventing Output Error**: Repeat step 2 to apply the RDF transform again to avoid the output error.
+
 ### 3. Joining the Processed Files
 1. Navigate to `/linkedmusic-datalake/code/rism/`
 2. Run `python3 force_join.py`
