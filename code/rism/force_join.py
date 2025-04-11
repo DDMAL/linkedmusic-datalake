@@ -14,6 +14,6 @@ def force_join_ttl(input_dir, output_file):
                     outfile.write(line)
 
 if __name__ == "__main__":
-    input_dir = "../data/split_input"  # Replace with your input directory
-    output_file = "../data/joined_output.ttl"  # Replace with your desired output file
+    input_dir = "./data/rism/split_input"  # Replace with your input directory
+    output_file = "./data/rism/joined_output.ttl"  # Replace with your desired output file
     force_join_ttl(input_dir, output_file)
