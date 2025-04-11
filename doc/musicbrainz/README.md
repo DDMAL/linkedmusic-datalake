@@ -25,7 +25,7 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
       python3 code/musicbrainz/untar.py --input data/musicbrainz/raw/archived --output data/musicbrainz/raw/extracted_jsonl
       ```
    - The extracted files are located at:
-      `linkedmusic-datalake/data/raw/extracted_jsonl/mbdump/`
+      `linkedmusic-datalake/data/musicbrainz/raw/extracted_jsonl/mbdump/`
 
 4. **Converting Data to RDF (Turtle Format)**
    - For each JSON Lines file, convert the data using:
