@@ -52,3 +52,7 @@ Reconciliation with OpenRefine may not always yield perfect matches on Wikidata.
 ### AcousticBrainz  
 ~~[AcousticBrainz](https://acousticbrainz.org/) collected acoustic information from music recordings between 2015 and 2022, providing insights into spectral data, genres, moods, keys, and scales.  
 Consult the [AcousticBrainz manual](https://github.com/DDMAL/linkedmusic-datalake/blob/main/acousticbrainz/README.md) for more details.~~
+
+## Previous Work by Van
+
+- All located in the jsonld_approach folder. We share some test sample files.
