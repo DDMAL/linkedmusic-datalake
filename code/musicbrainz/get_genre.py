@@ -1,5 +1,5 @@
 """
-Script for retrieving the "genre" dumps from MusicBrainz.
+Script for retrieving the "genre" dumps from MusicBrainz and outputting RDF.
 """
 
 import time
@@ -9,6 +9,7 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+from rdflib import Graph, URIRef, Literal, Namespace
 
 # Constants
 URL = "https://musicbrainz.org/ws/2/genre/all"
@@ -71,12 +72,11 @@ def fetch_genres():
 
 
 def fetch_wikidata_relations(genre_ids):
-    """Fetch Wikidata relations for each genre."""
+    """Using web-scraping technique to fetch Wikidata relations for each genre."""
     relations = []
 
     for genre_id in tqdm(genre_ids, desc="Fetching Wikidata relations"):
         response = make_request(genre_id, timeout=50)
-
         soup = BeautifulSoup(response.text, "html.parser")
         wikidata_row = soup.find("th", string="Wikidata:")
 
@@ -91,19 +91,19 @@ def fetch_wikidata_relations(genre_ids):
     return relations
 
 
-def main(output_path="../data/output/genre.csv"):
-    """Main function to run the genre data collection process."""
+def main(output_path="../../data/musicbrainz/rdf/"):
+    """Main function to run the genre data collection process and save RDF."""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     # Fetch genre data
     print("Fetching genre data from MusicBrainz...")
     genre_data = fetch_genres()
 
-    # Create dataframe
+    # Create dataframe and select needed columns
     df = pd.DataFrame(genre_data)
     df = df[["id", "name"]]
 
-    # Transform IDs
+    # Transform IDs into full URLs
     df["genre_id"] = "https://musicbrainz.org/genre/" + df["id"].astype(str)
     df.drop("id", axis=1, inplace=True)
 
@@ -111,8 +111,19 @@ def main(output_path="../data/output/genre.csv"):
     print("Fetching Wikidata relations...")
     df["relations_wiki"] = fetch_wikidata_relations(df["genre_id"])
 
-    # Save to CSV
-    df.to_csv(output_path, index=False)
+    # Create RDF graph
+    g = Graph()
+    RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
+    SCHEMA = Namespace("http://schema.org/")
+
+    for _, row in df.iterrows():
+        genre_uri = URIRef(row["genre_id"])
+        g.add((genre_uri, RDFS.label, Literal(row["name"])))
+        if row["relations_wiki"]:
+            g.add((genre_uri, SCHEMA.sameAs, URIRef(row["relations_wiki"])))
+
+    # Serialize RDF graph to output file (RDF/XML format)
+    g.serialize(destination=f"{output_path}/genre.ttl", format="turtle")
     print(f"Saved {len(df)} genres to {output_path}")
 
 
@@ -120,8 +131,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fetch genre data from MusicBrainz")
     parser.add_argument(
         "--output",
-        default="../data/output/genre.csv",
-        help="Path to save the output CSV file",
+        default="../../data/musicbrainz/rdf/",
+        help="Path to save the output RDF file",
     )
     args = parser.parse_args()
 

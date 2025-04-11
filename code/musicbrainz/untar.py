@@ -1,36 +1,35 @@
 """
-unzip the downloaded .tar.xz files into linkedmusic-datalake/data/musicbrainz/raw
+unzip the downloaded .tar.xz files into linkedmusic-datalake/data/musicbrainz/raw/archived
 """
 
 import glob
 import tarfile
 import os
+import argparse
+import concurrent.futures
 
+def extract_single_file(filepath, dest_folder):
+    with tarfile.open(filepath, "r:xz") as tar:
+        for member in tar.getmembers():
+            if member.name.startswith("mbdump"):
+                tar.extract(member, path=dest_folder)
+                original_file_path = os.path.join(dest_folder, member.name)
+                new_file_path = original_file_path + ".jsonl"
+                os.rename(original_file_path, new_file_path)
+    print(f"Extracted {filepath} to {dest_folder}")
 
-def extract_file(folderpath, dest_folder):
-    """
-    untar the downloaded files
-    """
-    for filepath in glob.glob(f"{folderpath}/*.tar.xz", recursive=False):
-        with tarfile.open(f"{filepath}", "r:xz") as tar:
-            for member in tar.getmembers():
-                # in the tar file, we only need the dumps in this folder.
-                # Other files contains unnecessary info.
-                if member.name.startswith("mbdump"):
-                    tar.extract(member, path=dest_folder)
-                    # Get the original file path after extraction
-                    original_file_path = os.path.join(dest_folder, member.name)
+def extract_file_multithread(folderpath, dest_folder):
+    filepaths = glob.glob(f"{folderpath}/*.tar.xz", recursive=False)
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.map(lambda fp: extract_single_file(fp, dest_folder), filepaths)
 
-                    # Create a new file path with .jsonl extension
-                    new_file_path = original_file_path + ".jsonl"
+parser = argparse.ArgumentParser(description="Extract tar.xz files to destination folder.")
+parser.add_argument("--input_folder", type=str, help="Folder containing archived .tar.xz files")
+parser.add_argument("--dest_folder", type=str, help="Folder where files will be extracted as .jsonl")
+args = parser.parse_args()
 
-                    # Rename the file to add .jsonl extension
-                    os.rename(original_file_path, new_file_path)
-        print(f"Extracted {filepath} to {dest_folder}")
-
-
-INPUT_FOLDER = os.path.abspath("./data/musicbrainz/raw/archived/")
-DEST_FOLDER = "./data/musicbrainz/raw/extracted_jsonl/"
+INPUT_FOLDER = os.path.abspath(args.input_folder)
+DEST_FOLDER = args.dest_folder
 
 if not os.path.exists(INPUT_FOLDER):
     print(f"Input folder {INPUT_FOLDER} does not exist.")
@@ -40,4 +39,4 @@ if not os.path.exists(INPUT_FOLDER):
 if not os.path.exists(DEST_FOLDER):
     os.makedirs(DEST_FOLDER)
 
-extract_file(INPUT_FOLDER, DEST_FOLDER)
+extract_file_multithread(INPUT_FOLDER, DEST_FOLDER)
