@@ -4,6 +4,7 @@ This repository contains code, documentation, and sample data set files to:
 - Fetch data dumps from various databases in various file formats.
 - Reconcile entries in these databases against entities and properties in WikiData.
 - Transform reconciled databases into RDF turtle format and upload it to Virtuoso Staging.
+- Please refer to [OpenRefine Tips](https://github.com/DDMAL/linkedmusic-datalake/blob/main/doc/openrefine_tips/README.md) if you are not familiar with how OpenRefine works.
 
 ## Virtual Environment Setup
 

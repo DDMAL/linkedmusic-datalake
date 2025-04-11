@@ -1,3 +1,15 @@
+# OpenRefine Reconciliation Fundamentals
+
+- Refer to [OpenRefine Manual](https://openrefine.org/docs/manual/reconciling) for all OpenRefine reconciliation functions.
+- Useful YouTube link: [YouTube Tutorial](https://www.youtube.com/watch?v=wfS1qTKFQoI&ab_channel=WikimedianinResidence-UniversityofEdinburgh)
+- We currently use only the WikiData reconciliation service for all works.
+
+# Enhances OpenRefine Capacity
+
+- Refer to [OpenRefine Manual](https://openrefine.org/docs/manual/installing#increasing-memory-allocation)
+- You must adjust the memory size before working with large files.
+- Recommend size is 8GB (8192MB), choose a capable machine to work.
+
 #  Extracting and Applying Steps
 
 ### Extracting
