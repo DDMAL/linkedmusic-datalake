@@ -28,7 +28,7 @@ for link in github_raw_links:
     # Extracts just the filename part from the URL using rsplit() with a limit of 1 split from the right
 
     # Construct the complete path to save the file
-    save_path = os.path.join('../data/raw', filename)
+    save_path = os.path.join('./data/thesession/raw', filename)
 
     # Send an HTTP GET request to the URL
     response = requests.get(link, timeout=10)
