@@ -1,5 +1,7 @@
 #   1.  Get CSV from SQL
 
+**This is not completed, consider reworking.**
+
 Using the steps described in `simssadb_pipeline.md ## 1. Extracting columns and feature flattening`, we get the `final_flattened.csv`. This CSV merges all tables in the SQL file into one single CSV. For this single CSV to be better converted into RDF using the csv2rdf script, different entities should be separated to other CSV file. For example, in the `final_flattened.csv`, after line 496, the `musical_work_id` is no longer the primary key of the records. 
 
 >   TODO: modify the SQL query script to do the work automatically without merging
