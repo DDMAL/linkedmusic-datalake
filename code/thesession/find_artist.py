@@ -30,15 +30,15 @@ def get_artist_url(page_url):
     return None
 
 
-df = pandas.read_csv("../data/reconciled/recordings-csv.csv")
+df = pandas.read_csv("./data/thesession/raw/recordings.csv")
 
 # Get the URL of the artist
 for i, artist in enumerate(df["artist"]):
     if artist not in artist_dict:
-        artist_dict[artist] = get_artist_url(df["recording_id"][i])
+        artist_dict[artist] = get_artist_url(f"https://thesession.org/recordings/{df['id'][i]}")
 
 df["artist_url"] = df["artist"].map(artist_dict)
-df.to_csv("../data/reconciled/recordings-csv.csv", index=False)
+df.to_csv("./data/thesession/raw/recordings.csv", index=False)
 
 
 # This script helps create more comprehensive linked data by connecting artists in The Session database to their profile pages when Wikidata entries are not available.

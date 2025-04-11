@@ -47,25 +47,21 @@ Data reconciliation involves cleaning and standardizing raw data. Two methods ar
 - Contains alias names for tunes.
 - Core entity: `tune_id` (uses the alias name as an attribute).
 
-## `events.csv`
+### events.csv
+- Contains details of musical events.
+- Core entity: `events_id`.
 
-- Contains musical events and their associated attributes.
-- The core entity is `events_id`.
+### recordings.csv
+- Contains recordings associated with tunes.
+- Core entity: `recording_id`.
 
-## `recordings.csv`
+### sessions.csv
+- Contains information about music sessions.
+- Core entity: `sessions_id`.
 
-- Contains recordings related to the tunes.
-- The core entity is `recording_id`.
-
-## `sessions.csv`
-
-- Contains music sessions and their associated attributes.
-- The core entity is `sessions_id`.
-
-## `sets.csv`
-
-- Contains user-made tune sets (playlists).
-- The core entity is `tuneset_id`, which is associated with `members_id`.
+### sets.csv
+- Contains user-generated tune sets (playlists).
+- Core entity: `tuneset_id` (linked to `members_id`).
 
 ### tune-popularity.csv
 - Contains popularity scores for tunes.
@@ -75,7 +71,7 @@ Data reconciliation involves cleaning and standardizing raw data. Two methods ar
 - Contains detailed information for all tunes.
 - Core entity: `tune_id`.
 
-# Missing Data Dumps
+## Missing Data Dumps
 
 The following entities appear in the front-end search interface of The Session Database, but their data is not publicly available:
 - Trips
