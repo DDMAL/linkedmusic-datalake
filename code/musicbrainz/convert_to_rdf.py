@@ -228,6 +228,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     for input_file in input_folder.iterdir():
+        if str(input_file).endswith(".DS_Store"):
+            continue
         if input_file.is_file():
             print(f"Processing file: {input_file}")
             # Create a new namespace for the current file using its stem as entity type
