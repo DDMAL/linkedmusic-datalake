@@ -33,7 +33,7 @@
 5. **Getting genre.ttl**
    - Execute the get genre script:
      ```bash
-     python3 code/musicbrainz/get_genre.py
+     python3 code/musicbrainz/get_genre.py --output ./data/musicbrainz/rdf/
      ```
    - This will web-scrape the genre and its reconciled WikiData ID into `linkedmusic-datalake/data/musicbrainz/rdf/`
 
