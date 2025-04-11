@@ -9,17 +9,17 @@ import requests
 
 # Retrieve the newest sources list
 resp = requests.get("https://cantusdatabase.org/json-sources/", timeout=50)
-with open("../data/mappings/sources.json", "w", encoding="utf-8") as sources_json:
-    sources_json.write((resp.json()).keys())
+with open("./data/cantus/mappings/sources.json", "w", encoding="utf-8") as sources_json:
+    sources_json.write(str((resp.json()).keys()))
 
 # Check if data/raw folder exists.
-RAW_PATH = "../data/raw"
+RAW_PATH = "./data/cantus/raw"
 if not os.path.exists(RAW_PATH):
     os.makedirs(RAW_PATH)
 
 # Read the sources to download
-SOURCE_PATH = os.path.join(
-    os.path.dirname(__file__), "../data/mappings/sources_short.json"
+SOURCE_PATH = os.path.abspath(
+    "./data/cantus/mappings/sources_short.json"
 )
 with open(SOURCE_PATH, mode="r", encoding="utf-8") as f:
     source_list = json.load(f)
@@ -32,7 +32,7 @@ for source_id in source_list:
     # Check if the request was successful
     if response.status_code == 200:
         # Open the file in write-binary mode and write the content
-        with open(f"../data/raw/{source_id}.csv", "wb") as file:
+        with open(f"./data/cantus/raw/{source_id}.csv", "wb") as file:
             file.write(response.content)
 
         print(f"File has been downloaded and saved as {source_id}.csv")
