@@ -1,17 +1,16 @@
 #   CantusDB CSV
 
-> Summarize:   
->   1.  Get the data dumps for Cantus DB.
->   2.  Reconcile the flattened csv dump
->   3.  Export and process after
+**This workflow needs to be updated as Cantus has changed**
 
-##  1. How to Get Data Dumps
-
-In data/mappings folder, there is a sources.json file which contains a list of source ids in Cantus DB that is automatically updated when running ```fetch.py```. In csv/ folder, the fetch.py makes API calls to Cantus DB and fetchs all the source CSV into the data/raw/ folder. Then the merge.py merges all the CSVs into one large cantus.csv that contains all the sources.
+##  How to Get Data Dumps
+- /linkedmusic-datalake/data/cantus/mappings/sources.json is a file which contains a list of source ids in Cantus DB that is automatically updated. 
+- /linkedmusic-datalake/code/cantus/fetch.py makes API calls to Cantus DB and fetchs all the source CSV into the /linkedmusic-datalake/data/cantus/raw/ folder. 
+- /linkedmusic-datalake/code/cantus/merge.py merges all the CSVs into one large cantus.csv that contains all the sources.
 *   For testing: a sources_short.json is used. It uses the first 10 sources as samples.
 
-```python3 csv/fetch.py``` -> download all sources CSV into data/raw
-```python3 csv/merge.py``` -> merge all sources CSV in data/raw into a ```cantus.csv``` in data/
+- Navigate to the home folder for linkedmusic-datalake/.
+- ```python3 ./code/cantus/fetch.py``` -> download all sources CSV
+- ```python3 ./code/cantus/merge.py``` -> merge all sources CSV
 The ```cantus.csv``` should be imported into OpenRefine for further operations.
 
 ##  2. Reconciliation with OpenRefine

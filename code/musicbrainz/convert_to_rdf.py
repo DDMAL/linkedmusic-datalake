@@ -147,10 +147,11 @@ def main(args):
         total_lines = sum(1 for _ in f)
     print(f"Total lines in {input_file}: {total_lines}")
     print(f"Processing {input_file}...")
+
     # Create task queue
     chunk_queue = Queue()
     CHUNK_SIZE = 500  # Adjustable chunk size
-    
+
     # Read file and split into chunks
     with open(input_file, 'r', encoding='utf-8') as f:
         chunk = []

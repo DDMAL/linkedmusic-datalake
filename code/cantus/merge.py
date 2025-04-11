@@ -6,9 +6,9 @@ import os
 import glob
 import pandas as pd
 
-INPUT_PATH = os.path.join(os.path.dirname(__file__), "../data/raw")
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "../data/cantus.csv")
-MAPPING_PATH = os.path.join(os.path.dirname(__file__), "../data/mappings")
+INPUT_PATH = os.path.abspath("./data/cantus/raw")
+OUTPUT_PATH = os.path.abspath("./data/cantus/cantus.csv")
+MAPPING_PATH = os.path.abspath("./data/cantus/mappings")
 
 # Create an empty list to store individual DataFrames
 dfs = []
@@ -34,7 +34,7 @@ for filename in glob.glob(f"{INPUT_PATH}/*.csv", recursive=False):
 # Concatenate all DataFrames in the list into a single DataFrame
 merged_df = pd.concat(dfs, ignore_index=True)
 merged_df["genre"] = merged_df["genre"].map(genre_mappings)
-merged_df["office"] = merged_df["office"].map(service_mappings)
+# merged_df["office"] = merged_df["office"].map(service_mappings)
 merged_df["node_id"] = "https://cantusdatabase.org/chant/" + merged_df["node_id"].astype(str)
 merged_df["cantus_id"] = "https://cantusindex.org/id/" + merged_df["cantus_id"].astype(str)
 merged_df.insert(0, "source_id", merged_df.pop("source_id"))
