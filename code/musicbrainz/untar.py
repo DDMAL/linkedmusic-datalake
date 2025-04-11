@@ -24,8 +24,8 @@ def extract_file_multithread(folderpath, dest_folder):
         executor.map(lambda fp: extract_single_file(fp, dest_folder), filepaths)
 
 parser = argparse.ArgumentParser(description="Extract tar.xz files to destination folder.")
-parser.add_argument("input_folder", type=str, help="Folder containing archived .tar.xz files")
-parser.add_argument("dest_folder", type=str, help="Folder where files will be extracted as .jsonl")
+parser.add_argument("--input_folder", type=str, help="Folder containing archived .tar.xz files")
+parser.add_argument("--dest_folder", type=str, help="Folder where files will be extracted as .jsonl")
 args = parser.parse_args()
 
 INPUT_FOLDER = os.path.abspath(args.input_folder)
@@ -39,4 +39,4 @@ if not os.path.exists(INPUT_FOLDER):
 if not os.path.exists(DEST_FOLDER):
     os.makedirs(DEST_FOLDER)
 
-extract_file = extract_file_multithread(INPUT_FOLDER, DEST_FOLDER)
+extract_file_multithread(INPUT_FOLDER, DEST_FOLDER)

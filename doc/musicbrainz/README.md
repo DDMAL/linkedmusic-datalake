@@ -22,7 +22,7 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
 3. **Extracting JSON Lines Files**
    - Execute the following command to extract JSON Lines files:
       ```bash
-      python3 code/musicbrainz/untar.py data/musicbrainz/raw/archived data/musicbrainz/raw/extracted_jsonl
+      python3 code/musicbrainz/untar.py --input data/musicbrainz/raw/archived --output data/musicbrainz/raw/extracted_jsonl
       ```
    - The extracted files are located at:
       `linkedmusic-datalake/data/raw/extracted_jsonl/mbdump/`
@@ -30,7 +30,7 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
 4. **Converting Data to RDF (Turtle Format)**
    - For each JSON Lines file, convert the data using:
       ```bash
-      python3 code/musicbrainz/convert_to_rdf.py data/musicbrainz/raw/extracted_jsonl/mbdump/[file].jsonl data/musicbrainz/rdf/
+      python3 code/musicbrainz/convert_to_rdf.py --intput data/musicbrainz/raw/extracted_jsonl/mbdump/ --output data/musicbrainz/rdf/
       ```
    - Note:
       - Run the script individually for each file to monitor progress and manage memory usage.

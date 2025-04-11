@@ -211,12 +211,12 @@ if __name__ == "__main__":
         description="Convert MusicBrainz JSON data in a folder to RDF Turtle format."
     )
     parser.add_argument(
-        "input_folder",
+        "--input_folder",
         default="../../data/musicbrainz/raw/extracted_jsonl/mbdump",
         help="Path to the folder containing line-delimited MusicBrainz JSON files."
     )
     parser.add_argument(
-        "output_dir",
+        "--output_dir",
         default="../../data/musicbrainz/rdf/",
         help="Directory where the output Turtle files will be saved (default: ../../data/musicbrainz/rdf/)."
     )

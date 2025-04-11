@@ -48,7 +48,7 @@ tar_xz_files = [
     "work.tar.xz"
 ]
 URL = "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/LATEST"
-RAW_PATH = "../../data/musicbrainz/raw/archived/"
+RAW_PATH = "./data/musicbrainz/raw/archived/"
 if not os.path.exists(RAW_PATH):
     os.makedirs(RAW_PATH)
 latest_url = get_latest_json_dump_url()
