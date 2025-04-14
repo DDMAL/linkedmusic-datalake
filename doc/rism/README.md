@@ -82,3 +82,6 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
 2. Run `python3 force_join.py`.
 3. The final output will be created at `/linkedmusic-datalake/data/rism/joined_output.ttl`.
 4. The joined file represents the complete processed RISM dataset.
+
+### Others
+mappingWithLog.json5 records the logs or comments for reconciliation of properties or types.
