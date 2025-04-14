@@ -81,3 +81,6 @@ The following entities appear in the front-end search interface of The Session D
 ## Abandoned Columns
 
 - **abc:** This column may include illegal characters, which could prevent successful uploads into Virtuoso.
+
+### Others
+- AccountForReconciliation_updated.txt records the logs or comments for reconciliation of properties or types.
