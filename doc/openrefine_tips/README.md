@@ -18,7 +18,7 @@
 - Select a sequence of steps you want to keep
 ![extracting](./assets/02.png)
 - A .json file should appear in your browswer's download folder. This contains all the steps you chose. Keep this for further use.
-> Do not change what's inside unless you know what you're doing.
+> Do not change what's inside that file unless you know what you're doing.
 
 ### Applying
 - You can apply the sequence of steps that you kept.

@@ -54,9 +54,6 @@ Find the [Session manual](https://github.com/DDMAL/linkedmusic-datalake/blob/mai
     The universal lingua franca for music by providing a reliable and unambiguous form of music identification, enabling both people and machines to have meaningful conversations about music.
     Find https://github.com/DDMAL/linkedmusic-datalake/blob/main/musicbrainz/README.md for further manual.
 
-### ArchiveForReconciledEntries  
-Reconciliation with OpenRefine may not always yield perfect matches on Wikidata. The "archive" stores manually reconciled entries, allowing verified mappings to be reused and saving time and effort.
-
 ## Abandoned Work
 
 ### AcousticBrainz  
@@ -66,14 +63,7 @@ Consult the [AcousticBrainz manual](https://github.com/DDMAL/linkedmusic-datalak
 ## Previous Work by Van
 
 - All located in the jsonld_approach folder. We share some test sample files.
-    ##  AcousticBrainz
-
-    https://acousticbrainz.org/
-    Between 2015 and 2022, AcousticBrainz helped to crowd source acoustic information from music recordings. This acoustic information describes the acoustic characteristics of music and includes low-level spectral information and information for genres, moods, keys, scales and much more.
-    Find https://github.com/DDMAL/linkedmusic-datalake/blob/main/acousticbrainz/README.md for further manual.
-
-## csv2rdf
-This folder contains corresponding files for the csv2rdf conversion process for different databases except RISM.
 
 ## ArchiveForReconciledEntries
 In terms of reconciliation, OpenRefine primarily automate the matching of property values. However, perfect matches on Wikidata are not always guaranteed. To address this, we have been creating the "archive", storing those manually reconciled entries. This shared resource ensures that previously verified mappings can be reused, saving time and effort for others.
+Reconciliation with OpenRefine may not always yield perfect matches on Wikidata. The "archive" stores manually reconciled entries, allowing verified mappings to be reused and saving time and effort.
