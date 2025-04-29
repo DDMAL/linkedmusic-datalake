@@ -9,3 +9,4 @@ rdb2rdf/
 *.xz
 *.jsonl
 *.csv
+*.ttl
