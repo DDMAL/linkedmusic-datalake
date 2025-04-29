@@ -1,11 +1,10 @@
 # MusicBrainz Data Conversion Documentation
 
-<<<<<<< Updated upstream
 This guide outlines the steps required to preprocess, convert, and postprocess MusicBrainz data. Follow the steps below to ensure a smooth data conversion and upload process.
-=======
+
 ### Prerequisites/What is already completed:
 - Given Musicbrainz is based on Relational Database (RDB) model, most of the entities (as distinct from relations and attributes, in RDB terms) are already reconciled during the conversion process, negating the need for OpenRefine.
->>>>>>> Stashed changes
+
 
 ## Data Preprocessing
 
@@ -47,11 +46,9 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
      ```bash
      python3 code/musicbrainz/get_genre.py --output ./data/musicbrainz/rdf/
      ```
-<<<<<<< Updated upstream
    - The updated RDF is stored in `linkedmusic-datalake/data/musicbrainz/rdf/`.
-=======
    - The files will be saved in the local `linkedmusic-datalake/data/musicbrainz/raw/archived/` folder. [with suffix ".tar.xz"; the data from the latest download, exceeding gitHub's storage limit, is stored in Junjun Cao's DDMAL-033 desktop]
->>>>>>> Stashed changes
+
 
 6. **Key Properties Extracted**
    - The conversion process extracts:
@@ -67,11 +64,10 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
 
 ## Deprecated: Experimental Data Sets
 
-<<<<<<< Updated upstream
 ### Experimental Guidelines
 - For testing purposes, consider using a small subset of each data dump.
 - To extract the first 3000 entries from a specific entity (e.g., `area`), use:
-=======
+
 # Data Postprocessing
 
 ### Overview:
@@ -90,7 +86,6 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
 ### Experiment Guidelines:
 - For experimental purposes, it is recommended to use a small portion of each data dump.
 - Use the following bash command to extract the first 3000 entries of a specific entity (e.g., `area`):
->>>>>>> Stashed changes
   ```bash
   head -n 3000 area > test_area
   ```
