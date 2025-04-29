@@ -46,7 +46,7 @@ Refer to the [Simssa DB manual](https://github.com/DDMAL/linkedmusic-datalake/bl
 ### The Session  
 [The Session](https://thesession.org/) is a community website dedicated to Irish traditional music. 
 The Session has a public GitHub repo that contains public Data Sets. We retrieve these in CSV format and reconcile them using OpenRefine.
-Find the [Session manual](https://github.com/DDMAL/linkedmusic-datalake/blob/main/thesession/doc/README.md) for additional guidance.
+Find the [Session manual](https://github.com/DDMAL/linkedmusic-datalake/blob/main/doc/thesession/README.md) for additional guidance.
 
 
 ## Additional Resources
