@@ -90,3 +90,6 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
   head -n 3000 area > test_area
   ```
 - Repeat the process for other data dump files as needed.
+
+### Others
+- AccountForReconciliation_MusicBrainz.txt records the logs or comments for reconciliation of properties or types.
