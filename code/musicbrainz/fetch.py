@@ -10,9 +10,9 @@ def get_latest_json_dump_url():
     """
     get the latest repo
     """
-    resp = requests.get(URL, timeout=50).text.strip()
+    resp = requests.get(URL, timeout=50)
     resp.raise_for_status()
-    return "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/" + resp
+    return "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/" + resp.text.strip()
 
 
 def fetch_api_call(url):
