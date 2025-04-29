@@ -1,18 +1,16 @@
 # LinkedMusic Data Lake
 
-<<<<<<< Updated upstream
 This repository contains code, documentation, and sample data set files to:
 - Fetch data dumps from various databases in various file formats.
 - Reconcile entries in these databases against entities and properties in WikiData.
 - Transform reconciled databases into RDF turtle format and upload it to Virtuoso Staging.
 - Please refer to [OpenRefine Tips](https://github.com/DDMAL/linkedmusic-datalake/blob/main/doc/openrefine_tips/README.md) if you are not familiar with how OpenRefine works.
-=======
+
 This GitHub repo contains codes, documentations, and test files are used to 
 -   fetch the original data dumps from databases, 
 -   convert them to CSV, 
 -   reconcile, 
 -   convert the reconciled CSV to RDF turtle, then upload them to the Virtuoso Staging. 
->>>>>>> Stashed changes
 
 ## Virtual Environment Setup
 
@@ -50,13 +48,11 @@ Refer to the [Simssa DB manual](https://github.com/DDMAL/linkedmusic-datalake/bl
 The Session has a public GitHub repo that contains public Data Sets. We retrieve these in CSV format and reconcile them using OpenRefine.
 Find the [Session manual](https://github.com/DDMAL/linkedmusic-datalake/blob/main/thesession/doc/README.md) for additional guidance.
 
-<<<<<<< Updated upstream
+
 ## Additional Resources
-=======
     The definitive source of music information by allowing anyone to contribute and releasing the data under open licenses.
     The universal lingua franca for music by providing a reliable and unambiguous form of music identification, enabling both people and machines to have meaningful conversations about music.
     Find https://github.com/DDMAL/linkedmusic-datalake/blob/main/musicbrainz/README.md for further manual.
->>>>>>> Stashed changes
 
 ### ArchiveForReconciledEntries  
 Reconciliation with OpenRefine may not always yield perfect matches on Wikidata. The "archive" stores manually reconciled entries, allowing verified mappings to be reused and saving time and effort.
@@ -69,9 +65,7 @@ Consult the [AcousticBrainz manual](https://github.com/DDMAL/linkedmusic-datalak
 
 ## Previous Work by Van
 
-<<<<<<< Updated upstream
 - All located in the jsonld_approach folder. We share some test sample files.
-=======
     ##  AcousticBrainz
 
     https://acousticbrainz.org/
@@ -83,4 +77,3 @@ This folder contains corresponding files for the csv2rdf conversion process for 
 
 ## ArchiveForReconciledEntries
 In terms of reconciliation, OpenRefine primarily automate the matching of property values. However, perfect matches on Wikidata are not always guaranteed. To address this, we have been creating the "archive", storing those manually reconciled entries. This shared resource ensures that previously verified mappings can be reused, saving time and effort for others.
->>>>>>> Stashed changes
