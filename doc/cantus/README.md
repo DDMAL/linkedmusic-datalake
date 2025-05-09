@@ -19,7 +19,7 @@ The ```cantus.csv``` should be imported into OpenRefine for further operations.
 
 *   The sources_history.json can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the history.json file is specific against a particular test, mistakes are likely to happen.
 
-1.  Reconcile the "office" column against "Prayer in the Catholic Church" instance Q3406098.
+1.  Reconcile the "Service" column against "Prayer in the Catholic Church" instance Q3406098.
 2.  Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
 3.  Reset the best candidate's score facet, choose none in the judgement facet. Create new item for all of them.
 4.  Create new item for all of them.
