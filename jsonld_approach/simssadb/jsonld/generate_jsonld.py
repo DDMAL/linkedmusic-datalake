@@ -10,10 +10,14 @@ df = pd.read_csv("../flattening/final_flattened.csv")
 
 
 json_data = df.to_json(orient="records")
-parsed_json = json.loads(json_data)
+parsed_json_flattened = json.loads(json_data)
 # pretty_json = json.dumps(parsed_json, indent=4)
 # with open('gen_json.json', 'w') as json_file:
 #     json_file.write(pretty_json)
+
+df = pd.read_csv("../flattening/reconciled_files_WikiID.csv")
+json_data = df.to_json(orient="records")
+parsed_json_compact_files = json.loads(json_data)
 
 
 files_keys = [
@@ -49,37 +53,42 @@ def handle_rec_col(work, key):
         # work["@context"].append({key:f"wdt:{wID}"}) # overwrite context
         return val
 
+def handle_file_integration(work_id):
+    files = []
+    for f in parsed_json_compact_files:
+        if f["musical_work_id"] == work_id:
+            files.append(
+                {
+                    "@id": f.pop("url_to_file"),
+                    "file_type": f.pop("file_type"),
+                    "file_format": handle_rec_col(f, "file_format"),
+                    "file_version": f.pop("file_version"),
+                }
+            )
+    return files
 
-for work in parsed_json:
+
+for work in parsed_json_flattened:
     for k in work:
         if "id" in k:
             if type(work[k]) is float:
                 work[k] = int(work[k])
 
 
-for work in parsed_json:
+for work in parsed_json_flattened:
     work["@context"] = "https://raw.githubusercontent.com/malajvan/linkedmusic-datalake/main/simssadb/jsonld/context.jsonld"
     work["database"] = "simssadb:"
     work["@type"] = "wd:Q2188189"
-    work["@id"] = f"mw:{work.pop('musical_work_id')}"
+    work_id = work.pop('musical_work_id')
+    work["@id"] = f"mw:{work_id}"
 
     # work["composer"] =  handle_rec_col(work,"composer")
     work["genre_style"] = handle_rec_col(work, "genre_style")
     work["genre_type"] = handle_rec_col(work, "genre_type")
-    #### testing
-    work["file_format"] = handle_rec_col(work, "file_format")
     work["author_name"] = handle_rec_col(work, "author_name")
     work["composer_name"] = handle_rec_col(work, "composer_name")
 
-    work["files"] = {
-        "@id": work.pop("url_to_file"),
-        "file_type": work.pop("file_type"),
-        "file_format": work.pop("file_format"),
-        "file_version": work.pop("file_version"),
-    }
-
-    if work["files"]["@id"] is None:
-        del work["files"]
+    work["files"] = handle_file_integration(work_id)
 
     author_id = work.pop("author_contribution_id")
     work["author"] = {
@@ -161,6 +170,6 @@ for work in parsed_json:
 # for col in files_keys:
 #     del work[col]
 # Print the nested list of dictionaries
-pretty_json = json.dumps(parsed_json, indent=4)
+pretty_json = json.dumps(parsed_json_flattened, indent=4)
 with open("compact.jsonld", "w") as json_file:
     json_file.write(pretty_json)

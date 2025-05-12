@@ -10,7 +10,7 @@ import pandas as pd
 
 df = pd.read_csv("./reconciled_WikiID.csv")
 # get only the columns we're interested in
-cols = ['musical_work_id','sacred_or_secular','source_id','author_contribution_id','composer_contribution_id', "author_viaf_id",'composer_viaf_id', "genre_style_@id","genre_style",'genre_type','genre_type_@id','url_to_file','source_instantiation_portion','source_title', 'source_type','source_url', 'file_type','file_format','file_format_@id','musical_work_variant_titles','file_version',"author_name",'author_name_@id','composer_name','composer_name_@id']
+cols = ['musical_work_id','sacred_or_secular','source_id','author_contribution_id','composer_contribution_id', "author_viaf_id",'composer_viaf_id', "genre_style_@id","genre_style",'genre_type','genre_type_@id','source_instantiation_portion','source_title', 'source_type','source_url','musical_work_variant_titles',"author_name",'author_name_@id','composer_name','composer_name_@id']
 df2 = df[cols]
 
 
