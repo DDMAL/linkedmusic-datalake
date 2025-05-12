@@ -3,8 +3,8 @@
 > Summary:  
 >   1. Upload SQL dump to local postgreSQL database
 >   2. With output run `flattening/SQL_query.py`
->   3. With output run `flattening/restructure.py`
->   4. Reconcile `final_flattened.csv` with OpenRefine
+>   3. Reconcile `final_flattened.csv` with OpenRefine
+>   4. With output run `flattening/restructure.py`
 >   5. With output run `jsonld/generate_jsonld.py `(which also takes `jsonld/context.jsonld` as the initial context)
 
 ## 1. Extracting columns and feature flattening

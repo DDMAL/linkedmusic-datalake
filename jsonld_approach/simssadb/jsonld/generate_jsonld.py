@@ -68,8 +68,8 @@ for work in parsed_json:
     work["genre_type"] = handle_rec_col(work, "genre_type")
     #### testing
     work["file_format"] = handle_rec_col(work, "file_format")
-    work["contributor_role"] = handle_rec_col(work, "contributor_role")
-    work["contributor_name"] = handle_rec_col(work, "contributor_name")
+    work["author_name"] = handle_rec_col(work, "author_name")
+    work["composer_name"] = handle_rec_col(work, "composer_name")
 
     work["files"] = {
         "@id": work.pop("url_to_file"),
@@ -81,11 +81,18 @@ for work in parsed_json:
     if work["files"]["@id"] is None:
         del work["files"]
 
-    contribution_id = work.pop("contribution_id")
-    work["contributor"] = {
-        "@id": f"https://db.simssa.ca/contributions/{contribution_id}",
-        "contributor_role": work.pop("contributor_role"),
-        "contributor_name": work.pop("contributor_name"),
+    author_id = work.pop("author_contribution_id")
+    work["author"] = {
+        "@id": f"https://db.simssa.ca/contributions/{author_id}",
+        "author_name": work.pop("author_name"),
+        "author_viaf_id": work.pop("author_viaf_id")
+    }
+
+    composer_id = work.pop("composer_contribution_id")
+    work["composer"] = {
+        "@id": f"https://db.simssa.ca/contributions/{composer_id}",
+        "composer_name": work.pop("composer_name"),
+        "composer_viaf_id": work.pop("composer_viaf_id")
     }
 
     work["source"] = {
