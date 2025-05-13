@@ -6,11 +6,11 @@
       "mode": "row-based"
     },
     "columnName": "member_id",
-    "expression": "jython:return \"https://thesession.org/members/\"+value",
+    "expression": "grel:\"https://thesession.org/members/\" + value",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column member_id using expression jython:return \"https://thesession.org/members/\"+value"
+    "description": "Text transform on cells in column member_id using expression grel:\"https://thesession.org/members/\" + value"
   },
   {
     "op": "core/column-addition",
@@ -43,35 +43,11 @@
       "mode": "row-based"
     },
     "columnName": "tune_id",
-    "expression": "jython:return \"https://thesession.org/tunes/\" + value",
+    "expression": "grel:\"https://thesession.org/tunes/\" + value",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column tune_id using expression jython:return \"https://thesession.org/tunes/\" + value"
-  },
-  {
-    "op": "core/column-addition",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "baseColumnName": "tune_id",
-    "expression": "join ([coalesce(cells['tune_id'].value,''),coalesce(cells['setting_id'].value,'')],'#setting')",
-    "onError": "keep-original",
-    "newColumnName": "setting",
-    "columnInsertIndex": 7,
-    "description": "Create column setting at index 7 based on column tune_id using expression join ([coalesce(cells['tune_id'].value,''),coalesce(cells['setting_id'].value,'')],'#setting')"
-  },
-  {
-    "op": "core/column-removal",
-    "columnName": "setting_id",
-    "description": "Remove column setting_id"
-  },
-  {
-    "op": "core/column-rename",
-    "oldColumnName": "setting",
-    "newColumnName": "setting_id",
-    "description": "Rename column setting to setting_id"
+    "description": "Text transform on cells in column tune_id using expression grel:\"https://thesession.org/tunes/\" + value"
   },
   {
     "op": "core/column-removal",
@@ -92,10 +68,5 @@
     "op": "core/column-removal",
     "columnName": "abc",
     "description": "Remove column abc"
-  },
-  {
-    "op": "core/column-removal",
-    "columnName": "setting_id",
-    "description": "Remove column setting_id"
   }
 ]

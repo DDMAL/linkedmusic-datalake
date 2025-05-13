@@ -44,7 +44,7 @@
 - Close both facets. Go to `reconcile > add column with URLs of matched entities`, and name the new column `type_wiki`.
 - Repeat the reconciliation steps for the `meter` column against "time signature" (Q155234).
 - All cells in the `meter` column should be matched. Use `reconcile > actions > match each cell to its best candidate`.
-- Transform the `mode` column to add a space between the tonic and the mode. To do so, select the `mode` column and `edit cells > transform`. Use the regex `value.length() > 1 ? value.substring(0,1) + " " + value.substring(1) : value`.
+- Transform the `mode` column to add a space between the tonic and the mode. To do so, select the `mode` column and `edit cells > transform`. Use the regex `value.substring(0,1) + " " + value.substring(1)`.
 - Repeat the reconciliation steps for the `mode` column against "tonality" (Q192822).
 - The `mode` column should have approximately 73% of cells matched. Choose "none" in the `judgment` facet, and match them. Then ignore the remaining cells that are not present in Wikidata with `reconcile > actions > create one new item for similar cells`.
 - Create `meter_wiki` and `mode_wiki` columns, respectively.
@@ -120,7 +120,7 @@ else: return None
 - Move the score facet to 100-101, and match all entities to their best candidate.
 - Move the score facet to 71-72, and match all entities to their best candidate.
 - Move the score facet to 0-101, choose "none" in the `judgment` facet, and reconcile the `area` column again against the type "territory" (Q4835091). In the reconciliation window, choose "country" as the property `country` (P17).
-- Move the score facet to 100-101, and match all entities to their best candidate.
+- Move the score facet to 71-101, and match all entities to their best candidate.
 - Add a column with URLs of matched entities, and name it `area_wiki`.
 - Reconcile the `town` column against the type "human settlement" (Q486972).
 - Move the score facet to 71-101, inspect, and match the reconciliation data.

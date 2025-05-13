@@ -6,11 +6,11 @@
       "mode": "row-based"
     },
     "columnName": "tune_id",
-    "expression": "jython:return \"https://thesession.org/tunes/\"+value",
+    "expression": "grel:\"https://thesession.org/tunes/\" + value",
     "onError": "keep-original",
     "repeat": false,
     "repeatCount": 10,
-    "description": "Text transform on cells in column tune_id using expression jython:return \"https://thesession.org/tunes/\"+value"
+    "description": "Text transform on cells in column tune_id using expression grel:\"https://thesession.org/tunes/\" + value"
   },
   {
     "op": "core/column-move",
