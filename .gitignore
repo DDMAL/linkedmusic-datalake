@@ -4,6 +4,7 @@ psqldump
 .DS_Store
 .history/*
 
+*.sql
 rdb2rdf/
 *.nt
 *.xz
