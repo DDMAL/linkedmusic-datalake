@@ -54,6 +54,24 @@ def handle_rec_col(work, key):
         return val
 
 def handle_file_integration(work_id):
+    """
+    Integrates file data for a given musical work ID.
+
+    This function filters and processes file-related data from the global
+    `parsed_json_compact_files` list, matching entries based on the provided
+    `work_id`. It constructs a list of dictionaries, each representing a file
+    with its associated metadata.
+
+    Args:
+        work_id (int): The unique identifier for a musical work.
+
+    Returns:
+        list[dict]: A list of dictionaries, where each dictionary contains:
+            - "@id" (str): The URL or identifier of the file.
+            - "file_type" (str): The type of the file.
+            - "file_format" (dict or str): The file format, processed by `handle_rec_col`.
+            - "file_version" (str): The version of the file.
+    """
     files = []
     for f in parsed_json_compact_files:
         if f["musical_work_id"] == work_id:
