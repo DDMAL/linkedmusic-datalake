@@ -14,7 +14,11 @@
 - Move the `Best candidate's score` facet to 0-98.
 - These cells are not present in Wikidata. Ignore them by using `reconcile > actions > create one new item for similar cells`. This operation creates a new item for each unique value in the selected cells, grouping identical values together.
 - Close both facets. Go to `reconcile > add column with URLs of matched entities`, and name the new column `recording_wiki`.
-- Reconcile artist column against type null. (Currently, we only reconcile the artists which have higher frequency of appearence in the Recordings spreadsheet.) 
+- Reconcile artist column against type `musical ensemble` (Q2088357). (Currently, we only reconcile the artists which have higher frequency of appearance in the Recordings spreadsheet.)
+- Move the `Best candidate's score` facet to 100-101. In the `judgment` facet, choose "none."
+- Match the cells using `reconcile > actions > match each cell to its best candidate`.
+- Move the `Best candidate's score` facet to 0-99.
+- These cells are not present in Wikidata. Ignore them by using `reconcile > actions > create one new item for similar cells`.
 - Run `find_artist.py` in the `/thesession/csv` folder to get the artist URL from The Session DB.
 - Export the data to CSV.
 
@@ -54,7 +58,7 @@
 # Events:
 - Transform the `id` column cells into the form `https://thesession.org/events/{id}`. To do so, select the `id` column and `edit cells > transform`. Use the regex `"https://thesession.org/events/" + value`.
 - Rename the `id` column to `events_id`.
-- Join the `longitude` and `latitude` columns into a new column named `coordinate`. To do so, select the `longitude` column and then `edit column > join columns...`, selecting `latitude` as the second column and specifying `" "` as the separator.
+- Join the `longitude` and `latitude` columns into a new column named `coordinate`. To do so, select the `longitude` column and then `edit column > join columns...`, selecting `latitude` as the second column and specifying a space as the separator.
 - Text transform the cells with Jython to 
 ```
 if str(value)=="": return None 
@@ -79,10 +83,11 @@ else: return None
 - Move the score facet to 71-72, and match all entities to their best candidate.
 - Move the score facet to 0-101, choose "none" in the `judgment` facet, and reconcile the `area` column again against the type "territory" (Q4835091). In the reconciliation window, choose "country" as the property `country` (P17).
 - Move the score facet to 100-101, and match all entities to their best candidate.
+- Ignore the remaining cells that are not present in Wikidata with `reconcile > actions > create one new item for similar cells`.
 - Add a column URLs of matched entities, naming it `area_wiki`.
 - Reconcile the `town` column against the type "human settlement" (Q486972) and choose "country" as the property `country` (P17).
 - Move the score facet to 71-101, inspect, and match the reconciliation data.
-- Move the score facet to 0-70, create a new item for each cell.
+- Move the score facet to 0-101, choose "none" in the `judgment` facet, and ignore the remaining cells that are not present in Wikidata with `reconcile > actions > create one new item for similar cells`.
 - Add a column with URLs of matched entities, and name it `town_wiki`.
 - Reconcile the `venue` column against type Q77115 and choose "town" as the property `location` (P276).
 - Manually reconcile these columns since the rate of accurately reconciled cells is low.
