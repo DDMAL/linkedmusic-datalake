@@ -1,5 +1,7 @@
 """
-fetch the CSV exports from Cantus DB sources data dumps
+Fetch the CSV exports from Cantus DB sources data dumps.
+Set TESTING to True to use sources_short.json, which contains only a few sources,
+otherwise keep it False to get the full database.
 """
 
 import json
@@ -7,22 +9,26 @@ import os
 import time
 import requests
 
-# Retrieve the newest sources list
-resp = requests.get("https://cantusdatabase.org/json-sources/", timeout=50)
-with open("./data/cantus/mappings/sources.json", "w", encoding="utf-8") as sources_json:
-    sources_json.write(str((resp.json()).keys()))
+# Set this to True to use sources_short.json, which contains only a few sources
+TESTING = False
+
+# Retrieve the newest sources list, skip this if you're only loading the short list
+if not TESTING:
+    resp = requests.get("https://cantusdatabase.org/json-sources/", timeout=50)
+    with open("./data/cantus/mappings/sources.json", "w", encoding="utf-8") as sources_json:
+        sources_json.write(json.dumps(resp.json(), indent=4))
+
+# Read the sources to download
+SOURCE_PATH = os.path.abspath(
+    f"./data/cantus/mappings/sources{"_short" if TESTING else ""}.json"
+)
+with open(SOURCE_PATH, mode="r", encoding="utf-8") as f:
+    source_list = json.load(f)
 
 # Check if data/raw folder exists.
 RAW_PATH = "./data/cantus/raw"
 if not os.path.exists(RAW_PATH):
     os.makedirs(RAW_PATH)
-
-# Read the sources to download
-SOURCE_PATH = os.path.abspath(
-    "./data/cantus/mappings/sources_short.json"
-)
-with open(SOURCE_PATH, mode="r", encoding="utf-8") as f:
-    source_list = json.load(f)
 
 # Send a GET request to the URL
 for source_id in source_list:
@@ -39,4 +45,4 @@ for source_id in source_list:
     else:
         print(f"Failed to retrieve the file. Status code: {response.status_code}")
 
-    time.sleep(1)
+    time.sleep(0.025)  # Sleep for 25ms to avoid overwhelming the server

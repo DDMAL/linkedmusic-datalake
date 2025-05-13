@@ -1,24 +1,28 @@
+"""
+Generates a compact JSON-LD file from the reconciled CSV file.
+"""
+
 import pandas as pd
 import json
 import re
-import glob
 
 # add the path to your reconciled csv to produce the compact jsonld.
 # to change the context by :
 #       - replace the '@context' key below with another context in the url
 #       - make changes to the file 'context.jsonld' and make sure to push the 
 #         changes on the appropriate branch (make sure the link below match where you host the context)
-fname = glob.glob("../reconciled_cantus_*.csv")
-if not fname:
-    print ("No CSV files found!")
-else:
-    df = pd.read_csv(fname[0])
+df = pd.read_csv("./data/cantus/reconciled/cantus-csv.csv")
 
 json_data = df.to_json(orient='records')
 parsed_json = json.loads(json_data)
 
 
 def handle_rec_col(work,key):
+    """
+    Handles the json-ld-ification of columns that have been reconciled.
+    Expects there to be a column with the same name as the key, and a column with the key + '_@id'.
+    Returns the value of the key if it is not reconciled, or a dictionary with the @id and name if it is.
+    """
     val = work.pop(key)
     wID = work.pop(f'{key}_@id')
     if val is None:
@@ -36,6 +40,10 @@ def handle_rec_col(work,key):
 
 
 def create_json_compact(js):
+    """
+    Takes the CSV parsed as JSON and creates a compact JSON-LD file.
+    The @context is set to the one in the context.jsonld file.
+    """
     for work in js:
 
         work["@context"] = "https://raw.githubusercontent.com/malajvan/linkedmusic-datalake/main/cantusdb/jsonld/context.jsonld"
@@ -47,25 +55,18 @@ def create_json_compact(js):
 
         work["genre"] = handle_rec_col(work,"genre")
         work["mode"] = handle_rec_col(work, "mode")
+        work["service"] = handle_rec_col(work, "service")
 
         # work["Q4484726"] = work.pop("finalis") #wikidata Final is closest term to finalis
 
-        work["source"] = work.pop("src_link")
-
         work["cantus_id"] = f"https://cantusindex.org/id/{work.pop('cantus_id')}"
 
-        
-        for key in list(work.keys()): #clean up nulls
-            if work[key] is None:
-                del work[key]
+  
+     
     # Print the nested list of dictionaries
     return json.dumps(js, indent=4)
 
 
 
-with open('compact.jsonld', 'w') as json_file:
+with open('compact.jsonld', 'w', encoding="utf-8") as json_file:
     json_file.write(create_json_compact(parsed_json))
-
-
-
-

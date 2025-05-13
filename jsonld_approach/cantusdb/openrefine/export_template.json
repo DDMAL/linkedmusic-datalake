@@ -1,167 +1,362 @@
 {
-    "format": "csv",
-    "separator": ",",
-    "lineSeparator": "\n",
-    "encoding": "UTF-8",
-    "quoteAll": false,
-    "outputColumnHeaders": true,
-    "outputBlankRows": false,
-    "columns": [
-        {
-            "name": "chant_id",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "incipit",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "genre",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "genre_@id",
-            "reconSettings": {
-                "output": "entity-id",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "mode",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "mode_@id",
-            "reconSettings": {
-                "output": "entity-id",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "finalis",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "absolute_url",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "src_link",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "cantus_id",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "indexing_notes",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        },
-        {
-            "name": "source_description",
-            "reconSettings": {
-                "output": "entity-name",
-                "blankUnmatchedCells": false,
-                "linkToEntityPages": true
-            },
-            "dateSettings": {
-                "format": "iso-8601",
-                "useLocalTimeZone": false,
-                "omitTime": false
-            }
-        }
-    ]
+  "format": "csv",
+  "separator": ",",
+  "lineSeparator": "\n",
+  "encoding": "UTF-8",
+  "quoteAll": false,
+  "outputColumnHeaders": true,
+  "outputBlankRows": false,
+  "columns": [
+    {
+      "name": "chant_id",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "source_id",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "shelfmark",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "holding_institution",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "marginalia",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "folio",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "sequence",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "incipit",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "feast",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "service",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "service_@id",
+      "reconSettings": {
+        "output": "entity-id",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "genre",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "genre_@id",
+      "reconSettings": {
+        "output": "entity-id",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "position",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "cantus_id",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "mode",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "mode_@id",
+      "reconSettings": {
+        "output": "entity-id",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "finalis",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "differentia",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "differentiae_database",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "fulltext_standardized",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "fulltext_ms",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "volpiano",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "image_link",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "melody_id",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "addendum",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    },
+    {
+      "name": "extra",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
+    }
+  ]
 }
