@@ -14,7 +14,7 @@
 - Move the `Best candidate's score` facet to 0-98.
 - These cells are not present in Wikidata. Ignore them by using `reconcile > actions > create one new item for similar cells`.
 - Close both facets. Go to `reconcile > add column with URLs of matched entities`, and name the new column `recording_wiki`.
-- Reconcile artist column against type `musical ensemble` (Q2088357). (Currently, we only reconcile the artists which have higher frequency of appearence in the Recordings spreadsheet.)
+- Reconcile artist column against type `musical ensemble` (Q2088357). (Currently, we only reconcile the artists which have higher frequency of appearance in the Recordings spreadsheet.)
 - Move the `Best candidate's score` facet to 100-101. In the `judgment` facet, choose "none."
 - Match the cells using `reconcile > actions > match each cell to its best candidate`.
 - Move the `Best candidate's score` facet to 0-99.
