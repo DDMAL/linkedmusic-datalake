@@ -1,3 +1,11 @@
+"""
+This script is a synchronous web crawler that fetches JSON data from the DIAMM website.
+It is highly recommended to use the async version of the crawler instead of the sync version.
+It is set up with the assumption that you will pipe stdout to a logfile.
+If you want to revisit pages that have already been visited by previous executions of the crawler,
+set the REVISIT variable to True. This will not prevent it from visiting the same page twice during an execution.
+"""
+
 import os
 import requests
 import json
@@ -8,6 +16,7 @@ BASE_PATH = "../../data/diamm/"
 
 REGEX_MATCH = re.compile(r"https:\/\/www\.diamm\.ac\.uk\/([a-z]+)\/([0-9]+)\/?")
 
+# Set this to True if you want to revisit pages visited during previous executions of the crawler
 REVISIT = False
 
 BAD_PAGES = [

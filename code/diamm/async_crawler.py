@@ -1,7 +1,9 @@
 """
 This script is an asynchronous web crawler that fetches JSON data from the DIAMM website.
 It is highly recommended to use the async version of the crawler instead of the sync version.
-It is set up with the assumption that you will pipe stdout o a logfile.
+It is set up with the assumption that you will pipe stdout to a logfile.
+If you want to revisit pages that have already been visited by previous executions of the crawler,
+set the REVISIT variable to True. This will not prevent it from visiting the same page twice during an execution.
 """
 
 import os
@@ -17,6 +19,7 @@ BASE_PATH = "../../data/diamm/"
 
 REGEX_MATCH = re.compile(r"https:\/\/www\.diamm\.ac\.uk\/([a-z]+)\/([0-9]+)\/?")
 
+# Set this to True if you want to revisit pages visited during previous executions of the crawler
 REVISIT = False
 
 MAX_CONCURRENT_VISITS = 8
@@ -34,10 +37,18 @@ visited = set() # tuple (str, str) representing (type, id), example is ("composi
 to_visit = [("sources", "117")]  # Starting point
 
 def print_stdout_stderr(message):
+    """
+    Prints a message to both stdout and stderr.
+    This is useful for logging purposes, especially when the output is being piped to a file.
+    """
     print(message)
     print(message, file=sys.stderr)
 
 async def fetch(session, url):
+    """
+    Fetches the content of a URL using an aiohttp session.
+    Returns None if there is an error or if the content type is not JSON.
+    """
     try:
         async with session.get(url, timeout=10, headers={"Accept": "application/json"}) as response:
             if response.status != 200:
@@ -59,6 +70,10 @@ async def fetch(session, url):
         return None
 
 async def visit_worker(name, session, visit_queue, write_queue, visited):
+    """
+    Worker function that fetches pages from the DIAMM website, schedules them for writing,
+    and adds new pages to the visit queue.
+    """
     print(f"Visit worker {name} started")
     try:
         while True:
@@ -102,6 +117,11 @@ async def visit_worker(name, session, visit_queue, write_queue, visited):
         print_stdout_stderr(f"Visit worker {name} finished")
 
 async def write_worker(name, write_queue):
+    """
+    Writer worker function that saves the fetched JSON data to files.
+    It ensures that all data is written even if the worker is cancelled.
+    It also handles any exceptions that occur during the writing process.
+    """
     print(f"Write worker {name} started")
     try:
         while True:
@@ -126,6 +146,10 @@ async def write_worker(name, write_queue):
         print_stdout_stderr(f"Write worker {name} finished")
 
 async def main(to_visit, visited):
+    """
+    Main function that initializes the visit and write queues, creates the worker tasks,
+    and waits for all tasks to complete.
+    """
     visit_queue = asyncio.Queue()
     write_queue = asyncio.Queue()
     for item in to_visit:

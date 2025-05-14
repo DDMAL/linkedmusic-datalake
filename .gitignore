@@ -10,5 +10,3 @@ rdb2rdf/
 *.jsonl
 *.csv
 *.ttl
-data/diamm/
-code/diamm/log.txt
