@@ -1,0 +1,106 @@
+[
+  {
+    "op": "core/multivalued-cell-split",
+    "columnName": "genres",
+    "keyColumnName": "id",
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "description": "Split multi-valued cells in column genres"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "genres",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "genres_@id",
+    "columnInsertIndex": 4,
+    "description": "Create column genres_@id at index 4 based on column genres using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "genres_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q188451",
+        "name": "music genre"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column genres_@id to type Q188451"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "genres_@id: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "genres_@id",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "genres_@id",
+    "description": "Match each cell to its best recon candidate in column genres_@id"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "genres_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "genres_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "genres_@id",
+    "shareNewTopics": false,
+    "description": "Mark to create new items for cells in column genres_@id, one item for each cell"
+  },
+  {
+    "op": "core/multivalued-cell-join",
+    "columnName": "genres",
+    "keyColumnName": "id",
+    "separator": ";",
+    "description": "Join multi-valued cells in column genres"
+  }
+]
