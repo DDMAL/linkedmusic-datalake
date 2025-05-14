@@ -21,6 +21,7 @@ psycopg2-binary = "^2.9.10"
 [tool.poetry.group.dev.dependencies]
 aiohttp = "^3.11.18"
 aiofiles = "^24.1.0"
+black = "^25.1.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -12,7 +12,7 @@ import json
 import re
 
 BASE_URL = "https://www.diamm.ac.uk/"
-BASE_PATH = "../../data/diamm/"
+BASE_PATH = "../../data/diamm/raw/"
 
 REGEX_MATCH = re.compile(r"https:\/\/www\.diamm\.ac\.uk\/([a-z]+)\/([0-9]+)\/?")
 
@@ -23,7 +23,14 @@ BAD_PAGES = [
     "documents",
     "cover",
     "admin",
-    "cms"
+    "cms",
+    "authors",
+]
+
+LOAD_DONT_SAVE = [
+    "cities",
+    "countries",
+    "regions",
 ]
 
 visited = set() # tuple (str, str) representing (type, id), example is ("compositions", "117")
@@ -56,10 +63,11 @@ while len(to_visit) != 0:
     except json.JSONDecodeError:
         print(f"Failed to parse JSON for {url}")
         continue
-
-    os.makedirs(os.path.join(BASE_PATH, page[0]), exist_ok=True)
-    with open(os.path.join(BASE_PATH, page[0], f"{page[1]}.json"), "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    
+    if page[0] not in LOAD_DONT_SAVE:
+        os.makedirs(os.path.join(BASE_PATH, page[0]), exist_ok=True)
+        with open(os.path.join(BASE_PATH, page[0], f"{page[1]}.json"), "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
 
     matches = REGEX_MATCH.findall(json.dumps(data))
     for match in matches:

@@ -15,8 +15,9 @@ import re
 import sys
 
 BASE_URL = "https://www.diamm.ac.uk/"
-BASE_PATH = "../../data/diamm/"
+BASE_PATH = "../../data/diamm/raw/"
 
+# Regex pattern to match DIAMM URLs, and capture the type and ID
 REGEX_MATCH = re.compile(r"https:\/\/www\.diamm\.ac\.uk\/([a-z]+)\/([0-9]+)\/?")
 
 # Set this to True if you want to revisit pages visited during previous executions of the crawler
@@ -25,11 +26,20 @@ REVISIT = False
 MAX_CONCURRENT_VISITS = 8
 MAX_CONCURRENT_WRITES = 2
 
+# These pages will be ignored, and neither visited nor saved
 BAD_PAGES = [
     "documents",
     "cover",
     "admin",
-    "cms"
+    "cms",
+    "authors",
+]
+
+# These pages will be visited and scraped, but not saved to disk
+LOAD_DONT_SAVE = [
+    "cities",
+    "countries",
+    "regions",
 ]
 
 visited = set() # tuple (str, str) representing (type, id), example is ("compositions", "117")
@@ -78,8 +88,6 @@ async def visit_worker(name, session, visit_queue, write_queue, visited):
     try:
         while True:
             page = await visit_queue.get()
-            if page is None:
-                break
             if page in visited:
                 visit_queue.task_done()
                 continue
@@ -101,7 +109,8 @@ async def visit_worker(name, session, visit_queue, write_queue, visited):
                 visit_queue.task_done()
                 continue
             text = json.dumps(data, ensure_ascii=False, indent=4)
-            await write_queue.put((page, text))
+            if page[0] not in LOAD_DONT_SAVE:
+                await write_queue.put((page, text))
             matches = REGEX_MATCH.findall(text)
             for match in matches:
                 if match[0] in BAD_PAGES:
@@ -154,8 +163,9 @@ async def main(to_visit, visited):
     write_queue = asyncio.Queue()
     for item in to_visit:
         await visit_queue.put(item)
-    
+
     async with aiohttp.ClientSession() as session:
+        # Start the workers
         crawl_tasks = [
             asyncio.create_task(visit_worker(f"crawl-{i}", session, visit_queue, write_queue, visited))
             for i in range(MAX_CONCURRENT_VISITS)
@@ -164,12 +174,16 @@ async def main(to_visit, visited):
             asyncio.create_task(write_worker(f"write-{i}", write_queue))
             for i in range(MAX_CONCURRENT_WRITES)
         ]
+
+        # Wait for the queues to be empty
         await visit_queue.join()
         await write_queue.join()
 
+        # Cancel the workers once the queues are empty
         for task in crawl_tasks+write_tasks:
             task.cancel()
-        
+
+        # Wait for all tasks to finish
         await asyncio.gather(*crawl_tasks, *write_tasks, return_exceptions=True)
 
 if __name__ == "__main__":
