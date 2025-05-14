@@ -167,10 +167,10 @@ async def main(to_visit, visited):
         await visit_queue.join()
         await write_queue.join()
 
-        await asyncio.gather(*(crawl_tasks+write_tasks), return_exceptions=True)
-
         for task in crawl_tasks+write_tasks:
             task.cancel()
+        
+        await asyncio.gather(*crawl_tasks, *write_tasks, return_exceptions=True)
 
 if __name__ == "__main__":
     asyncio.run(main(to_visit, visited))
