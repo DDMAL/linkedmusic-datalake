@@ -89,7 +89,7 @@ else: return None
 - Move the score facet to 71-101, inspect, and match the reconciliation data.
 - Move the score facet to 0-101, choose "none" in the `judgment` facet, and ignore the remaining cells that are not present in Wikidata with `reconcile > actions > create one new item for similar cells`.
 - Add a column with URLs of matched entities, and name it `town_wiki`.
-- Reconcile the `venue` column against type Q77115 and choose "town" as the property `location` (P276).
+- Reconcile the `venue` column against no particular type and choose "town" as the property `location` (P131).
 - Manually reconcile these columns since the rate of accurately reconciled cells is low.
 - Add a column URLs of matched entities, naming it `venue_wiki`.
 
