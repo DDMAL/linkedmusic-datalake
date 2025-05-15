@@ -550,27 +550,7 @@
   {
     "op": "core/column-addition",
     "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "town: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "town",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "matched",
-                "l": "matched"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
+      "facets": [],
       "mode": "row-based"
     },
     "baseColumnName": "town",
@@ -592,34 +572,222 @@
       "service": "https://wikidata.reconci.link/en/api",
       "identifierSpace": "http://www.wikidata.org/entity/",
       "schemaSpace": "http://www.wikidata.org/prop/direct/",
-      "type": {
-        "id": "Q77115",
-        "name": "community center"
-      },
       "autoMatch": true,
       "batchSize": 10,
       "columnDetails": [
         {
           "column": "town",
-          "propertyName": "location",
-          "propertyID": "P276"
+          "propertyName": "located in the administrative territorial entity",
+          "propertyID": "P131"
         }
       ],
       "limit": 0
     },
-    "description": "Reconcile cells in column venue to type Q77115"
+    "description": "Reconcile cells in column venue to type null"
   },
   {
-    "op": "core/column-addition",
+    "op": "core/recon-judge-similar-cells",
     "engineConfig": {
       "facets": [],
       "mode": "row-based"
     },
-    "baseColumnName": "venue",
-    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
-    "onError": "set-to-blank",
-    "newColumnName": "venue_wiki",
-    "columnInsertIndex": 5,
-    "description": "Create column venue_wiki at index 5 based on column venue using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+    "columnName": "venue",
+    "similarValue": "London Irish Centre",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6670524",
+      "name": "London Irish Centre",
+      "types": [
+        "Q708676"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item London Irish Centre (Q6670524) for cells containing \"London Irish Centre\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Peckham Rye Park",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7158745",
+      "name": "Peckham Rye",
+      "types": [
+        "Q22698"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Peckham Rye (Q7158745) for cells containing \"Peckham Rye Park\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Sabhal Mòr Ostaig",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2748208",
+      "name": "Sabhal Mòr Ostaig",
+      "types": [
+        "Q189004"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Sabhal Mòr Ostaig (Q2748208) for cells containing \"Sabhal Mòr Ostaig\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Gardner Memorial Church",
+    "judgment": "matched",
+    "match": {
+      "id": "Q17574360",
+      "name": "Gardner Memorial Church, Damacre Road, Brechin",
+      "types": [
+        "Q16970"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Gardner Memorial Church, Damacre Road, Brechin (Q17574360) for cells containing \"Gardner Memorial Church\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Royal Northern College Of Music",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1544384",
+      "name": "Royal Northern College of Music",
+      "types": [
+        "Q184644",
+        "Q38723",
+        "Q5341295"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Royal Northern College of Music (Q1544384) for cells containing \"Royal Northern College Of Music\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Garrick Bar",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5523973",
+      "name": "Garrick Bar",
+      "types": [
+        "Q187456",
+        "Q41176"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Garrick Bar (Q5523973) for cells containing \"Garrick Bar\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Ireland Park",
+    "judgment": "matched",
+    "match": {
+      "id": "Q14875210",
+      "name": "Ireland Park",
+      "types": [
+        "Q22698"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ireland Park (Q14875210) for cells containing \"Ireland Park\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Nazareth College",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6983313",
+      "name": "Nazareth University",
+      "types": [
+        "Q3918",
+        "Q23002054"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Nazareth University (Q6983313) for cells containing \"Nazareth College\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "venue: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "venue",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "St Gregory's School",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7401329",
+      "name": "Saint Gregory's Catholic College",
+      "types": [
+        "Q159334",
+        "Q7940971"
+      ],
+      "score": 62.142857142857146
+    },
+    "shareNewTopics": false,
+    "description": "Match item Saint Gregory's Catholic College (Q7401329) for cells containing \"St Gregory's School\" in column venue"
   }
 ]
