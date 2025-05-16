@@ -10,7 +10,7 @@ See `doc/diamm/data_layout.md` for a brief overview of the data downloaded by th
 
 ## 3. Reconciling Data
 
-All of the CSV files produced by `code/diamm/to_csv.py`, except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in `reconciliation.md`. The folder `doc/diamm/reconciliation_files` contains the history and export template files for each CSV.
+All of the CSV files produced by `code/diamm/to_csv.py`, except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in `reconciliation.md`. The folder `doc/diamm/reconciliation_files` contains the history and export template files for the reconciliation of each CSV.
 
 ## 4. Transforming to RDF (JSON-LD)
 

@@ -1,0 +1,26 @@
+{
+    "@context": {
+        "diamm": "https://www.diamm.ac.uk/",
+        "diamm_archive": "https://www.diamm.ac.uk/archives/",
+        "diamm_composition": "https://www.diamm.ac.uk/compositions/",
+        "diamm_organization": "https://www.diamm.ac.uk/organizations/",
+        "diamm_person": "https://www.diamm.ac.uk/people/",
+        "diamm_set": "https://www.diamm.ac.uk/sets/",
+        "diamm_source": "https://www.diamm.ac.uk/sources/",
+        "musical_work_variant_titles": "wdt:P1476",
+        "contributor": "wdt:P767",
+        "contributor_role": "wdt:P3831",
+        "contributor_name":"wdt:P2561",
+        "genre_style": "wdt:P135",
+        "genre_type": "wdt:P136",
+        "database": {
+            "@id": "https://schema.org/Dataset",
+            "@type": "@id"
+        },
+        "file_format": "wdt:P2701",
+        "name": "wd:P2561",
+
+        "wd": "http://www.wikidata.org/entity/",
+        "wdt": "http://www.wikidata.org/prop/direct/"
+    }
+}
