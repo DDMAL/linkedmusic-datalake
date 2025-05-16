@@ -206,6 +206,12 @@ for file in os.listdir(os.path.join(BASE_PATH, "people")):
                 if "latest_year_approximate" in data
                 else ""
             )
+            line["rism_id"] = line["viaf_id"] = ""
+            for identifier in data["identifiers"]:
+                if re.match("RISM", identifier["label"], re.IGNORECASE):
+                    line["rism_id"] = identifier["identifier"]
+                elif re.match("VIAF", identifier["label"], re.IGNORECASE):
+                    line["viaf_id"] = identifier["identifier"]
             for composition in data["compositions"]:
                 composition_id = int(composition["url"].split("/")[-2])
                 composition_dict = HashableDict(
