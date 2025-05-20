@@ -12,7 +12,7 @@ import aiohttp
 import aiofiles
 import json
 import re
-import sys
+import logging
 
 BASE_URL = "https://www.diamm.ac.uk/"
 BASE_PATH = "../../data/diamm/raw/"
@@ -42,17 +42,28 @@ LOAD_DONT_SAVE = [
     "regions",
 ]
 
+# Set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# File handler for logging to a file
+# This will create a log file named diamm_crawler.log in the current directory
+file_handler = logging.FileHandler("diamm_crawler.log", mode="w", encoding="utf-8")
+file_handler.setLevel(logging.DEBUG)
+file_format = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(file_format)
+logger.addHandler(file_handler)
+
+# Console handler for logging to stderr
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.ERROR)
+console_format = logging.Formatter("%(levelname)s - %(message)s")
+console_handler.setFormatter(console_format)
+logger.addHandler(console_handler)
+
 visited = set() # tuple (str, str) representing (type, id), example is ("compositions", "117")
 
 to_visit = [("sources", "117")]  # Starting point
-
-def print_stdout_stderr(message):
-    """
-    Prints a message to both stdout and stderr.
-    This is useful for logging purposes, especially when the output is being piped to a file.
-    """
-    print(message)
-    print(message, file=sys.stderr)
 
 async def fetch(session, url):
     """
@@ -62,21 +73,21 @@ async def fetch(session, url):
     try:
         async with session.get(url, timeout=10, headers={"Accept": "application/json"}) as response:
             if response.status != 200:
-                print(f"Failed to fetch {url}: {response.status}")
+                logger.warning("Failed to fetch %s: %d", url, response.status)
                 return None
             if response.headers["Content-Type"] != "application/json":
-                print(f"Unexpected content type for {url}: {response.headers['Content-Type']}")
+                logger.warning("Unexpected content type for %s: %s", url, response.headers['Content-Type'])
                 return None
-            print(f"Fetched {url}")
+            logger.info("Fetched %s", url)
             return await response.text()
-    except aiohttp.ClientError as e:
-        print(f"Exception while trying to parse {url}: {e}")
+    except aiohttp.ClientError:
+        logger.error("Exception while trying to parse %s", url, exc_info=True)
         return None
     except asyncio.TimeoutError:
-        print_stdout_stderr(f"Timeout while trying to fetch {url}")
+        logger.error("Timeout while trying to fetch %s", url, exc_info=True)
         return None
-    except Exception as e:
-        print(f"Unexpected exception while trying to fetch {url}: {e}")
+    except Exception:
+        logger.critical("Unexpected exception while trying to fetch %s", url, exc_info=True)
         return None
 
 async def visit_worker(name, session, visit_queue, write_queue, visited):
@@ -84,7 +95,7 @@ async def visit_worker(name, session, visit_queue, write_queue, visited):
     Worker function that fetches pages from the DIAMM website, schedules them for writing,
     and adds new pages to the visit queue.
     """
-    print(f"Visit worker {name} started")
+    logger.info("Visit worker %s started", name)
     try:
         while True:
             page = await visit_queue.get()
@@ -105,7 +116,7 @@ async def visit_worker(name, session, visit_queue, write_queue, visited):
             try:
                 data = json.loads(received)
             except json.JSONDecodeError:
-                print(f"Failed to parse JSON for {url}")
+                logger.warning("Failed to parse JSON for %s", url)
                 visit_queue.task_done()
                 continue
             text = json.dumps(data, ensure_ascii=False, indent=4)
@@ -120,10 +131,10 @@ async def visit_worker(name, session, visit_queue, write_queue, visited):
             visit_queue.task_done()
     except asyncio.CancelledError:
         pass
-    except Exception as e:
-        print_stdout_stderr(f"Unexpected exception in visit worker {name}: {e}")
+    except Exception:
+        logger.critical("Unexpected exception in visit worker %s", name, exc_info=True)
     finally:
-        print_stdout_stderr(f"Visit worker {name} finished")
+        logger.info("Visit worker %s finished", name)
 
 async def write_worker(name, write_queue):
     """
@@ -131,28 +142,28 @@ async def write_worker(name, write_queue):
     It ensures that all data is written even if the worker is cancelled.
     It also handles any exceptions that occur during the writing process.
     """
-    print(f"Write worker {name} started")
+    logger.info("Write worker %s started", name)
     try:
         while True:
             page, data = await write_queue.get()
             os.makedirs(os.path.join(BASE_PATH, page[0]), exist_ok=True)
             async with aiofiles.open(os.path.join(BASE_PATH, page[0], f"{page[1]}.json"), "w", encoding="utf-8") as f:
                 await f.write(data)
-                print(f"Saved {page[0]}/{page[1]}.json")
+                logger.info("Saved %s/%s.json", page[0], page[1])
             write_queue.task_done()
     except asyncio.CancelledError:
         pass
-    except Exception as e:
-        print_stdout_stderr(f"Unexpected exception in write worker {name}: {e}")
+    except Exception:
+        logger.critical("Unexpected exception in write worker %s", name, exc_info=True)
     finally:
         while not write_queue.empty():
             page, data = await write_queue.get()
             os.makedirs(os.path.join(BASE_PATH, page[0]), exist_ok=True)
             async with aiofiles.open(os.path.join(BASE_PATH, page[0], f"{page[1]}.json"), "w", encoding="utf-8") as f:
                 await f.write(data)
-                print(f"Saved {page[0]}/{page[1]}.json")
+                logger.info("Saved %s/%s.json", page[0], page[1])
             write_queue.task_done()
-        print_stdout_stderr(f"Write worker {name} finished")
+        logger.info("Write worker %s finished", name)
 
 async def main(to_visit, visited):
     """
