@@ -1,9 +1,12 @@
 """
 This script is an asynchronous web crawler that fetches JSON data from the DIAMM website.
 It is highly recommended to use the async version of the crawler instead of the sync version.
-It is set up with the assumption that you will pipe stdout to a logfile.
+The script will output to a logfile in the working directory, and will also print errors to stderr.
+Change the file handler to log to a different file if needed.
 If you want to revisit pages that have already been visited by previous executions of the crawler,
 set the REVISIT variable to True. This will not prevent it from visiting the same page twice during an execution.
+The script is set to rate limit itself to 40 requests per second, or 1 request every 25ms on average,
+to avoid overwhelming the server.
 """
 
 import os
@@ -13,6 +16,7 @@ import aiofiles
 import json
 import re
 import logging
+from aiolimiter import AsyncLimiter
 
 BASE_URL = "https://www.diamm.ac.uk/"
 BASE_PATH = "../../data/diamm/raw/"
@@ -25,6 +29,7 @@ REVISIT = False
 
 MAX_CONCURRENT_VISITS = 8
 MAX_CONCURRENT_WRITES = 2
+RATE_LIMIT = 40 # 40 requests per second, or 1 requests every 25ms on average
 
 # These pages will be ignored, and neither visited nor saved
 BAD_PAGES = [
@@ -65,21 +70,22 @@ visited = set() # tuple (str, str) representing (type, id), example is ("composi
 
 to_visit = [("sources", "117")]  # Starting point
 
-async def fetch(session, url):
+async def fetch(session, url, limiter):
     """
     Fetches the content of a URL using an aiohttp session.
     Returns None if there is an error or if the content type is not JSON.
     """
     try:
-        async with session.get(url, timeout=10, headers={"Accept": "application/json"}) as response:
-            if response.status != 200:
-                logger.warning("Failed to fetch %s: %d", url, response.status)
-                return None
-            if response.headers["Content-Type"] != "application/json":
-                logger.warning("Unexpected content type for %s: %s", url, response.headers['Content-Type'])
-                return None
-            logger.info("Fetched %s", url)
-            return await response.text()
+        async with limiter:
+            async with session.get(url, timeout=10, headers={"Accept": "application/json"}) as response:
+                if response.status != 200:
+                    logger.warning("Failed to fetch %s: %d", url, response.status)
+                    return None
+                if response.headers["Content-Type"] != "application/json":
+                    logger.warning("Unexpected content type for %s: %s", url, response.headers['Content-Type'])
+                    return None
+                logger.info("Fetched %s", url)
+                return await response.text()
     except aiohttp.ClientError:
         logger.error("Exception while trying to parse %s", url, exc_info=True)
         return None
@@ -90,7 +96,7 @@ async def fetch(session, url):
         logger.critical("Unexpected exception while trying to fetch %s", url, exc_info=True)
         return None
 
-async def visit_worker(name, session, visit_queue, write_queue, visited):
+async def visit_worker(name, session, visit_queue, write_queue, visited, limiter):
     """
     Worker function that fetches pages from the DIAMM website, schedules them for writing,
     and adds new pages to the visit queue.
@@ -109,7 +115,7 @@ async def visit_worker(name, session, visit_queue, write_queue, visited):
                     visit_queue.task_done()
                     continue
             url = f"{BASE_URL}{page[0]}/{page[1]}/"
-            received = await fetch(session, url)
+            received = await fetch(session, url, limiter)
             if received is None:
                 visit_queue.task_done()
                 continue
@@ -175,10 +181,12 @@ async def main(to_visit, visited):
     for item in to_visit:
         await visit_queue.put(item)
 
+    limiter = AsyncLimiter(RATE_LIMIT, 1)  # Rate limiter to control the number of requests per second
+
     async with aiohttp.ClientSession() as session:
         # Start the workers
         crawl_tasks = [
-            asyncio.create_task(visit_worker(f"crawl-{i}", session, visit_queue, write_queue, visited))
+            asyncio.create_task(visit_worker(f"crawl-{i}", session, visit_queue, write_queue, visited, limiter))
             for i in range(MAX_CONCURRENT_VISITS)
         ]
         write_tasks = [
