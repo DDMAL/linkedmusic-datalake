@@ -16,9 +16,15 @@ OUTPUT_PATH = "../../data/diamm/RDF/"
 os.makedirs(OUTPUT_PATH, exist_ok=True)
 
 SCHEMA = Namespace("http://schema.org/")
-DIAMM = Namespace("https://www.diamm.ac.uk/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
+DIAMM = Namespace("https://www.diamm.ac.uk/")
+DA = Namespace(f"{DIAMM}archives/")
+DM = Namespace(f"{DIAMM}compositions/")
+DO = Namespace(f"{DIAMM}organizations/")
+DP = Namespace(f"{DIAMM}people/")
+DS = Namespace(f"{DIAMM}sources/")
+DE = Namespace(f"{DIAMM}sets/")
 
 # DIAMM schema properties contained in one location to make it easier to change
 DIAMM_SCHEMA = {
@@ -52,9 +58,15 @@ DIAMM_SCHEMA = {
 
 namespaces = {
     "schema": SCHEMA,
-    "diamm": DIAMM,
     "wdt": WDT,
     "wd": WD,
+    "diamm": DIAMM,
+    "da": DA,
+    "dm": DM,
+    "do": DO,
+    "dp": DP,
+    "ds": DS,
+    "de": DE,
 }
 
 def matched_wikidata(field: str) -> bool:
@@ -79,7 +91,7 @@ for prefix, ns in namespaces.items():
 print("Processing archives...")
 json_data = json.loads(archives.to_json(orient="records"))
 for work in json_data:
-    subject_uri = URIRef(f"{DIAMM}archives/{int(work['id'])}")
+    subject_uri = URIRef(f"{DA}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Archive")))
 
     if matched_wikidata(work["name_@id"]): # Use the same as property to indicate if the archive has been reconciled
@@ -113,7 +125,7 @@ for work in json_data:
             g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), Literal(work["genres"])))
         continue
 
-    subject_uri = URIRef(f"{DIAMM}compositions/{int(work['id'])}")
+    subject_uri = URIRef(f"{DM}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Composition")))
     g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["title"]}"), Literal(work["title"])))
 
@@ -136,7 +148,7 @@ for work in json_data:
             g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["organization_type"])))
         continue
 
-    subject_uri = URIRef(f"{DIAMM}organizations/{int(work['id'])}")
+    subject_uri = URIRef(f"{DO}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Organization")))
 
     if matched_wikidata(work["name_@id"]): # Use the same as property to indicate if the organization has been reconciled
@@ -164,7 +176,7 @@ for work in json_data:
 print("Processing people...")
 json_data = json.loads(people.to_json(orient="records"))
 for work in json_data:
-    subject_uri = URIRef(f"{DIAMM}people/{int(work['id'])}")
+    subject_uri = URIRef(f"{DP}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Person")))
 
     if matched_wikidata(work["full_name_@id"]): # Use the same as property to indicate if the person has been reconciled
@@ -188,7 +200,7 @@ for work in json_data:
 print("Processing sets...")
 json_data = json.loads(sets.to_json(orient="records"))
 for work in json_data:
-    subject_uri = URIRef(f"{DIAMM}sets/{int(work['id'])}")
+    subject_uri = URIRef(f"{DE}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Set")))
 
     if matched_wikidata(work["type_@id"]):
@@ -201,7 +213,7 @@ for work in json_data:
 print("Processing sources...")
 json_data = json.loads(sources.to_json(orient="records"))
 for work in json_data:
-    subject_uri = URIRef(f"{DIAMM}sources/{int(work['id'])}")
+    subject_uri = URIRef(f"{DS}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Source")))
 
     g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["display_name"]}"), Literal(work["display_name"])))
@@ -221,20 +233,20 @@ for work in json_data:
     first_id, second_id = int(first_id), int(second_id)
 
     if first_type == "archive" and second_type == "source":
-        first_uri = URIRef(f"{DIAMM}archives/{first_id}")
-        second_uri = URIRef(f"{DIAMM}sources/{second_id}")
+        first_uri = URIRef(f"{DA}{first_id}")
+        second_uri = URIRef(f"{DS}{second_id}")
         g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri))
     elif first_type == "composition" and second_type == "people":
-        first_uri = URIRef(f"{DIAMM}compositions/{first_id}")
-        second_uri = URIRef(f"{DIAMM}people/{second_id}")
+        first_uri = URIRef(f"{DM}{first_id}")
+        second_uri = URIRef(f"{DP}{second_id}")
         g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["composer"]}"), second_uri))
     elif first_type == "composition" and second_type == "source":
-        first_uri = URIRef(f"{DIAMM}compositions/{first_id}")
-        second_uri = URIRef(f"{DIAMM}sources/{second_id}")
+        first_uri = URIRef(f"{DM}{first_id}")
+        second_uri = URIRef(f"{DS}{second_id}")
         g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["composition_in_source"]}"), second_uri))
     elif first_type == "organization" and second_type == "source":
-        first_uri = URIRef(f"{DIAMM}organizations/{first_id}")
-        second_uri = URIRef(f"{DIAMM}sources/{second_id}")
+        first_uri = URIRef(f"{DO}{first_id}")
+        second_uri = URIRef(f"{DS}{second_id}")
 
         if work["type"] == "related":
             g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["related_organization"]}"), second_uri))
@@ -243,20 +255,20 @@ for work in json_data:
         elif work["type"] == "provenance":
             g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["provenance_organization"]}"), second_uri))
     elif first_type == "people" and second_type == "source":
-        first_uri = URIRef(f"{DIAMM}people/{first_id}")
-        second_uri = URIRef(f"{DIAMM}sources/{second_id}")
+        first_uri = URIRef(f"{DP}{first_id}")
+        second_uri = URIRef(f"{DS}{second_id}")
 
         if work["type"] == "related":
             g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["related_people"]}"), first_uri))
         elif work["type"] == "copied":
             g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["copied_people"]}"), first_uri))
     elif first_type == "archive" and second_type == "set":
-        first_uri = URIRef(f"{DIAMM}archives/{first_id}")
-        second_uri = URIRef(f"{DIAMM}sets/{second_id}")
+        first_uri = URIRef(f"{DA}{first_id}")
+        second_uri = URIRef(f"{DE}{second_id}")
         g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri))
     elif first_type == "set" and second_type == "source":
-        first_uri = URIRef(f"{DIAMM}sets/{first_id}")
-        second_uri = URIRef(f"{DIAMM}sources/{second_id}")
+        first_uri = URIRef(f"{DE}{first_id}")
+        second_uri = URIRef(f"{DS}{second_id}")
         g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["set_in_source"]}"), second_uri))
 
 # Serialize the graph to RDF format
