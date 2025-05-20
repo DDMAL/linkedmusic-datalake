@@ -79,7 +79,7 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
 ### 3. Joining the Processed Files
 1. Navigate to `/linkedmusic-datalake/code/rism/`.
 2. Run `python3 force_join.py`.
-> Note: ensure the path to input_file and output_dir are configured properly within the `__main__` function of `force_join.py`. The final output will by default be created at `/linkedmusic-datalake/data/rism/split_output`. It is highly recommended to store the data files outside of this github repo.
+> Note: ensure the path to input_file and output_dir are configured properly within the `__main__` function of `force_join.py`. The final output will by default be created at `/linkedmusic-datalake/data/rism/joined_output.ttl`. It is highly recommended to store the data files outside of this github repo.
 
 The joined file represents the complete processed RISM dataset.
 
