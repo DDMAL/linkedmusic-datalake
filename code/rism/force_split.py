@@ -4,7 +4,7 @@ import sys
 import json
 from pathlib import Path
 
-DEFAULT_CHUNK_SIZE_MB = 1e3
+DEFAULT_CHUNK_SIZE_MB = 5e2
 
 
 def convert_blank_nodes_to_uris(ntriples_str, base_uri="http://dummy.org/bnode/"):
@@ -72,9 +72,10 @@ def force_split_ttl(input_file, output_dir, mapping_file, chunk_size_mb=1e3):
 
 
 if __name__ == "__main__":
-    input_file = "../data/raw/rism-dump.ttl"  # Replace with your input file
-    output_dir = "../data/split_output"  # Replace with your desired output directory
-    mapping_file = "../data/reconciled/mapping.json"  # Replace with your mapping file
+    BASE_DIR = Path(__file))(.resolve().parent.parent
+    input_file = BASE_DIR/"data"/"rism"/"raw"/"rism-dump.ttl"  # Replace with your input file
+    output_dir = BASE_DIR/"data"/"rism"/"split_output"  # Replace with your desired output directory
+    mapping_file = BASE_DIR/"code"/"rism"/"ontology"/"mapping.json"  # Replace with your mapping file
 
     if len(sys.argv) > 1:
         DEFAULT_CHUNK_SIZE_MB = float(sys.argv[1])
