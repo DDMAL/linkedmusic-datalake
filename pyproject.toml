@@ -16,11 +16,11 @@ beautifulsoup4 = "^4.12.3"
 requests = "^2.32.3"
 tqdm = "^4.67.1"
 psycopg2-binary = "^2.9.10"
+aiohttp = "^3.11.18"
+aiofiles = "^24.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
-aiohttp = "^3.11.18"
-aiofiles = "^24.1.0"
 black = "^25.1.0"
 
 [build-system]
