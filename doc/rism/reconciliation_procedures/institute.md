@@ -8,7 +8,7 @@
 - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
 - Match the cells using `reconcile > actions > match each cell to its best candidate`.
 - Text transform the cells in `institute location` using the GREL regex `value.replace(/\s*\(.*?\)\s*/, "")`.
-- Reconcile the cells in column `institue name` to type `organization` (Q43229). In the reconciliation window, choose "institute location" as the property `located in the administrative territorial entity` (P131) and .
+- Reconcile the cells in column `institute name` to type `organization` (Q43229). In the reconciliation window, choose "institute location" as the property `located in the administrative territorial entity` (P131) and .
 - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
 - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
 - Match the cells using `reconcile > actions > match each cell to its best candidate`.
