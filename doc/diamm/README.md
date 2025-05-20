@@ -1,6 +1,6 @@
 # DIAMM Database Reconciliation Documentation
 
-## 1. Fecthing Data
+## 1. Fetching Data
 
 The website supports content negotiation, either by adding `?format=json` to the end of the URL or by sending the HTTP header `Accept: application/json`. To retrieve the data, we use a web crawler, either `code/diamm/crawler.py` or `code/diamm/async_crawler.py` for a much faster one. The data is sent to `data/diamm/raw/<type>/<pk>.json`
 
