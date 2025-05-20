@@ -26,56 +26,11 @@
       "mode": "record-based"
     },
     "baseColumnName": "https://rism.online/api/v1#hasKeyMode",
-    "expression": "jython:return value",
+    "expression": "jython:import re \nif re.match(\"\\\\d\", value):\n return None \nkey = value[0]\nqual = \"Major\" \nif key != key.upper():\n key = key.upper()\n qual = \"minor\" \nif \"|\" in value: \n if value[2] == \"b\":\n  key += \"-flat\" \n else:\n  key += \"-sharp\" \nreturn key + \" \" + qual",
     "onError": "set-to-blank",
     "newColumnName": "temp key",
-    "columnInsertIndex": 30,
-    "description": "Create column temp key at index 30 based on column https://rism.online/api/v1#hasKeyMode using expression jython:return value"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "https://rism.online/api/v1#hasKeyMode",
-          "expression": "isBlank(value)",
-          "columnName": "https://rism.online/api/v1#hasKeyMode",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": false,
-                "l": "false"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "temp key: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "temp key",
-          "from": 49,
-          "to": 55,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "record-based"
-    },
-    "columnName": "temp key",
-    "expression": "jython:import re\n\nif re.match(\"\\\\d\", value):\n return None\n\nkey = value[0]\nqual = \"Major\"\n\nif key != key.upper():\n key = key.upper()\n qual = \"minor\"\n\nif \"|\" in value:\n if value[2] == \"b\":\n  key += \"-flat\"\n else:\n  key += \"-sharp\"\n\nreturn key + \" \" + qual",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column temp key using expression jython:import re\n\nif re.match(\"\\\\d\", value):\n return None\n\nkey = value[0]\nqual = \"Major\"\n\nif key != key.upper():\n key = key.upper()\n qual = \"minor\"\n\nif \"|\" in value:\n if value[2] == \"b\":\n  key += \"-flat\"\n else:\n  key += \"-sharp\"\n\nreturn key + \" \" + qual"
+    "columnInsertIndex": 28,
+    "description": "Create column temp key at index 28 based on column https://rism.online/api/v1#hasKeyMode using expression jython:import re \nif re.match(\"\\\\d\", value):\n return None \nkey = value[0]\nqual = \"Major\" \nif key != key.upper():\n key = key.upper()\n qual = \"minor\" \nif \"|\" in value: \n if value[2] == \"b\":\n  key += \"-flat\" \n else:\n  key += \"-sharp\" \nreturn key + \" \" + qual"
   },
   {
     "op": "core/recon",
@@ -99,18 +54,6 @@
           ],
           "selectBlank": false,
           "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "temp key: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "temp key",
-          "from": 49,
-          "to": 55,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
         }
       ],
       "mode": "record-based"
@@ -162,9 +105,41 @@
     "description": "Match each cell to its best recon candidate in column temp key"
   },
   {
-    "op": "core/column-rename",
-    "oldColumnName": "temp key",
-    "newColumnName": "https://www.wikidata.org/wiki/Property:P826",
-    "description": "Rename column temp key to https://www.wikidata.org/wiki/Property:P826"
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasKeyMode",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasKeyMode",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "temp key",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "http://www.wikidata.org/prop/direct/P826",
+    "columnInsertIndex": 29,
+    "description": "Create column http://www.wikidata.org/prop/direct/P826 at index 29 based on column temp key using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "temp key",
+    "description": "Remove column temp key"
   }
 ]

@@ -2,20 +2,60 @@
   {
     "op": "core/column-addition",
     "engineConfig": {
-      "facets": [],
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
       "mode": "record-based"
     },
     "baseColumnName": "https://rism.online/api/v1#hasPAETimesig",
     "expression": "jython:return value",
     "onError": "set-to-blank",
     "newColumnName": "time signatures",
-    "columnInsertIndex": 17,
-    "description": "Create column time signatures at index 17 based on column https://rism.online/api/v1#hasPAETimesig using expression jython:return value"
+    "columnInsertIndex": 16,
+    "description": "Create column time signatures at index 16 based on column https://rism.online/api/v1#hasPAETimesig using expression jython:return value"
   },
   {
     "op": "core/recon",
     "engineConfig": {
-      "facets": [],
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
       "mode": "record-based"
     },
     "columnName": "time signatures",
@@ -38,7 +78,27 @@
   {
     "op": "core/recon-judge-similar-cells",
     "engineConfig": {
-      "facets": [],
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
       "mode": "record-based"
     },
     "columnName": "time signatures",
@@ -58,7 +118,27 @@
   {
     "op": "core/recon-judge-similar-cells",
     "engineConfig": {
-      "facets": [],
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
       "mode": "record-based"
     },
     "columnName": "time signatures",
@@ -81,6 +161,25 @@
       "facets": [
         {
           "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
           "name": "time signatures: judgment",
           "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
           "columnName": "time signatures",
@@ -97,18 +196,6 @@
           ],
           "selectBlank": false,
           "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "time signatures: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "time signatures",
-          "from": 50,
-          "to": 52,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
         }
       ],
       "mode": "record-based"
@@ -122,16 +209,23 @@
     "engineConfig": {
       "facets": [
         {
-          "type": "range",
-          "name": "time signatures: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "time signatures",
-          "from": 50,
-          "to": 52,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
         }
       ],
       "mode": "record-based"
@@ -139,14 +233,13 @@
     "baseColumnName": "time signatures",
     "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
     "onError": "set-to-blank",
-    "newColumnName": "wikidata something change name later",
-    "columnInsertIndex": 18,
-    "description": "Create column wikidata something change name later at index 18 based on column time signatures using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+    "newColumnName": "http://www.wikidata.org/prop/direct/P3440",
+    "columnInsertIndex": 17,
+    "description": "Create column http://www.wikidata.org/prop/direct/P3440 at index 17 based on column time signatures using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
   },
   {
-    "op": "core/column-rename",
-    "oldColumnName": "wikidata something change name later",
-    "newColumnName": "http://www.wikidata.org/prop/direct/P3440",
-    "description": "Rename column wikidata something change name later to http://www.wikidata.org/prop/direct/P3440"
+    "op": "core/column-removal",
+    "columnName": "time signatures",
+    "description": "Remove column time signatures"
   }
 ]
