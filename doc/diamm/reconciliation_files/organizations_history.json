@@ -2370,12 +2370,5 @@
     },
     "shareNewTopics": false,
     "description": "Match item workshop (Q27556165) for cells containing \"workshop\" in column organization_type_@id"
-  },
-  {
-    "op": "core/multivalued-cell-join",
-    "columnName": "organization_type",
-    "keyColumnName": "id",
-    "separator": ";",
-    "description": "Join multi-valued cells in column organization_type"
   }
 ]

@@ -1,4 +1,4 @@
-# DIAMM Database Reconciliation
+# DIAMM Database Reconciliation Details
 
 During every reconciliation step, if OpenRefine gives an error, select the entries that gave error messages and re-run the same reconciliation.
 
@@ -25,7 +25,6 @@ During every reconciliation step, if OpenRefine gives an error, select the entri
 3. Reconcile `genres_@id` against Q188451
 4. Set the best candidate score window to 99-101 and match each entry to its best candidate
 5. Reset the score window and create new entries for everything else
-6. On the `genres` column (but **not** on the `genres_@id` column), use `edit cells -> join multi-valued cells` and join using the delimiter `;`
 
 ## Organizations
 
@@ -54,13 +53,12 @@ During every reconciliation step, if OpenRefine gives an error, select the entri
 23. Set the best candidate score window to 91-101 and match each entry to its best candidate
 24. Reset the score window and select only the remaining unmatched entries
 25. Create new entries for all of them
-26. On the `organization_type` column, use `edit cells -> split multi-valued cells` and split using the delimiter `, `
+26. On the `organization_type` column, use `edit cells -> split multi-valued cells` and split using the delimiter `", "`
 27. On the `organization_type` column, run the transformation using the Python formula `import re; return re.sub(r"^(?:and|or) ", "", value, flags=re.I)`
 28. Create a column `organization_type_@id` as a copy of `organization_type` using the GREL formula `value.toLowercase()`
 29. Reconcile `organization_type_@id` against Q811102
 30. Set the best candidate score window to 99-101 and match each entry to its best candidate
 31. Reset the score window and manually fix the remaining entries, creating new entries where necessary
-32. On the `organization_type` column (but **not** on the `organization_type_@id` column), use `edit cells -> join multi-valued cells` and join using the delimiter `;`
 
 ## People
 

@@ -95,12 +95,5 @@
     "columnName": "genres_@id",
     "shareNewTopics": false,
     "description": "Mark to create new items for cells in column genres_@id, one item for each cell"
-  },
-  {
-    "op": "core/multivalued-cell-join",
-    "columnName": "genres",
-    "keyColumnName": "id",
-    "separator": ";",
-    "description": "Join multi-valued cells in column genres"
   }
 ]

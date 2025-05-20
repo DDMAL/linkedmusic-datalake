@@ -1,6 +1,8 @@
 # DIAMM Database CSV Layout
 
-For all except for relations, `id` will denote the pk
+Explain the layout of the CSV files produced by the CSV conversion script
+
+For all tables except for relations, `id` will denote the pk
 
 ## Archives
 
@@ -45,7 +47,7 @@ Compositions, and both source fields will be in relations
 
 ## Relations
 
-This will hold all relationships between objects. `key1` will contain the object whose type is alphabetically before the other (per example, `key1` will contain `author` and `key2` will contain `source`).
+This will hold all relationships between objects. `key1` will contain the object whose type is alphabetically before the other (per example, `key1` will contain `author` and `key2` will contain `source`, but not vice-versa).
 
 - `key1` and `key2` will have the format `type:pk` (for example `archive:1`) and denote the keys linked by the relationship
 - `type` will be used per example for people-source relationships, where a person can have different types of relationships with a source

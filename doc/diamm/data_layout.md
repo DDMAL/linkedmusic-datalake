@@ -1,5 +1,7 @@
 # DIAMM Database Data Layout
 
+Clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script
+
 All have `url` and `pk` fields
 
 ## Archives
