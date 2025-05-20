@@ -71,7 +71,7 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
 
 8. **Repeat Steps 1-7** for all remaining files located in the designated split output folder, by default located at `/linkedmusic-datalake/data/rism/split_output/`.
 
-9. **Store All Reconciled Files** (in `.nt` format) within a folder titled `split_input`.
+9. **Store All Reconciled Files** (in `.nt` format) within a folder titled `split_input` (e.g. on your desktop).
 
 > In some cases, the output file might be empty due RDF-transform error.
 > Reapply the RDF transform (repeat step 2) if you encounter an output error.
