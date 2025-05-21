@@ -1,0 +1,3299 @@
+[
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q41710",
+        "name": "ethnic group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Archival_Culture_Name to type Q41710"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "AINU",
+    "judgment": "matched",
+    "match": {
+      "id": "Q101828",
+      "name": "Ainu people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ainu people (Q101828) for cells containing \"AINU\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "MAORI",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6122670",
+      "name": "Māori",
+      "types": [
+        "Q41710",
+        "Q103817"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Māori (Q6122670) for cells containing \"MAORI\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "TODA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q140663",
+      "name": "Toda people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Toda people (Q140663) for cells containing \"TODA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "PONDO",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7227736",
+      "name": "Pondo people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Pondo people (Q7227736) for cells containing \"PONDO\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "BALI",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1266626",
+      "name": "Balinese",
+      "types": [
+        "Q41710",
+        "Q83828",
+        "Q1945590"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Balinese (Q1266626) for cells containing \"BALI\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "BULGARIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q133255",
+      "name": "Bulgarians",
+      "types": [
+        "Q41710"
+      ],
+      "score": 94
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bulgarians (Q133255) for cells containing \"BULGARIA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "SOLOMON",
+    "judgment": "matched",
+    "match": {
+      "id": "Q685",
+      "name": "Solomon Islands",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Solomon Islands (Q685) for cells containing \"SOLOMON\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "FIJI",
+    "judgment": "matched",
+    "match": {
+      "id": "Q794439",
+      "name": "Fijians",
+      "types": [
+        "Q41710",
+        "Q33829"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Fijians (Q794439) for cells containing \"FIJI\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "ARAUCANIANS",
+    "judgment": "matched",
+    "match": {
+      "id": "Q178484",
+      "name": "Mapuche",
+      "types": [
+        "Q103817"
+      ],
+      "score": 95
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mapuche (Q178484) for cells containing \"ARAUCANIANS\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "JAPAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q161652",
+      "name": "Japanese people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Japanese people (Q161652) for cells containing \"JAPAN\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "TURKMAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q484472",
+      "name": "Turkmens",
+      "types": [
+        "Q41710"
+      ],
+      "score": 88
+    },
+    "shareNewTopics": false,
+    "description": "Match item Turkmens (Q484472) for cells containing \"TURKMAN\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "SAMOA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1135531",
+      "name": "Samoans",
+      "types": [
+        "Q41710",
+        "Q33829"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Samoans (Q1135531) for cells containing \"SAMOA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 98,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "HEBREW",
+    "judgment": "matched",
+    "match": {
+      "id": "Q570868",
+      "name": "Hebrews",
+      "types": [
+        "Q4204501"
+      ],
+      "score": 92
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hebrews (Q570868) for cells containing \"HEBREW\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "Archival_Culture_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Archival_Culture_Name",
+          "from": 88,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "description": "Match each cell to its best recon candidate in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "JAVA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3007435",
+      "name": "Javanese culture",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Javanese culture (Q3007435) for cells containing \"JAVA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "IROQUOIS",
+    "judgment": "matched",
+    "match": {
+      "id": "Q10536777",
+      "name": "Iroquois people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 70
+    },
+    "shareNewTopics": false,
+    "description": "Match item Iroquois people (Q10536777) for cells containing \"IROQUOIS\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "TETON DAKOTA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q107434",
+      "name": "Sioux",
+      "types": [
+        "Q41710",
+        "Q133311",
+        "Q49297",
+        "Q863284"
+      ],
+      "score": 71
+    },
+    "shareNewTopics": false,
+    "description": "Match item Sioux (Q107434) for cells containing \"TETON DAKOTA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "HAWAII",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1283606",
+      "name": "Native Hawaiians",
+      "types": [
+        "Q41710",
+        "Q4533081"
+      ],
+      "score": 80
+    },
+    "shareNewTopics": false,
+    "description": "Match item Native Hawaiians (Q1283606) for cells containing \"HAWAII\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "TORRES",
+    "judgment": "matched",
+    "match": {
+      "id": "Q379636",
+      "name": "Torres Strait Islanders",
+      "types": [
+        "Q33829",
+        "Q103817"
+      ],
+      "score": 60
+    },
+    "shareNewTopics": false,
+    "description": "Match item Torres Strait Islanders (Q379636) for cells containing \"TORRES\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "HUPA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1359718",
+      "name": "Hupa",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hupa (Q1359718) for cells containing \"HUPA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "PERU ANCIENT",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3273730",
+      "name": "Ancient Peru",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ancient Peru (Q3273730) for cells containing \"PERU ANCIENT\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "BASQUE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q126756",
+      "name": "Basque people",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Basque people (Q126756) for cells containing \"BASQUE\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "EGYPTANCIENT",
+    "judgment": "matched",
+    "match": {
+      "id": "Q11768",
+      "name": "Ancient Egypt",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ancient Egypt (Q11768) for cells containing \"EGYPTANCIENT\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "HAITI",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4131845",
+      "name": "Haitians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Haitians (Q4131845) for cells containing \"HAITI\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "PWO KARENS",
+    "judgment": "matched",
+    "match": {
+      "id": "Q129404067",
+      "name": "Pwo people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 53
+    },
+    "shareNewTopics": false,
+    "description": "Match item Pwo people (Q129404067) for cells containing \"PWO KARENS\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "A CHINA",
+                "l": "A CHINA"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "A CHINA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q630276",
+      "name": "Ancient China",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ancient China (Q630276) for cells containing \"A CHINA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ANCIENTGREECE",
+                "l": "ANCIENTGREECE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "ANCIENTGREECE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q11772",
+      "name": "Ancient Greece",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ancient Greece (Q11772) for cells containing \"ANCIENTGREECE\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ANDALUCIA",
+                "l": "ANDALUCIA"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "ANDALUCIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5783",
+      "name": "Andalusia",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Andalusia (Q5783) for cells containing \"ANDALUCIA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "C RUSSIA",
+                "l": "C RUSSIA"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "C RUSSIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2184",
+      "name": "Russian Soviet Federative Socialist Republic",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Russian Soviet Federative Socialist Republic (Q2184) for cells containing \"C RUSSIA\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CARRIACOU",
+                "l": "CARRIACOU"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "CARRIACOU",
+    "judgment": "matched",
+    "match": {
+      "id": "Q31884216",
+      "name": "Carriacou and Petite Martinique",
+      "types": [
+        ""
+      ],
+      "score": 22.5
+    },
+    "shareNewTopics": false,
+    "description": "Match item Carriacou and Petite Martinique (Q31884216) for cells containing \"CARRIACOU\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CASTILE",
+                "l": "CASTILE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "CASTILE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5739",
+      "name": "Castile and León",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Castile and León (Q5739) for cells containing \"CASTILE\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "EGYPT",
+                "l": "EGYPT"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "EGYPT",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1061510",
+      "name": "Egyptians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Egyptians (Q1061510) for cells containing \"EGYPT\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "M GREECE",
+                "l": "M GREECE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "M GREECE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q539051",
+      "name": "Greeks",
+      "types": [
+        "Q41710"
+      ],
+      "score": 67
+    },
+    "shareNewTopics": false,
+    "description": "Match item Greeks (Q539051) for cells containing \"M GREECE\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MARQUESAS",
+                "l": "MARQUESAS"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "MARQUESAS",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3917561",
+      "name": "Marquesas Islanders",
+      "types": [
+        "Q41710"
+      ],
+      "score": 64
+    },
+    "shareNewTopics": false,
+    "description": "Match item Marquesas Islanders (Q3917561) for cells containing \"MARQUESAS\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "TIBET",
+                "l": "TIBET"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "TIBET",
+    "judgment": "matched",
+    "match": {
+      "id": "Q187985",
+      "name": "Tibetan people",
+      "types": [
+        "Q41710",
+        "Q858804"
+      ],
+      "score": 83
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tibetan people (Q187985) for cells containing \"TIBET\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "PUERTO RICO",
+                "l": "PUERTO RICO"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "PUERTO RICO",
+    "judgment": "matched",
+    "match": {
+      "id": "Q893594",
+      "name": "Puerto Ricans",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Puerto Ricans (Q893594) for cells containing \"PUERTO RICO\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Archival_Culture_Name",
+          "expression": "value",
+          "columnName": "Archival_Culture_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "NORWAY",
+                "l": "NORWAY"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Archival_Culture_Name",
+    "similarValue": "NORWAY",
+    "judgment": "matched",
+    "match": {
+      "id": "Q188779",
+      "name": "Norwegians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Norwegians (Q188779) for cells containing \"NORWAY\" in column Archival_Culture_Name"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q1254773",
+        "name": "family of musical instruments"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "Alt_Instrument_Names",
+          "propertyName": "alternative name",
+          "propertyID": "P4970"
+        },
+        {
+          "column": "Sachs_Number",
+          "propertyName": "Hornbostel-Sachs classification",
+          "propertyID": "P1762"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Instrument_Name to type Q1254773"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q1254773",
+        "name": "family of musical instruments"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "Alt_Instrument_Names",
+          "propertyName": "alternative name",
+          "propertyID": "P4970"
+        },
+        {
+          "column": "Sachs_Number",
+          "propertyName": "Hornbostel-Sachs classification",
+          "propertyID": "P1762"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Instrument_Name to type Q1254773"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q1254773",
+        "name": "family of musical instruments"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "Sachs_Number",
+          "propertyName": "Hornbostel-Sachs classification",
+          "propertyID": "P1762"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Instrument_Name to type Q1254773"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "GONG KEMPUL",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6387169",
+      "name": "kempul",
+      "types": [
+        ""
+      ],
+      "score": 27.61111111111111
+    },
+    "shareNewTopics": false,
+    "description": "Match item kempul (Q6387169) for cells containing \"GONG KEMPUL\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "GONG SUWUKAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q13093237",
+      "name": "Gong suwuk",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 55.55555555555556
+    },
+    "shareNewTopics": false,
+    "description": "Match item Gong suwuk (Q13093237) for cells containing \"GONG SUWUKAN\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "GONG AGENG",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1537130",
+      "name": "Gong ageng",
+      "types": [
+        ""
+      ],
+      "score": 27.77777777777778
+    },
+    "shareNewTopics": false,
+    "description": "Match item Gong ageng (Q1537130) for cells containing \"GONG AGENG\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "GONG SET",
+    "judgment": "matched",
+    "match": {
+      "id": "Q55721734",
+      "name": "sets of gongs",
+      "types": [
+        "Q1254773"
+      ],
+      "score": 58.888888888888886
+    },
+    "shareNewTopics": false,
+    "description": "Match item sets of gongs (Q55721734) for cells containing \"GONG SET\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "GONG",
+    "judgment": "matched",
+    "match": {
+      "id": "Q208320",
+      "name": "gong",
+      "types": [
+        "Q1254773",
+        "Q110295396"
+      ],
+      "score": 76
+    },
+    "shareNewTopics": false,
+    "description": "Match item gong (Q208320) for cells containing \"GONG\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "METALLOPHONE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1165766",
+      "name": "metallophone",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 76
+    },
+    "shareNewTopics": false,
+    "description": "Match item metallophone (Q1165766) for cells containing \"METALLOPHONE\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "Instrument_Name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Instrument_Name",
+          "from": 62,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "description": "Match each cell to its best recon candidate in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "LUTE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q180733",
+      "name": "lute",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item lute (Q180733) for cells containing \"LUTE\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "CLAPPING",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1322478",
+      "name": "clapping",
+      "types": [
+        ""
+      ],
+      "score": 35.714285714285715
+    },
+    "shareNewTopics": false,
+    "description": "Match item clapping (Q1322478) for cells containing \"CLAPPING\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "GUSLI",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1147128",
+      "name": "gusli",
+      "types": [
+        ""
+      ],
+      "score": 41.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item gusli (Q1147128) for cells containing \"GUSLI\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "CHIME",
+    "judgment": "matched",
+    "match": {
+      "id": "Q123915338",
+      "name": "chime",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 55.55555555555556
+    },
+    "shareNewTopics": false,
+    "description": "Match item chime (Q123915338) for cells containing \"CHIME\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "STAMP TUBE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q11867924",
+      "name": "Stamping tube",
+      "types": [
+        ""
+      ],
+      "score": 31.071428571428573
+    },
+    "shareNewTopics": false,
+    "description": "Match item Stamping tube (Q11867924) for cells containing \"STAMP TUBE\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "JUG",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1342193",
+      "name": "musical jug",
+      "types": [
+        ""
+      ],
+      "score": 32.55555555555556
+    },
+    "shareNewTopics": false,
+    "description": "Match item musical jug (Q1342193) for cells containing \"JUG\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "STOMPING",
+    "judgment": "matched",
+    "match": {
+      "id": "Q104787204",
+      "name": "stomping",
+      "types": [
+        ""
+      ],
+      "score": 35.714285714285715
+    },
+    "shareNewTopics": false,
+    "description": "Match item stomping (Q104787204) for cells containing \"STOMPING\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "CONCERTINA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q593050",
+      "name": "concertina",
+      "types": [
+        ""
+      ],
+      "score": 41.85714285714286
+    },
+    "shareNewTopics": false,
+    "description": "Match item concertina (Q593050) for cells containing \"CONCERTINA\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "DULCIMER",
+    "judgment": "matched",
+    "match": {
+      "id": "Q341663",
+      "name": "dulcimer",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item dulcimer (Q341663) for cells containing \"DULCIMER\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "BASS DRUM",
+    "judgment": "matched",
+    "match": {
+      "id": "Q211028",
+      "name": "bass drum",
+      "types": [
+        ""
+      ],
+      "score": 47.142857142857146
+    },
+    "shareNewTopics": false,
+    "description": "Match item bass drum (Q211028) for cells containing \"BASS DRUM\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "GROUND BOW",
+    "judgment": "matched",
+    "match": {
+      "id": "Q25226698",
+      "name": "ground bow",
+      "types": [
+        ""
+      ],
+      "score": 35.714285714285715
+    },
+    "shareNewTopics": false,
+    "description": "Match item ground bow (Q25226698) for cells containing \"GROUND BOW\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "EUPHONIUM",
+    "judgment": "matched",
+    "match": {
+      "id": "Q495529",
+      "name": "euphonium",
+      "types": [
+        ""
+      ],
+      "score": 44.57142857142858
+    },
+    "shareNewTopics": false,
+    "description": "Match item euphonium (Q495529) for cells containing \"EUPHONIUM\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "BARITONE SAX",
+    "judgment": "matched",
+    "match": {
+      "id": "Q808218",
+      "name": "baritone saxophone",
+      "types": [
+        ""
+      ],
+      "score": 40
+    },
+    "shareNewTopics": false,
+    "description": "Match item baritone saxophone (Q808218) for cells containing \"BARITONE SAX\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ALTO CLARINET",
+                "l": "ALTO CLARINET"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "ALTO CLARINET",
+    "judgment": "matched",
+    "match": {
+      "id": "Q656766",
+      "name": "alto clarinet",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item alto clarinet (Q656766) for cells containing \"ALTO CLARINET\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "BAGPIPE",
+                "l": "BAGPIPE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "BAGPIPE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q8347",
+      "name": "bagpipe",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 61.55555555555555
+    },
+    "shareNewTopics": false,
+    "description": "Match item bagpipe (Q8347) for cells containing \"BAGPIPE\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "BASS TROMBONE",
+                "l": "BASS TROMBONE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "BASS TROMBONE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q13194854",
+      "name": "bass trombone",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item bass trombone (Q13194854) for cells containing \"BASS TROMBONE\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "BELL SET",
+                "l": "BELL SET"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "BELL SET",
+    "judgment": "matched",
+    "match": {
+      "id": "Q55721745",
+      "name": "sets of bells",
+      "types": [
+        "Q1254773"
+      ],
+      "score": 58
+    },
+    "shareNewTopics": false,
+    "description": "Match item sets of bells (Q55721745) for cells containing \"BELL SET\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "BONES",
+                "l": "BONES"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "BONES",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2586606",
+      "name": "bones",
+      "types": [
+        ""
+      ],
+      "score": 36.99999999999999
+    },
+    "shareNewTopics": false,
+    "description": "Match item bones (Q2586606) for cells containing \"BONES\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CALABASH",
+                "l": "CALABASH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "CALABASH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q94954968",
+      "name": "Calabash",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 55.55555555555556
+    },
+    "shareNewTopics": false,
+    "description": "Match item Calabash (Q94954968) for cells containing \"CALABASH\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "DRUM",
+                "l": "DRUM"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "DRUM",
+    "judgment": "matched",
+    "match": {
+      "id": "Q11404",
+      "name": "drum",
+      "types": [
+        "Q1254773"
+      ],
+      "score": 60
+    },
+    "shareNewTopics": false,
+    "description": "Match item drum (Q11404) for cells containing \"DRUM\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "EARTH BOW",
+                "l": "EARTH BOW"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "EARTH BOW",
+    "judgment": "matched",
+    "match": {
+      "id": "Q25226698",
+      "name": "ground bow",
+      "types": [
+        ""
+      ],
+      "score": 35.714285714285715
+    },
+    "shareNewTopics": false,
+    "description": "Match item ground bow (Q25226698) for cells containing \"EARTH BOW\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "HARPISCHORD",
+                "l": "HARPISCHORD"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "HARPISCHORD",
+    "judgment": "matched",
+    "match": {
+      "id": "Q81982",
+      "name": "harpsichord",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item harpsichord (Q81982) for cells containing \"HARPISCHORD\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ORGAN",
+                "l": "ORGAN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "ORGAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1444",
+      "name": "organ",
+      "types": [
+        ""
+      ],
+      "score": 42.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item organ (Q1444) for cells containing \"ORGAN\" in column Instrument_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Instrument_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "Instrument_Name",
+          "expression": "value",
+          "columnName": "Instrument_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "TENOR SAX",
+                "l": "TENOR SAX"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Instrument_Name",
+    "similarValue": "TENOR SAX",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1414932",
+      "name": "tenor saxophone",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item tenor saxophone (Q1414932) for cells containing \"TENOR SAX\" in column Instrument_Name"
+  }
+]
