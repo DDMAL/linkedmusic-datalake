@@ -5,7 +5,7 @@
         "simssadb_file": "https://db.simssa.ca/files/",
         "musical_work_variant_titles": "wdt:P1476",
         "composer": "wdt:P86",
-        "composer_name":"wdt:P2561",
+        "composer_name": "wdt:P2561",
         "author": "wdt:P676",
         "author_name":"wdt:P2561",
         "genre_style": "wdt:P135",
