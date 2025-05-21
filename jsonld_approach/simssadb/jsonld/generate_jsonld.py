@@ -94,7 +94,7 @@ for work in parsed_json_flattened:
 
 
 for work in parsed_json_flattened:
-    work["@context"] = "https://raw.githubusercontent.com/malajvan/linkedmusic-datalake/main/simssadb/jsonld/context.jsonld"
+    work["@context"] = "https://raw.githubusercontent.com/ddmal/linkedmusic-datalake/main/jsonld_approach/simssadb/jsonld/context.jsonld"
     work["database"] = "simssadb:"
     work["@type"] = "wd:Q2188189"
     work_id = work.pop('musical_work_id')
