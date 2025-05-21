@@ -27,9 +27,9 @@ REGEX_MATCH = re.compile(r"https:\/\/www\.diamm\.ac\.uk\/([a-z]+)\/([0-9]+)\/?")
 # Set this to True if you want to revisit pages visited during previous executions of the crawler
 REVISIT = False
 
-MAX_CONCURRENT_VISITS = 8
+MAX_CONCURRENT_VISITS = 2
 MAX_CONCURRENT_WRITES = 2
-RATE_LIMIT = 40  # 40 requests per second, or 1 requests every 25ms on average
+RATE_LIMIT = 10  # 10 requests per second, or 1 request every 100ms on average
 
 # These pages will be ignored, and neither visited nor saved
 BAD_PAGES = [
