@@ -18,7 +18,7 @@
             "@type": "@id"
         },
         "file_format": "wdt:P2701",
-        "name": "wd:P2561",
+        "name": "wdt:P2561",
 
         "wd": "http://www.wikidata.org/entity/",
         "wdt": "http://www.wikidata.org/prop/direct/"
