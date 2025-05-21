@@ -70,7 +70,9 @@ visited = (
     set()
 )  # tuple (str, str) representing (type, id), example is ("compositions", "117")
 
-to_visit = [("sources", "117")]  # Starting point
+# Starting point for the crawler, taken from the example on DIAMM's website
+# The example can be found at https://www.diamm.ac.uk/about/technical-overview/diamm-data-delivery/
+to_visit = [("sources", "117")]
 
 
 async def fetch(session, url, limiter):
