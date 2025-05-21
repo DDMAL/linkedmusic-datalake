@@ -4,9 +4,10 @@
         "mw": "https://db.simssa.ca/musicalworks/",
         "simssadb_file": "https://db.simssa.ca/files/",
         "musical_work_variant_titles": "wdt:P1476",
-        "contributor": "wdt:P767",
-        "contributor_role": "wdt:P3831",
-        "contributor_name":"wdt:P2561",
+        "composer": "wdt:P86",
+        "composer_name":"wdt:P2561",
+        "author": "wdt:P676",
+        "author_name":"wdt:P2561",
         "genre_style": "wdt:P135",
         "genre_type": "wdt:P136",
         "database": {
