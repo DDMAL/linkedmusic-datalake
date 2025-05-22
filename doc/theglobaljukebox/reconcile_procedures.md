@@ -186,3 +186,37 @@
 - Split the column `Recorded_by` into several columns using `;` as the separator.
 - Reconcile the cells in each `Recorded_by` column to type `human` (Q5).
     - Manually match the cells.
+
+# Phonotactics
+
+## Phonotactics
+
+- Reconcile the cells in column `Region` to type `geographic region` (Q82794).
+    - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
+    - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
+    - Match the cells using `reconcile > actions > match each cell to its best candidate`.
+    - Remove both facets.
+- Reconcile the cells in column `Division` to type `geographic region` (Q82794).
+    - Manually match "Central Africa" to `Central Africa` (Q27433).
+    - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
+    - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
+    - Match the cells using `reconcile > actions > match each cell to its best candidate`.
+    - Remove both facets.
+- Reconcile the cells in column `Subegion` to type `geographic region` (Q82794).
+    - Manually match the cells.
+- Reconcile the cells in column `Area/Kingdom` to type `human settlement` (Q486972).
+    - Manually match the cells.
+- Reconcile the cells in column `Culture` to type `ethnic group` (Q41710).
+    - Manually match the cells.
+- Split the column `Culture_loc` into several columns using `,` as the separator.
+- Reconcile the `Culture_loc` columns to type `sovereign state` (Q3624078) or `human settlement` (Q486972), as appropriate.
+    - Manually match the cells.
+- Split the column `Genre` into several columns using `;` as the separator.
+- Reconcile the cells in each `Genre` column to type `song type` (Q107356781).
+    - Manually match the cells.
+- Split the column `Instruments` into several columns using `;` as the separator.
+- Reconcile the cells in each `Instruments` column to type type `family of musical instruments` (Q1254773) or `voice type` (Q1063547), as appropriate.
+    - Manually match the cells.
+
+## Societies
+- Follow the instructions for the Cantometrics Societies file.
