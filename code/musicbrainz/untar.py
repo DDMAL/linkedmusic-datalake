@@ -8,7 +8,9 @@ import os
 import argparse
 import concurrent.futures
 
+
 def extract_single_file(filepath, dest_folder):
+    print(f"Extracting {filepath} to {dest_folder}")
     with tarfile.open(filepath, "r:xz") as tar:
         for member in tar.getmembers():
             if member.name.startswith("mbdump"):
@@ -18,14 +20,28 @@ def extract_single_file(filepath, dest_folder):
                 os.rename(original_file_path, new_file_path)
     print(f"Extracted {filepath} to {dest_folder}")
 
+
 def extract_file_multithread(folderpath, dest_folder):
     filepaths = glob.glob(f"{folderpath}/*.tar.xz", recursive=False)
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.map(lambda fp: extract_single_file(fp, dest_folder), filepaths)
 
-parser = argparse.ArgumentParser(description="Extract tar.xz files to destination folder.")
-parser.add_argument("--input_folder", type=str, help="Folder containing archived .tar.xz files")
-parser.add_argument("--dest_folder", type=str, help="Folder where files will be extracted as .jsonl")
+
+parser = argparse.ArgumentParser(
+    description="Extract tar.xz files to destination folder."
+)
+parser.add_argument(
+    "--input_folder",
+    type=str,
+    default="../../data/musicbrainz/raw/archived",
+    help="Folder containing archived .tar.xz files",
+)
+parser.add_argument(
+    "--dest_folder",
+    type=str,
+    default="../../data/musicbrainz/raw/extracted_jsonl",
+    help="Folder where files will be extracted as .jsonl",
+)
 args = parser.parse_args()
 
 INPUT_FOLDER = os.path.abspath(args.input_folder)

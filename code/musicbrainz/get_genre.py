@@ -21,10 +21,15 @@ MAX_REQUEST_RETRIES = 3
 BATCH_SIZE = 50
 RATE_LIMIT_DELAY = 1  # Default delay between requests (seconds)
 
+WDT = Namespace("http://www.wikidata.org/prop/direct/")
+WD = Namespace("http://www.wikidata.org/entity/")
+MB = Namespace("https://musicbrainz.org/")
+MBGE = Namespace("https://musicbrainz.org/genre/")
 
 def make_request(url, params=None, retries=MAX_REQUEST_RETRIES, timeout=60):
     """Make an HTTP request with retry logic."""
     for attempt in range(retries):
+        response = None
         try:
             response = requests.get(
                 url=url, headers=HEADERS, params=params, timeout=timeout
@@ -39,7 +44,7 @@ def make_request(url, params=None, retries=MAX_REQUEST_RETRIES, timeout=60):
         ) as exc:
             print(f"Request error occurred: {exc}. Retry attempt {attempt+1}/{retries}")
 
-            if response.status_code == 503:
+            if response and response.status_code == 503:
                 # Rate limiting - wait longer
                 delay = 30
                 print(f"Rate limited. Waiting {delay} seconds...")
@@ -113,14 +118,16 @@ def main(output_path="../../data/musicbrainz/rdf/"):
 
     # Create RDF graph
     g = Graph()
-    RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
-    SCHEMA = Namespace("http://schema.org/")
+    g.bind("wdt", WDT)
+    g.bind("wd", WD)
+    g.bind("mb", MB)
+    g.bind("mbge", MBGE)
 
     for _, row in df.iterrows():
         genre_uri = URIRef(row["genre_id"])
-        g.add((genre_uri, RDFS.label, Literal(row["name"])))
+        g.add((genre_uri, URIRef(f"{WDT}P2561"), Literal(row["name"])))
         if row["relations_wiki"]:
-            g.add((genre_uri, SCHEMA.sameAs, URIRef(row["relations_wiki"])))
+            g.add((genre_uri, URIRef(f"{WDT}P2888"), URIRef(row["relations_wiki"])))
 
     # Serialize RDF graph to output file (RDF/XML format)
     g.serialize(destination=f"{output_path}/genre.ttl", format="turtle")

@@ -11,3 +11,4 @@ rdb2rdf/
 *.jsonl
 *.csv
 *.ttl
+store/

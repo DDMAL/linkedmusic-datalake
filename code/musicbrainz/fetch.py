@@ -6,13 +6,17 @@ import os
 import time
 import requests
 
+
 def get_latest_json_dump_url():
     """
     get the latest repo
     """
     resp = requests.get(URL, timeout=50)
     resp.raise_for_status()
-    return "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/" + resp.text.strip()
+    return (
+        "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/"
+        + resp.text.strip()
+    )
 
 
 def fetch_api_call(url):
@@ -21,7 +25,9 @@ def fetch_api_call(url):
     """
 
     for file in tar_xz_files:
-        file_path = os.path.join(url, file)
+        file_path = (
+            url + file if url.endswith("/") else url + "/" + file
+        )  # Safer than os.path.join because Windows uses \
         local_path = os.path.join(RAW_PATH, file)
         with requests.get(file_path, stream=True, timeout=50) as r:
             r.raise_for_status()
@@ -45,7 +51,7 @@ tar_xz_files = [
     "release-group.tar.xz",
     "release.tar.xz",
     "series.tar.xz",
-    "work.tar.xz"
+    "work.tar.xz",
 ]
 URL = "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/LATEST"
 RAW_PATH = "./data/musicbrainz/raw/archived/"
