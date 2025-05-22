@@ -1,0 +1,562 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "http://www.w3.org/2000/01/rdf-schema#label",
+    "expression": "grel:value.replace(/@.*/, \"\")",
+    "onError": "set-to-blank",
+    "newColumnName": "topic",
+    "columnInsertIndex": 4,
+    "description": "Create column topic at index 4 based on column http://www.w3.org/2000/01/rdf-schema#label using expression grel:value.replace(/@.*/, \"\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "topic",
+    "expression": "grel:value.replace(/\\s*\\([^)]*\\)$/, \"\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column topic using expression grel:value.replace(/\\s*\\([^)]*\\)$/, \"\")"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "topic",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q188451",
+        "name": "music genre"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column topic to type Q188451"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "topic: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "topic",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "topic",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q188451",
+        "name": "music genre"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column topic to type Q188451"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "topic: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "topic",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "topic: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "topic",
+          "from": 91,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "topic",
+    "description": "Match each cell to its best recon candidate in column topic"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "topic: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "topic",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "topic",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "http://wikidata.org/prop/direct/P31",
+          "propertyName": "instance of",
+          "propertyID": "P31"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column topic to type null"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "topic: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "topic",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "topic: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "topic",
+          "from": 11,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "topic",
+    "similarValue": "Duets",
+    "judgment": "matched",
+    "match": {
+      "id": "Q109940",
+      "name": "duet",
+      "types": [
+        "Q107487333"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item duet (Q109940) for cells containing \"Duets\" in column topic"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "topic: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "topic",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "topic: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "topic",
+          "from": 11,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "topic",
+    "similarValue": "Boogie-woogies",
+    "judgment": "matched",
+    "match": {
+      "id": "Q212952",
+      "name": "boogie-woogie",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item boogie-woogie (Q212952) for cells containing \"Boogie-woogies\" in column topic"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "topic: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "topic",
+          "from": 91,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "topic",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "topic_wiki",
+    "columnInsertIndex": 5,
+    "description": "Create column topic_wiki at index 5 based on column topic using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "http://wikidata.org/prop/direct/P31",
+          "expression": "value",
+          "columnName": "http://wikidata.org/prop/direct/P31",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "https://www.wikidata.org/wiki/Q26256810",
+                "l": "https://www.wikidata.org/wiki/Q26256810"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "http://wikidata.org/prop/direct/P2888",
+    "expression": "join ([coalesce(cells['http://wikidata.org/prop/direct/P2888'].value,''),coalesce(cells['topic_wiki'].value,'')],'')",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column http://wikidata.org/prop/direct/P2888 using expression join ([coalesce(cells['http://wikidata.org/prop/direct/P2888'].value,''),coalesce(cells['topic_wiki'].value,'')],'')"
+  },
+  {
+    "op": "core/column-reorder",
+    "columnNames": [
+      "subject",
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      "http://wikidata.org/prop/direct/P31",
+      "http://www.w3.org/2000/01/rdf-schema#label",
+      "topic",
+      "http://wikidata.org/prop/direct/P131",
+      "http://wikidata.org/prop/direct/P2888",
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+      "https://rism.online/api/v1#hasPAETimesig",
+      "https://rism.online/api/v1#hasPAEKeysig",
+      "https://rism.online/api/v1#hasEncoding",
+      "https://rism.online/api/v1#hasPAEClef",
+      "https://rism.online/api/v1#hasPAEData",
+      "https://rism.online/api/v1#hasRole",
+      "http://purl.org/dc/terms/relation",
+      "https://rism.online/api/v1#hasQualifier",
+      "https://rism.online/api/v1#meiEncoding",
+      "https://rism.online/api/v1#hasRelationship",
+      "https://rism.online/api/v1#hasHolding",
+      "http://www.wikidata.org/prop/direct/P1922",
+      "http://www.wikidata.org/prop/direct/P921",
+      "https://rism.online/api/v1#hasMaterialGroup",
+      "http://www.wikidata.org/prop/direct/P50",
+      "https://rism.online/api/v1#hasKeyMode",
+      "http://www.wikidata.org/prop/direct/P361",
+      "http://www.wikidata.org/prop/direct/P195",
+      "https://rism.online/api/v1#dateStatement",
+      "http://www.wikidata.org/prop/direct/P1319",
+      "http://www.wikidata.org/prop/direct/P1326",
+      "https://rism.online/api/v1#hasSummary",
+      "https://rism.online/api/v1#paeEncoding",
+      "https://rism.online/api/v1#hasPhysicalDimensions",
+      "http://www.wikidata.org/prop/direct/P585",
+      "http://www.wikidata.org/prop/direct/P144"
+    ],
+    "description": "Reorder columns"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "topic",
+    "description": "Remove column topic"
+  }
+]

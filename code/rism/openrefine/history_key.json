@@ -1,0 +1,145 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasKeyMode",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasKeyMode",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "https://rism.online/api/v1#hasKeyMode",
+    "expression": "jython:import re \nif re.match(\"\\\\d\", value):\n return None \nkey = value[0]\nqual = \"Major\" \nif key != key.upper():\n key = key.upper()\n qual = \"minor\" \nif \"|\" in value: \n if value[2] == \"b\":\n  key += \"-flat\" \n else:\n  key += \"-sharp\" \nreturn key + \" \" + qual",
+    "onError": "set-to-blank",
+    "newColumnName": "temp key",
+    "columnInsertIndex": 28,
+    "description": "Create column temp key at index 28 based on column https://rism.online/api/v1#hasKeyMode using expression jython:import re \nif re.match(\"\\\\d\", value):\n return None \nkey = value[0]\nqual = \"Major\" \nif key != key.upper():\n key = key.upper()\n qual = \"minor\" \nif \"|\" in value: \n if value[2] == \"b\":\n  key += \"-flat\" \n else:\n  key += \"-sharp\" \nreturn key + \" \" + qual"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasKeyMode",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasKeyMode",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "temp key",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q192822",
+        "name": "tonality"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column temp key to type Q192822"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasKeyMode",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasKeyMode",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "temp key",
+    "description": "Match each cell to its best recon candidate in column temp key"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasKeyMode",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasKeyMode",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "temp key",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "http://www.wikidata.org/prop/direct/P826",
+    "columnInsertIndex": 29,
+    "description": "Create column http://www.wikidata.org/prop/direct/P826 at index 29 based on column temp key using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "temp key",
+    "description": "Remove column temp key"
+  }
+]

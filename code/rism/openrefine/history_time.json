@@ -1,0 +1,245 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "https://rism.online/api/v1#hasPAETimesig",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "time signatures",
+    "columnInsertIndex": 16,
+    "description": "Create column time signatures at index 16 based on column https://rism.online/api/v1#hasPAETimesig using expression jython:return value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "time signatures",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q155234",
+        "name": "time signature"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column time signatures to type Q155234"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "time signatures",
+    "similarValue": "c",
+    "judgment": "matched",
+    "match": {
+      "id": "Q27955141",
+      "name": "common time",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item common time (Q27955141) for cells containing \"c\" in column time signatures"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "time signatures",
+    "similarValue": "c/",
+    "judgment": "matched",
+    "match": {
+      "id": "Q249261",
+      "name": "alla breve",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item alla breve (Q249261) for cells containing \"c/\" in column time signatures"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "time signatures: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "time signatures",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "time signatures",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column time signatures, one item for each group of similar cells"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "https://rism.online/api/v1#hasPAETimesig",
+          "expression": "isBlank(value)",
+          "columnName": "https://rism.online/api/v1#hasPAETimesig",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "baseColumnName": "time signatures",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "http://www.wikidata.org/prop/direct/P3440",
+    "columnInsertIndex": 17,
+    "description": "Create column http://www.wikidata.org/prop/direct/P3440 at index 17 based on column time signatures using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "time signatures",
+    "description": "Remove column time signatures"
+  }
+]

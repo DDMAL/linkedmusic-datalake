@@ -1,0 +1,72 @@
+[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "member_id",
+    "expression": "grel:\"https://thesession.org/members/\" + value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column member_id using expression grel:\"https://thesession.org/members/\" + value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "member_id",
+    "expression": "join ([coalesce(cells['member_id'].value,''),coalesce(cells['tuneset'].value,'')],'/sets/')",
+    "onError": "keep-original",
+    "newColumnName": "tuneset_id",
+    "columnInsertIndex": 3,
+    "description": "Create column tuneset_id at index 3 based on column member_id using expression join ([coalesce(cells['member_id'].value,''),coalesce(cells['tuneset'].value,'')],'/sets/')"
+  },
+  {
+    "op": "core/column-move",
+    "columnName": "tuneset_id",
+    "index": 0,
+    "description": "Move column tuneset_id to position 0"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "tuneset",
+    "description": "Remove column tuneset"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "tune_id",
+    "expression": "grel:\"https://thesession.org/tunes/\" + value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column tune_id using expression grel:\"https://thesession.org/tunes/\" + value"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "type",
+    "description": "Remove column type"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "meter",
+    "description": "Remove column meter"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "mode",
+    "description": "Remove column mode"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "abc",
+    "description": "Remove column abc"
+  }
+]

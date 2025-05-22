@@ -1,0 +1,826 @@
+[
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "id",
+    "expression": "grel:\"https://thesession.org/events/\"+value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column id using expression grel:\"https://thesession.org/events/\"+value"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "id",
+    "newColumnName": "events_id",
+    "description": "Rename column id to events_id"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "latitude",
+    "expression": "join ([coalesce(cells['latitude'].value,''),coalesce(cells['longitude'].value,'')],' ')",
+    "onError": "keep-original",
+    "newColumnName": "coordinate",
+    "columnInsertIndex": 10,
+    "description": "Create column coordinate at index 10 based on column latitude using expression join ([coalesce(cells['latitude'].value,''),coalesce(cells['longitude'].value,'')],' ')"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "coordinate",
+    "expression": "jython:if str(value)==\"\": return None \nelse: return \"Point(\" + value + \")\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column coordinate using expression jython:if str(value)==\"\": return None \nelse: return \"Point(\" + value + \")\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "dtstart",
+    "expression": "jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column dtstart using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "dtend",
+    "expression": "jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column dtend using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "country",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q6256",
+        "name": "country"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column country to type Q6256"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "country: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "country",
+          "from": 54,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country",
+    "description": "Match each cell to its best recon candidate in column country"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "country: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "country",
+          "from": 38,
+          "to": 53,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column country, one item for each group of similar cells"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "country",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "country_wiki",
+    "columnInsertIndex": 9,
+    "description": "Create column country_wiki at index 9 based on column country using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q56061",
+        "name": "administrative territorial entity"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column area to type Q56061"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "description": "Match each cell to its best recon candidate in column area"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q515",
+        "name": "city"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column area to type Q515"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "description": "Match each cell to its best recon candidate in column area"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 71,
+          "to": 72,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "description": "Match each cell to its best recon candidate in column area"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q4835091",
+        "name": "territory"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column area to type Q4835091"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "area: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "area",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "description": "Match each cell to its best recon candidate in column area"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "area: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "area",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "area",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column area, one item for each group of similar cells"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "area",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "area_wiki",
+    "columnInsertIndex": 8,
+    "description": "Create column area_wiki at index 8 based on column area using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q486972",
+        "name": "human settlement"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "country",
+          "propertyName": "country",
+          "propertyID": "P17"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column town to type Q486972"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "town: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "town",
+          "from": 71,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "description": "Match each cell to its best recon candidate in column town"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "town: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "town",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "town",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column town, one item for each group of similar cells"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "town",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "town_wiki",
+    "columnInsertIndex": 7,
+    "description": "Create column town_wiki at index 7 based on column town using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "town",
+          "propertyName": "located in the administrative territorial entity",
+          "propertyID": "P131"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column venue to type null"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "London Irish Centre",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6670524",
+      "name": "London Irish Centre",
+      "types": [
+        "Q708676"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item London Irish Centre (Q6670524) for cells containing \"London Irish Centre\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Peckham Rye Park",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7158745",
+      "name": "Peckham Rye",
+      "types": [
+        "Q22698"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Peckham Rye (Q7158745) for cells containing \"Peckham Rye Park\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Sabhal Mòr Ostaig",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2748208",
+      "name": "Sabhal Mòr Ostaig",
+      "types": [
+        "Q189004"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Sabhal Mòr Ostaig (Q2748208) for cells containing \"Sabhal Mòr Ostaig\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Gardner Memorial Church",
+    "judgment": "matched",
+    "match": {
+      "id": "Q17574360",
+      "name": "Gardner Memorial Church, Damacre Road, Brechin",
+      "types": [
+        "Q16970"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Gardner Memorial Church, Damacre Road, Brechin (Q17574360) for cells containing \"Gardner Memorial Church\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Royal Northern College Of Music",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1544384",
+      "name": "Royal Northern College of Music",
+      "types": [
+        "Q184644",
+        "Q38723",
+        "Q5341295"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Royal Northern College of Music (Q1544384) for cells containing \"Royal Northern College Of Music\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Garrick Bar",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5523973",
+      "name": "Garrick Bar",
+      "types": [
+        "Q187456",
+        "Q41176"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Garrick Bar (Q5523973) for cells containing \"Garrick Bar\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Ireland Park",
+    "judgment": "matched",
+    "match": {
+      "id": "Q14875210",
+      "name": "Ireland Park",
+      "types": [
+        "Q22698"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ireland Park (Q14875210) for cells containing \"Ireland Park\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "Nazareth College",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6983313",
+      "name": "Nazareth University",
+      "types": [
+        "Q3918",
+        "Q23002054"
+      ],
+      "score": 71.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Nazareth University (Q6983313) for cells containing \"Nazareth College\" in column venue"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "venue: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "venue",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "venue",
+    "similarValue": "St Gregory's School",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7401329",
+      "name": "Saint Gregory's Catholic College",
+      "types": [
+        "Q159334",
+        "Q7940971"
+      ],
+      "score": 62.142857142857146
+    },
+    "shareNewTopics": false,
+    "description": "Match item Saint Gregory's Catholic College (Q7401329) for cells containing \"St Gregory's School\" in column venue"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "venue: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "venue",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "baseColumnName": "venue",
+    "expression": "if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)",
+    "onError": "set-to-blank",
+    "newColumnName": "venue_wiki",
+    "columnInsertIndex": 5,
+    "description": "Create column venue_wiki at index 5 based on column venue using expression if(cell.recon.match!=null,\"https://www.wikidata.org/wiki/{{id}}\".replace(\"{{id}}\",escape(cell.recon.match.id,\"url\")),null)"
+  }
+]
