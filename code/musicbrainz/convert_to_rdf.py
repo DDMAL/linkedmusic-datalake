@@ -75,8 +75,10 @@ MB_SCHEMA = {
 }
 
 CHUNK_SIZE = 500  # Adjustable chunk size
-MAX_SIMULTANEOUS_CHUNK_WORKERS = 3  # Max number of chunk processing threads to run simultaneously
-MAX_PROCESSES = min(MAX_SIMULTANEOUS_CHUNK_WORKERS, os.cpu_count())  # Max number of processes to run simultaneously
+# Max number of chunk processing threads to run simultaneously
+MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
+# Max number of processes to run simultaneously
+MAX_PROCESSES = min(MAX_SIMULTANEOUS_CHUNK_WORKERS, os.cpu_count() or 1)
 MAX_CHUNKS_IN_MEMORY = 150  # Max number of chunks to keep in memory at once
 MAX_SUBGRAPHS_IN_MEMORY = 150  # Max number of subgraphs to keep in memory at once
 
@@ -99,10 +101,18 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types):
     # Process type
     if "type" in data:
         g.add((subject_uri, RDF.type, Literal(data["type"])))
-    
+
     # Process release group
     if "release-group" in data:
-        g.add((subject_uri, URIRef(f"{WDT}{mb_schema['release-group']}"), URIRef(f"https://musicbrainz.org/release-group/{data['release-group']["id"]}")))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{mb_schema['release-group']}"),
+                URIRef(
+                    f"https://musicbrainz.org/release-group/{data['release-group']["id"]}"
+                ),
+            )
+        )
 
     # Process aliases
     if "aliases" in data:
@@ -168,7 +178,11 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types):
                         break
                 elif key == "url":
                     if url_resource := relation[key].get("resource"):
-                        url_resource = re.sub(r"^https://www.wikidata.org/wiki/Q(\d+)$", f"{WD}Q\\g<1>", url_resource)
+                        url_resource = re.sub(
+                            r"^https://www.wikidata.org/wiki/Q(\d+)$",
+                            f"{WD}Q\\g<1>",
+                            url_resource,
+                        )
                         target_uri = URIRef(url_resource)
                         break
 

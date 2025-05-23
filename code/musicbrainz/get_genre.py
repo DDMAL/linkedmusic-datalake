@@ -26,6 +26,7 @@ WD = Namespace("http://www.wikidata.org/entity/")
 MB = Namespace("https://musicbrainz.org/")
 MBGE = Namespace("https://musicbrainz.org/genre/")
 
+
 def make_request(url, params=None, retries=MAX_REQUEST_RETRIES, timeout=60):
     """Make an HTTP request with retry logic."""
     for attempt in range(retries):
