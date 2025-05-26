@@ -37,7 +37,7 @@ parser.add_argument(
     help="Folder containing archived .tar.xz files",
 )
 parser.add_argument(
-    "--dest_folder",
+    "--output_folder",
     type=str,
     default="../../data/musicbrainz/raw/extracted_jsonl",
     help="Folder where files will be extracted as .jsonl",
@@ -45,14 +45,14 @@ parser.add_argument(
 args = parser.parse_args()
 
 INPUT_FOLDER = os.path.abspath(args.input_folder)
-DEST_FOLDER = args.dest_folder
+OUTPUT_FOLDER = args.output_folder
 
 if not os.path.exists(INPUT_FOLDER):
     print(f"Input folder {INPUT_FOLDER} does not exist.")
     exit(1)
 
 # create the folder if it does not exist
-if not os.path.exists(DEST_FOLDER):
-    os.makedirs(DEST_FOLDER)
+if not os.path.exists(OUTPUT_FOLDER):
+    os.makedirs(OUTPUT_FOLDER)
 
-extract_file_multithread(INPUT_FOLDER, DEST_FOLDER)
+extract_file_multithread(INPUT_FOLDER, OUTPUT_FOLDER)

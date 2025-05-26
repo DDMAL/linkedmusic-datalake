@@ -4,6 +4,7 @@ fetch the latest test data dump files
 
 import os
 import time
+import argparse
 import requests
 
 
@@ -54,8 +55,19 @@ tar_xz_files = [
     "work.tar.xz",
 ]
 URL = "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/LATEST"
-RAW_PATH = "./data/musicbrainz/raw/archived/"
-if not os.path.exists(RAW_PATH):
-    os.makedirs(RAW_PATH)
-latest_url = get_latest_json_dump_url()
-fetch_api_call(latest_url)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Fetch the latest MusicBrainz JSON dump files."
+    )
+    parser.add_argument(
+        "--output_folder",
+        default="../../data/musicbrainz/raw/archived/",
+        help="Path to save the downloaded files.",
+    )
+    args = parser.parse_args()
+    RAW_PATH = args.raw_path
+    if not os.path.exists(RAW_PATH):
+        os.makedirs(RAW_PATH)
+    latest_url = get_latest_json_dump_url()
+    fetch_api_call(latest_url)
