@@ -11,35 +11,46 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
 ### Process Overview
 
 1. **Navigate to the Target Folder**
-    - Change directory to `linkedmusic-datalake/`.
+    - Change directory to `linkedmusic-datalake/`. This will ensure that all the paths provided in this guide point to the correct locations. For each script, you can also run them without any arguments directly from the directory containing the scripts and the default argument values will point to the correct folders.
 
 2. **Fetching the Latest Data**
     - Run the command below to download the latest `.tar.xz` dumps from the MusicBrainz public data sources:
 
         ```bash
-        python3 code/musicbrainz/fetch.py
+        python code/musicbrainz/fetch.py --output_folder data/musicbrainz/raw/archived
         ```
 
     - The downloaded files are stored in:
         `linkedmusic-datalake/data/musicbrainz/raw/archived/`
-    - The script downloads the data from musicbrainz, always choosing the latest dump.
-    - The downloaded `.tar.xz` files include a `mbdump` folder with entity-specific files. Each file is formatted with JSON Lines, where each line is a separate JSON record. The other files in the `.tar.xz` files aren't useful for data processing, they contain tings like the tmestamp of the dump and the data license.
+    - The script downloads the data from MusicBrainz, always choosing the latest dump.
+    - The downloaded `.tar.xz` files include a `mbdump` folder with entity-specific files. Each file is formatted with JSON Lines, where each line is a separate JSON record. The other files in the `.tar.xz` files aren't useful for data processing, they contain tings like the timestamp of the dump and the data license.
 
 3. **Extracting JSON Lines Files**
     - Execute the following command to extract JSON Lines files from the archives:
 
         ```bash
-        python3 code/musicbrainz/untar.py --input_folder data/musicbrainz/raw/archived --dest_folder data/musicbrainz/raw/extracted_jsonl
+        python code/musicbrainz/untar.py --input_folder data/musicbrainz/raw/archived --output_folder data/musicbrainz/raw/extracted_jsonl
         ```
 
     - The extracted files are located at:
         `linkedmusic-datalake/data/musicbrainz/raw/extracted_jsonl/mbdump/`
 
-4. **Converting Data to RDF (Turtle Format)**
+4. **Extracting Types and Reconciling them**
+    - Execute the following command to extract the types for each entity type into CSV files for reconciliation:
+
+        ```bash
+        python code/musicbrainz/extract_types.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump --output_folder data/musicbrainz/raw/types
+        ```
+
+    - It will extract the types for each entity type, except for those contained in the `IGNORE_TYPES` list, those don't have any types, so it's pointless to parse them.
+    - Each CSV will be named "{entity-type}_types.csv", and will be located in the `data/musicbrainz/raw/types` folder
+    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the types against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/types-reconciled` folder, naming each one "{entity_type}-types-csv.csv"
+
+5. **Converting Data to RDF (Turtle Format)**
     - For each JSON Lines file, convert the data using:
 
         ```bash
-        python3 code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --output_folder data/musicbrainz/rdf/
+        python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --type_folder data/musicbrainz/raw/types_reconciled --output_folder data/musicbrainz/rdf/
         ```
 
     - Note:
@@ -49,22 +60,24 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
         - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script
     - The generated RDF files are saved in the `linkedmusic-datalake/data/musicbrainz/rdf/` directory.
 
-5. **Retrieving Genre Information**
+6. **Retrieving Genre Information**
     - Run the following script to scrape genres along with their reconciled WikiData IDs:
 
         ```bash
-        python3 code/musicbrainz/get_genre.py --output ./data/musicbrainz/rdf/
+        python code/musicbrainz/get_genre.py --output ./data/musicbrainz/rdf/
         ```
 
+    - The script is rate-limited to 1 request per second following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works)
+    - The script also provides a user-agent header, following the same guidelines
     - The RDF is stored in `linkedmusic-datalake/data/musicbrainz/rdf/`
 
-6. **Key Properties Extracted**
+7. **Key Properties Extracted**
     - The conversion process extracts:
         - Name, type, aliases, genre.
         - Relation (among different MusicBrainz entity types).
         - Relation (url link relations, including those with WikiData).
             - MusicBrainz automatically reconciles the main entities against WikiData. If an entity is not reconciled in MusicBrainz, it's most likely that it's not present on WikiData. Thus, manual reconciliation with OpenRefine is largely redundant.
-            - Note that the MusicBrainz `type` properties are not reconciled to WikiData, so a manual reconciliation with OpenRefine may be necessary.
+            - Note that the MusicBrainz `type` properties are not reconciled to WikiData by MusicBrainz, which is why we reconcile them using OpenRefine.
 
 ## Data Upload
 

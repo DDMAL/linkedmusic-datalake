@@ -1,0 +1,346 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "type_@id",
+    "columnInsertIndex": 1,
+    "description": "Create column type_@id at index 1 based on column type using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q38033430",
+        "name": "class of award"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column type_@id to type Q38033430"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Catalogue",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2352616",
+      "name": "catalogue",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item catalogue (Q2352616) for cells containing \"Catalogue\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Recording award",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1364556",
+      "name": "music award",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item music award (Q1364556) for cells containing \"Recording award\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Run",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Run\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Event series",
+    "judgment": "matched",
+    "match": {
+      "id": "Q15275719",
+      "name": "recurring event",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item recurring event (Q15275719) for cells containing \"Event series\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Work series",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7725310",
+      "name": "series of creative works",
+      "types": [
+        ""
+      ],
+      "score": 42.5
+    },
+    "shareNewTopics": false,
+    "description": "Match item series of creative works (Q7725310) for cells containing \"Work series\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Residency",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7315424",
+      "name": "concert residency",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item concert residency (Q7315424) for cells containing \"Residency\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Release series",
+    "judgment": "matched",
+    "match": {
+      "id": "Q110940584",
+      "name": "release (group) series",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item release (group) series (Q110940584) for cells containing \"Release series\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Work award",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Work award\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Release group award",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Release group award\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Award ceremony",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4504495",
+      "name": "award ceremony",
+      "types": [
+        ""
+      ],
+      "score": 50
+    },
+    "shareNewTopics": false,
+    "description": "Match item award ceremony (Q4504495) for cells containing \"Award ceremony\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Festival",
+    "judgment": "matched",
+    "match": {
+      "id": "Q132241",
+      "name": "festival",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item festival (Q132241) for cells containing \"Festival\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Artist series",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7725310",
+      "name": "series of creative works",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item series of creative works (Q7725310) for cells containing \"Artist series\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Release group series",
+    "judgment": "matched",
+    "match": {
+      "id": "Q110940584",
+      "name": "release (group) series",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item release (group) series (Q110940584) for cells containing \"Release group series\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Podcast",
+    "judgment": "matched",
+    "match": {
+      "id": "Q20899",
+      "name": "podcast",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item podcast (Q20899) for cells containing \"Podcast\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Tour",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1573906",
+      "name": "concert tour",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item concert tour (Q1573906) for cells containing \"Tour\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Artist award",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Artist award\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Recording series",
+    "judgment": "matched",
+    "match": {
+      "id": "Q110940584",
+      "name": "release (group) series",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item release (group) series (Q110940584) for cells containing \"Recording series\" in column type_@id"
+  }
+]

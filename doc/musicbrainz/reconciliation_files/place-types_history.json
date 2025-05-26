@@ -1,0 +1,270 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "type_@id",
+    "columnInsertIndex": 1,
+    "description": "Create column type_@id at index 1 based on column type using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column type_@id to type null"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Concert hall / Theatre",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Concert hall / Theatre\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Venue",
+    "judgment": "matched",
+    "match": {
+      "id": "Q17350442",
+      "name": "venue",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item venue (Q17350442) for cells containing \"Venue\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Stadium",
+    "judgment": "matched",
+    "match": {
+      "id": "Q483110",
+      "name": "stadium",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item stadium (Q483110) for cells containing \"Stadium\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Festival stage",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Festival stage\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Amphitheatre",
+    "judgment": "matched",
+    "match": {
+      "id": "Q54831",
+      "name": "amphitheatre",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item amphitheatre (Q54831) for cells containing \"Amphitheatre\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Pressing plant",
+    "judgment": "matched",
+    "match": {
+      "id": "Q58210857",
+      "name": "record pressing plant",
+      "types": [
+        ""
+      ],
+      "score": 82
+    },
+    "shareNewTopics": false,
+    "description": "Match item record pressing plant (Q58210857) for cells containing \"Pressing plant\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Studio",
+    "judgment": "matched",
+    "match": {
+      "id": "Q746628",
+      "name": "studio",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item studio (Q746628) for cells containing \"Studio\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Religious building",
+    "judgment": "matched",
+    "match": {
+      "id": "Q24398318",
+      "name": "religious building",
+      "types": [
+        "Q811102"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item religious building (Q24398318) for cells containing \"Religious building\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Park",
+    "judgment": "matched",
+    "match": {
+      "id": "Q22698",
+      "name": "park",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item park (Q22698) for cells containing \"Park\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Club",
+    "judgment": "matched",
+    "match": {
+      "id": "Q622425",
+      "name": "nightclub",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item nightclub (Q622425) for cells containing \"Club\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Other",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Other\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Educational institution",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2385804",
+      "name": "educational institution",
+      "types": [
+        "Q104086571"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item educational institution (Q2385804) for cells containing \"Educational institution\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Indoor arena",
+    "judgment": "matched",
+    "match": {
+      "id": "Q641226",
+      "name": "arena",
+      "types": [
+        "Q121252873"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item arena (Q641226) for cells containing \"Indoor arena\" in column type_@id"
+  }
+]

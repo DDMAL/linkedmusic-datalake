@@ -1,0 +1,231 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "type_@id",
+    "columnInsertIndex": 1,
+    "description": "Create column type_@id at index 1 based on column type using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q107487333",
+        "name": "type of musical work/composition"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column type_@id to type Q107487333"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Ballet",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4851628",
+      "name": "ballet",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item ballet (Q4851628) for cells containing \"Ballet\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Poem",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5185279",
+      "name": "poem",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item poem (Q5185279) for cells containing \"Poem\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Prose",
+    "judgment": "matched",
+    "match": {
+      "id": "Q676",
+      "name": "prose",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item prose (Q676) for cells containing \"Prose\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Beijing opera",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Beijing opera\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Soundtrack",
+    "judgment": "matched",
+    "match": {
+      "id": "Q217199",
+      "name": "soundtrack",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item soundtrack (Q217199) for cells containing \"Soundtrack\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Audio drama",
+    "judgment": "matched",
+    "match": {
+      "id": "Q109349450",
+      "name": "audio drama",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item audio drama (Q109349450) for cells containing \"Audio drama\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Incidental music",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1147752",
+      "name": "incidental music",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item incidental music (Q1147752) for cells containing \"Incidental music\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Partita",
+    "judgment": "matched",
+    "match": {
+      "id": "Q388383",
+      "name": "partita",
+      "types": [
+        "Q107487333",
+        "Q862597"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item partita (Q388383) for cells containing \"Partita\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Zarzuela",
+    "judgment": "matched",
+    "match": {
+      "id": "Q148163",
+      "name": "zarzuela",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item zarzuela (Q148163) for cells containing \"Zarzuela\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Play",
+    "judgment": "matched",
+    "match": {
+      "id": "Q25379",
+      "name": "play",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item play (Q25379) for cells containing \"Play\" in column type_@id"
+  }
+]

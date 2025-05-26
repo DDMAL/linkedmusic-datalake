@@ -1,0 +1,130 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "type_@id",
+    "columnInsertIndex": 1,
+    "description": "Create column type_@id at index 1 based on column type using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q105756498",
+        "name": "type of musical group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column type_@id to type Q105756498"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Group",
+    "judgment": "matched",
+    "match": {
+      "id": "Q215380",
+      "name": "musical group",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item musical group (Q215380) for cells containing \"Group\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Choir",
+    "judgment": "matched",
+    "match": {
+      "id": "Q131186",
+      "name": "choir",
+      "types": [
+        "Q105756498"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item choir (Q131186) for cells containing \"Choir\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Character",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1792372",
+      "name": "character",
+      "types": [
+        ""
+      ],
+      "score": 50
+    },
+    "shareNewTopics": false,
+    "description": "Match item character (Q1792372) for cells containing \"Character\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Other",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Other\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Person",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5",
+      "name": "human",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item human (Q5) for cells containing \"Person\" in column type_@id"
+  }
+]

@@ -1,0 +1,198 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "type_@id",
+    "columnInsertIndex": 1,
+    "description": "Create column type_@id at index 1 based on column type using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q15617994",
+        "name": "administrative territorial entity type"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column type_@id to type Q15617994"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Military base",
+    "judgment": "matched",
+    "match": {
+      "id": "Q245016",
+      "name": "military base",
+      "types": [
+        ""
+      ],
+      "score": 50
+    },
+    "shareNewTopics": false,
+    "description": "Match item military base (Q245016) for cells containing \"Military base\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Indigenous territory / reserve",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1839674",
+      "name": "lands inhabited by indigenous peoples",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item lands inhabited by indigenous peoples (Q1839674) for cells containing \"Indigenous territory / reserve\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "District",
+    "judgment": "matched",
+    "match": {
+      "id": "Q149621",
+      "name": "district",
+      "types": [
+        "Q15617994"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item district (Q149621) for cells containing \"District\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Municipality",
+    "judgment": "matched",
+    "match": {
+      "id": "Q15284",
+      "name": "municipality",
+      "types": [
+        "Q15617994"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item municipality (Q15284) for cells containing \"Municipality\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "City",
+    "judgment": "matched",
+    "match": {
+      "id": "Q515",
+      "name": "city",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item city (Q515) for cells containing \"City\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Subdivision",
+    "judgment": "matched",
+    "match": {
+      "id": "Q56061",
+      "name": "administrative territorial entity",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item administrative territorial entity (Q56061) for cells containing \"Subdivision\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Island",
+    "judgment": "matched",
+    "match": {
+      "id": "Q23442",
+      "name": "island",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item island (Q23442) for cells containing \"Island\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "County",
+    "judgment": "matched",
+    "match": {
+      "id": "Q28575",
+      "name": "county",
+      "types": [
+        "Q15617994"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item county (Q28575) for cells containing \"County\" in column type_@id"
+  }
+]
