@@ -12,7 +12,8 @@ from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
 
-REPROCESSING = False # Set to True if you want to reprocess entity types that are already present in the output folder
+# Set to True if you want to reprocess entity types that are already present in the output folder
+REPROCESSING = False
 
 # Entity types to ignore because they don't have types
 IGNORE_TYPES = [
@@ -20,6 +21,7 @@ IGNORE_TYPES = [
     "release-group",
     "release",
 ]
+
 
 def main(args):
     """Main function to extract the type field from MusicBrainz JSON data."""
@@ -45,10 +47,11 @@ def main(args):
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON in file {input_file}: {e}")
                 continue
-    
+
     df = pd.DataFrame({"type": list(types)})
     with open(output_file, "w", encoding="utf-8") as out_file:
         df.to_csv(out_file, index=False)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

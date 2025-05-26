@@ -473,7 +473,7 @@ def main(args):
     # Parse command line arguments
     input_file = args.input_file
     entity_type = Path(args.input_file).stem  # Get entity type from filename
-    type_file = args.type_file
+    type_file = Path(args.type_file) if args.type_file else None
     if type_file:
         # Read the types from the type file
         types = pd.read_csv(type_file, encoding="utf-8")
@@ -505,7 +505,9 @@ def main(args):
         "mbwo": MBWO,
     }
 
-    main_graph = asyncio.run(get_final_graph(entity_type, input_file, namespaces, type_mapping))
+    main_graph = asyncio.run(
+        get_final_graph(entity_type, input_file, namespaces, type_mapping)
+    )
 
     # Save the final result
     print(f"Saving RDF data to: {output_file}")
@@ -568,6 +570,8 @@ if __name__ == "__main__":
         print(f"Processing file: {input_file}")
         # Create a new namespace for the current file using its stem as entity type
         sub_args = argparse.Namespace(
-            input_file=str(input_file), type_file=type_file, output_folder=args.output_folder
+            input_file=str(input_file),
+            type_file=str(type_file) if type_file else None,
+            output_folder=args.output_folder,
         )
         main(sub_args)
