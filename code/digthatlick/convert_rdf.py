@@ -11,6 +11,7 @@ from rdflib import Graph, URIRef, Literal, Namespace
 
 SOLOS_CSV = "../../data/digthatlick/reconciled/dtl1000_solos.csv"
 TRACKS_CSV = "../../data/digthatlick/reconciled/dtl1000_tracks.csv"
+PERFORMERS_CSV = "../../data/digthatlick/reconciled/dtl1000_performers.csv"
 
 OUTPUT_PATH = "../../data/digthatlick/RDF/"
 
@@ -36,7 +37,7 @@ DTL_SOLOS_SCHEMA = {
     "possible_solo_performer_names": "P175",  # We will not add qualifiers to distinguish between possible and confirmed solo performers
     "solo_performer_name": "P175",
     "instrument_label": "P870",
-    "track_id": "P361"
+    "track_id": "P361",
 }
 
 # This schema is for tracks.csv
@@ -56,6 +57,12 @@ DTL_ALBUMS_SCHEMA = {
     "tracklist": "P658",  # the predicate between track_title and medium_title
 }
 
+# The primary key in the performers.csv is track_id
+# This csv was split from tracks.csv because it contains many performers per track
+DTL_PERFORMERS_SCHEMA = {
+    "performer_names": "P175",
+}
+
 
 def matched_wikidata(field: str) -> bool:
     """Check if the field is a matched Wikidata URI."""
@@ -63,13 +70,14 @@ def matched_wikidata(field: str) -> bool:
 
 
 def to_rdf_node(
-    val: str, namespace: str = WD, 
+    val: str,
+    namespace: str = WD,
 ) -> Union[URIRef, Literal]:  # Unreconciled values will be returned as RDF Literal
     """Convert a value to an RDF node (URIRef or Literal) to allow usage within RDF triple"""
     if pd.isna(val):
         return None
     if namespace != WD or matched_wikidata(str(val)):
-        return URIRef(f"{namespace}{val}") 
+        return URIRef(f"{namespace}{val}")
     else:
         return Literal(str(val))
 
@@ -81,9 +89,12 @@ if not os.path.exists(SOLOS_CSV):
     raise FileNotFoundError(f"The file {SOLOS_CSV} does not exist.")
 if not os.path.exists(TRACKS_CSV):
     raise FileNotFoundError(f"The file {TRACKS_CSV} does not exist.")
+if not os.path.exists(PERFORMERS_CSV):
+    raise FileNotFoundError(f"The file {PERFORMERS_CSV} does not exist.")
 
 solos = pd.read_csv(SOLOS_CSV)
 tracks = pd.read_csv(TRACKS_CSV)
+performers = pd.read_csv(PERFORMERS_CSV)
 
 # Intialize RDF graph
 g = Graph()
@@ -160,12 +171,33 @@ except KeyError as e:
     print(f"KeyError: The column '{e.args[0]}' is missing from the input CSV file.")
     exit(1)
 
+print("Processing dtl1000_performers.csv...")
+dict_data = performers.to_dict(
+    orient="records"
+)  # this converts the DataFrame to a list of dictionaries
+try:
+    for row in dict_data:
+        subject_node = to_rdf_node(
+            row["track_id"], namespace=DTLT
+        )  # track_id is the only column using DTLT namespace
+        if subject_node is None:
+            continue
+        for column, wikidata_property in DTL_PERFORMERS_SCHEMA.items():
+            predicate = URIRef(f"{WDT}{wikidata_property}")
+            object_node = to_rdf_node(row[column])
+
+            if object_node is None:
+                continue
+            g.add((subject_node, predicate, object_node))
+
+except KeyError as e:
+    print(f"KeyError: The column '{e.args[0]}' is missing from the input CSV file.")
+    exit(1)
+
 # Serialize the graph to RDF format
 print("Serializing RDF graph to Turtle format...")
 g.serialize(destination=os.path.join(OUTPUT_PATH, "dtl1000.ttl"), format="turtle")
 print(
- 
- 
     "RDF conversion completed. The serialized output is saved to:",
     os.path.join(OUTPUT_PATH, "dtl1000.ttl"),
 )
