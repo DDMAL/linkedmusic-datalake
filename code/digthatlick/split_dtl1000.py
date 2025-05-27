@@ -1,3 +1,10 @@
+"""
+This script splits the DTL1000 dataset into three separate CSV files:
+- dtl1000_solos.csv: Contains solo performance information.
+- dtl1000_tracks.csv: Contains track information.
+- dtl1000_performers.csv: Contains performer information.
+This allows for easier reconciliation and conversion to RDF
+"""
 import pandas as pd
 import re
 
