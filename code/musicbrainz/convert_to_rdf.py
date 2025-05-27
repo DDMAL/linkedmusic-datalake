@@ -36,11 +36,11 @@ from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF
+from rdflib.namespace import RDFS
 import pandas as pd
 import aiofiles
 
-
+# Define namespaces
 SCHEMA = Namespace("http://schema.org/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
@@ -48,7 +48,9 @@ MB = Namespace("https://musicbrainz.org/")
 # Define MusicBrainz namespaces, to save space in exported RDF
 MBAE = Namespace(f"{MB}area/")
 MBAT = Namespace(f"{MB}artist/")
+MBCD = Namespace(f"{MB}cdtoc/")
 MBEV = Namespace(f"{MB}event/")
+MBGE = Namespace(f"{MB}genre/")
 MBIN = Namespace(f"{MB}instrument/")
 MBLA = Namespace(f"{MB}label/")
 MBPL = Namespace(f"{MB}place/")
@@ -66,12 +68,17 @@ class MappingSchema:
     and the second type is the type that you're pointing to.
     This class handles wildcards, passing None as the first type will match any type,
     but will give priority to specific mappings.
-    If the value for a mapping is None, that means that the mapping should not be processed.
+    Any mappings passed as a string will be converted to a URIRef
+    with the Wikidata namespace (WDT).
 
-    To retrieve method, use the syntax:
+    To retrieve values, use the syntax:
     `MB_SCHEMA[(pointing_from, pointing_to)]`
     where `pointing_from` is the type you're pointing from
     and `pointing_to` is the type you're pointing to.
+
+    Additionally, you can use the `to_dict_for_type` method to convert the schema
+    to a dictionary for a specific entity type.
+    This will simplify calls to the schema to avoid having to pass the pointing_from type.
     """
 
     def __init__(self, schema):
@@ -79,13 +86,21 @@ class MappingSchema:
         Initialize the MappingSchema with a given schema.
         The schema should be a dictionary where keys are tuples of (pointing_from, pointing_to)
         and values are the corresponding Wikidata property IDs.
+        pointing_from can be a single type or an iterable of types.
+        pointing_to should always be a single type.
+        If the value is a string, it will be converted to a URIRef with the Wikidata namespace (WDT).
         """
         self.schema = {}
         for types, mapping in schema.items():
+            if not isinstance(mapping, URIRef):
+                mapping = URIRef(f"{WDT}{mapping}")
             pointing_from, pointing_to = types
             if pointing_to not in self.schema:
                 self.schema[pointing_to] = {}
-            if pointing_from not in self.schema[pointing_to]:
+            if pointing_from and not isinstance(pointing_from, str):  # Handle iterables
+                for pf in pointing_from:
+                    self.schema[pointing_to][pf] = mapping
+            else:
                 self.schema[pointing_to][pointing_from] = mapping
 
     def __getitem__(self, types):
@@ -103,13 +118,34 @@ class MappingSchema:
         return t in self.schema
 
     def add(self, schema):
-        """Add a new mapping to the schema."""
+        """Add an additional mapping to the schema, with the same properties and behaviour as init."""
         for types, mapping in schema.items():
+            if not isinstance(mapping, URIRef):
+                mapping = URIRef(f"{WDT}{mapping}")
             pointing_from, pointing_to = types
             if pointing_to not in self.schema:
                 self.schema[pointing_to] = {}
-            if pointing_from not in self.schema[pointing_to]:
+            if pointing_from and not isinstance(pointing_from, str):  # Handle iterables
+                for pf in pointing_from:
+                    self.schema[pointing_to][pf] = mapping
+            else:
                 self.schema[pointing_to][pointing_from] = mapping
+
+    def to_dict_for_type(self, entity_type):
+        """
+        Convert the schema to a dictionary for a specific entity type.
+        This will simplify calls to the schema to avoid having to pass the pointing_from type.
+        This will return a dictionary where keys are the pointing_to types
+        and values are the corresponding URIRef.
+        """
+        to_return = {}
+        for pointing_to, mappings in self.schema.items():
+            for pointing_from, mapping in mappings.items():
+                if pointing_from == entity_type or (
+                    pointing_from is None and pointing_to not in to_return
+                ):
+                    to_return[pointing_to] = mapping
+        return to_return
 
 
 # Define mapping from MusicBrainz to Wikidata, to pass to the above class
@@ -128,22 +164,46 @@ mapping_schema = {
     (None, "instrument"): "P1330",
     (None, "genre"): "P8052",
     (None, "url"): "P2888",
+    (None, "title"): "P1476",
+    (None, "date"): "P577",
+    (None, "genre"): "P136",
+    (None, "rism"): "P5504",
+    (None, "name"): RDFS.label,
+    (None, "type"): "P31",
+    (None, "alias"): "P4970",
     # Specific mappings for areas
+    ("area", "name"): RDFS.label,
     # Specific mappings for artists
+    ("artist", "area"): "P27",
+    ("artist", "gender"): "P21",
+    ("artist", "begin-area-person"): "P19",
+    ("artist", "end-area-person"): "P20",
+    ("artist", "begin-date-person"): "P569",
+    ("artist", "end-date-person"): "P570",
+    ("artist", "begin-area"): "P740",
+    ("artist", "begin-date"): "P571",
+    ("artist", "end-date"): "P576",
     # Specific mappings for events
+    ("event", "begin-date"): "P580",
+    ("event", "end-date"): "P582",
     # Specific mappings for instruments
     ("instrument", "instrument"): "P279",
     # Specific mappings for labels
+    ("label", "begin-date"): "P571",
+    ("label", "end-date"): "P576",
     # Specific mappings for places
     # Specific mappings for recordings
-    ("recording", "artist"): "P175",
+    (("recording", "release-group", "release"), "artist"): "P175",
     # Specific mappings for release groups
-    ("release-group", "artist"): "P175",
     # Specific mappings for releases
-    ("release", "artist"): "P175",
+    ("release", "cdtoc"): "P527",
+    ("release", "recording"): "P658",
+    ("release", "label"): "P264",
+    ("release", "release-group"): "P361",
+    ("release", "area"): "P495",
+    ("release", "artist-alt"): "P767",
     # Specific mappings for series
     # Specific mappings for works
-    # Specific mappings for genres
 }
 
 MB_SCHEMA = MappingSchema(mapping_schema)
@@ -155,6 +215,10 @@ MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
 MAX_PROCESSES = min(MAX_SIMULTANEOUS_CHUNK_WORKERS, os.cpu_count() or 1)
 MAX_CHUNKS_IN_MEMORY = 150  # Max number of chunks to keep in memory at once
 MAX_SUBGRAPHS_IN_MEMORY = 150  # Max number of subgraphs to keep in memory at once
+
+# If the input file is bigger (in bytes) than this, it will use Oxigraph to store the graph
+# Otherwise it will use rdflib's in-memory graph
+GRAPH_STORE_CUTOFF = 1000000
 
 REPROCESSING = False  # Set to True if you want to reprocess entity types that are already present in the output folder
 
@@ -182,37 +246,15 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
 
     # Process name
     if "name" in data:
-        g.add((subject_uri, URIRef(f"{WDT}P2561"), Literal(data["name"])))
+        g.add((subject_uri, mb_schema["name"], Literal(data["name"])))
 
     # Process type
     if "type" in data and (converted_type := type_mapping.get(data["type"])):
         # If the type is a Wikidata ID, use it directly
         if matched_wikidata(converted_type):
-            g.add((subject_uri, RDF.type, URIRef(f"{WD}{converted_type}")))
+            g.add((subject_uri, mb_schema["type"], URIRef(f"{WD}{converted_type}")))
         else:
-            g.add((subject_uri, RDF.type, Literal(data["type"])))
-
-    # Process release group
-    if "release-group" in data:
-        g.add(
-            (
-                subject_uri,
-                URIRef(f"{WDT}{mb_schema[(entity_type, 'release-group')]}"),
-                URIRef(
-                    f"https://musicbrainz.org/release-group/{data['release-group']["id"]}"
-                ),
-            )
-        )
-
-    # Process artists
-    for artist in data.get("artist-credit", []):
-        g.add(
-            (
-                subject_uri,
-                URIRef(f"{WDT}{mb_schema[(entity_type, 'artist')]}"),
-                URIRef(f"https://musicbrainz.org/artist/{artist['artist']['id']}"),
-            )
-        )
+            g.add((subject_uri, mb_schema["type"], Literal(data["type"])))
 
     # Process aliases
     for alias in data.get("aliases", []):
@@ -221,7 +263,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                 g.add(
                     (
                         subject_uri,
-                        URIRef(f"{WDT}P4970"),
+                        mb_schema["alias"],
                         Literal(
                             alias_name,
                             lang=alias.get("locale", "none"),
@@ -232,10 +274,63 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                 g.add(
                     (
                         subject_uri,
-                        URIRef(f"{WDT}P4970"),
+                        mb_schema["alias"],
                         Literal(alias_name),
                     )
                 )
+
+    # Process area
+    if area := data.get("area"):
+        if area_id := area.get("id"):
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["area"],
+                    URIRef(f"https://musicbrainz.org/area/{area_id}"),
+                )
+            )
+
+    # Process artists
+    for artist in data.get("artist-credit", []):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["artist"],
+                URIRef(f"https://musicbrainz.org/artist/{artist['artist']['id']}"),
+            )
+        )
+
+    if data.get("begin_area"):
+        if begin_area_id := data["begin_area"].get("id"):
+            g.add(
+                (
+                    subject_uri,
+                    (
+                        mb_schema["begin-area-person"]
+                        if data["type"] == "Person"
+                        else mb_schema["begin-area"]
+                    ),
+                    URIRef(f"https://musicbrainz.org/area/{begin_area_id}"),
+                )
+            )
+
+    # Process date
+    if "date" in data:
+        g.add((subject_uri, mb_schema["date"], Literal(data["date"])))
+
+    if data.get("end_area"):
+        if end_area_id := data["end_area"].get("id"):
+            g.add(
+                (
+                    subject_uri,
+                    (
+                        mb_schema["end-area-person"]
+                        if data["type"] == "Person"
+                        else mb_schema["end-area"]
+                    ),
+                    URIRef(f"https://musicbrainz.org/area/{end_area_id}"),
+                )
+            )
 
     # Process genres
     for genre in data.get("genres", []):
@@ -244,10 +339,72 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
             g.add(
                 (
                     subject_uri,
-                    URIRef(f"{WDT}{MB_SCHEMA[(entity_type, 'genre')]}"),
+                    mb_schema["genre"],
                     genre_uri,
                 )
             )
+
+    # Process labels
+    for label in data.get("label-info", []):
+        label = label.get("label")
+        if label and (label_id := label.get("id")):
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["label"],
+                    URIRef(f"https://musicbrainz.org/label/{label_id}"),
+                )
+            )
+
+    # Process lifespan
+    if lifespan := data.get("life-span"):
+        if begin_date := lifespan.get("begin"):
+            g.add(
+                (
+                    subject_uri,
+                    (
+                        mb_schema["begin-date-person"]
+                        if data["type"] == "Person"
+                        else mb_schema["begin-date"]
+                    ),
+                    Literal(begin_date),
+                )
+            )
+        if end_date := lifespan.get("end"):
+            g.add(
+                (
+                    subject_uri,
+                    (
+                        mb_schema["end-date-person"]
+                        if data["type"] == "Person"
+                        else mb_schema["end-date"]
+                    ),
+                    Literal(end_date),
+                )
+            )
+
+    # Process media
+    for media in data.get("media", []):
+        for disc in media.get("discs", []):
+            if disc_id := disc.get("id"):
+                g.add(
+                    (
+                        subject_uri,
+                        mb_schema["cdtoc"],
+                        URIRef(f"https://musicbrainz.org/cdtoc/{disc_id}"),
+                    )
+                )
+
+        for track in media.get("tracks", []):
+            recording = track.get("recording")
+            if recording and (recording_id := recording.get("id")):
+                g.add(
+                    (
+                        subject_uri,
+                        mb_schema["recording"],
+                        URIRef(f"https://musicbrainz.org/recording/{recording_id}"),
+                    )
+                )
 
     # Process relationships
     for relation in data.get("relations", []):
@@ -271,8 +428,38 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     break
 
         if target_uri and rel_type in mb_schema:
-            pred_uri = URIRef(f"{WDT}{MB_SCHEMA[(entity_type, rel_type)]}")
+            # Try to get the alt value, if there is one
+            # Otherwise get the normal one
+            pred_uri = mb_schema.get(f"{rel_type}-alt", mb_schema.get(rel_type))
             g.add((subject_uri, pred_uri, target_uri))
+
+    # Process release events
+    for event in data.get("release-events", []):
+        area = event.get("area")
+        if area and (area_id := area.get("id")):
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["area"],
+                    URIRef(f"https://musicbrainz.org/area/{area_id}"),
+                )
+            )
+
+    # Process release group
+    if "release-group" in data:
+        g.add(
+            (
+                subject_uri,
+                mb_schema["release-group"],
+                URIRef(
+                    f"https://musicbrainz.org/release-group/{data['release-group']["id"]}"
+                ),
+            )
+        )
+
+    # Process title
+    if "title" in data:
+        g.add((subject_uri, mb_schema["title"], Literal(data["title"])))
 
 
 def process_chunk(chunk, entity_type, mb_schema, mb_entity_types, type_mapping):
@@ -290,6 +477,9 @@ def process_chunk(chunk, entity_type, mb_schema, mb_entity_types, type_mapping):
                 type_mapping,
             )
         except json.JSONDecodeError:
+            continue
+        except (KeyError, AttributeError) as e:
+            print(f"{type(e).__name__} in line {i} of chunk: {e}")
             continue
         finally:
             chunk[i] = None  # Clear the processed line to free memory
@@ -315,7 +505,7 @@ async def subgraph_worker(
         while True:
             chunk = await chunk_queue.get()
 
-            MB_ENTITY_TYPES = {
+            mb_entity_types = {
                 "artist",
                 "release",
                 "recording",
@@ -336,7 +526,7 @@ async def subgraph_worker(
                 chunk,
                 entity_type,
                 mb_schema,
-                MB_ENTITY_TYPES,
+                mb_entity_types,
                 type_mapping,
             )
 
@@ -409,8 +599,13 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
     # Lock for thread safety for the chunk bar because each worker can update it
     chunk_bar_lock = Lock()
 
-    main_graph = Graph("Oxigraph")
-    main_graph.open("./store", create=True)
+    if os.path.getsize(input_file) > GRAPH_STORE_CUTOFF:
+        main_graph = Graph("Oxigraph")
+        main_graph.open("./store", create=True)
+    else:
+        print(f"{input_file} is small enough to use an in-memory graph.")
+        main_graph = Graph()
+    
     for prefix, ns in namespaces.items():
         main_graph.bind(prefix, ns)
 
@@ -422,7 +617,7 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
                         chunk_queue,
                         subgraph_queue,
                         entity_type,
-                        MB_SCHEMA,
+                        MB_SCHEMA.to_dict_for_type(entity_type),
                         type_mapping,
                         chunk_bar,
                         chunk_bar_lock,
@@ -447,10 +642,15 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
                 if chunk:  # Process the remaining last chunk
                     await chunk_queue.put(chunk)
 
+            file_bar.refresh()
+
             await chunk_queue.join()  # Wait for all chunks to be processed
 
             for worker in subgraph_workers:
                 worker.cancel()
+
+            with chunk_bar_lock:
+                chunk_bar.refresh()
 
             await subgraph_queue.join()  # Wait for all subgraphs to be processed
 
@@ -494,7 +694,9 @@ def main(args):
         "mb": MB,
         "mbae": MBAE,
         "mbat": MBAT,
+        "mbcd": MBCD,
         "mbev": MBEV,
+        "mbge": MBGE,
         "mbin": MBIN,
         "mbla": MBLA,
         "mbpl": MBPL,
@@ -517,12 +719,13 @@ def main(args):
     main_graph.close()
 
     # Fully delete the store
-    for root, dirs, files in os.walk("./store", topdown=False):
-        for file in files:
-            os.remove(os.path.join(root, file))
-        for name in dirs:
-            os.rmdir(os.path.join(root, name))
-    os.rmdir("./store")
+    if os.path.exists("./store"):
+        for root, dirs, files in os.walk("./store", topdown=False):
+            for file in files:
+                os.remove(os.path.join(root, file))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+        os.rmdir("./store")
 
 
 if __name__ == "__main__":
@@ -564,14 +767,17 @@ if __name__ == "__main__":
         if not REPROCESSING and input_file.stem in bad_files:
             print(f"Skipping {input_file} as it is already processed.")
             continue
-        type_file = Path(args.type_folder) / f"{input_file.stem}-types-csv.csv"
-        if not type_file.exists() or not type_file.is_file():
-            type_file = None
+        type_file = None
+        if input_file.stem not in ENTITIES_WITHOUT_TYPES:
+            type_file_path = Path(args.type_folder) / f"{input_file.stem}-types-csv.csv"
+            if type_file_path.exists() and type_file_path.is_file():
+                type_file = str(type_file_path)
         print(f"Processing file: {input_file}")
+
         # Create a new namespace for the current file using its stem as entity type
         sub_args = argparse.Namespace(
             input_file=str(input_file),
-            type_file=str(type_file) if type_file else None,
+            type_file=type_file,
             output_folder=args.output_folder,
         )
         main(sub_args)
