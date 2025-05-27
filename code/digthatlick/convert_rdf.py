@@ -1,276 +1,171 @@
 """
-Converts all the DIAMM reconciled CSV files to RDF (turtle) format.
+Converts all the Dig That Lick reconciled CSV files to RDF (turtle) format.
+This script is based on code/diamm/convert_rdf.py
 """
 
-import json
+from typing import Union
 import re
 import os
 import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDF
 
-BASE_PATH = "../../data/diamm/reconciled/"
-RELATIONS_PATH = "../../data/diamm/csv/relations.csv"
-OUTPUT_PATH = "../../data/diamm/RDF/"
+SOLOS_CSV = "../../data/digthatlick/reconciled/dtl1000_solos.csv"
+TRACKS_CSV = "../../data/digthatlick/reconciled/dtl1000_tracks.csv"
 
-os.makedirs(OUTPUT_PATH, exist_ok=True)
+OUTPUT_PATH = "../../data/digthatlick/RDF/"
 
-SCHEMA = Namespace("http://schema.org/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
-DIAMM = Namespace("https://www.diamm.ac.uk/")
-DA = Namespace(f"{DIAMM}archives/")
-DM = Namespace(f"{DIAMM}compositions/")
-DO = Namespace(f"{DIAMM}organizations/")
-DP = Namespace(f"{DIAMM}people/")
-DS = Namespace(f"{DIAMM}sources/")
-DE = Namespace(f"{DIAMM}sets/")
+# http://www.DTL.org/JE/ is the official namespace used in DDL1000.ttl, which is hosted at https://osf.io/bwg42/files/osfstorage.
+# Dig That Lick does not own the domain.
+DTLS = Namespace("http://www.DTL.org/JE/solo_performances/")
+DTLT = Namespace("http://www.DTL.org/JE/tracks/")
 
-# DIAMM schema properties contained in one location to make it easier to change
-DIAMM_SCHEMA = {
-    "wikidata_id": "P2888",
-    "name": "P2561",
-    "title": "P1476",
-    "siglum": "P11550",
-    "website": "P856",
-    "rism_id": "P5504",
-    "city": "P131",
-    "country": "P17",
-    "type": "P31",
-    "composer": "P86",
-    "genre": "P136",
-    "variant_names": "P1449",
-    "earliest_year": "P569",
-    "latest_year": "P570",
-    "viaf_id": "P214",
-    "shelfmark": "P217",
-    "cluster_shelfmark": "P217",
-    "holding_archive": "P276",
-    "composition_in_source": "P361",
-    "related_organization": "P2860",
-    "copied_organization": "P1071",
-    "provenance_organization": "P276",
-    "related_people": "P767",
-    "copied_people": "P170",
-    "set_in_source": "P361",
-    "display_name": "P2561",
-}
-
-namespaces = {
-    "schema": SCHEMA,
+# These prefixes are used as shorthand in the Turtle file
+namespace_prefixes = {
     "wdt": WDT,
     "wd": WD,
-    "diamm": DIAMM,
-    "da": DA,
-    "dm": DM,
-    "do": DO,
-    "dp": DP,
-    "ds": DS,
-    "de": DE,
+    "dtls": DTLS,
+    "dtlt": DTLT,
 }
 
+
+# The key is the column name in the CSV file; the value is the equivalent Wikidata property ID.
+# This schema is for solos.csv
+DTL_SOLOS_SCHEMA = {
+    "possible_solo_performer_names": "P175",  # We will not add qualifiers to distinguish between possible and confirmed solo performers
+    "solo_performer_name": "P175",
+    "instrument_label": "P870",
+    "track_id": "P361"
+}
+
+# This schema is for tracks.csv
+DTL_TRACKS_SCHEMA = {
+    "band_name": "P175",
+    "session_date": "P10135",
+    "area": "P8546",
+}
+
+# This schema is also for tracks.csv
+# It maps the special relation between:
+# - disk_title (album),
+# - medium_title (part of the album)
+# - track_title (tracks on the album)
+DTL_ALBUMS_SCHEMA = {
+    "part of": "P361",  # the predicate between medium_title and disk_title
+    "tracklist": "P658",  # the predicate between track_title and medium_title
+}
+
+
 def matched_wikidata(field: str) -> bool:
-    """Check if the field is a matched Wikidata ID."""
-    return re.match(r"^Q\d+", field) is not None
+    """Check if the field is a matched Wikidata URI."""
+    return re.match(r"http://www\.wikidata\.org/entity/Q\d+", field) is not None
 
-archives = pd.read_csv(os.path.join(BASE_PATH, "archives-csv.csv"))
-compositions = pd.read_csv(os.path.join(BASE_PATH, "compositions-csv.csv"))
-organizations = pd.read_csv(os.path.join(BASE_PATH, "organizations-csv.csv"))
-people = pd.read_csv(os.path.join(BASE_PATH, "people-csv.csv"))
-sets = pd.read_csv(os.path.join(BASE_PATH, "sets-csv.csv"))
-sources = pd.read_csv(os.path.join(BASE_PATH, "sources-csv.csv"))
 
-relations = pd.read_csv(RELATIONS_PATH)
+def to_rdf_node(
+    val: str, namespace: str = WD, 
+) -> Union[URIRef, Literal]:  # Unreconciled values will be returned as RDF Literal
+    """Convert a value to an RDF node (URIRef or Literal) to allow usage within RDF triple"""
+    if pd.isna(val):
+        return None
+    if namespace != WD or matched_wikidata(str(val)):
+        return URIRef(f"{namespace}{val}") 
+    else:
+        return Literal(str(val))
 
+
+os.makedirs(OUTPUT_PATH, exist_ok=True)
+print("Output directory created or already exists:", OUTPUT_PATH)
+
+if not os.path.exists(SOLOS_CSV):
+    raise FileNotFoundError(f"The file {SOLOS_CSV} does not exist.")
+if not os.path.exists(TRACKS_CSV):
+    raise FileNotFoundError(f"The file {TRACKS_CSV} does not exist.")
+
+solos = pd.read_csv(SOLOS_CSV)
+tracks = pd.read_csv(TRACKS_CSV)
+
+# Intialize RDF graph
 g = Graph()
-
-# Bind namespaces
-for prefix, ns in namespaces.items():
+for prefix, ns in namespace_prefixes.items():
     g.bind(prefix, ns)
 
-print("Processing archives...")
-json_data = json.loads(archives.to_json(orient="records"))
-for work in json_data:
-    subject_uri = URIRef(f"{DA}{int(work['id'])}")
-    g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Archive")))
 
-    if matched_wikidata(work["name_@id"]): # Use the same as property to indicate if the archive has been reconciled
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"), URIRef(f"{WD}{work['name_@id']}")))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["name"]}"), Literal(work["name"])))
+print("Processing dtl1000_solos.csv...")
+dict_data = solos.to_dict(
+    orient="records"
+)  # this converts the DataFrame to a list of dictionaries
+try:
+    for row in dict_data:
+        subject_node = to_rdf_node(
+            row["solo_id"], namespace=DTLS
+        )  # solos_id is the only column using DTLS namespace
+        if subject_node is None:
+            continue
+        for column, wikidata_property in DTL_SOLOS_SCHEMA.items():
+            predicate = URIRef(f"{WDT}{wikidata_property}")
+            object_node = to_rdf_node(row[column])
 
-    if work["siglum"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["siglum"]}"), Literal(work["siglum"])))
-    if work["website"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["website"]}"), URIRef(work["website"])))
-    if work["rism_id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["rism_id"]}"), Literal(work["rism_id"])))
-    
-    if matched_wikidata(work["city_@id"]):
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), URIRef(f"{WD}{work['city_@id']}")))
-    else:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), Literal(work["city"])))
-    
-    if matched_wikidata(work["country_@id"]):
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), URIRef(f"{WD}{work['country_@id']}")))
-    else:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), Literal(work["country"])))
+            if object_node is None:
+                continue
+            g.add((subject_node, predicate, object_node))
 
-print("Processing compositions...")
-json_data = json.loads(compositions.to_json(orient="records"))
-for work in json_data:
-    if work["id"] is None: # There is just the genre to deal with
-        if matched_wikidata(work["genres_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), URIRef(f"{WD}{work['genres_@id']}")))
-        else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), Literal(work["genres"])))
-        continue
+except KeyError as e:
+    print(f"KeyError: The column '{e.args[0]}' is missing from the input CSV file.")
+    exit(1)
 
-    subject_uri = URIRef(f"{DM}{int(work['id'])}")
-    g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Composition")))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["title"]}"), Literal(work["title"])))
+print("Processing dtl1000_tracks.csv...")
+dict_data = tracks.to_dict(
+    orient="records"
+)  # this converts the DataFrame to a list of dictionaries
+try:
+    for row in dict_data:
+        subject_node = to_rdf_node(
+            row["track_id"], namespace=DTLT
+        )  # track_id is the only column using DTLT namespace
+        if subject_node is None:
+            continue
+        for column, wikidata_property in DTL_TRACKS_SCHEMA.items():
+            predicate = URIRef(f"{WDT}{wikidata_property}")
+            object_node = to_rdf_node(row[column])
 
-    if work["anonymous"] is True:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["composer"]}"), Literal("Anonymous")))
-    
-    if work["genres"] is not None:
-        if matched_wikidata(work["genres_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), URIRef(f"{WD}{work['genres_@id']}")))
-        else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), Literal(work["genres"])))
+            if object_node is None:
+                continue
+            g.add((subject_node, predicate, object_node))
 
-print("Processing organizations...")
-json_data = json.loads(organizations.to_json(orient="records"))
-for work in json_data:
-    if work["id"] is None: # There is just the type to deal with
-        if matched_wikidata(work["organization_type_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['organization_type_@id']}")))
-        else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["organization_type"])))
-        continue
+except KeyError as e:
+    print(f"KeyError: The column '{e.args[0]}' is missing from the input CSV file.")
+    exit(1)
 
-    subject_uri = URIRef(f"{DO}{int(work['id'])}")
-    g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Organization")))
 
-    if matched_wikidata(work["name_@id"]): # Use the same as property to indicate if the organization has been reconciled
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"), URIRef(f"{WD}{work['name_@id']}")))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["name"]}"), Literal(work["name"])))
+print("Mapping track and albums relation from dtl1000_tracks.csv...")
+try:
+    for row in dict_data:
+        track_title = to_rdf_node(row["track_title"])
+        medium_title = to_rdf_node(row["medium_title"])
+        disc_title = to_rdf_node(row["disk_title"])
 
-    if work["organization_type"] is not None:
-        if matched_wikidata(work["organization_type_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['organization_type_@id']}")))
-        else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["organization_type"])))
+        if medium_title is not None and disc_title is not None:
+            # Add the "part of" relation between medium_title and disk_title
+            predicate = URIRef(f"{WDT}{DTL_ALBUMS_SCHEMA['part of']}")
+            g.add((medium_title, predicate, disc_title))
 
-    if work["city_@id"] is not None:
-        if matched_wikidata(work["city_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), URIRef(f"{WD}{work['city_@id']}")))
-        else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), Literal(work["city"])))
+        if track_title is not None and medium_title is not None:
+            # Add the "tracklist" relation between medium_title and track_title
+            predicate = URIRef(f"{WDT}{DTL_ALBUMS_SCHEMA['tracklist']}")
+            g.add((medium_title, predicate, track_title))
 
-    if work["country_@id"] is not None:
-        if matched_wikidata(work["country_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), URIRef(f"{WD}{work['country_@id']}")))
-        else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), Literal(work["country"])))
 
-print("Processing people...")
-json_data = json.loads(people.to_json(orient="records"))
-for work in json_data:
-    subject_uri = URIRef(f"{DP}{int(work['id'])}")
-    g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Person")))
-
-    if matched_wikidata(work["full_name_@id"]): # Use the same as property to indicate if the person has been reconciled
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"), URIRef(f"{WD}{work['full_name_@id']}")))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["name"]}"), Literal(work["full_name"])))
-
-    if work["variant_names"] is not None:
-        for name in work["variant_names"].split(", "):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["variant_names"]}"), Literal(name)))
-
-    if work["earliest_year_@id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["earliest_year"]}"), URIRef(f"{WD}{work['earliest_year_@id']}")))
-    if work["latest_year_@id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["latest_year"]}"), URIRef(f"{WD}{work['latest_year_@id']}")))
-
-    if work["rism_id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["rism_id"]}"), Literal(work["rism_id"])))
-    if work["viaf_id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["viaf_id"]}"), Literal(work["viaf_id"])))
-
-print("Processing sets...")
-json_data = json.loads(sets.to_json(orient="records"))
-for work in json_data:
-    subject_uri = URIRef(f"{DE}{int(work['id'])}")
-    g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Set")))
-
-    if matched_wikidata(work["type_@id"]):
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['type_@id']}")))
-    else:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["type"])))
-
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["cluster_shelfmark"]}"), Literal(work["cluster_shelfmark"])))
-
-print("Processing sources...")
-json_data = json.loads(sources.to_json(orient="records"))
-for work in json_data:
-    subject_uri = URIRef(f"{DS}{int(work['id'])}")
-    g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Source")))
-
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["display_name"]}"), Literal(work["display_name"])))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["shelfmark"]}"), Literal(work["shelfmark"])))
-
-    if work["source_type"] is not None:
-        if matched_wikidata(work["source_type_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['source_type_@id']}")))
-        else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["source_type"])))
-
-print("Processing relations...")
-json_data = json.loads(relations.to_json(orient="records"))
-for work in json_data:
-    first_type, first_id = work["key1"].split(":")
-    second_type, second_id = work["key2"].split(":")
-    first_id, second_id = int(first_id), int(second_id)
-
-    if first_type == "archive" and second_type == "source":
-        first_uri = URIRef(f"{DA}{first_id}")
-        second_uri = URIRef(f"{DS}{second_id}")
-        g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri))
-    elif first_type == "composition" and second_type == "people":
-        first_uri = URIRef(f"{DM}{first_id}")
-        second_uri = URIRef(f"{DP}{second_id}")
-        g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["composer"]}"), second_uri))
-    elif first_type == "composition" and second_type == "source":
-        first_uri = URIRef(f"{DM}{first_id}")
-        second_uri = URIRef(f"{DS}{second_id}")
-        g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["composition_in_source"]}"), second_uri))
-    elif first_type == "organization" and second_type == "source":
-        first_uri = URIRef(f"{DO}{first_id}")
-        second_uri = URIRef(f"{DS}{second_id}")
-
-        if work["type"] == "related":
-            g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["related_organization"]}"), second_uri))
-        elif work["type"] == "copied":
-            g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["copied_organization"]}"), second_uri))
-        elif work["type"] == "provenance":
-            g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["provenance_organization"]}"), second_uri))
-    elif first_type == "people" and second_type == "source":
-        first_uri = URIRef(f"{DP}{first_id}")
-        second_uri = URIRef(f"{DS}{second_id}")
-
-        if work["type"] == "related":
-            g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["related_people"]}"), first_uri))
-        elif work["type"] == "copied":
-            g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["copied_people"]}"), first_uri))
-    elif first_type == "archive" and second_type == "set":
-        first_uri = URIRef(f"{DA}{first_id}")
-        second_uri = URIRef(f"{DE}{second_id}")
-        g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri))
-    elif first_type == "set" and second_type == "source":
-        first_uri = URIRef(f"{DE}{first_id}")
-        second_uri = URIRef(f"{DS}{second_id}")
-        g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["set_in_source"]}"), second_uri))
+except KeyError as e:
+    print(f"KeyError: The column '{e.args[0]}' is missing from the input CSV file.")
+    exit(1)
 
 # Serialize the graph to RDF format
-print("Serializing the graph...")
-g.serialize(destination=os.path.join(OUTPUT_PATH, "diamm.ttl"), format="turtle")
+print("Serializing RDF graph to Turtle format...")
+g.serialize(destination=os.path.join(OUTPUT_PATH, "dtl1000.ttl"), format="turtle")
+print(
+ 
+ 
+    "RDF conversion completed. The serialized output is saved to:",
+    os.path.join(OUTPUT_PATH, "dtl1000.ttl"),
+)
