@@ -7,13 +7,13 @@ This allows for easier reconciliation and conversion to RDF
 Run this script in the same directory as the input CSV file.
 """
 
-import pandas as pd
 import re
+import pandas as pd
 
-input_file = "dtl_metadata_v0.9.csv"
+INPUT_FILE = "dtl_metadata_v0.9.csv"
 
 
-df = pd.read_csv(input_file, sep=";")
+df = pd.read_csv(INPUT_FILE, sep=";")
 
 
 def truncate_to_track_id(solo_id: str) -> str:
@@ -22,18 +22,18 @@ def truncate_to_track_id(solo_id: str) -> str:
     try:
         return str(solo_id)[:32]
     except Exception as e:
-        raise ValueError(f"Failed to generate track_id based off of '{solo_id}': {e}")
+        raise ValueError(f"Failed to generate track_id based off of '{solo_id}'") from e
 
 
-def clean_performers_name(performers: str) -> list:
+def clean_performers_name(string: str) -> list:
     """Performer names are formatted like "Bill Thomas (sb). Ella Fitzgerald (voc), Bobby Stark (tp)"
     This function split the performer names and remove the instrument parentetheses.
     This will help performer names reconciliation"""
-    if pd.isna(performers):
+    if pd.isna(string):
         return []
 
     # Step 1: look behind closing parentheses and split on that punctuation
-    perf_list = re.split(r"(?<=\))[\.,;:]\s*", performers)
+    perf_list = re.split(r"(?<=\))[\.,;:]\s*", string)
 
     cleaned_perf_list = []
     for performer in perf_list:
@@ -79,9 +79,8 @@ solos = df.loc[
     ],
 ].copy()  # and then add track id later
 
-# track_info has all the information that relates to a specific track,
-# so it has area, session_date, track_title, disk_title, medium_record_number, medium_title, leader_name, band_name,
-# and then it has first part of solo_id as that is basically the track id.
+# tracks contain all metadata related to a track. 
+# This information is shared by all solos on the same track.
 tracks = df.loc[
     :,
     [
