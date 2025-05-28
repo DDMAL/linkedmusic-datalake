@@ -4,13 +4,16 @@ This script splits the DTL1000 dataset into three separate CSV files:
 - dtl1000_tracks.csv: Contains track information.
 - dtl1000_performers.csv: Contains performer information.
 This allows for easier reconciliation and conversion to RDF
-Run this script in the same directory as the input CSV file.
+Run this script from its own directory
 """
 
 import re
+import os
 import pandas as pd
 
-INPUT_FILE = "dtl_metadata_v0.9.csv"
+
+INPUT_FILE = "../../data/digthatlick/dtl_metadata_v0.9.csv"
+OUTPUT_PATH = "../../data/digthatlick"
 
 
 df = pd.read_csv(INPUT_FILE, sep=";")
@@ -119,6 +122,6 @@ performers = performers.explode("performer_names")
 
 
 # Save the dataframes to CSV files
-solos.to_csv("dtl1000_solos.csv", index=False)
-tracks.to_csv("dtl1000_tracks.csv", index=False)
-performers.to_csv("dtl1000_performers.csv", index=False)
+solos.to_csv(os.path.join(OUTPUT_PATH, "dtl1000_solos.csv"), index=False)
+tracks.to_csv(os.path.join(OUTPUT_PATH, "dtl1000_tracks.csv"), index=False)
+performers.to_csv(os.path.join(OUTPUT_PATH, "dtl1000_performers.csv"), index=False)

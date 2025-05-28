@@ -1,6 +1,6 @@
 """
 Converts all the Dig That Lick reconciled CSV files to RDF (turtle) format.
-This script is based on code/diamm/convert_rdf.py
+Run this sript from its own directory.
 """
 
 from typing import Union
