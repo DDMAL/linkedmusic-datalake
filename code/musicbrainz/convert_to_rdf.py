@@ -180,6 +180,7 @@ mapping_schema = {
     (None, "asin"): "P5749",
     # Specific mappings for areas
     ("area", "name"): RDFS.label,
+    ("area", "area"): "P131",
     # Specific mappings for artists
     ("artist", "area"): "P27",
     ("artist", "gender"): "P21",

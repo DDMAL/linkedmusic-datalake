@@ -2,13 +2,15 @@
 
 This documents any choices for properties in the RDF conversion process
 
-A note on data types:
+## A note on data types
 
 - Any literal value not given an explicit type will default to XSD:string. This is expected behaviour of the RDF standard.
 - Dates are given the type XSD:date, this is what wikidata uses, if something has a date and time, it will be in XSD:datetime
 - Coordinates (lat/lon) are given the GEO: wktLiteral, this is what wikidata uses
 - Durations (in seconds) are stored in XSD:decimal, as they are numbers
 - Any and all URLs that are stored as such are turned into URIRefs
+
+## Properties
 
 URLs linking to the following databases will be processed with their relevant wikidata property, and every other URL will be put as P2888 "exact match". Matching for the URLs is done with regex because despite there being properties for quite a few of these databases, there will be errors and some will end up listed as "other databases" anyways. Most of the regex patterns are taken from the wikidata pages for the properties.
 
@@ -64,3 +66,13 @@ Now for the other properties:
 - To indicate start/end dates for a place, I also use P571/P576
 - To indicate the duration of a recording, I use P2047 "duration", the time in the database is in milliseconds, but I convert them to seconds and store it as a XSD:decimal
 - To indicate the first release date of a release group, I use P577 "publication date", as the property is an exact match for what we want
+- To indicate that an area is contained within another, I use P131 "located in the administrative territorial entity", not P631 "part of"
+
+### A note on inverse properties (or the lack thereof)
+
+The majority of Wikidata properties that are meant to link 2 entities together do not have inverse properties. This is intentional. Instead of (for example) having a property saying that a recording was made in an area, and another property saying that an area was where a specific recording was made, Wikidata only has the property saying that a recording was made in a particular area, and SPARQL can handle the reverse lookup.
+
+The following properties/relationships were ignored because they are duplicates of their inverse:
+
+- Areas knowing what recordings/works/etc were made in their area, and areas knowing what series/etc are held in their location
+- Areas knowing what genres/instruments were named after them
