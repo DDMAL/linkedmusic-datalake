@@ -7,6 +7,7 @@ A note on data types:
 - Any literal value not given an explicit type will default to XSD:string. This is expected behaviour of the RDF standard.
 - Dates are given the type XSD:date, this is what wikidata uses, if something has a date and time, it will be in XSD:datetime
 - Coordinates (lat/lon) are given the GEO: wktLiteral, this is what wikidata uses
+- Durations (in seconds) are stored in XSD:decimal, as they are numbers
 
 Now for the properties:
 
@@ -33,3 +34,4 @@ Now for the properties:
 - To indicate the location of a place, I use P131 "located in the administrative territorial entity" as it matches the information we want to convey
 - To indicate coordinates for a place, I use P625 "coordinate location", and I represent them as a GEO:wktLiteral, which is what Wikidata does
 - To indicate start/end dates for a place, I also use P571/P576
+- To indicate the duration of a recording, I use P2047 "duration", the time in the database is in milliseconds, but I convert them to seconds and store it as a XSD:decimal

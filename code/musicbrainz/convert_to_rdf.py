@@ -199,6 +199,7 @@ mapping_schema = {
     ("place", "coordinates"): "P625",
     # Specific mappings for recordings
     (("recording", "release-group", "release"), "artist"): "P175",
+    ("recording", "length"): "P2047",
     # Specific mappings for release groups
     # Specific mappings for releases
     ("release", "cdtoc"): "P527",
@@ -306,14 +307,16 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
 
     # Process artists
     for artist in data.get("artist-credit", []):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["artist"],
-                URIRef(f"https://musicbrainz.org/artist/{artist['artist']['id']}"),
+        if artist_id := artist.get("artist", {}).get("id"):
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["artist"],
+                    URIRef(f"https://musicbrainz.org/artist/{artist_id}"),
+                )
             )
-        )
 
+    # Process begin area
     if begin_area := data.get("begin_area"):
         if begin_area_id := begin_area.get("id"):
             g.add(
@@ -328,6 +331,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                 )
             )
 
+    # Process coordinates
     if coordinates := data.get("coordinates"):
         if (lat := coordinates.get("latitude")) and (lon := coordinates.get("longitude")):
             g.add(
@@ -342,6 +346,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
     if date := data.get("date"):
         g.add((subject_uri, mb_schema["date"], convert_date(date)))
 
+    # Process end area
     if data.get("end_area"):
         if end_area_id := data["end_area"].get("id"):
             g.add(
@@ -379,6 +384,28 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     URIRef(f"https://musicbrainz.org/label/{label_id}"),
                 )
             )
+    
+    # Process length
+    if length := data.get("length"):
+        try:
+            length_seconds = int(length) // 1000  # Convert milliseconds to seconds
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["length"],
+                    Literal(str(length_seconds), datatype=XSD.decimal),
+                )
+            )
+        except (ValueError, TypeError):
+            # Fallback to encoding as a regular string if conversion fails
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["length"],
+                    Literal(length),
+                )
+            )
+        
 
     # Process lifespan
     if lifespan := data.get("life-span"):
