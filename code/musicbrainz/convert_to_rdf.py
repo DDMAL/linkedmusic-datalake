@@ -34,9 +34,11 @@ import asyncio
 from threading import Lock
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
+from isodate.isoerror import ISO8601Error
+from isodate.isodates import parse_date
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDFS
+from rdflib.namespace import RDFS, XSD
 import pandas as pd
 import aiofiles
 
@@ -44,6 +46,8 @@ import aiofiles
 SCHEMA = Namespace("http://schema.org/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
+# This namespace is to encode coordinates like Wikidata does
+GEO = Namespace("http://www.opengis.net/ont/geosparql#")
 MB = Namespace("https://musicbrainz.org/")
 # Define MusicBrainz namespaces, to save space in exported RDF
 MBAE = Namespace(f"{MB}area/")
@@ -171,6 +175,8 @@ mapping_schema = {
     (None, "name"): RDFS.label,
     (None, "type"): "P31",
     (None, "alias"): "P4970",
+    (None, "begin-date"): "P571",
+    (None, "end-date"): "P576",
     # Specific mappings for areas
     ("area", "name"): RDFS.label,
     # Specific mappings for artists
@@ -181,18 +187,16 @@ mapping_schema = {
     ("artist", "begin-date-person"): "P569",
     ("artist", "end-date-person"): "P570",
     ("artist", "begin-area"): "P740",
-    ("artist", "begin-date"): "P571",
-    ("artist", "end-date"): "P576",
     # Specific mappings for events
     ("event", "begin-date"): "P580",
     ("event", "end-date"): "P582",
     # Specific mappings for instruments
     ("instrument", "instrument"): "P279",
     # Specific mappings for labels
-    ("label", "begin-date"): "P571",
-    ("label", "end-date"): "P576",
     ("label", "area"): "P17",
     # Specific mappings for places
+    ("place", "area"): "P131",
+    ("place", "coordinates"): "P625",
     # Specific mappings for recordings
     (("recording", "release-group", "release"), "artist"): "P175",
     # Specific mappings for release groups
@@ -219,7 +223,7 @@ MAX_SUBGRAPHS_IN_MEMORY = 150  # Max number of subgraphs to keep in memory at on
 
 # If the input file is bigger (in bytes) than this, it will use Oxigraph to store the graph
 # Otherwise it will use rdflib's in-memory graph
-GRAPH_STORE_CUTOFF = 1000000
+GRAPH_STORE_CUTOFF = 1000000000
 
 REPROCESSING = False  # Set to True if you want to reprocess entity types that are already present in the output folder
 
@@ -234,6 +238,15 @@ ENTITIES_WITHOUT_TYPES = [
 def matched_wikidata(field: str) -> bool:
     """Check if the field is a matched Wikidata ID."""
     return re.match(r"^Q\d+", field) is not None
+
+
+def convert_date(date_str: str) -> Literal:
+    """Convert a date string to an RDF Literal with XSD date datatype."""
+    try:
+        # Validate the date string, and catch any exception that might occur
+        return Literal(parse_date(date_str), datatype=XSD.date)
+    except (ISO8601Error, ValueError):
+        return Literal(date_str)  # Fallback to a plain literal if conversion fails
 
 
 def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping):
@@ -315,9 +328,19 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                 )
             )
 
+    if coordinates := data.get("coordinates"):
+        if (lat := coordinates.get("latitude")) and (lon := coordinates.get("longitude")):
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["coordinates"],
+                    Literal(f"Point({lon} {lat})", datatype=GEO["wktLiteral"]),
+                )
+            )
+
     # Process date
     if date := data.get("date"):
-        g.add((subject_uri, mb_schema["date"], Literal(date)))
+        g.add((subject_uri, mb_schema["date"], convert_date(date)))
 
     if data.get("end_area"):
         if end_area_id := data["end_area"].get("id"):
@@ -368,7 +391,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                         if data["type"] == "Person"
                         else mb_schema["begin-date"]
                     ),
-                    Literal(begin_date),
+                    convert_date(begin_date),
                 )
             )
         if end_date := lifespan.get("end"):
@@ -380,7 +403,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                         if data["type"] == "Person"
                         else mb_schema["end-date"]
                     ),
-                    Literal(end_date),
+                    convert_date(end_date),
                 )
             )
 
@@ -590,6 +613,16 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
     print(f"Total number of chunks: {total_chunks}")
     print(f"Processing {input_file}...")
 
+    if os.path.getsize(input_file) > GRAPH_STORE_CUTOFF:
+        main_graph = Graph("Oxigraph")
+        main_graph.open("./store", create=True)
+    else:
+        print(f"{input_file} is small enough to use an in-memory graph.")
+        main_graph = Graph()
+    
+    for prefix, ns in namespaces.items():
+        main_graph.bind(prefix, ns)
+
     # Create task queue
     chunk_queue = asyncio.Queue(MAX_CHUNKS_IN_MEMORY)
     subgraph_queue = asyncio.Queue(MAX_SUBGRAPHS_IN_MEMORY)
@@ -600,16 +633,6 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
     subgraph_bar = tqdm(total=total_chunks, desc="Merging subgraphs", position=2)
     # Lock for thread safety for the chunk bar because each worker can update it
     chunk_bar_lock = Lock()
-
-    if os.path.getsize(input_file) > GRAPH_STORE_CUTOFF:
-        main_graph = Graph("Oxigraph")
-        main_graph.open("./store", create=True)
-    else:
-        print(f"{input_file} is small enough to use an in-memory graph.")
-        main_graph = Graph()
-    
-    for prefix, ns in namespaces.items():
-        main_graph.bind(prefix, ns)
 
     with ProcessPoolExecutor(max_workers=MAX_PROCESSES) as executor:
         try:
@@ -693,6 +716,7 @@ def main(args):
         "schema": SCHEMA,
         "wdt": WDT,
         "wd": WD,
+        "geo": GEO,
         "mb": MB,
         "mbae": MBAE,
         "mbat": MBAT,

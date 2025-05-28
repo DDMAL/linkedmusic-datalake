@@ -58,7 +58,8 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
         - The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store` from the script's working directory. The script will automatically delete the folder when it finishes, but if it crashes, it is recommended to delete the folder before running the script again.
         - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
         - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script
-        - For eas of reading, the fields are processed in alphabetical order in `process_line`
+        - For ease of reading, the fields are processed in alphabetical order in `process_line`
+        - For the convert_date function, if you call `Literal(...)` with `XSD.date` a datatype, it will eventually call `parse_date`, but not during the constructor, making any exceptions it raises impossible to catch, which is why I manually call it
     - The generated RDF files are saved in the `linkedmusic-datalake/data/musicbrainz/rdf/` directory.
     - Documentation regarding decisions made for properties is located in the `doc/musicbrainz/rdf_conversion.md` file
 

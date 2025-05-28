@@ -2,8 +2,17 @@
 
 This documents any choices for properties in the RDF conversion process
 
+A note on data types:
+
+- Any literal value not given an explicit type will default to XSD:string. This is expected behaviour of the RDF standard.
+- Dates are given the type XSD:date, this is what wikidata uses, if something has a date and time, it will be in XSD:datetime
+- Coordinates (lat/lon) are given the GEO: wktLiteral, this is what wikidata uses
+
+Now for the properties:
+
 - To indicate the "main" name, I use RDFS:label instead of P2561 as that's what wikidata does
 - To indicate alternate names (possible in other languages), I use P4970 "alternative name" and put a language tag when I can
+- To indicate start and end dates, I use P571 "inception" and P576 "dissolved, abolished or demolished" for most things, as that's the property that matches
 - To indicate that a release contains a specific disc, I use P527 "has part", which is the inverse of P361 "has part"
 - To indicate that a release contains a recording, I use P658 "tracklist"
 - To indicate titles of albums, songs, releases, etc I use P1476 "title", which applies to any creative work
@@ -21,3 +30,6 @@ This documents any choices for properties in the RDF conversion process
 - To indicate start and end dates for events, I use P580 and P582 as that's what they're for
 - To indicate start and end dates for labels themselves, I also use P571 and P576
 - To indicate the location of a label, I use P17 "country" all the locations I could find are countries, and furthermore, that's the property that Wikidata uses for them
+- To indicate the location of a place, I use P131 "located in the administrative territorial entity" as it matches the information we want to convey
+- To indicate coordinates for a place, I use P625 "coordinate location", and I represent them as a GEO:wktLiteral, which is what Wikidata does
+- To indicate start/end dates for a place, I also use P571/P576
