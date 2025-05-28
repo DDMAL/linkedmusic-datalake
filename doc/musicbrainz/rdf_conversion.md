@@ -35,3 +35,4 @@ Now for the properties:
 - To indicate coordinates for a place, I use P625 "coordinate location", and I represent them as a GEO:wktLiteral, which is what Wikidata does
 - To indicate start/end dates for a place, I also use P571/P576
 - To indicate the duration of a recording, I use P2047 "duration", the time in the database is in milliseconds, but I convert them to seconds and store it as a XSD:decimal
+- To indicate the first release date of a release group, I use P577 "publication date", as the property is an exact match for what we want

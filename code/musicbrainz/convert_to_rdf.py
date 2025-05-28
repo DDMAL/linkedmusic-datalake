@@ -201,6 +201,7 @@ mapping_schema = {
     (("recording", "release-group", "release"), "artist"): "P175",
     ("recording", "length"): "P2047",
     # Specific mappings for release groups
+    ("release-group", "first-release-date"): "P577",
     # Specific mappings for releases
     ("release", "cdtoc"): "P527",
     ("release", "recording"): "P658",
@@ -333,7 +334,9 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
 
     # Process coordinates
     if coordinates := data.get("coordinates"):
-        if (lat := coordinates.get("latitude")) and (lon := coordinates.get("longitude")):
+        if (lat := coordinates.get("latitude")) and (
+            lon := coordinates.get("longitude")
+        ):
             g.add(
                 (
                     subject_uri,
@@ -361,6 +364,16 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                 )
             )
 
+    # Process first release date
+    if first_release_date := data.get("first-release-date"):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["first-release-date"],
+                convert_date(first_release_date),
+            )
+        )
+
     # Process genres
     for genre in data.get("genres", []):
         if genre_id := genre.get("id"):
@@ -384,7 +397,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     URIRef(f"https://musicbrainz.org/label/{label_id}"),
                 )
             )
-    
+
     # Process length
     if length := data.get("length"):
         try:
@@ -405,7 +418,6 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     Literal(length),
                 )
             )
-        
 
     # Process lifespan
     if lifespan := data.get("life-span"):
@@ -498,14 +510,12 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
 
     # Process release group
     if release_group := data.get("release-group"):
-        if release_group_id := release_group.get("id"): 
+        if release_group_id := release_group.get("id"):
             g.add(
                 (
                     subject_uri,
                     mb_schema["release-group"],
-                    URIRef(
-                        f"https://musicbrainz.org/release-group/{release_group_id}"
-                    ),
+                    URIRef(f"https://musicbrainz.org/release-group/{release_group_id}"),
                 )
             )
 
@@ -646,7 +656,7 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
     else:
         print(f"{input_file} is small enough to use an in-memory graph.")
         main_graph = Graph()
-    
+
     for prefix, ns in namespaces.items():
         main_graph.bind(prefix, ns)
 
