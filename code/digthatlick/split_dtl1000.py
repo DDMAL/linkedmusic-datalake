@@ -29,8 +29,10 @@ def truncate_to_track_id(solo_id: str) -> str:
 
 
 def clean_performers_name(string: str) -> list:
-    """Performer names are formatted like "Bill Thomas (sb). Ella Fitzgerald (voc), Bobby Stark (tp)"
-    This function split the performer names and remove the instrument parentetheses.
+    """This function split the performer names and remove the instrument parentheses.
+
+    Performer names are often formatted like:
+    "Bill Thomas (sb). Ella Fitzgerald (voc), Bobby Stark (tp)"
     This will help performer names reconciliation"""
     if pd.isna(string):
         return []
@@ -82,7 +84,7 @@ solos = df.loc[
     ],
 ].copy()  # and then add track id later
 
-# tracks contain all metadata related to a track. 
+# tracks contain all metadata related to a track.
 # This information is shared by all solos on the same track.
 tracks = df.loc[
     :,
@@ -123,5 +125,15 @@ performers = performers.explode("performer_names")
 
 # Save the dataframes to CSV files
 solos.to_csv(os.path.join(OUTPUT_PATH, "dtl1000_solos.csv"), index=False)
+print(
+    "Solos saved to:", os.path.join(os.path.abspath(OUTPUT_PATH), "dtl1000_solos.csv")
+)
 tracks.to_csv(os.path.join(OUTPUT_PATH, "dtl1000_tracks.csv"), index=False)
+print(
+    "Tracks saved to:", os.path.join(os.path.abspath(OUTPUT_PATH), "dtl1000_tracks.csv")
+)
 performers.to_csv(os.path.join(OUTPUT_PATH, "dtl1000_performers.csv"), index=False)
+print(
+    "Performers saved to:",
+    os.path.join(os.path.abspath(OUTPUT_PATH), "dtl1000_performers.csv"),
+)
