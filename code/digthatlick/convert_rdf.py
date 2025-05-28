@@ -34,7 +34,8 @@ namespace_prefixes = {
 # The key is the column name in the CSV file; the value is the equivalent Wikidata property ID.
 # This schema is for solos.csv
 DTL_SOLOS_SCHEMA = {
-    "possible_solo_performer_names": "P175",  # We will not add qualifiers to distinguish between possible and confirmed solo performers
+    # We will not add qualifiers to distinguish between possible and confirmed solo performers
+    "possible_solo_performer_names": "P175",  
     "solo_performer_name": "P175",
     "instrument_label": "P870",
     "track_id": "P361",
@@ -83,7 +84,7 @@ def to_rdf_node(
 
 
 os.makedirs(OUTPUT_PATH, exist_ok=True)
-print("Output directory created or already exists:", OUTPUT_PATH)
+print("Output directory created or already exists:", os.path.abspath(OUTPUT_PATH))
 
 if not os.path.exists(SOLOS_CSV):
     raise FileNotFoundError(f"The file {SOLOS_CSV} does not exist.")
@@ -199,5 +200,5 @@ print("Serializing RDF graph to Turtle format...")
 g.serialize(destination=os.path.join(OUTPUT_PATH, "dtl1000.ttl"), format="turtle")
 print(
     "RDF conversion completed. The serialized output is saved to:",
-    os.path.join(OUTPUT_PATH, "dtl1000.ttl"),
+    os.path.join(os.path.abspath(OUTPUT_PATH), "dtl1000.ttl"),
 )
