@@ -109,9 +109,8 @@ performers.drop_duplicates(inplace=True)
 solos["possible_solo_performer_names"] = solos["possible_solo_performer_names"].apply(
     lambda x: x.split(",") if pd.notna(x) else []
 )
-solos["possible_solo_performer_names"] = solos[
-    "possible_solo_performer_names"
-].explode()
+
+solos = solos.explode("possible_solo_performer_names")
 
 # Performer names need to be cleaned and exploded to allow reconciliation
 performers["performer_names"] = performers["performer_names"].apply(
