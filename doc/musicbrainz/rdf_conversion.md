@@ -8,8 +8,34 @@ A note on data types:
 - Dates are given the type XSD:date, this is what wikidata uses, if something has a date and time, it will be in XSD:datetime
 - Coordinates (lat/lon) are given the GEO: wktLiteral, this is what wikidata uses
 - Durations (in seconds) are stored in XSD:decimal, as they are numbers
+- Any and all URLs that are stored as such are turned into URIRefs
 
-Now for the properties:
+URLs linking to the following databases will be processed with their relevant wikidata property, and every other URL will be put as P2888 "exact match". Matching for the URLs is done with regex because despite there being properties for quite a few of these databases, there will be errors and some will end up listed as "other databases" anyways. Most of the regex patterns are taken from the wikidata pages for the properties.
+
+To match the URLs, every url is matched against the entire regex list, stopping if a match is found. If a match is found, then the property corresponding to that match will be used, and otherwise, the default (P2888) will be used.
+
+- Wikidata: P2888 (there is no other for this), convert from `https://wikidata.org/wiki/...` to `https://wikidata.org/entity/...`
+- Geonames: P1566
+- Soundcloud: P3040
+- Youtube & Youtube Music: P2397 for channels, P1651 for videos, and P4300 for playlists
+- Discogs: P1953 for artists, P1954 for works, P1955 for labels
+- VGMDB: P3483 for singled/albums (releases), P3511 for organizations (labels)
+- BookBrainz: P2607 for authors, P8063 for publishers (labels)
+- IMSLP: P839
+- IMDb: P345
+- Apple Music: P2850 for artists, P2281 for albums, P9550 for labels, P10110 for tracks
+- VIAF: P214
+- last.fm: P3192
+- Rate Your Music: P8392 for releases, P7313 for labels, P5404 for artists, P11622 for concerts, P11600 for venues, P11665 for works, P13056 for tracks
+- Metal Archives (Encyclopaedia Metallum): P1952 for bands, P2721 for releases, P8166 for labels, P1989 for artists
+- Musik Sammler: P9965 for artists
+- Worldcat.org: P10832
+- BNF: P268
+- RISM: P5504
+- Deutschen Nationalbibliothek: P227
+- LoC: P244
+
+Now for the other properties:
 
 - To indicate the "main" name, I use RDFS:label instead of P2561 as that's what wikidata does
 - To indicate alternate names (possible in other languages), I use P4970 "alternative name" and put a language tag when I can

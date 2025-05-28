@@ -167,7 +167,6 @@ mapping_schema = {
     (None, "series"): "P1407",
     (None, "instrument"): "P1330",
     (None, "genre"): "P8052",
-    (None, "url"): "P2888",
     (None, "title"): "P1476",
     (None, "date"): "P577",
     (None, "genre"): "P136",
@@ -201,6 +200,7 @@ mapping_schema = {
     ("place", "coordinates"): "P625",
     # Specific mappings for recordings
     (("recording", "release-group", "release"), "artist"): "P175",
+    (("recording", "release-group", "release"), "artist-alt"): "P767",
     ("recording", "length"): "P2047",
     # Specific mappings for release groups
     ("release-group", "first-release-date"): "P577",
@@ -210,9 +210,47 @@ mapping_schema = {
     ("release", "label"): "P264",
     ("release", "release-group"): "P361",
     ("release", "area"): "P495",
-    ("release", "artist-alt"): "P767",
     # Specific mappings for series
     # Specific mappings for works
+    # URL mappings
+    (None, "url"): "P2888",
+    (None, "geonames"): "P1566",
+    (None, "soundcloud"): "P3040",
+    (None, "ytc"): "P2397",
+    (None, "ytv"): "P1651",
+    (None, "ytp"): "P4300",
+    (None, "discogsa"): "P1953",
+    (None, "discogsw"): "P1954",
+    (None, "discogsl"): "P1955",
+    (None, "vgmdbr"): "P3483",
+    (None, "vgmdbl"): "P3511",
+    (None, "bba"): "P2607",
+    (None, "bbl"): "P8063",
+    (None, "imslp"): "P839",
+    (None, "imdb"): "P345",
+    (None, "applea"): "P2850",
+    (None, "appler"): "P2281",
+    (None, "applel"): "P9550",
+    (None, "applet"): "P10110",
+    (None, "viaf"): "P214",
+    (None, "lastfm"): "P3192",
+    (None, "rymr"): "P8392",
+    (None, "ryml"): "P7313",
+    (None, "ryma"): "P5404",
+    (None, "rymc"): "P11622",
+    (None, "rymv"): "P11600",
+    (None, "rymw"): "P11665",
+    (None, "rymt"): "P13056",
+    (None, "metalb"): "P1952",
+    (None, "metalr"): "P2721",
+    (None, "metall"): "P8166",
+    (None, "metala"): "P1989",
+    (None, "sammler"): "P9965",
+    (None, "worldcat"): "P10832",
+    (None, "bnf"): "P268",
+    (None, "rism"): "P5504",
+    (None, "dnb"): "P227",
+    (None, "loc"): "P244",
 }
 
 MB_SCHEMA = MappingSchema(mapping_schema)
@@ -238,6 +276,106 @@ ENTITIES_WITHOUT_TYPES = [
     "release",
 ]
 
+# This one is seperated because I need to convert from /wiki/... to /entity/...
+WIKIDATA_REGEX = re.compile(r"^https?:\/\/www\.wikidata\.org\/wiki\/Q\d+$")
+
+# The keys will be the database names with the same format as the MB schema
+# The values will be the regex to match the Wikidata IDs
+# Each regex will have only 1 match group, which will be the value for the property
+DATABASES_REGEX = {
+    "geonames": re.compile(
+        r"^https?:\/\/(?:www\.|geotree\.)?geonames\.org\/([1-9][0-9]{0,8})"
+    ),
+    "soundcloud": re.compile(r"^https?:\/\/soundcloud\.com\/([0-9A-Za-z/_-]+)"),
+    "ytc": re.compile(
+        r"^https?:\/\/\w+\.youtube\.com\/channel\/(UC[-_0-9A-Za-z]{21}[AQgw])"
+    ),
+    "ytv": re.compile(
+        r"^https?:\/\/(?:www\.|m\.|music\.)?youtu(?:be\.com\/watch\?v=|\.be\/|be\/shorts\/|be\/live\/)([-_0-9A-Za-z]{11})"
+    ),
+    "ytp": re.compile(
+        r"^https?:\/\/(?:(?:music|www|m)\.)?youtube\.com\/playlist\?list=((?:PL|OLAK|RDCLAK)[-_0-9A-Za-z]+)"
+    ),
+    "discogsa": re.compile(
+        r"^https?:\/\/(?:www\.)?discogs\.com\/artist\/([1-9][0-9]*)"
+    ),
+    "discogsw": re.compile(
+        r"^https?:\/\/(?:www\.)?discogs\.com\/(?:[a-z]+\/)?(?:[^\/]+\/)?master\/([1-9][0-9]*)"
+    ),
+    "discogsl": re.compile(
+        r"^https?:\/\/(?:www\.)?discogs\.com\/(?:[\w\-]+\/)?label\/([1-9][0-9]*)"
+    ),
+    "vgmdbr": re.compile(r"^https?:\/\/vgmdb\.net\/album\/([1-9]\d*)"),
+    "vgmdbl": re.compile(r"^https?:\/\/vgmdb\.net\/org\/([1-9]\d*)"),
+    "bba": re.compile(
+        r"^https?:\/\/(?:www\.)?bookbrainz\.org\/author\/([\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})"
+    ),
+    "bbl": re.compile(
+        r"^https?:\/\/bookbrainz\.org\/publisher\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})"
+    ),
+    "imslp": re.compile(r"^https?:\/\/imslp\.org\/wiki\/(.+)"),
+    "imdb": re.compile(
+        r"^https?:\/\/(?:(?:www|m)\.)?imdb\.com\/(?:(?:search\/)?title(?:\?companies=|\/)|name\/|event\/|news\/|company\/|list\/)(\w{2}\d+)"
+    ),
+    "applea": re.compile(
+        r"^https?:\/\/music\.apple\.com\/(?:\w+\/)?artist\/(?:\w+\/)?(?:id)?([1-9]\d*)"
+    ),
+    "appler": re.compile(
+        r"^https?:\/\/music\.apple\.com\/(?:[a-z]{2}\/)?album\/(?:[^\/]+\/)?([1-9][0-9]*)(?:\?l=\w+-\w+)?"
+    ),
+    "applel": re.compile(r"^https?:\/\/music\.apple\.com\/label\/([1-9]\d*)"),
+    "applet": re.compile(
+        r"^https?:\/\/(?:geo\.)?music\.apple\.com\/(?:[a-z]+\/)*track(?:\/.+)?\/(?:id)?([0-9]+\?i=[0-9]+)"
+    ),
+    "viaf": re.compile(
+        r"^https?:\/\/(?:www\.)?viaf\.org\/viaf\/([1-9]\d(?:\d{0,7}|\d{17,20}))($|\/|\?|#)"
+    ),
+    "lastfm": re.compile(
+        r"^https?:\/\/(?:www\.)?last\.fm\/(?:[a-z]{2}\/)?music\/([^\/\?\#]+)$"
+    ),
+    "rymr": re.compile(
+        r"^https?:\/\/rateyourmusic\.com\/release\/((?:single|album|comp|ep)\/[^\/]+\/[^\/]+)\/"
+    ),
+    "ryml": re.compile(r"^https?:\/\/rateyourmusic\.com\/label\/([a-z\d_-]+)/"),
+    "ryma": re.compile(r"^https?:\/\/rateyourmusic\.com\/artist\/([^\s\/]+)"),
+    "rymc": re.compile(
+        r"^https?://(?:www\.)?rateyourmusic\.com\/concert\/([a-z0-9\-]+\/[a-z0-9\-]+)"
+    ),
+    "rymv": re.compile(r"^https?:\/\/rateyourmusic\.com\/venue\/([a-z_\d’-]+)"),
+    "rymw": re.compile(r"^https?:\/\/rateyourmusic\.com\/work\/([^\/]+)"),
+    "rymt": re.compile(r"^https?:\/\/rateyourmusic\.com\/song\/([^\s?&]+\/[^\s?&]+)"),
+    "metalb": re.compile(
+        r"^https?:\/\/(?:www\.)?metal-archives\.com\/bands\/[A-Za-z_]*\/([1-9][0-9]{0,9})"
+    ),
+    "metalr": re.compile(
+        r"^https?:\/\/(?:www\.)?metal-archives\.com\/release\/view\/id\/(\d+)"
+    ),
+    "metall": re.compile(
+        r"^https?:\/\/(?:www\.)?metal-archives\.com\/label\.php\?id=([1-9]\d*)"
+    ),
+    "metala": re.compile(
+        r"^https?:\/\/(?:www\.)?metal-archives\.com\/artist\.php\?id=([1-9][0-9]*)"
+    ),
+    "sammler": re.compile(
+        r"^https?:\/\/(?:www\.)?musik-sammler\.de\/artist\/0*([1-9]\d*)(?:[\/#?]|$)"
+    ),
+    "worldcat": re.compile(
+        r"^https?:\/\/(?:id|entities)\.oclc\.org\/worldcat\/entity\/([^\.]+)"
+    ),
+    "bnf": re.compile(
+        r"^https?:\/\/catalogue\.bnf\.fr\/ark:\/12148\/cb(\d{8,9}[0-9bcdfghjkmnpqrstvwxz])"
+    ),
+    "rism": re.compile(
+        r"^https?:\/\/rism\.online\/((people|institutions|sources)\/(\d+))\/?$"
+    ),
+    "dnb": re.compile(
+        r"^https?:\/\/d\-nb\.info\/gnd\/(1[012]?\d{7}[0-9X]|[47]\d{6}-\d|[1-9]\d{0,7}-[0-9X]|3\d{7}[0-9X])$"
+    ),
+    "loc": re.compile(
+        r"^https?:\/\/id\.loc\.gov\/authorities\/(?:(?:name|subject)s\/)?((?:gf|n|nb|nr|no|ns|sh|sj)(?:[4-9][0-9]|00|20[0-2][0-9])[0-9]{6})(?:\.html)?"
+    ),
+}
+
 
 def matched_wikidata(field: str) -> bool:
     """Check if the field is a matched Wikidata ID."""
@@ -245,7 +383,10 @@ def matched_wikidata(field: str) -> bool:
 
 
 def convert_date(date_str: str) -> Literal:
-    """Convert a date string to an RDF Literal with XSD date datatype."""
+    """
+    Convert a date string to an RDF Literal with XSD date datatype.
+    If the date string is not in a valid format, it returns a plain Literal.
+    """
     try:
         # Validate the date string, and catch any exception that might occur
         return Literal(parse_date(date_str), datatype=XSD.date)
@@ -318,7 +459,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     URIRef(f"https://musicbrainz.org/artist/{artist_id}"),
                 )
             )
-    
+
     # Process ASIN
     if asin := data.get("asin"):
         g.add(
@@ -363,7 +504,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                 (
                     subject_uri,
                     mb_schema["coordinates"],
-                    Literal(f"Point({lon} {lat})", datatype=GEO["wktLiteral"]),
+                    Literal(f"Point({lat} {lon})", datatype=GEO["wktLiteral"]),
                 )
             )
 
@@ -493,30 +634,48 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
 
     # Process relationships
     for relation in data.get("relations", []):
-        if not (rel_type := relation.get("target-type")):
+        if not (ent_type := relation.get("target-type")) or not (
+            rel_type := relation.get("type")
+        ):
             continue
 
-        target_uri = None
-        for key in relation:
-            if key in mb_entity_types:
-                if target_id := relation[key].get("id"):
-                    target_uri = URIRef(f"https://musicbrainz.org/{key}/{target_id}")
-                    break
-            elif key == "url":
-                if url_resource := relation[key].get("resource"):
-                    url_resource = re.sub(
-                        r"^https://www.wikidata.org/wiki/Q(\d+)$",
-                        f"{WD}Q\\g<1>",
-                        url_resource,
+        target = None
+        pred_uri = None
+        if ent_type == "url" and (url := relation.get("url", {}).get("resource")):
+            pred_uri = mb_schema["url"]
+            if WIKIDATA_REGEX.match(url):
+                # Convert Wikidata URL to URIRef
+                target = URIRef(
+                    re.sub(
+                        r"^https?:\/\/www\.wikidata\.org\/wiki\/(Q\d+)",
+                        f"{WD}\\g<1>",
+                        url,
                     )
-                    target_uri = URIRef(url_resource)
-                    break
+                )
+            else:
+                # Check if the URL matches any of the known databases
+                for db, regex in DATABASES_REGEX.items():
+                    if match := regex.match(url):
+                        target = Literal(str(match.group(1)))
+                        pred_uri = mb_schema[db]
+                        break
+                else:
+                    # If no match, treat it as a generic URL
+                    target = URIRef(url)
 
-        if target_uri and rel_type in mb_schema:
+        if not target:
+            for key in relation:
+                if key in mb_entity_types:
+                    if target_id := relation[key].get("id"):
+                        target = URIRef(f"https://musicbrainz.org/{key}/{target_id}")
+                        break
+
+        if target and (pred_uri or ent_type in mb_schema):
             # Try to get the alt value, if there is one
             # Otherwise get the normal one
-            pred_uri = mb_schema.get(f"{rel_type}-alt", mb_schema.get(rel_type))
-            g.add((subject_uri, pred_uri, target_uri))
+            if not pred_uri:
+                pred_uri = mb_schema.get(f"{ent_type}-alt", mb_schema.get(ent_type))
+            g.add((subject_uri, pred_uri, target))
 
     # Process release events
     for event in data.get("release-events", []):
