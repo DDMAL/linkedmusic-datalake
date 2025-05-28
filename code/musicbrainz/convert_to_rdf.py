@@ -191,6 +191,7 @@ mapping_schema = {
     # Specific mappings for labels
     ("label", "begin-date"): "P571",
     ("label", "end-date"): "P576",
+    ("label", "area"): "P17",
     # Specific mappings for places
     # Specific mappings for recordings
     (("recording", "release-group", "release"), "artist"): "P175",
@@ -245,8 +246,8 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
     subject_uri = URIRef(f"https://musicbrainz.org/{entity_type}/{entity_id}")
 
     # Process name
-    if "name" in data:
-        g.add((subject_uri, mb_schema["name"], Literal(data["name"])))
+    if name := data.get("name"):
+        g.add((subject_uri, mb_schema["name"], Literal(name)))
 
     # Process type
     if "type" in data and (converted_type := type_mapping.get(data["type"])):
@@ -300,8 +301,8 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
             )
         )
 
-    if data.get("begin_area"):
-        if begin_area_id := data["begin_area"].get("id"):
+    if begin_area := data.get("begin_area"):
+        if begin_area_id := begin_area.get("id"):
             g.add(
                 (
                     subject_uri,
@@ -315,8 +316,8 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
             )
 
     # Process date
-    if "date" in data:
-        g.add((subject_uri, mb_schema["date"], Literal(data["date"])))
+    if date := data.get("date"):
+        g.add((subject_uri, mb_schema["date"], Literal(date)))
 
     if data.get("end_area"):
         if end_area_id := data["end_area"].get("id"):
@@ -446,20 +447,21 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
             )
 
     # Process release group
-    if "release-group" in data:
-        g.add(
-            (
-                subject_uri,
-                mb_schema["release-group"],
-                URIRef(
-                    f"https://musicbrainz.org/release-group/{data['release-group']["id"]}"
-                ),
+    if release_group := data.get("release-group"):
+        if release_group_id := release_group.get("id"): 
+            g.add(
+                (
+                    subject_uri,
+                    mb_schema["release-group"],
+                    URIRef(
+                        f"https://musicbrainz.org/release-group/{release_group_id}"
+                    ),
+                )
             )
-        )
 
     # Process title
-    if "title" in data:
-        g.add((subject_uri, mb_schema["title"], Literal(data["title"])))
+    if title := data.get("title"):
+        g.add((subject_uri, mb_schema["title"], Literal(title)))
 
 
 def process_chunk(chunk, entity_type, mb_schema, mb_entity_types, type_mapping):
