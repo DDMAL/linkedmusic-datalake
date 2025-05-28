@@ -31,7 +31,6 @@ import os
 import re
 import argparse
 import asyncio
-from threading import Lock
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from isodate.isoerror import ISO8601Error
@@ -168,9 +167,9 @@ mapping_schema = {
     (None, "instrument"): "P1330",
     (None, "genre"): "P8052",
     (None, "title"): "P1476",
+    # General mappings
     (None, "date"): "P577",
     (None, "genre"): "P136",
-    (None, "rism"): "P5504",
     (None, "name"): RDFS.label,
     (None, "type"): "P31",
     (None, "alias"): "P4970",
@@ -723,6 +722,8 @@ def process_chunk(chunk, entity_type, mb_schema, mb_entity_types, type_mapping):
         except json.JSONDecodeError:
             continue
         except (KeyError, AttributeError) as e:
+            with tqdm.get_lock():
+                tqdm.write(f"KeyError or AttributeError in line {i} of chunk: {e}")
             print(f"{type(e).__name__} in line {i} of chunk: {e}")
             continue
         finally:
@@ -737,7 +738,6 @@ async def subgraph_worker(
     mb_schema,
     type_mapping,
     chunk_bar,
-    chunk_bar_lock,
     executor,
 ):
     """
@@ -776,7 +776,7 @@ async def subgraph_worker(
 
             await subgraph_queue.put(g)  # Add the subgraph to the queue
             chunk_queue.task_done()
-            with chunk_bar_lock:
+            with tqdm.get_lock():
                 chunk_bar.update(1)
     except asyncio.CancelledError:
         pass
@@ -788,7 +788,8 @@ def merge_subgraph(main_graph, subgraph):
         try:
             main_graph.add((s, p, o))
         except Exception as e:
-            print(f"Error adding triple ({s}, {p}, {o}) to main graph: {e}")
+            with tqdm.get_lock():
+                tqdm.write(f"Error adding triple ({s}, {p}, {o}) to main graph: {e}")
             continue
     main_graph.commit()  # Commit the changes to the main graph
 
@@ -809,7 +810,8 @@ async def graph_worker(subgraph_queue, main_graph, subgraph_bar):
     except asyncio.CancelledError:
         sigint = True
     except Exception as e:
-        print(f"Error merging subgraph: {e}")
+        with tqdm.get_lock():
+            tqdm.write(f"Error merging subgraph: {e}")
     finally:
         if not sigint:
             while not subgraph_queue.empty():
@@ -850,8 +852,6 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
     file_bar = tqdm(total=total_lines, desc="Processing lines", position=0)
     chunk_bar = tqdm(total=total_chunks, desc="Processing chunks", position=1)
     subgraph_bar = tqdm(total=total_chunks, desc="Merging subgraphs", position=2)
-    # Lock for thread safety for the chunk bar because each worker can update it
-    chunk_bar_lock = Lock()
 
     with ProcessPoolExecutor(max_workers=MAX_PROCESSES) as executor:
         try:
@@ -864,7 +864,6 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
                         MB_SCHEMA.to_dict_for_type(entity_type),
                         type_mapping,
                         chunk_bar,
-                        chunk_bar_lock,
                         executor,
                     )
                 )
@@ -892,18 +891,20 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
 
             for worker in subgraph_workers:
                 worker.cancel()
+            
+            await asyncio.gather(*subgraph_workers)
 
-            with chunk_bar_lock:
+            with tqdm.get_lock():
                 chunk_bar.refresh()
 
             await subgraph_queue.join()  # Wait for all subgraphs to be processed
 
             merge_worker.cancel()
 
-            await asyncio.gather(*subgraph_workers, merge_worker)
+            await asyncio.gather(merge_worker)
 
             file_bar.close()
-            with chunk_bar_lock:
+            with tqdm.get_lock():
                 chunk_bar.close()
             subgraph_bar.close()
         except KeyboardInterrupt:
