@@ -20,3 +20,4 @@ This documents any choices for properties in the RDF conversion process
 - For groups, I use P571/P576 for date of foundation/dissolution and P740 for location of formation, and nothing for location of dissolution, as there is no wikidata property for that
 - To indicate start and end dates for events, I use P580 and P582 as that's what they're for
 - To indicate start and end dates for labels themselves, I also use P571 and P576
+- To indicate the location of a label, I use P17 "country" all the locations I could find are countries, and furthermore, that's the property that Wikidata uses for them
