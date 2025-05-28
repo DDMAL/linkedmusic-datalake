@@ -14,6 +14,8 @@ Now for the properties:
 - To indicate the "main" name, I use RDFS:label instead of P2561 as that's what wikidata does
 - To indicate alternate names (possible in other languages), I use P4970 "alternative name" and put a language tag when I can
 - To indicate start and end dates, I use P571 "inception" and P576 "dissolved, abolished or demolished" for most things, as that's the property that matches
+- To store barcodes, I use P3962 "Global Trade Item Number", which is the catch-all property for barcodes, and the barcode is stored as a string
+- To store ASINs (Amazon Standard Identification Number), I use P5749 "Amazon Standard Identification Number", as it is an exact match
 - To indicate that a release contains a specific disc, I use P527 "has part", which is the inverse of P361 "has part"
 - To indicate that a release contains a recording, I use P658 "tracklist"
 - To indicate titles of albums, songs, releases, etc I use P1476 "title", which applies to any creative work

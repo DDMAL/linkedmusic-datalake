@@ -177,6 +177,8 @@ mapping_schema = {
     (None, "alias"): "P4970",
     (None, "begin-date"): "P571",
     (None, "end-date"): "P576",
+    (None, "barcode"): "P3962",
+    (None, "asin"): "P5749",
     # Specific mappings for areas
     ("area", "name"): RDFS.label,
     # Specific mappings for artists
@@ -316,6 +318,26 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     URIRef(f"https://musicbrainz.org/artist/{artist_id}"),
                 )
             )
+    
+    # Process ASIN
+    if asin := data.get("asin"):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["asin"],
+                Literal(asin),
+            )
+        )
+
+    # Process barcode
+    if barcode := data.get("barcode"):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["barcode"],
+                Literal(barcode),
+            )
+        )
 
     # Process begin area
     if begin_area := data.get("begin_area"):
