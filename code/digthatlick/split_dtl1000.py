@@ -116,6 +116,11 @@ solos["possible_solo_performer_names"] = solos["possible_solo_performer_names"].
 
 solos = solos.explode("possible_solo_performer_names")
 
+# solo_id has extra 0 in 42nd and 56th position, needs to be removed
+solos["solo_id"] = solos["solo_id"].apply(
+    lambda x: x[:41] + x[42:56] + x[57:]
+)
+
 # Performer names need to be cleaned and exploded to allow reconciliation
 performers["performer_names"] = performers["performer_names"].apply(
     clean_performers_name
