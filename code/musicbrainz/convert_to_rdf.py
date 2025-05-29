@@ -35,6 +35,7 @@ from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
+from isodate.isodatetime import parse_datetime
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import RDFS, XSD
@@ -153,21 +154,21 @@ class MappingSchema:
 
 # Define mapping from MusicBrainz to Wikidata, to pass to the above class
 mapping_schema = {
-    # Initialize wildcard mappings
-    (None, "artist"): "P434",
-    (None, "release-group"): "P436",
-    (None, "release"): "P5813",
-    (None, "recording"): "P4404",
-    (None, "work"): "P435",
-    (None, "label"): "P966",
-    (None, "area"): "P982",
-    (None, "place"): "P1004",
-    (None, "event"): "P6423",
-    (None, "series"): "P1407",
-    (None, "instrument"): "P1330",
-    (None, "genre"): "P8052",
-    (None, "title"): "P1476",
+    # Initialize MusicBrainz ID mappings
+    (None, "artist-id"): "P434",
+    (None, "release-group-id"): "P436",
+    (None, "release-id"): "P5813",
+    (None, "recording-id"): "P4404",
+    (None, "work-id"): "P435",
+    (None, "label-id"): "P966",
+    (None, "area-id"): "P982",
+    (None, "place-id"): "P1004",
+    (None, "event-id"): "P6423",
+    (None, "series-id"): "P1407",
+    (None, "instrument-id"): "P1330",
+    (None, "genre-id"): "P8052",
     # General mappings
+    (None, "title"): "P1476",
     (None, "date"): "P577",
     (None, "genre"): "P136",
     (None, "name"): RDFS.label,
@@ -177,8 +178,10 @@ mapping_schema = {
     (None, "end-date"): "P576",
     (None, "barcode"): "P3962",
     (None, "asin"): "P5749",
+    (None, "coordinates"): "P625",
+    (None, "isni"): "P213",
+    (None, "ipi"): "P1828",
     # Specific mappings for areas
-    ("area", "name"): RDFS.label,
     ("area", "area"): "P131",
     # Specific mappings for artists
     ("artist", "area"): "P27",
@@ -191,16 +194,17 @@ mapping_schema = {
     # Specific mappings for events
     ("event", "begin-date"): "P580",
     ("event", "end-date"): "P582",
+    ("event", "time"): "P585",
     # Specific mappings for instruments
     ("instrument", "instrument"): "P279",
     # Specific mappings for labels
     ("label", "area"): "P17",
+    ("label", "labelcode"): "P7320",
     # Specific mappings for places
     ("place", "area"): "P131",
-    ("place", "coordinates"): "P625",
+    ("place", "address"): "P6375",
     # Specific mappings for recordings
     (("recording", "release-group", "release"), "artist"): "P175",
-    (("recording", "release-group", "release"), "artist-alt"): "P767",
     ("recording", "length"): "P2047",
     # Specific mappings for release groups
     ("release-group", "first-release-date"): "P577",
@@ -394,6 +398,20 @@ def convert_date(date_str: str) -> Literal:
         return Literal(date_str)  # Fallback to a plain literal if conversion fails
 
 
+def convert_datetime(date_str: str, time_str: str) -> Literal:
+    """
+    Convert a date and time string to an RDF Literal with XSD dateTime datatype.
+    If the date or time string is not in a valid format, it returns a plain Literal.
+    """
+    try:
+        # Validate the datetime string, and catch any exception that might occur
+        return Literal(
+            parse_datetime(f"{date_str}T{time_str}:00"), datatype=XSD.dateTime
+        )
+    except (ISO8601Error, ValueError):
+        return Literal(date_str)  # Fallback to a plain literal if conversion fails
+
+
 def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping):
     """Process a single line of JSON data and add it to the RDF graph."""
     entity_id = data.get("id")
@@ -402,6 +420,9 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
 
     # Create subject URI
     subject_uri = URIRef(f"https://musicbrainz.org/{entity_type}/{entity_id}")
+
+    # Process id
+    g.add((subject_uri, mb_schema[f"{entity_type}-id"], Literal(entity_id)))
 
     # Process name
     if name := data.get("name"):
@@ -414,6 +435,16 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
             g.add((subject_uri, mb_schema["type"], URIRef(f"{WD}{converted_type}")))
         else:
             g.add((subject_uri, mb_schema["type"], Literal(data["type"])))
+
+    # Process address
+    if address := data.get("address"):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["address"],
+                Literal(address),
+            )
+        )
 
     # Process aliases
     for alias in data.get("aliases", []):
@@ -549,6 +580,36 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                 )
             )
 
+    # Process IPIs
+    for ipi in data.get("ipis", []):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["ipi"],
+                Literal(ipi),
+            )
+        )
+
+    # Process ISNIs
+    for isni in data.get("isnis", []):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["isni"],
+                Literal(isni),
+            )
+        )
+
+    # Process label code
+    if label_code := data.get("label-code"):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["labelcode"],
+                Literal(label_code),
+            )
+        )
+
     # Process labels
     for label in data.get("label-info", []):
         label = label.get("label")
@@ -663,12 +724,12 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     # If no match, treat it as a generic URL
                     target = URIRef(url)
 
-        if not target:
-            for key in relation:
-                if key in mb_entity_types:
-                    if target_id := relation[key].get("id"):
-                        target = URIRef(f"https://musicbrainz.org/{key}/{target_id}")
-                        break
+        # if not target:
+        #     for key in relation:
+        #         if key in mb_entity_types:
+        #             if target_id := relation[key].get("id"):
+        #                 target = URIRef(f"https://musicbrainz.org/{key}/{target_id}")
+        #                 break
 
         if target and (pred_uri or ent_type in mb_schema):
             # Try to get the alt value, if there is one
@@ -699,6 +760,17 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     URIRef(f"https://musicbrainz.org/release-group/{release_group_id}"),
                 )
             )
+
+    # Process time
+    if (time := data.get("time")) and (date := data.get("life-span", {}).get("begin")):
+        # If both date and time are present, convert them to a datetime literal
+        g.add(
+            (
+                subject_uri,
+                mb_schema["time"],
+                convert_datetime(date, time),
+            )
+        )
 
     # Process title
     if title := data.get("title"):
@@ -891,7 +963,7 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
 
             for worker in subgraph_workers:
                 worker.cancel()
-            
+
             await asyncio.gather(*subgraph_workers)
 
             with tqdm.get_lock():
