@@ -6,6 +6,10 @@ However, the vast majority of relationships between entities are listed in the `
 
 The output file is located in `doc/musicbrainz/rdf_conversion_config/` and is structured in a subject -> object -> relationship format (i.e. the outermost dictionary key indicates the subject's entity type, the second dictionary key indicates the object's dictionary type, and the keys of the third dictionary are the relationships). The values associated with each relationship are the Wikidata Property ID (P###) that the relationship maps to, in string format (i.e. `"P2888"`). If a relationship is to be ignored (or not mapped), then it should either be removed or left as `null`/`None`, and the RDF conversion script will ignore it.
 
+## Homogeneous Relationships
+
+Some relationships are homogeneous (same source and target type), like for example the area-to-area property `part of`, that indicates that an area is apart of the other. Directionality is important, because different Wikidata properties represent the fact that Québec is in Canada and the fact that Canada contains Québec. To solve this problem, both the relationship extraction and RDF conversion scripts are configured to suffix any homogeneous relationship with its direction (either `forward` or `backward`) to be able to differentiate between the directions.
+
 ## Decisions made regarding property mappings
 
 - Lorem ipsum

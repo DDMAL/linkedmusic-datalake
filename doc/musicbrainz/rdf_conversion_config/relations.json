@@ -1,11 +1,16 @@
 {
     "label": {
         "label": {
-            "imprint": null,
-            "label reissue": null,
-            "label rename": null,
-            "label ownership": null,
-            "label distribution": null
+            "imprint_forward": null,
+            "imprint_backward": null,
+            "label reissue_forward": null,
+            "label reissue_backward": null,
+            "label rename_forward": null,
+            "label rename_backward": null,
+            "label ownership_forward": null,
+            "label ownership_backward": null,
+            "label distribution_forward": null,
+            "label distribution_backward": null
         },
         "release": {
             "published": null,
@@ -114,7 +119,7 @@
             "translated version": null,
             "included in": null,
             "DJ-mix": null,
-            "re\u2010recording": null,
+            "re‐recording": null,
             "mashes up": null,
             "remix": null,
             "cover": null
@@ -164,8 +169,10 @@
             "held in": null
         },
         "event": {
-            "parts": null,
-            "rescheduled as": null
+            "parts_forward": null,
+            "parts_backward": null,
+            "rescheduled as_forward": null,
+            "rescheduled as_backward": null
         },
         "release": {
             "launch event": null,
@@ -198,8 +205,10 @@
             "held at": null
         },
         "place": {
-            "parts": null,
-            "relocated to": null
+            "parts_forward": null,
+            "parts_backward": null,
+            "relocated to_forward": null,
+            "relocated to_backward": null
         },
         "release": {
             "manufactured at": null,
@@ -315,18 +324,30 @@
             "phonographic copyright": null
         },
         "recording": {
-            "DJ-mix": null,
-            "first track release": null,
-            "compilation": null,
-            "karaoke": null,
-            "mashes up": null,
-            "samples material": null,
-            "music video": null,
-            "instrumental": null,
-            "remix": null,
-            "edit": null,
-            "a cappella": null,
-            "remaster": null
+            "DJ-mix_forward": null,
+            "DJ-mix_backward": null,
+            "first track release_forward": null,
+            "first track release_backward": null,
+            "compilation_forward": null,
+            "compilation_backward": null,
+            "karaoke_forward": null,
+            "karaoke_backward": null,
+            "mashes up_forward": null,
+            "mashes up_backward": null,
+            "samples material_forward": null,
+            "samples material_backward": null,
+            "music video_forward": null,
+            "music video_backward": null,
+            "instrumental_forward": null,
+            "instrumental_backward": null,
+            "remix_forward": null,
+            "remix_backward": null,
+            "edit_forward": null,
+            "edit_backward": null,
+            "a cappella_forward": null,
+            "a cappella_backward": null,
+            "remaster_forward": null,
+            "remaster_backward": null
         },
         "place": {
             "recorded at": null,
@@ -369,12 +390,18 @@
     },
     "instrument": {
         "instrument": {
-            "children": null,
-            "hybrid of": null,
-            "related to": null,
-            "parts": null,
-            "derivation": null,
-            "subtype": null
+            "children_forward": null,
+            "children_backward": null,
+            "hybrid of_forward": null,
+            "hybrid of_backward": null,
+            "related to_forward": null,
+            "related to_backward": null,
+            "parts_forward": null,
+            "parts_backward": null,
+            "derivation_forward": null,
+            "derivation_backward": null,
+            "subtype_forward": null,
+            "subtype_backward": null
         },
         "area": {
             "instrument origin": null
@@ -418,9 +445,12 @@
             "part of": null
         },
         "series": {
-            "award ceremony": null,
-            "subseries": null,
-            "recorded during": null
+            "award ceremony_forward": null,
+            "award ceremony_backward": null,
+            "subseries_forward": null,
+            "subseries_backward": null,
+            "recorded during_forward": null,
+            "recorded during_backward": null
         },
         "place": {
             "held at": null
@@ -460,16 +490,26 @@
             "performance": null
         },
         "work": {
-            "medley": null,
-            "other version": null,
-            "lyrical quotation": null,
-            "named after work": null,
-            "orchestration": null,
-            "revision of": null,
-            "parts": null,
-            "arrangement": null,
-            "musical quotation": null,
-            "based on": null
+            "medley_forward": null,
+            "medley_backward": null,
+            "other version_forward": null,
+            "other version_backward": null,
+            "lyrical quotation_forward": null,
+            "lyrical quotation_backward": null,
+            "named after work_forward": null,
+            "named after work_backward": null,
+            "orchestration_forward": null,
+            "orchestration_backward": null,
+            "revision of_forward": null,
+            "revision of_backward": null,
+            "parts_forward": null,
+            "parts_backward": null,
+            "arrangement_forward": null,
+            "arrangement_backward": null,
+            "musical quotation_forward": null,
+            "musical quotation_backward": null,
+            "based on_forward": null,
+            "based on_backward": null
         },
         "label": {
             "commissioned": null,
@@ -510,26 +550,46 @@
     },
     "artist": {
         "artist": {
-            "is person": null,
-            "subgroup": null,
-            "founder": null,
-            "member of band": null,
-            "conductor position": null,
-            "teacher": null,
-            "instrumental supporting musician": null,
-            "composer-in-residence": null,
-            "collaboration": null,
-            "parent": null,
-            "vocal supporting musician": null,
-            "artist rename": null,
-            "artistic director": null,
-            "voice actor": null,
-            "married": null,
-            "supporting musician": null,
-            "tribute": null,
-            "involved with": null,
-            "named after artist": null,
-            "sibling": null
+            "is person_forward": null,
+            "is person_backward": null,
+            "subgroup_forward": null,
+            "subgroup_backward": null,
+            "founder_forward": null,
+            "founder_backward": null,
+            "member of band_forward": null,
+            "member of band_backward": null,
+            "conductor position_forward": null,
+            "conductor position_backward": null,
+            "teacher_forward": null,
+            "teacher_backward": null,
+            "instrumental supporting musician_forward": null,
+            "instrumental supporting musician_backward": null,
+            "composer-in-residence_forward": null,
+            "composer-in-residence_backward": null,
+            "collaboration_forward": null,
+            "collaboration_backward": null,
+            "parent_forward": null,
+            "parent_backward": null,
+            "vocal supporting musician_forward": null,
+            "vocal supporting musician_backward": null,
+            "artist rename_forward": null,
+            "artist rename_backward": null,
+            "artistic director_forward": null,
+            "artistic director_backward": null,
+            "voice actor_forward": null,
+            "voice actor_backward": null,
+            "married_forward": null,
+            "married_backward": null,
+            "supporting musician_forward": null,
+            "supporting musician_backward": null,
+            "tribute_forward": null,
+            "tribute_backward": null,
+            "involved with_forward": null,
+            "involved with_backward": null,
+            "named after artist_forward": null,
+            "named after artist_backward": null,
+            "sibling_forward": null,
+            "sibling_backward": null
         },
         "label": {
             "personal label": null,
@@ -856,11 +916,16 @@
             "phonographic copyright": null
         },
         "release": {
-            "part of set": null,
-            "replaced by": null,
-            "supporting release": null,
-            "remaster": null,
-            "transl-tracklisting": null
+            "part of set_forward": null,
+            "part of set_backward": null,
+            "replaced by_forward": null,
+            "replaced by_backward": null,
+            "supporting release_forward": null,
+            "supporting release_backward": null,
+            "remaster_forward": null,
+            "remaster_backward": null,
+            "transl-tracklisting_forward": null,
+            "transl-tracklisting_backward": null
         },
         "series": {
             "part of": null
@@ -876,7 +941,8 @@
     },
     "area": {
         "area": {
-            "part of": null
+            "part of_forward": null,
+            "part of_backward": null
         },
         "recording": {
             "edited in": null,

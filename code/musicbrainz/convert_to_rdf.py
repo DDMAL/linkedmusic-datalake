@@ -259,6 +259,9 @@ mapping_schema = {
 
 MB_SCHEMA = MappingSchema(mapping_schema)
 
+# Initialize the relationship mapping
+RELATIONSHIP_MAPPING = {}
+
 CHUNK_SIZE = 500  # Adjustable chunk size
 # Max number of chunk processing threads to run simultaneously
 MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
@@ -412,7 +415,7 @@ def convert_datetime(date_str: str, time_str: str) -> Literal:
         return Literal(date_str)  # Fallback to a plain literal if conversion fails
 
 
-def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping):
+def process_line(data, entity_type, mb_schema, relationship_mapping, type_mapping, g):
     """Process a single line of JSON data and add it to the RDF graph."""
     entity_id = data.get("id")
     if not entity_id:
@@ -695,14 +698,14 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
 
     # Process relationships
     for relation in data.get("relations", []):
-        if not (ent_type := relation.get("target-type")) or not (
+        if not (target_type := relation.get("target-type")) or not (
             rel_type := relation.get("type")
         ):
             continue
 
         target = None
         pred_uri = None
-        if ent_type == "url" and (url := relation.get("url", {}).get("resource")):
+        if target_type == "url" and (url := relation.get("url", {}).get("resource")):
             pred_uri = mb_schema["url"]
             if WIKIDATA_REGEX.match(url):
                 # Convert Wikidata URL to URIRef
@@ -724,18 +727,19 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
                     # If no match, treat it as a generic URL
                     target = URIRef(url)
 
-        # if not target:
-        #     for key in relation:
-        #         if key in mb_entity_types:
-        #             if target_id := relation[key].get("id"):
-        #                 target = URIRef(f"https://musicbrainz.org/{key}/{target_id}")
-        #                 break
+        if not target:
+            # Handle homogeneous relations
+            if target_type == entity_type and (
+                rel_direction := relation.get("direction")
+            ):
+                rel_type += rel_direction
+            pred_uri = relationship_mapping.get(target_type, {}).get(rel_type)
 
-        if target and (pred_uri or ent_type in mb_schema):
-            # Try to get the alt value, if there is one
-            # Otherwise get the normal one
-            if not pred_uri:
-                pred_uri = mb_schema.get(f"{ent_type}-alt", mb_schema.get(ent_type))
+            if target_id := relation.get(target_type, {}).get("id"):
+                # If the target is a MusicBrainz entity, create a URIRef
+                target = URIRef(f"{MB}{target_type}/{target_id}")
+
+        if target and pred_uri:
             g.add((subject_uri, pred_uri, target))
 
     # Process release events
@@ -777,7 +781,7 @@ def process_line(data, entity_type, mb_schema, g, mb_entity_types, type_mapping)
         g.add((subject_uri, mb_schema["title"], Literal(title)))
 
 
-def process_chunk(chunk, entity_type, mb_schema, mb_entity_types, type_mapping):
+def process_chunk(chunk, entity_type, mb_schema, relationship_mapping, type_mapping):
     """Process a chunk of data and add it to the subgraph."""
     g = Graph()
     for i, line in enumerate(chunk):
@@ -787,9 +791,9 @@ def process_chunk(chunk, entity_type, mb_schema, mb_entity_types, type_mapping):
                 data,
                 entity_type,
                 mb_schema,
-                g,
-                mb_entity_types,
+                relationship_mapping,
                 type_mapping,
+                g,
             )
         except json.JSONDecodeError:
             continue
@@ -808,6 +812,7 @@ async def subgraph_worker(
     subgraph_queue,
     entity_type,
     mb_schema,
+    relationship_mapping,
     type_mapping,
     chunk_bar,
     executor,
@@ -821,20 +826,6 @@ async def subgraph_worker(
         while True:
             chunk = await chunk_queue.get()
 
-            mb_entity_types = {
-                "artist",
-                "release",
-                "recording",
-                "label",
-                "work",
-                "area",
-                "genre",
-                "event",
-                "place",
-                "series",
-                "instrument",
-            }
-
             # Process the chunk in a separate process to speed up the processing
             g = await loop.run_in_executor(
                 executor,
@@ -842,7 +833,7 @@ async def subgraph_worker(
                 chunk,
                 entity_type,
                 mb_schema,
-                mb_entity_types,
+                relationship_mapping,
                 type_mapping,
             )
 
@@ -893,7 +884,9 @@ async def graph_worker(subgraph_queue, main_graph, subgraph_bar):
                 subgraph_bar.update(1)
 
 
-async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
+async def get_final_graph(
+    entity_type, input_file, namespaces, type_mapping, relationship_mapping
+):
     """Main function to process the input file and return the final RDF graph."""
     with open(input_file, "r", encoding="utf-8") as f:
         total_lines = sum(1 for _ in f)
@@ -934,6 +927,7 @@ async def get_final_graph(entity_type, input_file, namespaces, type_mapping):
                         subgraph_queue,
                         entity_type,
                         MB_SCHEMA.to_dict_for_type(entity_type),
+                        relationship_mapping,
                         type_mapping,
                         chunk_bar,
                         executor,
@@ -1026,7 +1020,13 @@ def main(args):
     }
 
     main_graph = asyncio.run(
-        get_final_graph(entity_type, input_file, namespaces, type_mapping)
+        get_final_graph(
+            entity_type,
+            input_file,
+            namespaces,
+            type_mapping,
+            RELATIONSHIP_MAPPING.get(entity_type, {}),
+        )
     )
 
     # Save the final result
@@ -1061,6 +1061,11 @@ if __name__ == "__main__":
         help="Path to the folder containing MusicBrainz entity types reconciled against Wikidata.",
     )
     parser.add_argument(
+        "--config_folder",
+        default="../../doc/musicbrainz/rdf_conversion_config/",
+        help="Path to the folder containing MusicBrainz RDF conversion configuration files.",
+    )
+    parser.add_argument(
         "--output_folder",
         default="../../data/musicbrainz/rdf/",
         help="Directory where the output Turtle files will be saved.",
@@ -1071,6 +1076,28 @@ if __name__ == "__main__":
     if not input_folder.is_dir():
         print(f"{input_folder} is not a valid directory.")
         sys.exit(1)
+
+    config_folder = Path(args.config_folder)
+    if not config_folder.is_dir():
+        print(f"{config_folder} is not a valid directory.")
+        sys.exit(1)
+
+    with open(config_folder / "relations.json", "r", encoding="utf-8") as fi:
+        RELATIONSHIP_MAPPING = json.load(fi)
+    if not RELATIONSHIP_MAPPING:
+        print("No relationship mapping found in the configuration file.")
+        sys.exit(1)
+
+    # Convert the property ID strings into URIRefs
+    for mapping in RELATIONSHIP_MAPPING.values():
+        if not mapping:
+            continue
+        for values in mapping.values():
+            if not values:
+                continue
+            for k, v in values.items():
+                if v is not None:
+                    values[k] = WDT[v]
 
     bad_files = []
     if Path(args.output_folder).exists() and not REPROCESSING:
