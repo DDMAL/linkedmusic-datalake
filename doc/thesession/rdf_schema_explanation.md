@@ -5,16 +5,16 @@ This document is yet complete.
 
 ## I. Namespaces Defined
 
-@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
-@prefix wd:   <http://www.wikidata.org/entity/> .
-@prefix wdt:  <http://www.wikidata.org/prop/direct/> .
-@prefix geo:  <http://www.opengis.net/ont/geosparql#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .  
+@prefix wd:   <http://www.wikidata.org/entity/> .  
+@prefix wdt:  <http://www.wikidata.org/prop/direct/> .  
+@prefix geo:  <http://www.opengis.net/ont/geosparql#> .  
 @prefix ts:   <https://thesession.org/> .
 
-xsd is the standard XML datatype definition which we help us define the literals we store (e.g. "this is a dateTime data").
-wd is for wikidata entities; wdt is for wikidata properties.
-ts is for the Session entities (e.g. recordings, sessions), who often don't have an equivalent in Wikidata.
-geo is for geographic coordinates (e.g. Point(42.24073792 -71.00814819))
+xsd is the standard XML datatype definition which we help us define the literals we store (e.g. "this is a dateTime data").  
+wd is for wikidata entities; wdt is for wikidata properties.  
+ts is for the Session entities (e.g. recordings, sessions), who often don't have an equivalent in Wikidata.  
+geo is for geographic coordinates (e.g. Point(42.24073792 -71.00814819))  
 
 
 ## III. Schema of Dataset
