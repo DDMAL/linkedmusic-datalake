@@ -37,3 +37,26 @@ AQAK60kSSkmSJImUKDiOGMfxgjnRxodV_0.01.59.32734-0.02.58.79365
 The first 0 after the last dot must be removed
 
 From [OSF](https://osf.io/bwg42/files/osfstorage?view_only=), we have obtained DTL1000.ttl. It is of much help to us except that it specifies the conventional space for DTL solos, which is http://www.DTL.org/JE/solo_performances/AQAF7EkVKUsW6MKVDz1lPHwErxL6b0hO_0.01.30.39528-0.03.10.37333 (not zero after dot).
+
+
+## Other Databases
+The RDF schema of DTL1000 has already been determined. Now I will establish work on the Weimar Jazz Database and the Essen Folksong Collection. I will ingest the Charlie Parker Omnibook as it contains too little metadata.
+
+### Exploring the Essen Folksong Collection
+[Github page](https://github.com/ccarh/essen-folksong-collection)
+[ESAC page](https://www.esac-data.org/)
+
+ESAC stands for Essen Associative Code. It is a computer way to notate melody developed by by Helmut Schaffrath in 1980's. This standard is pretty famous, it seems.
+
+After some research, I am feeling that the Essen Folksong Collection does include enough linkable data. We should other database before returning to it.
+
+### Exploring the Weimar Jazz Database
+[Main Page](https://jazzomat.hfm-weimar.de/index.html)
+[Content of the DB](https://jazzomat.hfm-weimar.de/dbformat/dbcontent.html)
+[Glossary of the DB](https://jazzomat.hfm-weimar.de/dbformat/glossary.html)
+
+The Weimar Jazz Database is a database of jazz solos (much like DTL1000) created by the Jazzomat Research Project, the same project behind Dig That Lick. The three above link comprise all the documentation we need to reconcile the database.
+
+Since every track in the Weimar Jazz Database include a MusicBrainz id, it may not be necessary to save any of its track related metadata, as MusicBrainz contain them all.
+
+
