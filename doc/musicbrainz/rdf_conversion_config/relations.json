@@ -1,0 +1,937 @@
+{
+    "label": {
+        "label": {
+            "imprint": null,
+            "label reissue": null,
+            "label rename": null,
+            "label ownership": null,
+            "label distribution": null
+        },
+        "release": {
+            "published": null,
+            "exported": null,
+            "produced for": null,
+            "arranged for": null,
+            "artwork": null,
+            "misc": null,
+            "mixed for": null,
+            "manufactured for": null,
+            "edited for": null,
+            "promoted": null,
+            "printed": null,
+            "marketed": null,
+            "copyright": null,
+            "pressed": null,
+            "mastered for": null,
+            "illustration": null,
+            "design": null,
+            "distributed": null,
+            "manufactured": null,
+            "art direction": null,
+            "licensee": null,
+            "photography": null,
+            "phonographic copyright": null,
+            "publishing": null,
+            "glass mastered": null,
+            "licensor": null,
+            "graphic design": null,
+            "rights society": null
+        },
+        "recording": {
+            "publishing": null,
+            "produced for": null,
+            "arranged for": null,
+            "edited for": null,
+            "mixed for": null,
+            "misc": null,
+            "video copyright": null,
+            "broadcast": null,
+            "remixed for": null,
+            "phonographic copyright": null
+        },
+        "series": {
+            "publishes series": null
+        },
+        "artist": {
+            "personal label": null,
+            "label founder": null,
+            "recording contract": null,
+            "producer position at": null,
+            "named after artist": null,
+            "personal publisher": null,
+            "engineer position at": null,
+            "named after label": null,
+            "creative position at": null,
+            "owner": null,
+            "position at": null,
+            "executive position at": null,
+            "artists and repertoire position at": null
+        },
+        "work": {
+            "commissioned": null,
+            "publishing": null,
+            "named after work": null,
+            "dedication": null
+        },
+        "event": {
+            "presented": null
+        },
+        "place": {
+            "owner": null
+        },
+        "release_group": {
+            "tribute": null
+        },
+        "area": {
+            "headquarters": null
+        },
+        "genre": {
+            "named after label": null
+        },
+        "instrument": {
+            "invented": null
+        }
+    },
+    "release-group": {
+        "series": {
+            "part of": null,
+            "recorded during": null,
+            "named after release group": null,
+            "tour in support of": null
+        },
+        "artist": {
+            "named after release group": null,
+            "tribute": null,
+            "dedicated to": null,
+            "artists and repertoire": null,
+            "creative direction": null
+        },
+        "release_group": {
+            "single from": null,
+            "excerpt from": null,
+            "commentary": null,
+            "live performance": null,
+            "translated version": null,
+            "included in": null,
+            "DJ-mix": null,
+            "re\u2010recording": null,
+            "mashes up": null,
+            "remix": null,
+            "cover": null
+        },
+        "event": {
+            "launch event": null,
+            "performance of": null
+        },
+        "label": {
+            "tribute": null
+        },
+        "genre": {
+            "named after release group": null
+        }
+    },
+    "event": {
+        "artist": {
+            "engineer": null,
+            "host": null,
+            "illustration": null,
+            "design": null,
+            "tribute to": null,
+            "support act": null,
+            "artwork": null,
+            "teacher": null,
+            "jury member": null,
+            "participant": null,
+            "main performer": null,
+            "graphic design": null,
+            "VJ": null,
+            "supporting DJ": null,
+            "orchestra": null,
+            "guest performer": null,
+            "conductor": null
+        },
+        "place": {
+            "held at": null
+        },
+        "recording": {
+            "video shot at": null,
+            "recorded at": null
+        },
+        "series": {
+            "part of": null
+        },
+        "area": {
+            "held in": null
+        },
+        "event": {
+            "parts": null,
+            "rescheduled as": null
+        },
+        "release": {
+            "launch event": null,
+            "available at": null,
+            "recorded at": null
+        },
+        "release_group": {
+            "launch event": null,
+            "performance of": null
+        },
+        "work": {
+            "premiere": null
+        },
+        "label": {
+            "presented": null
+        }
+    },
+    "place": {
+        "recording": {
+            "recorded at": null,
+            "remixed at": null,
+            "engineered at": null,
+            "video shot at": null,
+            "mixed at": null,
+            "edited at": null,
+            "arranged at": null,
+            "produced at": null
+        },
+        "event": {
+            "held at": null
+        },
+        "place": {
+            "parts": null,
+            "relocated to": null
+        },
+        "release": {
+            "manufactured at": null,
+            "recorded at": null,
+            "written at": null,
+            "mastered at": null,
+            "transferred at": null,
+            "remixed at": null,
+            "engineered at": null,
+            "lacquer cut at": null,
+            "mixed at": null,
+            "edited at": null,
+            "glass mastered at": null,
+            "arranged at": null,
+            "lyrics written at": null,
+            "composed at": null,
+            "pressed at": null,
+            "produced at": null
+        },
+        "artist": {
+            "studied at": null,
+            "carillonneur": null,
+            "engineer position": null,
+            "primary concert venue": null,
+            "associated with": null,
+            "founder": null,
+            "taught at": null,
+            "mastering engineer position": null,
+            "mixing engineer position": null,
+            "recording engineer position": null,
+            "composer-in-residence": null,
+            "named after artist": null,
+            "school director at": null,
+            "named after place": null,
+            "owner": null,
+            "organist": null
+        },
+        "work": {
+            "written at": null,
+            "revised at": null,
+            "commissioned": null,
+            "arranged at": null,
+            "lyrics written at": null,
+            "composed at": null,
+            "premiere": null,
+            "dedication": null
+        },
+        "label": {
+            "owner": null
+        },
+        "series": {
+            "held at": null
+        },
+        "genre": {
+            "named after place": null
+        }
+    },
+    "recording": {
+        "work": {
+            "performance": null
+        },
+        "event": {
+            "video shot at": null,
+            "recorded at": null
+        },
+        "artist": {
+            "chorus master": null,
+            "orchestrator": null,
+            "design/illustration": null,
+            "legal representation": null,
+            "concertmaster": null,
+            "video appearance": null,
+            "field recordist": null,
+            "misc": null,
+            "compiler": null,
+            "artwork": null,
+            "performer": null,
+            "mastering": null,
+            "recording": null,
+            "video director": null,
+            "balance": null,
+            "animation": null,
+            "sound effects": null,
+            "producer": null,
+            "vocal": null,
+            "editor": null,
+            "booking": null,
+            "mix": null,
+            "sound": null,
+            "mix-DJ": null,
+            "cinematographer": null,
+            "samples from artist": null,
+            "conductor": null,
+            "illustration": null,
+            "audio director": null,
+            "design": null,
+            "artists and repertoire": null,
+            "choreographer": null,
+            "programming": null,
+            "instrument": null,
+            "vocal arranger": null,
+            "art direction": null,
+            "photography": null,
+            "performing orchestra": null,
+            "instrument technician": null,
+            "instrument arranger": null,
+            "engineer": null,
+            "audio": null,
+            "graphic design": null,
+            "creative direction": null,
+            "arranger": null,
+            "remixer": null,
+            "phonographic copyright": null
+        },
+        "recording": {
+            "DJ-mix": null,
+            "first track release": null,
+            "compilation": null,
+            "karaoke": null,
+            "mashes up": null,
+            "samples material": null,
+            "music video": null,
+            "instrumental": null,
+            "remix": null,
+            "edit": null,
+            "a cappella": null,
+            "remaster": null
+        },
+        "place": {
+            "recorded at": null,
+            "remixed at": null,
+            "engineered at": null,
+            "video shot at": null,
+            "mixed at": null,
+            "arranged at": null,
+            "edited at": null,
+            "produced at": null
+        },
+        "label": {
+            "publishing": null,
+            "produced for": null,
+            "arranged for": null,
+            "edited for": null,
+            "mixed for": null,
+            "misc": null,
+            "video copyright": null,
+            "broadcast": null,
+            "phonographic copyright": null
+        },
+        "area": {
+            "produced in": null,
+            "edited in": null,
+            "remixed in": null,
+            "mixed in": null,
+            "video shot in": null,
+            "recorded in": null,
+            "arranged in": null,
+            "engineered in": null
+        },
+        "series": {
+            "part of": null,
+            "recorded during": null
+        },
+        "release": {
+            "samples material": null
+        }
+    },
+    "instrument": {
+        "instrument": {
+            "children": null,
+            "hybrid of": null,
+            "related to": null,
+            "parts": null,
+            "derivation": null,
+            "subtype": null
+        },
+        "area": {
+            "instrument origin": null
+        },
+        "genre": {
+            "associated instrument": null
+        },
+        "artist": {
+            "invented": null
+        },
+        "label": {
+            "invented": null
+        }
+    },
+    "series": {
+        "label": {
+            "publishes series": null
+        },
+        "release_group": {
+            "part of": null,
+            "recorded during": null,
+            "named after release group": null,
+            "tour in support of": null
+        },
+        "artist": {
+            "residency": null,
+            "founder": null,
+            "has catalogue": null,
+            "named after artist": null,
+            "part of": null,
+            "tour": null,
+            "catalogued": null
+        },
+        "area": {
+            "held in": null
+        },
+        "event": {
+            "part of": null
+        },
+        "release": {
+            "part of": null
+        },
+        "series": {
+            "award ceremony": null,
+            "subseries": null,
+            "recorded during": null
+        },
+        "place": {
+            "held at": null
+        },
+        "recording": {
+            "part of": null,
+            "recorded during": null
+        },
+        "work": {
+            "commissioned": null,
+            "part of": null
+        }
+    },
+    "work": {
+        "artist": {
+            "orchestrator": null,
+            "lyricist": null,
+            "previous attribution": null,
+            "revised by": null,
+            "misc": null,
+            "named after work": null,
+            "dedication": null,
+            "librettist": null,
+            "writer": null,
+            "reconstructed by": null,
+            "premiere": null,
+            "vocal arranger": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "commissioned": null,
+            "translator": null,
+            "named after artist": null,
+            "arranger": null,
+            "composer": null
+        },
+        "recording": {
+            "performance": null
+        },
+        "work": {
+            "medley": null,
+            "other version": null,
+            "lyrical quotation": null,
+            "named after work": null,
+            "orchestration": null,
+            "revision of": null,
+            "parts": null,
+            "arrangement": null,
+            "musical quotation": null,
+            "based on": null
+        },
+        "label": {
+            "commissioned": null,
+            "publishing": null,
+            "named after work": null,
+            "dedication": null
+        },
+        "area": {
+            "translated in": null,
+            "written in": null,
+            "composed in": null,
+            "lyrics written in": null,
+            "revised in": null,
+            "arranged in": null,
+            "commissioned": null,
+            "anthem": null,
+            "libretto written in": null,
+            "premiere": null,
+            "dedication": null
+        },
+        "series": {
+            "commissioned": null,
+            "part of": null
+        },
+        "place": {
+            "premiere": null,
+            "written at": null,
+            "revised at": null,
+            "commissioned": null,
+            "arranged at": null,
+            "lyrics written at": null,
+            "composed at": null,
+            "dedication": null
+        },
+        "event": {
+            "premiere": null
+        }
+    },
+    "artist": {
+        "artist": {
+            "is person": null,
+            "subgroup": null,
+            "founder": null,
+            "member of band": null,
+            "conductor position": null,
+            "teacher": null,
+            "instrumental supporting musician": null,
+            "composer-in-residence": null,
+            "collaboration": null,
+            "parent": null,
+            "vocal supporting musician": null,
+            "artist rename": null,
+            "artistic director": null,
+            "voice actor": null,
+            "married": null,
+            "supporting musician": null,
+            "tribute": null,
+            "involved with": null,
+            "named after artist": null,
+            "sibling": null
+        },
+        "label": {
+            "personal label": null,
+            "label founder": null,
+            "recording contract": null,
+            "producer position at": null,
+            "named after artist": null,
+            "personal publisher": null,
+            "engineer position at": null,
+            "named after label": null,
+            "creative position at": null,
+            "owner": null,
+            "position at": null,
+            "executive position at": null,
+            "artists and repertoire position at": null
+        },
+        "recording": {
+            "orchestrator": null,
+            "concertmaster": null,
+            "chorus master": null,
+            "design/illustration": null,
+            "legal representation": null,
+            "video appearance": null,
+            "field recordist": null,
+            "misc": null,
+            "compiler": null,
+            "artwork": null,
+            "video copyright": null,
+            "performer": null,
+            "mastering": null,
+            "recording": null,
+            "video director": null,
+            "balance": null,
+            "animation": null,
+            "sound effects": null,
+            "producer": null,
+            "vocal": null,
+            "editor": null,
+            "booking": null,
+            "mix": null,
+            "sound": null,
+            "mix-DJ": null,
+            "cinematographer": null,
+            "samples from artist": null,
+            "conductor": null,
+            "illustration": null,
+            "audio director": null,
+            "design": null,
+            "artists and repertoire": null,
+            "choreographer": null,
+            "programming": null,
+            "instrument": null,
+            "vocal arranger": null,
+            "art direction": null,
+            "photography": null,
+            "performing orchestra": null,
+            "instrument technician": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "engineer": null,
+            "audio": null,
+            "graphic design": null,
+            "creative direction": null,
+            "arranger": null,
+            "remixer": null,
+            "phonographic copyright": null
+        },
+        "release": {
+            "orchestrator": null,
+            "chorus master": null,
+            "lyricist": null,
+            "design/illustration": null,
+            "concertmaster": null,
+            "legal representation": null,
+            "artwork": null,
+            "misc": null,
+            "compiler": null,
+            "field recordist": null,
+            "transfer": null,
+            "performer": null,
+            "mastering": null,
+            "recording": null,
+            "video director": null,
+            "balance": null,
+            "librettist": null,
+            "sound effects": null,
+            "producer": null,
+            "vocal": null,
+            "lacquer cut": null,
+            "editor": null,
+            "booking": null,
+            "writer": null,
+            "sound": null,
+            "mix": null,
+            "copyright": null,
+            "mix-DJ": null,
+            "samples from artist": null,
+            "conductor": null,
+            "illustration": null,
+            "design": null,
+            "audio director": null,
+            "instrument": null,
+            "programming": null,
+            "art direction": null,
+            "vocal arranger": null,
+            "liner notes": null,
+            "photography": null,
+            "performing orchestra": null,
+            "instrument technician": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "engineer": null,
+            "audio": null,
+            "booklet editor": null,
+            "licensor": null,
+            "translator": null,
+            "graphic design": null,
+            "production coordinator": null,
+            "arranger": null,
+            "remixer": null,
+            "composer": null,
+            "phonographic copyright": null
+        },
+        "work": {
+            "orchestrator": null,
+            "lyricist": null,
+            "previous attribution": null,
+            "revised by": null,
+            "named after work": null,
+            "misc": null,
+            "dedication": null,
+            "librettist": null,
+            "writer": null,
+            "reconstructed by": null,
+            "premiere": null,
+            "vocal arranger": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "commissioned": null,
+            "translator": null,
+            "named after artist": null,
+            "arranger": null,
+            "composer": null
+        },
+        "event": {
+            "engineer": null,
+            "host": null,
+            "illustration": null,
+            "design": null,
+            "tribute to": null,
+            "support act": null,
+            "artwork": null,
+            "teacher": null,
+            "jury member": null,
+            "participant": null,
+            "main performer": null,
+            "graphic design": null,
+            "VJ": null,
+            "supporting DJ": null,
+            "orchestra": null,
+            "guest performer": null,
+            "conductor": null
+        },
+        "place": {
+            "studied at": null,
+            "carillonneur": null,
+            "engineer position": null,
+            "primary concert venue": null,
+            "associated with": null,
+            "founder": null,
+            "taught at": null,
+            "mastering engineer position": null,
+            "mixing engineer position": null,
+            "recording engineer position": null,
+            "composer-in-residence": null,
+            "named after artist": null,
+            "school director at": null,
+            "named after place": null,
+            "owner": null,
+            "organist": null
+        },
+        "series": {
+            "residency": null,
+            "founder": null,
+            "named after artist": null,
+            "has catalogue": null,
+            "part of": null,
+            "tour": null,
+            "catalogued": null
+        },
+        "release_group": {
+            "named after release group": null,
+            "tribute": null,
+            "dedicated to": null,
+            "artists and repertoire": null,
+            "creative direction": null
+        },
+        "genre": {
+            "named after artist": null
+        },
+        "instrument": {
+            "invented": null
+        }
+    },
+    "release": {
+        "artist": {
+            "orchestrator": null,
+            "chorus master": null,
+            "design/illustration": null,
+            "legal representation": null,
+            "lyricist": null,
+            "concertmaster": null,
+            "artwork": null,
+            "misc": null,
+            "compiler": null,
+            "field recordist": null,
+            "transfer": null,
+            "performer": null,
+            "mastering": null,
+            "recording": null,
+            "balance": null,
+            "video director": null,
+            "sound effects": null,
+            "librettist": null,
+            "producer": null,
+            "vocal": null,
+            "lacquer cut": null,
+            "editor": null,
+            "booking": null,
+            "mix": null,
+            "sound": null,
+            "writer": null,
+            "copyright": null,
+            "mix-DJ": null,
+            "samples from artist": null,
+            "conductor": null,
+            "illustration": null,
+            "design": null,
+            "audio director": null,
+            "instrument": null,
+            "art direction": null,
+            "programming": null,
+            "vocal arranger": null,
+            "liner notes": null,
+            "photography": null,
+            "performing orchestra": null,
+            "instrument technician": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "engineer": null,
+            "audio": null,
+            "booklet editor": null,
+            "translator": null,
+            "licensor": null,
+            "graphic design": null,
+            "production coordinator": null,
+            "arranger": null,
+            "remixer": null,
+            "composer": null,
+            "phonographic copyright": null
+        },
+        "place": {
+            "manufactured at": null,
+            "recorded at": null,
+            "written at": null,
+            "mastered at": null,
+            "produced at": null,
+            "transferred at": null,
+            "remixed at": null,
+            "engineered at": null,
+            "lacquer cut at": null,
+            "arranged at": null,
+            "edited at": null,
+            "glass mastered at": null,
+            "lyrics written at": null,
+            "composed at": null,
+            "pressed at": null,
+            "mixed at": null
+        },
+        "area": {
+            "manufactured in": null,
+            "written in": null,
+            "printed in": null,
+            "edited in": null,
+            "composed in": null,
+            "transferred in": null,
+            "remixed in": null,
+            "engineered in": null,
+            "mixed in": null,
+            "recorded in": null,
+            "arranged in": null,
+            "mastered in": null,
+            "lacquer cut in": null,
+            "produced in": null
+        },
+        "label": {
+            "published": null,
+            "exported": null,
+            "produced for": null,
+            "arranged for": null,
+            "artwork": null,
+            "manufactured for": null,
+            "misc": null,
+            "mixed for": null,
+            "edited for": null,
+            "promoted": null,
+            "printed": null,
+            "marketed": null,
+            "copyright": null,
+            "pressed": null,
+            "mastered for": null,
+            "illustration": null,
+            "design": null,
+            "distributed": null,
+            "manufactured": null,
+            "art direction": null,
+            "licensee": null,
+            "photography": null,
+            "publishing": null,
+            "glass mastered": null,
+            "licensor": null,
+            "graphic design": null,
+            "rights society": null,
+            "phonographic copyright": null
+        },
+        "release": {
+            "part of set": null,
+            "replaced by": null,
+            "supporting release": null,
+            "remaster": null,
+            "transl-tracklisting": null
+        },
+        "series": {
+            "part of": null
+        },
+        "event": {
+            "launch event": null,
+            "available at": null,
+            "recorded at": null
+        },
+        "recording": {
+            "samples material": null
+        }
+    },
+    "area": {
+        "area": {
+            "part of": null
+        },
+        "recording": {
+            "edited in": null,
+            "remixed in": null,
+            "mixed in": null,
+            "video shot in": null,
+            "recorded in": null,
+            "engineered in": null,
+            "arranged in": null,
+            "produced in": null
+        },
+        "event": {
+            "held in": null
+        },
+        "release": {
+            "manufactured in": null,
+            "produced in": null,
+            "written in": null,
+            "printed in": null,
+            "edited in": null,
+            "composed in": null,
+            "transferred in": null,
+            "remixed in": null,
+            "mixed in": null,
+            "arranged in": null,
+            "recorded in": null,
+            "mastered in": null,
+            "lacquer cut in": null,
+            "engineered in": null
+        },
+        "work": {
+            "translated in": null,
+            "written in": null,
+            "composed in": null,
+            "lyrics written in": null,
+            "revised in": null,
+            "arranged in": null,
+            "commissioned": null,
+            "anthem": null,
+            "libretto written in": null,
+            "premiere": null,
+            "dedication": null
+        },
+        "series": {
+            "held in": null
+        },
+        "label": {
+            "headquarters": null
+        },
+        "genre": {
+            "genre origin": null,
+            "named after area": null
+        },
+        "instrument": {
+            "instrument origin": null
+        }
+    }
+}

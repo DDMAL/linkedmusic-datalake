@@ -44,6 +44,8 @@ Now for the other properties:
 - To indicate start and end dates, I use P571 "inception" and P576 "dissolved, abolished or demolished" for most things, as that's the property that matches
 - To store barcodes, I use P3962 "Global Trade Item Number", which is the catch-all property for barcodes, and the barcode is stored as a string
 - To store ASINs (Amazon Standard Identification Number), I use P5749 "Amazon Standard Identification Number", as it is an exact match
+- To store IPI (Interested Parties Information) numbers, I use P1828 "IPI name number" as what's in the database is the name number, not the base code
+- Label codes are codes issued by the GVL, and they map to P7320 "labelcode"
 - To indicate that a release contains a specific disc, I use P527 "has part", which is the inverse of P361 "has part"
 - To indicate that a release contains a recording, I use P658 "tracklist"
 - To indicate titles of albums, songs, releases, etc I use P1476 "title", which applies to any creative work
@@ -66,13 +68,5 @@ Now for the other properties:
 - To indicate start/end dates for a place, I also use P571/P576
 - To indicate the duration of a recording, I use P2047 "duration", the time in the database is in milliseconds, but I convert them to seconds and store it as a XSD:decimal
 - To indicate the first release date of a release group, I use P577 "publication date", as the property is an exact match for what we want
-- To indicate that an area is contained within another, I use P131 "located in the administrative territorial entity", not P631 "part of"
-
-### A note on inverse properties (or the lack thereof)
-
-The majority of Wikidata properties that are meant to link 2 entities together do not have inverse properties. This is intentional. Instead of (for example) having a property saying that a recording was made in an area, and another property saying that an area was where a specific recording was made, Wikidata only has the property saying that a recording was made in a particular area, and SPARQL can handle the reverse lookup.
-
-The following properties/relationships were ignored because they are duplicates of their inverse:
-
-- Areas knowing what recordings/works/etc were made in their area, and areas knowing what series/etc are held in their location
-- Areas knowing what genres/instruments were named after them
+- To store the time (and date) that an event took place, I use P585 "point in time"
+- The event `setlist` field is ignored as it is difficult to parse and the same data is also located in the `relations` field

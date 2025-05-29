@@ -62,6 +62,7 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
         - For the convert_date function, if you call `Literal(...)` with `XSD.date` a datatype, it will eventually call `parse_date`, but not during the constructor, making any exceptions it raises impossible to catch, which is why I manually call it
     - The generated RDF files are saved in the `linkedmusic-datalake/data/musicbrainz/rdf/` directory.
     - Documentation regarding decisions made for properties is located in the `doc/musicbrainz/rdf_conversion.md` file
+    - Documentation regarding the `relations` field can be found in the `doc/musicbrainz/relations.md` file
 
 6. **Retrieving Genre Information**
     - Run the following script to scrape genres along with their reconciled WikiData IDs:
