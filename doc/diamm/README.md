@@ -4,7 +4,7 @@
 
 The website supports content negotiation, either by adding `?format=json` to the end of the URL or by sending the HTTP header `Accept: application/json`. To retrieve the data, we use a web crawler, either `code/diamm/crawler.py` or `code/diamm/async_crawler.py` for a much faster one. The data is sent to `data/diamm/raw/<type>/<pk>.json`
 
-The async crawler is rate limited to a maximum of 2 simultaneous connections, and up to 10 requests per second (globally, across all workers). This is a rate that was mentioned to be acceptable by Andrew Hankinson in [this](https://github.com/DDMAL/linkedmusic-datalake/pull/280#issuecomment-2898558404) pull request
+The async crawler is rate limited to a maximum of 2 simultaneous connections, and up to 10 requests per second (globally, across all workers). This is a rate that was mentioned to be acceptable by Andrew Hankinson in [his comment on pull request #280](https://github.com/DDMAL/linkedmusic-datalake/pull/280#issuecomment-2898558404) pull request
 
 I chose to not download the pages for cities, countries and regions because we can easily reconcile against Wikidata for that. The only information that they contain is the list of archives, sources, and organizations in that city/country/region, which we already have because archives, sources, and organizations also have a field indicating which city/country they're in.
 
