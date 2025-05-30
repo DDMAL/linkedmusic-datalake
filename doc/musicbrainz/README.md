@@ -50,10 +50,10 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
     - For each JSON Lines file, convert the data using:
 
         ```bash
-        python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --type_folder data/musicbrainz/raw/types_reconciled --output_folder data/musicbrainz/rdf/
+        python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --type_folder data/musicbrainz/raw/types_reconciled --config_folder doc/musicbrainz/rdf_conversion_config --output_folder data/musicbrainz/rdf/
         ```
 
-    - Note:
+    - Note on the script:
         - The script is optimized to be memory-efficient, but there's only so much you can do when one of the input files is >250GB.
         - The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store` from the script's working directory. The script will automatically delete the folder when it finishes, but if it crashes, it is recommended to delete the folder before running the script again.
         - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
@@ -61,6 +61,7 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
         - For ease of reading, the fields are processed in alphabetical order in `process_line`
         - For the `convert_date` function, if you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function, but not during the constructor, making any exceptions it raises impossible to catch, which is why I manually call it and pass its value to the constructor
         - The same thing applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function
+        - The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_regex.py` to reduce clutter in the main script
     - The generated RDF files are saved in the `linkedmusic-datalake/data/musicbrainz/rdf/` directory.
     - Documentation regarding decisions made for properties is located in the `doc/musicbrainz/rdf_conversion.md` file
     - Documentation regarding the `relations` field can be found in the `doc/musicbrainz/relations.md` file
