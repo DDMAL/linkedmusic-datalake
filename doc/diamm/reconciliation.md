@@ -1,6 +1,8 @@
 # DIAMM Database Reconciliation Details
 
-During every reconciliation step, if OpenRefine gives an error, select the entries that gave error messages and re-run the same reconciliation.
+This file describes the reconciliation steps taken in OpenRefine for each data type. All these steps are also reflected in the history files located in the `doc/diamm/reconciliation_files` folder
+
+During every reconciliation step, if OpenRefine gives an error, select the entries that gave error messages and re-run the same reconciliation. This seems to happen when we run too many reconciliations in parallel, and/or when the reconciliation API server is overwhelmed.
 
 ## Archives
 
