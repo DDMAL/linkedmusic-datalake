@@ -38,7 +38,7 @@ from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDFS, XSD
+from rdflib.namespace import XSD
 import pandas as pd
 import aiofiles
 from url_regex import DATABASES_REGEX
@@ -152,113 +152,26 @@ class MappingSchema:
                     to_return[pointing_to] = mapping
         return to_return
 
+    def add_from_formatted_dict(self, formatted_dict):
+        """
+        Add mappings from a formatted dictionary to the schema.
+        The formatted dictionary should have the same layout as the internal schema,
+        with the exception that values are full URLs instead of URIRefs.
+        Additionally, if keys corresponding to `pointing_from` are the string value
+        "null", they will be converted to None.
+        This is a convenience method to add mappings from a dictionary
+        that was the internal schema dictionary dumped to a JSON file.
+        """
+        self.add(
+            {
+                (key if key != "null" else None, k): URIRef(val)
+                for k, v in formatted_dict.items()
+                for key, val in v.items()
+            }
+        )
 
-# Define mapping from MusicBrainz to Wikidata, to pass to the above class
-mapping_schema = {
-    # Initialize MusicBrainz ID mappings
-    (None, "artist-id"): "P434",
-    (None, "release-group-id"): "P436",
-    (None, "release-id"): "P5813",
-    (None, "recording-id"): "P4404",
-    (None, "work-id"): "P435",
-    (None, "label-id"): "P966",
-    (None, "area-id"): "P982",
-    (None, "place-id"): "P1004",
-    (None, "event-id"): "P6423",
-    (None, "series-id"): "P1407",
-    (None, "instrument-id"): "P1330",
-    (None, "genre-id"): "P8052",
-    # General mappings
-    (None, "title"): "P1476",
-    (None, "date"): "P577",
-    (None, "genre"): "P136",
-    (None, "name"): RDFS.label,
-    (None, "type"): "P31",
-    (None, "alias"): "P4970",
-    (None, "begin-date"): "P571",
-    (None, "end-date"): "P576",
-    (None, "barcode"): "P3962",
-    (None, "asin"): "P5749",
-    (None, "coordinates"): "P625",
-    (None, "isni"): "P213",
-    (None, "ipi"): "P1828",
-    # Specific mappings for areas
-    ("area", "area"): "P131",
-    # Specific mappings for artists
-    ("artist", "area"): "P27",
-    ("artist", "gender"): "P21",
-    ("artist", "begin-area-person"): "P19",
-    ("artist", "end-area-person"): "P20",
-    ("artist", "begin-date-person"): "P569",
-    ("artist", "end-date-person"): "P570",
-    ("artist", "begin-area"): "P740",
-    # Specific mappings for events
-    ("event", "begin-date"): "P580",
-    ("event", "end-date"): "P582",
-    ("event", "time"): "P585",
-    # Specific mappings for instruments
-    ("instrument", "instrument"): "P279",
-    # Specific mappings for labels
-    ("label", "area"): "P17",
-    ("label", "labelcode"): "P7320",
-    # Specific mappings for places
-    ("place", "area"): "P131",
-    ("place", "address"): "P6375",
-    # Specific mappings for recordings
-    (("recording", "release-group", "release"), "artist"): "P175",
-    ("recording", "length"): "P2047",
-    # Specific mappings for release groups
-    ("release-group", "first-release-date"): "P577",
-    # Specific mappings for releases
-    ("release", "cdtoc"): "P527",
-    ("release", "recording"): "P658",
-    ("release", "label"): "P264",
-    ("release", "release-group"): "P361",
-    ("release", "area"): "P495",
-    # Specific mappings for series
-    # Specific mappings for works
-    # URL mappings
-    (None, "url"): "P2888",
-    (None, "geonames"): "P1566",
-    (None, "soundcloud"): "P3040",
-    (None, "ytc"): "P2397",
-    (None, "ytv"): "P1651",
-    (None, "ytp"): "P4300",
-    (None, "discogsa"): "P1953",
-    (None, "discogsw"): "P1954",
-    (None, "discogsl"): "P1955",
-    (None, "vgmdbr"): "P3483",
-    (None, "vgmdbl"): "P3511",
-    (None, "bba"): "P2607",
-    (None, "bbl"): "P8063",
-    (None, "imslp"): "P839",
-    (None, "imdb"): "P345",
-    (None, "applea"): "P2850",
-    (None, "appler"): "P2281",
-    (None, "applel"): "P9550",
-    (None, "applet"): "P10110",
-    (None, "viaf"): "P214",
-    (None, "lastfm"): "P3192",
-    (None, "rymr"): "P8392",
-    (None, "ryml"): "P7313",
-    (None, "ryma"): "P5404",
-    (None, "rymc"): "P11622",
-    (None, "rymv"): "P11600",
-    (None, "rymw"): "P11665",
-    (None, "rymt"): "P13056",
-    (None, "metalb"): "P1952",
-    (None, "metalr"): "P2721",
-    (None, "metall"): "P8166",
-    (None, "metala"): "P1989",
-    (None, "sammler"): "P9965",
-    (None, "worldcat"): "P10832",
-    (None, "bnf"): "P268",
-    (None, "rism"): "P5504",
-    (None, "dnb"): "P227",
-    (None, "loc"): "P244",
-}
 
-MB_SCHEMA = MappingSchema(mapping_schema)
+MB_SCHEMA = MappingSchema({})
 
 # Initialize the relationship mapping
 RELATIONSHIP_MAPPING = {}
@@ -967,7 +880,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--config_folder",
         default="../../doc/musicbrainz/rdf_conversion_config/",
-        help="Path to the folder containing MusicBrainz RDF conversion configuration files.",
+        help="Path to the folder containing MusicBrainz RDF conversion configuration files (the property and relationship mapping files).",
     )
     parser.add_argument(
         "--output_folder",
@@ -985,6 +898,9 @@ if __name__ == "__main__":
     if not config_folder.is_dir():
         print(f"{config_folder} is not a valid directory.")
         sys.exit(1)
+
+    with open(config_folder / "mappings.json", "r", encoding="utf-8") as fi:
+        MB_SCHEMA.add_from_formatted_dict(json.load(fi))
 
     with open(config_folder / "relations.json", "r", encoding="utf-8") as fi:
         RELATIONSHIP_MAPPING = json.load(fi)
