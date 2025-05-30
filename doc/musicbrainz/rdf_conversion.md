@@ -10,6 +10,13 @@ This documents any choices for properties in the RDF conversion process
 - Durations (in seconds) are stored in XSD:decimal, as they are numbers, this is also what wikidata does
 - Any and all URLs that are stored as plain URLs (instead of having IDs extracted if they links to other databases) are turned into URIRefs
 
+## Attributes
+
+The `work` entity type has an additional field `attributes` that contains a list of various attributes for that work. The vast majority of attribute types are more IDs to other databases, but there are a few other things like the key that the work is in, as well as non-Western things like the tala for example, which is the musical meter for Indian music.
+The vast majority of the databases don't have a property on Wikidata and since the field only contains IDs, not full URLs/URIs, I don't store the IDs for which there is no Wikidata ID. The file with all the attributes and the properties they map to can be found in `doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`. Attributes not present or that get mapped to `null`/`None` will be ignored by the RDF conversion script.
+
+### TODO: Figure out a way to reconcile the keys for the works
+
 ## Properties
 
 URLs linking to the following databases will be processed with their relevant wikidata property, and every other URL will be put as P2888 "exact match". Matching for the URLs is done with regex because despite there being properties for quite a few of these databases, there will be errors and some will end up listed as "other databases" anyways. Most of the regex patterns are taken from the wikidata pages for the properties, in the section where they list regex patterns to match URLs and extract the relevant IDs for the properties.

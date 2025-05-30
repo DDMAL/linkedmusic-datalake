@@ -65,7 +65,7 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
         - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `doc/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's keys are the target types, the second one's keys are source types, and the third one's keys are properties, with the values being the full URIs for the properties.
         - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
     - The generated RDF files are saved in the `linkedmusic-datalake/data/musicbrainz/rdf/` directory.
-    - Documentation regarding decisions made for properties is located in the `doc/musicbrainz/rdf_conversion.md` file
+    - Further documentation on the RDF conversion process is located in the `doc/musicbrainz/rdf_conversion.md` file
     - Documentation regarding the `relations` field can be found in the `doc/musicbrainz/relations.md` file
 
 6. **Retrieving Genre Information**

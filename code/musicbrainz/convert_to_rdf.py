@@ -122,6 +122,10 @@ class MappingSchema:
         """Check if a type is in the schema."""
         return t in self.schema
 
+    def __bool__(self):
+        """Check if the schema is not empty."""
+        return bool(self.schema)
+
     def add(self, schema):
         """Add an additional mapping to the schema, with the same properties and behaviour as init."""
         for types, mapping in schema.items():
@@ -173,16 +177,17 @@ class MappingSchema:
 
 MB_SCHEMA = MappingSchema({})
 
-# Initialize the relationship mapping
+# Initialize the relationship and attribute mappings
 RELATIONSHIP_MAPPING = {}
+ATTRIBUTE_MAPPING = {}
 
 CHUNK_SIZE = 500  # Adjustable chunk size
 # Max number of chunk processing threads to run simultaneously
 MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
 # Max number of processes to run simultaneously
 MAX_PROCESSES = min(MAX_SIMULTANEOUS_CHUNK_WORKERS, os.cpu_count() or 1)
-MAX_CHUNKS_IN_MEMORY = 150  # Max number of chunks to keep in memory at once
-MAX_SUBGRAPHS_IN_MEMORY = 150  # Max number of subgraphs to keep in memory at once
+MAX_CHUNKS_IN_MEMORY = 120  # Max number of chunks to keep in memory at once
+MAX_SUBGRAPHS_IN_MEMORY = 120  # Max number of subgraphs to keep in memory at once
 
 # If the input file is bigger (in bytes) than this, it will use Oxigraph to store the graph
 # Otherwise it will use rdflib's in-memory graph
@@ -232,7 +237,7 @@ def convert_datetime(date_str: str, time_str: str) -> Literal:
         return Literal(date_str)  # Fallback to a plain literal if conversion fails
 
 
-def process_line(data, entity_type, mb_schema, relationship_mapping, type_mapping, g):
+def process_line(data, entity_type, mb_schema, relationship_mapping, type_mapping, attribute_mapping, g):
     """Process a single line of JSON data and add it to the RDF graph."""
     entity_id = data.get("id")
     if not entity_id:
@@ -320,6 +325,20 @@ def process_line(data, entity_type, mb_schema, relationship_mapping, type_mappin
                 Literal(asin),
             )
         )
+
+    # Process attributes
+    for attribute in data.get("attributes", []):
+        if (attribute_type := attribute.get("type")) and (
+            attribute_value := attribute.get("value")
+        ):
+            if pred := attribute_mapping.get(attribute_type):
+                g.add(
+                    (
+                        subject_uri,
+                        pred,
+                        Literal(attribute_value),
+                    )
+                )
 
     # Process barcode
     if barcode := data.get("barcode"):
@@ -608,7 +627,7 @@ def process_line(data, entity_type, mb_schema, relationship_mapping, type_mappin
         g.add((subject_uri, mb_schema["title"], Literal(title)))
 
 
-def process_chunk(chunk, entity_type, mb_schema, relationship_mapping, type_mapping):
+def process_chunk(chunk, entity_type, mb_schema, relationship_mapping, type_mapping, attribute_mapping):
     """Process a chunk of data and add it to the subgraph."""
     g = Graph()
     for i, line in enumerate(chunk):
@@ -620,6 +639,7 @@ def process_chunk(chunk, entity_type, mb_schema, relationship_mapping, type_mapp
                 mb_schema,
                 relationship_mapping,
                 type_mapping,
+                attribute_mapping,
                 g,
             )
         except json.JSONDecodeError:
@@ -662,6 +682,7 @@ async def subgraph_worker(
                 mb_schema,
                 relationship_mapping,
                 type_mapping,
+                ATTRIBUTE_MAPPING,
             )
 
             await subgraph_queue.put(g)  # Add the subgraph to the queue
@@ -911,6 +932,18 @@ if __name__ == "__main__":
 
     with open(config_folder / "mappings.json", "r", encoding="utf-8") as fi:
         MB_SCHEMA.add_from_formatted_dict(json.load(fi))
+    if not MB_SCHEMA:
+        print("No mappings found in the configuration file.")
+        sys.exit(1)
+
+    with open(config_folder / "attribute_mapping.json", "r", encoding="utf-8") as fi:
+        ATTRIBUTE_MAPPING = json.load(fi)
+    if not ATTRIBUTE_MAPPING:
+        print("No attribute mapping found in the configuration file.")
+        sys.exit(1)
+
+    for k, v in ATTRIBUTE_MAPPING.items():
+        ATTRIBUTE_MAPPING[k] = URIRef(f"{WDT}{v}") if v else None
 
     with open(config_folder / "relations.json", "r", encoding="utf-8") as fi:
         RELATIONSHIP_MAPPING = json.load(fi)
