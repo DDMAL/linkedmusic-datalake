@@ -2,8 +2,8 @@
 
 ## 1. Getting Data Dumps
 
-- `data/cantus/mappings/sources.json` is a file which contains a list of source ids in Cantus DB that is automatically updated.
-- `code/cantus/fetch.py` makes API calls to Cantus DB and fetches all the source CSVs into the `data/cantus/raw/` folder.
+- `data/cantus/mappings/sources.json` is a file which contains a list of source ids in Cantus DB that is automatically updated when the fetching script is run.
+- `code/cantus/fetch.py` updates the above sources file and makes API calls to Cantus DB and fetches all the source CSVs into the `data/cantus/raw/` folder.
 - `code/cantus/merge.py` merges all the CSVs into one large cantus.csv that contains all the sources.
   - For testing, a `sources_short.json` is used. It uses the first 10 sources as samples. Set `TESTING` to `True` in `fetch.py` to use this.
 
@@ -18,9 +18,9 @@ Some cells in the original CSV export are in abbreviations. Two TSV files in the
 - [genres.tsv](https://cantusdatabase.org/genres/)
 - [services.tsv](https://cantusdatabase.org/offices/)
 
-The `code/cantus/fetch.py` script takes care of implementing both abbreviation mappings.
+The `code/cantus/merge.py` script takes care of implementing both abbreviation mappings.
 
-The ```cantus.csv``` should be imported into OpenRefine for further operations.
+The ```cantus.csv``` file should be imported into OpenRefine for further operations.
 
 ## 3. Reconciliation with OpenRefine
 
@@ -49,6 +49,8 @@ Made-up URIs of Properties:
 - https://cantusdatabase.org/finalis
 - https://cantusdatabase.org/extra
 
+These are currently used in the JSON-LD context file, and will be changed to Wikidata properties when the Turtle conversion is implemented.
+
 ## 4. Reconcile column names and generating json-ld
 
 Currently the json-ld is generated as follows in `jsonld_approach/cantusdb/jsonld/generate_jsonld.py`:
@@ -59,3 +61,5 @@ Currently the json-ld is generated as follows in `jsonld_approach/cantusdb/jsonl
 - The contexts used in the compact.jsonld file is imported from `jsonld_approach/cantusdb/jsonld/context.jsonld`
 
 The `generate_jsonld.py` script should also be run from the repository root directory.
+
+### TODO: Convert to Turtle instead
