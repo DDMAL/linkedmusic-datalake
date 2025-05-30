@@ -420,6 +420,16 @@ def process_line(data, entity_type, mb_schema, relationship_mapping, type_mappin
             )
         )
 
+    # Process ISWCs
+    for iswc in data.get("iswcs", []):
+        g.add(
+            (
+                subject_uri,
+                mb_schema["iswc"],
+                Literal(iswc),
+            )
+        )
+
     # Process label code
     if label_code := data.get("label-code"):
         g.add(

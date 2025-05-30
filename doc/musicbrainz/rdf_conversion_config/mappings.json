@@ -136,6 +136,9 @@
     "release-group": {
         "release": "http://www.wikidata.org/prop/direct/P361"
     },
+    "iswc": {
+        "work": "http://www.wikidata.org/prop/direct/P1827"
+    },
     "url": {
         "null": "http://www.wikidata.org/prop/direct/P2888"
     },
