@@ -237,7 +237,15 @@ def convert_datetime(date_str: str, time_str: str) -> Literal:
         return Literal(date_str)  # Fallback to a plain literal if conversion fails
 
 
-def process_line(data, entity_type, mb_schema, relationship_mapping, type_mapping, attribute_mapping, g):
+def process_line(
+    data,
+    entity_type,
+    mb_schema,
+    relationship_mapping,
+    type_mapping,
+    attribute_mapping,
+    g,
+):
     """Process a single line of JSON data and add it to the RDF graph."""
     entity_id = data.get("id")
     if not entity_id:
@@ -627,7 +635,9 @@ def process_line(data, entity_type, mb_schema, relationship_mapping, type_mappin
         g.add((subject_uri, mb_schema["title"], Literal(title)))
 
 
-def process_chunk(chunk, entity_type, mb_schema, relationship_mapping, type_mapping, attribute_mapping):
+def process_chunk(
+    chunk, entity_type, mb_schema, relationship_mapping, type_mapping, attribute_mapping
+):
     """Process a chunk of data and add it to the subgraph."""
     g = Graph()
     for i, line in enumerate(chunk):
@@ -646,8 +656,11 @@ def process_chunk(chunk, entity_type, mb_schema, relationship_mapping, type_mapp
             continue
         except (KeyError, AttributeError) as e:
             with tqdm.get_lock():
-                tqdm.write(f"KeyError or AttributeError in line {i} of chunk: {e}")
-            print(f"{type(e).__name__} in line {i} of chunk: {e}")
+                tqdm.write(f"{type(e).__name__} in line {i} of chunk: {e}")
+            continue
+        except Exception as e:
+            with tqdm.get_lock():
+                tqdm.write(f"Unexpected error in line {i} of chunk: {e}")
             continue
         finally:
             chunk[i] = None  # Clear the processed line to free memory
@@ -674,16 +687,28 @@ async def subgraph_worker(
             chunk = await chunk_queue.get()
 
             # Process the chunk in a separate process to speed up the processing
-            g = await loop.run_in_executor(
-                executor,
-                process_chunk,
-                chunk,
-                entity_type,
-                mb_schema,
-                relationship_mapping,
-                type_mapping,
-                ATTRIBUTE_MAPPING,
+            g = await asyncio.gather(
+                loop.run_in_executor(
+                    executor,
+                    process_chunk,
+                    chunk,
+                    entity_type,
+                    mb_schema,
+                    relationship_mapping,
+                    type_mapping,
+                    ATTRIBUTE_MAPPING,
+                ),
+                return_exceptions=True,
             )
+            g = g[0]
+
+            # Handle any exceptions raised by the process
+            if isinstance(g, Exception):
+                chunk_queue.task_done()
+                with tqdm.get_lock():
+                    tqdm.write(f"Error processing chunk: {g}")
+                    chunk_bar.update(1)
+                continue
 
             await subgraph_queue.put(g)  # Add the subgraph to the queue
             chunk_queue.task_done()
@@ -717,7 +742,8 @@ async def graph_worker(subgraph_queue, main_graph, subgraph_bar):
             await loop.run_in_executor(None, merge_subgraph, main_graph, subgraph)
 
             subgraph_queue.task_done()
-            subgraph_bar.update(1)
+            with tqdm.get_lock():
+                subgraph_bar.update(1)
     except asyncio.CancelledError:
         sigint = True
     except Exception as e:
@@ -729,7 +755,8 @@ async def graph_worker(subgraph_queue, main_graph, subgraph_bar):
                 subgraph = await subgraph_queue.get()
                 await loop.run_in_executor(None, merge_subgraph, main_graph, subgraph)
                 subgraph_queue.task_done()
-                subgraph_bar.update(1)
+                with tqdm.get_lock():
+                    subgraph_bar.update(1)
 
 
 async def get_final_graph(
@@ -795,11 +822,13 @@ async def get_final_graph(
                     if len(chunk) >= CHUNK_SIZE:
                         await chunk_queue.put(chunk)
                         chunk = []
-                    file_bar.update(1)
+                    with tqdm.get_lock():
+                        file_bar.update(1)
                 if chunk:  # Process the remaining last chunk
                     await chunk_queue.put(chunk)
 
-            file_bar.refresh()
+            with tqdm.get_lock():
+                file_bar.refresh()
 
             await chunk_queue.join()  # Wait for all chunks to be processed
 
@@ -818,8 +847,7 @@ async def get_final_graph(
             await asyncio.gather(merge_worker)
 
             file_bar.close()
-            with tqdm.get_lock():
-                chunk_bar.close()
+            chunk_bar.close()
             subgraph_bar.close()
         except KeyboardInterrupt:
             executor.shutdown(wait=False, cancel_futures=True)
