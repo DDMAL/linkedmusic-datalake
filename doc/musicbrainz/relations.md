@@ -12,7 +12,7 @@ Some relationships are homogeneous (same source and target type), like for examp
 
 ## Decisions made regarding property mappings
 
-- Lorem ipsum
+- To be filled once work on mapping relations starts
 
 ## A note on inverse properties (or the lack thereof)
 
@@ -20,4 +20,4 @@ The majority of Wikidata properties that are meant to link 2 entities together d
 
 The following properties/relationships were ignored because they are duplicates of their inverse:
 
-- Lorem ipsum
+- To be filled once work on mapping relations starts

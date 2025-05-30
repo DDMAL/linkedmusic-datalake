@@ -1,6 +1,6 @@
 # MusicBrainz Data Conversion Documentation
 
-This guide outlines the steps required to preprocess, convert, and postprocess MusicBrainz data. Follow the steps below to ensure a smooth data conversion and upload process.
+This guide outlines the steps required for the entire MusicBrainz data pipeline. Follow the steps below to ensure a smooth data conversion and upload process.
 
 ## Prerequisites/What is already completed
 
@@ -23,7 +23,7 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
     - The downloaded files are stored in:
         `linkedmusic-datalake/data/musicbrainz/raw/archived/`
     - The script downloads the data from MusicBrainz, always choosing the latest dump.
-    - The downloaded `.tar.xz` files include a `mbdump` folder with entity-specific files. Each file is formatted with JSON Lines, where each line is a separate JSON record. The other files in the `.tar.xz` files aren't useful for data processing, they contain tings like the timestamp of the dump and the data license.
+    - The downloaded `.tar.xz` files include a `mbdump` folder with a single file containing all entities of that type. Each file is formatted with JSON Lines, where each line is a separate JSON record. The other files in the `.tar.xz` files aren't useful for data processing, they contain things like the timestamp of the dump and the data license.
 
 3. **Extracting JSON Lines Files**
     - Execute the following command to extract JSON Lines files from the archives:
@@ -44,7 +44,7 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
 
     - It will extract the types for each entity type, except for those contained in the `IGNORE_TYPES` list, those don't have any types, so it's pointless to parse them.
     - Each CSV will be named "{entity-type}_types.csv", and will be located in the `data/musicbrainz/raw/types` folder
-    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the types against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/types-reconciled` folder, naming each one "{entity_type}-types-csv.csv"
+    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the types against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/types-reconciled` folder, naming each one `f"{entity_type}-types-csv.csv"`
 
 5. **Converting Data to RDF (Turtle Format)**
     - For each JSON Lines file, convert the data using:
@@ -59,7 +59,8 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
         - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
         - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script
         - For ease of reading, the fields are processed in alphabetical order in `process_line`
-        - For the convert_date function, if you call `Literal(...)` with `XSD.date` a datatype, it will eventually call `parse_date`, but not during the constructor, making any exceptions it raises impossible to catch, which is why I manually call it
+        - For the `convert_date` function, if you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function, but not during the constructor, making any exceptions it raises impossible to catch, which is why I manually call it and pass its value to the constructor
+        - The same thing applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function
     - The generated RDF files are saved in the `linkedmusic-datalake/data/musicbrainz/rdf/` directory.
     - Documentation regarding decisions made for properties is located in the `doc/musicbrainz/rdf_conversion.md` file
     - Documentation regarding the `relations` field can be found in the `doc/musicbrainz/relations.md` file
@@ -76,12 +77,7 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
     - The RDF is stored in `linkedmusic-datalake/data/musicbrainz/rdf/`
 
 7. **Key Properties Extracted**
-    - The conversion process extracts:
-        - Name, type, aliases, genre.
-        - Relation (among different MusicBrainz entity types).
-        - Relation (url link relations, including those with WikiData).
-            - MusicBrainz automatically reconciles the main entities against WikiData. If an entity is not reconciled in MusicBrainz, it's most likely that it's not present on WikiData. Thus, manual reconciliation with OpenRefine is largely redundant.
-            - Note that the MusicBrainz `type` properties are not reconciled to WikiData by MusicBrainz, which is why we reconcile them using OpenRefine.
+    - The conversion process extracts as many properties as it can from each entity type, searching the fields of the JSON file, as well as all relations in the `relations` field, and all attributes in the `attributes` field.
 
 ## Data Upload
 
@@ -89,8 +85,10 @@ This guide outlines the steps required to preprocess, convert, and postprocess M
 
 ## Script Testing
 
-If you're experimenting on the scripts, it's recommended to take a small subset of the data, to save time. As an example, to get the first 100000 lines from the `area` file, run the following command:
+If you're experimenting on the scripts, it's recommended to take a small subset of the data, to save time. As an example, to get the first 100000 lines from the `area` file, run the following command in a terminal:
 
 ```bash
 head -n 100000 area.jsonl > small_area.jsonl
 ```
+
+This greatly speeds up the processing, because some files have up to 5 million lines, and it is unnecessary to test against the entire dataset when making minor changes

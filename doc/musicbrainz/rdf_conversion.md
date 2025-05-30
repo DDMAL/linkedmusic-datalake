@@ -6,15 +6,17 @@ This documents any choices for properties in the RDF conversion process
 
 - Any literal value not given an explicit type will default to XSD:string. This is expected behaviour of the RDF standard.
 - Dates are given the type XSD:date, this is what wikidata uses, if something has a date and time, it will be in XSD:datetime
-- Coordinates (lat/lon) are given the GEO: wktLiteral, this is what wikidata uses
-- Durations (in seconds) are stored in XSD:decimal, as they are numbers
-- Any and all URLs that are stored as such are turned into URIRefs
+- Coordinates (lat/lon) are given the GEO:wktLiteral type in the format `f"Point({lat} {lon})"`; this is what wikidata uses
+- Durations (in seconds) are stored in XSD:decimal, as they are numbers, this is also what wikidata does
+- Any and all URLs that are stored as plain URLs (instead of having IDs extracted if they links to other databases) are turned into URIRefs
 
 ## Properties
 
-URLs linking to the following databases will be processed with their relevant wikidata property, and every other URL will be put as P2888 "exact match". Matching for the URLs is done with regex because despite there being properties for quite a few of these databases, there will be errors and some will end up listed as "other databases" anyways. Most of the regex patterns are taken from the wikidata pages for the properties.
+URLs linking to the following databases will be processed with their relevant wikidata property, and every other URL will be put as P2888 "exact match". Matching for the URLs is done with regex because despite there being properties for quite a few of these databases, there will be errors and some will end up listed as "other databases" anyways. Most of the regex patterns are taken from the wikidata pages for the properties, in the section where they list regex patterns to match URLs and extract the relevant IDs for the properties.
 
-To match the URLs, every url is matched against the entire regex list, stopping if a match is found. If a match is found, then the property corresponding to that match will be used, and otherwise, the default (P2888) will be used.
+To match the URLs, every url is matched against the entire regex list, stopping if a match is found. If a match is found, the relevant ID for the property will be extracted, then the property corresponding to that match will be used, and otherwise, the default (P2888) will be used.
+
+Some databases have multiple properties, differentiating between entity types (like MusicBrainz), while others only have 1 property for all datatypes (like RISM). This is handled by the script because the regex patterns have been customized to properly match what the Wikidata property expects.
 
 - Wikidata: P2888 (there is no other for this), convert from `https://wikidata.org/wiki/...` to `https://wikidata.org/entity/...`
 - Geonames: P1566
@@ -46,7 +48,7 @@ Now for the other properties:
 - To store ASINs (Amazon Standard Identification Number), I use P5749 "Amazon Standard Identification Number", as it is an exact match
 - To store IPI (Interested Parties Information) numbers, I use P1828 "IPI name number" as what's in the database is the name number, not the base code
 - Label codes are codes issued by the GVL, and they map to P7320 "labelcode"
-- To indicate that a release contains a specific disc, I use P527 "has part", which is the inverse of P361 "has part"
+- To indicate that a release contains a specific disc, I use P527 "has part", which is the inverse of P361 "part of"
 - To indicate that a release contains a recording, I use P658 "tracklist"
 - To indicate titles of albums, songs, releases, etc I use P1476 "title", which applies to any creative work
 - To indicate release/publication dates for songs/albums/releases, I use P577 "publication date", which applies to all works
