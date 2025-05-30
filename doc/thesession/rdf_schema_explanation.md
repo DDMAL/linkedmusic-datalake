@@ -69,54 +69,35 @@ Apart from artists and composers id, the dataset omits various memeber-related s
 ## 3.2 events.csv
 events.csv contains all the live traditional Irish music events that thesession.org keeps track of. In this section 
 
-Here is an explanation of each of the columns of event csv
+Here is an explanation of each of the columns in events. csv
 
-| Column         | Description                                             | Example                                                       | Predicate                 | Additional Remarks                                  |
-|----------------|---------------------------------------------------------|----------------------------------------------------------------|---------------------------|-----------------------------------------------------|
-| events_id      | The session URI for an event                            | https://thesession.org/events/11                              | None (subject)            |                                                     |
-| event          | Name of the event                                       | Colm Gannon, Sean Mckeon And John Blake                      | `rdfs:label`              | Mostly in English, occasionally in Irish Gaelic     |
-| dtstart        | Event start date and time (ISO 8601 format)             | 2006-06-07T09:30:00                                           | `wdt:P580`                |                                                     |
-| dtend          | Event end date and time (ISO 8601 format)               | 2006-06-07T12:00:00                                           | `wdt:P582`                |                                                     |
-| venue          | Name of the venue                                       | The Goalpost                                                  | `wdt:P276`                | We will create a blank node                         |
-| address        | Street address of the venue                             | 226 Water Street                                              | `wdt:6375`                | Not reconciled                                      |
-| town           | Name of the town or city                                | Quincy                                                        | `wdt:P276`                |                                                     |
-| area           | State, province, or regional area                       | Massachusetts                                                 | Not stored                | Only stored if town is unreconciled                 |
-| country        | Country of the event location                           | United States                                                 | `wdt:P37`                 |                                                     |
-| latitude       | Latitude of the event location                          | 42.24073792                                                   | Not stored                | Not stored because redundant with "coordinate"      |
-| coordinate     | Full geospatial point (latitude and longitude)          | Point(42.24073792 -71.00814819)                               | `wdt:P625`                |                                                     |
-| longitude      | Longitude of the event location                         | -71.00814819                                                  | Not stored                | Not stored because redundant with "coordinate"      |
+| Column     | Description                  | Example                          |
+|------------|------------------------------|----------------------------------|
+| events_id  | Event URI                    | https://thesession.org/events/11 |
+| event      | Event name                   | Colm Gannon, Sean Mckeon         |
+| dtstart    | Start datetime (ISO 8601)    | 2006-06-07T09:30:00              |
+| dtend      | End datetime (ISO 8601)      | 2006-06-07T12:00:00              |
+| venue      | Venue name                   | The Goalpost                     |
+| address    | Venue address               | 226 Water Street                 |
+| town       | Location: town or city       | Quincy                           |
+| area       | Location: Province, region, or state| Massachusetts                    |
+| country    | Location: Country       | United States                    |
+| latitude   | Location: Latitude                  | 42.24073792                      |
+| coordinate | Location: Coordinate point (WKT format)   | Point(42.24073792 -71.00814819)  |
+| longitude  | Location: Longitude              | -71.00814819                     |
+
+### 3.2.1 Mapping events.csv to RDF
+will complete
+
+##
 
 
 
 
-Stored as literal means that we will not attempt to reconcile the column against Wikidata. 
 
-#### Event Identifiers
 
-- event_id: The primary key; URI in the format "https://thesession.org/events/{number}"
 
-The following is unreconciliable (i.e. do not have equivalent entities in Wikidata). As of now, we are not adding new entries to Wikidata, so we will store unreconcilibale fields as Literals (e.g. "Irish Cultural Centre"@en):
-- event: the name of the event (e.g. National Celtic Festival). == rdfs:label 
 
-#### Event Time
 
-The following are stored as literals with the identifier xsd:dateTime, which is the standard datatype for dates.
-- dtstart: start time of event == P580 
-- dtend: end time of event == P582  
 
-#### Event Location
-
-Unreconciliable (stored as literals):
-- venue == P276 
-- address == P6375 of venue (i.e. \<venue\> \<P6375\> \<address\>)
-
-Largely Reconciliable (if reconciled, stored as URI):
-- town: the city (or equivalent administrative region) where the event took place. == P276
-- area: the province/territory (or equivalent administrative region). == P276 if town is unreconciled, otherwise not stored
-- country == P17
-
-In most cases the P276 (location) of the event returns the venue (literal) and the town (URI). This is ot ideal, but the best apparent solution.
-
-Unreconciliable (stored as geo:wktLiteral (e.g. Point(40.52559280 141.45117188)^^geo:wktLiteral )):
-- coordinate: longitude and latitude stored in WKT format (e.g. Point(40.52559280 141.45117188)) == P625
 
