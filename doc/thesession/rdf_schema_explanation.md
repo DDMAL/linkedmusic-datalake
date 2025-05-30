@@ -47,15 +47,44 @@ On the other hand, sessions are like "jam sessions", in which attendees are expe
 #### Question 2: Why is there not an artists.csv, nor a composers.csv?
 Good question! You may have noticed on thesession.org that recordings have artists (https://thesession.org/recordings/artists/2983) and that tunes sometimes have composers (https://thesession.org/tunes/composers/2). However, thesession.org was not designed to be artist-centered, and artist profile contains almost no information on the artists, apart from an occasional Bandcamp or Soundcloud link. 
 
-Besides, we really should avoid referencing this URI pattern (https://thesession.org/recordings/artists/{number}) in our RDF, since it's really confusing. 
+Besides, we really wish to avoid referencing this URI pattern (https://thesession.org/recordings/artists/{number}) in our RDF, since it is really confusing. 
 
-Considering additionally that thesession.org may not be set up to handle thousands of concurrent request,  we have decided not to scrape the site for artists or composers id. We at least have the artist's name as a string in recordings.csv.
+Considering additionally that thesession.org may not be set up to handle too many of concurrent request,  we recommend not to scrape the websitesite for artists or composers id.
 
-#### Question 3: Tune Set vs Tunebook vs Tune Collection???
+#### Question 3: What additional data exists the thesession.org, but is not included in our dataset?
+Apart from artists and composers id, the dataset omits various memeber-related statistics that could be retrieved from scraping thesession.org. Thankfully, most of these data do not seem relevant to the LinkedMusic project.
 
 
-## 3.2 Schema of Events.CSV
-events.csv contains all the live traditional Irish music events that thesession.org keeps track of. In this section I will explain the different columns in events.csv (so that you don't have to struggle as much!) and how we create our RDF graph from them.
+|data | description | additional remarks|
+|------|-------------|------------------|
+|member | 
+|trip |
+|discussions|
+|tunebook
+|tune set
+|bookmark
+|tag
+
+
+## 3.2 events.csv
+events.csv contains all the live traditional Irish music events that thesession.org keeps track of. In this section 
+
+Here is an explanation of each of the columns of event csv
+
+| Column         | Description                                             | Example                                                       | Predicate                 | Additional Remarks                                  |
+|----------------|---------------------------------------------------------|----------------------------------------------------------------|---------------------------|-----------------------------------------------------|
+| events_id      | The session URI for an event                            | https://thesession.org/events/11                              | None (subject)            |                                                     |
+| event          | Name of the event                                       | Colm Gannon, Sean Mckeon And John Blake                      | `rdfs:label`              | Mostly in English, occasionally in Irish Gaelic     |
+| dtstart        | Event start date and time (ISO 8601 format)             | 2006-06-07T09:30:00                                           | `wdt:P580`                |                                                     |
+| dtend          | Event end date and time (ISO 8601 format)               | 2006-06-07T12:00:00                                           | `wdt:P582`                |                                                     |
+| venue          | Name of the venue                                       | The Goalpost                                                  | `wdt:P276`                | We will create a blank node                         |
+| address        | Street address of the venue                             | 226 Water Street                                              | `wdt:6375`                | Not reconciled                                      |
+| town           | Name of the town or city                                | Quincy                                                        | `wdt:P276`                |                                                     |
+| area           | State, province, or regional area                       | Massachusetts                                                 | Not stored                | Only stored if town is unreconciled                 |
+| country        | Country of the event location                           | United States                                                 | `wdt:P37`                 |                                                     |
+| latitude       | Latitude of the event location                          | 42.24073792                                                   | Not stored                | Not stored because redundant with "coordinate"      |
+| coordinate     | Full geospatial point (latitude and longitude)          | Point(42.24073792 -71.00814819)                               | `wdt:P625`                |                                                     |
+| longitude      | Longitude of the event location                         | -71.00814819                                                  | Not stored                | Not stored because redundant with "coordinate"      |
 
 
 
