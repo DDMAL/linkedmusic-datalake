@@ -2,7 +2,7 @@
 
 This file explains the layout of the CSV files produced by the CSV conversion script.
 
-In addition to the fields described below, each table, except for `relations` will have an `id` column that will hold the ID (or primary key) for that entity type.
+In addition to the fields described below, each table, except for `relations`, will have an `id` column that will hold the ID (or primary key) for that entity type.
 
 ## Archives
 
@@ -47,7 +47,7 @@ Compositions, and both source fields will be in relations
 
 ## Relations
 
-This will hold all relationships between objects. `key1` will contain the object whose type is alphabetically before the other (per example, `key1` will contain `author` and `key2` will contain `source`, but not vice-versa).
+This will hold all relationships between objects. `key1` will contain the object whose type is alphabetically before the other (for example, `key1` will contain `author` and `key2` will contain `source`, but not vice-versa).
 
 - `key1` and `key2` will have the format `type:pk` (for example `archive:1`) and denote the keys linked by the relationship
 - `type` will be used to differentiate between relationship types between the same 2 entity types: for example for people-source relationships, where a person can have different types of relationships with a source (sources that they copied, sources that they are related to, etc)
