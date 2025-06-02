@@ -22,7 +22,7 @@ All of the CSV files produced by `code/diamm/to_csv.py`, except for `relations.c
 
 The `code/diamm/convert_rdf.py` will take the reconciled CSVs and the relations CSV and merge everything and will produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
 
-For all properties that were reconciled against Wikidata (eg city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead.
+For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead.
 
 Some properties of interest:
 
