@@ -1,0 +1,2785 @@
+[
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q1288568",
+        "name": "modern language"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Parla_Language_Name to type Q1288568"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Ga",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33287",
+      "name": "Ga",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ga (Q33287) for cells containing \"Ga\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Ibo",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33578",
+      "name": "Igbo",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Igbo (Q33578) for cells containing \"Ibo\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Tagalog",
+    "judgment": "matched",
+    "match": {
+      "id": "Q34057",
+      "name": "Tagalog",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tagalog (Q34057) for cells containing \"Tagalog\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Even (Lamut)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q29960",
+      "name": "Even",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 70
+    },
+    "shareNewTopics": false,
+    "description": "Match item Even (Q29960) for cells containing \"Even (Lamut)\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Khasi",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33584",
+      "name": "Khasi",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Khasi (Q33584) for cells containing \"Khasi\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Mandarin",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9192",
+      "name": "Mandarin",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mandarin (Q9192) for cells containing \"Mandarin\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Lak",
+    "judgment": "matched",
+    "match": {
+      "id": "Q36206",
+      "name": "Lak",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Lak (Q36206) for cells containing \"Lak\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Konkani",
+    "judgment": "matched",
+    "match": {
+      "id": "Q34239",
+      "name": "Konkani",
+      "types": [
+        "Q33742",
+        "Q152559",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Konkani (Q34239) for cells containing \"Konkani\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Cuna",
+    "judgment": "matched",
+    "match": {
+      "id": "Q125591329",
+      "name": "Cuna",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Cuna (Q125591329) for cells containing \"Cuna\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Arabic (Egypt)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q29919",
+      "name": "Egyptian Arabic",
+      "types": [
+        "Q33384",
+        "Q1288568",
+        "Q33742"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Egyptian Arabic (Q29919) for cells containing \"Arabic (Egypt)\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Tonga",
+    "judgment": "matched",
+    "match": {
+      "id": "Q34101",
+      "name": "Tonga",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tonga (Q34101) for cells containing \"Tonga\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Mari",
+    "judgment": "matched",
+    "match": {
+      "id": "Q973685",
+      "name": "Mari",
+      "types": [
+        "Q152559",
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mari (Q973685) for cells containing \"Mari\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Makiritare",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3082027",
+      "name": "Ye'kuana",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 95
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ye'kuana (Q3082027) for cells containing \"Makiritare\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Olo",
+    "judgment": "matched",
+    "match": {
+      "id": "Q592162",
+      "name": "Olo",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Olo (Q592162) for cells containing \"Olo\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Hindi",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1568",
+      "name": "Hindi",
+      "types": [
+        "Q286576",
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hindi (Q1568) for cells containing \"Hindi\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Toradja",
+    "judgment": "matched",
+    "match": {
+      "id": "Q36673",
+      "name": "Toraja-Sa’dan",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 71
+    },
+    "shareNewTopics": false,
+    "description": "Match item Toraja-Sa’dan (Q36673) for cells containing \"Toradja\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Yugoslav (Serbo-Croatian?)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9301",
+      "name": "Serbo-Croatian",
+      "types": [
+        "Q34770",
+        "Q152559",
+        "Q1288568",
+        "Q250858"
+      ],
+      "score": 76
+    },
+    "shareNewTopics": false,
+    "description": "Match item Serbo-Croatian (Q9301) for cells containing \"Yugoslav (Serbo-Croatian?)\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Casiguran",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6374525",
+      "name": "Kasiguranin",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 90
+    },
+    "shareNewTopics": false,
+    "description": "Match item Kasiguranin (Q6374525) for cells containing \"Casiguran\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Ainu",
+    "judgment": "matched",
+    "match": {
+      "id": "Q27969",
+      "name": "Ainu",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ainu (Q27969) for cells containing \"Ainu\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Arabic (Chad)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q13955",
+      "name": "Arabic",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Arabic (Q13955) for cells containing \"Arabic (Chad)\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Rif (Moroccan)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q34174",
+      "name": "Tarifit",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 48
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tarifit (Q34174) for cells containing \"Rif (Moroccan)\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Jivaro",
+    "judgment": "matched",
+    "match": {
+      "id": "Q617291",
+      "name": "Shuar",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Shuar (Q617291) for cells containing \"Jivaro\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Chuckchee",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33170",
+      "name": "Chukchi",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Chukchi (Q33170) for cells containing \"Chuckchee\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Kalabari (Ijaw)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q35697",
+      "name": "Kalabari",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Kalabari (Q35697) for cells containing \"Kalabari (Ijaw)\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Madi",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6727664",
+      "name": "Madi",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Madi (Q6727664) for cells containing \"Madi\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Djuka",
+    "judgment": "matched",
+    "match": {
+      "id": "Q10267713",
+      "name": "Djukas",
+      "types": [
+        ""
+      ],
+      "score": 45.5
+    },
+    "shareNewTopics": false,
+    "description": "Match item Djukas (Q10267713) for cells containing \"Djuka\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Parla_Language_Name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Parla_Language_Name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Parla_Language_Name",
+    "similarValue": "Burera",
+    "judgment": "matched",
+    "match": {
+      "id": "Q12360463",
+      "name": "Burera",
+      "types": [
+        ""
+      ],
+      "score": 50
+    },
+    "shareNewTopics": false,
+    "description": "Match item Burera (Q12360463) for cells containing \"Burera\" in column Parla_Language_Name"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q41710",
+        "name": "ethnic group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Culture to type Q41710"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Ga",
+    "judgment": "matched",
+    "match": {
+      "id": "Q106526076",
+      "name": "Ga people",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ga people (Q106526076) for cells containing \"Ga\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Paris",
+    "judgment": "matched",
+    "match": {
+      "id": "Q105740844",
+      "name": "Parisians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Parisians (Q105740844) for cells containing \"Paris\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Haiti",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4131845",
+      "name": "Haitians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Haitians (Q4131845) for cells containing \"Haiti\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Bontoc",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4093365",
+      "name": "Bontoc people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 83
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bontoc people (Q4093365) for cells containing \"Bontoc\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Kakheti",
+    "judgment": "matched",
+    "match": {
+      "id": "Q13510350",
+      "name": "Kakhetians",
+      "types": [
+        "Q41710"
+      ],
+      "score": 86
+    },
+    "shareNewTopics": false,
+    "description": "Match item Kakhetians (Q13510350) for cells containing \"Kakheti\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Chaunsky Chuckchi",
+    "judgment": "matched",
+    "match": {
+      "id": "Q106991",
+      "name": "Chukchis",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Chukchis (Q106991) for cells containing \"Chaunsky Chuckchi\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Native Hawai'i",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1283606",
+      "name": "Native Hawaiians",
+      "types": [
+        "Q41710",
+        "Q4533081"
+      ],
+      "score": 90
+    },
+    "shareNewTopics": false,
+    "description": "Match item Native Hawaiians (Q1283606) for cells containing \"Native Hawai'i\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Bengal",
+    "judgment": "matched",
+    "match": {
+      "id": "Q402913",
+      "name": "Bengali",
+      "types": [
+        "Q6266",
+        "Q41710"
+      ],
+      "score": 92
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bengali (Q402913) for cells containing \"Bengal\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Sotho",
+    "judgment": "matched",
+    "match": {
+      "id": "Q577576",
+      "name": "Sotho people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Sotho people (Q577576) for cells containing \"Sotho\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Cibao",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2257629",
+      "name": "Cibao",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Cibao (Q2257629) for cells containing \"Cibao\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Icelander",
+    "judgment": "matched",
+    "match": {
+      "id": "Q191356",
+      "name": "Icelanders",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Icelanders (Q191356) for cells containing \"Icelander\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Urban S Korea",
+    "judgment": "matched",
+    "match": {
+      "id": "Q884",
+      "name": "South Korea",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item South Korea (Q884) for cells containing \"Urban S Korea\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Turkey",
+    "judgment": "matched",
+    "match": {
+      "id": "Q84072",
+      "name": "Turks",
+      "types": [
+        "Q33829",
+        "Q6266",
+        "Q2472587",
+        "Q41710",
+        "Q231002"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Turks (Q84072) for cells containing \"Turkey\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Finnish",
+    "judgment": "matched",
+    "match": {
+      "id": "Q16009362",
+      "name": "Finns",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Finns (Q16009362) for cells containing \"Finnish\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Samoa",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1135531",
+      "name": "Samoans",
+      "types": [
+        "Q41710",
+        "Q33829"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Samoans (Q1135531) for cells containing \"Samoa\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Burmese",
+    "judgment": "matched",
+    "match": {
+      "id": "Q503963",
+      "name": "Bamar",
+      "types": [
+        "Q41710"
+      ],
+      "score": 93
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bamar (Q503963) for cells containing \"Burmese\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Lower Yangtze",
+    "judgment": "matched",
+    "match": {
+      "id": "Q11134719",
+      "name": "Jianghuai People",
+      "types": [
+        ""
+      ],
+      "score": 18.5
+    },
+    "shareNewTopics": false,
+    "description": "Match item Jianghuai People (Q11134719) for cells containing \"Lower Yangtze\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Latvian",
+    "judgment": "matched",
+    "match": {
+      "id": "Q49540",
+      "name": "Latvians",
+      "types": [
+        "Q33829",
+        "Q41710"
+      ],
+      "score": 93
+    },
+    "shareNewTopics": false,
+    "description": "Match item Latvians (Q49540) for cells containing \"Latvian\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Palau",
+    "judgment": "matched",
+    "match": {
+      "id": "Q878275",
+      "name": "Palaung people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Palaung people (Q878275) for cells containing \"Palau\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Nenet",
+    "judgment": "matched",
+    "match": {
+      "id": "Q166176",
+      "name": "Nenets",
+      "types": [
+        "Q41710"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Nenets (Q166176) for cells containing \"Nenet\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Brazil Unspecified",
+    "judgment": "matched",
+    "match": {
+      "id": "Q873625",
+      "name": "Brazilians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Brazilians (Q873625) for cells containing \"Brazil Unspecified\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Mara",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6754529",
+      "name": "Mara people",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mara people (Q6754529) for cells containing \"Mara\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Algonquin",
+    "judgment": "matched",
+    "match": {
+      "id": "Q135863",
+      "name": "Algonquin people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Algonquin people (Q135863) for cells containing \"Algonquin\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "U.S. General",
+    "judgment": "matched",
+    "match": {
+      "id": "Q846570",
+      "name": "Americans",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Americans (Q846570) for cells containing \"U.S. General\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Jibaro/ Boriqua",
+    "judgment": "matched",
+    "match": {
+      "id": "Q893594",
+      "name": "Puerto Ricans",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Puerto Ricans (Q893594) for cells containing \"Jibaro/ Boriqua\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Rajasthan",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4387218",
+      "name": "Rajasthani people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 76
+    },
+    "shareNewTopics": false,
+    "description": "Match item Rajasthani people (Q4387218) for cells containing \"Rajasthan\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Yu'pik",
+    "judgment": "matched",
+    "match": {
+      "id": "Q37014",
+      "name": "Yupik peoples",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Yupik peoples (Q37014) for cells containing \"Yu'pik\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Mebêngôkre",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1028240",
+      "name": "Kayapo people",
+      "types": [
+        "Q103817"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Kayapo people (Q1028240) for cells containing \"Mebêngôkre\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Diné (Navaho)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q108266",
+      "name": "Navajo",
+      "types": [
+        "Q41710"
+      ],
+      "score": 91
+    },
+    "shareNewTopics": false,
+    "description": "Match item Navajo (Q108266) for cells containing \"Diné (Navaho)\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Austria",
+    "judgment": "matched",
+    "match": {
+      "id": "Q237534",
+      "name": "Austrians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Austrians (Q237534) for cells containing \"Austria\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Tenetehara",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3983448",
+      "name": "Tenetehara",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tenetehara (Q3983448) for cells containing \"Tenetehara\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Komodo",
+    "judgment": "matched",
+    "match": {
+      "id": "Q109435945",
+      "name": "Komodo people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 80
+    },
+    "shareNewTopics": false,
+    "description": "Match item Komodo people (Q109435945) for cells containing \"Komodo\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Sangu",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3892531",
+      "name": "Sangu people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 83
+    },
+    "shareNewTopics": false,
+    "description": "Match item Sangu people (Q3892531) for cells containing \"Sangu\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Shuwa",
+    "judgment": "matched",
+    "match": {
+      "id": "Q106491079",
+      "name": "Shuwa",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Shuwa (Q106491079) for cells containing \"Shuwa\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Athens",
+    "judgment": "matched",
+    "match": {
+      "id": "Q120096553",
+      "name": "Athenians",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Athenians (Q120096553) for cells containing \"Athens\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Savu",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2342648",
+      "name": "Savu people",
+      "types": [
+        "Q2472587",
+        "Q41710",
+        "Q83828",
+        "Q1945590"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Savu people (Q2342648) for cells containing \"Savu\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Mbuti",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3039820",
+      "name": "Mbuti people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mbuti people (Q3039820) for cells containing \"Mbuti\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Wales",
+    "judgment": "matched",
+    "match": {
+      "id": "Q188353",
+      "name": "Welsh people",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Welsh people (Q188353) for cells containing \"Wales\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Dinka",
+    "judgment": "matched",
+    "match": {
+      "id": "Q212106",
+      "name": "Dinka people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Dinka people (Q212106) for cells containing \"Dinka\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Appalachia",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2673740",
+      "name": "Appalachia",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Appalachia (Q2673740) for cells containing \"Appalachia\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Japan Unspecified",
+    "judgment": "matched",
+    "match": {
+      "id": "Q161652",
+      "name": "Japanese people",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Japanese people (Q161652) for cells containing \"Japan Unspecified\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Haudenosaunee",
+    "judgment": "matched",
+    "match": {
+      "id": "Q68518",
+      "name": "Iroquois",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Iroquois (Q68518) for cells containing \"Haudenosaunee\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "South Jakarta",
+    "judgment": "matched",
+    "match": {
+      "id": "Q132792187",
+      "name": "Jakartans",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Jakartans (Q132792187) for cells containing \"South Jakarta\" in column Culture"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Culture: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Culture",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Culture",
+    "similarValue": "Jola-Fonyi",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3507832",
+      "name": "Jola-Fonyi",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Jola-Fonyi (Q3507832) for cells containing \"Jola-Fonyi\" in column Culture"
+  }
+]

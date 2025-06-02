@@ -4,8 +4,13 @@
 - These files can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
 - This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
 
+# General Notes
+- For each dataset in The Global Jukebox, the `codings.csv` file is skipped, as it does not contain data useful to reconcile for our purposes.
+- The `data.csv` files are also not particularly useful for reconciliation, as they depend on the codings found in `codings.csv` and, consequently, not much easily reconilable to WikiData. However, depending on the data set, there may be a few columns that can be reconciled.
+- By reconciling the remaining files, we should be able to link the surrounding information that can be found in WikiData.
+- The datasets are small, so it is possible to manually reconcile many of the columns after a first automatic pass.
+
 # Instruments
-> Note: This dataset is small, so it is possible to manually reconcile many of the columns after a first automatic pass.
 
 ## Data
 
@@ -220,3 +225,44 @@
 
 ## Societies
 - Follow the instructions for the Cantometrics Societies file.
+
+# Parlametrics
+
+## Conversation
+- Reconcile the cells in column `CultureName_Speaker1` to type `ethnic group` (Q41710).
+    - Manually match the items.
+    - If the culture does not exist in WikiData, match with the location or the language, whichever is more specific.
+- In `Type_TypeCategory`, match "raw audio" to `Raw audio (Q3415066)`
+- In `Monologue/Dialogue`, match "monologue" to `monologue (Q261197)` and "dialogue" to `dialogue (Q131395)`.
+- Create a new column `speaker gender` based on the column `Speakers_Gender/Number/Age` using the GREL regex `value.replace(/[0-9]+/, "").toLowercase().replace(/\b(in|his|their|speaker|subject|her|and|age|several|s|ages)\b/, "").replace(/\(.*?\)/, "").replace(/s\b/, "").replace(/s\b/, "").replace(/s\b/, "").replace(/;/, ",").replace(/;/, ",").replace(/;/, ",").replace(/-/, "")` (There is definitely a more concise way to isolate the words "male" and "female" but value.match did not seem to work)
+- Split the new `speaker gender` column into several columns using "," as the separator.
+- Reconcile each `speaker gender` column against `sex of humans (Q4369513)`.
+- Reconcile the cells in column `SubjectLanugage_SIL` and `SubjectLanguage_Given` to `modern language (Q1288568)`.
+- Reconcile the cells in column `SubjectDialect_Given` to `dialect (Q33384)` using `SubjectLanguage_SIL` as property `part of (P361)`
+    - Manually match the items.
+- Split the column `Location_Recorded` into several columns using "," as the separator
+- Reconcile each `Location_Recorded` column against `sovereign state (Q3624078)` or `human settlement (Q486972)` or both, depending on the values
+    - Manually match the items
+- Split the column `Coverage` into several columns using "," as the separator
+- Reconcile each `Coverage` column against `sovereign state (Q3624078)` or `human settlement (Q486972)` or both, depending on the values
+    - Manually match the items
+- Split the column `All_Languages_On_Tape` into several columns using "," and then again using ";" as the separator
+    - Reconcile each `All_Languages_On_Tape` column against `modern language (Q1288568)`
+- Reconcile the column `Digitized.On` against `business (Q1317270)`
+- Reconcile the column `Resource_Type` against `document genre (Q107478770)`.
+- Match "primary text" in the column `Linguistic-Type` with `primary source (Q112754)`.
+
+## Societies
+- Follow the instructions for the Cantometrics Societies file.
+
+## Data
+- Reconcile the `Parla_Language_Name` column against `modern language (Q1288568)`
+- Reconcile the `Culture` column against `ethnic group` (Q41710).
+
+# Minutage
+
+# Ensembles
+
+# Urban Strain
+
+# Social Factors
