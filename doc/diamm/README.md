@@ -12,7 +12,7 @@ I also chose to not download the pages on authors because they do not contain an
 
 ## 2. Processing Data
 
-See `doc/diamm/data_layout.md` for a brief overview of the data downloaded by the scraper. The script `code/diamm/to_csv.py` parses the downloaded JSON data is parsed into CSVs, with columns described in `doc/diamm/csv_fields.md`. Relations, like the list of sources contained in an archive, is stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. The CSV files are sent to the `data/diamm/csv/` folder.
+See `doc/diamm/data_layout.md` for a brief overview of the data downloaded by the scraper. The script `code/diamm/to_csv.py` parses the downloaded JSON data into CSVs, with columns described in `doc/diamm/csv_fields.md`. Relations, like the list of sources contained in an archive, is stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. The CSV files are sent to the `data/diamm/csv/` folder.
 
 ## 3. Reconciling Data
 
