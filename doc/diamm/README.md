@@ -26,9 +26,9 @@ For all properties that were reconciled against Wikidata (e.g., city), if the re
 
 Some properties of interest:
 
-- P2888 (exact match) is used to indicate a wikidata ID when the object itself (like an archive) has been reconciled against wikidata
-- P217 (inventory number) is used for shelfmarks as it's the closest thing I could find and is what ChatGPT suggested to use
-- P1449 (nickname) is used for the variant names as it's the closest thing I could find and is what ChatGPT suggested to use
+- P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
+- P217 (inventory number) is used for shelfmarks, as it's the closest thing I could find and is what ChatGPT suggested to use
+- P1449 (nickname) is used for the variant names, as it's the closest thing I could find and is what ChatGPT suggested to use
 - P276 (location) is used for provenance organizations because the fact that an organization is the provenance organization of a source means that it most likely was its location at some point in time
 - P767 (contributor to the creative work or subject) is used to indicate people that are related to a source, as it's the closest thing I could find for this relationship
 - P170 (creator) is used to indicate people that copied a source
