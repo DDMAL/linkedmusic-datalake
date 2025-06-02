@@ -77,7 +77,7 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
         python code/musicbrainz/get_genre.py --output ./data/musicbrainz/rdf/
         ```
 
-    - The script is rate-limited to 1 request per second following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works)
+    - The script is rate-limited to 1 request every 1.375 seconds following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works), it was increased from 1 second to 1.375 second because we were still getting rate limited even with a 1 second delay
     - The script also provides a user-agent header, following the same guidelines
     - The RDF is stored in `linkedmusic-datalake/data/musicbrainz/rdf/`
 
