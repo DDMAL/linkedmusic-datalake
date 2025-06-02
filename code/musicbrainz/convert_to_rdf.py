@@ -608,7 +608,7 @@ def process_line(
 
         if not target:
             # Handle homogeneous relations
-            if target_type == entity_type and (
+            if target_type.replace("_", "-") == entity_type and (
                 rel_direction := relation.get("direction")
             ):
                 rel_type += rel_direction

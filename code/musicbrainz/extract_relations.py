@@ -28,7 +28,7 @@ def parse_file(file_path, file_relations):
             data = json.loads(line)
             for relation in data.get("relations", []):
                 if (relation_type := relation.get("type")) and (
-                    target_type := relation.get("target-type")
+                    target_type := relation.get("target-type").replace("_", "-")
                 ) != "url":
                     if file.stem == target_type:
                         relation_type += f"_{relation["direction"]}"
