@@ -39,6 +39,7 @@ def main(args):
 
     keys = set()
     types = set()
+    genders = set()
 
     with open(input_file, "r", encoding="utf-8") as file:
         total_line = sum(1 for _ in file)
@@ -55,6 +56,8 @@ def main(args):
                 for attr in data.get("attributes", []):
                     if attr.get("type") == "Key" and (key := attr.get("value")):
                         keys.add(key)
+                if g := data.get("gender"):
+                    genders.add(g)
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON in file {input_file}: {e}")
                 continue
@@ -68,6 +71,12 @@ def main(args):
         keys_df = pd.DataFrame({"key": list(keys)})
         with open(keys_file, "w", encoding="utf-8") as keys_out_file:
             keys_df.to_csv(keys_out_file, index=False)
+
+    if genders:
+        genders_file = output_folder / "genders.csv"
+        genders_df = pd.DataFrame({"gender": list(genders)})
+        with open(genders_file, "w", encoding="utf-8") as genders_out_file:
+            genders_df.to_csv(genders_out_file, index=False)
 
 
 if __name__ == "__main__":

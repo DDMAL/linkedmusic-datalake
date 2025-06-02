@@ -1,6 +1,6 @@
 # MusicBrainz Reconciliation
 
-Pretty much all the data is already reconciled by MusicBrainz against wikidata, the only thing that isn't is the `type` field for each data type and the values for the `key` attribute type. Ichiro confirmed this, stating that we won't reconcile on our end the MusicBrainz data, only the `type` fields and the `key` attributes.
+Pretty much all the data is already reconciled by MusicBrainz against wikidata, the only thing that isn't is the `type` field for each data type and the values for the `key` attribute type. Ichiro confirmed this, stating that we won't reconcile on our end the MusicBrainz data, only data in specific fields.
 
 For each reconciliation, both history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files` folder
 
@@ -19,3 +19,7 @@ Automatic reconciliation using Wikidata's API was attempted, but yielded poor re
 ## Keys
 
 The "keys" that were extracted (in the format of "A major", "B mixolydian", etc) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but the other modes (mixolydian, lydian, etc) were not. I left them unreconciled after validating that there are no "A mixolydian"-style entries on Wikidata for modes other than major and minor.
+
+## Genders
+
+The genders that were extracted were reconciled against Q48264 "gender identity". The "other" gender was reconciled to "non-binary gender", and the "not applicable" gender not reconciled.

@@ -35,18 +35,19 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
     - The extracted files are located at:
         `linkedmusic-datalake/data/musicbrainz/raw/extracted_jsonl/mbdump/`
 
-4. **Extracting Keys and Types and Reconciling them**
-    - Execute the following command to extract the types for each entity type into CSV files for reconciliation. This will als extract the values for the `key` attribute type.
+4. **Extracting Specific Unreconciled Fields and Reconciling them**
+    - Execute the following command to extract specific unreconciled fields into CSV files for reconciliation. The fields are detailed below.
 
         ```bash
-        python code/musicbrainz/extract_keys_types.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump --output_folder data/musicbrainz/raw/unreconciled
+        python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump --output_folder data/musicbrainz/raw/unreconciled
         ```
 
-    - It will extract the types for each entity type, except for those contained in the `IGNORE_TYPES` list, those don't have any types, so it's pointless to parse them.
-    - Each type that has types except for `release-group` stored the types in the `type` field, for `release-group` they are stored in the `primary-type` and `secondary-types` fields.
-    - Each type CSV will be named `f"{entity-type}_types.csv"`, and will be located in the `data/musicbrainz/raw/unreconciled` folder
-    - The keys CSV will be named "keys.csv", and will be located in the same folder.
-    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVx against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/reconciled` folder, naming each one `f"{entity_type}-types-csv.csv"` or `"keys-csv.csv"`
+    - It will extract the types for each entity type, except for those contained in the `IGNORE_TYPES` list. Those entity types don't have any `type` fields, so it's pointless to parse them.
+    - Each entity type that has types except for `release-group` stores the types in the `type` field. For `release-group` they are stored in the `primary-type` and `secondary-types` fields.
+    - Each type CSV will be named `f"{entity-type}_types.csv"`, and will be located in the `data/musicbrainz/raw/unreconciled` folder.
+    - The script will also extract the tonality (called "key" in the MusicBrainz database) for the `work` entity type and will output them to a CSV named "keys.csv", and will be located in the same folder.
+    - The script will also extract the genders for the `artist` entity type and will output them to a CSV named "genders.csv", and will be located in the same folder.
+    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVs against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/reconciled` folder, naming each one `f"{entity_type}-types-csv.csv"`, `"keys-csv.csv"`, or `"genders-csv.csv"`.
 
 5. **Converting Data to RDF (Turtle Format)**
     - For each JSON Lines file, convert the data using:
