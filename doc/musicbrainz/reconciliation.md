@@ -1,8 +1,10 @@
 # MusicBrainz Reconciliation
 
-Pretty much all the data is already reconciled by MusicBrainz against wikidata, the only thing that isn't is the `type` field for each data type. Ichiro confirmed this, stating that we won't reconcile on our end the MusicBrainz data, only the `type` fields.
+Pretty much all the data is already reconciled by MusicBrainz against wikidata, the only thing that isn't is the `type` field for each data type and the values for the `key` attribute type. Ichiro confirmed this, stating that we won't reconcile on our end the MusicBrainz data, only the `type` fields and the `key` attributes.
 
-For each type file, both history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files` folder
+For each reconciliation, both history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files` folder
+
+## Types
 
 Automatic reconciliation using Wikidata's API was attempted, but yielded poor results, so I went with manual reconciliation for most of the data due to its small nature. Relevant and/or important decisions are listed below:
 
@@ -13,3 +15,7 @@ Automatic reconciliation using Wikidata's API was attempted, but yielded poor re
 - For place types, festival stage was not reconciled because there is no match on wikidata
 - For series types, run was not reconciled because no suitable match could be found on wikidata, some of the awards wer left unreconciled because it is unclear what they reference, and there is no match on wikidata
 - For work types, Beijing opera was left unreconciled because there is no element on wikidata that would indicate a type of work, only the physical beijing opera, which not what we want to match
+
+## Keys
+
+The "keys" that were extracted (in the format of "A major", "B mixolydian", etc) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but the other modes (mixolydian, lydian, etc) were not. I left them unreconciled after validating that there are no "A mixolydian"-style entries on Wikidata for modes other than major and minor.

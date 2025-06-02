@@ -3,6 +3,10 @@ Script to extract the 'type' field from MusicBrainz JSON data files.
 This script processes each JSON file in the specified input folder, extracts unique entity types,
 and saves them to a CSV file in the specified output folder, creating a separate file for each entity type,
 and creating the output folder if it does not exist.
+
+Keys are also extracted from the `attributes` field that are of type "Key".
+They are saved to a separate CSV file named `keys.csv`.
+Normally, only the `work` entity type has keys, but this script is designed to be flexible.
 """
 
 import json
@@ -18,7 +22,6 @@ REPROCESSING = False
 # Entity types to ignore because they don't have types
 IGNORE_TYPES = [
     "recording",
-    "release-group",
     "release",
 ]
 
@@ -34,6 +37,7 @@ def main(args):
     output_folder.mkdir(parents=True, exist_ok=True)
     output_file = output_folder / f"{entity_type}_types.csv"
 
+    keys = set()
     types = set()
 
     with open(input_file, "r", encoding="utf-8") as file:
@@ -42,8 +46,15 @@ def main(args):
         for line in tqdm(file, total=total_line, desc=f"Processing {entity_type}"):
             try:
                 data = json.loads(line)
-                if "type" in data and data["type"]:
-                    types.add(data["type"])
+                if t := data.get("type"):
+                    types.add(t)
+                if t := data.get("primary-type"):
+                    types.add(t)
+                for t in data.get("secondary-types", []):
+                    types.add(t)
+                for attr in data.get("attributes", []):
+                    if attr.get("type") == "Key" and (key := attr.get("value")):
+                        keys.add(key)
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON in file {input_file}: {e}")
                 continue
@@ -51,6 +62,12 @@ def main(args):
     df = pd.DataFrame({"type": list(types)})
     with open(output_file, "w", encoding="utf-8") as out_file:
         df.to_csv(out_file, index=False)
+
+    if keys:
+        keys_file = output_folder / "keys.csv"
+        keys_df = pd.DataFrame({"key": list(keys)})
+        with open(keys_file, "w", encoding="utf-8") as keys_out_file:
+            keys_df.to_csv(keys_out_file, index=False)
 
 
 if __name__ == "__main__":
@@ -64,7 +81,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--output_folder",
-        default="../../data/musicbrainz/raw/types/",
+        default="../../data/musicbrainz/raw/unreconciled/",
         help="Directory where the output CSV files will be saved.",
     )
     args = parser.parse_args()
@@ -79,13 +96,16 @@ if __name__ == "__main__":
         output_folder = Path(args.output_folder)
         for file in output_folder.iterdir():
             if file.is_file():
-                bad_files.append(file.stem)
+                bad_files.append(file.stem[:-6])  # Ignore the _types suffix
 
     for input_file in input_folder.iterdir():
         if str(input_file).endswith(".DS_Store"):
             continue
         if input_file.stem in bad_files and not REPROCESSING:
             print(f"Skipping {input_file} as it is already processed.")
+            continue
+        if input_file.stem in IGNORE_TYPES:
+            print(f"Skipping {input_file} as it is in the ignore list.")
             continue
         if input_file.is_file():
             print(f"Processing file: {input_file}")

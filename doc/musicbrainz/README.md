@@ -35,22 +35,24 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
     - The extracted files are located at:
         `linkedmusic-datalake/data/musicbrainz/raw/extracted_jsonl/mbdump/`
 
-4. **Extracting Types and Reconciling them**
-    - Execute the following command to extract the types for each entity type into CSV files for reconciliation:
+4. **Extracting Keys and Types and Reconciling them**
+    - Execute the following command to extract the types for each entity type into CSV files for reconciliation. This will als extract the values for the `key` attribute type.
 
         ```bash
-        python code/musicbrainz/extract_types.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump --output_folder data/musicbrainz/raw/types
+        python code/musicbrainz/extract_keys_types.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump --output_folder data/musicbrainz/raw/unreconciled
         ```
 
     - It will extract the types for each entity type, except for those contained in the `IGNORE_TYPES` list, those don't have any types, so it's pointless to parse them.
-    - Each CSV will be named "{entity-type}_types.csv", and will be located in the `data/musicbrainz/raw/types` folder
-    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the types against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/types-reconciled` folder, naming each one `f"{entity_type}-types-csv.csv"`
+    - Each type that has types except for `release-group` stored the types in the `type` field, for `release-group` they are stored in the `primary-type` and `secondary-types` fields.
+    - Each type CSV will be named `f"{entity-type}_types.csv"`, and will be located in the `data/musicbrainz/raw/unreconciled` folder
+    - The keys CSV will be named "keys.csv", and will be located in the same folder.
+    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVx against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/reconciled` folder, naming each one `f"{entity_type}-types-csv.csv"` or `"keys-csv.csv"`
 
 5. **Converting Data to RDF (Turtle Format)**
     - For each JSON Lines file, convert the data using:
 
         ```bash
-        python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --type_folder data/musicbrainz/raw/types_reconciled --config_folder doc/musicbrainz/rdf_conversion_config --output_folder data/musicbrainz/rdf/
+        python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --reconciled_folder data/musicbrainz/raw/reconciled --config_folder doc/musicbrainz/rdf_conversion_config --output_folder data/musicbrainz/rdf/
         ```
 
     - Notes on the script:

@@ -13,9 +13,9 @@ This documents any choices for properties in the RDF conversion process
 ## Attributes
 
 The `work` entity type has an additional field `attributes` that contains a list of various attributes for that work. The vast majority of attribute types are more IDs to other databases, but there are a few other things like the key that the work is in, as well as non-Western things like the tala for example, which is the musical meter for Indian music.
-The vast majority of the databases don't have a property on Wikidata and since the field only contains IDs, not full URLs/URIs, I don't store the IDs for which there is no Wikidata ID. The file with all the attributes and the properties they map to can be found in `doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`. Attributes not present or that get mapped to `null`/`None` will be ignored by the RDF conversion script.
+The vast majority of the databases don't have a property on Wikidata, and since the field only contains IDs, not full URLs/URIs, I don't store the IDs for which there is no Wikidata ID. The file with all the attributes and the properties they map to can be found in `doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`. Attributes not present or that get mapped to `null`/`None` will be ignored by the RDF conversion script.
 
-### TODO: Figure out a way to reconcile the keys for the works
+Additionally, one of the attribute types is `key`, which represents the tonality of the work (e.g. A major). Since these aren't reconciled against wikidata by MusicBrainz, I reconciled them using OpenRefine, and use the reconciled values in the RDF conversion script. The `doc/musicbrainz/reconciliation.md` file has more details on the reconciliation process.
 
 ## Properties
 
