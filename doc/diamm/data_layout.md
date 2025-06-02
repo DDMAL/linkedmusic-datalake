@@ -2,13 +2,13 @@
 
 This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual entity is received as a JSON file describing it.
 
-In addition to the fields described below, all entity types have `url` and `pk` fields, that respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key)
+In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key)
 
 ## Archives
 
 - `sources` are the sources contained within
 - `city` is the city that holds the archive
-- `identifiers` has 3rd party identifies (RISM, sometimes WikiData)
+- `identifiers` has 3rd party identifies (RISM, sometimes Wikidata)
 
 ## Authors
 
@@ -20,7 +20,7 @@ In addition to the fields described below, all entity types have `url` and `pk` 
 - `archives` has the list of archives in that city
 - `country` is the country that the city is located in
 - `organizations` are organizations that are located in that city
-- `provenance` is sources hat came from the city
+- `provenance` is sources that came from the city
 
 ## Compositions
 
@@ -70,5 +70,5 @@ This designates administrative regions between cities and countries (think provi
 - `archive` is the archive that contains it
 - `sets` are sets that contain this source
 - `bibliography` is unclear
-- `identifiers` is 3rd party identifiers
+- `identifiers` is 3rd-party identifiers
 - `notes` are a list of notes, the pks here are unclear
