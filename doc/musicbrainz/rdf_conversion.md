@@ -8,7 +8,7 @@ This documents any choices for properties in the RDF conversion process
 - Dates are given the type XSD:date, this is what wikidata uses, if something has a date and time, it will be in XSD:datetime
 - Coordinates (lat/lon) are given the GEO:wktLiteral type in the format `f"Point({lat} {lon})"`; this is what wikidata uses
 - Durations (in seconds) are stored in XSD:decimal, as they are numbers, this is also what wikidata does
-- Any and all URLs that are stored as plain URLs (instead of having IDs extracted if they links to other databases) are turned into URIRefs
+- Any and all URLs that are stored as plain URLs (instead of having IDs extracted if they links to other databases) kept as Literals. This is because these URLs aren't always URIs and lack the proper RDF URI formatting.
 
 ## Attributes
 

@@ -579,7 +579,7 @@ def process_line(
                         break
                 else:
                     # If no match, treat it as a generic URL
-                    target = URIRef(url)
+                    target = Literal(url)
 
         if not target:
             # Handle homogeneous relations
@@ -660,7 +660,7 @@ def process_chunk(
             continue
         except Exception as e:
             with tqdm.get_lock():
-                tqdm.write(f"Unexpected error in line {i} of chunk: {e}")
+                tqdm.write(f"Unexpected {type(e).__name__} in line {i} of chunk: {e}")
             continue
         finally:
             chunk[i] = None  # Clear the processed line to free memory
@@ -706,7 +706,7 @@ async def subgraph_worker(
             if isinstance(g, Exception):
                 chunk_queue.task_done()
                 with tqdm.get_lock():
-                    tqdm.write(f"Error processing chunk: {g}")
+                    tqdm.write(f"Error processing chunk: {type(g).__name__}: {g}")
                     chunk_bar.update(1)
                 continue
 
@@ -725,7 +725,7 @@ def merge_subgraph(main_graph, subgraph):
             main_graph.add((s, p, o))
         except Exception as e:
             with tqdm.get_lock():
-                tqdm.write(f"Error adding triple ({s}, {p}, {o}) to main graph: {e}")
+                tqdm.write(f"Error adding triple ({s}, {p}, {o}) to main graph: {type(e).__name__}: {e}")
             continue
     main_graph.commit()  # Commit the changes to the main graph
 
@@ -748,7 +748,7 @@ async def graph_worker(subgraph_queue, main_graph, subgraph_bar):
         sigint = True
     except Exception as e:
         with tqdm.get_lock():
-            tqdm.write(f"Error merging subgraph: {e}")
+            tqdm.write(f"Error merging subgraph: {type(e).__name__}: {e}")
     finally:
         if not sigint:
             while not subgraph_queue.empty():
