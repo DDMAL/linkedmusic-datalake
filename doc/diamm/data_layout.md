@@ -4,6 +4,8 @@ This file clarifies and explains the data layout of the DIAMM database, as it is
 
 In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key)
 
+The fields of `related` items (e.g. `related_sources`) are unclear, the issue [#313](https://github.com/DDMAL/linkedmusic-datalake/issues/313) has been created to address this and hopefully improve our handling of it.
+
 ## Archives
 
 - `sources` are the sources contained within
