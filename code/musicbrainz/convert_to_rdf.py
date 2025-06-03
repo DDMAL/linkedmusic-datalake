@@ -644,7 +644,7 @@ def process_line(
             if target_type.replace("_", "-") == entity_type and (
                 rel_direction := relation.get("direction")
             ):
-                rel_type += rel_direction
+                rel_type += f"_{rel_direction}"
             pred_uri = relationship_mapping.get(target_type, {}).get(rel_type)
 
             if target_id := relation.get(target_type, {}).get("id"):
