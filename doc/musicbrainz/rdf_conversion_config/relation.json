@@ -84,7 +84,7 @@
         "place": {
             "owner": null
         },
-        "release_group": {
+        "release-group": {
             "tribute": null
         },
         "area": {
@@ -111,7 +111,7 @@
             "artists and repertoire": null,
             "creative direction": "P12617"
         },
-        "release_group": {
+        "release-group": {
             "single from_forward": "P361",
             "single from_backward": "P527",
             "excerpt from_forward": "P361",
@@ -190,7 +190,7 @@
             "available at": null,
             "recorded at": null
         },
-        "release_group": {
+        "release-group": {
             "launch event": "P144",
             "performance of": "P2550"
         },
@@ -431,7 +431,7 @@
         "label": {
             "publishes series": "P123"
         },
-        "release_group": {
+        "release-group": {
             "part of": "P179",
             "recorded during": null,
             "named after release group": "P138",
@@ -791,7 +791,7 @@
             "tour": null,
             "catalogued": null
         },
-        "release_group": {
+        "release-group": {
             "named after release group": "P138",
             "tribute": null,
             "dedicated to": null,
