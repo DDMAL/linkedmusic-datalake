@@ -139,6 +139,9 @@
     "iswc": {
         "work": "http://www.wikidata.org/prop/direct/P1827"
     },
+    "language": {
+        "work": "http://www.wikidata.org/prop/direct/P407"
+    },
     "url": {
         "null": "http://www.wikidata.org/prop/direct/P2888"
     },

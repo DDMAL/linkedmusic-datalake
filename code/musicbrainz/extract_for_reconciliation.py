@@ -1,12 +1,21 @@
 """
-Script to extract the 'type' field from MusicBrainz JSON data files.
-This script processes each JSON file in the specified input folder, extracts unique entity types,
-and saves them to a CSV file in the specified output folder, creating a separate file for each entity type,
-and creating the output folder if it does not exist.
+This script will extract all the data that needs to be reconciled from MusicBrainz JSON data files.
+The script will ignore the entity types in the `IGNORE_TYPES` list, which are known to not have types.
+The script will create the output folder if it does not exist.
+
+The 'type' field is extracted for each entity type, and are saved to a CSV file in the
+specified output folder with the name `f"{entity_type}_types.csv"`.
 
 Keys are also extracted from the `attributes` field that are of type "Key".
 They are saved to a separate CSV file named `keys.csv`.
 Normally, only the `work` entity type has keys, but this script is designed to be flexible.
+
+Genders are also extracted from the `gender` field, if present, and saved to a separate CSV file named `genders.csv`.
+Normally, only the `artist` entity type has a gender, but this script is designed to be flexible.
+
+Languages are extracted from the `languages` field, if present, and saved to a separate CSV file named `languages.csv`.
+The languages are extracted as ISO 639-3 codes and their full names are added in a separate column.
+Normally, only the `work` entity type has languages, but this script is designed to be flexible.
 """
 
 import json
@@ -15,6 +24,7 @@ import argparse
 from pathlib import Path
 import pandas as pd
 from tqdm import tqdm
+from pycountry import languages as langs
 
 # Set to True if you want to reprocess entity types that are already present in the output folder
 REPROCESSING = False
@@ -40,6 +50,7 @@ def main(args):
     keys = set()
     types = set()
     genders = set()
+    languages = set()
 
     with open(input_file, "r", encoding="utf-8") as file:
         total_line = sum(1 for _ in file)
@@ -58,6 +69,8 @@ def main(args):
                         keys.add(key)
                 if g := data.get("gender"):
                     genders.add(g)
+                for lang in data.get("languages", []):
+                    languages.add(lang)
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON in file {input_file}: {e}")
                 continue
@@ -77,6 +90,15 @@ def main(args):
         genders_df = pd.DataFrame({"gender": list(genders)})
         with open(genders_file, "w", encoding="utf-8") as genders_out_file:
             genders_df.to_csv(genders_out_file, index=False)
+
+    if languages:
+        languages_file = output_folder / "languages.csv"
+        languages_df = pd.DataFrame({"language": list(languages)})
+        languages_df["full_language"] = languages_df["language"].apply(
+            lambda x: langs.get(alpha_3=x).name if langs.get(alpha_3=x) else x
+        )
+        with open(languages_file, "w", encoding="utf-8") as languages_out_file:
+            languages_df.to_csv(languages_out_file, index=False)
 
 
 if __name__ == "__main__":

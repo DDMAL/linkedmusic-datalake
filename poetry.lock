@@ -418,6 +418,18 @@ files = [
 ]
 
 [[package]]
+name = "pycountry"
+version = "24.6.1"
+description = "ISO country, subdivision, language, currency and script definitions and their translations"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "pycountry-24.6.1-py3-none-any.whl", hash = "sha256:f1a4fb391cd7214f8eefd39556d740adcc233c778a27f8942c8dca351d6ce06f"},
+    {file = "pycountry-24.6.1.tar.gz", hash = "sha256:b61b3faccea67f87d10c1f2b0fc0be714409e8fcdcc1315613174f6466c10221"},
+]
+
+[[package]]
 name = "pyoxigraph"
 version = "0.4.11"
 description = "Python bindings of Oxigraph, a SPARQL database and RDF toolkit"
@@ -650,4 +662,4 @@ crypto-eth-addresses = ["eth-hash[pycryptodome] (>=0.7.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "41b7c6ca32a96a99cd5462bbaaf2ecf27a83941661878404b70e5b8f020e1c84"
+content-hash = "9fb4d0229c7324a8a5560710c46cdb17fa5d1a827e100ca9f096031953aa93fc"

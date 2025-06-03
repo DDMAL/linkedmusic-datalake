@@ -442,7 +442,9 @@ def process_line(
 
     # Process gender
     if gender := data.get("gender"):
-        if (gender_map := reconciled_mapping.get(gender)) and matched_wikidata(gender_map):
+        if (gender_map := reconciled_mapping.get(gender)) and matched_wikidata(
+            gender_map
+        ):
             gender = URIRef(f"{WD}{gender_map}")
         else:
             gender = Literal(gender)
@@ -517,6 +519,23 @@ def process_line(
                     URIRef(f"https://musicbrainz.org/label/{label_id}"),
                 )
             )
+
+    # Process languages
+    for lang in data.get("languages", []):
+        if lang_map := reconciled_mapping.get(lang):
+            if matched_wikidata(lang_map):
+                lang = URIRef(f"{WD}{lang_map}")
+            else:
+                lang = Literal(lang_map)
+        else:
+            lang = Literal(lang)
+        g.add(
+            (
+                subject_uri,
+                mb_schema["language"],
+                lang,
+            )
+        )
 
     # Process length
     if length := data.get("length"):
@@ -1042,12 +1061,22 @@ if __name__ == "__main__":
         with open(keys_file_path, "r", encoding="utf-8") as fi:
             keys = pd.read_csv(fi, encoding="utf-8")
             RECONCILIATION_MAPPING.update(dict(zip(keys["key"], keys["key_@id"])))
-    
+
     genders_file_path = Path(args.reconciled_folder) / "genders-csv.csv"
     if genders_file_path.is_file():
         with open(genders_file_path, "r", encoding="utf-8") as fi:
             genders = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(dict(zip(genders["gender"], genders["gender_@id"])))
+            RECONCILIATION_MAPPING.update(
+                dict(zip(genders["gender"], genders["gender_@id"]))
+            )
+
+    languages_file_path = Path(args.reconciled_folder) / "languages-csv.csv"
+    if languages_file_path.is_file():
+        with open(languages_file_path, "r", encoding="utf-8") as fi:
+            languages = pd.read_csv(fi, encoding="utf-8")
+            RECONCILIATION_MAPPING.update(
+                dict(zip(languages["language"], languages["full_language_@id"]))
+            )
 
     bad_files = []
     if Path(args.output_folder).exists() and not REPROCESSING:
