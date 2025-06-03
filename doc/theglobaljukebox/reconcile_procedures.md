@@ -14,7 +14,7 @@
 
 ## Data
 
-- Reconcile the cells in column `Instrument_Name` to type `family of musical instruments` (Q1254773) using `Sachs_Number` as property `Hornbostel-Sachs classification` (P1762).
+- Reconcile the cells in column `Instrument_Name` to type `type of musical instrument` (Q17362829) using `Sachs_Number` as property `Hornbostel-Sachs classification` (P1762).
     - Manually match any items that seem like they would get automatically mismatched/missed.
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 80-101. In the `judgment` facet, choose "none."
@@ -70,7 +70,7 @@
     - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
-- Reconcile the cells in column `Instrument_Name` to type `family of musical instruments` (Q1254773) using `Sachs_Number` as property `Hornbostel-Sachs classification` (P1762) and `Alt_Instrument_Names` as property `alternative name` (P4970).
+- Reconcile the cells in column `Instrument_Name` to type `type of musical instrument` (Q17362829) using `Sachs_Number` as property `Hornbostel-Sachs classification` (P1762) and `Alt_Instrument_Names` as property `alternative name` (P4970).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 62-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
@@ -260,6 +260,23 @@
 - Reconcile the `Culture` column against `ethnic group` (Q41710).
 
 # Minutage
+
+## Phrasing
+- Reconcile the cells in column `Region` to type `geographic region` (Q82794).
+- Reconcile the cells in column `Division` to type `geographic region` (Q82794).
+- Split the column `Area/Kingdom` into several columns using "/" as the separator.
+- Reconcile each `Area/Kingdom` column to type `area (Q1414991)`.
+- Reconcile the cells in column `Culture` to type `ethnic group` (Q41710).
+- Split the column `Culture_loc` into several columns using "," as the separator.
+- Reconcile each `Culture_loc` column against `sovereign state (Q3624078)` or `human settlement (Q486972)` or both, depending on the values
+    > Note: You may need to split the columns again using "/" or ";" as the separator.
+- Split the column `Genre` into several columns using ";" as the separator.
+- Reconcile each `Genre` column against `song type (Q107356781)`.
+- Split the column `Instruments` into several columns using ";" as the separator.
+- Reconcile the column `Instruments 1` against `voice type (Q1063547)`.
+
+## Societies
+- Follow the instructions for the Cantometrics Societies file.
 
 # Ensembles
 
