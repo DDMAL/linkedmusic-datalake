@@ -8,7 +8,7 @@ In addition to the fields described below, each table, except for `relations`, w
 
 ## Archives
 
-Data in`sources` will be in the relations CSV
+Data in `sources` will be in the relations CSV
 
 - `name`
 - `siglum`
