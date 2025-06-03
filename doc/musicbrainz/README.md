@@ -34,6 +34,7 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
 
     - The extracted files are located at:
         `linkedmusic-datalake/data/musicbrainz/raw/extracted_jsonl/mbdump/`
+    - The `doc/musicbrainz/layout.json` is a JSON file showing the list of fields for each entity type.
 
 4. **Extracting Specific Unreconciled Fields and Reconciling them**
     - Execute the following command to extract specific unreconciled fields into CSV files for reconciliation. The fields are detailed below.
