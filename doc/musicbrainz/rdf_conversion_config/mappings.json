@@ -136,6 +136,12 @@
     "release-group": {
         "release": "http://www.wikidata.org/prop/direct/P361"
     },
+    "end-status": {
+        "release": "http://www.wikidata.org/prop/direct/P1534"
+    },
+    "status": {
+        "release": "http://www.wikidata.org/prop/direct/P31"
+    },
     "iswc": {
         "work": "http://www.wikidata.org/prop/direct/P1827"
     },

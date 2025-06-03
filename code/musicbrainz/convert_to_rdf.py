@@ -207,6 +207,14 @@ GRAPH_STORE_CUTOFF = 1000000000
 
 REPROCESSING = False  # Set to True if you want to reprocess entity types that are already present in the output folder
 
+# List of statuses for works that are end causes
+# The remaining statuses will be interpreted as a type of work
+END_STATUSES = [
+    "Cancelled",
+    "Withdrawn",
+    "Expunged",
+]
+
 # Entity types that do not have types, so we don't need to process them
 ENTITIES_WITHOUT_TYPES = [
     "recording",
@@ -676,6 +684,20 @@ def process_line(
                     URIRef(f"https://musicbrainz.org/release-group/{release_group_id}"),
                 )
             )
+
+    # Process status
+    if status := data.get("status"):
+        g.add(
+            (
+                subject_uri,
+                (
+                    mb_schema["status"]
+                    if status not in END_STATUSES
+                    else mb_schema["end-status"]
+                ),
+                Literal(status),
+            )
+        )
 
     # Process time
     if (time := data.get("time")) and (date := data.get("life-span", {}).get("begin")):

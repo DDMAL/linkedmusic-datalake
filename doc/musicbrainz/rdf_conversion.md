@@ -10,6 +10,12 @@ This documents any choices for properties in the RDF conversion process
 - Durations (in seconds) are stored in XSD:decimal, as they are numbers, this is also what wikidata does
 - Any and all URLs that are stored as plain URLs (instead of having IDs extracted if they links to other databases) kept as Literals. This is because these URLs aren't always URIs and lack the proper RDF URI formatting.
 
+## Miscellaneous notes
+
+- For the `release` entity type, `quality` does not indicate the quality of the release, it is an internal marker for musicbrainz that indicates how good the information about the release is. See the [documentation page](https://musicbrainz.org/doc/Release#Data_quality) for more information.
+- For the `release` entity type, `packaging` does not have any property that could fill the purpose, so that field is ignored
+- For the `release` entity type, `status` does not neatly map onto a Wikidata property. Instead, I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Additionally, I attempted to reconcile the values of the fields against wikidata, but there are no equivalent entities on Wikidata so I would end up reconciling against improper entities, thus I chose to leave the statuses entirely unreconciled.
+
 ## Attributes
 
 The `work` entity type has an additional field `attributes` that contains a list of various attributes for that work. The vast majority of attribute types are more IDs to other databases, but there are a few other things like the key that the work is in, as well as non-Western things like the tala for example, which is the musical meter for Indian music.
