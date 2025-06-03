@@ -83,6 +83,7 @@ This guide outlines the steps required for the entire MusicBrainz data pipeline.
     - The script is rate-limited to 1 request every 1.375 seconds following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works), it was increased from 1 second to 1.375 second because we were still getting rate limited even with a 1 second delay
     - The script also provides a user-agent header, following the same guidelines
     - The RDF is stored in `linkedmusic-datalake/data/musicbrainz/rdf/`
+    - The genres are handled this way because they are stored and treated differently by MusicBrainz compared to the other core entity types, and they are not available in the [main database dumps](https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/). This is why we use the [API](https://musicbrainz.org/doc/MusicBrainz_API/#Introduction) to fetch the list of genres, and scrape the webpages to get the wikidata links.
 
 7. **Key Properties Extracted**
     - The conversion process extracts as many properties as it can from each entity type, searching the fields of the JSON file, as well as all relations in the `relations` field, and all attributes in the `attributes` field.
