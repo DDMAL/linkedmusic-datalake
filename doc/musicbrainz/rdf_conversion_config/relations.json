@@ -952,8 +952,8 @@
     },
     "area": {
         "area": {
-            "part of_forward": "P361",
-            "part of_backward": "P527"
+            "part of_forward": null,
+            "part of_backward": "P131"
         },
         "recording": {
             "edited in": null,
