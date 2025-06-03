@@ -20,7 +20,7 @@ In addition to the fields described below, all entity types have `url` and `pk` 
 - `archives` has the list of archives in that city
 - `country` is the country that the city is located in
 - `organizations` are organizations that are located in that city
-- `provenance` is sources that came from the city
+- `provenance` is a list of sources that came from the city
 
 ## Compositions
 
