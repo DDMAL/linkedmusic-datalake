@@ -191,7 +191,7 @@ MB_SCHEMA = MappingSchema({})
 # Initialize the relationship and attribute mappings
 RELATIONSHIP_MAPPING = {}
 ATTRIBUTE_MAPPING = {}
-KEYS_MAPPING = {}
+RECONCILIATION_MAPPING = {}
 
 CHUNK_SIZE = 500  # Adjustable chunk size
 # Max number of chunk processing threads to run simultaneously
@@ -437,6 +437,20 @@ def process_line(
                 subject_uri,
                 mb_schema["first-release-date"],
                 convert_date(first_release_date),
+            )
+        )
+
+    # Process gender
+    if gender := data.get("gender"):
+        if (gender_map := reconciled_mapping.get(gender)) and matched_wikidata(gender_map):
+            gender = URIRef(f"{WD}{gender_map}")
+        else:
+            gender = Literal(gender)
+        g.add(
+            (
+                subject_uri,
+                mb_schema["gender"],
+                gender,
             )
         )
 
@@ -899,7 +913,7 @@ def main(args):
         reconciled_mapping = dict(zip(types["type"], types["type_@id"]))
     else:
         reconciled_mapping = {}
-    reconciled_mapping.update(KEYS_MAPPING)
+    reconciled_mapping.update(RECONCILIATION_MAPPING)
 
     # Configure output directory
     output_folder = Path(args.output_folder)
@@ -1027,7 +1041,13 @@ if __name__ == "__main__":
     if keys_file_path.is_file():
         with open(keys_file_path, "r", encoding="utf-8") as fi:
             keys = pd.read_csv(fi, encoding="utf-8")
-            KEYS_MAPPING = dict(zip(keys["key"], keys["key_@id"]))
+            RECONCILIATION_MAPPING.update(dict(zip(keys["key"], keys["key_@id"])))
+    
+    genders_file_path = Path(args.reconciled_folder) / "genders-csv.csv"
+    if genders_file_path.is_file():
+        with open(genders_file_path, "r", encoding="utf-8") as fi:
+            genders = pd.read_csv(fi, encoding="utf-8")
+            RECONCILIATION_MAPPING.update(dict(zip(genders["gender"], genders["gender_@id"])))
 
     bad_files = []
     if Path(args.output_folder).exists() and not REPROCESSING:

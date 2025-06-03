@@ -66,7 +66,7 @@ if __name__ == "__main__":
         help="Path to save the downloaded files.",
     )
     args = parser.parse_args()
-    RAW_PATH = args.raw_path
+    RAW_PATH = args.output_folder
     if not os.path.exists(RAW_PATH):
         os.makedirs(RAW_PATH)
     latest_url = get_latest_json_dump_url()
