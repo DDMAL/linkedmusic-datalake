@@ -1,14 +1,16 @@
 # DIAMM Database Data Layout
 
-Clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script
+This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual entity is received as a JSON file describing it.
 
-All have `url` and `pk` fields
+In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key)
+
+The fields of `related` items (e.g. `related_sources`) are unclear, the issue [#313](https://github.com/DDMAL/linkedmusic-datalake/issues/313) has been created to address this and hopefully improve our handling of it.
 
 ## Archives
 
 - `sources` are the sources contained within
 - `city` is the city that holds the archive
-- `identifiers` has 3rd party identifies (RISM, sometimes WikiData)
+- `identifiers` has 3rd party identifies (RISM, sometimes Wikidata)
 
 ## Authors
 
@@ -20,7 +22,7 @@ All have `url` and `pk` fields
 - `archives` has the list of archives in that city
 - `country` is the country that the city is located in
 - `organizations` are organizations that are located in that city
-- `provenance` is sources hat came from the city
+- `provenance` is a list of sources that came from the city
 
 ## Compositions
 
@@ -38,24 +40,26 @@ All have `url` and `pk` fields
 
 - `organization_type` is the type of organization
 - `related_sources` is a list of related sources
-- `copied_sources` is TBD
-- `source_provenance` is yet more sources
-- `location` is the city
+- `copied_sources` is a list of sources that were copied at that organization
+- `source_provenance` is a list of sources whose provenance is this organization
+- `location` is the city in which the organization is located
 
 ## People
 
 - `compositions` is the list of compositions that they wrote
-- `related_sources`, `copied_sources` and `uninventoried_items` contain a list of sources
+- `related_sources`, `copied_sources` and `uninventoried_items` contain a list of sources. `uninventoried_items` seems to be a catch-all for sources that don't fit in the other 2 lists
 - `identifiers` has 3rd party identifiers (RISM, VIAF, GNS, Wikidata)
 
 ## Regions
 
-- `cities` is a list of cities
-- `provenance` is a list of sources
+This designates administrative regions between cities and countries (think provinces). It seems to be rarely used
+
+- `cities` is a list of cities in the region
+- `provenance` is a list of sources that came from this region
 
 ## Sets
 
-- `cluster_chelfmark` seems to be its name
+- `cluster_shelfmark` seems to be its name
 - `holding_archives` are the archives that hold the set
 - `sources` are the sources contained within the set
 - `description` is a text field
@@ -68,5 +72,5 @@ All have `url` and `pk` fields
 - `archive` is the archive that contains it
 - `sets` are sets that contain this source
 - `bibliography` is unclear
-- `identifiers` is 3rd party identifiers
-- `notes` are a list of notes, pks are unclear
+- `identifiers` is 3rd-party identifiers
+- `notes` are a list of notes, the pks here are unclear
