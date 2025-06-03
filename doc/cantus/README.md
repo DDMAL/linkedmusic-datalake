@@ -36,7 +36,7 @@ The ```cantus.csv``` file should be imported into OpenRefine for further operati
 6. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
 7. Reset the best candidate's score facet, choose none in the judgement facet, and create new items for all of them.
 8. Reconcile the `mode_@id` column against "mode" instance Q731978.
-9. Since the mode are numbers, we have to search for the mode names manually.
+9. Since the mode are numbers, we have to search for the mode names manually, I used the [Wikipedia list of western church modes](https://en.wikipedia.org/wiki/Mode_(music)#Western_Church) for this.
 10. For example, if it's mode 1, then search for a new match > "mode 1" > "dorian mode".
 11. For all uncertain modes, create a new item for each.
 
