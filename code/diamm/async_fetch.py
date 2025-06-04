@@ -13,12 +13,14 @@ import os
 import json
 import re
 import logging
+from contextlib import asynccontextmanager
 import asyncio
 import aiohttp
 import aiofiles
 from aiolimiter import AsyncLimiter
 
 BASE_URL = "https://www.diamm.ac.uk/"
+BASE_SEARCH_URL = f"{BASE_URL}search/?type=all"
 BASE_PATH = "../../data/diamm/raw/"
 
 # Regex pattern to match DIAMM URLs, and capture the type and ID
@@ -30,21 +32,16 @@ REVISIT = False
 MAX_CONCURRENT_VISITS = 2
 MAX_CONCURRENT_WRITES = 2
 RATE_LIMIT = 10  # 10 requests per second, or 1 request every 100ms on average
+SEARCH_RATE_LIMIT = 1.5  # 1.5 requests per second, or 1 request every 666ms on average
 
-# These pages will be ignored, and neither visited nor saved
-BAD_PAGES = [
-    "documents",
-    "cover",
-    "admin",
-    "cms",
-    "authors",
-]
-
-# These pages will be visited and scraped, but not saved to disk
-LOAD_DONT_SAVE = [
-    "cities",
-    "countries",
-    "regions",
+# These pages will be saved, and the rest will be ignored
+SAVED_TYPES = [
+    "archives",
+    "compositions",
+    "organizations",
+    "people",
+    "sets",
+    "sources",
 ]
 
 # Set up logging
@@ -66,13 +63,21 @@ console_format = logging.Formatter("%(levelname)s - %(message)s")
 console_handler.setFormatter(console_format)
 logger.addHandler(console_handler)
 
-visited = (
-    set()
-)  # tuple (str, str) representing (type, id), example is ("compositions", "117")
+logger.info("DIAMM Crawler started")
 
-# Starting point for the crawler, taken from the example on DIAMM's website
-# The example can be found at https://www.diamm.ac.uk/about/technical-overview/diamm-data-delivery/
-to_visit = [("sources", "117")]
+
+@asynccontextmanager
+async def multiple_limiters(*limiters):
+    """
+    Context manager that allows multiple rate limiters to be used together.
+    It uses recursion to get around the fact that you can't use `async with` on a list.
+    """
+    async with limiters[0]:
+        if len(limiters) > 1:
+            async with multiple_limiters(*limiters[1:]):
+                yield
+        else:
+            yield
 
 
 async def fetch(session, url, limiter):
@@ -110,7 +115,51 @@ async def fetch(session, url, limiter):
         return None
 
 
-async def visit_worker(name, session, visit_queue, write_queue, visited, limiter):
+async def search_worker(name, session, visit_queue, limiter, search_limiter):
+    """
+    Worker function that fetches search results from the DIAMM website
+    and schedules them for visiting. It uses both the global and
+    search rate limiters to control the number of requests per second,
+    loading both limiters at once.
+    """
+    logger.info("Search worker %s started", name)
+    url = BASE_SEARCH_URL
+    try:
+        while url:
+            received = await fetch(
+                session, url, multiple_limiters(limiter, search_limiter)
+            )
+            if received is None:
+                logger.error("Failed to fetch search data from %s", url)
+                break
+
+            try:
+                data = json.loads(received)
+            except json.JSONDecodeError:
+                logger.error("Failed to parse JSON search data for %s", url)
+                break
+
+            url = data["pagination"].get("next")
+
+            for res in data["results"]:
+                if match := REGEX_MATCH.match(res["url"]):
+                    page = (match.group(1), match.group(2))
+                    if page[0] not in SAVED_TYPES:
+                        continue
+                    if not REVISIT and os.path.exists(
+                        os.path.join(BASE_PATH, page[0], f"{page[1]}.json")
+                    ):
+                        continue
+                    await visit_queue.put(match.group(0))
+    except asyncio.CancelledError:
+        return
+    except Exception:
+        logger.critical("Unexpected exception in search worker %s", name, exc_info=True)
+    finally:
+        logger.info("Search worker %s finished", name)
+
+
+async def visit_worker(name, session, visit_queue, write_queue, limiter):
     """
     Worker function that fetches pages from the DIAMM website, schedules them for writing,
     and adds new pages to the visit queue.
@@ -118,39 +167,32 @@ async def visit_worker(name, session, visit_queue, write_queue, visited, limiter
     logger.info("Visit worker %s started", name)
     try:
         while True:
-            page = await visit_queue.get()
-            if page in visited:
-                visit_queue.task_done()
-                continue
-            visited.add(page)
-            if not REVISIT:
-                if os.path.exists(os.path.join(BASE_PATH, page[0], f"{page[1]}.json")):
-                    visited.add(page)
-                    visit_queue.task_done()
-                    continue
-            url = f"{BASE_URL}{page[0]}/{page[1]}/"
+            url = await visit_queue.get()
             received = await fetch(session, url, limiter)
             if received is None:
+                logger.warning("Failed to fetch data for %s", url)
                 visit_queue.task_done()
                 continue
+
             try:
                 data = json.loads(received)
             except json.JSONDecodeError:
-                logger.warning("Failed to parse JSON for %s", url)
+                logger.warning("Failed to parse JSON data for %s", url)
                 visit_queue.task_done()
                 continue
+
+            page = REGEX_MATCH.match(url)
+            if page is None:
+                logger.error("Failed to match URL %s", url)
+                visit_queue.task_done()
+                continue
+            page = (page.group(1), page.group(2))
+
             text = json.dumps(data, ensure_ascii=False, indent=4)
-            if page[0] not in LOAD_DONT_SAVE:
-                await write_queue.put((page, text))
-            matches = REGEX_MATCH.findall(text)
-            for match in matches:
-                if match[0] in BAD_PAGES:
-                    continue
-                if (match[0], match[1]) not in visited:
-                    await visit_queue.put((match[0], match[1]))
+            await write_queue.put((page, text))
             visit_queue.task_done()
     except asyncio.CancelledError:
-        pass
+        return
     except Exception:
         logger.critical("Unexpected exception in visit worker %s", name, exc_info=True)
     finally:
@@ -177,7 +219,7 @@ async def write_worker(name, write_queue):
                 logger.info("Saved %s/%s.json", page[0], page[1])
             write_queue.task_done()
     except asyncio.CancelledError:
-        pass
+        return
     except Exception:
         logger.critical("Unexpected exception in write worker %s", name, exc_info=True)
     finally:
@@ -195,27 +237,28 @@ async def write_worker(name, write_queue):
         logger.info("Write worker %s finished", name)
 
 
-async def main(to_visit, visited):
+async def main():
     """
     Main function that initializes the visit and write queues, creates the worker tasks,
     and waits for all tasks to complete.
     """
     visit_queue = asyncio.Queue()
     write_queue = asyncio.Queue()
-    for item in to_visit:
-        await visit_queue.put(item)
 
-    limiter = AsyncLimiter(
-        RATE_LIMIT, 1
-    )  # Rate limiter to control the number of requests per second
+    # Rate limiter to control the number of requests per second
+    limiter = AsyncLimiter(RATE_LIMIT, 1)
+    search_limiter = AsyncLimiter(SEARCH_RATE_LIMIT, 1)
 
     async with aiohttp.ClientSession() as session:
         # Start the workers
+        search_task = asyncio.create_task(
+            search_worker(
+                "search-worker", session, visit_queue, limiter, search_limiter
+            )
+        )
         crawl_tasks = [
             asyncio.create_task(
-                visit_worker(
-                    f"crawl-{i}", session, visit_queue, write_queue, visited, limiter
-                )
+                visit_worker(f"visit-{i}", session, visit_queue, write_queue, limiter)
             )
             for i in range(MAX_CONCURRENT_VISITS)
         ]
@@ -223,6 +266,9 @@ async def main(to_visit, visited):
             asyncio.create_task(write_worker(f"write-{i}", write_queue))
             for i in range(MAX_CONCURRENT_WRITES)
         ]
+
+        # Wait for the search worker to finish
+        await asyncio.gather(search_task)
 
         # Wait for the queues to be empty
         await visit_queue.join()
@@ -237,4 +283,4 @@ async def main(to_visit, visited):
 
 
 if __name__ == "__main__":
-    asyncio.run(main(to_visit, visited))
+    asyncio.run(main())
