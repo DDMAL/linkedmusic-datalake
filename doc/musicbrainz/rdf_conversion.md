@@ -2,12 +2,18 @@
 
 This documents any choices for properties in the RDF conversion process
 
+## Reducing clutter
+
+Due to the nature of the script, we need to store a fairly large amount of mapping data to properly convert the JSONL files to RDF. In an effort to reduce the clutter of constant global variables containing mappings, the mapping dictionaries for the main fields, the relations, and the attributes have been separated to their own JSON files, respectively `mappings.json`, `relations.json`, and `attribute_mapping.json`, all located in the `code/musicbrainz/rdf_conversion_config/` folder, and are loaded by the script. They were separated due to the size of the mappings, they would create too much clutter in the main script otherwise.
+
+Furthermore, the dictionary containing the regex patterns to match URLs and the class definition for `MappingSchema` have also been moved to their own modules, respectively `code/musicbrainz/url_patterns.py` and `code/musicbrainz/mapping_schema.py`, to further reduce clutter at the top of the script.
+
 ## A note on data types
 
-- Any literal value not given an explicit type will default to XSD:string. This is expected behaviour of the RDF standard.
-- Dates are given the type XSD:date, this is what wikidata uses, if something has a date and time, it will be in XSD:datetime
-- Coordinates (lat/lon) are given the GEO:wktLiteral type in the format `f"Point({lat} {lon})"`; this is what wikidata uses
-- Durations (in seconds) are stored in XSD:decimal, as they are numbers, this is also what wikidata does
+- Any literal value not given an explicit type will default to `XSD:string`. This is expected behaviour of the RDF standard.
+- Dates are given the type `XSD:date`, this is what wikidata uses, if something has a date and time, it will be in `XSD:datetime`
+- Coordinates (lat/lon) are given the `GEO:wktLiteral` type in the format `f"Point({lat} {lon})"`; this is what wikidata uses
+- Durations (in seconds) are stored in `XSD:decimal`, as they are numbers, this is also what wikidata does
 - Any and all URLs that are stored as plain URLs (instead of having IDs extracted if they links to other databases) kept as Literals. This is because these URLs aren't always URIs and lack the proper RDF URI formatting.
 
 ## Miscellaneous notes
