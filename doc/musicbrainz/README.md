@@ -4,7 +4,7 @@ This guide outlines the steps required for the entire data pipeline for translat
 
 Follow the steps below to ensure a smooth data conversion and upload process.
 
-## Prerequisites/What is already completed
+## Characteristics of MusicBrainz Dataset
 
 - Given that MusicBrainz data is based on a Relational Database (RDB) model, most entities (e.g. artists and recordings) are already carefully linked with one another. In fact, there are over 800 defined relationship types connecting these entities!
 - Please read the [official documentation on Basic MusicBrainz Entities](//http://musicbrainz.org/doc/Terminology) as well as the [official table of MusicBrainz Relationships](https://musicbrainz.org/relationships)
@@ -68,21 +68,27 @@ Below are the steps you must execute from your console once you have cloned the 
 
         - EXCEPTION 1: `release-group` entities do not have a `type` field. Instead, they have both a `primary-type` and a `secondary-types`field.
         - EXCEPTION 2: `recording` and `release` entities do not have a `type` field.
+        - EXCEPTION 3: `release` entities do not have a `type` field. 
 
-    - Execute the following command to extract specific unreconciled fields into CSV files for reconciliation. The fields are detailed below.
+        
 
-        ```bash
-        python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --output_folder data/musicbrainz/raw/unreconciled/
-        ```
+        - Execute the following command to extract `type` and other unreconciled fields. 
 
-    - It will extract the types for each entity type, except for those contained in the `IGNORE_TYPES` list. Those entity types don't have any `type` fields, so it's pointless to parse them.
-    - Each entity type that has types except for `release-group` stores the types in the `type` field. For `release-group` they are stored in the `primary-type` and `secondary-types` fields.
-    - Each type CSV will be named `f"{entity-type}_types.csv"`, and will be located in the `data/musicbrainz/raw/unreconciled` folder.
-    - The script will also extract the tonality (called "key" in the MusicBrainz database) for the `work` entity type and will output them to a CSV named "keys.csv", and will be located in the same folder.
-    - The script will also extract the genders for the `artist` entity type and will output them to a CSV named "genders.csv", and will be located in the same folder.
-    - The script will also extract the languages for the `work` entity type and will output them to a CSV named "languages.csv", and will be located in the same folder. The languages are stored by MusicBrainz in the [ISO 639-3 format](https://en.wikipedia.org/wiki/ISO_639-3) ([full list](https://en.wikipedia.org/wiki/List_of_ISO_639-3_codes)), but to enable reconciliation, the CSV will have an additional column named "full_language" which will hold the full name corresponding to the ISO 639-3 code, using the `pycountry` library.
-    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVs against Wikidata, and put the reconciled CSVs in the `data/musicbrainz/raw/reconciled` folder, naming each one `f"{entity_type}-types-csv.csv"`, `"keys-csv.csv"`, `"genders-csv.csv"`, or `"languages-csv.csv"`.
+            ```bash
+            python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --output_folder data/musicbrainz/raw/unreconciled/
+            ```
 
+        - The script extract values from all unreconciled fields into CSV files. All CSV files are stored at:
+            `data/musicbrainz/raw/unreconciled`
+        
+        - In that folder, you should find:
+            - `f"{entity-type}_types.csv"` for each entity_type except `release-group` `recording`, `release` (see above).
+            - `keys.csv` for `key` field of all `work` entities (`key` == tonality; `work` == composition). It is outputed 
+            - `genders.csv` for `gender` field of all `artist` entities. 
+            - `languages.csv` for `language` field of all `work` entities. The CSV includes an additional column, `full_language`, containing the full language name resolved from the ISO 639-3 code, using the pycountry library
+        - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVs against Wikidata. 
+        - Put the reconciled CSVs in the `data/musicbrainz/raw/reconciled` folder. Name them according to the following conventions:
+         `f"{entity_type}-types-csv.csv"`, `"keys-csv.csv"`, `"genders-csv.csv"`, or `"languages-csv.csv"`.
 5. **Converting Data to RDF (Turtle Format)**
 
     - For each JSON Lines file, convert the data using:
@@ -94,14 +100,14 @@ Below are the steps you must execute from your console once you have cloned the 
     - Notes on the script:
 
         - The script is optimized to be memory-efficient, but there's only so much you can do when one of the input files is >250GB.
-        - The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store` from the script's working directory. The script will automatically delete the folder when it finishes, but if it crashes, it is recommended to delete the folder before running the script again.
+        - The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store`, from the working directory. The script automatically deletes the folder when it finishes. However, if the script crashes, it is recommended to delete the folder before running it again.
         - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
         - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script
-        - For ease of reading, the fields are processed in alphabetical order in `process_line`
-        - For the `convert_date` function, if you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function, but not during the constructor, making any exceptions it raises impossible to catch, which is why I manually call it and pass its value to the constructor
-        - The same thing applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function
-        - The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_regex.py` to reduce clutter in the main script
-        - The class definition for the `MappingSchema` class was moved to a separate module, `code/musicbrainz/mapping_schema.py` to further reduce clutter in the main script
+        - For ease of reading, the fields are processed in alphabetical order in the `process_line` function.
+        - If you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I made `convert_date` function to call the call the `Literal` constructor.
+        - The same situation applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function
+        - The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_regex.py`, to reduce clutter in the main script. 
+        - The class definition for the `MappingSchema` class was moved to a separate module, `code/musicbrainz/mapping_schema.py`, to reduce clutter in the main script
         - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `code/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's keys are the target types, the second one's keys are source types, and the third one's keys are properties, with the values being the full URIs for the properties.
         - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
 
@@ -122,15 +128,7 @@ Below are the steps you must execute from your console once you have cloned the 
     - The RDF is stored in `data/musicbrainz/rdf/`
     - The genres are handled this way because they are stored and treated differently by MusicBrainz compared to the other core entity types, and they are not available in the [main database dumps](https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/). This is why we use the [API](https://musicbrainz.org/doc/MusicBrainz_API/#Introduction) to fetch the list of genres, and scrape the webpages to get the wikidata links.
 
-7. **Key Properties Extracted**
-
-    - The conversion process extracts as many properties as it can from each entity type, searching the fields of the JSON file, as well as all relations in the `relations` field, and all attributes in the `attributes` field.
-
-## Data Upload
-
-- Upload all converted RDF files to Virtuoso for further use.
-
-## Script Testing
+### Recommendation: Script Testing
 
 If you're experimenting on the scripts, it's recommended to take a small subset of the data, to save time. As an example, to get the first 100000 lines from the `area` file, run the following command in a terminal:
 
@@ -139,3 +137,11 @@ head -n 100000 area.jsonl > small_area.jsonl
 ```
 
 This greatly speeds up the processing, because some files have up to 5 million lines, and it is unnecessary to test against the entire dataset when making minor changes
+
+
+
+## Data Upload
+
+- Upload all converted RDF files to Virtuoso for further use. 
+(This section is yet completed)
+
