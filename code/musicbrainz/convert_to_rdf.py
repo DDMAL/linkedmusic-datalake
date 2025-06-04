@@ -52,7 +52,8 @@ from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import XSD
 import pandas as pd
 import aiofiles
-from url_regex import DATABASES_REGEX
+from url_patterns import DATABASES_REGEX
+from mapping_schema import MappingSchema
 
 # Define namespaces
 SCHEMA = Namespace("http://schema.org/")
@@ -76,116 +77,6 @@ MBRL = Namespace(f"{MB}release/")
 MBSE = Namespace(f"{MB}series/")
 MBWO = Namespace(f"{MB}work/")
 
-
-class MappingSchema:
-    """
-    Class to hold the mapping schema for MusicBrainz to Wikidata.
-    The first type is meant to be the type that you're pointing from,
-    and the second type is the type that you're pointing to.
-    This class handles wildcards, passing None as the first type will match any type,
-    but will give priority to specific mappings.
-    Any mappings passed as a string will be converted to a URIRef
-    with the Wikidata namespace (WDT).
-
-    To retrieve values, use the syntax:
-    `MB_SCHEMA[(pointing_from, pointing_to)]`
-    where `pointing_from` is the type you're pointing from
-    and `pointing_to` is the type you're pointing to.
-
-    Additionally, you can use the `to_dict_for_type` method to convert the schema
-    to a dictionary for a specific entity type.
-    This will simplify calls to the schema to avoid having to pass the pointing_from type.
-    """
-
-    def __init__(self, schema):
-        """
-        Initialize the MappingSchema with a given schema.
-        The schema should be a dictionary where keys are tuples of (pointing_from, pointing_to)
-        and values are the corresponding Wikidata property IDs.
-        pointing_from can be a single type or an iterable of types.
-        pointing_to should always be a single type.
-        If the value is a string, it will be converted to a URIRef with the Wikidata namespace (WDT).
-        """
-        self.schema = {}
-        for types, mapping in schema.items():
-            if not isinstance(mapping, URIRef):
-                mapping = URIRef(f"{WDT}{mapping}")
-            pointing_from, pointing_to = types
-            if pointing_to not in self.schema:
-                self.schema[pointing_to] = {}
-            if pointing_from and not isinstance(pointing_from, str):  # Handle iterables
-                for pf in pointing_from:
-                    self.schema[pointing_to][pf] = mapping
-            else:
-                self.schema[pointing_to][pointing_from] = mapping
-
-    def __getitem__(self, types):
-        """Get the mapping for a given pair of types."""
-        pointing_from, pointing_to = types
-        if pointing_to in self.schema:
-            if pointing_from in self.schema[pointing_to]:
-                return self.schema[pointing_to][pointing_from]
-            elif None in self.schema[pointing_to]:
-                return self.schema[pointing_to][None]
-        raise KeyError(f"No mapping found for types: {types}")
-
-    def __contains__(self, t):
-        """Check if a type is in the schema."""
-        return t in self.schema
-
-    def __bool__(self):
-        """Check if the schema is not empty."""
-        return bool(self.schema)
-
-    def add(self, schema):
-        """Add an additional mapping to the schema, with the same properties and behaviour as init."""
-        for types, mapping in schema.items():
-            if not isinstance(mapping, URIRef):
-                mapping = URIRef(f"{WDT}{mapping}")
-            pointing_from, pointing_to = types
-            if pointing_to not in self.schema:
-                self.schema[pointing_to] = {}
-            if pointing_from and not isinstance(pointing_from, str):  # Handle iterables
-                for pf in pointing_from:
-                    self.schema[pointing_to][pf] = mapping
-            else:
-                self.schema[pointing_to][pointing_from] = mapping
-
-    def to_dict_for_type(self, entity_type):
-        """
-        Convert the schema to a dictionary for a specific entity type.
-        This will simplify calls to the schema to avoid having to pass the pointing_from type.
-        This will return a dictionary where keys are the pointing_to types
-        and values are the corresponding URIRef.
-        """
-        to_return = {}
-        for pointing_to, mappings in self.schema.items():
-            for pointing_from, mapping in mappings.items():
-                if pointing_from == entity_type or (
-                    pointing_from is None and pointing_to not in to_return
-                ):
-                    to_return[pointing_to] = mapping
-        return to_return
-
-    def add_from_formatted_dict(self, formatted_dict):
-        """
-        Add mappings from a formatted dictionary to the schema.
-        The formatted dictionary should have the same layout as the internal schema,
-        with the exception that values are full URLs instead of URIRefs.
-        Additionally, if keys corresponding to `pointing_from` are the string value
-        "null", they will be converted to None.
-        This is a convenience method to add mappings from a dictionary
-        that was the internal schema dictionary dumped to a JSON file.
-        """
-        self.add(
-            {
-                (key if key != "null" else None, k): URIRef(val)
-                for k, v in formatted_dict.items()
-                for key, val in v.items()
-            }
-        )
-
-
 MB_SCHEMA = MappingSchema({})
 
 # Initialize the relationship and attribute mappings
@@ -205,7 +96,8 @@ MAX_SUBGRAPHS_IN_MEMORY = 120  # Max number of subgraphs to keep in memory at on
 # Otherwise it will use rdflib's in-memory graph
 GRAPH_STORE_CUTOFF = 1000000000
 
-REPROCESSING = False  # Set to True if you want to reprocess entity types that are already present in the output folder
+# Set to True if you want to reprocess entity types that are already present in the output folder
+REPROCESSING = False
 
 # List of statuses for works that are end causes
 # The remaining statuses will be interpreted as a type of work
@@ -221,7 +113,7 @@ ENTITIES_WITHOUT_TYPES = [
     "release",
 ]
 
-# This one is seperated because I need to convert from /wiki/... to /entity/...
+# This one is separated because I need to convert from /wiki/... to /entity/...
 WIKIDATA_REGEX = re.compile(r"^https?:\/\/www\.wikidata\.org\/wiki\/Q\d+$")
 
 
@@ -647,15 +539,17 @@ def process_line(
                     # If no match, treat it as a generic URL
                     target = Literal(url)
 
+        target_type = target_type.replace("_", "-")  # Normalize target type
         if not target:
             # Handle homogeneous relations
-            if target_type.replace("_", "-") == entity_type and (
+            if target_type == entity_type and (
                 rel_direction := relation.get("direction")
             ):
                 rel_type += f"_{rel_direction}"
             pred_uri = relationship_mapping.get(target_type, {}).get(rel_type)
 
-            if target_id := relation.get(target_type, {}).get("id"):
+            # We need the underscores because the release group field will be `release_group`
+            if target_id := relation.get(target_type.replace("-", "_"), {}).get("id"):
                 # If the target is a MusicBrainz entity, create a URIRef
                 target = URIRef(f"{MB}{target_type}/{target_id}")
 
@@ -1016,7 +910,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--input_folder",
-        default="../../data/musicbrainz/raw/extracted_jsonl/mbdump",
+        default="../../data/musicbrainz/raw/extracted_jsonl/mbdump/",
         help="Path to the folder containing line-delimited MusicBrainz JSON files.",
     )
     parser.add_argument(
@@ -1026,7 +920,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--config_folder",
-        default="../../doc/musicbrainz/rdf_conversion_config/",
+        default="./rdf_conversion_config/",
         help="Path to the folder containing MusicBrainz RDF conversion configuration files (the property, relationship, and attribute mapping files).",
     )
     parser.add_argument(

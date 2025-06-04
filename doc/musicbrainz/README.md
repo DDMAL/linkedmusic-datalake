@@ -51,11 +51,11 @@ Below are the steps you must execute from your console once you have cloned the 
    - Execute the following command to extract JSON Lines files from the tar.xz:
 
      ```bash
-     python code/musicbrainz/untar.py --input_folder data/musicbrainz/raw/archived --output_folder data/musicbrainz/raw/extracted_jsonl
+     python code/musicbrainz/untar.py --input_folder data/musicbrainz/raw/archived/ --output_folder data/musicbrainz/raw/extracted_jsonl/
      ```
     
    - The extracted files are located at:
-     `linkedmusic-datalake/data/musicbrainz/raw/extracted_jsonl/mbdump/`
+     `data/musicbrainz/raw/extracted_jsonl/mbdump/`
     
    - Note: There are other files in the `.tar.xz`. However, there are timestamps and data licenses, which are not useful to our project.
 
@@ -70,7 +70,7 @@ Below are the steps you must execute from your console once you have cloned the 
    - Execute the following command to extract specific unreconciled fields into CSV files for reconciliation. The fields are detailed below.
 
      ```bash
-     python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump --output_folder data/musicbrainz/raw/unreconciled
+     python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --output_folder data/musicbrainz/raw/unreconciled/
      ```
    - It will extract the types for each entity type, except for those contained in the `IGNORE_TYPES` list. Those entity types don't have any `type` fields, so it's pointless to parse them.
    - Each entity type that has types except for `release-group` stores the types in the `type` field. For `release-group` they are stored in the `primary-type` and `secondary-types` fields.
@@ -84,7 +84,7 @@ Below are the steps you must execute from your console once you have cloned the 
    - For each JSON Lines file, convert the data using:
 
      ```bash
-     python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --reconciled_folder data/musicbrainz/raw/reconciled --config_folder doc/musicbrainz/rdf_conversion_config --output_folder data/musicbrainz/rdf/
+     python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --reconciled_folder data/musicbrainz/raw/reconciled/ --config_folder code/musicbrainz/rdf_conversion_config/ --output_folder data/musicbrainz/rdf/
      ```
    - Notes on the script:
 
@@ -96,9 +96,10 @@ Below are the steps you must execute from your console once you have cloned the 
      - For the `convert_date` function, if you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function, but not during the constructor, making any exceptions it raises impossible to catch, which is why I manually call it and pass its value to the constructor
      - The same thing applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function
      - The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_regex.py` to reduce clutter in the main script
-     - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `doc/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's keys are the target types, the second one's keys are source types, and the third one's keys are properties, with the values being the full URIs for the properties.
+     - The class definition for the `MappingSchema` class was moved to a separate module, `code/musicbrainz/mapping_schema.py` to further reduce clutter in the main script
+        - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `code/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's keys are the target types, the second one's keys are source types, and the third one's keys are properties, with the values being the full URIs for the properties.
      - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
-   - The generated RDF files are saved in the `linkedmusic-datalake/data/musicbrainz/rdf/` directory.
+   - The generated RDF files are saved in the `data/musicbrainz/rdf/` directory.
    - Further documentation on the RDF conversion process is located in the `doc/musicbrainz/rdf_conversion.md` file
    - Documentation regarding the `relations` field can be found in the `doc/musicbrainz/relations.md` file
 6. **Retrieving Genre Information**
@@ -106,11 +107,11 @@ Below are the steps you must execute from your console once you have cloned the 
    - Run the following script to scrape genres along with their reconciled WikiData IDs:
 
      ```bash
-     python code/musicbrainz/get_genre.py --output ./data/musicbrainz/rdf/
+     python code/musicbrainz/get_genre.py --output data/musicbrainz/rdf/
      ```
    - The script is rate-limited to 1 request every 1.375 seconds following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works), it was increased from 1 second to 1.375 second because we were still getting rate limited even with a 1 second delay
    - The script also provides a user-agent header, following the same guidelines
-   - The RDF is stored in `linkedmusic-datalake/data/musicbrainz/rdf/`
+   - The RDF is stored in `data/musicbrainz/rdf/`
    - The genres are handled this way because they are stored and treated differently by MusicBrainz compared to the other core entity types, and they are not available in the [main database dumps](https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/). This is why we use the [API](https://musicbrainz.org/doc/MusicBrainz_API/#Introduction) to fetch the list of genres, and scrape the webpages to get the wikidata links.
 7. **Key Properties Extracted**
 
