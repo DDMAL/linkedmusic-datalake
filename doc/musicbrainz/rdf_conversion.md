@@ -1,6 +1,6 @@
 # MusicBrainz RDF Conversion
 
-This documents any choices for properties in the RDF conversion process
+This documents any choices for properties in the RDF conversion process, as well as other information relating to the RDF conversion process
 
 ## Reducing clutter
 
@@ -21,6 +21,7 @@ Furthermore, the dictionary containing the regex patterns to match URLs and the 
 - For the `release` entity type, `quality` does not indicate the quality of the release, it is an internal marker for musicbrainz that indicates how good the information about the release is. See the [documentation page](https://musicbrainz.org/doc/Release#Data_quality) for more information.
 - For the `release` entity type, `packaging` does not have any property that could fill the purpose, so that field is ignored
 - For the `release` entity type, `status` does not neatly map onto a Wikidata property. Instead, I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Additionally, I attempted to reconcile the values of the fields against wikidata, but there are no equivalent entities on Wikidata so I would end up reconciling against improper entities, thus I chose to leave the statuses entirely unreconciled.
+- The release group entity type is stored almost everywhere as `release-group`, but specifically in relations, in the `target-type` field and as its own field, it's stored as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes and go from there.
 
 ## Attributes
 

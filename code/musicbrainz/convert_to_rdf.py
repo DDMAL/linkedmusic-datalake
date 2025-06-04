@@ -539,15 +539,17 @@ def process_line(
                     # If no match, treat it as a generic URL
                     target = Literal(url)
 
+        target_type = target_type.replace("_", "-")  # Normalize target type
         if not target:
             # Handle homogeneous relations
-            if target_type.replace("_", "-") == entity_type and (
+            if target_type == entity_type and (
                 rel_direction := relation.get("direction")
             ):
                 rel_type += f"_{rel_direction}"
             pred_uri = relationship_mapping.get(target_type, {}).get(rel_type)
 
-            if target_id := relation.get(target_type, {}).get("id"):
+            # We need the underscores because the release group field will be `release_group`
+            if target_id := relation.get(target_type.replace("-", "_"), {}).get("id"):
                 # If the target is a MusicBrainz entity, create a URIRef
                 target = URIRef(f"{MB}{target_type}/{target_id}")
 
