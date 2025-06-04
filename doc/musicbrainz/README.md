@@ -26,7 +26,7 @@ Below are the steps you must execute from your console once you have cloned the 
     - Run the command below to download the latest `.tar.xz` dumps from the MusicBrainz public data sources (see [official documentation](https://musicbrainz.org/doc/Development/JSON_Data_Dumps)):
 
         ```bash
-        python code/musicbrainz/fetch.py --output_folder linkedmusic-datalake/data/musicbrainz/raw/archived/
+        python code/musicbrainz/fetch.py --output_folder data/musicbrainz/raw/archived/
         ```
 
     - The downloaded files are stored at:
