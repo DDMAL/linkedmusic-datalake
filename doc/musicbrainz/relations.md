@@ -1,8 +1,17 @@
 # MusicBrainz: Relationships between Entities
 
 
+## Understanding MusicBrainz Relationships
 
-However, the vast majority of relationships between entities are listed in the `relationships` field. Given that across all entity types, there are roughly 800 different relation types that all need to be mapped, storing the mappings inside the script would make it very messy. As such, the script `code/musicbrainz/extract_relations.py` will parse all the JSONL data files and will extract every relationship type between all entities. Importantly, the script will only add new relationships, preserving pre-existing mappings.
+MusicBrainz Relationships ([Official Definition](https://musicbrainz.org/doc/Relationships)) can exist between _almost_ any two entities of any given of the given 13 entity-types. For example, an artist may be the `"owner"` of a label, just as well as a label can be the `"owner"` of a place. However, MusicBrainz, unlike Wikidata, is extremely rigid about what entity-type is connected by a particular relationship. In our previous example, the two `"owner"` relationships are in fact distinct: the [first](https://musicbrainz.org/relationship/610fa594-eeaa-407b-a9f1-49f509ab5559) can only be between an artist and a label, while the [second](https://musicbrainz.org/relationship/06829429-0f20-4c00-aa3d-871fde07d8c4) can only be between a label and a place.
+
+
+
+
+However, the vast majority of relationships between entities are listed in the `relationships` field. 
+
+
+Given that across all entity types, there are roughly 800 different relation types that all need to be mapped, storing the mappings inside the script would make it very messy. As such, the script `code/musicbrainz/extract_relations.py` will parse all the JSONL data files and will extract every relationship type between all entities. Importantly, the script will only add new relationships, preserving pre-existing mappings.
 
 In the MusicBrainz dataset, a few relationships between entities are kept in their own fields, like how `artist-credit` is the field that contains that contains the artists who made the recording.
 
