@@ -8,7 +8,7 @@ The async crawler is rate limited to a maximum of 2 simultaneous connections, an
 
 I chose to not download the pages for cities, countries and regions because we can easily reconcile against Wikidata for that. The only information that they contain is the list of archives, sources, and organizations in that city/country/region, which we already have because archives, sources, and organizations also have a field indicating which city/country they're in.
 
-I also chose to not download the pages on authors because they do not contain anything of use at all in terms of classifying or adding data to the other data types in the database. The "author" data type seems to represent (modern) people who wrote papers that reference or mention various institutions or sources. This seems to be difficult to store, but further discussion is being held in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues/287).
+As per discussion in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues/287), we will not be storing the bibliographic data as it is a pre-rendered HTML field, and is incredibly difficult to parse. We will still be able to point people to the bibliography on the DIAMM website because we still store DIAMM URLs. As such, there is no need to download the pages on authors because they onl contain bibliographic links, we will only store the links to them.
 
 ## 2. Processing Data
 
