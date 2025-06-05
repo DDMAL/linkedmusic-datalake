@@ -15,6 +15,7 @@ Data in `sources` will be in the relations CSV
 - `website`
 - `rism_id`
 - `city`: the name of the city the archive is located in
+- `city_id`: the DIAMM ID of the city, if available
 - `country`: the name of the country the archive is located in
 
 ## Compositions
@@ -32,7 +33,9 @@ Data in `related_sources`, `copied_sources`, and `source_provenance` will be put
 - `name`
 - `organization_type`
 - `city`: the name of the city the organization is located in
+- `city_id`: the DIAMM ID of the city, if available
 - `country`: the name of the country the organization is located in
+- `country_id`: the DIAMM ID of the country, if available
 
 ## People
 

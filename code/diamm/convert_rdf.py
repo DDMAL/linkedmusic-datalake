@@ -20,6 +20,8 @@ WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
 DIAMM = Namespace("https://www.diamm.ac.uk/")
 DA = Namespace(f"{DIAMM}archives/")
+DC = Namespace(f"{DIAMM}cities/")
+DN = Namespace(f"{DIAMM}countries/")
 DM = Namespace(f"{DIAMM}compositions/")
 DO = Namespace(f"{DIAMM}organizations/")
 DP = Namespace(f"{DIAMM}people/")
@@ -62,6 +64,8 @@ namespaces = {
     "wd": WD,
     "diamm": DIAMM,
     "da": DA,
+    "dc": DC,
+    "dn": DN,
     "dm": DM,
     "do": DO,
     "dp": DP,
@@ -140,6 +144,15 @@ for work in json_data:
                 URIRef(f"{WD}{work['city_@id']}"),
             )
         )
+        if work["city_id"]:
+            # Add a statement saying that the city is the same as the Wikidata entity
+            g.add(
+                (
+                    URIRef(f"{DC}{work['city_id']}"),
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"),
+                    URIRef(f"{WD}{work['city_@id']}"),
+                )
+            )
     else:
         g.add(
             (subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), Literal(work["city"]))
@@ -280,6 +293,15 @@ for work in json_data:
                     URIRef(f"{WD}{work['city_@id']}"),
                 )
             )
+            if work["city_id"]:
+                # Add a statement saying that the city is the same as the Wikidata entity
+                g.add(
+                    (
+                        URIRef(f"{DC}{work['city_id']}"),
+                        URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"),
+                        URIRef(f"{WD}{work['city_@id']}"),
+                    )
+                )
         else:
             g.add(
                 (
@@ -298,6 +320,15 @@ for work in json_data:
                     URIRef(f"{WD}{work['country_@id']}"),
                 )
             )
+            if work["country_id"]:
+                # Add a statement saying that the country is the same as the Wikidata entity
+                g.add(
+                    (
+                        URIRef(f"{DN}{work['country_id']}"),
+                        URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"),
+                        URIRef(f"{WD}{work['country_@id']}"),
+                    )
+                )
         else:
             g.add(
                 (

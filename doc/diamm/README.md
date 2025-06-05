@@ -16,7 +16,9 @@ As per discussion in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues
 
 ## 2. Processing Data
 
-See `doc/diamm/data_layout.md` for a brief overview of the data downloaded by the scraper. The script `code/diamm/to_csv.py` parses the downloaded JSON data into CSVs, with columns described in `doc/diamm/csv_fields.md`. Relations, like the list of sources contained in an archive, is stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. The CSV files are sent to the `data/diamm/csv/` folder.
+See `doc/diamm/data_layout.md` for a brief overview of the data downloaded by the scraper. The script `code/diamm/to_csv.py` parses the downloaded JSON data into CSVs, with columns described in `doc/diamm/csv_fields.md`. Relations, like the list of sources contained in an archive, is stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. This includes both one-to-many and many-to-many relations. The CSV files are sent to the `data/diamm/csv/` folder.
+
+Additionally, for `archives` and `organizations` (the only entity types with cities/countries), in addition to storing the city and country names, the DIAMM IDs for the cities and countries are also stored when available. This allows us to map a DIAMM ID of a city or country to its Wikidata Q-ID during the RDF conversion process (after reconciliation). However, the API does not directly provide the IDs for the cities and countries, they need to be extracted from the URL. Furthermore, there only ever is 1 URL present, and if both the city and country are present, then the URL is for the city.
 
 ## 3. Reconciling Data
 
@@ -24,9 +26,11 @@ All of the CSV files produced by `code/diamm/to_csv.py`, except for `relations.c
 
 ## 4. Transforming to RDF (Turtle)
 
-The `code/diamm/convert_rdf.py` will take the reconciled CSVs and the relations CSV and merge everything and will produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
+The `code/diamm/convert_rdf.py` will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
 
 For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead.
+
+For cities and countries, if a city/country was successfully reconciled against Wikidata and its DIAMM ID is present, then an additional triple is added, linking the DIAMM ID to the matching Wikidata Q-ID using P2888 "exact match".
 
 Some properties of interest:
 
@@ -37,5 +41,7 @@ Some properties of interest:
 - P767 (contributor to the creative work or subject) is used to indicate people that are related to a source, as it's the closest thing I could find for this relationship
 - P170 (creator) is used to indicate people that copied a source
 - P361 (part of) is used to indicate sets or compositions that are contained in sources
+
+### JSON-LD
 
 The JSON-LD approach was not followed for this database. However, the beginnings of a context file can be found in the `jsonld_approach/diamm` folder.
