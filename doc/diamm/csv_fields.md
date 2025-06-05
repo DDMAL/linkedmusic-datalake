@@ -28,7 +28,7 @@ Data in `composers` and `sources` will be put in the relations CSV
 
 ## Organizations
 
-Data in `related_sources`, `copied_sources`, and `source_provenance` will be put in the relations CSV
+Data in `related_sources`, `copied_sources`, and `source_provenance` will be put in the relations CSV. The relationships for `related_sources` will additionally keep track of the original relationship type.
 
 - `name`
 - `organization_type`
@@ -39,7 +39,7 @@ Data in `related_sources`, `copied_sources`, and `source_provenance` will be put
 
 ## People
 
-Data in `compositions`, `related_sources`, and `copied_sources` will be put in the relations CSV
+Data in `compositions`, `related_sources`, and `copied_sources` will be put in the relations CSV. The relationships for `related_sources` will additionally keep track of the original relationship type.
 
 - `full_name`
 - `variant_names`: this is a list of variant names separated by `", "`
@@ -59,7 +59,7 @@ This will hold all relationships between objects. `key1` will contain the object
 
 ## Sets
 
-Data in `holding_archives` and `sources` will put in the relations CSV
+Data in `relationships`, `holding_archives` and `sources` will put in the relations CSV. The relationships in `relationships` will additionally keep track of the original relationship type.
 
 - `type`
 - `cluster_shelfmark`

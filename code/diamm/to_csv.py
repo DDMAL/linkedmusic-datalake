@@ -73,7 +73,7 @@ for file in (Path(BASE_PATH) / "archives").glob("*.json"):
         line["website"] = data["website"] if "website" in data else ""
         line["rism_id"] = ""
         for identifier in data["identifiers"]:
-            if re.match("RISM", identifier["label"], re.IGNORECASE):
+            if re.search("RISM", identifier["label"], re.IGNORECASE):
                 line["rism_id"] = identifier["identifier"]
                 break
         for source in data["sources"]:
@@ -167,12 +167,13 @@ for file in (Path(BASE_PATH) / "organizations").glob("*.json"):
                 line["city_id"] = ""
         for source in data["related_sources"]:
             source_id = int(source["url"].split("/")[-2])
+            relationship_type = source["relationship"]
             relations.add(
                 HashableDict(
                     {
                         "key1": f"organization:{line['id']}",
                         "key2": f"source:{source_id}",
-                        "type": "related",
+                        "type": f"related:{relationship_type}",
                     }
                 )
             )
@@ -226,9 +227,9 @@ for file in (Path(BASE_PATH) / "people").glob("*.json"):
         )
         line["rism_id"] = line["viaf_id"] = ""
         for identifier in data["identifiers"]:
-            if re.match("RISM", identifier["label"], re.IGNORECASE):
+            if re.search("RISM", identifier["label"], re.IGNORECASE):
                 line["rism_id"] = identifier["identifier"]
-            elif re.match("VIAF", identifier["label"], re.IGNORECASE):
+            elif re.search("VIAF", identifier["label"], re.IGNORECASE):
                 line["viaf_id"] = identifier["identifier"]
         for composition in data["compositions"]:
             composition_id = int(composition["url"].split("/")[-2])
@@ -243,12 +244,13 @@ for file in (Path(BASE_PATH) / "people").glob("*.json"):
                 relations.add(composition_dict)
         for source in data["related_sources"]:
             source_id = int(source["url"].split("/")[-2])
+            relationship_type = source["relationship"]
             relations.add(
                 HashableDict(
                     {
                         "key1": f"people:{line['id']}",
                         "key2": f"source:{source_id}",
-                        "type": "related",
+                        "type": f"related:{relationship_type}",
                     }
                 )
             )
@@ -350,6 +352,34 @@ for file in (Path(BASE_PATH) / "sources").glob("*.json"):
             )
             if set_dict not in relations:
                 relations.add(set_dict)
+        for relation in data["relationships"]:
+            if (
+                (rtype := relation.get("relationship_type"))
+                and (eurl := relation.get("related_entity", {}).get("url"))
+            ):
+                etype = eurl.split("/")[-3]
+                if etype == "people":
+                    related_id = int(eurl.split("/")[-2])
+                    relations.add(
+                        HashableDict(
+                            {
+                                "key1": f"people:{related_id}",
+                                "key2": f"source:{line['id']}",
+                                "type": f"related:{rtype}",
+                            }
+                        )
+                    )
+                elif etype == "organizations":
+                    related_id = int(eurl.split("/")[-2])
+                    relations.add(
+                        HashableDict(
+                            {
+                                "key1": f"organization:{related_id}",
+                                "key2": f"source:{line['id']}",
+                                "type": f"related:{rtype}",
+                            }
+                        )
+                    )
         rows.append(line)
 df = pd.DataFrame(rows)
 df.to_csv(os.path.join(BASE_CSV_PATH, "sources.csv"), index=False)
