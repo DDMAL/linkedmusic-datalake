@@ -7,7 +7,7 @@ Follow the steps below to ensure a smooth data conversion and upload process.
 ## Characteristics of MusicBrainz Dataset
 
 - Given that MusicBrainz data is based on a Relational Database (RDB) model, most entities (e.g. artists and recordings) are already carefully linked with one another. In fact, there are over 800 defined relationship types connecting these entities!
-- Please read the [official documentation on Basic MusicBrainz Entities](//http://musicbrainz.org/doc/Terminology) as well as the [official table of MusicBrainz Relationships](https://musicbrainz.org/relationships)
+- Please read the [official documentation on Basic MusicBrainz Entities](https://musicbrainz.org/doc/Terminology) as well as the [official table of MusicBrainz Relationships](https://musicbrainz.org/relationships)
 - Luckily, most Musicbrainz entities are already reconciled with Wikidata (i.e. they have a field containing the matching Wikidata QID). This removes the need for reconciliation with OpenRefine.
 
 ## Data Processing Pipeline
@@ -19,7 +19,7 @@ Below are the steps you must execute from your console once you have cloned the 
 1. **Navigate to the Target Folder**
 
     - Change directory to `linkedmusic-datalake/`.
-    - This helps all the scripts locate their default input and output directories. Additionally, all the scripts accept  --input_folder and/or --output_folder argument(s).
+    - All the commands written in this script expect the working directory to be the directory root. You can also run the scripts directly from their directory and the default arguments will point to the correct folders. This is especially useful when suing VSCode's run script feature.
 
 2. **Fetching the Latest Data**
 
@@ -31,7 +31,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
     - The downloaded files are stored at:
         `data/musicbrainz/raw/archived/`
-    - A tar.gz exists for each of the 13 MusicBrainz entity types, except "genre" and "url". Therefore, you should have downloaded the following 11 files:
+    - A tar.xz exists for 11 of the 13 MusicBrainz entity types, all of them except "genre" and "url". Therefore, you should have downloaded the following 11 files:
 
         1. area.tar.xz
         2. artist.tar.xz
@@ -49,7 +49,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
     - Each downloaded `.tar.xz` files contain a `mbdump` folder.
     - Each `mbdump` folder contain a single JSON Lines file
-   - Each JSON Lines (JSONL) file contain all the MusicBrainz entities of that type (e.g. area.jsonl contain all the artists) : each line of the file is a JSON record for an entity.
+    - Each JSON Lines (JSONL) file contain all the MusicBrainz entities of that type (e.g. area.jsonl contain all the artists) : each line of the file is a JSON record for an entity.
 
     - Execute the following command to extract JSON Lines files from the tar.xz:
 
@@ -60,41 +60,37 @@ Below are the steps you must execute from your console once you have cloned the 
     - The extracted files are located at:
         `data/musicbrainz/raw/extracted_jsonl/mbdump/`
 
-    - Note: There are other files in the `.tar.xz`. However, they  are timestamps and data licenses, which are not useful to our project.
-
-
-    
+    - Note: There are other files in the `.tar.xz`. However, they are timestamps and data licenses, which are not useful to our project.
 
 4. **Extracting and Reconciling Unreconciled Fields**
 
-Note:
-  - You can consult `doc/musicbrainz/layout.json` to see a list of fields that exist for each entity type.
+    - Note that you can consult `doc/musicbrainz/layout.json` to see a list of fields that exist for each entity type.
 
     - Each entity in MusicBrainz has an additional `type` field on top of their basic entity-type. You can understand `type` as a subclass of `entity-type`. For example, Berlin Philharmoniker has `"artist"` as its `entity-type` (general), and `"orchestra"` as its `type` (specific).
 
         - EXCEPTION 1: `release-group` entities do not have a `type` field. Instead, they have both a `primary-type` and a `secondary-types`field.
         - EXCEPTION 2: `recording` and `release` entities do not have a `type` field.
-  
-- `types` are not yet reconciled with Wikidata. We must therefore extract a list of all available types and reconcile them ourselves (e.g. match the type `orchestra` to `Q42998`) 
 
-  
-  - Execute the following command to extract `type` and other unreconciled fields. 
+    - `types` are not yet reconciled with Wikidata. We must therefore extract a list of all available types and reconcile them ourselves (e.g. match the type `orchestra` to [`Q42998`](https://www.wikidata.org/wiki/Q42998))
 
-            ```bash
-            python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --output_folder data/musicbrainz/raw/unreconciled/
-            ```
+    - Execute the following command to extract `type` and other unreconciled fields.
 
-     - The script extract values from all unreconciled fields into CSV files. All CSV files are stored at:
-            `data/musicbrainz/raw/unreconciled`
-        
-        - In that folder, you should find:
-            - `f"{entity-type}_types.csv"` for each entity_type except `release-group` `recording`, `release` (see above).
-            - `keys.csv` for `key` field of all `work` entities (`key` == tonality; `work` == composition).
-            - `genders.csv` for `gender` field of all `artist` entities. 
-            - `languages.csv` for `language` field of all `work` entities. The CSV includes an additional column, `full_language`, containing the full language name resolved from the ISO 639-3 code, using the pycountry library
-        - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVs against Wikidata. 
-        - Put the reconciled CSVs in the `data/musicbrainz/raw/reconciled` folder. Name them according to the following conventions:
-         `f"{entity_type}-types-csv.csv"`, `"keys-csv.csv"`, `"genders-csv.csv"`, or `"languages-csv.csv"`.
+        ```bash
+        python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --output_folder data/musicbrainz/raw/unreconciled/
+        ```
+
+    - The script extract values from all unreconciled fields into CSV files. All CSV files are stored at:
+        `data/musicbrainz/raw/unreconciled/`
+
+    - In that folder, you should find:
+        - `f"{entity-type}_types.csv"` for each entity_type except `recording` and `release` (see above).
+        - `keys.csv` for `key` field of all `work` entities (`key` == tonality; `work` == composition).
+        - `genders.csv` for `gender` field of all `artist` entities.
+        - `languages.csv` for `language` field of all `work` entities. The CSV includes an additional column, `full_language`, containing the full language name resolved from the ISO 639-3 code, using the `pycountry` library
+    - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVs against Wikidata.
+    - Put the reconciled CSVs in the `data/musicbrainz/raw/reconciled` folder. Name them according to the following conventions:
+        `f"{entity_type}-types-csv.csv"`, `"keys-csv.csv"`, `"genders-csv.csv"`, or `"languages-csv.csv"`.
+
 5. **Converting Data to RDF (Turtle Format)**
 
     - For each JSON Lines file, convert the data using:
@@ -107,19 +103,20 @@ Note:
 
         - The script is optimized to be memory-efficient, but there's only so much you can do when one of the input files is >250GB.
         - The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store`, from the working directory. The script automatically deletes the folder when it finishes. However, if the script crashes, it is recommended to delete the folder before running it again.
+        - The graph will not use disk storage if the input file is less than 1GB in size. This is a configurable limit in the script.
         - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
-        - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script
+        - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script.
         - For ease of reading, the fields are processed in alphabetical order in the `process_line` function.
-        - If you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I made `convert_date` function to call the call the `Literal` constructor.
-        - The same situation applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function
-        - The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_regex.py`, to reduce clutter in the main script. 
-        - The class definition for the `MappingSchema` class was moved to a separate module, `code/musicbrainz/mapping_schema.py`, to reduce clutter in the main script
-        - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `code/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's keys are the target types, the second one's keys are source types, and the third one's keys are properties, with the values being the full URIs for the properties.
+        - If you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
+        - The same situation applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function.
+        - The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_patterns.py`, to reduce clutter in the main script.
+        - The class definition for the `MappingSchema` class was also moved to a separate module, `code/musicbrainz/mapping_schema.py`, to reduce clutter in the main script
+        - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `code/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
         - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
 
     - The generated RDF files are saved in the `data/musicbrainz/rdf/` directory.
-    - Further documentation on the RDF conversion process is located in the `doc/musicbrainz/rdf_conversion.md` file
-    - Documentation regarding the `relations` field can be found in the `doc/musicbrainz/relations.md` file
+    - Further documentation on the RDF conversion process is located in the `doc/musicbrainz/rdf_conversion.md` file.
+    - Documentation regarding the `relations` field can be found in the `doc/musicbrainz/relations.md` file.
 
 6. **Retrieving Genre Information**
 
@@ -144,10 +141,7 @@ head -n 100000 area.jsonl > small_area.jsonl
 
 This greatly speeds up the processing, because some files have up to 5 million lines, and it is unnecessary to test against the entire dataset when making minor changes
 
-
-
 ## Data Upload
 
-- Upload all converted RDF files to Virtuoso for further use. 
+- Upload all converted RDF files to Virtuoso for further use.
 (This section is yet completed)
-
