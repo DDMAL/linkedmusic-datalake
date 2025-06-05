@@ -1,35 +1,44 @@
 # MusicBrainz Reconciliation
 
-Pretty much all the data is already reconciled by MusicBrainz against wikidata, only the values for a few fields aren't:
+Please read the section **4. Extracting and Reconciling Unreconciled Fields** in README.md before reading this document.
 
+Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro confirmed that MusicBrainz entities don't need additional reconciliation), only the values in the following fields are not :
 - The `type` field for all entity types that have it
 - The values for the `key` attribute type for works
 - The values for the `gender` field for artists
 - The values for the `language`/`languages` field for works
 
-Ichiro confirmed this, stating that we won't reconcile on our end the MusicBrainz data, only data in specific fields.
+There is also the field `relationship` that is unreconciled. This field is treated separately in `relations.md`.
 
-For each reconciliation, both history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files` folder
+For each reconciliation, both OpenRefine history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files` folder
 
 ## Types
 
-Automatic reconciliation using Wikidata's API was attempted, but yielded poor results, so I went with manual reconciliation for most of the data due to its small nature. Relevant and/or important decisions are listed below:
+`types` are subclasses of a given `entity-type`. For example, `municipality` is a possible `type` of `area`.
 
-- For most instances where more than 1 type are listed at once (like "Concert hall / Theatre"), I choose to not reconcile them because it is impossible to choose between the options.
-- Fields saying "other" or similar values were also not reconciled, due to there not being a good match on wikidata
-- For area types, I matched indigenous territory / reserve to `lands inhabited by indigenous peoples` because it's the closest thing I could find on wikidata and encapsulates the concept well, and I matched subdivision to `administrative territorial entity` for the same reason
-- For instrument types, I chose to match ensemble to nothing because it's unclear what type of ensemble it is
-- For place types, festival stage was not reconciled because there is no match on wikidata
-- For series types, run was not reconciled because no suitable match could be found on wikidata, some of the awards wer left unreconciled because it is unclear what they reference, and there is no match on wikidata
-- For work types, Beijing opera was left unreconciled because there is no element on wikidata that would indicate a type of work, only the physical beijing opera, which not what we want to match
+Automatic reconciliation using Wikidata's API was attempted, but yielded poor results, so I went with manual reconciliation for most of the data due to its small nature. Relevant and important decisions are listed below:
+
+- For most instances where more than 1 types are listed at once (e.g. "Concert hall / Theatre"), I choose to not reconcile at all because it is impossible to choose between the options.
+- Fields saying "other" or similar values were also not reconciled, due to there not being a good match on Wikidata.
+- For area types, I matched `indigenous territory / reserve` to `lands inhabited by indigenous peoples` because it's the closest thing I could find on Wikidata that encapsulates both concepts. I matched `subdivision` to `administrative territorial entity` for the same reason.
+- For instrument types, I chose to leave `ensemble` unreconciled because it's unclear what type of ensemble it is.
+- For place types, `festival stage` was not reconciled because there is no match on Wikidata.
+- For series types, `run` was not reconciled because no suitable match could be found on Wikidata. Some of the awards were left unreconciled because they are unclear and have no match on Wikidata.
+- For work types, Beijing opera was left unreconciled because there is no element on Wikidata that would indicate a type of work, only the physical Beijing opera, which is not what we want to match. 
+(Addendum: Beijing opera can be reconciled to [Q335101](https://www.wikidata.org/entity/Q335101).)
 
 ## Keys
 
-The "keys" that were extracted (in the format of "A major", "B mixolydian", etc) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but the other modes (mixolydian, lydian, etc) were not. I left them unreconciled after validating that there are no "A mixolydian"-style entries on Wikidata for modes other than major and minor.
+`key` is the tonality of the musical work
 
+The "keys" that were extracted (in the format of "A major", "B mixolydian", etc.) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but the other modes (A mixolydian, E lydian, etc.) are left unreconciled, since there exist no "A mixolydian"-style entities on Wikidata. 
+
+However, modes without tonic (e.g. [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115)) do exist as Wikidata entities. We may consider, for example, specifying the mode as [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115) and the tonic (Wikidata property to be created) as [A(Q744346)](https://www.wikidata.org/wiki/Q744346).
+
+Alternatively, we may consider creating these modes ourselves since they are referenced often across databases (e.g. in The Session).
 ## Genders
 
-The genders that were extracted were reconciled against Q48264 "gender identity". The "other" gender was reconciled to "non-binary gender", and the "not applicable" gender not reconciled.
+The genders that were extracted were reconciled against Q48264 "gender identity". The "other" gender was reconciled to "non-binary gender", and the "not applicable" gender is not reconciled.
 
 ## Languages
 
@@ -41,7 +50,8 @@ SELECT ?language ?languageLabel WHERE {
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
 ```
+(Replace "ksh" with the language code you want)
 
-I chose to not reconcile syr "Syriac" because there is no entity on Wikidata with syr as the value in P220. There is an [entity](https://www.wikidata.org/wiki/Q33538) in Wikidata with syc "Classical Syriac", but since it is a different language then the one represented by syr I did not reconcile it
+I chose to not reconcile `syr`, which is supposed to be "Syriac", because there is no entity on Wikidata with syr as the value in P220. There is [Classical Syriac](https://www.wikidata.org/wiki/Q33538) in Wikidata, which has a language code of `syc`. But since it is a different language then the one represented by `syr` I did not reconcile it
 
-For qaa, this is a language code reserved for internal use of the database; MusicBrainz uses it to indicate "Artificial (Other)". As such, I have reconciled it to Q3247505 "artificial language", which is meant to represent languages that were constructed for a purpose
+`qaa` is a language code reserved for internal use of the database; MusicBrainz uses it to indicate "Artificial (Other)". As such, I have reconciled it to Q3247505 "artificial language", which is meant to represent languages that were constructed for a purpose
