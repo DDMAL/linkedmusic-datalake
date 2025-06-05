@@ -1,6 +1,6 @@
 # MusicBrainz Data Conversion Documentation
 
-This guide outlines the steps required for the entire data pipeline for translating raw data from MusicBrainz into an RDF graph.
+This guide outlines the steps required for the entire data pipeline of translating raw data from MusicBrainz into an RDF graph.
 
 Follow the steps below to ensure a smooth data conversion and upload process.
 
@@ -8,7 +8,7 @@ Follow the steps below to ensure a smooth data conversion and upload process.
 
 - Given that MusicBrainz data is based on a Relational Database (RDB) model, most entities (e.g. artists and recordings) are already carefully linked with one another. In fact, there are over 800 defined relationship types connecting these entities!
 - Please read the [official documentation on Basic MusicBrainz Entities](//http://musicbrainz.org/doc/Terminology) as well as the [official table of MusicBrainz Relationships](https://musicbrainz.org/relationships)
-- Luckily, most Musicbrainz entities are already reconciled with Wikidata (i.e. they have field containing the matching Wikidata QID). This removes the need for reconciliation with OpenRefine.
+- Luckily, most Musicbrainz entities are already reconciled with Wikidata (i.e. they have a field containing the matching Wikidata QID). This removes the need for reconciliation with OpenRefine.
 
 ## Data Processing Pipeline
 
@@ -31,7 +31,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
     - The downloaded files are stored at:
         `data/musicbrainz/raw/archived/`
-    - A tar.gz is obtained for each of the 13 MusicBrainz entity type, except "genre" and "url". You should have obtained the following 11 files:
+    - A tar.gz exists for each of the 13 MusicBrainz entity types, except "genre" and "url". Therefore, you should have downloaded the following 11 files:
 
         1. area.tar.xz
         2. artist.tar.xz
@@ -47,7 +47,9 @@ Below are the steps you must execute from your console once you have cloned the 
 
 3. **Extracting JSON Lines files From tar.xz files**
 
-    - Each downloaded `.tar.xz` files contain a `mbdump` folder. In each `mbdump` folder, there is a single JSON Lines file conaining all the MusicBrainz entities of that type: each line of the file is a JSON record for an entity.  This script extract
+    - Each downloaded `.tar.xz` files contain a `mbdump` folder.
+    - Each `mbdump` folder contain a single JSON Lines file
+   - Each JSON Lines (JSONL) file contain all the MusicBrainz entities of that type (e.g. area.jsonl contain all the artists) : each line of the file is a JSON record for an entity.
 
     - Execute the following command to extract JSON Lines files from the tar.xz:
 
@@ -58,32 +60,36 @@ Below are the steps you must execute from your console once you have cloned the 
     - The extracted files are located at:
         `data/musicbrainz/raw/extracted_jsonl/mbdump/`
 
-    - Note: There are other files in the `.tar.xz`. However, there are timestamps and data licenses, which are not useful to our project.
+    - Note: There are other files in the `.tar.xz`. However, they  are timestamps and data licenses, which are not useful to our project.
 
-    - The `doc/musicbrainz/layout.json` is a JSON file showing the list of fields for each entity type.
+
+    
 
 4. **Extracting and Reconciling Unreconciled Fields**
 
-    - Each entity in MusicBrainz has an additional `type` field on top of their basic entity-type (e.g. "artist", for all entities in artists.jsonl). `type` is a subclass of `entity-type`. For example, Berlin Philharmoniker has `"artist"` as its `entity-type` (general), and `"orchestra"` as its `type` (specific).
+Note:
+  - You can consult `doc/musicbrainz/layout.json` to see a list of fields that exist for each entity type.
+
+    - Each entity in MusicBrainz has an additional `type` field on top of their basic entity-type. You can understand `type` as a subclass of `entity-type`. For example, Berlin Philharmoniker has `"artist"` as its `entity-type` (general), and `"orchestra"` as its `type` (specific).
 
         - EXCEPTION 1: `release-group` entities do not have a `type` field. Instead, they have both a `primary-type` and a `secondary-types`field.
         - EXCEPTION 2: `recording` and `release` entities do not have a `type` field.
-        - EXCEPTION 3: `release` entities do not have a `type` field. 
+  
+- `types` are not yet reconciled with Wikidata. We must therefore extract a list of all available types and reconcile them ourselves (e.g. match the type `orchestra` to `Q42998`) 
 
-        
-
-        - Execute the following command to extract `type` and other unreconciled fields. 
+  
+  - Execute the following command to extract `type` and other unreconciled fields. 
 
             ```bash
             python code/musicbrainz/extract_for_reconciliation.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --output_folder data/musicbrainz/raw/unreconciled/
             ```
 
-        - The script extract values from all unreconciled fields into CSV files. All CSV files are stored at:
+     - The script extract values from all unreconciled fields into CSV files. All CSV files are stored at:
             `data/musicbrainz/raw/unreconciled`
         
         - In that folder, you should find:
             - `f"{entity-type}_types.csv"` for each entity_type except `release-group` `recording`, `release` (see above).
-            - `keys.csv` for `key` field of all `work` entities (`key` == tonality; `work` == composition). It is outputed 
+            - `keys.csv` for `key` field of all `work` entities (`key` == tonality; `work` == composition).
             - `genders.csv` for `gender` field of all `artist` entities. 
             - `languages.csv` for `language` field of all `work` entities. The CSV includes an additional column, `full_language`, containing the full language name resolved from the ISO 639-3 code, using the pycountry library
         - Follow the steps in `doc/musicbrainz/reconciliation.md` to reconcile the CSVs against Wikidata. 
