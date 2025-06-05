@@ -69,9 +69,11 @@ namespaces = {
     "de": DE,
 }
 
+
 def matched_wikidata(field: str) -> bool:
     """Check if the field is a matched Wikidata ID."""
     return re.match(r"^Q\d+", field) is not None
+
 
 archives = pd.read_csv(os.path.join(BASE_PATH, "archives-csv.csv"))
 compositions = pd.read_csv(os.path.join(BASE_PATH, "compositions-csv.csv"))
@@ -94,84 +96,216 @@ for work in json_data:
     subject_uri = URIRef(f"{DA}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Archive")))
 
-    if matched_wikidata(work["name_@id"]): # Use the same as property to indicate if the archive has been reconciled
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"), URIRef(f"{WD}{work['name_@id']}")))
+    if matched_wikidata(work["name_@id"]):
+        # Use the `same as` property to indicate if the archive has been reconciled
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"),
+                URIRef(f"{WD}{work['name_@id']}"),
+            )
+        )
     g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["name"]}"), Literal(work["name"])))
 
     if work["siglum"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["siglum"]}"), Literal(work["siglum"])))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["siglum"]}"),
+                Literal(work["siglum"]),
+            )
+        )
     if work["website"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["website"]}"), URIRef(work["website"])))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["website"]}"),
+                URIRef(work["website"]),
+            )
+        )
     if work["rism_id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["rism_id"]}"), Literal(work["rism_id"])))
-    
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["rism_id"]}"),
+                Literal(work["rism_id"]),
+            )
+        )
+
     if matched_wikidata(work["city_@id"]):
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), URIRef(f"{WD}{work['city_@id']}")))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"),
+                URIRef(f"{WD}{work['city_@id']}"),
+            )
+        )
     else:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), Literal(work["city"])))
-    
+        g.add(
+            (subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), Literal(work["city"]))
+        )
+
     if matched_wikidata(work["country_@id"]):
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), URIRef(f"{WD}{work['country_@id']}")))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"),
+                URIRef(f"{WD}{work['country_@id']}"),
+            )
+        )
     else:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), Literal(work["country"])))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"),
+                Literal(work["country"]),
+            )
+        )
 
 print("Processing compositions...")
 json_data = json.loads(compositions.to_json(orient="records"))
 for work in json_data:
-    if work["id"] is None: # There is just the genre to deal with
+    if work["id"] is None:  # There is just the genre to deal with
         if matched_wikidata(work["genres_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), URIRef(f"{WD}{work['genres_@id']}")))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"),
+                    URIRef(f"{WD}{work['genres_@id']}"),
+                )
+            )
         else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), Literal(work["genres"])))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"),
+                    Literal(work["genres"]),
+                )
+            )
         continue
 
     subject_uri = URIRef(f"{DM}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Composition")))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["title"]}"), Literal(work["title"])))
+    g.add(
+        (subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["title"]}"), Literal(work["title"]))
+    )
 
     if work["anonymous"] is True:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["composer"]}"), Literal("Anonymous")))
-    
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["composer"]}"),
+                Literal("Anonymous"),
+            )
+        )
+
     if work["genres"] is not None:
         if matched_wikidata(work["genres_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), URIRef(f"{WD}{work['genres_@id']}")))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"),
+                    URIRef(f"{WD}{work['genres_@id']}"),
+                )
+            )
         else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"), Literal(work["genres"])))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["genre"]}"),
+                    Literal(work["genres"]),
+                )
+            )
 
 print("Processing organizations...")
 json_data = json.loads(organizations.to_json(orient="records"))
 for work in json_data:
-    if work["id"] is None: # There is just the type to deal with
+    if work["id"] is None:  # There is just the type to deal with
         if matched_wikidata(work["organization_type_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['organization_type_@id']}")))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"),
+                    URIRef(f"{WD}{work['organization_type_@id']}"),
+                )
+            )
         else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["organization_type"])))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"),
+                    Literal(work["organization_type"]),
+                )
+            )
         continue
 
     subject_uri = URIRef(f"{DO}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Organization")))
 
-    if matched_wikidata(work["name_@id"]): # Use the same as property to indicate if the organization has been reconciled
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"), URIRef(f"{WD}{work['name_@id']}")))
+    if matched_wikidata(work["name_@id"]):
+        # Use the `same as` property to indicate if the organization has been reconciled
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"),
+                URIRef(f"{WD}{work['name_@id']}"),
+            )
+        )
     g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["name"]}"), Literal(work["name"])))
 
     if work["organization_type"] is not None:
         if matched_wikidata(work["organization_type_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['organization_type_@id']}")))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"),
+                    URIRef(f"{WD}{work['organization_type_@id']}"),
+                )
+            )
         else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["organization_type"])))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"),
+                    Literal(work["organization_type"]),
+                )
+            )
 
     if work["city_@id"] is not None:
         if matched_wikidata(work["city_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), URIRef(f"{WD}{work['city_@id']}")))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"),
+                    URIRef(f"{WD}{work['city_@id']}"),
+                )
+            )
         else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"), Literal(work["city"])))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["city"]}"),
+                    Literal(work["city"]),
+                )
+            )
 
     if work["country_@id"] is not None:
         if matched_wikidata(work["country_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), URIRef(f"{WD}{work['country_@id']}")))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"),
+                    URIRef(f"{WD}{work['country_@id']}"),
+                )
+            )
         else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"), Literal(work["country"])))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["country"]}"),
+                    Literal(work["country"]),
+                )
+            )
 
 print("Processing people...")
 json_data = json.loads(people.to_json(orient="records"))
@@ -179,23 +313,66 @@ for work in json_data:
     subject_uri = URIRef(f"{DP}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Person")))
 
-    if matched_wikidata(work["full_name_@id"]): # Use the same as property to indicate if the person has been reconciled
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"), URIRef(f"{WD}{work['full_name_@id']}")))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["name"]}"), Literal(work["full_name"])))
+    if matched_wikidata(work["full_name_@id"]):
+        # Use the `same as` property to indicate if the person has been reconciled
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["wikidata_id"]}"),
+                URIRef(f"{WD}{work['full_name_@id']}"),
+            )
+        )
+    g.add(
+        (
+            subject_uri,
+            URIRef(f"{WDT}{DIAMM_SCHEMA["name"]}"),
+            Literal(work["full_name"]),
+        )
+    )
 
     if work["variant_names"] is not None:
         for name in work["variant_names"].split(", "):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["variant_names"]}"), Literal(name)))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["variant_names"]}"),
+                    Literal(name),
+                )
+            )
 
     if work["earliest_year_@id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["earliest_year"]}"), URIRef(f"{WD}{work['earliest_year_@id']}")))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["earliest_year"]}"),
+                URIRef(f"{WD}{work['earliest_year_@id']}"),
+            )
+        )
     if work["latest_year_@id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["latest_year"]}"), URIRef(f"{WD}{work['latest_year_@id']}")))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["latest_year"]}"),
+                URIRef(f"{WD}{work['latest_year_@id']}"),
+            )
+        )
 
     if work["rism_id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["rism_id"]}"), Literal(work["rism_id"])))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["rism_id"]}"),
+                Literal(work["rism_id"]),
+            )
+        )
     if work["viaf_id"] is not None:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["viaf_id"]}"), Literal(work["viaf_id"])))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["viaf_id"]}"),
+                Literal(work["viaf_id"]),
+            )
+        )
 
 print("Processing sets...")
 json_data = json.loads(sets.to_json(orient="records"))
@@ -204,11 +381,25 @@ for work in json_data:
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Set")))
 
     if matched_wikidata(work["type_@id"]):
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['type_@id']}")))
+        g.add(
+            (
+                subject_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"),
+                URIRef(f"{WD}{work['type_@id']}"),
+            )
+        )
     else:
-        g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["type"])))
+        g.add(
+            (subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["type"]))
+        )
 
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["cluster_shelfmark"]}"), Literal(work["cluster_shelfmark"])))
+    g.add(
+        (
+            subject_uri,
+            URIRef(f"{WDT}{DIAMM_SCHEMA["cluster_shelfmark"]}"),
+            Literal(work["cluster_shelfmark"]),
+        )
+    )
 
 print("Processing sources...")
 json_data = json.loads(sources.to_json(orient="records"))
@@ -216,14 +407,38 @@ for work in json_data:
     subject_uri = URIRef(f"{DS}{int(work['id'])}")
     g.add((subject_uri, RDF.type, URIRef(f"{DIAMM}Source")))
 
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["display_name"]}"), Literal(work["display_name"])))
-    g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["shelfmark"]}"), Literal(work["shelfmark"])))
+    g.add(
+        (
+            subject_uri,
+            URIRef(f"{WDT}{DIAMM_SCHEMA["display_name"]}"),
+            Literal(work["display_name"]),
+        )
+    )
+    g.add(
+        (
+            subject_uri,
+            URIRef(f"{WDT}{DIAMM_SCHEMA["shelfmark"]}"),
+            Literal(work["shelfmark"]),
+        )
+    )
 
     if work["source_type"] is not None:
         if matched_wikidata(work["source_type_@id"]):
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), URIRef(f"{WD}{work['source_type_@id']}")))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"),
+                    URIRef(f"{WD}{work['source_type_@id']}"),
+                )
+            )
         else:
-            g.add((subject_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"), Literal(work["source_type"])))
+            g.add(
+                (
+                    subject_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["type"]}"),
+                    Literal(work["source_type"]),
+                )
+            )
 
 print("Processing relations...")
 json_data = json.loads(relations.to_json(orient="records"))
@@ -235,7 +450,9 @@ for work in json_data:
     if first_type == "archive" and second_type == "source":
         first_uri = URIRef(f"{DA}{first_id}")
         second_uri = URIRef(f"{DS}{second_id}")
-        g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri))
+        g.add(
+            (second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri)
+        )
     elif first_type == "composition" and second_type == "people":
         first_uri = URIRef(f"{DM}{first_id}")
         second_uri = URIRef(f"{DP}{second_id}")
@@ -243,29 +460,63 @@ for work in json_data:
     elif first_type == "composition" and second_type == "source":
         first_uri = URIRef(f"{DM}{first_id}")
         second_uri = URIRef(f"{DS}{second_id}")
-        g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["composition_in_source"]}"), second_uri))
+        g.add(
+            (
+                first_uri,
+                URIRef(f"{WDT}{DIAMM_SCHEMA["composition_in_source"]}"),
+                second_uri,
+            )
+        )
     elif first_type == "organization" and second_type == "source":
         first_uri = URIRef(f"{DO}{first_id}")
         second_uri = URIRef(f"{DS}{second_id}")
 
         if work["type"] == "related":
-            g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["related_organization"]}"), second_uri))
+            g.add(
+                (
+                    first_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["related_organization"]}"),
+                    second_uri,
+                )
+            )
         elif work["type"] == "copied":
-            g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["copied_organization"]}"), second_uri))
+            g.add(
+                (
+                    first_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["copied_organization"]}"),
+                    second_uri,
+                )
+            )
         elif work["type"] == "provenance":
-            g.add((first_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["provenance_organization"]}"), second_uri))
+            g.add(
+                (
+                    first_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["provenance_organization"]}"),
+                    second_uri,
+                )
+            )
     elif first_type == "people" and second_type == "source":
         first_uri = URIRef(f"{DP}{first_id}")
         second_uri = URIRef(f"{DS}{second_id}")
 
         if work["type"] == "related":
-            g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["related_people"]}"), first_uri))
+            g.add(
+                (
+                    second_uri,
+                    URIRef(f"{WDT}{DIAMM_SCHEMA["related_people"]}"),
+                    first_uri,
+                )
+            )
         elif work["type"] == "copied":
-            g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["copied_people"]}"), first_uri))
+            g.add(
+                (second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["copied_people"]}"), first_uri)
+            )
     elif first_type == "archive" and second_type == "set":
         first_uri = URIRef(f"{DA}{first_id}")
         second_uri = URIRef(f"{DE}{second_id}")
-        g.add((second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri))
+        g.add(
+            (second_uri, URIRef(f"{WDT}{DIAMM_SCHEMA["holding_archive"]}"), first_uri)
+        )
     elif first_type == "set" and second_type == "source":
         first_uri = URIRef(f"{DE}{first_id}")
         second_uri = URIRef(f"{DS}{second_id}")

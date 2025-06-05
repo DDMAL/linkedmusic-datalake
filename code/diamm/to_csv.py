@@ -11,12 +11,28 @@ BASE_PATH = "../../data/diamm/raw/"
 BASE_CSV_PATH = "../../data/diamm/csv/"
 
 # Regex used to sanitize names to remove any dates
-PERSON_NAME_DATE_REGEX = re.compile(r"^(.*?)(?:\s*\((?:ca\.|fl\.|–|\d|\d{3,4}).*?\))?\s*$")
+PERSON_NAME_DATE_REGEX = re.compile(
+    r"^(.*?)(?:\s*\((?:ca\.|fl\.|–|\d|\d{3,4}).*?\))?\s*$"
+)
 
 os.makedirs(BASE_CSV_PATH, exist_ok=True)
 
+
 # Hashable dictionary class to use with relations to make removing duplicate relations easier
 class HashableDict:
+    """
+    A hashable dictionary class that allows for easy comparison and hashing.
+    This class is used to store dictionaries in a set, allowing for easy
+    removal of duplicate relations.
+
+    It is initialized with a dictionary and provides methods for hashing,
+    equality comparison, and representation.
+
+    It also includes a static method to convert a set of HashableDict objects
+    to a list of dictionaries, which is useful for converting the set of relations
+    to a DataFrame.
+    """
+
     def __init__(self, d):
         self.d = dict(d)
         self._frozen = frozenset(self.d.items())
@@ -38,6 +54,7 @@ class HashableDict:
         This is useful for converting the set of relations to a DataFrame.
         """
         return [d.d for d in lst]
+
 
 # Make the relations dataframe
 relations = set()
