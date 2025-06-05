@@ -994,6 +994,58 @@
     "description": "Mark to create one single new item for all cells containing \"Warwick\" in column country_@id"
   },
   {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "country_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "country_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name_@id: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name_@id",
+          "from": 14,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country_@id",
+    "similarValue": "Bavaria",
+    "judgment": "matched",
+    "match": {
+      "id": "Q980",
+      "name": "Bavaria",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bavaria (Q980) for cells containing \"Bavaria\" in column country_@id"
+  },
+  {
     "op": "core/column-addition",
     "engineConfig": {
       "facets": [],

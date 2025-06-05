@@ -538,6 +538,46 @@
     "description": "Match item Baden-Württemberg (Q985) for cells containing \"Baden-Württemberg\" in column country_@id"
   },
   {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "country_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "country_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country_@id",
+    "similarValue": "Bavaria",
+    "judgment": "matched",
+    "match": {
+      "id": "Q980",
+      "name": "Bavaria",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bavaria (Q980) for cells containing \"Bavaria\" in column country_@id"
+  },
+  {
     "op": "core/column-addition",
     "engineConfig": {
       "facets": [],
