@@ -19,7 +19,7 @@ Below are the steps you must execute from your console once you have cloned the 
 1. **Navigate to the Target Folder**
 
     - Change directory to `linkedmusic-datalake/`.
-    - This helps all the scripts locate their default input and output directories. Additionally, all the scripts accept  --input-folder and/or --output-folder argument(s).
+    - This helps all the scripts locate their default input and output directories. Additionally, all the scripts accept  --input_folder and/or --output_folder argument(s).
 
 2. **Fetching the Latest Data**
 
