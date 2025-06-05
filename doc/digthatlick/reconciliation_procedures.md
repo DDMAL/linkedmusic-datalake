@@ -141,11 +141,13 @@ Then you can unselect the facet
 ```
 if(value=="saxophone", "tenor saxophone", value)
 ```
-to make all the saxophones back into tenor saxophones.
+to make all the saxophones back into tenor saxophones. (also maybe need to make bari sax into baritone saxophone)
 
 18. Reconcile this column against no particular type
 
+^ find a way to reconcile the instruments well
 
+and then delete extra columns
 
 
 
@@ -173,12 +175,13 @@ to make all the saxophones back into tenor saxophones.
 
 
 ### For column band_name
-1. copy reconciled values from column leader name by doing this
-2. reconcile against musical group (use leader name as has parts? see if this makes a difference) try musical group first, then do with leader as has parts
-88 vs 71, but do both and u get 95
-3. then do album
-4. then do human with jazz musician as occupation
-3. the rest are not in wikidata, mark to create new item
+1. copy reconciled values from column leader name by going to column `leader_name`, going to `Reconcile > Copy reconciliation data...`, and selecting band_name as the column to copy to. (make sure that the copy options on the right are all selected)
+2. Then reconcile column `band_names` against `musical group` (Q215380).
+3. Do step 2 again but with `leader_name` as property `has_parts` P(527).
+4. Then reconcile against `album` (Q482994) since some of the band names are actually album names
+4. Then reconcile against `human` (Q5) with `jazz musician` as property `occupation` (P106), since of the band names are just musicians.
+3. The rest are not in wikidata, mark to create new item
+
 
 delete the extra columns
 
@@ -241,6 +244,9 @@ alameda california
 camden new jersey
 wilmington north carolina
 concert philharmonic hall in berlin germany is berliner philarmonie
+Im assuming New York is the city  as the states are abbreviated in two letters, like NY
+
+
 
 
 figure out something to have some new yorks go to new york city, but have NY do new york state
@@ -279,10 +285,12 @@ camden new jersey
 berliner philharmonie
 wilmington north carolina
 woodstock new york
+maybe just do these guys automatically
 
 
+TODO: 
 
-TODO: dtl1000_performers.csv
+# dtl1000_performers.csv
 making it so u use all the other things already reconciled, and then u dont have to reconcile as much
 (so basically do tracks and solos before doing performers, and have the projects in openrefine)
 
