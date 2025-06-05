@@ -2,41 +2,86 @@
 
 This documents any choices for properties in the RDF conversion process, as well as other information relating to the RDF conversion process
 
-## Reducing clutter
+## Reducing Clutter
 
-Due to the nature of the script, we need to store a fairly large amount of mapping data to properly convert the JSONL files to RDF. In an effort to reduce the clutter of constant global variables containing mappings, the mapping dictionaries for the main fields, the relations, and the attributes have been separated to their own JSON files, respectively `mappings.json`, `relations.json`, and `attribute_mapping.json`, all located in the `code/musicbrainz/rdf_conversion_config/` folder, and are loaded by the script. They were separated due to the size of the mappings, they would create too much clutter in the main script otherwise.
+Due to the nature of the RDF conversion script, we need to store a fairly large amount of mapping data to properly convert the JSONL files to RDF.
 
-Furthermore, the dictionary containing the regex patterns to match URLs and the class definition for `MappingSchema` have also been moved to their own modules, respectively `code/musicbrainz/url_patterns.py` and `code/musicbrainz/mapping_schema.py`, to further reduce clutter at the top of the script.
+In an effort to reduce the clutter of constant global variables containing mappings, the following dictionaries are stored separately in the `code/musicbrainz/rdf_conversion_config/` folder and loaded by `code/musicbrainz/convert_to_rdf.py` at runtime:
 
-## A note on data types
+- `mappings.json` : for the main fields
+- `relations.json`: for relationships
+- `attribute_mapping.json`: for attributes
 
-- Any literal value not given an explicit type will default to `XSD:string`. This is expected behaviour of the RDF standard.
-- Dates are given the type `XSD:date`, this is what wikidata uses, if something has a date and time, it will be in `XSD:datetime`
-- Coordinates (lat/lon) are given the `GEO:wktLiteral` type in the format `f"Point({lat} {lon})"`; this is what wikidata uses
-- Durations (in seconds) are stored in `XSD:decimal`, as they are numbers, this is also what wikidata does
-- Any and all URLs that are stored as plain URLs (instead of having IDs extracted if they links to other databases) kept as Literals. This is because these URLs aren't always URIs and lack the proper RDF URI formatting.
+`code/musicbrainz/convert_to_rdf.py` also import two modules:
 
-## Miscellaneous notes
+-`code/musicbrainz/mapping_schema.py`: it contains the class definition of `MappingSchema`  
+-`code/musicbrainz/url_patterns.py`: it contains regex patterns matching onto different urls.
 
-- For the `release` entity type, `quality` does not indicate the quality of the release, it is an internal marker for musicbrainz that indicates how good the information about the release is. See the [documentation page](https://musicbrainz.org/doc/Release#Data_quality) for more information.
-- For the `release` entity type, `packaging` does not have any property that could fill the purpose, so that field is ignored
-- For the `release` entity type, `status` does not neatly map onto a Wikidata property. Instead, I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Additionally, I attempted to reconcile the values of the fields against wikidata, but there are no equivalent entities on Wikidata so I would end up reconciling against improper entities, thus I chose to leave the statuses entirely unreconciled.
-- The release group entity type is stored almost everywhere as `release-group`, but specifically in relations, in the `target-type` field and as its own field, it's stored as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes and go from there.
+## Rules for Literal Datatypes
+
+The below rules are conform with RDF standards and with Wikidata standards
+
+- Any literal value not given an explicit type will default to `XSD:string`. This is part of the RDF standard.
+- Dates are given the type `XSD:date`. If the value has both date and time, it will be in `XSD:datetime`
+- Coordinates (latitude/longitude) are given the `GEO:wktLiteral` type in the format `f"Point({lat} {lon})"`.
+- Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
+- All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting.
+
+## Miscellanous Notes on convert_to_rdf.py
+
+
+- The script is optimized to be memory-efficient, but there's only so much you can do when one of the input files is >250GB.
+- The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store`, from the working directory. The script automatically deletes the folder when it finishes. However, if the script crashes, it is recommended to delete the folder before running it again.
+- The graph will not use disk storage if the input file is less than 1GB in size. This is a configurable limit in the script.
+- By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
+- Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script.
+- For ease of reading, the fields are processed in alphabetical order in the `process_line` function.
+- If you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
+- The same situation applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function.
+- The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_patterns.py`, to reduce clutter in the main script.
+- The class definition for the `MappingSchema` class was also moved to a separate module, `code/musicbrainz/mapping_schema.py`, to reduce clutter in the main script
+- The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `code/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
+- To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
+
+
+## Notes on Particularities in MusicBrainz Dataset
+
+Below are some remarks on fields found in the entity-type `release`:
+
+- `quality` stands for "data quality". It indicates the credibility of the information MusicBrainz has on the release. See the [documentation page](https://musicbrainz.org/doc/Release#Data_quality) for more information.
+- `packaging` can not be mapped onto any Wikidata property, so it is not stored.
+- `status` does not neatly map onto a single Wikidata property: I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Though we reconciled the predicate against a Wikidata property, the object (e.g. bootleg, official album) is left as literal because there is no Wikidata equivalent for all of them.
+
+Below is one remark on the name of the entity-type `release-group`:
+
+- The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
 
 ## Attributes
 
-The `work` entity type has an additional field `attributes` that contains a list of various attributes for that work. The vast majority of attribute types are more IDs to other databases, but there are a few other things like the key that the work is in, as well as non-Western things like the tala for example, which is the musical meter for Indian music.
-The vast majority of the databases don't have a property on Wikidata, and since the field only contains IDs, not full URLs/URIs, I don't store the IDs for which there is no Wikidata ID. The file with all the attributes and the properties they map to can be found in `doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`. Attributes not present or that get mapped to `null`/`None` will be ignored by the RDF conversion script.
+The `work` entity type has an additional field `attributes` that contains a list of various attributes for that work:
 
-Additionally, one of the attribute types is `key`, which represents the tonality of the work (e.g. A major). Since these aren't reconciled against wikidata by MusicBrainz, I reconciled them using OpenRefine, and use the reconciled values in the RDF conversion script. The `doc/musicbrainz/reconciliation.md` file has more details on the reconciliation process.
+- The vast majority of attribute types are IDs to other databases, but they can also contain a few other thing. For example:
 
-## Properties
+  - the key (i.e. tonality) of the work (extracted and reconciled with OpenRefine, see `doc/musicbrainz/reconciliation.md`)
+  - Non-Western musical concepts, such as the Tala (i.e. musical meter of Indian classicl music).
 
-URLs linking to the following databases will be processed with their relevant wikidata property, and every other URL will be put as P2888 "exact match". Matching for the URLs is done with regex because despite there being properties for quite a few of these databases, there will be errors and some will end up listed as "other databases" anyways. Most of the regex patterns are taken from the wikidata pages for the properties, in the section where they list regex patterns to match URLs and extract the relevant IDs for the properties.
+- Unlike RISM, who has [RISM ID](https://www.wikidata.org/prop/direct/P5504) as a corresponding Wikidata property, the majority of these databases have no corresponding Wikidata property. Since the field contains only IDs, not full URLs/URIs, these IDs are not stored unless there is an corresponding Wikidata property.
 
-To match the URLs, every url is matched against the entire regex list, stopping if a match is found. If a match is found, the relevant ID for the property will be extracted, then the property corresponding to that match will be used, and otherwise, the default (P2888) will be used.
+- The file with all possible attribute values and Wikidata properties they map onto can be found in `doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`. Attributes that are not present in `attribute_mapping.json` or has the value `null`/`None` will be ignored by the RDF conversion script.
 
-Some databases have multiple properties, differentiating between entity types (like MusicBrainz), while others only have 1 property for all datatypes (like RISM). This is handled by the script because the regex patterns have been customized to properly match what the Wikidata property expects.
+## URLS
+
+For some databases, MusicBrainz decides to store number IDs (e.g. Discogs Artist ID 1000 ). For other databases, MusicBrainz decide to store the full url (e.g. https://www.discogs.com/artist/25058).
+
+Whenever possible, we try to extract the ID from the url, and store the ID alone with the corresponding Wikidata property. For instance, we would extract 25058 from https://www.discogs.com/artist/25058, and store it with the predicate [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953).
+
+The same database may have multiple Wikidata property. For example, Discogs has [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953) and [Discogs label ID (P1955)](https://www.wikidata.org/prop/direct/P1955) and [Discogs composition ID (P6080)](https://www.wikidata.org/prop/direct/P6080)...
+
+To extract the IDs properly, a regex pattern, taken from the `URL match pattern` field of each Wikidata property (e.g. `^https?:\/\/(?:www\.)?discogs\.com\/(?:[a-z]+\/)?artist\/([1-9][0-9]*)` for [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953)) is stored in `code/musicbrainz/url_patterns.py`.
+
+If no Wikidata property exist, the url will be stored as [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888). This means that when regex fail (and it does occasionally fail), the urls will still be linked to the entity.
+
+Here is the mapping of databases onto their Wikidata property:
 
 - Wikidata: P2888 (there is no other for this), convert from `https://wikidata.org/wiki/...` to `https://wikidata.org/entity/...`
 - Geonames: P1566
@@ -59,7 +104,9 @@ Some databases have multiple properties, differentiating between entity types (l
 - Deutschen Nationalbibliothek: P227
 - LoC: P244
 
-Now for the other properties:
+## Other Properties
+
+For other properties in other fields:
 
 - To indicate the "main" name, I use RDFS:label instead of P2561 as that's what wikidata does
 - To indicate alternate names (possible in other languages), I use P4970 "alternative name" and put a language tag when I can
