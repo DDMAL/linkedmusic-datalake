@@ -104,6 +104,7 @@
     - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
+> Note: The `Subregion` and `Area` columns may also be reconciled to `geographic region` (Q82794) and/or `human settlement` (Q486972), but these columns are often more difficult to sufficiently reconcile as they contain a mix of subsections of regions not found in WikiData (like "North Central China") or a mix of countries, states, and other areas of countries which are not always easy to reconcile.
 - Reconcile the cells in column `society` to type `ethnic group` (Q41710).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."
@@ -224,7 +225,7 @@
     - Manually match the cells.
 
 ## Societies
-- Follow the instructions for the Cantometrics Societies file.
+- Follow the instructions for the [Cantometrics Societies](#societies-1) file.
 
 # Parlametrics
 
@@ -253,7 +254,7 @@
 - Match "primary text" in the column `Linguistic-Type` with `primary source (Q112754)`.
 
 ## Societies
-- Follow the instructions for the Cantometrics Societies file.
+- Follow the instructions for the [Cantometrics Societies](#societies-1) file.
 
 ## Data
 - Reconcile the `Parla_Language_Name` column against `modern language (Q1288568)`
@@ -274,11 +275,26 @@
 - Reconcile each `Genre` column against `song type (Q107356781)`.
 - Split the column `Instruments` into several columns using ";" as the separator.
 - Reconcile the column `Instruments 1` against `voice type (Q1063547)`.
+- Reconcile the other `Instruments` columns against `type of musical instrument (Q17362829)`.
 
 ## Societies
-- Follow the instructions for the Cantometrics Societies file.
+- Follow the instructions for the [Cantometrics Societies](#societies-1) file.
 
 # Ensembles
+
+## Ensembles
+
+- Reconcile the cells in column `Archival_Culture_Name` to type `ethnic group` (Q41710).
+- Split the column `Ensemble/Song_name` into several columns using "," as the separator.
+- Reconcile each `Ensemble/Song_name` column against `song type (Q107356781)`.
+> Note: This column seems to contain a mix of instrument, performer, and song type
+- Split the column `Instruments_in_Ensemble` into several columns using ";" as the separator.
+- Use the GREL regex `value.trim().replace(/^\d+/, "")` to remove any numbers from the beginning of each entry.
+- Reconcile each `Instruments_in_Ensemble` column against `type of musical instrument (Q17362829)`
+
+## Societies
+- Follow the instructions for the [Cantometrics Societies](#societies-1) file.
+> Note: This file appears significantly more difficult to reconcile, as the `society` and `People` columns seem to contain a mix of ethnic groups, locations, languages, and professions
 
 # Urban Strain
 
