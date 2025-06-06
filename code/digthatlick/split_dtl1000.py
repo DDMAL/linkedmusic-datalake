@@ -81,6 +81,7 @@ solos = df.loc[
         "possible_solo_performer_names",
         "solo_performer_name",
         "instrument_label",
+        "track_id",
     ],
 ].copy()  # and then add track id later
 
