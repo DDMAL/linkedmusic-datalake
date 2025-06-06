@@ -102,18 +102,6 @@
       "mode": "row-based"
     },
     "columnName": "type_@id",
-    "similarValue": "Beijing opera",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Beijing opera\" in column type_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "columnName": "type_@id",
     "similarValue": "Soundtrack",
     "judgment": "matched",
     "match": {
@@ -227,5 +215,25 @@
     },
     "shareNewTopics": false,
     "description": "Match item play (Q25379) for cells containing \"Play\" in column type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "type_@id",
+    "similarValue": "Beijing opera",
+    "judgment": "matched",
+    "match": {
+      "id": "Q335101",
+      "name": "Peking opera",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Peking opera (Q335101) for cells containing \"Beijing opera\" in column type_@id"
   }
 ]

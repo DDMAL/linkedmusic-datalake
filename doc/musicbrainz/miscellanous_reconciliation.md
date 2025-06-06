@@ -26,8 +26,7 @@ Automatic reconciliation using Wikidata's API was attempted, but yielded poor re
 - For instrument types, I chose to leave `ensemble` unreconciled because it's unclear what type of ensemble it is.
 - For place types, `festival stage` was not reconciled because there is no match on Wikidata.
 - For series types, `run` was not reconciled because no suitable match could be found on Wikidata. Some of the awards were left unreconciled because they are unclear and have no match on Wikidata.
-- For work types, Beijing opera was left unreconciled because there is no element on Wikidata that would indicate a type of work, only the physical Beijing opera, which is not what we want to match. 
-(Addendum: Beijing opera can be reconciled to [Q335101](https://www.wikidata.org/entity/Q335101).)
+- For work types, Beijing opera was matched to [Q335101](https://www.wikidata.org/entity/Q335101) "Peking opera" as it seems to match exactly what this is
 
 ## Keys
 
