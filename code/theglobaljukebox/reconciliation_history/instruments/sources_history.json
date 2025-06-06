@@ -624,5 +624,31 @@
     },
     "columnName": "Author",
     "description": "Match each cell to its best recon candidate in column Author"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture New",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture New literal",
+    "columnInsertIndex": 2,
+    "description": "Create column Culture New literal at index 2 based on column Culture New using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Author",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Author_literal",
+    "columnInsertIndex": 6,
+    "description": "Create column Author_literal at index 6 based on column Author using expression grel:value"
   }
 ]

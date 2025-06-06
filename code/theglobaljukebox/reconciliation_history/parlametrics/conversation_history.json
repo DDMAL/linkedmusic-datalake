@@ -10633,5 +10633,668 @@
       "limit": 0
     },
     "description": "Reconcile cells in column speaker gender 6 to type Q4369513"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "CultureName_Speaker1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "CultureName_Speaker1_literal",
+    "columnInsertIndex": 2,
+    "description": "Create column CultureName_Speaker1_literal at index 2 based on column CultureName_Speaker1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "CultureName_Speaker2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "CultureName_Speaker2_literal",
+    "columnInsertIndex": 5,
+    "description": "Create column CultureName_Speaker2_literal at index 5 based on column CultureName_Speaker2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Type_TapeCategory",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Type_TypeCategory_literal",
+    "columnInsertIndex": 9,
+    "description": "Create column Type_TypeCategory_literal at index 9 based on column Type_TapeCategory using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Monologue/Dialogue",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Monologue/Dialogue_literal",
+    "columnInsertIndex": 15,
+    "description": "Create column Monologue/Dialogue_literal at index 15 based on column Monologue/Dialogue using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "speaker gender 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "speaker_gender1_literal",
+    "columnInsertIndex": 20,
+    "description": "Create column speaker_gender1_literal at index 20 based on column speaker gender 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "speaker gender 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "speaker_gender2_literal",
+    "columnInsertIndex": 22,
+    "description": "Create column speaker_gender2_literal at index 22 based on column speaker gender 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "speaker gender 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "speaker_gender3_literal",
+    "columnInsertIndex": 24,
+    "description": "Create column speaker_gender3_literal at index 24 based on column speaker gender 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "speaker gender 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "speaker_gender4_literal",
+    "columnInsertIndex": 26,
+    "description": "Create column speaker_gender4_literal at index 26 based on column speaker gender 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "speaker gender 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "speaker_gender5_literal",
+    "columnInsertIndex": 28,
+    "description": "Create column speaker_gender5_literal at index 28 based on column speaker gender 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "speaker gender 6",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "speaker_gender6_literal",
+    "columnInsertIndex": 30,
+    "description": "Create column speaker_gender6_literal at index 30 based on column speaker gender 6 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "SubjectLanguage_SIL",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "SubjectLanguage_SIL_literal",
+    "columnInsertIndex": 35,
+    "description": "Create column SubjectLanguage_SIL_literal at index 35 based on column SubjectLanguage_SIL using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "SubjectLanguage_Given",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "SUbjectLanguage_Given_literal",
+    "columnInsertIndex": 37,
+    "description": "Create column SUbjectLanguage_Given_literal at index 37 based on column SubjectLanguage_Given using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "SubjectDialect_Given",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "SubjectDialect_Given_literal",
+    "columnInsertIndex": 39,
+    "description": "Create column SubjectDialect_Given_literal at index 39 based on column SubjectDialect_Given using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Location_Recorded 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Location_Recorded1_literal",
+    "columnInsertIndex": 42,
+    "description": "Create column Location_Recorded1_literal at index 42 based on column Location_Recorded 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Location_Recorded 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Location_Recorded2_literal",
+    "columnInsertIndex": 44,
+    "description": "Create column Location_Recorded2_literal at index 44 based on column Location_Recorded 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Location_Recorded 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Location_Recorded3_literal",
+    "columnInsertIndex": 46,
+    "description": "Create column Location_Recorded3_literal at index 46 based on column Location_Recorded 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Location_Recorded 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Location_Recorded4_literal",
+    "columnInsertIndex": 48,
+    "description": "Create column Location_Recorded4_literal at index 48 based on column Location_Recorded 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Coverage1_literal",
+    "columnInsertIndex": 50,
+    "description": "Create column Coverage1_literal at index 50 based on column Coverage 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Coverage2_literal",
+    "columnInsertIndex": 52,
+    "description": "Create column Coverage2_literal at index 52 based on column Coverage 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Coverage3_literal",
+    "columnInsertIndex": 54,
+    "description": "Create column Coverage3_literal at index 54 based on column Coverage 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Coverage 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Coverage4_literal",
+    "columnInsertIndex": 56,
+    "description": "Create column Coverage4_literal at index 56 based on column Coverage 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 1 literal",
+    "columnInsertIndex": 64,
+    "description": "Create column All_Languages_on_Tape 1 1 literal at index 64 based on column All_Languages_On_Tape 1 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 2 literal",
+    "columnInsertIndex": 66,
+    "description": "Create column All_Languages_on_Tape 1 2 literal at index 66 based on column All_Languages_On_Tape 1 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 3 literal",
+    "columnInsertIndex": 68,
+    "description": "Create column All_Languages_on_Tape 1 3 literal at index 68 based on column All_Languages_On_Tape 1 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 4 literal",
+    "columnInsertIndex": 70,
+    "description": "Create column All_Languages_on_Tape 1 4 literal at index 70 based on column All_Languages_On_Tape 1 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 5 literal",
+    "columnInsertIndex": 72,
+    "description": "Create column All_Languages_on_Tape 1 5 literal at index 72 based on column All_Languages_On_Tape 1 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 6",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 6 literal",
+    "columnInsertIndex": 74,
+    "description": "Create column All_Languages_on_Tape 1 6 literal at index 74 based on column All_Languages_On_Tape 1 6 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 7",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 7 literal",
+    "columnInsertIndex": 76,
+    "description": "Create column All_Languages_on_Tape 1 7 literal at index 76 based on column All_Languages_On_Tape 1 7 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 8",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 8 literal",
+    "columnInsertIndex": 78,
+    "description": "Create column All_Languages_on_Tape 1 8 literal at index 78 based on column All_Languages_On_Tape 1 8 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 9",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 9 literal",
+    "columnInsertIndex": 80,
+    "description": "Create column All_Languages_on_Tape 1 9 literal at index 80 based on column All_Languages_On_Tape 1 9 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 10",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 10 literal",
+    "columnInsertIndex": 82,
+    "description": "Create column All_Languages_on_Tape 1 10 literal at index 82 based on column All_Languages_On_Tape 1 10 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 11",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 11 literal",
+    "columnInsertIndex": 84,
+    "description": "Create column All_Languages_on_Tape 1 11 literal at index 84 based on column All_Languages_On_Tape 1 11 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 12",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 12 literal",
+    "columnInsertIndex": 86,
+    "description": "Create column All_Languages_on_Tape 1 12 literal at index 86 based on column All_Languages_On_Tape 1 12 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 1 13",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 1 13 literal",
+    "columnInsertIndex": 88,
+    "description": "Create column All_Languages_on_Tape 1 13 literal at index 88 based on column All_Languages_On_Tape 1 13 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 2 literal",
+    "columnInsertIndex": 90,
+    "description": "Create column All_Languages_on_Tape 2 literal at index 90 based on column All_Languages_On_Tape 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 3 literal",
+    "columnInsertIndex": 92,
+    "description": "Create column All_Languages_on_Tape 3 literal at index 92 based on column All_Languages_On_Tape 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 4 literal",
+    "columnInsertIndex": 94,
+    "description": "Create column All_Languages_on_Tape 4 literal at index 94 based on column All_Languages_On_Tape 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 5 literal",
+    "columnInsertIndex": 96,
+    "description": "Create column All_Languages_on_Tape 5 literal at index 96 based on column All_Languages_On_Tape 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 6",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 6 literal",
+    "columnInsertIndex": 98,
+    "description": "Create column All_Languages_on_Tape 6 literal at index 98 based on column All_Languages_On_Tape 6 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 7",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 7 literal",
+    "columnInsertIndex": 100,
+    "description": "Create column All_Languages_on_Tape 7 literal at index 100 based on column All_Languages_On_Tape 7 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 8",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 8 literal",
+    "columnInsertIndex": 102,
+    "description": "Create column All_Languages_on_Tape 8 literal at index 102 based on column All_Languages_On_Tape 8 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 9",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 9 literal",
+    "columnInsertIndex": 104,
+    "description": "Create column All_Languages_on_Tape 9 literal at index 104 based on column All_Languages_On_Tape 9 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 10",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 10 literal",
+    "columnInsertIndex": 106,
+    "description": "Create column All_Languages_on_Tape 10 literal at index 106 based on column All_Languages_On_Tape 10 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 11",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 11 literal",
+    "columnInsertIndex": 108,
+    "description": "Create column All_Languages_on_Tape 11 literal at index 108 based on column All_Languages_On_Tape 11 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 12",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 12 literal",
+    "columnInsertIndex": 110,
+    "description": "Create column All_Languages_on_Tape 12 literal at index 110 based on column All_Languages_On_Tape 12 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 13",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 13 literal",
+    "columnInsertIndex": 112,
+    "description": "Create column All_Languages_on_Tape 13 literal at index 112 based on column All_Languages_On_Tape 13 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 14",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 14 literal",
+    "columnInsertIndex": 114,
+    "description": "Create column All_Languages_on_Tape 14 literal at index 114 based on column All_Languages_On_Tape 14 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "All_Languages_On_Tape 15",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "All_Languages_on_Tape 15 literal",
+    "columnInsertIndex": 116,
+    "description": "Create column All_Languages_on_Tape 15 literal at index 116 based on column All_Languages_On_Tape 15 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Digitized.On",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Digitized.On_literal",
+    "columnInsertIndex": 124,
+    "description": "Create column Digitized.On_literal at index 124 based on column Digitized.On using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Resource_Type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Resource_Type_literal",
+    "columnInsertIndex": 130,
+    "description": "Create column Resource_Type_literal at index 130 based on column Resource_Type using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Linguistic_Type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Linguistic_Type_literal",
+    "columnInsertIndex": 132,
+    "description": "Create column Linguistic_Type_literal at index 132 based on column Linguistic_Type using expression grel:value"
   }
 ]

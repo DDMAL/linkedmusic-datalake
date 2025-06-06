@@ -2781,5 +2781,31 @@
     },
     "shareNewTopics": false,
     "description": "Match item Jola-Fonyi (Q3507832) for cells containing \"Jola-Fonyi\" in column Culture"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Parla_Language_Name",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Parla_Language_Name_literal",
+    "columnInsertIndex": 3,
+    "description": "Create column Parla_Language_Name_literal at index 3 based on column Parla_Language_Name using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_literal",
+    "columnInsertIndex": 5,
+    "description": "Create column Culture_literal at index 5 based on column Culture using expression grel:value"
   }
 ]

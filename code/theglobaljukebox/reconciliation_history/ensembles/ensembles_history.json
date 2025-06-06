@@ -39238,5 +39238,395 @@
     },
     "shareNewTopics": false,
     "description": "Match item percussion instrument (Q133163) for cells containing \" Miscellaneous percussion\" in column Instruments_in_Ensemble 25"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Archival_Culture_Name",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Archival_Culture_Name_literal",
+    "columnInsertIndex": 2,
+    "description": "Create column Archival_Culture_Name_literal at index 2 based on column Archival_Culture_Name using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Ensemble/Song_name 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Ensemble/Song_name1_literal",
+    "columnInsertIndex": 6,
+    "description": "Create column Ensemble/Song_name1_literal at index 6 based on column Ensemble/Song_name 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Ensemble/Song_name 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Ensemble/Song_name2_literal",
+    "columnInsertIndex": 8,
+    "description": "Create column Ensemble/Song_name2_literal at index 8 based on column Ensemble/Song_name 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Ensemble/Song_name 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Ensemble/Song_name3_literal",
+    "columnInsertIndex": 10,
+    "description": "Create column Ensemble/Song_name3_literal at index 10 based on column Ensemble/Song_name 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Ensemble/Song_name 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Ensemble/Song_name4_literal",
+    "columnInsertIndex": 12,
+    "description": "Create column Ensemble/Song_name4_literal at index 12 based on column Ensemble/Song_name 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble1_literal",
+    "columnInsertIndex": 14,
+    "description": "Create column Instruments_in_Ensemble1_literal at index 14 based on column Instruments_in_Ensemble 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble2_literal",
+    "columnInsertIndex": 16,
+    "description": "Create column Instruments_in_Ensemble2_literal at index 16 based on column Instruments_in_Ensemble 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble3_literal",
+    "columnInsertIndex": 18,
+    "description": "Create column Instruments_in_Ensemble3_literal at index 18 based on column Instruments_in_Ensemble 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble4_literal",
+    "columnInsertIndex": 20,
+    "description": "Create column Instruments_in_Ensemble4_literal at index 20 based on column Instruments_in_Ensemble 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble5_literal",
+    "columnInsertIndex": 22,
+    "description": "Create column Instruments_in_Ensemble5_literal at index 22 based on column Instruments_in_Ensemble 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 6",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble6_literal",
+    "columnInsertIndex": 24,
+    "description": "Create column Instruments_in_Ensemble6_literal at index 24 based on column Instruments_in_Ensemble 6 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 7",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble7_literal",
+    "columnInsertIndex": 26,
+    "description": "Create column Instruments_in_Ensemble7_literal at index 26 based on column Instruments_in_Ensemble 7 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 8",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble8_literal",
+    "columnInsertIndex": 28,
+    "description": "Create column Instruments_in_Ensemble8_literal at index 28 based on column Instruments_in_Ensemble 8 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 9",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble9_literal",
+    "columnInsertIndex": 30,
+    "description": "Create column Instruments_in_Ensemble9_literal at index 30 based on column Instruments_in_Ensemble 9 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 10",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble10_literal",
+    "columnInsertIndex": 32,
+    "description": "Create column Instruments_in_Ensemble10_literal at index 32 based on column Instruments_in_Ensemble 10 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 11",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble11_literal",
+    "columnInsertIndex": 34,
+    "description": "Create column Instruments_in_Ensemble11_literal at index 34 based on column Instruments_in_Ensemble 11 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 12",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble12_literal",
+    "columnInsertIndex": 36,
+    "description": "Create column Instruments_in_Ensemble12_literal at index 36 based on column Instruments_in_Ensemble 12 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 13",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble13_literal",
+    "columnInsertIndex": 38,
+    "description": "Create column Instruments_in_Ensemble13_literal at index 38 based on column Instruments_in_Ensemble 13 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 14",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble14_literal",
+    "columnInsertIndex": 40,
+    "description": "Create column Instruments_in_Ensemble14_literal at index 40 based on column Instruments_in_Ensemble 14 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 15",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble15_literal",
+    "columnInsertIndex": 42,
+    "description": "Create column Instruments_in_Ensemble15_literal at index 42 based on column Instruments_in_Ensemble 15 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 16",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble16_literal",
+    "columnInsertIndex": 44,
+    "description": "Create column Instruments_in_Ensemble16_literal at index 44 based on column Instruments_in_Ensemble 16 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 17",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble17_literal",
+    "columnInsertIndex": 46,
+    "description": "Create column Instruments_in_Ensemble17_literal at index 46 based on column Instruments_in_Ensemble 17 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 18",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble18_literal",
+    "columnInsertIndex": 48,
+    "description": "Create column Instruments_in_Ensemble18_literal at index 48 based on column Instruments_in_Ensemble 18 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 19",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble19_literal",
+    "columnInsertIndex": 50,
+    "description": "Create column Instruments_in_Ensemble19_literal at index 50 based on column Instruments_in_Ensemble 19 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 20",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble20_literal",
+    "columnInsertIndex": 52,
+    "description": "Create column Instruments_in_Ensemble20_literal at index 52 based on column Instruments_in_Ensemble 20 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 21",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble21_literal",
+    "columnInsertIndex": 54,
+    "description": "Create column Instruments_in_Ensemble21_literal at index 54 based on column Instruments_in_Ensemble 21 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 22",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble22_literal",
+    "columnInsertIndex": 56,
+    "description": "Create column Instruments_in_Ensemble22_literal at index 56 based on column Instruments_in_Ensemble 22 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 23",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble23_literal",
+    "columnInsertIndex": 58,
+    "description": "Create column Instruments_in_Ensemble23_literal at index 58 based on column Instruments_in_Ensemble 23 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 24",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble24_literal",
+    "columnInsertIndex": 60,
+    "description": "Create column Instruments_in_Ensemble24_literal at index 60 based on column Instruments_in_Ensemble 24 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments_in_Ensemble 25",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments_in_Ensemble25_literal",
+    "columnInsertIndex": 62,
+    "description": "Create column Instruments_in_Ensemble25_literal at index 62 based on column Instruments_in_Ensemble 25 using expression grel:value"
   }
 ]

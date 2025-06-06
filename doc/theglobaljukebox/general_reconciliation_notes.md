@@ -18,24 +18,33 @@
 
 ## `ethnic group (Q41710)`
 - Denotes people who identify with each other based on shared traits such as culture, language, ancestors, and history.
-- Not to be exchanged for `race (Q41709)`, which refers to the physical traits, ancestry, genetics, or social relations of a group of people and is inaccurate.
-- Also differing from `culture (Q483501)`, which does not refer to the people themselves, but instead denotes their practices, beliefs, and material traits.
+- Not to be exchanged for `human race (Q3254959)`, which refers to the physical traits, ancestry, genetics, or social relations of a group of people and is inaccurate.
+- Also differing from `culture (Q11042)`, which does not refer to the people themselves, but instead denotes their practices, beliefs, and material traits.
+- Also differing from `civilization (Q8432)`, which may encompass many cultures and ethnic groups, and refers to a complex society including its urban development, social stratification, governments, and symbolic systems of communication.
 
 ## `modern language (Q1288568)`
 - While there are multiple WikiData entries for language, (including `language (Q34770)` and `language (Q315)`), `modern language` only includes currently spoken languages.
 	- constructed languages, ancient languages, proto-languages, and fictional languages would all fall under "language" but not "modern language".
 - Some datasets may include dead languages such as Old English or Latin and in these cases, another entry may be more useful to reconcile against, such as `dead language (Q45762)`.
 
-## `song type (Q107356781)` and `song genre (Q207628)`
+## `song type (Q107356781)` and `music genre (Q188451)`
 - "Song type" refers to the function, context, or structural form of a song.
 	E.g. lullaby, anthem, ballad, hymn, dirge, etc.
-- "Song genre" refers to the musical style or tradition a song belongs to
+- "Music genre" refers to the musical style or tradition a song belongs to
 	- E.g. pop, rock, jazz, blues, folk, etc
 - Both of these WikiData items can be useful for columns labeled "genre"
 - Some song types may not have WikiData entries, but their corresponding dances do, such as "war dance" and "social dance"
 
 ## `voice type (Q1063547)`
 - Useful for reconciling human voices as instruments.
+
+## `ISO 639-3 code (P220)`
+- Useful for accurately identifying languages.
+
+## `Köppen climate classification (P2564)` and `category in the Köppen climate classification systems (Q23702033)`
+- Established classification for region climates.
+
+
 
 # Specific Reconciliation Instances
 

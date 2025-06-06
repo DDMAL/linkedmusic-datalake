@@ -1,14 +1,23 @@
+# General Notes:
+- The Global Jukebox data dump can be found in the 8 repositories in [The Global Jukebox Github](https://github.com/theglobaljukebox).
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+    - If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+- For each dataset in The Global Jukebox, the `codings.csv` file is skipped, as it does not contain easily reconcilable data.
+- The `data.csv` files are also not particularly useful for reconciliation, as they depend on the codings found in `codings.csv` and, consequently, not much easily reconilable to WikiData. However, depending on the data set, there may be a few columns that can be reconciled.
+- By reconciling the remaining files, we should be able to link the surrounding information that can be found in WikiData.
+- The datasets are small, so it is possible to manually reconcile many of the columns after a first automatic pass (or a few passes).
+
 # Applying Histories:
 > Do this before reading further.
 - In the `reconciliation_history` folder, JSON files are generated in OpenRefine via `Undo/Redo > Extract... > Export`.
 - These files can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
 - This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
 
-# General Notes
-- For each dataset in The Global Jukebox, the `codings.csv` file is skipped, as it does not contain data useful to reconcile for our purposes.
-- The `data.csv` files are also not particularly useful for reconciliation, as they depend on the codings found in `codings.csv` and, consequently, not much easily reconilable to WikiData. However, depending on the data set, there may be a few columns that can be reconciled.
-- By reconciling the remaining files, we should be able to link the surrounding information that can be found in WikiData.
-- The datasets are small, so it is possible to manually reconcile many of the columns after a first automatic pass.
+# Exporting Data:
+- When exporting to CSV, choose `Export > Custom Tabular...`
+- For each reconciled column, make sure you select the "Matched entity's ID" option.
+- Before exporting, make sure to copy and save the Option Code.
+- To export, select "Comma-separated values (CSV)" and click "Download".
 
 # Instruments
 
@@ -40,22 +49,26 @@
     - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
-- Reconcile the cells in column `society` to type `ethnic group` (Q41710).
+- Split the column `alternative_names` into several columns using `;` as the separator.
+- Reconcile the cells in column `society` to type `ethnic group` (Q41710) with `alternative_names 1` as property `alternative name` (P4970).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
+- If it seems like there are still significant unmatched entries, rereconcile to type `modern language (Q1288568)` and/or `human settlement (Q486972)`.
 - Split the column `Koppen_climate_terrain` into several columns using `,` as the separator.
 - Reconcile the cells in each `Koppen_climate_terrain` column to type `category in the Köppen climate classification systems` (Q23702033).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 57-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
-- Reconcile the cells in column `Language` to type `modern language` (Q1288568).
+- Text transform the cells in column `ISO6393` using the GREL regex `value.replace(/^ISO 639-3: /, "")`
+- Reconcile the cells in column `Language` to type `modern language` (Q1288568), using the column `ISO6393` as property `ISO 639-3 code (P220)`.
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 62-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
+- Reconcile the `Language family` columns to type `language family (Q25295)`.
 - Split the column `Country` into several columns using `;` as the separator.
 - Reconcile the cells in each `Country` column to type `sovereign state` (Q3624078).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
@@ -105,11 +118,13 @@
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
 > Note: The `Subregion` and `Area` columns may also be reconciled to `geographic region` (Q82794) and/or `human settlement` (Q486972), but these columns are often more difficult to sufficiently reconcile as they contain a mix of subsections of regions not found in WikiData (like "North Central China") or a mix of countries, states, and other areas of countries which are not always easy to reconcile.
-- Reconcile the cells in column `society` to type `ethnic group` (Q41710).
+- Split the column `alternative_names` into several columns using `;` as the separator.
+- Reconcile the cells in column `society` to type `ethnic group` (Q41710) with `alternative_names 1` as property `alternative name` (P4970).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
+- If it seems like there are still significant unmatched entries, rereconcile to type `modern language (Q1288568)` and/or `human settlement (Q486972)`.
 - Reconcile the cells in column `People` to type `ethnic group` (Q41710) with `People2` as property `alternative name` (P4970).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."
@@ -121,13 +136,15 @@
     - In the `Best candidate's score` facet, move the slider to 57-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Remove both facets.
-- Reconcile the cells in column `Language` to type `modern language` (Q1288568).
+- Text transform the cells in column `ISO6393` using the GREL regex `value.replace(/^ISO 639-3: /, "")`
+- Reconcile the cells in column `Language` to type `modern language` (Q1288568), using the column `ISO6393` as property `ISO 639-3 code (P220)`.
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
     - In the `Best candidate's score` facet, move the slider to 62-101. In the `judgment` facet, choose "none."
     - Match the cells using `reconcile > actions > match each cell to its best candidate`.
     - Reset the `Best candidate's score` facet.
     - Rereconcile the cells in column `Language` to type `dialect` (Q33384).
     - Remove both facets.
+- Reconcile the `Language family` columns to type `language family (Q25295)`.
 - Split the column `Country` into several columns using `;` as the separator.
 - Reconcile the cells in each `Country` column to type `sovereign state` (Q3624078).
     - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
@@ -293,8 +310,9 @@
 - Reconcile each `Instruments_in_Ensemble` column against `type of musical instrument (Q17362829)`
 
 ## Societies
+
+> Note: This file appears significantly more difficult to reconcile, as the `society` and `People` columns seem to contain a mix of ethnic groups, locations, languages, and professions.
 - Follow the instructions for the [Cantometrics Societies](#societies-1) file.
-> Note: This file appears significantly more difficult to reconcile, as the `society` and `People` columns seem to contain a mix of ethnic groups, locations, languages, and professions
 
 # Urban Strain
 

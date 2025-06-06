@@ -8861,5 +8861,304 @@
     },
     "shareNewTopics": false,
     "description": "Match item cough (Q35805) for cells containing \" Coughs\" in column Instruments 5"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Region",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Region_literal",
+    "columnInsertIndex": 5,
+    "description": "Create column Region_literal at index 5 based on column Region using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Division",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Division_literal",
+    "columnInsertIndex": 7,
+    "description": "Create column Division_literal at index 7 based on column Division using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Subregion",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Subregion_literal",
+    "columnInsertIndex": 9,
+    "description": "Create column Subregion_literal at index 9 based on column Subregion using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Area/Kingdom",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Area/Kingdom_literal",
+    "columnInsertIndex": 11,
+    "description": "Create column Area/Kingdom_literal at index 11 based on column Area/Kingdom using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_literal",
+    "columnInsertIndex": 13,
+    "description": "Create column Culture_literal at index 13 based on column Culture using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture_loc 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_loc1_literal",
+    "columnInsertIndex": 15,
+    "description": "Create column Culture_loc1_literal at index 15 based on column Culture_loc 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture_loc 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_loc2_literal",
+    "columnInsertIndex": 17,
+    "description": "Create column Culture_loc2_literal at index 17 based on column Culture_loc 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture_loc 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_loc3_literal",
+    "columnInsertIndex": 19,
+    "description": "Create column Culture_loc3_literal at index 19 based on column Culture_loc 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture_loc 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_loc4_literal",
+    "columnInsertIndex": 21,
+    "description": "Create column Culture_loc4_literal at index 21 based on column Culture_loc 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture_loc 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_loc5_literal",
+    "columnInsertIndex": 23,
+    "description": "Create column Culture_loc5_literal at index 23 based on column Culture_loc 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Culture_loc 6",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Culture_loc6_literal",
+    "columnInsertIndex": 25,
+    "description": "Create column Culture_loc6_literal at index 25 based on column Culture_loc 6 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Genre 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Genre1_literal",
+    "columnInsertIndex": 33,
+    "description": "Create column Genre1_literal at index 33 based on column Genre 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Genre 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Genre2_literal",
+    "columnInsertIndex": 35,
+    "description": "Create column Genre2_literal at index 35 based on column Genre 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Genre 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Genre3_literal",
+    "columnInsertIndex": 37,
+    "description": "Create column Genre3_literal at index 37 based on column Genre 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Genre 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Genre4_literal",
+    "columnInsertIndex": 39,
+    "description": "Create column Genre4_literal at index 39 based on column Genre 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Genre 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Genre5_literal",
+    "columnInsertIndex": 41,
+    "description": "Create column Genre5_literal at index 41 based on column Genre 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Genre 6",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Genre6_literal",
+    "columnInsertIndex": 43,
+    "description": "Create column Genre6_literal at index 43 based on column Genre 6 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Genre 7",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Genre7_literal",
+    "columnInsertIndex": 45,
+    "description": "Create column Genre7_literal at index 45 based on column Genre 7 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments1_literal",
+    "columnInsertIndex": 49,
+    "description": "Create column Instruments1_literal at index 49 based on column Instruments 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments2_literal",
+    "columnInsertIndex": 51,
+    "description": "Create column Instruments2_literal at index 51 based on column Instruments 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments3_literal",
+    "columnInsertIndex": 53,
+    "description": "Create column Instruments3_literal at index 53 based on column Instruments 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments4_literal",
+    "columnInsertIndex": 55,
+    "description": "Create column Instruments4_literal at index 55 based on column Instruments 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instruments 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instruments5_literal",
+    "columnInsertIndex": 57,
+    "description": "Create column Instruments5_literal at index 57 based on column Instruments 5 using expression grel:value"
   }
 ]

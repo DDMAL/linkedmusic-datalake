@@ -1270,5 +1270,294 @@
     },
     "shareNewTopics": false,
     "description": "Match item Russia (Q159) for cells containing \" Russia\" in column Country 3"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Region",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Region_literal",
+    "columnInsertIndex": 5,
+    "description": "Create column Region_literal at index 5 based on column Region using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Division",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Division_literal",
+    "columnInsertIndex": 7,
+    "description": "Create column Division_literal at index 7 based on column Division using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Subregion",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Subregion_literal",
+    "columnInsertIndex": 9,
+    "description": "Create column Subregion_literal at index 9 based on column Subregion using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "society",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "society_literal",
+    "columnInsertIndex": 12,
+    "description": "Create column society_literal at index 12 based on column society using expression grel:value"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "alternative_names",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column alternative_names by separator"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "People",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q41710",
+        "name": "ethnic group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "People2",
+          "propertyName": "alternative name",
+          "propertyID": "P4970"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column People to type Q41710"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "People: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "People",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "People",
+    "description": "Match each cell to its best recon candidate in column People"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "People",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "People_literal",
+    "columnInsertIndex": 24,
+    "description": "Create column People_literal at index 24 based on column People using expression grel:value"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Focal_years",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column Focal_years by separator"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain_literal",
+    "columnInsertIndex": 49,
+    "description": "Create column Koppen_climate_terrain_literal at index 49 based on column Koppen_climate_terrain 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain2_literal",
+    "columnInsertIndex": 51,
+    "description": "Create column Koppen_climate_terrain2_literal at index 51 based on column Koppen_climate_terrain 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain3_literal",
+    "columnInsertIndex": 53,
+    "description": "Create column Koppen_climate_terrain3_literal at index 53 based on column Koppen_climate_terrain 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_literal",
+    "columnInsertIndex": 58,
+    "description": "Create column Language_literal at index 58 based on column Language using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language_nearsubfamily",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_nearsubfamily_literal",
+    "columnInsertIndex": 60,
+    "description": "Create column Language_nearsubfamily_literal at index 60 based on column Language_nearsubfamily using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language_largersubfamily",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_largersubfamily_literal",
+    "columnInsertIndex": 62,
+    "description": "Create column Language_largersubfamily_literal at index 62 based on column Language_largersubfamily using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language_family",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_family_literal",
+    "columnInsertIndex": 64,
+    "description": "Create column Language_family_literal at index 64 based on column Language_family using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country1_literal",
+    "columnInsertIndex": 69,
+    "description": "Create column Country1_literal at index 69 based on column Country 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country2_literal",
+    "columnInsertIndex": 71,
+    "description": "Create column Country2_literal at index 71 based on column Country 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country3_literal",
+    "columnInsertIndex": 73,
+    "description": "Create column Country3_literal at index 73 based on column Country 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country4_literal",
+    "columnInsertIndex": 75,
+    "description": "Create column Country4_literal at index 75 based on column Country 4 using expression grel:value"
   }
 ]

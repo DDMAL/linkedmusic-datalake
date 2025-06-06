@@ -2515,5 +2515,31 @@
     },
     "shareNewTopics": false,
     "description": "Match item organ (Q1444) for cells containing \"ORGAN\" in column Instrument_Name"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Instrument_Name",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Instrument_Name_literal",
+    "columnInsertIndex": 3,
+    "description": "Create column Instrument_Name_literal at index 3 based on column Instrument_Name using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Archival_Culture_Name",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Archival_Culture_Name_literal",
+    "columnInsertIndex": 5,
+    "description": "Create column Archival_Culture_Name_literal at index 5 based on column Archival_Culture_Name using expression grel:value"
   }
 ]

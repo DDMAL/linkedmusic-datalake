@@ -1363,5 +1363,567 @@
     },
     "shareNewTopics": false,
     "description": "Match item Sierra Leone (Q1044) for cells containing \" Sierra Leone\" in column Country 11"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Region",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Region_literal",
+    "columnInsertIndex": 5,
+    "description": "Create column Region_literal at index 5 based on column Region using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Division",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Division_literal",
+    "columnInsertIndex": 7,
+    "description": "Create column Division_literal at index 7 based on column Division using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "society",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "society_literal",
+    "columnInsertIndex": 11,
+    "description": "Create column society_literal at index 11 based on column society using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "People",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q41710",
+        "name": "ethnic group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "People2",
+          "propertyName": "alternative name",
+          "propertyID": "P4970"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column People to type Q41710"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "alternative_names",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column alternative_names by separator"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "People: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "People",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "People",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q41710",
+        "name": "ethnic group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "People2",
+          "propertyName": "alternative name",
+          "propertyID": "P4970"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column People to type Q41710"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "People: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "People",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "People",
+    "description": "Match each cell to its best recon candidate in column People"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "People",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "People_literal",
+    "columnInsertIndex": 32,
+    "description": "Create column People_literal at index 32 based on column People using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain_literal",
+    "columnInsertIndex": 42,
+    "description": "Create column Koppen_climate_terrain_literal at index 42 based on column Koppen_climate_terrain 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain2_literal",
+    "columnInsertIndex": 44,
+    "description": "Create column Koppen_climate_terrain2_literal at index 44 based on column Koppen_climate_terrain 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain3_literal",
+    "columnInsertIndex": 46,
+    "description": "Create column Koppen_climate_terrain3_literal at index 46 based on column Koppen_climate_terrain 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain4_literal",
+    "columnInsertIndex": 48,
+    "description": "Create column Koppen_climate_terrain4_literal at index 48 based on column Koppen_climate_terrain 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain5_literal",
+    "columnInsertIndex": 50,
+    "description": "Create column Koppen_climate_terrain5_literal at index 50 based on column Koppen_climate_terrain 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Language",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_literal",
+    "columnInsertIndex": 55,
+    "description": "Create column Language_literal at index 55 based on column Language using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Language_nearsubfamily",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q25295",
+        "name": "language family"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Language_nearsubfamily to type Q25295"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Language_nearsubfamily: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Language_nearsubfamily",
+          "from": 96,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Language_nearsubfamily",
+    "description": "Match each cell to its best recon candidate in column Language_nearsubfamily"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Language_largersubfamily",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q25295",
+        "name": "language family"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Language_largersubfamily to type Q25295"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Language_nearsubfamily",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_nearsubfamily_literal",
+    "columnInsertIndex": 57,
+    "description": "Create column Language_nearsubfamily_literal at index 57 based on column Language_nearsubfamily using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Language_largersubfamily",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_largersubfamily_literal",
+    "columnInsertIndex": 58,
+    "description": "Create column Language_largersubfamily_literal at index 58 based on column Language_largersubfamily using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Language_family",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_family_literal",
+    "columnInsertIndex": 59,
+    "description": "Create column Language_family_literal at index 59 based on column Language_family using expression grel:value"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Language_largersubfamily: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Language_largersubfamily",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Language_largersubfamily",
+    "description": "Match each cell to its best recon candidate in column Language_largersubfamily"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "Language_family",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q25295",
+        "name": "language family"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Language_family to type Q25295"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "Language_family: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Language_family",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "Language_family",
+    "description": "Match each cell to its best recon candidate in column Language_family"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country1_literal",
+    "columnInsertIndex": 66,
+    "description": "Create column Country1_literal at index 66 based on column Country 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country2_literal",
+    "columnInsertIndex": 68,
+    "description": "Create column Country2_literal at index 68 based on column Country 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country3_literal",
+    "columnInsertIndex": 70,
+    "description": "Create column Country3_literal at index 70 based on column Country 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country4_literal",
+    "columnInsertIndex": 72,
+    "description": "Create column Country4_literal at index 72 based on column Country 4 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 5",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country5_literal",
+    "columnInsertIndex": 74,
+    "description": "Create column Country5_literal at index 74 based on column Country 5 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 6",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country6_literal",
+    "columnInsertIndex": 76,
+    "description": "Create column Country6_literal at index 76 based on column Country 6 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 7",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country7_literal",
+    "columnInsertIndex": 78,
+    "description": "Create column Country7_literal at index 78 based on column Country 7 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 8",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country8_literal",
+    "columnInsertIndex": 80,
+    "description": "Create column Country8_literal at index 80 based on column Country 8 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 9",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country9_literal",
+    "columnInsertIndex": 82,
+    "description": "Create column Country9_literal at index 82 based on column Country 9 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 10",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country10_literal",
+    "columnInsertIndex": 84,
+    "description": "Create column Country10_literal at index 84 based on column Country 10 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "Country 11",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country11_literal",
+    "columnInsertIndex": 86,
+    "description": "Create column Country11_literal at index 86 based on column Country 11 using expression grel:value"
   }
 ]
