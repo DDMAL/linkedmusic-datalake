@@ -307,7 +307,7 @@ def process_line(
                 (
                     subject_uri,
                     mb_schema["coordinates"],
-                    Literal(f"Point({lat} {lon})", datatype=GEO["wktLiteral"]),
+                    Literal(f"Point({lon} {lat})", datatype=GEO["wktLiteral"]),
                 )
             )
 

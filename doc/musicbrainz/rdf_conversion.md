@@ -23,7 +23,7 @@ The below rules are conform with RDF standards and with Wikidata standards
 
 - Any literal value not given an explicit type will default to `XSD:string`. This is part of the RDF standard.
 - Dates are given the type `XSD:date`. If the value has both date and time, it will be in `XSD:datetime`
-- Coordinates (latitude/longitude) are given the `GEO:wktLiteral` type in the format `f"Point({lat} {lon})"`.
+- Coordinates (latitude/longitude) are given the `GEO:wktLiteral` type in the format `f"Point({lon} {lat})"`.
 - Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
 - All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting.
 
