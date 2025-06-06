@@ -142,6 +142,9 @@
     "status": {
         "release": "http://www.wikidata.org/prop/direct/P31"
     },
+    "packaging": {
+        "release": "http://www.wikidata.org/prop/direct/P9813"
+    },
     "iswc": {
         "work": "http://www.wikidata.org/prop/direct/P1827"
     },

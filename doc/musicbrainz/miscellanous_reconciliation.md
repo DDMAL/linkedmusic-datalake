@@ -2,11 +2,13 @@
 
 Please read the section **4. Extracting and Reconciling Unreconciled Fields** in README.md before reading this document.
 
-Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro confirmed that MusicBrainz entities don't need additional reconciliation), only the values in the following fields are not :
+Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro confirmed that MusicBrainz entities don't need additional reconciliation), only the values in the following fields are not:
+
 - The `type` field for all entity types that have it
 - The values for the `key` attribute type for works
 - The values for the `gender` field for artists
 - The values for the `language`/`languages` field for works
+- The values for the `packaging` field for works
 
 There is also the field `relationship` that is unreconciled. This field is treated separately in `relations.md`.
 
@@ -36,6 +38,7 @@ The "keys" that were extracted (in the format of "A major", "B mixolydian", etc.
 However, modes without tonic (e.g. [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115)) do exist as Wikidata entities. We may consider, for example, specifying the mode as [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115) and the tonic (Wikidata property to be created) as [A(Q744346)](https://www.wikidata.org/wiki/Q744346).
 
 Alternatively, we may consider creating these modes ourselves since they are referenced often across databases (e.g. in The Session).
+
 ## Genders
 
 The genders that were extracted were reconciled against Q48264 "gender identity". The "other" gender was reconciled to "non-binary gender", and the "not applicable" gender is not reconciled.
@@ -55,3 +58,14 @@ SELECT ?language ?languageLabel WHERE {
 I chose to not reconcile `syr`, which is supposed to be "Syriac", because there is no entity on Wikidata with syr as the value in P220. There is [Classical Syriac](https://www.wikidata.org/wiki/Q33538) in Wikidata, which has a language code of `syc`. But since it is a different language then the one represented by `syr` I did not reconcile it
 
 `qaa` is a language code reserved for internal use of the database; MusicBrainz uses it to indicate "Artificial (Other)". As such, I have reconciled it to Q3247505 "artificial language", which is meant to represent languages that were constructed for a purpose
+
+## Packagings
+
+Reconciliation using OpenRefine's API was attempted against Q66157003 "packing material" and Q207822 "product packaging", both yielding very poor results. As a result of this and due to the small size of the dataset, I performed manual reconciliation for the packagings. Relevant and important decisions are listed below:
+
+- For quite a few packaging types (paper sleeve, digifile, to name a few), when using Wikidata's search bar, I would get redirected to [Q63367831 "optical disc packaging"](https://www.wikidata.org/wiki/Q63367831), despite that page making no references to that packaging type, and as such I left them unreconciled
+- I did not reconcile the "None" or "Other" types to anything
+- I reconciled the "Book" type to Q571 "book" (your standard book) because I could not find a more suitable choice, and I feel like reconciling to this is better than not reconciling it, same thing for the "Box" type with Q188075 "box"
+- I reconciled "slim jewel case" to Q1023101 "jewel case" as there is no slim variant on Wikidata, and I like doing this is more useful than not reconciling it
+- For "Metal tin", I reconciled it to Q15706035 "tin" as it's the closest thing I could find
+- For "Snap case", there is Q7547268 "snap case", but at the time of writing this, that entity has no descriptions or statements, so I have no clue what it's supposed to be, and as such didn't reconcile this entry

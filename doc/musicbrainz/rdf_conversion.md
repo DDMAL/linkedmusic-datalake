@@ -29,7 +29,6 @@ The below rules are conform with RDF standards and with Wikidata standards
 
 ## Miscellanous Notes on convert_to_rdf.py
 
-
 - The script is optimized to be memory-efficient, but there's only so much you can do when one of the input files is >250GB.
 - The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store`, from the working directory. The script automatically deletes the folder when it finishes. However, if the script crashes, it is recommended to delete the folder before running it again.
 - The graph will not use disk storage if the input file is less than 1GB in size. This is a configurable limit in the script.
@@ -43,18 +42,12 @@ The below rules are conform with RDF standards and with Wikidata standards
 - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `code/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
 - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
 
-
 ## Notes on Particularities in MusicBrainz Dataset
 
-Below are some remarks on fields found in the entity-type `release`:
-
-- `quality` stands for "data quality". It indicates the credibility of the information MusicBrainz has on the release. See the [documentation page](https://musicbrainz.org/doc/Release#Data_quality) for more information.
-- `packaging` can not be mapped onto any Wikidata property, so it is not stored.
-- `status` does not neatly map onto a single Wikidata property: I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Though we reconciled the predicate against a Wikidata property, the object (e.g. bootleg, official album) is left as literal because there is no Wikidata equivalent for all of them.
-
-Below is one remark on the name of the entity-type `release-group`:
-
-- The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
+- The `release` entity type's `quality` field stands for "data quality". It indicates the credibility of the information MusicBrainz has on the release. See the [documentation page](https://musicbrainz.org/doc/Release#Data_quality) for more information.
+- The `release` entity type's `status` field does not neatly map onto a single Wikidata property: I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Though we reconciled the predicate against a Wikidata property, the object (e.g. bootleg, official album) is left as literal because there is no Wikidata equivalent for all of them.
+- The `event` entity type's `setlist` field seems to contain pre-rendered data about the setlist, which makes it difficult to parse. Furthermore, the same data is also located in the `relations` field, and as such, the `setlist` field is ignored during the RDF conversion process.
+- The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, and as the name of a field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
 
 ## Attributes
 
@@ -138,4 +131,4 @@ For other properties in other fields:
 - To indicate the duration of a recording, I use P2047 "duration", the time in the database is in milliseconds, but I convert them to seconds and store it as a XSD:decimal
 - To indicate the first release date of a release group, I use P577 "publication date", as the property is an exact match for what we want
 - To store the time (and date) that an event took place, I use P585 "point in time"
-- The event `setlist` field is ignored as it is difficult to parse and the same data is also located in the `relations` field
+- To store the packaging of a release, I use P9813 "container", as it seems to be the most appropriate, and because one of the example uses given for the property is to indicate the packaging of a musical release

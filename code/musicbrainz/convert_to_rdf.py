@@ -508,6 +508,22 @@ def process_line(
                     )
                 )
 
+    # Process packaging
+    if packaging := data.get("packaging"):
+        if (packaging_map := reconciled_mapping.get(packaging)) and matched_wikidata(
+            packaging_map
+        ):
+            packaging = URIRef(f"{WD}{packaging_map}")
+        else:
+            packaging = Literal(packaging)
+        g.add(
+            (
+                subject_uri,
+                mb_schema["packaging"],
+                packaging,
+            )
+        )
+
     # Process relationships
     for relation in data.get("relations", []):
         if not (target_type := relation.get("target-type")) or not (
@@ -992,6 +1008,14 @@ if __name__ == "__main__":
             languages = pd.read_csv(fi, encoding="utf-8")
             RECONCILIATION_MAPPING.update(
                 dict(zip(languages["language"], languages["full_language_@id"]))
+            )
+
+    packagings_file_path = Path(args.reconciled_folder) / "packagings-csv.csv"
+    if packagings_file_path.is_file():
+        with open(packagings_file_path, "r", encoding="utf-8") as fi:
+            packagings = pd.read_csv(fi, encoding="utf-8")
+            RECONCILIATION_MAPPING.update(
+                dict(zip(packagings["packaging"], packagings["packaging_@id"]))
             )
 
     bad_files = []

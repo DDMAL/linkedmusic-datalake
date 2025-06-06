@@ -1,7 +1,10 @@
 """
 This script will extract all the data that needs to be reconciled from MusicBrainz JSON data files.
-The script will ignore the entity types in the `IGNORE_TYPES` list, which are known to not have types.
-The script will create the output folder if it does not exist.
+The script will ignore the entity types in the `IGNORE_TYPES` list,
+which are known to not have types, and will create the output folder if it does not exist.
+It will process all JSON files in the specified input folder,
+skipping files that have already been processed
+unless the `REPROCESSING` flag is set to True.
 
 The 'type' field is extracted for each entity type, and are saved to a CSV file in the
 specified output folder with the name `f"{entity_type}_types.csv"`.
@@ -16,6 +19,9 @@ Normally, only the `artist` entity type has a gender, but this script is designe
 Languages are extracted from the `languages` field, if present, and saved to a separate CSV file named `languages.csv`.
 The languages are extracted as ISO 639-3 codes and their full names are added in a separate column.
 Normally, only the `work` entity type has languages, but this script is designed to be flexible.
+
+Packagings are extracted from the `packaging` field, if present, and saved to a separate CSV file named `packagings.csv`.
+Normally, only the `release` entity type has packagings, but this script is designed to be flexible.
 """
 
 import json
@@ -29,9 +35,13 @@ from pycountry import languages as langs
 # Set to True if you want to reprocess entity types that are already present in the output folder
 REPROCESSING = False
 
-# Entity types to ignore because they don't have types
+# Entity types to ignore because they don't have any fields we want to extract
 IGNORE_TYPES = [
     "recording",
+]
+
+# Entity types that will be processed but that do not have type fields
+PROCESS_NO_TYPES = [
     "release",
 ]
 
@@ -51,11 +61,12 @@ def main(args):
     types = set()
     genders = set()
     languages = set()
+    packagings = set()
 
-    with open(input_file, "r", encoding="utf-8") as file:
-        total_line = sum(1 for _ in file)
-        file.seek(0)
-        for line in tqdm(file, total=total_line, desc=f"Processing {entity_type}"):
+    with open(input_file, "r", encoding="utf-8") as f:
+        total_line = sum(1 for _ in f)
+        f.seek(0)
+        for line in tqdm(f, total=total_line, desc=f"Processing {entity_type}"):
             try:
                 data = json.loads(line)
                 if t := data.get("type"):
@@ -71,13 +82,16 @@ def main(args):
                     genders.add(g)
                 for lang in data.get("languages", []):
                     languages.add(lang)
+                if p := data.get("packaging"):
+                    packagings.add(p)
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON in file {input_file}: {e}")
                 continue
 
-    df = pd.DataFrame({"type": list(types)})
-    with open(output_file, "w", encoding="utf-8") as out_file:
-        df.to_csv(out_file, index=False)
+    if entity_type in PROCESS_NO_TYPES:
+        df = pd.DataFrame({"type": list(types)})
+        with open(output_file, "w", encoding="utf-8") as out_file:
+            df.to_csv(out_file, index=False)
 
     if keys:
         keys_file = output_folder / "keys.csv"
@@ -99,6 +113,12 @@ def main(args):
         )
         with open(languages_file, "w", encoding="utf-8") as languages_out_file:
             languages_df.to_csv(languages_out_file, index=False)
+
+    if packagings:
+        packagings_file = output_folder / "packagings.csv"
+        packagings_df = pd.DataFrame({"packaging": list(packagings)})
+        with open(packagings_file, "w", encoding="utf-8") as packagings_out_file:
+            packagings_df.to_csv(packagings_out_file, index=False)
 
 
 if __name__ == "__main__":
@@ -128,6 +148,9 @@ if __name__ == "__main__":
         for file in output_folder.iterdir():
             if file.is_file():
                 bad_files.append(file.stem[:-6])  # Ignore the _types suffix
+
+    if "packagings" in bad_files:
+        bad_files.append("release")  # Special case for release entity type
 
     for input_file in input_folder.iterdir():
         if str(input_file).endswith(".DS_Store"):
