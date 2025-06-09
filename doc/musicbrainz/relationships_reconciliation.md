@@ -28,38 +28,26 @@ Continuing from our previous example:
 
 - As expected, since Wikidata properties are much less specific to music than MusicBrainz relationships, we often must settle for a less-than-ideal match.
 
-Try looking for a Wikidata property for `artist-label/owner`. You will probably go through the following steps:
+- When trying to look up a property for the `artist-label/owner` relationship, you'll notice that there is no "owner" or "owns" property on Wikidata.
 
-- Realizing that there is no `"owner"` or `"owns"` property in Wikidata
+- However, there is [owned by(P127)](http://www.wikidata.org/prop/direct/P127), which is the inverse of the owner relationship. This is because most Wikidata properties only exist in one direction (they don't have inverses) because inverse relationships are not necessary for a graph database with a SPARQL endpoint.
 
-- Finding [owned by(P127)](http://www.wikidata.org/prop/direct/P127), and realizing that it would be the inverse property of "owner".
+- On the other hand, properties in MusicBrainz are **bidirectional**: reusing the above example, the `label-place/owner` property encompasses both `owns` & `owned by`: it can mean one or the other depending on the `entity-type` of the subject and the `entity-type` of the object.
 
-- Understanding that most Wikidata property don't have an inverse. Realizing that inverse properties are not really needed for a graph database with a SPARQL endpoint.
+  - When used in the "forward direction" (e.g., BBC `owner` BBC studio), the relationship means "label `owns` place".
 
-- Wondering how inverse relationship work in MusicBrainz. What even is the inverse of `label-place/owner`? Is it `label-place/owns`? Maybe `place-label/owns`? Does it even exist? (None of the above answer is correct)
+  - When used in the "backward direction" (e.g., BBC studio `owner` BBC), the property actually means 'place `owned by` label'.
 
-This image below should explain well how inverse relationships work in MusicBrainz:
+- Additionally, when a forward relation exists, a backward relation necessarily exists ([except for genre](#note-genre)). For example, if you see (Taylor Swift->`main performer`->The Eras Tour), you are guaranteed to find (The Eras Tour->`main performer`->Taylor Swift) in another file.
+
+- As takeaways:
+
+  - Relationships need to be identified by both the source and target entity types
+  - When reconciling properties, we only need to reconcile one direction because the other doesn't exist as a standalone property on Wikidata.
+
+Refer to this image for further clarifications on inverse relationships:
 
 [![Screenshot](./images/label-place_owner.jpg)](https://musicbrainz.org/relationship/06829429-0f20-4c00-aa3d-871fde07d8c4)
-
-As you can see, each MusicBrainz property is in fact **bidirectional**:
-
-- The property `label-place/owner` encompasses both `owns` & `owned by`: it can mean one or the other depending on the `entity-type` of the subject and the `entity-type` of the object.
-
-- When used in the "forward direction" (e.g., BBC `owner` BBC studio), the relationship means "label `owns` place".
-
-- When used in the "backward direction" (e.g., BBC studio `owner` BBC), the property actually means 'place `owned by` label'.
-
-- If a forward relation exists, then a backward relation necessarily exists ([except for genre](#note-genre)). For example, if you see (Taylor Swift->`main performer`->The Eras Tour), you are guaranteed to find (The Eras Tour->`main performer`->Taylor Swift) in another file.
-
-Takeaways:
-
-- MusicBrainz relationships must be identified by the **entity type it accepts as subject** AND the **entity type it accepts as object**:
-
-- Example:
-  - `artist->label--"owner"` means "owns"
-  - It is different from `label->artist--"owner"`, which means "owned by"
-  - It is different from `label->place--"owner"`, which also means "owns", but is defined as a separate relationship.
 
 ## The Process of Reconciling MusicBrainz Relationships
 
