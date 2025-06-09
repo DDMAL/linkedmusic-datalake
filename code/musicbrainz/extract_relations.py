@@ -52,7 +52,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output_folder",
         type=str,
-        default="../../doc/musicbrainz/rdf_conversion_config/",
+        default="./rdf_conversion_config/",
         help="Path to the output directory for saving relation types.",
     )
 
