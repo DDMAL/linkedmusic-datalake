@@ -6,16 +6,16 @@ This documents any choices for properties in the RDF conversion process, as well
 
 Due to the nature of the RDF conversion script, we need to store a fairly large amount of mapping data to properly convert the JSONL files to RDF.
 
-In an effort to reduce the clutter of constant global variables containing mappings, the following dictionaries are stored separately in the `code/musicbrainz/rdf_conversion_config/` folder and loaded by `code/musicbrainz/convert_to_rdf.py` at runtime:
+In an effort to reduce the clutter of constant global variables containing mappings, the following dictionaries are stored separately in the `code/musicbrainz/rdf_conversion_config/` folder and loaded by [`code/musicbrainz/convert_to_rdf.py`](/code/musicbrainz/convert_to_rdf.py) at runtime:
 
-- `mappings.json` : for the main fields
-- `relations.json`: for relationships
-- `attribute_mapping.json`: for attributes
+- [`mappings.json`](/code/musicbrainz/rdf_conversion_config/mappings.json) : for the main fields
+- [`relations.json`](/code/musicbrainz/rdf_conversion_config/relations.json): for relationships
+- [`attribute_mapping.json`](/code/musicbrainz/rdf_conversion_config/attribute_mapping.json): for attributes
 
-`code/musicbrainz/convert_to_rdf.py` also import two modules:
+[`code/musicbrainz/convert_to_rdf.py`](/code/musicbrainz/convert_to_rdf.py) also imports two modules:
 
--`code/musicbrainz/mapping_schema.py`: it contains the class definition of `MappingSchema`  
--`code/musicbrainz/url_patterns.py`: it contains regex patterns matching onto different urls.
+- [`code/musicbrainz/mapping_schema.py`](/code/musicbrainz/mapping_schema.py): it contains the class definition of `MappingSchema`  
+- [`code/musicbrainz/url_patterns.py`](/code/musicbrainz/url_patterns.py): it contains regex patterns matching onto different urls.
 
 ## Rules for Literal Datatypes
 
@@ -37,9 +37,7 @@ The below rules are conform with RDF standards and with Wikidata standards
 - For ease of reading, the fields are processed in alphabetical order in the `process_line` function.
 - If you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
 - The same situation applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function.
-- The dictionary containing regex patterns for URLs has been moved to a separate module, `code/musicbrainz/url_patterns.py`, to reduce clutter in the main script.
-- The class definition for the `MappingSchema` class was also moved to a separate module, `code/musicbrainz/mapping_schema.py`, to reduce clutter in the main script
-- The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in `code/musicbrainz/rdf_conversion_config/mappings.json`. The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
+- The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in [`code/musicbrainz/rdf_conversion_config/mappings.json`](/code/musicbrainz/rdf_conversion_config/mappings.json). The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
 - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
 
 ## Notes on Particularities in MusicBrainz Dataset
@@ -55,12 +53,12 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 - The vast majority of attribute types are IDs to other databases, but they can also contain a few other thing. For example:
 
-  - the key (i.e. tonality) of the work (extracted and reconciled with OpenRefine, see `doc/musicbrainz/reconciliation.md`)
-  - Non-Western musical concepts, such as the Tala (i.e. musical meter of Indian classicl music).
+  - the key (i.e. tonality) of the work (extracted and reconciled with OpenRefine, see [`doc/musicbrainz/miscellaneous_reconciliation.md`](/doc/musicbrainz/miscellaneous_reconciliation.md))
+  - Non-Western musical concepts, such as the Tala, the musical meter of Indian classical music
 
-- Unlike RISM, who has [RISM ID](https://www.wikidata.org/prop/direct/P5504) as a corresponding Wikidata property, the majority of these databases have no corresponding Wikidata property. Since the field contains only IDs, not full URLs/URIs, these IDs are not stored unless there is an corresponding Wikidata property.
+- Unlike RISM, which has [RISM ID](https://www.wikidata.org/prop/direct/P5504) as a corresponding Wikidata property, the majority of these databases have no corresponding Wikidata property. Since the field contains only IDs, not full URLs/URIs, these IDs are not stored unless there is an corresponding Wikidata property.
 
-- The file with all possible attribute values and Wikidata properties they map onto can be found in `doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`. Attributes that are not present in `attribute_mapping.json` or has the value `null`/`None` will be ignored by the RDF conversion script.
+- The file with all possible attribute values and Wikidata properties they map onto can be found in [`doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`](/doc/musicbrainz/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
 
 ## URLS
 
@@ -70,7 +68,7 @@ Whenever possible, we try to extract the ID from the url, and store the ID alone
 
 The same database may have multiple Wikidata property. For example, Discogs has [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953) and [Discogs label ID (P1955)](https://www.wikidata.org/prop/direct/P1955) and [Discogs composition ID (P6080)](https://www.wikidata.org/prop/direct/P6080)...
 
-To extract the IDs properly, a regex pattern, taken from the `URL match pattern` field of each Wikidata property (e.g. `^https?:\/\/(?:www\.)?discogs\.com\/(?:[a-z]+\/)?artist\/([1-9][0-9]*)` for [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953)) is stored in `code/musicbrainz/url_patterns.py`.
+To extract the IDs properly, a regex pattern, taken from the `URL match pattern` field of each Wikidata property (e.g. `^https?:\/\/(?:www\.)?discogs\.com\/(?:[a-z]+\/)?artist\/([1-9][0-9]*)` for [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953)) is stored in [`code/musicbrainz/url_patterns.py`](/code/musicbrainz/url_patterns.py).
 
 If no Wikidata property exist, the url will be stored as [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888). This means that when regex fail (and it does occasionally fail), the urls will still be linked to the entity.
 
