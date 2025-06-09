@@ -62,7 +62,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
 #### 4. **Extract and Reconcile Unreconciled Fields**
 
-- Note that you can consult `doc/musicbrainz/layout.json` to see a list of fields that exist for each entity type.
+- Note that you can consult [`doc/musicbrainz/layout.json`](/doc/musicbrainz/layout.json) to see a list of fields that exist for each entity type.
 
 - Each entity in MusicBrainz has an additional `type` field on top of their basic entity-type. You can understand `type` as a subclass of `entity-type`. For example, Berlin Philharmoniker has `"artist"` as its `entity-type` (general), and `"orchestra"` as its `type` (specific).
 
