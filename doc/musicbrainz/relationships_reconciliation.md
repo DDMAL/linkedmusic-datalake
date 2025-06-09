@@ -18,7 +18,7 @@ However, the two `"owner"` relationships, despite having the same name, refer to
 - the [first relationship](https://musicbrainz.org/relationship/610fa594-eeaa-407b-a9f1-49f509ab5559) is `artist-label/owner`, which can only exist between an artist and a label;
 - the [second relashionship](https://musicbrainz.org/relationship/06829429-0f20-4c00-aa3d-871fde07d8c4) is `label-place/owner`, which can only exist between a label and a place.
 
-This is due the fact that MusicBrainz, unlike Wikidata, defines each relationship so that it can only connect two very specific entity-types: a relationship that connects artist-label CAN NOT be reused to connect label-place.
+This is due the fact that MusicBrainz, unlike Wikidata, defines each relationship so that it can only connect two very specific entity-types: a relationship that connects artist-label CANNOT be reused to connect label-place.
 
 ### Understanding Directionality
 
@@ -36,13 +36,11 @@ Try looking for a Wikidata property for `artist-label/owner`. You will probably 
 
 - Understanding that most Wikidata property don't have an inverse. Realizing that inverse properties are not really needed for a graph database with a SPARQL endpoint.
 
-- Wondering how inverse relationship work in MusicBrainz. What even is the inverse of `label-place/owner`? Is it `label-place/owns`? Maybe `place-label/owns`? Does it even exist? (None of the above answer is correct)<br><br>
+- Wondering how inverse relationship work in MusicBrainz. What even is the inverse of `label-place/owner`? Is it `label-place/owns`? Maybe `place-label/owns`? Does it even exist? (None of the above answer is correct)
 
 This image below should explain well how inverse relationships work in MusicBrainz:
 
-![Screenshot](./images/label-place_owner.jpg)
-
-([image source](https://musicbrainz.org/relationship/06829429-0f20-4c00-aa3d-871fde07d8c4))
+[![Screenshot](./images/label-place_owner.jpg)](https://musicbrainz.org/relationship/06829429-0f20-4c00-aa3d-871fde07d8c4)
 
 As you can see, each MusicBrainz property is in fact **bidirectional**:
 
@@ -65,13 +63,13 @@ Takeaways:
 
 ## The Process of Reconciling MusicBrainz Relationships
 
-### Extracting Relationships from JSONL
+### Extracting Relationships from JSON
 
 - In the MusicBrainz dataset, the vast majority of relationships between entities are listed in the `relationships` field.
 
-- A few relations are kept in their own fields, such as `artist-credit`, which is the field containing all artists credited for a recording. These relations will be handled separately.
+- A few relations are kept in their own fields, such as `artist-credit`, which is the field containing all artists credited for a recording. MusicBrainz handles these relations differently, and thus we will handle them separately.
 
-- the script `code/musicbrainz/extract_relations.py` will parse all the JSONL data files and will extract every type relationship (e.g. siblings, master engineer) between all entities.
+- The script `code/musicbrainz/extract_relations.py` will parse all the JSONL data files and will extract every type relationship in the `relationships` field (e.g. siblings, master engineer) between all entities.
 
 - Given that across all entity types, there are roughly 800 different relation types that all need to be mapped to Wikidata, storing the mappings inside the RDF conversion script would make it very messy.
 
@@ -88,7 +86,7 @@ Takeaways:
   - the third dictionary key is the relationship's name (e.g. "owner").
   - As discussed above, it is crucial for MusicBrainz relationships to be identified by what it accepts as subject and as object
 
-- The values associated with each relationship are the Wikidata Property ID that the relationship maps to, in string format (e.g. `"P2888"`). If a relationship has no equivalent in Wikidata, it should either be removed or left as `null`/`None`: this would ensure that it is ignored by the RDF conversion script,
+- The values associated with each relationship are the Wikidata Property ID that the relationship maps to, in string format (e.g. `"P2888"`). If a relationship has no equivalent in Wikidata, it should either be removed or left as `null`/`None`: this would ensure that it is ignored by the RDF conversion script.
 
 #### Note: Same-Type Relationships
 
@@ -104,7 +102,7 @@ To solve this problem:
 
 - We replace each same-type relationship in `relations.json` with `{relationship}_forward` and a `{relationship}_backward` field. This would ensure that there exists `relations.json["area"]["area"]["part of_forward"]` and `relations.json["area"]["area"]["part of_backward"]`, which are inverse of each other.
 
-- Our fetched JSONL contain a `direction` field ( containing either `forward` or `backward`). We can use them to map same-type relationships the right direction.
+- The JSON data's `relationships` field contains a `direction` field (containing either `forward` or `backward`) for each relationship. We can use them to map same-type relationships the right direction.
 
 - Often, you will need to consult MusicBrainz documentation because it can be obscure what a relationship mean in forward or backward context. For example, it may not be obvious that [artist->artist->is person_backward](https://musicbrainz.org/relationships/artist-artist) really means that the subject is an alias of the object.
 
@@ -112,7 +110,7 @@ To solve this problem:
 
 - Despite being considered an entity by the [MusicBrainz relationships table](https://musicbrainz.org/relationships), genre is not an entity present in the MusicBrainz dump. Thus, you will only find genre as an object in `relations.json`, never as a subject.
 
-- However, all equivalent Wikidata properties relating to genres require the `genre` as subject. Therefore, the RDF conversion script would exceptionally interpret all instances of `relations.json[any_type]["genre"][any_property]` to be the inverse `genre -> any_type -> any_property`.
+- However, all equivalent Wikidata properties relating to genres require the `genre` as subject. Therefore, the RDF conversion script would exceptionally interpret all instances of `relations.json[any_type]["genre"][any_property]` to be the inverse `genre -> any_type -> any_property`. The RDF conversion script handles this by inverting the triple if the target type is `genre`.
 
 ## Mapping MusicBrainz Relationships to Wikidata
 
