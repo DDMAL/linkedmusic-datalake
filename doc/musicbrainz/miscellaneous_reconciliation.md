@@ -32,7 +32,7 @@ Automatic reconciliation using Wikidata's API was attempted, but yielded poor re
 
 `key` is the tonality of the musical work
 
-The "keys" that were extracted (in the format of "A major", "B mixolydian", etc.) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but the other modes (A mixolydian, E lydian, etc.) are left unreconciled, since there exist no "A mixolydian"-style entities on Wikidata. 
+The "keys" that were extracted (in the format of "A major", "B mixolydian", etc.) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but the other modes (A mixolydian, E lydian, etc.) are left unreconciled, since there exist no "A mixolydian"-style entities on Wikidata.
 
 However, modes without tonic (e.g. [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115)) do exist as Wikidata entities. We may consider, for example, specifying the mode as [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115) and the tonic (Wikidata property to be created) as [A(Q744346)](https://www.wikidata.org/wiki/Q744346).
 
@@ -52,11 +52,12 @@ SELECT ?language ?languageLabel WHERE {
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
 }
 ```
+
 (Replace "ksh" with the language code you want)
 
-I chose to not reconcile `syr`, which is supposed to be "Syriac", because there is no entity on Wikidata with syr as the value in P220. There is [Classical Syriac](https://www.wikidata.org/wiki/Q33538) in Wikidata, which has a language code of `syc`. But since it is a different language then the one represented by `syr` I did not reconcile it
+I chose to not reconcile `syr`, which is supposed to be "Syriac", because there is no entity on Wikidata with syr as the value in P220. There is [Classical Syriac](https://www.wikidata.org/wiki/Q33538) in Wikidata, which has a language code of `syc`. But since it is a different language then the one represented by `syr`, I did not reconcile it.
 
-`qaa` is a language code reserved for internal use of the database; MusicBrainz uses it to indicate "Artificial (Other)". As such, I have reconciled it to Q3247505 "artificial language", which is meant to represent languages that were constructed for a purpose
+`qaa` is a language code reserved for internal use of the database; MusicBrainz uses it to indicate "Artificial (Other)". As such, I have reconciled it to Q3247505 "artificial language", which is meant to represent languages that were constructed for a specific purpose (in this case for a song).
 
 ## Packagings
 
@@ -67,4 +68,4 @@ Reconciliation using OpenRefine's API was attempted against Q66157003 "packing m
 - I reconciled the "Book" type to Q571 "book" (your standard book) because I could not find a more suitable choice, and I feel like reconciling to this is better than not reconciling it, same thing for the "Box" type with Q188075 "box"
 - I reconciled "slim jewel case" to Q1023101 "jewel case" as there is no slim variant on Wikidata, and I like doing this is more useful than not reconciling it
 - For "Metal tin", I reconciled it to Q15706035 "tin" as it's the closest thing I could find
-- For "Snap case", there is Q7547268 "snap case", but at the time of writing this, that entity has no descriptions or statements, so I have no clue what it's supposed to be, and as such didn't reconcile this entry
+- For "Snap case", there is [Q7547268 "snap case"](https://www.wikidata.org/wiki/Q7547268), but at the time of writing this, that entity has no descriptions or statements, so I have no clue what it's supposed to be, and as such didn't reconcile this entry
