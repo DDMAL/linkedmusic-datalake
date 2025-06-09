@@ -69,16 +69,16 @@ Takeaways:
 
 - A few relations are kept in their own fields, such as `artist-credit`, which is the field containing all artists credited for a recording. MusicBrainz handles these relations differently, and thus we will handle them separately.
 
-- The script `code/musicbrainz/extract_relations.py` will parse all the JSONL data files and will extract every type relationship in the `relationships` field (e.g. siblings, master engineer) between all entities.
+- The script [`code/musicbrainz/extract_relations.py`](/code/musicbrainz/extract_relations.py) will parse all the JSONL data files and will extract every type relationship in the `relationships` field (e.g. siblings, master engineer) between all entities.
 
 - Given that across all entity types, there are roughly 800 different relation types that all need to be mapped to Wikidata, storing the mappings inside the RDF conversion script would make it very messy.
 
-- Therefore, the result of the script is outputted to `relations.json`, to which we can add Wikidata PIDs manually (note: the script may add missing properties to an existing relations.json, but will not modify any property and mapping that already exists in the json).
+- Therefore, the result of the script is outputted to [`code/musicbrainz/rdf_conversion_config/relations.json`](/code/musicbrainz/rdf_conversion_config/relations.json), to which we can add Wikidata PIDs manually (note: the script may add missing properties to an existing relations.json, but will not modify any property and mapping that already exists in the json).
 
-### relations.json
+### [relations.json](/code/musicbrainz/rdf_conversion_config/relations.json)
 
 - It is located in `code/musicbrainz/rdf_conversion_config`
-- It is needed as an input of `convert_to_rdf.py`
+- It is needed as an input of [`convert_to_rdf.py`](/code/musicbrainz/convert_to_rdf.py)
 - Each property in `relations.json` is structured in `subject -> object -> relationship` format:
 
   - the outermost dictionary key indicates the subject's `entity-type` (e.g. "artist"),
@@ -108,7 +108,7 @@ To solve this problem:
 
 #### Note: Genre
 
-- Despite being considered an entity by the [MusicBrainz relationships table](https://musicbrainz.org/relationships), genre is not an entity present in the MusicBrainz dump. Thus, you will only find genre as an object in `relations.json`, never as a subject.
+- Despite being considered an entity by the [MusicBrainz relationships table](https://musicbrainz.org/relationships), genre is not an entity present in the MusicBrainz dump. Thus, you will only find genre as an object in [`relations.json`](/code/musicbrainz/rdf_conversion_config/relations.json), never as a subject.
 
 - However, all equivalent Wikidata properties relating to genres require the `genre` as subject. Therefore, the RDF conversion script would exceptionally interpret all instances of `relations.json[any_type]["genre"][any_property]` to be the inverse `genre -> any_type -> any_property`. The RDF conversion script handles this by inverting the triple if the target type is `genre`.
 
@@ -116,7 +116,7 @@ To solve this problem:
 
 ### What is Currently Completed
 
-- Only 409 of the roughly 800 fields in `relations.json` are currently filled.
+- Only 409 of the roughly 800 fields in [`relations.json`](/code/musicbrainz/rdf_conversion_config/relations.json) are currently filled.
 - The empty fields are largely due to the fact that most Wikidata properties do not have an equivalent inverse ([as mentionned above](#understanding-directionality)).
 
 - All in all, 98% of all the relationships in MusicBrainz have at least one direction reconciled with Wikidata. The missing 2% tend to be not widely used relationships, so should represent an even smaller share of total existing relations.
@@ -131,7 +131,7 @@ OpenRefine only allows reconciliation of items (with QID), but not reconciliatio
 
 ### Notes on Reconciliation Decisions
 
-Below, I will explain a few Wikidata properties that I have frequently mapped onto. Once you understand the decision-making process detailed below, it should be easy to understand all other decisions made in `relations.json`:
+Below, I will explain a few Wikidata properties that I have frequently mapped onto. Once you understand the decision-making process detailed below, it should be easy to understand all other decisions made in [`relations.json`](/code/musicbrainz/rdf_conversion_config/relations.json):
 
 - location of creation(P1071)
 
