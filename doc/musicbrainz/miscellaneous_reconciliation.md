@@ -32,7 +32,7 @@ Automatic reconciliation using Wikidata's API was attempted, but yielded poor re
 
 `key` is the tonality of the musical work
 
-The "keys" that were extracted (in the format of "A major", "B mixolydian", etc.) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but the other modes (A mixolydian, E lydian, etc.) are left unreconciled, since there exist no "A mixolydian"-style entities on Wikidata.
+The "keys" that were extracted (in the format of "A major", "B mixolydian", etc.) were reconciled against Q192822 "tonality". Every major and minor tonality was successfully reconciled with this, but for the other modes, it was decided to reconcile them against the musical note of the tonic (e.g. [Q744346 "A"](https://www.wikidata.org/wiki/Q744346)) until we can create a new property for the mode (see [#339](https://github.com/DDMAL/linkedmusic-datalake/issues/339) for more information). However, this is a clear violation of the range of [P826 "tonality"](https://www.wikidata.org/wiki/Property:P826), as instances of musical notes are not included in the property constraint.
 
 However, modes without tonic (e.g. [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115)) do exist as Wikidata entities. We may consider, for example, specifying the mode as [lydian mode(Q686115)](https://www.wikidata.org/entity/Q686115) and the tonic (Wikidata property to be created) as [A(Q744346)](https://www.wikidata.org/wiki/Q744346).
 
