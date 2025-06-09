@@ -10,7 +10,7 @@ Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro co
 - The values for the `language`/`languages` field for works
 - The values for the `packaging` field for works
 
-There is also the field `relationship` that is unreconciled. This field is treated separately in `relations.md`.
+There is also the field `relationship` that is unreconciled. This field is treated separately in [`relationships_reconciliation.md`](./relationships_reconciliation.md).
 
 For each reconciliation, both OpenRefine history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files` folder
 
@@ -69,3 +69,16 @@ Reconciliation using OpenRefine's API was attempted against Q66157003 "packing m
 - I reconciled "slim jewel case" to Q1023101 "jewel case" as there is no slim variant on Wikidata, and I like doing this is more useful than not reconciling it
 - For "Metal tin", I reconciled it to Q15706035 "tin" as it's the closest thing I could find
 - For "Snap case", there is [Q7547268 "snap case"](https://www.wikidata.org/wiki/Q7547268), but at the time of writing this, that entity has no descriptions or statements, so I have no clue what it's supposed to be, and as such didn't reconcile this entry
+
+## Statuses
+
+For the list of statuses and their definitions, look at the [documentation](https://musicbrainz.org/doc/Release#Status)
+
+Reconciliation using the Wikidata reconciliation API was attempted against Q108040195 "music release attribute", but yielded poor results. Thus, I performed manual reconciliation:
+
+- I reconciled "Cancelled" to Q30108381 "Cancelled" as it's the closest match I could find
+- I could not find any matched for "withdrawn" or "expunged". The closest thing I could find for "withdrawn" is [Q18609099 "withdrawal"](https://www.wikidata.org/wiki/Q18609099), which is related to spots, and the closest thing I could find for "expunged" is [Q2352928 "expungement"](https://www.wikidata.org/wiki/Q2352928), which talks about clearing a criminal record. As such, I have left these unreconciled
+- For "bootleg", I reconciled it to Q558325 "bootleg recording" as it seems to be an exact match
+- For "promotion", I reconciled it to Q110905237 "promotional album" as it seems to be an exact match
+- For "pseudo-release", I reconciled it to Q63068880 "album reissue" as that status is used to indicate that a release is a re-release of another with minimal changes
+- For "official", I reconciled it to Q2031291 "musical release" as there is no "official release" type or anything similar

@@ -1,0 +1,162 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "status",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "status_@id",
+    "columnInsertIndex": 1,
+    "description": "Create column status_@id at index 1 based on column status using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q108040195",
+        "name": "music release attribute"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column status_@id to type Q108040195"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "similarValue": "Cancelled",
+    "judgment": "matched",
+    "match": {
+      "id": "Q30108381",
+      "name": "cancelled",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item cancelled (Q30108381) for cells containing \"Cancelled\" in column status_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "similarValue": "Withdrawn",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Withdrawn\" in column status_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "similarValue": "Expunged",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Expunged\" in column status_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "similarValue": "Bootleg",
+    "judgment": "matched",
+    "match": {
+      "id": "Q558325",
+      "name": "bootleg recording",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item bootleg recording (Q558325) for cells containing \"Bootleg\" in column status_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "similarValue": "Promotion",
+    "judgment": "matched",
+    "match": {
+      "id": "Q110905237",
+      "name": "promotional album",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item promotional album (Q110905237) for cells containing \"Promotion\" in column status_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "similarValue": "Pseudo-Release",
+    "judgment": "matched",
+    "match": {
+      "id": "Q63068880",
+      "name": "album reissue",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item album reissue (Q63068880) for cells containing \"Pseudo-Release\" in column status_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "status_@id",
+    "similarValue": "Official",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2031291",
+      "name": "musical release",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item musical release (Q2031291) for cells containing \"Official\" in column status_@id"
+  }
+]

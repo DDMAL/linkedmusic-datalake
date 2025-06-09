@@ -17,11 +17,15 @@ Genders are also extracted from the `gender` field, if present, and saved to a s
 Normally, only the `artist` entity type has a gender, but this script is designed to be flexible.
 
 Languages are extracted from the `languages` field, if present, and saved to a separate CSV file named `languages.csv`.
-The languages are extracted as ISO 639-3 codes and their full names are added in a separate column.
+The languages are extracted as ISO 639-3 codes and their full names are added in a separate column
+using the `pycountry` library.
 Normally, only the `work` entity type has languages, but this script is designed to be flexible.
 
 Packagings are extracted from the `packaging` field, if present, and saved to a separate CSV file named `packagings.csv`.
 Normally, only the `release` entity type has packagings, but this script is designed to be flexible.
+
+Statuses are extracted from the `status` field, if present, and saved to a separate CSV file named `statuses.csv`.
+Normally, only the `release` entity type has statuses, but this script is designed to be flexible.
 """
 
 import json
@@ -62,6 +66,7 @@ def main(args):
     genders = set()
     languages = set()
     packagings = set()
+    statuses = set()
 
     with open(input_file, "r", encoding="utf-8") as f:
         total_line = sum(1 for _ in f)
@@ -84,6 +89,8 @@ def main(args):
                     languages.add(lang)
                 if p := data.get("packaging"):
                     packagings.add(p)
+                if s := data.get("status"):
+                    statuses.add(s)
             except json.JSONDecodeError as e:
                 print(f"Error decoding JSON in file {input_file}: {e}")
                 continue
@@ -120,6 +127,12 @@ def main(args):
         with open(packagings_file, "w", encoding="utf-8") as packagings_out_file:
             packagings_df.to_csv(packagings_out_file, index=False)
 
+    if statuses:
+        statuses_file = output_folder / "statuses.csv"
+        statuses_df = pd.DataFrame({"status": list(statuses)})
+        with open(statuses_file, "w", encoding="utf-8") as statuses_out_file:
+            statuses_df.to_csv(statuses_out_file, index=False)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -147,9 +160,12 @@ if __name__ == "__main__":
         output_folder = Path(args.output_folder)
         for file in output_folder.iterdir():
             if file.is_file():
-                bad_files.append(file.stem[:-6])  # Ignore the _types suffix
+                # Ignore the _types suffix
+                bad_files.append(
+                    file.stem[:-6] if file.stem.endswith("_types") else file.stem
+                )
 
-    if "packagings" in bad_files:
+    if "packagings" in bad_files and "statuses" in bad_files:
         bad_files.append("release")  # Special case for release entity type
 
     for input_file in input_folder.iterdir():

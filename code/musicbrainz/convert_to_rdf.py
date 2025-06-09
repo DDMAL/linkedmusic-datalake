@@ -601,6 +601,12 @@ def process_line(
 
     # Process status
     if status := data.get("status"):
+        if (status_map := reconciled_mapping.get(status)) and matched_wikidata(
+            status_map
+        ):
+            status = URIRef(f"{WD}{status_map}")
+        else:
+            status = Literal(status)
         g.add(
             (
                 subject_uri,
@@ -609,7 +615,7 @@ def process_line(
                     if status not in END_STATUSES
                     else mb_schema["end-status"]
                 ),
-                Literal(status),
+                status,
             )
         )
 
@@ -1020,6 +1026,14 @@ if __name__ == "__main__":
             packagings = pd.read_csv(fi, encoding="utf-8")
             RECONCILIATION_MAPPING.update(
                 dict(zip(packagings["packaging"], packagings["packaging_@id"]))
+            )
+
+    statuses_file_path = Path(args.reconciled_folder) / "statuses-csv.csv"
+    if statuses_file_path.is_file():
+        with open(statuses_file_path, "r", encoding="utf-8") as fi:
+            statuses = pd.read_csv(fi, encoding="utf-8")
+            RECONCILIATION_MAPPING.update(
+                dict(zip(statuses["status"], statuses["status_@id"]))
             )
 
     bad_files = []
