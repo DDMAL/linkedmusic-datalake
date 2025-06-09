@@ -30,7 +30,7 @@ def parse_file(file_path, file_relations):
                 if (relation_type := relation.get("type")) and (
                     target_type := relation.get("target-type").replace("_", "-")
                 ) != "url":
-                    if file.stem == target_type:
+                    if file_path.stem == target_type:
                         relation_type += f"_{relation["direction"]}"
                     if target_type not in file_relations:
                         file_relations[target_type] = {}
