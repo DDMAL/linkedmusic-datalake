@@ -570,7 +570,11 @@ def process_line(
                 target = URIRef(f"{MB}{target_type}/{target_id}")
 
         if target and pred_uri:
-            g.add((subject_uri, pred_uri, target))
+            # All genre relationships need the genre as a subject
+            if target_type == "genre":
+                g.add((target, pred_uri, subject_uri))
+            else:
+                g.add((subject_uri, pred_uri, target))
 
     # Process release events
     for event in data.get("release-events", []):
