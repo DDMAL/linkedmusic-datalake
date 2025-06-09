@@ -96,9 +96,9 @@ To solve this problem:
 
 #### Note: Genre
 
-- Despite being considered an entity by the [MusicBrainz relationships table](https://musicbrainz.org/relationships), genre is not an entity present in the MusicBrainz dump. Thus, you will only find genre as an object in [`relations.json`](/code/musicbrainz/rdf_conversion_config/relations.json), never as a subject.
+- Despite being considered an entity by the [MusicBrainz relationships table](https://musicbrainz.org/relationships), `genre` is not an entity present in the MusicBrainz dump. Thus, you will only find genre as an object in [`relations.json`](/code/musicbrainz/rdf_conversion_config/relations.json), never as a subject.
 
-- However, all equivalent Wikidata properties relating to genres require the `genre` as subject. Therefore, the RDF conversion script would exceptionally interpret all instances of `relations.json[any_type]["genre"][any_property]` to be the inverse `genre -> any_type -> any_property`. The RDF conversion script handles this by inverting the triple if the target type is `genre`.
+- However, all equivalent Wikidata properties relating to genres require the `genre` as subject. Therefore, the RDF conversion script would exceptionally interpret all instances of `relations.json[any_type]["genre"][any_property]` to be the inverse `genre -> any_type -> any_property`. The RDF conversion script handles this by inverting the triple (thus having the genre as the subject) if the target type is `genre`.
 
 ## Mapping MusicBrainz Relationships to Wikidata
 
@@ -156,4 +156,5 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 - adapted by(P5202)
 
   - Commonly used Wikidata property for "arranger".
+
   - `orchestrator(P10806)` can only be used if the musical work is being adapted for orchestra.

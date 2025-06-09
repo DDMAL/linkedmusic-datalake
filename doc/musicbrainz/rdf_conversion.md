@@ -25,7 +25,7 @@ The below rules are conform with RDF standards and with Wikidata standards
 - Dates are given the type `XSD:date`. If the value has both date and time, it will be in `XSD:datetime`
 - Coordinates (latitude/longitude) are given the `GEO:wktLiteral` type in the format `f"Point({lon} {lat})"`.
 - Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
-- All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting.
+- All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting, or because they are links to personal websites (e.g. the link to a band's website).
 
 ## Miscellanous Notes on convert_to_rdf.py
 
@@ -35,8 +35,8 @@ The below rules are conform with RDF standards and with Wikidata standards
 - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
 - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script.
 - For ease of reading, the fields are processed in alphabetical order in the `process_line` function.
-- If you call `Literal(...)` with `XSD.date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
-- The same situation applies to the `convert_datetime` function with the `XSD.dateTime` datatype and the `parse_datetime` isodate function.
+- If you call `Literal(...)` with `XSD:date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
+- The same situation applies to the `convert_datetime` function with the `XSD:dateTime` datatype and the `parse_datetime` isodate function.
 - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in [`code/musicbrainz/rdf_conversion_config/mappings.json`](/code/musicbrainz/rdf_conversion_config/mappings.json). The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
 - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
 
@@ -56,15 +56,15 @@ The `work` entity type has an additional field `attributes` that contains a list
   - the key (i.e. tonality) of the work (extracted and reconciled with OpenRefine, see [`doc/musicbrainz/miscellaneous_reconciliation.md`](/doc/musicbrainz/miscellaneous_reconciliation.md))
   - Non-Western musical concepts, such as the Tala, the musical meter of Indian classical music
 
-- Unlike RISM, which has [RISM ID](https://www.wikidata.org/prop/direct/P5504) as a corresponding Wikidata property, the majority of these databases have no corresponding Wikidata property. Since the field contains only IDs, not full URLs/URIs, these IDs are not stored unless there is an corresponding Wikidata property.
+- Unlike RISM, which has [P5504 "RISM ID"](https://www.wikidata.org/prop/direct/P5504) as a corresponding Wikidata property, the majority of these databases have no corresponding Wikidata property. Since the field contains only IDs, not full URLs/URIs, these IDs are not stored unless there is an corresponding Wikidata property.
 
 - The file with all possible attribute values and Wikidata properties they map onto can be found in [`doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`](/doc/musicbrainz/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
 
 ## URLS
 
-For some databases, MusicBrainz decides to store number IDs (e.g. Discogs Artist ID 1000 ). For other databases, MusicBrainz decide to store the full url (e.g. https://www.discogs.com/artist/25058).
+For some databases, MusicBrainz decides to store number IDs (e.g. Discogs Artist ID 1000 ). For other databases, MusicBrainz decide to store the full url (e.g. <https://www.discogs.com/artist/25058>).
 
-Whenever possible, we try to extract the ID from the url, and store the ID alone with the corresponding Wikidata property. For instance, we would extract 25058 from https://www.discogs.com/artist/25058, and store it with the predicate [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953).
+Whenever possible, we try to extract the ID from the url, and store the ID alone with the corresponding Wikidata property. For instance, we would extract 25058 from <https://www.discogs.com/artist/25058>, and store it with the predicate [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953).
 
 The same database may have multiple Wikidata property. For example, Discogs has [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953) and [Discogs label ID (P1955)](https://www.wikidata.org/prop/direct/P1955) and [Discogs composition ID (P6080)](https://www.wikidata.org/prop/direct/P6080)...
 

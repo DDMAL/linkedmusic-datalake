@@ -97,7 +97,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
 #### **6. Converting Data to RDF (Turtle Format)**
 
-- For each JSON Lines file, convert the data using:
+- To convert the JSON Lines files, run the following command:
 
   ```bash
   python code/musicbrainz/convert_to_rdf.py --input_folder data/musicbrainz/raw/extracted_jsonl/mbdump/ --reconciled_folder data/musicbrainz/raw/reconciled/ --config_folder code/musicbrainz/rdf_conversion_config/ --output_folder data/musicbrainz/rdf/
@@ -108,7 +108,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
 #### **7. Retrieving Genre Information**
 
-- Run the following script to scrape genres along with their reconciled Wikidata IDs:
+- Run the following script to fetch the list of genres and scrape their reconciled Wikidata IDs:
 
   ```bash
   python code/musicbrainz/get_genre.py --output data/musicbrainz/rdf/

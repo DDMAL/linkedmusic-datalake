@@ -7,12 +7,12 @@ Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro co
 - The `type` field for all entity types that have it
 - The values for the `key` attribute type for works
 - The values for the `gender` field for artists
-- The values for the `language`/`languages` field for works
-- The values for the `packaging` field for works
+- The values for the `languages` field for works
+- The values for the `packaging` and `status` fields for releases
 
-There is also the field `relationship` that is unreconciled. This field is treated separately in [`relationships_reconciliation.md`](./relationships_reconciliation.md).
+There is also the field `relationship` whose **properties**/**predicates** are unreconciled. This field is treated separately in [`relationships_reconciliation.md`](./relationships_reconciliation.md).
 
-For each reconciliation, both OpenRefine history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files` folder
+For each reconciliation, both OpenRefine history and export settings JSON files are located in the `doc/musicbrainz/reconciliation_files/` folder
 
 ## Types
 
