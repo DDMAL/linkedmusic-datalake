@@ -59,6 +59,49 @@ To change Flip Philips to Flip Phillips, since although they are techinically th
     Tom Morris
     Tony Owens
 
+You can do this with this GREL transformation:
+```
+if("Aleksander Gajic
+    Arville Harris
+    Bobby Bruce
+    Bobby Lewis
+    Bobby Sands
+    Chuck Carter
+    Colin Dawson
+    Dave Klein
+    Dave Young
+    David Stump
+    Don Landis
+    Eli Asher
+    Florencia Gonzalez
+    Garry Lee
+    George Johnson
+    Harold Alexander
+    Howie Smith
+    Jared Sims
+    Jerry Elliot
+    Jesse Davis
+    Jim Reider
+    Joe Ellis
+    Joe Thomas
+    Junie (E. C.) Cobb
+    Ken Shroyer
+    Kenny Faulk
+    Louis Stockwell
+    Mark McGowan
+    Mark Weinstein
+    Melvin Butler
+    Michael Bard
+    Paul Austerlitz
+    Pete Clark
+    Raymond Williams
+    Robeson
+    Sean Corby
+    Tom Morris
+    Tony Owens".contains(value), value, "")
+```
+name the new column `flagged_solo_performer`.
+
 11. Select `none` in the judgment facet and go to `Reconcile > Actions > Create one new item for similar cells ... ` to create new items for all the unmatched people.
 - should do a trim on all these guys in the column possible solo peformer names first
 12. Repeat steps 5-8 for the column `possible_solo_performer_names`
@@ -128,7 +171,7 @@ if("Elmer  'Skippy' Williams
     John Walsh
     Ray Reed".contains(value),"flag","")
 ```
-Name the new column `flagged`.
+Name the new column `flagged_possible_solo_performers`.
 Then in that column go to `Facet > Customized facets > Facet by blank (null or empty string)`. Select `false` in that facet.
 Then go to the column `possible_solo_performer_names` and go to `Reconcile > Actions > Create one new item for similar cells ...`.
 Then you can unselect the facet
@@ -139,15 +182,22 @@ Then you can unselect the facet
 
 17. In the column `instrument_label`, go to `Edit cells > Transform ...` and use this Grel expression:
 ```
-if(value=="saxophone", "tenor saxophone", value)
+if(value=="saxophone", "tenor saxophone", 
+if(value=="bari saxophone", "baritone saxophone", value))
 ```
-to make all the saxophones back into tenor saxophones. (also maybe need to make bari sax into baritone saxophone)
+to make all the saxophones back into tenor saxophones and to make bari sax into baritone saxophone.
 
-18. Reconcile this column against no particular type
+18. Reconcile this column against `type of musical instrument` (Q110295396)
 
-^ find a way to reconcile the instruments well
+19. Set the judgment facet to none and match clarinet to  `soprano clarinet` (Q7563204).
 
-and then delete extra columns
+20. Then reconcile against no particular type, after this most should be matched, but to match the rest set the judgment facet to none
+and match all items to their top candidate.
+
+21. Delete the columns that were added at the beginning, (`occupation musician`, `occupation jazz musician`, `genre jazz`).
+
+22. Select the column `solo_performer_name`, go to `Reconcile > Add entity identifiers column ...`, and name the new column `solo_performer_reconciled`. Do the same for the column `possible_solo_performer_names`, and name the new column `possible_performer_reconciled`. Then for each of the new columns, go to `Facet > Customized facets > Facet by blank (null or empty string)`. Set the facet to True, and then go to `Edit cells > Transform > and make the value "new"`. This will create two additional columns that contain the QID of the items that were matched in each column, and contain the word "new" for any items that were not matched. We will use this for exporting as well as to make reconciling the performers.csv file more efficient.
+
 
 
 
@@ -173,41 +223,37 @@ and then delete extra columns
 - Then there are some people that have a match in wikidata, but in wikidata it is not very clear it is them, but after research I have found it is correct but openrefine is not super confident, so may have to manually match these people:
     - Paul Austerlitz should be matched to Q131779276 
 
+7. Select the column `leader_name`, go to `Reconcile > Add entity identifiers column ...`, and name the new column `band_leader_reconciled`. In the new column, go to `Facet > Customized facets > Facet by blank (null or empty string)`. Set the facet to True, and then go to `Edit cells > Transform > and make the value "new"`. This will create an additional column that contains the QID of the items that were matched in each column, and contain the word "new" for any items that were not matched. We will use this for exporting as well as to make reconciling the performers.csv file more efficient.
 
 ### For column band_name
 1. copy reconciled values from column leader name by going to column `leader_name`, going to `Reconcile > Copy reconciliation data...`, and selecting band_name as the column to copy to. (make sure that the copy options on the right are all selected)
-2. Then reconcile column `band_names` against `musical group` (Q215380).
+2. Open a judgment facet and facet by unreconciled. Then reconcile column `band_names` against `musical group` (Q215380).
 3. Do step 2 again but with `leader_name` as property `has_parts` P(527).
 4. Then reconcile against `album` (Q482994) since some of the band names are actually album names
 4. Then reconcile against `human` (Q5) with `jazz musician` as property `occupation` (P106), since of the band names are just musicians.
 3. The rest are not in wikidata, mark to create new item
 
 
-delete the extra columns
-
 ### For column medium_title
-1. nothing to reconcile, they too specific its not in wikidata
+1. nothing to reconcile, they are too specific and either not in wikidata or not helpful metadata. maybe later if we find a good way to reconcile we can
 
 ### For column disk_title
-1. idk try album first with band leader as performer
-without its matched 105, 125
-3. make new column based on this column, but do this transformation:
+1. make new column based on this column, using this GREL expression:
 ```
 if (value.startsWith("The Encyclopedia of Jazz"), "The Encyclopedia of Jazz", value) (makes copies)
 ```
-2. also do creative work to get that the encyclopedia of jazz 
-    and then do album, and album with leader name as performer 
-    and album with band name as performer
-
-for some reason Feelin's has two entries, just match to top one
-set best candidates score facet to 100-101, match to top candidate
-i think the rest are not in wikidata, do new for them all
+2. Reconcile the column against `creative work` (Q17537576).
+3. Set the judgment facet to none, and reconcile against `album` (QQ482994).
+4. Do the same as 3 but against album with `leader_name` as property `performer`.
+5. Do the same as 3, against album, but with `band_name` as property `performer`.
+6. set best candidates score facet to 100-101, match to top candidate
+7. Create new column for similar entries for all the unreconciled items
 
 
 ### For column track_title
-1. i think add column jazz standard or something to help (think example merry-go-round)
-2. reconcile against musical work
-Merry-Go-Round is the one by charlie parker (probably)
+1. Reconcile against musical work with `leader_name` as performer
+2. Match `Merry-Go-Round` to (Q98687908)
+3. Mark the rest as new items.
 
 
 ### For column area:
@@ -225,75 +271,103 @@ value.replace(/^Live/, "").replace(/["']/,"")
 
 then do a value.trim() on all of them
 
+> Note: when reconciling make sure you have rows selected instead of records.
 
-big city first
-go to 100, do match to top candidate
-then do us state
-then country
-go to 100, match to best candidate
-then canadian province
-
-then no particular type?
-
-human settlement?
-city?
-
-richmond virginia
-schaumberg create new item
-alameda california
-camden new jersey
-wilmington north carolina
-concert philharmonic hall in berlin germany is berliner philarmonie
-Im assuming New York is the city  as the states are abbreviated in two letters, like NY
-
-
-
-
-figure out something to have some new yorks go to new york city, but have NY do new york state
-try this:
+3. then reconcile the column `area` against `big city` (Q1549591), to get most of the items which are big cities. first, to get the small specific venues.
+4. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
+5. Set the judgment facet to none and reconcile the same column against `U.S. state` (Q35657) to get all the abbreviated states.
+6. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
+7. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `country` (Q6256) to match the countries.
+8. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
+9. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `province or territory of Canada` (Q2879) to get some of the abbreviated provinces.
+10. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
+11. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `city` (Q515), to match the smaller cities.
+12. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
+13. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `no particular type` to match some of the obscure smaller venues.
+14. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
+15. Keep the judgment facet as none, but reset the candidate's score facet to be everything, and manually reconcile these places:
 ```
-if(value==null,"prob_not_city", "prob_city")
+    Camden (Q138367)
+    Woodstock (Q608293)
+    Concert Philharmonic Hall should match to Berliner Philharmonie (Q32653910)
+    stroudsberg should be Stroudsburg (Q1185729)
+    Clayton (Q1099274)
+    the Village Vanguard (and Village Vanguard) should be Village Vanguard (Q670623)
+    Cellar door should be The Cellar Door (Q7721848)
+    Wilmington (Q659400)
+    White Plains (Q462177)
+    Palatine (Q998726)
+    Brooklyn (Q18419)
+    Union City (Q588834)
+    Englewood (Q986210)
+    Hackensack (Q138458)
+    West Greenwich (Q1644523)
+    Musikhalle should be Kaeiszhalle (Q881121)
+    Dobbs Ferry (Q1233173)
+    Birdland (Q256347)
+    Hilversum (Q9934)
+    River Edge (Q928724)
+    Smoke (Q15278253)
+    University of Illinois (Q457281)
+    University of Washington (Q219563)
+    Meany Hall (Q6804124)
+    Montreux Jazz Festival (Q669118)
+    Western Australia (Q3206)
+    Sydney Opera House (Q45178)
+    Shokan (Q2771880)
+    Ronnie Scotts club (Q1296978)
+    Bearsville (Q4876785)
+    Knitting factory (Q838068)
+    Carnegie Hall (Q200959)
+    Westwood (Q2304357)
+    Blue note (Q885822)
+    Judson Hall is i think Judson Memorial Church (Q3111397)
+    Northbrook (Q570986)
 ```
-this in colmn `session date`, what this does is separate the cities from the states and countries in the area column, since we split multivalued cells
-then facet by prob_city, reconcile the area column against `big city` (Q1549591)
-move candidate facet to 100, and judgment to none, match to best candidate
+> Note: NY should be matched to the state New York, and New York should be matched to New York City, since all the states are abbreviated as two letters, but there was no way to automatically reconcile that would match NY to the state and New York to the city, so manually have to do one of them.
 
+these ones are unsure: Vignola unsure actually
+not sure what to do with broadcast
+Famous Ballroom
+Afternoon set
+evening set
+North Park Hotel
+prob c?
+S/S Norway?
 
-
-for faet by prob_not_city(i.e. probable states and stuff)
-u.s. state (Q35657)
-then country (Q6256), move candidate facet to 100, reconcile > match each cell to its best candidate
-
-
-
-
-
-
-
-3. then reconcile the column `area` against `no particular type` first, to get the small specific venues.
-4. Set the judgment facet to none and reconcile the same column against `human settlement` (Q486972) to get generally most of them
-5. Set the judgment facet to none and reconcile the same column against `state` (Q7275) some of the entries are abbreviated states, this will match them well
-6. Set the judgment facet to none and reconcile the same column against `country` (Q6256) there are some countries, this maps them well
-7. Set the judgment facet to none and reconcile the same column against `big city` (Q1549591) (maybe dont need this one)
-8. Set the judgment facet to none and reconcile the same column against `city` (Q515), map the remaining to cities, as thats all that should be left
-9. the rest become create new item
-
-province for canada
-city first? to get nyc over new york
-
-camden new jersey
-berliner philharmonie
-wilmington north carolina
-woodstock new york
-maybe just do these guys automatically
-
+16. fill down the track id column
+17. Mark the rest as new item
 
 TODO: 
 
 # dtl1000_performers.csv
-making it so u use all the other things already reconciled, and then u dont have to reconcile as much
-(so basically do tracks and solos before doing performers, and have the projects in openrefine)
 
-cell.cross("dtl1000 solos csv testing", "possible_solo_performer_names")[0].cells["reconciled"].value
+1. Go to column `performer_names`, select `Edit column > Add column based on this column...` and write `"musician"` in the expression box so that every cell of this new column contains the word `musician`. Name the column `occupation musician`.
+2. Go to column `performer_names`, select `Edit column > Add column based on this column...` and write `"jazz musician"` in the expression box so that every cell of this new column contains the word `jazz musician`. Name the column `occupation jazz musician`.
+3. Go to column `performer_names`, select `Edit column > Add column based on this column...` and write `"jazz"` in the expression box so that every cell of this new column contains the word `jazz`. Name the column `genre jazz`.
+> Note: Make sure you also have the projects `dtl1000_solos.csv` and `dtl1000_tracks.csv` open in OpenRefine for the following steps
 
-also cross with the flagged columns values to get all the ones we will mark new, and then the rest try and reconcile them
+4. Go to the column `performer_names`, go to `Edit column > Add column based on this column ...` and use the following Grel expression:
+```
+if(
+  cell.cross(“dtl1000 tracks csv”, “leader_name”).length() > 0,
+  cell.cross(“dtl1000 tracks csv”, “leader_name”)[0].cells[band_leader_reconciled].value,
+  if(
+    cell.cross(“dtl1000 solos csv”, “possible_solo_performer_names”).length() > 0,
+    cell.cross(dtl1000 solos csv, “possible_solo_performer_names”)[0].cells[“possible_performer_reconciled”].value,
+    if(
+      cell.cross(“dtl1000 solos csv”, “solo_performer_name_original”).length() > 0,
+      cell.cross(dtl1000 solos csv, “solo_performer_name_original”)[0].cells[“solo_performer_reconciled”].value,
+      “”
+    )
+  )
+)
+```
+Name the new column `already_reconciled`.
+This will take the values from the other projects where they have already been reconciled, since the performers includes the soloists, sometimes the bandleader, so we don't have to reconciled things we have already reconciled. It will place the Qid into the rows of the already reconciled items, and put "new" into rows where the performer was marked new in the other files.
+
+5. Then in the new column go to `Facet > Customized facets > Facet by blank (null or empty string)`. Set the facet to True, so that we will now reconcile only the performers that we haven't already reconciled.
+
+6. Reconcile the column `performer_names` against type `human` (Q5), with `occupation jazz musician` as property `occupation` (P106)
+7. Set the judgment facet to none and Reconcile the column `performer_names` against type `human` (Q5), with `occupation musician` as property `occupation` (P106)
+8. Set the judgment facet to none and Reconcile the column `performer_names` against type `human` (Q5), with `genre jazz` as property `genre` (P136)
