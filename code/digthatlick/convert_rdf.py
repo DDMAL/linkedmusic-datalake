@@ -17,6 +17,7 @@ OUTPUT_PATH = "../../data/digthatlick/RDF/"
 
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
+RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
 # http://www.DTL.org/JE/ is the official namespace used in DDL1000.ttl, which is hosted at https://osf.io/bwg42/files/osfstorage.
 # Dig That Lick does not own the domain.
 DTLS = Namespace("http://www.DTL.org/JE/solo_performances/")
@@ -26,6 +27,7 @@ DTLT = Namespace("http://www.DTL.org/JE/tracks/")
 namespace_prefixes = {
     "wdt": WDT,
     "wd": WD,
+    "rdfs": RDFS,
     "dtls": DTLS,
     "dtlt": DTLT,
 }
@@ -43,6 +45,7 @@ DTL_SOLOS_SCHEMA = {
 
 # This schema is for tracks.csv
 DTL_TRACKS_SCHEMA = {
+    "track_title": "rdfs:label",
     "band_name": "P175",
     "session_date": "P10135",
     "area": "P8546",
@@ -138,7 +141,10 @@ try:
         if subject_node is None:
             continue
         for column, wikidata_property in DTL_TRACKS_SCHEMA.items():
-            predicate = URIRef(f"{WDT}{wikidata_property}")
+            if column == "track_title":
+                predicate = RDFS.label  # Use rdfs:label for track titles
+            else:
+                predicate = URIRef(f"{WDT}{wikidata_property}")
             object_node = to_rdf_node(row[column])
 
             if object_node is None:
@@ -153,7 +159,7 @@ except KeyError as e:
 print("Mapping track and albums relation from dtl1000_tracks.csv...")
 try:
     for row in dict_data:
-        track_title = to_rdf_node(row["track_title"])
+        track_id = to_rdf_node(row["track_id"], namespace=DTLT)
         medium_title = to_rdf_node(row["medium_title"])
         disc_title = to_rdf_node(row["disk_title"])
 
@@ -162,10 +168,10 @@ try:
             predicate = URIRef(f"{WDT}{DTL_ALBUMS_SCHEMA['part of']}")
             g.add((medium_title, predicate, disc_title))
 
-        if track_title is not None and medium_title is not None:
+        if track_id is not None and medium_title is not None:
             # Add the "tracklist" relation between medium_title and track_title
             predicate = URIRef(f"{WDT}{DTL_ALBUMS_SCHEMA['tracklist']}")
-            g.add((medium_title, predicate, track_title))
+            g.add((medium_title, predicate, track_id))
 
 
 except KeyError as e:
