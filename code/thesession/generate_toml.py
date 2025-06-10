@@ -10,7 +10,7 @@ By default, all headers are paired with empty string values. These values
 must be manually filled in to define how the dataset should be converted to
 RDF.
 
-Alternatively, the script can update an existing TOML file by scanning 
+Alternatively, the script can update an existing TOML file by scanning
 the new CSV structure in the input folder. Only fields with empty
 values will be overwritten. No comment is preserved.
 
@@ -24,6 +24,7 @@ import argparse
 import sys
 from pathlib import Path
 import pandas as pd
+
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
@@ -45,7 +46,7 @@ def validate_input_folder(input_folder):
     if not input_folder.is_dir():
         print(f"Error: '{input_folder}' is not a valid directory.")
         sys.exit(1)
-    csv_files = list(input_folder.glob('*.csv'))
+    csv_files = list(input_folder.glob("*.csv"))
     if not csv_files:
         print(f"Error: No CSV file found in '{input_folder}'.")
         sys.exit(1)
@@ -67,7 +68,9 @@ def extract_csv_headers(csv_files):
         try:
             df = pd.read_csv(csv_file)
             if df.empty:
-                print(f"Warning: Could not process '{csv_file.name}' because it is empty.")
+                print(
+                    f"Warning: Could not process '{csv_file.name}' because it is empty."
+                )
             else:
                 toml_tables[csv_file.name] = {col: "" for col in df.columns}
                 print(f"Processed '{csv_file.name}' - {len(df.columns)} columns")
@@ -108,13 +111,17 @@ def make_template(input_folder):
         dict: The TOML data as a dictionary.
     """
     csv_files = validate_input_folder(input_folder)
-    general_headers = {"name": "Name of the Dataset [required]", "csv_path": input_folder.as_posix(), "rdf_output_path": "output/path/for/rdf/files [required]" }
+    general_headers = {
+        "name": "Name of the Dataset [required]",
+        "csv_path": input_folder.as_posix(),
+        "rdf_output_path": "output/path/for/rdf/files [required]",
+    }
     namespaces = {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "xs":  "http://www.w3.org/2001/XMLSchema",
+        "xs": "http://www.w3.org/2001/XMLSchema",
         "wd": "http://www.wikidata.org/entity/",
-        "wdt": "http://www.wikidata.org/prop/direct/"
+        "wdt": "http://www.wikidata.org/prop/direct/",
     }
     toml_data = {"general": general_headers, "namespaces": namespaces}
     csv_tables = extract_csv_headers(csv_files)
@@ -150,7 +157,7 @@ def update_toml(toml_path):
             sys.exit(1)
     toml_data = make_template(input_folder)
     merged = deep_merge(existing_toml, toml_data)
-    with open(toml_path, 'wb') as f:
+    with open(toml_path, "wb") as f:
         tomli_w.dump(merged, f)
     print(40 * "-")
     print(f"\nUpdated '{toml_path}' with {len(toml_data) - 2} tables.")
@@ -160,16 +167,30 @@ def main():
     """
     Parse command-line arguments and run the appropriate TOML creation or update routine.
     """
-    parser = argparse.ArgumentParser(description='Generate TOML templates from CSV files.')
-    parser.add_argument('--input_folder', type=Path, help='Path to folder containing CSV files')
-    parser.add_argument('--update', metavar='TOML_PATH', type=Path, help='Update existing TOML file using its general.data_path as input folder')
-    parser.add_argument('--output', type=Path, default='rdf_config.toml', help='Output TOML file (default: rdf_config.toml)')
+    parser = argparse.ArgumentParser(
+        description="Generate TOML templates from CSV files."
+    )
+    parser.add_argument(
+        "--input_folder", type=Path, help="Path to folder containing CSV files"
+    )
+    parser.add_argument(
+        "--update",
+        metavar="TOML_PATH",
+        type=Path,
+        help="Update existing TOML file using its general.data_path as input folder",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default="rdf_config.toml",
+        help="Output TOML file (default: rdf_config.toml)",
+    )
     args = parser.parse_args()
 
     if args.update:
         update_toml(args.update)
     else:
-        # Create a new TOML file 
+        # Create a new TOML file
         if not args.input_folder:
             print("Error: --input_folder is required to create a new TOML file")
             sys.exit(1)
@@ -180,11 +201,11 @@ def main():
         toml_data = make_template(args.input_folder)
         # Make sure we have more than the two default tables
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, 'wb') as f:
+        with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
         print(40 * "-")
         print(f"\nGenerated '{output_path}'")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
