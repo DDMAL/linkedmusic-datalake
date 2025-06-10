@@ -13,11 +13,12 @@ import os
 import json
 import re
 import logging
-from contextlib import asynccontextmanager
 import asyncio
 import aiohttp
 import aiofiles
 from aiolimiter import AsyncLimiter
+from utils import MultipleLimiters, NotifyingQueue
+
 
 BASE_URL = "https://www.diamm.ac.uk/"
 BASE_SEARCH_URL = f"{BASE_URL}search/?type=all"
@@ -25,6 +26,10 @@ BASE_PATH = "../../data/diamm/raw/"
 
 # Regex pattern to match DIAMM URLs, and capture the type and ID
 REGEX_MATCH = re.compile(r"https:\/\/www\.diamm\.ac\.uk\/([a-z]+)\/([0-9]+)\/?")
+# Regex pattern to match DIAMM URLs for cities and countries only
+REGEX_CITY_COUNTRY_REGION = re.compile(
+    r"https:\/\/www\.diamm\.ac\.uk\/(cities|countries|regions)\/([0-9]+)\/?"
+)
 
 # Set this to True if you want to revisit pages visited during previous executions of the crawler
 REVISIT = False
@@ -32,7 +37,11 @@ REVISIT = False
 MAX_CONCURRENT_VISITS = 2
 MAX_CONCURRENT_WRITES = 2
 RATE_LIMIT = 10  # 10 requests per second, or 1 request every 100ms on average
-SEARCH_RATE_LIMIT = 1.5  # 1.5 requests per second, or 1 request every 666ms on average
+SEARCH_RATE_LIMIT = 1  # 1 request per second
+RATE_LIMIT_DELAY = 10  # Delay in seconds before retrying a failed request
+
+# The maximum number of elements in the visit queue before the search worker will pause
+MAX_ELEMENTS_IN_VISIT_QUEUE = 200  # 10 pages of data
 
 # These pages will be saved, and the rest will be ignored
 SAVED_TYPES = [
@@ -42,6 +51,9 @@ SAVED_TYPES = [
     "people",
     "sets",
     "sources",
+    "cities",
+    "countries",
+    "regions",
 ]
 
 # Set up logging
@@ -66,47 +78,52 @@ logger.addHandler(console_handler)
 logger.info("DIAMM Crawler started")
 
 
-@asynccontextmanager
-async def multiple_limiters(*limiters):
-    """
-    Context manager that allows multiple rate limiters to be used together.
-    It uses recursion to get around the fact that you can't use `async with` on a list.
-    """
-    async with limiters[0]:
-        if len(limiters) > 1:
-            async with multiple_limiters(*limiters[1:]):
-                yield
-        else:
-            yield
-
-
-async def fetch(session, url, limiter):
+async def fetch(session, url, limiter, max_retries=3):
     """
     Fetches the content of a URL using an aiohttp session.
     Returns None if there is an error or if the content type is not JSON.
     """
     try:
-        async with limiter:
-            async with session.get(
-                url, timeout=10, headers={"Accept": "application/json"}
-            ) as response:
-                if response.status != 200:
-                    logger.warning("Failed to fetch %s: %d", url, response.status)
-                    return None
-                if response.headers["Content-Type"] != "application/json":
-                    logger.warning(
-                        "Unexpected content type for %s: %s",
+        attempt = 0
+        while attempt < max_retries:
+            attempt += 1
+            try:
+                async with limiter:
+                    async with session.get(
+                        url, timeout=10, headers={"Accept": "application/json"}
+                    ) as response:
+                        if response.status != 200:
+                            logger.warning(
+                                "Failed to fetch %s: %d", url, response.status
+                            )
+                            return None
+                        if response.headers["Content-Type"] != "application/json":
+                            logger.warning(
+                                "Unexpected content type for %s: %s",
+                                url,
+                                response.headers["Content-Type"],
+                            )
+                            return None
+                        logger.info("Fetched %s", url)
+                        return await response.text()
+            except (aiohttp.ClientError, asyncio.TimeoutError) as e:
+                if attempt < max_retries:
+                    logger.error(
+                        "Error fetching %s (attempt %d/%d): %s %s",
                         url,
-                        response.headers["Content-Type"],
+                        attempt,
+                        max_retries,
+                        type(e).__name__,
+                        e,
                     )
-                    return None
-                logger.info("Fetched %s", url)
-                return await response.text()
+                    await asyncio.sleep(RATE_LIMIT_DELAY)
+                else:
+                    raise
     except aiohttp.ClientError:
         logger.error("Exception while trying to parse %s", url, exc_info=True)
         return None
     except asyncio.TimeoutError:
-        logger.error("Timeout while trying to fetch %s", url, exc_info=True)
+        logger.error("Timeout while trying to fetch %s", url)
         return None
     except Exception:
         logger.critical(
@@ -127,7 +144,7 @@ async def search_worker(name, session, visit_queue, limiter, search_limiter):
     try:
         while url:
             received = await fetch(
-                session, url, multiple_limiters(limiter, search_limiter)
+                session, url, MultipleLimiters(limiter, search_limiter)
             )
             if received is None:
                 logger.error("Failed to fetch search data from %s", url)
@@ -150,6 +167,7 @@ async def search_worker(name, session, visit_queue, limiter, search_limiter):
                         os.path.join(BASE_PATH, page[0], f"{page[1]}.json")
                     ):
                         continue
+                    await visit_queue.wait_below(MAX_ELEMENTS_IN_VISIT_QUEUE)
                     await visit_queue.put(match.group(0))
     except asyncio.CancelledError:
         return
@@ -159,7 +177,7 @@ async def search_worker(name, session, visit_queue, limiter, search_limiter):
         logger.info("Search worker %s finished", name)
 
 
-async def visit_worker(name, session, visit_queue, write_queue, limiter):
+async def visit_worker(name, session, visited, visit_queue, write_queue, limiter):
     """
     Worker function that fetches pages from the DIAMM website, schedules them for writing,
     and adds new pages to the visit queue.
@@ -168,6 +186,25 @@ async def visit_worker(name, session, visit_queue, write_queue, limiter):
     try:
         while True:
             url = await visit_queue.get()
+
+            page = REGEX_MATCH.match(url)
+            if page is None:
+                logger.error("Failed to match URL %s", url)
+                visit_queue.task_done()
+                continue
+            page = (page.group(1), page.group(2))
+
+            if page in visited:
+                logger.info("Already visited %s/%s", page[0], page[1])
+                visit_queue.task_done()
+                continue
+            visited.add(page)
+
+            if page[0] not in SAVED_TYPES:
+                logger.info("Skipping page %s/%s, not in saved types", page[0], page[1])
+                visit_queue.task_done()
+                continue
+
             received = await fetch(session, url, limiter)
             if received is None:
                 logger.warning("Failed to fetch data for %s", url)
@@ -181,15 +218,18 @@ async def visit_worker(name, session, visit_queue, write_queue, limiter):
                 visit_queue.task_done()
                 continue
 
-            page = REGEX_MATCH.match(url)
-            if page is None:
-                logger.error("Failed to match URL %s", url)
-                visit_queue.task_done()
-                continue
-            page = (page.group(1), page.group(2))
-
             text = json.dumps(data, ensure_ascii=False, indent=4)
             await write_queue.put((page, text))
+
+            for match in REGEX_CITY_COUNTRY_REGION.finditer(text):
+                new_page = (match.group(1), match.group(2))
+                if not REVISIT and os.path.exists(
+                    os.path.join(BASE_PATH, new_page[0], f"{new_page[1]}.json")
+                ):
+                    continue
+                if new_page not in visited:
+                    await visit_queue.put(match.group(0))
+
             visit_queue.task_done()
     except asyncio.CancelledError:
         return
@@ -237,19 +277,22 @@ async def write_worker(name, write_queue):
         logger.info("Write worker %s finished", name)
 
 
-async def main():
+async def main(visited):
     """
     Main function that initializes the visit and write queues, creates the worker tasks,
     and waits for all tasks to complete.
     """
-    visit_queue = asyncio.Queue()
+    visit_queue = NotifyingQueue()
     write_queue = asyncio.Queue()
 
     # Rate limiter to control the number of requests per second
     limiter = AsyncLimiter(RATE_LIMIT, 1)
     search_limiter = AsyncLimiter(SEARCH_RATE_LIMIT, 1)
 
-    async with aiohttp.ClientSession() as session:
+    # Create a TCP connector with a limit on the number of concurrent connections
+    # This is to prevent overwhelming the server with too many requests at once
+    connector = aiohttp.TCPConnector(limit=MAX_CONCURRENT_VISITS)
+    async with aiohttp.ClientSession(connector=connector) as session:
         # Start the workers
         search_task = asyncio.create_task(
             search_worker(
@@ -258,7 +301,9 @@ async def main():
         )
         crawl_tasks = [
             asyncio.create_task(
-                visit_worker(f"visit-{i}", session, visit_queue, write_queue, limiter)
+                visit_worker(
+                    f"visit-{i}", session, visited, visit_queue, write_queue, limiter
+                )
             )
             for i in range(MAX_CONCURRENT_VISITS)
         ]
@@ -283,4 +328,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(main(set()))

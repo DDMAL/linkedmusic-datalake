@@ -14,7 +14,12 @@ import re
 from time import sleep, time
 import requests
 
+# Regex pattern to match DIAMM URLs, and capture the type and ID
 REGEX_MATCH = re.compile(r"https:\/\/www\.diamm\.ac\.uk\/([a-z]+)\/([0-9]+)\/?")
+# Regex pattern to match DIAMM URLs for cities and countries only
+REGEX_CITY_COUNTRY_REGION = re.compile(
+    r"https:\/\/www\.diamm\.ac\.uk\/(cities|countries|regions)\/([0-9]+)\/?"
+)
 
 BASE_URL = "https://www.diamm.ac.uk/"
 BASE_PATH = "../../data/diamm/raw/"
@@ -32,6 +37,9 @@ SAVED_TYPES = [
     "people",
     "sets",
     "sources",
+    "cities",
+    "countries",
+    "regions",
 ]
 
 time_since_last_request = 0
@@ -64,6 +72,10 @@ def make_request(url):
         return None
 
 
+visited = set()
+
+to_visit = []
+
 search_url = f"{BASE_URL}search/?type=all"
 
 while search_url is not None:
@@ -76,12 +88,19 @@ while search_url is not None:
 
     search_url = search_data["pagination"].get("next")
 
+    if to_visit:
+        search_data["results"].extend({"url": v} for v in to_visit)
+    to_visit = []
+
     for res in search_data["results"]:
         if match := REGEX_MATCH.match(res["url"]):
             visit_url = match.group(0)
             page = match.group(1), match.group(2)
             if page[0] not in SAVED_TYPES:
                 continue
+            if page in visited:
+                continue
+            visited.add(page)
             if not REVISIT and os.path.exists(
                 os.path.join(BASE_PATH, page[0], f"{page[1]}.json")
             ):
@@ -93,10 +112,20 @@ while search_url is not None:
                 print(f"Failed to fetch or parse data for {visit_url}")
                 continue
 
+            text = json.dumps(data, ensure_ascii=False, indent=4)
             os.makedirs(os.path.join(BASE_PATH, page[0]), exist_ok=True)
             with open(
                 os.path.join(BASE_PATH, page[0], f"{page[1]}.json"),
                 "w",
                 encoding="utf-8",
             ) as f:
-                json.dump(data, f, ensure_ascii=False, indent=4)
+                f.write(text)
+
+            for match in REGEX_CITY_COUNTRY_REGION.finditer(text):
+                new_page = (match.group(1), match.group(2))
+                if not REVISIT and os.path.exists(
+                    os.path.join(BASE_PATH, new_page[0], f"{new_page[1]}.json")
+                ):
+                    continue
+                if new_page not in visited:
+                    to_visit.append(match.group(0))

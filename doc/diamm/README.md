@@ -6,11 +6,13 @@ Before starting, you should change your directory to `code/diamm/` as all script
 
 The website supports content negotiation, either by adding `?format=json` to the end of the URL or by sending the HTTP header `Accept: application/json`. Additionally, this content negotiation works on the search interface, and you can query it for data across all data types. The search page will paginate results 50 at a time, and will specify how many pages are left and will give an URL to the next (and previous) page. To retrieve the data, we load the search page for all data types `https://www.diamm.ac.uk/search/?type=all`, iterate through the search results, and the move on to the next page.
 
+Additionally, each page that will be saved is scanned to find URLs corresponding to `cities`, `countries`, or `regions` to load and save those as well.
+
 There are 2 scripts that can achieve this, `code/diamm/fetch.py` is a synchronous script, and `code/diamm/async_fetch.py` is asynchronous, and thus much faster.
 
-The synchronous script is limited to a request every 100ms, but so far has never reached this limit. The async script is rate limited to a maximum of 3 simultaneous connections, 1 for querying the search page and 2 for downloading the item pages, and up to 10 requests per second (globally, across all workers). In addition to this, the searching worker is further limited to 1.5 requests per second (3 requests every 2 seconds). This rate is pending review by Andrew Hankinson in [#285](https://github.com/DDMAL/linkedmusic-datalake/issues/285)
+The synchronous script is limited to a request every 100ms, but so far has never reached this limit. The async script is rate limited to a maximum of 2 simultaneous connections across 3 workers, 1 of which is for querying the search page and the other 2 are for downloading the item pages. It is also limited to 10 requests per second (globally, across all workers). In addition to this, the searching worker is further limited to 1 request per second. This rate is pending review by Andrew Hankinson in [#285](https://github.com/DDMAL/linkedmusic-datalake/issues/285)
 
-I chose to not download the pages for cities, countries and regions because we can easily reconcile against Wikidata for that. The only information that they contain is the list of archives, sources, and organizations in that city/country/region, which we already have because archives, sources, and organizations also have a field indicating which city/country they're in.
+As per discussion in [#288](https://github.com/DDMAL/linkedmusic-datalake/issues/288), we will store pages for cities, countries, and regions to reconcile them, to better handle disambiguations.
 
 As per discussion in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues/287), we will not be storing the bibliographic data as it is a pre-rendered HTML field, and is incredibly difficult to parse. We will still be able to point people to the bibliography on the DIAMM website because we still store DIAMM URLs. As such, there is no need to download the pages on authors because they onl contain bibliographic links, we will only store the links to them.
 
