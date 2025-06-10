@@ -18,7 +18,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
 - Change your working directory to `linkedmusic-datalake/`.
 - All the commands written in this guide expect the working directory to be the project root directory.
-- If you want the scripts' default arguments be pointing to the correct folders, you can run the scripts directly from the directory they are in: `code/musicbrainz/`. This can be especially useful when using VSCode's run script feature.
+- If you want the scripts' default arguments to be pointing to the correct folders, you can run the scripts directly from the directory they are in: `code/musicbrainz/`. This can be especially useful when using VSCode's run script feature.
 
 #### 2. **Fetch the Latest Data**
 
