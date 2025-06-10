@@ -34,8 +34,7 @@ The `relationships` field for `sources` is very similar, containing relationship
 ## Countries
 
 - `cities` is a list of cities in that country
-- `regions` is a list of regions in that country
-- `states` is a list of states in that country
+- `regions` and `states` are a list of regions in that country
 
 ## Organizations
 
@@ -53,8 +52,9 @@ The `relationships` field for `sources` is very similar, containing relationship
 
 ## Regions
 
-This designates administrative regions between cities and countries (think provinces). It seems to be rarely used
+This designates administrative regions between cities and countries (think provinces). It does not always seem to be used.
 
+- `organizations` is a list of organizations in that region
 - `cities` is a list of cities in the region
 - `provenance` is a list of sources that came from this region
 

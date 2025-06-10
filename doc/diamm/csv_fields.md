@@ -8,15 +8,19 @@ In addition to the fields described below, each table, except for `relations`, w
 
 ## Archives
 
-Data in `sources` will be in the relations CSV
+Data in `sources` and `city` will be in the relations CSV
 
 - `name`
 - `siglum`
 - `website`
 - `rism_id`
-- `city`: the name of the city the archive is located in
-- `city_id`: the DIAMM ID of the city, if available
-- `country`: the name of the country the archive is located in
+
+## Cities
+
+Data in `archives`, `provenance`, `organizations`, and `country` will be in the relations CSV
+
+- `name`
+- `country`
 
 ## Compositions
 
@@ -26,16 +30,18 @@ Data in `composers` and `sources` will be put in the relations CSV
 - `title`
 - `genres`: this is a list of genres separated by semicolons (to not interfere with the CSV)
 
+## Country
+
+Data in `cities`, `regions`, and `states` will be put in the relations CSV
+
+- `name`
+
 ## Organizations
 
-Data in `related_sources`, `copied_sources`, and `source_provenance` will be put in the relations CSV. The relationships for `related_sources` will additionally keep track of the original relationship type.
+Data in `related_sources`, `copied_sources`, `source_provenance`, and `location` will be put in the relations CSV. The relationships for `related_sources` will additionally keep track of the original relationship type.
 
 - `name`
 - `organization_type`
-- `city`: the name of the city the organization is located in
-- `city_id`: the DIAMM ID of the city, if available
-- `country`: the name of the country the organization is located in
-- `country_id`: the DIAMM ID of the country, if available
 
 ## People
 
@@ -49,6 +55,12 @@ Data in `compositions`, `related_sources`, and `copied_sources` will be put in t
 - `latest_year_approximate`
 - `rism_id`
 - `viaf_id`
+
+## Regions
+
+Data in `organizations`, `cities`, and `provenance` will be put in the relations CSV
+
+- `name`
 
 ## Relations
 

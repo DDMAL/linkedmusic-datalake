@@ -87,15 +87,76 @@ for file in (Path(BASE_PATH) / "archives").glob("*.json"):
                     }
                 )
             )
-        line["city"] = data["city"]["name"]
-        line["country"] = data["city"]["country"]
-        line["city_id"] = (
-            data["city"]["url"].split("/")[-2] if "url" in data["city"] else ""
+        relations.add(
+            HashableDict(
+                {
+                    "key1": f"archive:{line['id']}",
+                    "key2": f"city:{data['city']['url'].split('/')[-2]}",
+                    "type": "",
+                }
+            )
         )
         rows.append(line)
 df = pd.DataFrame(rows)
 df.to_csv(os.path.join(BASE_CSV_PATH, "archives.csv"), index=False)
 print("Finished processing archives")
+
+# Cities
+print("Starting to process cities")
+rows = []
+for file in (Path(BASE_PATH) / "cities").glob("*.json"):
+    with open(file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        line = {}
+        line["id"] = data["pk"]
+        line["name"] = data["name"]
+        line["country"] = data["country"]["name"]
+        for archive in data["archives"]:
+            archive_id = int(archive["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"archive:{archive_id}",
+                        "key2": f"city:{line['id']}",
+                        "type": "",
+                    }
+                )
+            )
+        for source in data["provenance"]:
+            source_id = int(source["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"city:{line['id']}",
+                        "key2": f"source:{source_id}",
+                        "type": "provenance",
+                    }
+                )
+            )
+        for organization in data["organizations"]:
+            organization_id = int(organization["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"city:{line['id']}",
+                        "key2": f"organization:{organization_id}",
+                        "type": "",
+                    }
+                )
+            )
+        relations.add(
+            HashableDict(
+                {
+                    "key1": f"city:{line['id']}",
+                    "key2": f"country:{data['country']['url'].split('/')[-2]}",
+                    "type": "",
+                }
+            )
+        )
+        rows.append(line)
+df = pd.DataFrame(rows)
+df.to_csv(os.path.join(BASE_CSV_PATH, "cities.csv"), index=False)
+print("Finished processing cities")
 
 # Compositions
 print("Starting to process compositions")
@@ -135,6 +196,42 @@ df = pd.DataFrame(rows)
 df.to_csv(os.path.join(BASE_CSV_PATH, "compositions.csv"), index=False)
 print("Finished processing compositions")
 
+# Countries
+print("Starting to process countries")
+rows = []
+for file in (Path(BASE_PATH) / "countries").glob("*.json"):
+    with open(file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        line = {}
+        line["id"] = data["pk"]
+        line["name"] = data["name"]
+        for city in data["cities"]:
+            city_id = int(city["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"city:{city_id}",
+                        "key2": f"country:{line['id']}",
+                        "type": "",
+                    }
+                )
+            )
+        for region in data["regions"] + data["states"]:
+            region_id = int(region["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"country:{line['id']}",
+                        "key2": f"region:{region_id}",
+                        "type": "",
+                    }
+                )
+            )
+        rows.append(line)
+df = pd.DataFrame(rows)
+df.to_csv(os.path.join(BASE_CSV_PATH, "countries.csv"), index=False)
+print("Finished processing countries")
+
 # Organizations
 print("Starting to process organizations")
 rows = []
@@ -145,26 +242,38 @@ for file in (Path(BASE_PATH) / "organizations").glob("*.json"):
         line["id"] = data["pk"]
         line["name"] = data["name"]
         line["organization_type"] = data["organization_type"]
-        line["city"] = line["country"] = ""
-        if "location" in data:
-            if data["location"]["parent"].lower() != "none":
-                line["country"] = data["location"]["parent"]
-                line["country_id"] = ""
-                line["city"] = data["location"]["name"]
-                line["city_id"] = (
-                    data["location"]["url"].split("/")[-2]
-                    if "url" in data["location"]
-                    else ""
+        if location_url := data.get("location", {}).get("url"):
+            location_type, location_id = location_url.split("/")[-3:-1]
+            if location_type == "cities":
+                relations.add(
+                    HashableDict(
+                        {
+                            "key1": f"city:{location_id}",
+                            "key2": f"organization:{line['id']}",
+                            "type": "",
+                        }
+                    )
                 )
-            else:
-                line["country"] = data["location"]["name"]
-                line["country_id"] = (
-                    data["location"]["url"].split("/")[-2]
-                    if "url" in data["location"]
-                    else ""
+            elif location_type == "regions":
+                relations.add(
+                    HashableDict(
+                        {
+                            "key1": f"organization:{line['id']}",
+                            "key2": f"region:{location_id}",
+                            "type": "",
+                        }
+                    )
                 )
-                line["city"] = ""
-                line["city_id"] = ""
+            elif location_type == "countries":
+                relations.add(
+                    HashableDict(
+                        {
+                            "key1": f"country:{location_id}",
+                            "key2": f"organization:{line['id']}",
+                            "type": "",
+                        }
+                    )
+                )
         for source in data["related_sources"]:
             source_id = int(source["url"].split("/")[-2])
             relationship_type = source["relationship"]
@@ -308,6 +417,53 @@ df = pd.DataFrame(rows)
 df.to_csv(os.path.join(BASE_CSV_PATH, "sets.csv"), index=False)
 print("Finished processing sets")
 
+# Regions
+print("Starting to process regions")
+rows = []
+for file in (Path(BASE_PATH) / "regions").glob("*.json"):
+    with open(file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        line = {}
+        line["id"] = data["pk"]
+        line["name"] = data["name"]
+        for organization in data["organizations"]:
+            organization_id = int(organization["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"organization:{organization_id}",
+                        "key2": f"region:{line['id']}",
+                        "type": "",
+                    }
+                )
+            )
+        for city in data["cities"]:
+            city_id = int(city["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"city:{city_id}",
+                        "key2": f"region:{line['id']}",
+                        "type": "",
+                    }
+                )
+            )
+        for source in data["provenance"]:
+            source_id = int(source["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"region:{line['id']}",
+                        "key2": f"source:{source_id}",
+                        "type": "provenance",
+                    }
+                )
+            )
+        rows.append(line)
+df = pd.DataFrame(rows)
+df.to_csv(os.path.join(BASE_CSV_PATH, "regions.csv"), index=False)
+print("Finished processing regions")
+
 # Sources
 print("Starting to process sources")
 rows = []
@@ -353,9 +509,8 @@ for file in (Path(BASE_PATH) / "sources").glob("*.json"):
             if set_dict not in relations:
                 relations.add(set_dict)
         for relation in data["relationships"]:
-            if (
-                (rtype := relation.get("relationship_type"))
-                and (eurl := relation.get("related_entity", {}).get("url"))
+            if (rtype := relation.get("relationship_type")) and (
+                eurl := relation.get("related_entity", {}).get("url")
             ):
                 etype = eurl.split("/")[-3]
                 if etype == "people":
