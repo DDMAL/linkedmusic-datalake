@@ -50,6 +50,13 @@ PROCESS_NO_TYPES = [
 ]
 
 
+def export_to_csv(data, output_file):
+    """Export a set of data to a CSV file."""
+    df = pd.DataFrame(data)
+    with open(output_file, "w", encoding="utf-8") as out_file:
+        df.to_csv(out_file, index=False)
+
+
 def main(args):
     """Main function to extract the type field from MusicBrainz JSON data."""
     # Parse command line arguments
@@ -96,42 +103,27 @@ def main(args):
                 continue
 
     if entity_type in PROCESS_NO_TYPES:
-        df = pd.DataFrame({"type": list(types)})
-        with open(output_file, "w", encoding="utf-8") as out_file:
-            df.to_csv(out_file, index=False)
+        export_to_csv({"type": list(types)}, output_file)
 
     if keys:
-        keys_file = output_folder / "keys.csv"
-        keys_df = pd.DataFrame({"key": list(keys)})
-        with open(keys_file, "w", encoding="utf-8") as keys_out_file:
-            keys_df.to_csv(keys_out_file, index=False)
+        export_to_csv({"key": list(keys)}, output_folder / "keys.csv")
 
     if genders:
-        genders_file = output_folder / "genders.csv"
-        genders_df = pd.DataFrame({"gender": list(genders)})
-        with open(genders_file, "w", encoding="utf-8") as genders_out_file:
-            genders_df.to_csv(genders_out_file, index=False)
+        export_to_csv({"gender": list(genders)}, output_folder / "genders.csv")
 
     if languages:
-        languages_file = output_folder / "languages.csv"
-        languages_df = pd.DataFrame({"language": list(languages)})
-        languages_df["full_language"] = languages_df["language"].apply(
-            lambda x: langs.get(alpha_3=x).name if langs.get(alpha_3=x) else x
-        )
-        with open(languages_file, "w", encoding="utf-8") as languages_out_file:
-            languages_df.to_csv(languages_out_file, index=False)
+        languages_dict = {"language": list(languages)}
+        languages_dict["full_language"] = [
+            langs.get(alpha_3=lang).name if langs.get(alpha_3=lang) else lang
+            for lang in languages_dict["language"]
+        ]
+        export_to_csv(languages_dict, output_folder / "languages.csv")
 
     if packagings:
-        packagings_file = output_folder / "packagings.csv"
-        packagings_df = pd.DataFrame({"packaging": list(packagings)})
-        with open(packagings_file, "w", encoding="utf-8") as packagings_out_file:
-            packagings_df.to_csv(packagings_out_file, index=False)
+        export_to_csv({"packaging": list(packagings)}, output_folder / "packagings.csv")
 
     if statuses:
-        statuses_file = output_folder / "statuses.csv"
-        statuses_df = pd.DataFrame({"status": list(statuses)})
-        with open(statuses_file, "w", encoding="utf-8") as statuses_out_file:
-            statuses_df.to_csv(statuses_out_file, index=False)
+        export_to_csv({"status": list(statuses)}, output_folder / "statuses.csv")
 
 
 if __name__ == "__main__":
@@ -166,7 +158,8 @@ if __name__ == "__main__":
                 )
 
     if "packagings" in bad_files and "statuses" in bad_files:
-        bad_files.append("release")  # only entities we might need to reconcile in 'release' are 'packagings' and 'statuses'
+        # Only entities we might need to reconcile in 'release' are 'packagings' and 'statuses'
+        bad_files.append("release")
 
     for input_file in input_folder.iterdir():
         if str(input_file).endswith(".DS_Store"):
