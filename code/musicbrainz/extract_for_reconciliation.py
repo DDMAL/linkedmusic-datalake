@@ -166,7 +166,7 @@ if __name__ == "__main__":
                 )
 
     if "packagings" in bad_files and "statuses" in bad_files:
-        bad_files.append("release")  # Special case for release entity type
+        bad_files.append("release")  # only entities we might need to reconcile in 'release' are 'packagings' and 'statuses'
 
     for input_file in input_folder.iterdir():
         if str(input_file).endswith(".DS_Store"):
