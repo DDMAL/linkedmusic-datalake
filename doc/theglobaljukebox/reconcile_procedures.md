@@ -335,7 +335,8 @@
 
 ## Metadata
 
-> Note: for most of the columns in this file, there are only a few entries, which is why the reconciliation categories are more specific than for the other files in this database.
+> Note: for the first several columns in this file, there are only a few entries, which is why the reconciliation categories are more specific than for the other files in this database.
+> Note: for the Performers sub-columns, it becomes difficult to manually reconcile all the entries efficiently, so automatic reconciliation may be preferable.
 
 - Reconcile the cells in column `Region` to type `geographic region` (Q82794).
 - Reconcile the cells in column `Division` to type `sovereign state` (Q3624078).
@@ -363,7 +364,13 @@
 - Split the column `Performers` into several columns using ";" as the separator.
 - Split the column `Performers 1` into several columns using ":" as the separator.
 - Split each `Performers` column into several columns using "," as the separator.
+- If necessary, split the column again into several columns using "&" as the separator.
 - Reconcile the cells in column `Performers 1 1 1` to type `musical group` (Q215380).
   - Re-reconcile the remaining cells to type `human` (Q5). The `Song_notes` column provides details on the artists.
+- Reconcile the rest of the `Performers` columns to type `human` (Q5) or `type of musical instrument (Q17362829)`, as appropriate.
+- Reconcile the cells in column `Recorded_by` to type `record label` (Q18127).
+- Reconcile the cells in column `Year` to type `calendar year` (Q3186692).
+- Reconcile the cells in column `Publisher` to type `record label` (Q18127).
+- Reconcile the cells in column `Column` to type `album` (Q482994).
 
 # Social Factors

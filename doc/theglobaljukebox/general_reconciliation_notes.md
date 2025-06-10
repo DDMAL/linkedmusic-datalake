@@ -64,3 +64,60 @@
 ## Miscellaneous
 
 - "[US state] Black" will often have a WikiData entry of the form "African Americans in [U.S. State]"
+
+# Missing data
+
+## Humans/Musical Groups
+
+- Most of the humans and musical groups in this database (specifically the metadata file of the Urban Strain dataset) are straightforward to match. However, there are some that do not contain WikiData entries, including:
+
+  - James Lowe of The Electric Prunes
+  - George Chambers of The Chambers Brothers
+  - Volde Faut of The Stomp Six (which also does not have an entry)
+  - Bob Gilette of The Wolverines
+  - Earl Bolick of The Blue Sky Boys
+  - Bea Lilly of The Lilly Brothers
+  - Billy Hicks of Eubie Blake and the Shuffle Along Orchestra (also no entry)
+  - Joe Schenk of Van & Schenk
+  - Jerry Joyce and his orchestra
+  - Jack Taylor (bassist active in the 1930s)
+  - Simeon Hatch (pianist active in the 1930s/40s)
+  - Joe Dupars (1960s trumpet)
+  - Louis Blackburn (The Ronettes trombonist)
+  - The Paragon Ragtime Orchestra
+  - LaForest Dent (Bennie Moten's Kansas City Orchestra saxophonist)
+  - The Raelettes (associated with Ray Charles)
+  - Frank Rodriguez (? & the Mysterians organist)
+  - Uncle Dane Macon (1920s banjoist/singer/entertainer)
+  - Kirk McGee (fiddler for Uncle Dane Macon)
+  - Jesse Simpkins (Louis Jordan & His Tympany Five bassist)
+  - Millard J. Thomas (1950s bassist)
+  - Billy Carter (1960s organist)
+  - Tommy Lindsey (1930s trumpeter)
+  - The Cotton Pickers
+  - Bennie Kreuger (The Cotton Pickers clarinetist)
+  - Bob Cusumano (Tommy Dorsey band trumpeter)
+  - Gene Traxler (Tommy Dorsey band bassist)
+  - Charles Smith (Kool & The Gang guitarist)
+  - Clyde Baum (1940s mandolinist)
+  - Larry Wellborn (1950s bassist)
+  - Uncle John Turner (percussionist)
+  - Fred Whiting (Al Dexter and his Troopers bassist)
+  - Hezzie Bryant (Cliff Bruner's Texas Wanderers bassist)
+  - Cincinnati's University Singers and Theater Orchestra
+  - Marlin Greene (1960s guitarist)
+  - Darryl Jones (guitarist who played with Lionel Richie)
+  - Peewee Lambert (The Stanley Brothers mandolinist)
+  - Francis Vigneau (pianist associated with Guy Lombardo)
+  - Clifton White (1950s guitarist)
+  - Leroy Harris (Earl Hines and his Orchestra saxophonist and clarinetist)
+  - Marvin Saxbe (The Stomp Six guitarist)
+  - Ron Tooley (trumpeter for James Brown)
+  - John Williams (saxophonist for Andy Kirk & his Twelve Clouds of Joy)
+  - Andy Kirk & his Twelve Clouds of Joy
+  - Ray Charles Orchestra
+  - Chuck Lowry (singer for The Pied Pipers)
+
+  ## Instruments
+
+  - Farfisa organ
