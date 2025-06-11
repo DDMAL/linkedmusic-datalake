@@ -206,7 +206,7 @@ class _WikidataAPIClientRaw:
             print("wbgetentities can only handle up to 50 IDs at a time")
             return {}
         # Properties requested simultaneously must be separated by "|"
-        # Example: "labels|descriptions|claims" 
+        # Example: "labels|descriptions|claims"
         props_str = props if isinstance(props, str) else "|".join(props)
         url = "https://www.wikidata.org/w/api.php"
         params = {
