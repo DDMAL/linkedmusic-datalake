@@ -129,7 +129,7 @@ for file in (Path(BASE_PATH) / "cities").glob("*.json"):
                     {
                         "key1": f"city:{line['id']}",
                         "key2": f"source:{source_id}",
-                        "type": "provenance",
+                        "type": "",
                     }
                 )
             )
@@ -242,38 +242,35 @@ for file in (Path(BASE_PATH) / "organizations").glob("*.json"):
         line["id"] = data["pk"]
         line["name"] = data["name"]
         line["organization_type"] = data["organization_type"]
-        if location_url := data.get("location", {}).get("url"):
-            location_type, location_id = location_url.split("/")[-3:-1]
-            if location_type == "cities":
-                relations.add(
-                    HashableDict(
-                        {
-                            "key1": f"city:{location_id}",
-                            "key2": f"organization:{line['id']}",
-                            "type": "",
-                        }
+        line["country"] = ""
+        if location := data.get("location"):
+            if location_url := location.get("url"):
+                location_type, location_id = location_url.split("/")[-3:-1]
+                if location_type == "cities":
+                    relations.add(
+                        HashableDict(
+                            {
+                                "key1": f"city:{location_id}",
+                                "key2": f"organization:{line['id']}",
+                                "type": "",
+                            }
+                        )
                     )
-                )
-            elif location_type == "regions":
-                relations.add(
-                    HashableDict(
-                        {
-                            "key1": f"organization:{line['id']}",
-                            "key2": f"region:{location_id}",
-                            "type": "",
-                        }
+                elif location_type == "countries":
+                    relations.add(
+                        HashableDict(
+                            {
+                                "key1": f"country:{location_id}",
+                                "key2": f"organization:{line['id']}",
+                                "type": "",
+                            }
+                        )
                     )
-                )
-            elif location_type == "countries":
-                relations.add(
-                    HashableDict(
-                        {
-                            "key1": f"country:{location_id}",
-                            "key2": f"organization:{line['id']}",
-                            "type": "",
-                        }
-                    )
-                )
+                    line["country"] = location["name"]
+            if not line["country"] and not re.match(
+                r"^none$", location["parent"], re.I
+            ):
+                line["country"] = location["parent"]
         for source in data["related_sources"]:
             source_id = int(source["url"].split("/")[-2])
             relationship_type = source["relationship"]
@@ -426,6 +423,7 @@ for file in (Path(BASE_PATH) / "regions").glob("*.json"):
         line = {}
         line["id"] = data["pk"]
         line["name"] = data["name"]
+        line["country"] = data["parent"]
         for organization in data["organizations"]:
             organization_id = int(organization["url"].split("/")[-2])
             relations.add(
@@ -455,7 +453,7 @@ for file in (Path(BASE_PATH) / "regions").glob("*.json"):
                     {
                         "key1": f"region:{line['id']}",
                         "key2": f"source:{source_id}",
-                        "type": "provenance",
+                        "type": "",
                     }
                 )
             )

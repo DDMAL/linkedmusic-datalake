@@ -20,7 +20,7 @@ Data in `sources` and `city` will be in the relations CSV
 Data in `archives`, `provenance`, `organizations`, and `country` will be in the relations CSV
 
 - `name`
-- `country`
+- `country`: This is only here to help with reconciliation
 
 ## Compositions
 
@@ -42,6 +42,7 @@ Data in `related_sources`, `copied_sources`, `source_provenance`, and `location`
 
 - `name`
 - `organization_type`
+- `country`: The name of the country or region the organization is in, this is only here to help with reconciliation
 
 ## People
 
@@ -61,6 +62,7 @@ Data in `compositions`, `related_sources`, and `copied_sources` will be put in t
 Data in `organizations`, `cities`, and `provenance` will be put in the relations CSV
 
 - `name`
+- `country`: This is only here to help with reconciliation
 
 ## Relations
 

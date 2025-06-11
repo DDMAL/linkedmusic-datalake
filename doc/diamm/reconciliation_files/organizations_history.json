@@ -9,8 +9,8 @@
     "expression": "grel:value",
     "onError": "set-to-blank",
     "newColumnName": "country_@id",
-    "columnInsertIndex": 5,
-    "description": "Create column country_@id at index 5 based on column country using expression grel:value"
+    "columnInsertIndex": 4,
+    "description": "Create column country_@id at index 4 based on column country using expression grel:value"
   },
   {
     "op": "core/recon",
@@ -308,50 +308,6 @@
     },
     "shareNewTopics": false,
     "description": "Match item Bavaria (Q980) for cells containing \"Bavaria\" in column country_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "country_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "country_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "country_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "country_@id",
-          "from": 39,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "country_@id",
-    "similarValue": "South-western Germany (Black Forest)",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"South-western Germany (Black Forest)\" in column country_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -836,38 +792,6 @@
       "mode": "row-based"
     },
     "columnName": "country_@id",
-    "similarValue": "Hradec Králové",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Hradec Králové\" in column country_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "country_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "country_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "country_@id",
     "similarValue": "Auvergne",
     "judgment": "matched",
     "match": {
@@ -983,38 +907,6 @@
           ],
           "selectBlank": false,
           "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "country_@id",
-    "similarValue": "Warwick",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Warwick\" in column country_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "country_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "country_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
         },
         {
           "type": "range",
@@ -1046,134 +938,14 @@
     "description": "Match item Bavaria (Q980) for cells containing \"Bavaria\" in column country_@id"
   },
   {
-    "op": "core/column-addition",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "baseColumnName": "city",
-    "expression": "grel:value",
-    "onError": "set-to-blank",
-    "newColumnName": "city_@id",
-    "columnInsertIndex": 4,
-    "description": "Create column city_@id at index 4 based on column city using expression grel:value"
-  },
-  {
-    "op": "core/recon",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "columnName": "city_@id",
-    "config": {
-      "mode": "standard-service",
-      "service": "https://wikidata.reconci.link/en/api",
-      "identifierSpace": "http://www.wikidata.org/entity/",
-      "schemaSpace": "http://www.wikidata.org/prop/direct/",
-      "type": {
-        "id": "Q515",
-        "name": "city"
-      },
-      "autoMatch": true,
-      "batchSize": 10,
-      "columnDetails": [],
-      "limit": 0
-    },
-    "description": "Reconcile cells in column city_@id to type Q515"
-  },
-  {
-    "op": "core/recon",
+    "op": "core/recon-judge-similar-cells",
     "engineConfig": {
       "facets": [
         {
           "type": "list",
-          "name": "city_@id: judgment",
+          "name": "country_@id: judgment",
           "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "city_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "errors",
-                "l": "errors"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "city_@id",
-    "config": {
-      "mode": "standard-service",
-      "service": "https://wikidata.reconci.link/en/api",
-      "identifierSpace": "http://www.wikidata.org/entity/",
-      "schemaSpace": "http://www.wikidata.org/prop/direct/",
-      "type": {
-        "id": "Q515",
-        "name": "city"
-      },
-      "autoMatch": true,
-      "batchSize": 10,
-      "columnDetails": [],
-      "limit": 0
-    },
-    "description": "Reconcile cells in column city_@id to type Q515"
-  },
-  {
-    "op": "core/recon-match-best-candidates",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "city_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "city_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "city_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "city_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "city_@id",
-    "description": "Match each cell to its best recon candidate in column city_@id"
-  },
-  {
-    "op": "core/recon-mark-new-topics",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "city_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "city_@id",
+          "columnName": "country_@id",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
@@ -1191,9 +963,99 @@
       ],
       "mode": "row-based"
     },
-    "columnName": "city_@id",
+    "columnName": "country_@id",
+    "similarValue": "Hradec Králové",
+    "judgment": "matched",
+    "match": {
+      "id": "Q193295",
+      "name": "Hradec Králové Region",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
     "shareNewTopics": false,
-    "description": "Mark to create new items for cells in column city_@id, one item for each cell"
+    "description": "Match item Hradec Králové Region (Q193295) for cells containing \"Hradec Králové\" in column country_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "country_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "country_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country_@id",
+    "similarValue": "Warwick",
+    "judgment": "matched",
+    "match": {
+      "id": "Q23140",
+      "name": "Warwickshire",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Warwickshire (Q23140) for cells containing \"Warwick\" in column country_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "country_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "country_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "country_@id",
+    "similarValue": "South-western Germany (Black Forest)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4204",
+      "name": "Black Forest",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Black Forest (Q4204) for cells containing \"South-western Germany (Black Forest)\" in column country_@id"
   },
   {
     "op": "core/column-addition",
