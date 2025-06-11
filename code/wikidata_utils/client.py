@@ -25,7 +25,7 @@ Example:
 
 """
 
-from typing import Generator, Any, Optional, Union, TypeAlias
+from typing import Any, Optional, Union, TypeAlias
 import asyncio
 import aiohttp
 from aiolimiter import AsyncLimiter
@@ -92,6 +92,9 @@ class _WikidataAPIClientRaw:
             ) as response:
                 response.raise_for_status()
                 return await response.json()
+        except aiohttp.ContentTypeError as e:
+            print(f"Content type error at {url}: {e}")
+            return None
         except aiohttp.ClientConnectionError as e:
             print(f"Connection error at {url}: {e}")
             return None
@@ -123,7 +126,7 @@ class _WikidataAPIClientRaw:
                 return data
 
     async def search_raw(
-        self, query: str, limit: int = 10, timeout: int = 10
+        self, query: str, limit: Optional[int] = 10, timeout: int = 10
     ) -> JsonResponse:
         """
         Queries Wikidata Elasticsearch API.
@@ -137,8 +140,9 @@ class _WikidataAPIClientRaw:
             "list": "search",
             "format": "json",
             "srsearch": str(query),
-            "srlimit": str(limit),
         }
+        if limit:
+            params["srlimit"] = str(limit)
         async with self.limiter_wikidata:
             data = await self._get(url, params=params, timeout=timeout)
             if not data:
@@ -150,7 +154,7 @@ class _WikidataAPIClientRaw:
         self,
         term: str,
         entity_type: str = "item",
-        limit: Optional[int] = None,
+        limit: Optional[int] = 10,
         timeout: int = 10,
     ) -> JsonResponse:
         """
@@ -167,7 +171,7 @@ class _WikidataAPIClientRaw:
             "format": "json",
             "type": entity_type,
         }
-        if limit is not None:
+        if limit:
             params["limit"] = str(limit)
         async with self.limiter_wikidata:
             data = await self._get(url, params=params, timeout=timeout)
@@ -175,7 +179,6 @@ class _WikidataAPIClientRaw:
                 return {}
             else:
                 return data
-        # Each entry is a dict containing a search result
 
     async def wbgetentities_raw(
         self,
@@ -189,6 +192,7 @@ class _WikidataAPIClientRaw:
 
         Fetches additional information on Wikidata entities using their IDs.
         Returns raw JSON response, or an empty dictionary on request error.
+        Up to 50 items can be requested at once.  
         """
 
         # Flatten ids_input into a single list of strings
@@ -201,7 +205,8 @@ class _WikidataAPIClientRaw:
         if len(ids) > 50:
             print("wbgetentities can only handle up to 50 IDs at a time")
             return {}
-        # Format props
+        # Properties requested simultaneously must be separated by "|"
+        # Example: "labels|descriptions|claims" 
         props_str = props if isinstance(props, str) else "|".join(props)
         url = "https://www.wikidata.org/w/api.php"
         params = {
@@ -237,7 +242,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         - For SPARQL queries, each dictionary corresponds to a row in the result set.
         - For all other queries, each dictionary contain a single Wikidata entity.
 
-    Raw methods from the parent class remain available if needed.
+    Methods to fetch raw/unprocessed JSON response remain available.
     """
 
     async def sparql(
@@ -248,7 +253,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         """
         Execute a SPARQL query and return results as a list of dictionaries.
 
-        Each dictionary represents a SPARQL result row with variable names as keys.
+        Each dictionary represents a SPARQL result row, with variable names as keys.
 
         Args:
             query: SPARQL query string.
@@ -279,11 +284,12 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         Returns:
             List of dictionaries with keys:
                 - "id": Entity ID (e.g., "Q42")
-                - "description": Snippet or matched context
+                - "description": Text snippet or matched context
         """
         data = await self.search_raw(query, limit=limit, timeout=timeout)
         matches_list = data.get("query", {}).get("search", [])
         results = []
+        # Each match is a dictionary containing a search result
         for match in matches_list:
             match_dict = {
                 "id": match.get("title", ""),
@@ -319,8 +325,8 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         data = await self.wbsearchentities_raw(
             term, entity_type=entity_type, limit=limit, timeout=timeout
         )
-        # Each entry is a dict containing a search result
         results = []
+        # Each entry is a dict containing a search result
         for entry in data.get("search", []):
             results.append(
                 {
@@ -358,9 +364,9 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             elif isinstance(arg, str):
                 ids.append(arg)
 
-        def chunk(lst: list[str], size: int = 50) -> Generator[list[str], None, None]:
-            for i in range(0, len(lst), size):
-                yield lst[i : i + size]
+        # wbgetentities can only handle up to 50 IDs at a time
+        def chunk(lst: list[str], size: int = 50) -> list[list[str]]:
+            return [lst[i : i + size] for i in range(0, len(lst), size)]
 
         raw_responses = await asyncio.gather(
             *(
@@ -371,7 +377,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             )
         )
 
-        # Ensure that we have a list of properties to iterate over
+        # Ensure that we don't iterate over a string
         if isinstance(props, str):
             props_list = [props]
         else:
