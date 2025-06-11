@@ -243,6 +243,14 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         - For all other queries, each dictionary contain a single Wikidata entity.
 
     Methods to fetch raw/unprocessed JSON response remain available.
+
+    Usage example:
+    async def main():
+        async with aiohttp.ClientSession() as session:
+            client = WikidataAPIClient(session)
+            await client.wbget_statements("Q91")
+
+    asyncio.run(main())
     """
 
     async def sparql(
@@ -337,15 +345,14 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         return results
 
     async def wbgetentities(
-    self,
-    *ids_input: Union[str, list[str]],
-    props: Union[str, list[str]] = "labels",
-    languages: str = "en",
-    timeout: int = 10,
-) -> list[WikiEntity]:
+        self,
+        *ids_input: Union[str, list[str]],
+        props: Union[str, list[str]] = "labels",
+        languages: str = "en",
+        timeout: int = 10,
+    ) -> dict[str, WikiEntity]:
         """
-        Fetches Wikidata entities by ID and extracts text-based properties:
-        labels, descriptions, aliases.
+        Fetch Wikidata entities by ID and extract text-based properties as an embedded dictionary.
 
         Args:
             *ids_input: One or more entity IDs, or lists of IDs.
@@ -355,7 +362,8 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             timeout: Request timeout in seconds (default: 10).
 
         Returns:
-            List of dicts, each with "id" and requested properties.
+            dict: Mapping from entity ID to a dictionary of requested properties.
+                Example: {"Q42": {"labels": "Douglas Adams", ...}, ...}
         """
         supported_props = {"labels", "descriptions", "aliases"}
         if isinstance(props, str):
@@ -386,10 +394,11 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             )
         )
 
-        results = []
+        results: dict[str, WikiEntity] = {}
         for response in raw_responses:
             entities = response.get("entities", {})
             for id_, entity in entities.items():
+                # id is stored twice for convenience of the user
                 item_dict = {"id": id_}
                 for prop in props_list:
                     if prop in ("labels", "descriptions"):
@@ -397,7 +406,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                     elif prop == "aliases":
                         aliases = entity.get("aliases", {}).get(languages, [])
                         item_dict[prop] = [alias.get("value", "") for alias in aliases]
-                results.append(item_dict)
+                results[id_] = item_dict
         return results
 
 
@@ -429,14 +438,17 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
 
         simplified_claims: dict[str, list[str]] = {}
         for p, values in claims.items():
-            simplified_claims[p] = []
             for statement in values:
+                object_list = []
                 try:
                     datavalue = statement["mainsnak"]["datavalue"]["value"]
                     if isinstance(datavalue, dict) and "id" in datavalue:
-                        simplified_claims[p].append(datavalue["id"])
+                        
+                        object_list.append(datavalue["id"])
                     else:
                         continue
                 except KeyError:
                     continue
+            if object_list:
+                simplified_claims[p] = object_list
         return simplified_claims
