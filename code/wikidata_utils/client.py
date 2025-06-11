@@ -398,7 +398,6 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                     )
                     # Add id inside the nested dictionary
                     item_dict["id"] = id_
-                    # results would be a list instead of a dictionary
-                    results.append(item_dict)
+                results.append(item_dict)
 
         return results
