@@ -3,7 +3,7 @@ import asyncio
 # readline helps user navigate using left and right arrows
 import readline  # type: ignore[import-untyped]; 
 import aiohttp
-from wikidata_utilities import WikidataAPIClient, format_wd_entity, extract_wd_id
+from wikidata_utils import WikidataAPIClient, format_wd_entity, extract_wd_id
 
 
 def print_heading(
