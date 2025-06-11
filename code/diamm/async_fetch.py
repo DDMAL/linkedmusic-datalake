@@ -179,6 +179,10 @@ async def search_worker(name, session, visit_queue, limiter, search_limiter):
                         continue
                     await visit_queue.wait_below(MAX_ELEMENTS_IN_VISIT_QUEUE)
                     await visit_queue.put(match.group(0))
+                else:
+                    logger.warning(
+                        "Failed to match URL %s in search results", res["url"]
+                    )
     except asyncio.CancelledError:
         return
     except Exception:
