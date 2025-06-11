@@ -396,7 +396,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                     item_dict[prop] = (
                         entity.get(prop, {}).get(languages, {}).get("value", "")
                     )
-                    # Add id inside the nested dictionary
+                    # Add id inside the dictionary
                     item_dict["id"] = id_
                 results.append(item_dict)
 
