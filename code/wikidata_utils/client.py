@@ -337,26 +337,35 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         return results
 
     async def wbgetentities(
-        self,
-        *ids_input: Union[str, list[str]],
-        props: Union[str, list[str]] = "labels",
-        languages: str = "en",
-        timeout: int = 10,
-    ) -> list[WikiEntity]:
+    self,
+    *ids_input: Union[str, list[str]],
+    props: Union[str, list[str]] = "labels",
+    languages: str = "en",
+    timeout: int = 10,
+) -> list[WikiEntity]:
         """
-        Fetches Wikidata entities by ID and extracts selected properties.
+        Fetches Wikidata entities by ID and extracts text-based properties:
+        labels, descriptions, aliases.
 
         Args:
             *ids_input: One or more entity IDs, or lists of IDs.
             props: Single property or list of properties to retrieve (default: "labels").
+                Only supports: "labels", "descriptions", "aliases"
             languages: Language code for property values (default: "en").
             timeout: Request timeout in seconds (default: 10).
 
         Returns:
-            List of dictionaries. Each dictionary includes:
-                - "id": Entity ID
-                - One key per requested property, with its corresponding text value (if available)
+            List of dicts, each with "id" and requested properties.
         """
+        supported_props = {"labels", "descriptions", "aliases"}
+        if isinstance(props, str):
+            props_list = [props]
+        else:
+            props_list = props
+        invalid_props = [p for p in props_list if p not in supported_props]
+        if invalid_props:
+            raise ValueError(f"Unsupported props requested: {', '.join(invalid_props)}")
+
         ids: list[str] = []
         for arg in ids_input:
             if isinstance(arg, list):
@@ -364,7 +373,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             elif isinstance(arg, str):
                 ids.append(arg)
 
-        # wbgetentities can only handle up to 50 IDs at a time
+        # Chunk to max 50 IDs per request
         def chunk(lst: list[str], size: int = 50) -> list[list[str]]:
             return [lst[i : i + size] for i in range(0, len(lst), size)]
 
@@ -377,27 +386,57 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             )
         )
 
-        # Ensure that we don't iterate over a string
-        if isinstance(props, str):
-            props_list = [props]
-        else:
-            props_list = props
-
-        results: Union[dict[str, dict[str, Any]], list[dict[str, str]]]
-
         results = []
         for response in raw_responses:
             entities = response.get("entities", {})
-            # entity contains information on a single item
             for id_, entity in entities.items():
-                item_dict = {}
+                item_dict = {"id": id_}
                 for prop in props_list:
-                    # Retrieve all properties specified as argument
-                    item_dict[prop] = (
-                        entity.get(prop, {}).get(languages, {}).get("value", "")
-                    )
-                    # Add id inside the dictionary
-                    item_dict["id"] = id_
+                    if prop in ("labels", "descriptions"):
+                        item_dict[prop] = entity.get(prop, {}).get(languages, {}).get("value", "")
+                    elif prop == "aliases":
+                        aliases = entity.get("aliases", {}).get(languages, [])
+                        item_dict[prop] = [alias.get("value", "") for alias in aliases]
                 results.append(item_dict)
-
         return results
+
+
+    async def wbget_statements(
+        self,
+        entity_id: str,
+        timeout: int = 10,
+    ) -> dict[str, list[str]]:
+        """
+        Fetches claims/statements of a single Wikidata entity by ID.
+        
+        Uses wbgetentities API.
+        Exists as a separate method to simplify the data structure.
+
+        Args:
+            entity_id: Single entity ID (e.g., "Q42").
+            timeout: Request timeout in seconds (default: 10).
+
+        Returns:
+            Dict mapping PIDs (e.g., "P31") to lists of QIDs.
+            Only statements whose values are Wikidata entities are included.
+            Statements with more complex data types (e.g., dates, quantities, strings) are excluded 
+            to avoid overly complex or nested data structures.
+        """
+        response = await self.wbgetentities_raw(entity_id, props="claims", timeout=timeout)
+        entities = response.get("entities", {})
+        entity = entities.get(entity_id, {})
+        claims = entity.get("claims", {})
+
+        simplified_claims: dict[str, list[str]] = {}
+        for p, values in claims.items():
+            simplified_claims[p] = []
+            for statement in values:
+                try:
+                    datavalue = statement["mainsnak"]["datavalue"]["value"]
+                    if isinstance(datavalue, dict) and "id" in datavalue:
+                        simplified_claims[p].append(datavalue["id"])
+                    else:
+                        continue
+                except KeyError:
+                    continue
+        return simplified_claims
