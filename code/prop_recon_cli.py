@@ -109,7 +109,6 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     qid = await lookup_term(term, client)
     if not qid:
         print_separator()
-        print(f"No Wikidata entity found for term: {term}")
         return
 
     # Fetch forward predicates (claims) from wbget_statements
@@ -122,14 +121,15 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
             forward_ids_set.add(objects[0])
 
     forward_ids_list = list(forward_ids_set)
-    forward_props_dict = await client.wbgetentities(forward_ids_list, props="labels")
+    # The label of the qid has not yet been fetched
+    labels_dict = await client.wbgetentities(qid,forward_ids_list, props="labels")
 
     # SPARQL query for backward predicates where this entity is object
     backward_query = f"""
     SELECT ?property ?propLabel ?example ?exampleLabel WHERE {{
     {{
         SELECT ?property (SAMPLE(?subject) AS ?example) WHERE {{
-        ?subject ?property wd:{term } .
+        ?subject ?property wd:{qid} .
         }}
         GROUP BY ?property
     }}
@@ -141,17 +141,18 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     """
     backward_props = await client.sparql(backward_query)
 
-    entity = build_wd_hyperlink(qid, term)
+    # use the search term if ever no label is found
+    entity = build_wd_hyperlink(qid, labels_dict.get(qid, {}).get("labels", term))
 
     if forward_relationships:
         print_heading("Forward predicates (as subject)")
         for pid, objects in forward_relationships.items():
-            prop_label = forward_props_dict.get(pid, {}).get("labels", pid)
+            prop_label = labels_dict.get(pid, {}).get("labels", pid)
             example = objects[0] if objects else ""
-            example_label = forward_props_dict.get(example, {}).get("labels", example)
+            example_label = labels_dict.get(example, {}).get("labels", example)
             pred = build_wd_hyperlink(pid, prop_label)
             ex = build_wd_hyperlink(example, example_label)
-            print(f"{entity}  {pred}  {ex}")
+            print(f"{entity}  \033[32m{pred}\033[0m  {ex}")
 
     if backward_props:
         print_heading("Backward predicates (as object)")
@@ -161,8 +162,8 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
             example = extract_wd_id(row.get("example", ""))
             example_label = row.get("exampleLabel", "")
             pred = build_wd_hyperlink(pid, label)
-            ex = build_wd_hyperlink(example, example) if example else ""
-            print(f"{ex}  {pred}  {entity}")
+            ex = build_wd_hyperlink(example, example_label) if example else ""
+            print(f"{ex}  \033[32m{pred}\033[0m  {entity}")
 
     if not forward_relationships and not backward_props:
         print_separator()
@@ -171,20 +172,34 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     print_separator()
 
 
-async def basic_search(client: WikidataAPIClient, term: str) -> None:
+async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = "property" ) -> None:
     """
     Perform a basic search for a term and print the results.
     """
-    results = await client.wbsearchentities(term, limit=5)
-    if not results:
-        print(f"No results found for term: {term}")
-        return None
+    results = await client.wbsearchentities(term, limit=5, entity_type=entity_type)
 
-    print_heading(f'Search results for: "{term}"')
-    for idx, result in enumerate(results, 1):
-        entity = build_wd_hyperlink(result["id"], result.get("label", ""))
-        print(f"Result {idx}: {entity}")
+    if results:
+        print_heading(f'Search results for: "{term}"')
+        for idx, result in enumerate(results, 1):
+            entity = build_wd_hyperlink(result["id"], result.get("label", ""))
+            print(f"Result {idx}: {entity}")
+
+    length = len(results)
+    if length < 5:
+        fuzzy_results = await client.search(term, limit=(5 - length), entity_type=entity_type)
+        if fuzzy_results:
+            fuzzy_ids = [result["id"] for result in fuzzy_results if "id" in result]
+            labels = await client.wbgetentities(fuzzy_ids, props="labels")
+            # fuzzy search result are in purple
+            for position, id_ in enumerate(fuzzy_ids, 1):
+                entity = build_wd_hyperlink(id_, labels.get(id_, {}).get("labels", ""))
+                print("\033[35m" + f"Result {length + position}: {entity}" + "\033[0m")
+    if not results and not fuzzy_results:
+        print(f"No results found for term: {term}")
     print_separator()
+        
+     
+
 
 async def fuzzy_search(client: WikidataAPIClient, term: str) -> None:
     """
@@ -222,17 +237,18 @@ async def main():
                     continue
                 await find_all_predicates(client, term)
                 continue
-            elif user_input.startswith("--f"):
+            elif user_input.startswith("--q"):
                 term = user_input[3:].strip()
                 if not term:
                     print("Please provide a search term after --f")
                     continue
-                await fuzzy_search(client, term)
+                await basic_search(client, term, entity_type="item")
                 continue
 
             terms = [term.strip() for term in user_input.split(",")]
 
             if len(terms) == 1:
+                # Search properties by default
                 await basic_search(client, terms[0])
                 continue
             elif len(terms) == 2:
