@@ -3,8 +3,8 @@
 - The Global Jukebox data dump can be found in the 8 repositories in [The Global Jukebox Github](https://github.com/theglobaljukebox).
   > IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
   - If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
-- For each dataset in The Global Jukebox, the `codings.csv` file is skipped, as it does not contain easily reconcilable data.
-- The `data.csv` files are also not particularly useful for reconciliation, as they depend on the codings found in `codings.csv` and, consequently, not much easily reconilable to WikiData. However, depending on the data set, there may be a few columns that can be reconciled.
+- For each dataset in The Global Jukebox, the `codings.csv` file is skipped, as it does not contain easily reconcilable data (see [Discussion #322](https://github.com/DDMAL/linkedmusic-datalake/discussions/322)).
+- The `data.csv` files are also not particularly useful for reconciliation, as they depend on the codings found in `codings.csv` and, consequently, not much easily reconilable to WikiData. However, depending on the data set, there may be a few columns that can be reconciled (see [Discussion #322](https://github.com/DDMAL/linkedmusic-datalake/discussions/322)).
 - By reconciling the remaining files, we should be able to link the surrounding information that can be found in WikiData.
 - The datasets are small, so it is possible to manually reconcile many of the columns after a first automatic pass (or a few passes). However: manual reconciliation can take significant time, so it may be preferential to do automatic reconciliation using OpenRefine's "best candidate's score" of 99-100 on all files before deciding if it is worth going back and manually reconciling.
 - In general, it is advised to have a breadth-first mindset over depth-first.
