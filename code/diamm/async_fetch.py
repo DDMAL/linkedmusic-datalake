@@ -1,12 +1,22 @@
 """
 This script is an asynchronous web crawler that fetches JSON data from the DIAMM website.
+It will use the search endpoint to get a list of all pages, and then fetch each page's data.
+It will also scan every page for links to cities, countries, and regions,
+and add those to the visit queue as well.
+
 It is highly recommended to use the async version of the crawler instead of the sync version.
+
 The script will output to a logfile in the working directory, and will also print errors to stderr.
 Change the file handler to log to a different file if needed.
+
 If you want to revisit pages that have already been visited by previous executions of the crawler,
 set the REVISIT variable to True. This will not prevent it from visiting the same page twice during an execution.
-The script is set to rate limit itself to 40 requests per second, or 1 request every 25ms on average,
-to avoid overwhelming the server.
+
+The script is rate limited to 10 requests per second for the main pages,
+and 1 request per second for the search endpoint, to avoid overwhelming the server.
+
+The script implements retry logic for requests that fail due to network issues or timeouts.
+The script will retry requests up to 3 times before giving up, waiting 10 seconds between retries.
 """
 
 import os

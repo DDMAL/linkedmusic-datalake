@@ -1,9 +1,15 @@
 """
 This script is a synchronous web crawler that fetches JSON data from the DIAMM website.
-It is highly recommended to use the async version of the crawler instead of the sync version.
+It will use the search endpoint to get a list of all pages, and then fetch each page's data.
+It will also scan every page for links to cities, countries, and regions,
+and add those to the visit queue as well.
 It is set up with the assumption that you will pipe stdout to a logfile.
+
+It is highly recommended to use the async version of the crawler instead of the sync version.
+
 If you want to revisit pages that have already been visited by previous executions of the crawler,
 set the REVISIT variable to True.
+
 The script is rate limited to 10 requests per second, or 1 request every 100ms on average,
 to avoid overwhelming the server.
 """
