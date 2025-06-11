@@ -28,6 +28,10 @@ import pandas as pd
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
+import asyncio
+import aiohttp
+from add_labels import add_labels
+from wikidata_utilities import WikidataAPIClient
 
 
 def validate_input_folder(input_folder):
@@ -96,7 +100,7 @@ def deep_merge(old_toml, new_toml):
         if table not in merged_toml:
             merged_toml[table] = {}
         for field, value in fields.items():
-            if value:
+            if value != "":
                 merged_toml[table][field] = value
     return merged_toml
 
@@ -123,13 +127,13 @@ def make_template(input_folder):
         "wd": "http://www.wikidata.org/entity/",
         "wdt": "http://www.wikidata.org/prop/direct/",
     }
-    toml_data = {"general": general_headers, "namespaces": namespaces}
+    toml_dict = {"general": general_headers, "namespaces": namespaces}
     csv_tables = extract_csv_headers(csv_files)
     if not csv_tables:
         print("Error: No TOML file was generated: no valid CSV files were processed.")
         sys.exit(1)
-    toml_data.update(csv_tables)
-    return toml_data
+    toml_dict.update(csv_tables)
+    return toml_dict
 
 
 def update_toml(toml_path):
@@ -143,8 +147,8 @@ def update_toml(toml_path):
     if not toml_path.exists():
         print(f"Error: '{toml_path}' does not exist.")
         sys.exit(1)
-    with open(toml_path, "rb") as f:
-        existing_toml = tomli.load(f)
+    with open(toml_path, "rb") as fi:
+        existing_toml = tomli.load(fi)
         try:
             data_path = existing_toml["general"]["csv_path"]
             input_folder = Path(data_path)
@@ -155,18 +159,15 @@ def update_toml(toml_path):
         except Exception as e:
             print(f"Error reading TOML file: {e}")
             sys.exit(1)
-    toml_data = make_template(input_folder)
-    merged = deep_merge(existing_toml, toml_data)
-    with open(toml_path, "wb") as f:
-        tomli_w.dump(merged, f)
+    updated_toml = make_template(input_folder)
+    merged = deep_merge(existing_toml, updated_toml)
+    with open(toml_path, "wb") as fi:
+        tomli_w.dump(merged, fi)
     print(40 * "-")
-    print(f"\nUpdated '{toml_path}' with {len(toml_data) - 2} tables.")
+    print(f"\nUpdated '{toml_path}' with {len(updated_toml) - 2} tables.")
 
 
-def main():
-    """
-    Parse command-line arguments and run the appropriate TOML creation or update routine.
-    """
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Generate TOML templates from CSV files."
     )
@@ -185,27 +186,33 @@ def main():
         default="rdf_config.toml",
         help="Output TOML file (default: rdf_config.toml)",
     )
+    parser.add_argument(
+        "--label",
+        type=Path,
+        help="Add labels as comment to all Wikidata ID found in the TOML file",
+    )
     args = parser.parse_args()
 
     if args.update:
         update_toml(args.update)
-    else:
-        # Create a new TOML file
-        if not args.input_folder:
-            print("Error: --input_folder is required to create a new TOML file")
-            sys.exit(1)
+    elif args.label:
+        async def add_toml_labels(config_file: Path):
+            """Add Wikidata labels as comments to all QIDs found in the TOML file."""
+            async with aiohttp.ClientSession() as session:
+                client = WikidataAPIClient(session=session)
+                # add_labels can write to another file, but we want to overwrite the original
+                await add_labels(config_file, config_file, client)
+        asyncio.run(add_toml_labels(args.label))
+    elif args.input_folder:
         output_path = args.output
         if output_path.exists():
             print(f"Error: '{output_path}' already exists.")
             sys.exit(1)
         toml_data = make_template(args.input_folder)
-        # Make sure we have more than the two default tables
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
         print(40 * "-")
         print(f"\nGenerated '{output_path}'")
-
-
-if __name__ == "__main__":
-    main()
+    else:
+        parser.error("You must specify --update, --label, or --input_folder.")
