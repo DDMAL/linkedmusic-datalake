@@ -3,22 +3,27 @@
 import asyncio
 
 # readline helps user navigate using left and right arrows
+# it works as long as it is imported
 import readline  # type: ignore[import-untyped];
 import aiohttp
 from wikidata_utils import WikidataAPIClient, build_wd_hyperlink, extract_wd_id
 
 
-def print_heading(title: str | None) -> None:
+def print_heading(title: str) -> None:
     """
     Print title heading with separator
-    Print only separator if no title is provided.
     """
     if title:
         print("\n" + "=" * 40 + "\n")
         print(title)
         print("-" * 40 + "\n")
-    else:
-        print("\n" + "=" * 40 + "\n")
+
+
+def print_separator() -> None:
+    """
+    Print a separator line.
+    """
+    print("-" * 40 + "\n")
 
 
 async def lookup_term(term: str, client: WikidataAPIClient) -> str | None:
@@ -33,7 +38,7 @@ async def lookup_term(term: str, client: WikidataAPIClient) -> str | None:
         return None
 
 
-async def find_predicate(client: WikidataAPIClient, term1: str, term2: str) -> None:
+async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> None:
     """
     Find and print all forward and backward properties connecting two Wikidata entities.
     """
@@ -45,6 +50,7 @@ async def find_predicate(client: WikidataAPIClient, term1: str, term2: str) -> N
 
     # Exit if either term is not found
     if not qid1 or not qid2:
+        print_separator()
         return
 
     # One API call for forward relationships and one for backward relationships
@@ -83,42 +89,79 @@ async def find_predicate(client: WikidataAPIClient, term1: str, term2: str) -> N
         print_heading("Backward properties")
         for row in backward_props:
             # property is a full URI, but we want to print just the QID
-            entity = build_wd_hyperlink(extract_wd_id(row["property"]), row["propLabel"])
+            entity = build_wd_hyperlink(
+                extract_wd_id(row["property"]), row["propLabel"]
+            )
             print(f"{entity2}  {entity}  {entity1}")
     if not forward_props and not backward_props:
         # Empty string argument prints a separator
-        print_heading(None)
+        print_separator()
         print(f"No properties found between {entity1} and {entity2}")
     # print a terminating separator
-    print_heading(None)
+    print_separator()
 
 
-"""
-async def find_all_predicate(session, term):
-    item = await wikidata_search_api(session, term)
-    if not item:
-        print(f"No result found for term: {term}")
+async def find_all_predicate(client: WikidataAPIClient, term: str) -> None:
+    """
+    Find and print all forward and backward predicates for a single Wikidata entity (term).
+    Only one QID example is shown for each predicate.
+    """
+    qid = await lookup_term(term, client)
+    if not qid:
+        print_separator()
         return
-    triples = [f"wd:{item} ?property ?related .", f"?any ?related wd:{item} ."]
-    queries = [
-        f\"""
-    SELECT ?property ?related WHERE {{
-    {triple} .
-    FILTER(STRSTARTS(STR(?property), STR(wdt:)))
-    }}
-    \"""
-        for triple in triples
-    ]
-    sparql_tasks = [sparql_call(session, query) for query in queries]
-    forward_pids, backward_pids = await asyncio.gather(*sparql_tasks)
-    label_tasks = [
-        wikidata_get_label(session, [d["property"] for d in forward_pids]),
-        wikidata_get_label(session, [d["property"] for d in backward_pids]),
-    ]
-    forward_props, backward_props = await asyncio.gather(*label_tasks)
+
+    # Prepare SPARQL queries using the QID
     
-    print_table(item1, item2, forward_props, backward_props)
-"""
+    query = f"""
+        SELECT ?property ?propLabel ?example ?exampleLabel WHERE {{
+        {{
+            SELECT ?property (SAMPLE(?value) AS ?example) WHERE {{
+            ?value ?property wd:{item} .
+            ?prop wikibase:directClaim ?property .
+            }}
+            GROUP BY ?property
+        }}
+
+        ?prop wikibase:directClaim ?property .
+        FILTER(STRSTARTS(STR(?example), "http://www.wikidata.org/entity/"))
+        
+        SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}
+        OPTIONAL {{
+            ?example rdfs:label ?exampleLabel .
+            FILTER(LANG(?exampleLabel) = "en")
+        }}
+        }}
+        ORDER BY ?property
+        """
+
+    # Run both SPARQL queries concurrently
+    sparql_tasks = [client.sparql(forward_query), client.sparql(backward_query)]
+    forward_props, backward_props = await asyncio.gather(*sparql_tasks)
+
+    entity = build_wd_hyperlink(qid, term)
+    if forward_props:
+        print_heading("Forward predicates (as subject)")
+        for row in forward_props:
+            pid = extract_wd_id(row["property"])
+            label = row["propLabel"]
+            example = extract_wd_id(row["example"])
+            pred = build_wd_hyperlink(pid, label)
+            ex = build_wd_hyperlink(example, example) if example else ""
+            print(f"{entity}  {pred}  {ex}")
+    if backward_props:
+        print_heading("Backward predicates (as object)")
+        for row in backward_props:
+            pid = extract_wd_id(row["property"])
+            label = row["propLabel"]
+            example = extract_wd_id(row["example"])
+            pred = build_wd_hyperlink(pid, label)
+            ex = build_wd_hyperlink(example, example) if example else ""
+            print(f"{ex}  {pred}  {entity}")
+    if not forward_props and not backward_props:
+        print_separator()
+        print(f"No predicates found for {entity}")
+    print_separator()
 
 
 async def main():
@@ -139,7 +182,7 @@ async def main():
                 print("Please enter exactly two terms separated by a comma.\n")
                 continue
 
-            await find_predicate(client, terms[0], terms[1])
+            await find_relation(client, terms[0], terms[1])
 
 
 if __name__ == "__main__":
