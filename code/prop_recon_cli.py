@@ -75,8 +75,8 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
         *sparql_tasks, item_label_task
     )
 
-    entity1 = build_wd_hyperlink(qid1, qid_labels[0].get("labels", ""))
-    entity2 = build_wd_hyperlink(qid2, qid_labels[1].get("labels", ""))
+    entity1 = build_wd_hyperlink(qid1, qid_labels[qid1].get("labels", ""))
+    entity2 = build_wd_hyperlink(qid2, qid_labels[qid2].get("labels", ""))
     if forward_props:
         print_heading("Forward properties")
         for row in forward_props:
@@ -109,58 +109,65 @@ async def find_all_predicate(client: WikidataAPIClient, term: str) -> None:
     qid = await lookup_term(term, client)
     if not qid:
         print_separator()
+        print(f"No Wikidata entity found for term: {term}")
         return
 
-    # Prepare SPARQL queries using the QID
-    
-    query = f"""
-        SELECT ?property ?propLabel ?example ?exampleLabel WHERE {{
-        {{
-            SELECT ?property (SAMPLE(?value) AS ?example) WHERE {{
-            ?value ?property wd:{item} .
-            ?prop wikibase:directClaim ?property .
-            }}
-            GROUP BY ?property
-        }}
+    # Fetch forward predicates (claims) from wbget_statements
+    forward_relationships = await client.wbget_statements(qid)
 
-        ?prop wikibase:directClaim ?property .
-        FILTER(STRSTARTS(STR(?example), "http://www.wikidata.org/entity/"))
-        
-        SERVICE wikibase:label {{ bd:serviceParam wikibase:language "en". }}
-        OPTIONAL {{
-            ?example rdfs:label ?exampleLabel .
-            FILTER(LANG(?exampleLabel) = "en")
-        }}
-        }}
-        ORDER BY ?property
-        """
+    forward_ids_set = set()
+    for pid, objects in forward_relationships.items():
+        forward_ids_set.add(pid)
+        if objects:
+            forward_ids_set.add(objects[0])
 
-    # Run both SPARQL queries concurrently
-    sparql_tasks = [client.sparql(forward_query), client.sparql(backward_query)]
-    forward_props, backward_props = await asyncio.gather(*sparql_tasks)
+    forward_ids_list = list(forward_ids_set)
+    forward_props_dict = await client.wbgetentities(forward_ids_list, props="labels")
+
+    # SPARQL query for backward predicates where this entity is object
+    backward_query = f"""
+    SELECT ?property ?propLabel ?example ?exampleLabel WHERE {{
+    {{
+        SELECT ?property (SAMPLE(?subject) AS ?example) WHERE {{
+        ?subject ?property wd:{term } .
+        }}
+        GROUP BY ?property
+    }}
+    ?prop wikibase:directClaim ?property .
+    SERVICE wikibase:label {{
+        bd:serviceParam wikibase:language "en".
+    }}
+    }}
+    """
+    backward_props = await client.sparql(backward_query)
 
     entity = build_wd_hyperlink(qid, term)
-    if forward_props:
+
+    if forward_relationships:
         print_heading("Forward predicates (as subject)")
-        for row in forward_props:
-            pid = extract_wd_id(row["property"])
-            label = row["propLabel"]
-            example = extract_wd_id(row["example"])
-            pred = build_wd_hyperlink(pid, label)
-            ex = build_wd_hyperlink(example, example) if example else ""
+        for pid, objects in forward_relationships.items():
+            prop_label = forward_props_dict.get(pid, {}).get("labels", pid)
+            example = objects[0] if objects else ""
+            example_label = forward_props_dict.get(example, {}).get("labels", example)
+            pred = build_wd_hyperlink(pid, prop_label)
+            ex = build_wd_hyperlink(example, example_label)
             print(f"{entity}  {pred}  {ex}")
+
     if backward_props:
         print_heading("Backward predicates (as object)")
         for row in backward_props:
             pid = extract_wd_id(row["property"])
-            label = row["propLabel"]
-            example = extract_wd_id(row["example"])
+            label = row.get("propLabel") or pid
+            example = extract_wd_id(row.get("example", ""))
+            example_label = row.get("exampleLabel", "")
             pred = build_wd_hyperlink(pid, label)
             ex = build_wd_hyperlink(example, example) if example else ""
             print(f"{ex}  {pred}  {entity}")
-    if not forward_props and not backward_props:
+
+    if not forward_relationships and not backward_props:
         print_separator()
         print(f"No predicates found for {entity}")
+
     print_separator()
 
 
@@ -178,11 +185,13 @@ async def main():
                 break
 
             terms = [term.strip() for term in user_input.split(",")]
-            if len(terms) != 2:
-                print("Please enter exactly two terms separated by a comma.\n")
+            if len(terms) == 1:
+                await find_all_predicate(client, terms[0])
                 continue
-
-            await find_relation(client, terms[0], terms[1])
+            elif len(terms) == 2:
+                await find_relation(client, terms[0], terms[1])
+            else:
+                print("Unable to parse input")
 
 
 if __name__ == "__main__":
