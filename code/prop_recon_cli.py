@@ -26,12 +26,12 @@ def print_separator() -> None:
     print("-" * 40 + "\n")
 
 
-async def lookup_term(term: str, client: WikidataAPIClient) -> str | None:
+async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> str | None:
     if match := extract_wd_id(term.upper()):
         return match[-1]
-    elif result := await client.wbsearchentities(term, limit=1):
+    elif result := await client.wbsearchentities(term, limit=limit):
         return result[0]["id"]
-    elif result := await client.search(term, limit=1):
+    elif result := await client.search(term, limit=limit):
         return result[0]["id"]
     else:
         print(f"No results found for term: {term}")
@@ -101,7 +101,7 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
     print_separator()
 
 
-async def find_all_predicate(client: WikidataAPIClient, term: str) -> None:
+async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     """
     Find and print all forward and backward predicates for a single Wikidata entity (term).
     Only one QID example is shown for each predicate.
@@ -171,27 +171,76 @@ async def find_all_predicate(client: WikidataAPIClient, term: str) -> None:
     print_separator()
 
 
+async def basic_search(client: WikidataAPIClient, term: str) -> None:
+    """
+    Perform a basic search for a term and print the results.
+    """
+    results = await client.wbsearchentities(term, limit=5)
+    if not results:
+        print(f"No results found for term: {term}")
+        return None
+
+    print_heading(f'Search results for: "{term}"')
+    for idx, result in enumerate(results, 1):
+        entity = build_wd_hyperlink(result["id"], result.get("label", ""))
+        print(f"Result {idx}: {entity}")
+    print_separator()
+
+async def fuzzy_search(client: WikidataAPIClient, term: str) -> None:
+    """
+    Perform a basic search for a term and print the results.
+    """
+    results = await client.search(term, limit=5)
+    if not results:
+        print(f"No results found for term: {term}")
+        return None
+    ids = [result["id"] for result in results if "id" in result]
+    labels = await client.wbgetentities(ids, props="labels")
+
+    print_heading(f'Fuzzy search results for: "{term}"')
+    for position, id_ in enumerate(ids, 1):
+        entity = build_wd_hyperlink(id_, labels.get(id_, {}).get("labels", ""))
+        print(f"Result {position}: {entity}")
+    print_separator()
+
 async def main():
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
         while True:
             user_input = input(
-                "\033[91m"
-                + "Enter two terms separated by a comma (or type 'exit'): "
-                + "\033[0m"
+                "\033[91mEnter two terms separated by a comma (or type 'exit'): \033[0m"
             ).strip()
+
             if user_input.lower() in {"exit", "quit"}:
                 print("Exiting...")
                 break
 
+            elif user_input.startswith("--r"):
+                term = user_input[3:].strip()
+                if not term:
+                    print("Please provide a search term after --r")
+                    continue
+                await find_all_predicates(client, term)
+                continue
+            elif user_input.startswith("--f"):
+                term = user_input[3:].strip()
+                if not term:
+                    print("Please provide a search term after --f")
+                    continue
+                await fuzzy_search(client, term)
+                continue
+
             terms = [term.strip() for term in user_input.split(",")]
+
             if len(terms) == 1:
-                await find_all_predicate(client, terms[0])
+                await basic_search(client, terms[0])
                 continue
             elif len(terms) == 2:
                 await find_relation(client, terms[0], terms[1])
+                continue
             else:
                 print("Unable to parse input")
+
 
 
 if __name__ == "__main__":
