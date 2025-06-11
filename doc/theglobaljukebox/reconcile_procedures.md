@@ -7,6 +7,7 @@
 - The `data.csv` files are also not particularly useful for reconciliation, as they depend on the codings found in `codings.csv` and, consequently, not much easily reconilable to WikiData. However, depending on the data set, there may be a few columns that can be reconciled.
 - By reconciling the remaining files, we should be able to link the surrounding information that can be found in WikiData.
 - The datasets are small, so it is possible to manually reconcile many of the columns after a first automatic pass (or a few passes). However: manual reconciliation can take significant time, so it may be preferential to do automatic reconciliation using OpenRefine's "best candidate's score" of 99-100 on all files before deciding if it is worth going back and manually reconciling.
+- In general, it is advised to have a breadth-first mindset over depth-first.
 
 # Applying Histories:
 
