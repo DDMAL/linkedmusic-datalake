@@ -2,11 +2,11 @@
 
 - The Global Jukebox data dump can be found in the 8 repositories in [The Global Jukebox Github](https://github.com/theglobaljukebox).
   > IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
-      - If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+  - If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
 - For each dataset in The Global Jukebox, the `codings.csv` file is skipped, as it does not contain easily reconcilable data.
 - The `data.csv` files are also not particularly useful for reconciliation, as they depend on the codings found in `codings.csv` and, consequently, not much easily reconilable to WikiData. However, depending on the data set, there may be a few columns that can be reconciled.
 - By reconciling the remaining files, we should be able to link the surrounding information that can be found in WikiData.
-- The datasets are small, so it is possible to manually reconcile many of the columns after a first automatic pass (or a few passes).
+- The datasets are small, so it is possible to manually reconcile many of the columns after a first automatic pass (or a few passes). However: manual reconciliation can take significant time, so it may be preferential to do automatic reconciliation using OpenRefine's "best candidate's score" of 99-100 on all files before deciding if it is worth going back and manually reconciling.
 
 # Applying Histories:
 
@@ -27,6 +27,10 @@
 
 ## Data
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the cells in column `Instrument_Name` to type `type of musical instrument` (Q17362829) using `Sachs_Number` as property `Hornbostel-Sachs classification` (P1762).
   - Manually match any items that seem like they would get automatically mismatched/missed.
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
@@ -42,17 +46,24 @@
 
 ## Societies
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the cells in column `Region` to type `geographic region` (Q82794).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
   - Match the cells using `reconcile > actions > match each cell to its best candidate`.
   - Remove both facets.
-- Reconcile the cells in column `Division` to type `geographic region` (Q82794).
+- Split the column `Division` into multiple columns using "/" as the separator.
+- Reconcile the cells in each `Division` column to type `geographic region` (Q82794).
   - Manually match "Central Africa" to `Central Africa` (Q27433).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
   - Match the cells using `reconcile > actions > match each cell to its best candidate`.
   - Remove both facets.
+- Do the same for the `Subregion` and `Area` columns (split using "/" and then reconcile).
+  > Note: They may be a mix of `geographic region` (Q82794) and/or `human settlement` (Q486972).
 - Split the column `alternative_names` into several columns using `;` as the separator.
 - Reconcile the cells in column `society` to type `ethnic group` (Q41710) with `alternative_names 1` as property `alternative name` (P4970).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
@@ -81,6 +92,10 @@
 
 ## Instrument
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the cells in column `Archival_Culture_Name` to type `ethnic group` (Q41710).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
@@ -93,6 +108,10 @@
   - Remove both facets.
 
 ## Sources
+
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
 
 - Reconcile the cells in column `Culture New` to type `ethnic group` (Q41710) using `Culture Old` as property `alternative name` (P4970).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
@@ -109,20 +128,29 @@
 
 ## Societies
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the cells in column `Region` to type `geographic region` (Q82794).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
   - Match the cells using `reconcile > actions > match each cell to its best candidate`.
   - Remove both facets.
-- Reconcile the cells in column `Division` to type `geographic region` (Q82794). - Manually match "Central Africa" to `Central Africa` (Q27433). - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present. - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none." - Match the cells using `reconcile > actions > match each cell to its best candidate`. - Remove both facets.
-  > Note: The `Subregion` and `Area` columns may also be reconciled to `geographic region` (Q82794) and/or `human settlement` (Q486972), but these columns are often more difficult to sufficiently reconcile as they contain a mix of subsections of regions not found in WikiData (like "North Central China") or a mix of countries, states, and other areas of countries which are not always easy to reconcile.
+- Split the column `Division` into multiple columns using "/" as the separator.
+- Reconcile the cells in each `Division` column to type `geographic region` (Q82794).
+  - Manually match "Central Africa" to `Central Africa` (Q27433).
+  - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present. - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
+  - Match the cells using `reconcile > actions > match each cell to its best candidate`. - Remove both facets.
+- Do the same for the `Subregion` and `Area` columns (split using "/" and then reconcile).
+  > Note: They may be a mix of `geographic region` (Q82794), `sovereign state` (Q3624078), and `human settlement` (Q486972).
 - Split the column `alternative_names` into several columns using `;` as the separator.
 - Reconcile the cells in column `society` to type `ethnic group` (Q41710) with `alternative_names 1` as property `alternative name` (P4970).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."
   - Match the cells using `reconcile > actions > match each cell to its best candidate`.
   - Remove both facets.
-- Reconcile the cells in column `People` to type `ethnic group` (Q41710) with `People2` as property `alternative name` (P4970).
+- Reconcile the cells in each `People` column to type `ethnic group` (Q41710).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."
   - Match the cells using `reconcile > actions > match each cell to its best candidate`.
@@ -150,6 +178,10 @@
   - Remove both facets.
 
 ## Songs
+
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
 
 - Reconcile the cells in column `Region` to type `geographic region` (Q82794).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
@@ -211,6 +243,10 @@
 
 ## Phonotactics
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the cells in column `Region` to type `geographic region` (Q82794).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 99-101. In the `judgment` facet, choose "none."
@@ -246,6 +282,10 @@
 
 ## Conversation
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the cells in column `CultureName_Speaker1` to type `ethnic group` (Q41710).
   - Manually match the items.
   - If the culture does not exist in WikiData, match with the location or the language, whichever is more specific.
@@ -275,12 +315,20 @@
 
 ## Data
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the `Parla_Language_Name` column against `modern language (Q1288568)`
 - Reconcile the `Culture` column against `ethnic group` (Q41710).
 
 # Minutage
 
 ## Phrasing
+
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
 
 - Reconcile the cells in column `Region` to type `geographic region` (Q82794).
 - Reconcile the cells in column `Division` to type `geographic region` (Q82794).
@@ -304,6 +352,10 @@
 
 ## Ensembles
 
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
+
 - Reconcile the cells in column `Archival_Culture_Name` to type `ethnic group` (Q41710).
 - Split the column `Ensemble/Song_name` into several columns using "," as the separator.
 - Reconcile each `Ensemble/Song_name` column against `song type (Q107356781)`.
@@ -314,13 +366,15 @@
 
 ## Societies
 
-> Note: This file appears significantly more difficult to reconcile, as the `society` and `People` columns seem to contain a mix of ethnic groups, locations, languages, and professions.
-
 - Follow the instructions for the [Cantometrics Societies](#societies-1) file.
 
 # Urban Strain
 
 ## Data
+
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
 
 - Split the column `category` into several columns using "–" (m-dash) as the separator.
 - Split the column `category 1` into several columns using " " as the separator.
@@ -334,6 +388,10 @@
 - In column `category 2`, match `early 1900s` to `20th century (Q6927)`.
 
 ## Metadata
+
+> IMPORTANT: Before reconciling a column, make a copy first titled `[Name_literal]` in order to preserve the string literals.
+
+- If splitting columns, make the copies after splitting the column, as a string literal list is not helpful when querying.
 
 > Note: for the first several columns in this file, there are only a few entries, which is why the reconciliation categories are more specific than for the other files in this database.
 > Note: for the Performers sub-columns, it becomes difficult to manually reconcile all the entries efficiently, so automatic reconciliation may be preferable.
@@ -374,3 +432,11 @@
 - Reconcile the cells in column `Column` to type `album` (Q482994).
 
 # Social Factors
+
+## Societies
+
+- Follow the instructions for the [Cantometrics Societies](#societies-1) file.
+
+## Sources
+
+- This file does not appear to have reconcilable information.

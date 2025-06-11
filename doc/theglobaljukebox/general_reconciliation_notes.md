@@ -64,6 +64,13 @@
 ## Miscellaneous
 
 - "[US state] Black" will often have a WikiData entry of the form "African Americans in [U.S. State]"
+- "Tibet" should be reconciled to `Tibet` (Q17252).
+- "Indochinese Peninsula" should be reconciled to `Mainland Southeast Asia` (Q43467)
+- "Western Isles" should be reconciled to `Outer Hebrides` (Q80967)
+- "Urals Dist" should be reconciled to `Ural` (Q1322976)
+- "Persia" should be reconciled to `Iran` (Q794)
+- "E England" should be reconciled to `East of England` (Q48006)
+- "Northwestern Dist" (of Russia) should be reconciled to `Northwestern Federal District` (Q383093)
 
 # Missing data
 
@@ -118,6 +125,6 @@
   - Ray Charles Orchestra
   - Chuck Lowry (singer for The Pied Pipers)
 
-  ## Instruments
+## Instruments
 
-  - Farfisa organ
+- Farfisa organ
