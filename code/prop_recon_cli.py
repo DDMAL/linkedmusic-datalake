@@ -5,7 +5,7 @@ import asyncio
 # readline helps user navigate using left and right arrows
 import readline  # type: ignore[import-untyped];
 import aiohttp
-from wikidata_utils import WikidataAPIClient, format_wd_entity, extract_wd_id
+from wikidata_utils import WikidataAPIClient, build_wd_hyperlink, extract_wd_id
 
 
 def print_heading(title: str | None) -> None:
@@ -69,21 +69,21 @@ async def find_predicate(client: WikidataAPIClient, term1: str, term2: str) -> N
         *sparql_tasks, item_label_task
     )
 
-    entity1 = format_wd_entity(qid1, qid_labels[0].get("labels", ""))
-    entity2 = format_wd_entity(qid2, qid_labels[1].get("labels", ""))
+    entity1 = build_wd_hyperlink(qid1, qid_labels[0].get("labels", ""))
+    entity2 = build_wd_hyperlink(qid2, qid_labels[1].get("labels", ""))
     if forward_props:
         print_heading("Forward properties")
         for row in forward_props:
             # property is a full URI, but we want to print just the QID
             pid = extract_wd_id(row["property"])
             label = row["propLabel"]
-            entity = format_wd_entity(pid, label)
+            entity = build_wd_hyperlink(pid, label)
             print(f"{entity1}  {entity}  {entity2}")
     if backward_props:
         print_heading("Backward properties")
         for row in backward_props:
             # property is a full URI, but we want to print just the QID
-            entity = format_wd_entity(extract_wd_id(row["property"]), row["propLabel"])
+            entity = build_wd_hyperlink(extract_wd_id(row["property"]), row["propLabel"])
             print(f"{entity2}  {entity}  {entity1}")
     if not forward_props and not backward_props:
         # Empty string argument prints a separator

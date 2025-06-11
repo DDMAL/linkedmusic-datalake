@@ -1,27 +1,52 @@
 import re
-def print_hyperlink(text: str, link: str) -> str:
+
+
+def build_terminal_link(text: str, link: str) -> str:
     """
     Return a terminal hyperlink string for the given URL and label.
+
+    This uses ANSI escape sequences to create clickable links
+    in supported terminals (e.g., iTerm2, some Linux terminals).
+
+    Args:
+        text: The label to display in the terminal.
+        link: The URL to link to.
+
+    Returns:
+        A formatted string that renders as a clickable hyperlink in supported terminals.
     """
-    ESC = "\033"
-    start = f"{ESC}]8;;{link}{ESC}\\"
-    end = f"{ESC}]8;;{ESC}\\"
+    esc = "\033"
+    start = f"{esc}]8;;{link}{esc}\\"
+    end = f"{esc}]8;;{esc}\\"
+    # ANSI escape codes allow for hyperlinks in terminals
     return f"{start}{text}{end}"
 
-# This function is a utility function to format 
-def format_wd_entity(item_id, item_label) -> str:
+
+def build_wd_hyperlink(item_id, item_label) -> str:
     """
-    Format a Wikidata entity into a string with a hyperlink"""
+    Format a Wikidata entity into a terminal hyperlink with its label and ID.
+
+    Args:
+        item_id: The Wikidata entity ID (e.g., "Q42").
+        item_label: The human-readable label for the entity.
+
+    Returns:
+        A formatted hyperlink string like "Douglas Adams(Q42)" linked to the entity's URL.
+    """
     uri = f"https://www.wikidata.org/entity/{item_id}"
     text = f"{item_label}({item_id})"
-    return print_hyperlink(text, uri)
+    return build_terminal_link(text, uri)
+
 
 def extract_wd_id(s: str, all_match: bool = False) -> str | list[str] | None:
     """
     Extract Wikidata ID (Q or P followed by digits) from a string.
-    
-    Returns the last ID as a string if found, else None.
-    If all_match is set to True, returns a list of all matches.
+
+    Returns:
+        str | list[str] | None:
+            - If all_match is False, returns the last matched ID as a string.
+            - If all_match is True, returns a list of all matched IDs
+            - If no matches are found, returns None.
     """
     pattern = re.compile(r"Q\d+|P\d+")
     matches = pattern.findall(s)
