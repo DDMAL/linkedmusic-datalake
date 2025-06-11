@@ -28,13 +28,13 @@ All of the CSV files produced by `code/diamm/to_csv.py`, except for `relations.c
 
 The `code/diamm/convert_rdf.py` will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
 
-For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead.
-
-For cities and countries, if a city/country was successfully reconciled against Wikidata and its DIAMM ID is present, then an additional triple is added, linking the DIAMM ID to the matching Wikidata Q-ID using P2888 "exact match".
+For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
 
 Some properties of interest:
 
+- RDFS:label is used instead of P2561 to indicte the ame of places/objects, as that's what Wikidata uses for the primary label for items
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
+- P131 is used to indicate the city or region an entity is in, and p17 is used for the country
 - P217 (inventory number) is used for shelfmarks, as it's the closest thing I could find and is what ChatGPT suggested to use
 - P1449 (nickname) is used for the variant names, as it's the closest thing I could find and is what ChatGPT suggested to use
 - P276 (location) is used for provenance organizations because the fact that an organization is the provenance organization of a source means that it most likely was its location at some point in time
