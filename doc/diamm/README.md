@@ -30,6 +30,8 @@ The `code/diamm/convert_rdf.py` will take the reconciled CSVs and the relations 
 
 For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
 
+The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in `relationships_properties.md`.
+
 Some properties of interest:
 
 - RDFS:label is used instead of P2561 to indicte the ame of places/objects, as that's what Wikidata uses for the primary label for items
