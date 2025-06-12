@@ -1,4 +1,15 @@
 
+# Applying Histories:
+> Do this before reading further.
+- In the `reconciliation_history` folder, JSON files are generated in OpenRefine via `Undo/Redo > Extract... > Export`.
+- These files can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
+- This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
+- Note also these files don't do everything
+    - dtl_solos_history.json is for dtl1000_solo.csv, it takes you to step 22 of the reconciliation procedures, but the steps in Export procedures must still be applied.
+    - dtl_tracks_history.json is for dtl1000_tracks.csv, it takes you to the final step of that file, but the steps in Export procedures must still be applied.
+    - dtl_performers_history.json is for dtl1000_performers.csv, same as above.
+
+
 # dtl1000_solos.csv:
 1. Go to column `solo_performer_name`, select `Edit column > Add column based on this column...` and write `"musician"` in the expression box so that every cell of this new column contains the word `musician`. Name the column `occupation musician`.
 2. Go to column `solo_performer_name`, select `Edit column > Add column based on this column...` and write `"jazz musician"` in the expression box so that every cell of this new column contains the word `jazz musician`. Name the column `occupation jazz musician`.
@@ -243,11 +254,12 @@ and match all items to their top candidate.
 if (value.startsWith("The Encyclopedia of Jazz"), "The Encyclopedia of Jazz", value) (makes copies)
 ```
 2. Reconcile the column against `creative work` (Q17537576).
-3. Set the judgment facet to none, and reconcile against `album` (QQ482994).
-4. Do the same as 3 but against album with `leader_name` as property `performer`.
-5. Do the same as 3, against album, but with `band_name` as property `performer`.
-6. set best candidates score facet to 100-101, match to top candidate
-7. Create new column for similar entries for all the unreconciled items
+3. Match `encyclopedia of jazz` to its top match (Q42189397)
+4. Set the judgment facet to none, and reconcile against `album` (QQ482994).
+5. Do the same as 3 but against album with `leader_name` as property `performer`.
+6. Do the same as 3, against album, but with `band_name` as property `performer`.
+7. set best candidates score facet to 100-101, match to top candidate
+8. Create new column for similar entries for all the unreconciled items
 
 
 ### For column track_title
@@ -282,10 +294,8 @@ then do a value.trim() on all of them
 9. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `province or territory of Canada` (Q2879) to get some of the abbreviated provinces.
 10. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
 11. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `city` (Q515), to match the smaller cities.
-12. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
-13. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `no particular type` to match some of the obscure smaller venues.
-14. Set the candidates score facet to 99-101 and go to the column `area` and go to `Reconcile > Actions > Match each cell to its best candidate`.
-15. Keep the judgment facet as none, but reset the candidate's score facet to be everything, and manually reconcile these places:
+12. Keep the judgment facet as none, but reset the candidate's score facet to be everything and reconcile the same column against `no particular type` to match some of the obscure smaller venues.
+13. Keep the judgment facet as none, but reset the candidate's score facet to be everything, and manually reconcile these places:
 ```
     Camden (Q138367)
     Woodstock (Q608293)
@@ -335,8 +345,7 @@ North Park Hotel
 prob c?
 S/S Norway?
 
-16. fill down the track id column
-17. Mark the rest as new item
+16. Mark the rest as new item
 
 TODO: 
 
@@ -350,14 +359,14 @@ TODO:
 4. Go to the column `performer_names`, go to `Edit column > Add column based on this column ...` and use the following Grel expression:
 ```
 if(
-  cell.cross(“dtl1000 tracks csv”, “leader_name”).length() > 0,
-  cell.cross(“dtl1000 tracks csv”, “leader_name”)[0].cells[band_leader_reconciled].value,
+  cell.cross("dtl1000 tracks csv", "leader_name").length() > 0,
+  cell.cross("dtl1000 tracks csv", "leader_name")[0].cells[band_leader_reconciled].value,
   if(
-    cell.cross(“dtl1000 solos csv”, “possible_solo_performer_names”).length() > 0,
-    cell.cross(dtl1000 solos csv, “possible_solo_performer_names”)[0].cells[“possible_performer_reconciled”].value,
+    cell.cross("dtl1000 solos csv", "possible_solo_performer_names").length() > 0,
+    cell.cross("dtl1000 solos csv", "possible_solo_performer_names")[0].cells[“possible_performer_reconciled”].value,
     if(
-      cell.cross(“dtl1000 solos csv”, “solo_performer_name_original”).length() > 0,
-      cell.cross(dtl1000 solos csv, “solo_performer_name_original”)[0].cells[“solo_performer_reconciled”].value,
+      cell.cross("dtl1000 solos csv", "solo_performer_name_original").length() > 0,
+      cell.cross("dtl1000 solos csv", "solo_performer_name_original")[0].cells[“solo_performer_reconciled”].value,
       “”
     )
   )
@@ -371,3 +380,36 @@ This will take the values from the other projects where they have already been r
 6. Reconcile the column `performer_names` against type `human` (Q5), with `occupation jazz musician` as property `occupation` (P106)
 7. Set the judgment facet to none and Reconcile the column `performer_names` against type `human` (Q5), with `occupation musician` as property `occupation` (P106)
 8. Set the judgment facet to none and Reconcile the column `performer_names` against type `human` (Q5), with `genre jazz` as property `genre` (P136)
+9. Go to none, and in candidate's score facet by 100-101, match item to best match.
+10. Reset candidates score to everything, make new item for similar cells for the rest.
+11. In column `performer_names` go to `Reconcile > Add entity identifiers column... `, name it `reconciled_performer_names`.
+12. Go to column `reconciled_performer_names`,then `Edit column > Join columns...` and join it with `already_reconciled`, you don't have to make a new column.
+13. Use a text filter on the column `reconciled_performer_names`, filter by the word "new", and make those all blank using a transform with Grel expression `""`.
+14. Then in the same column, go to `Facet > customized facet > facet by blank`, select `true` in the facet, and use this transform on cells: cells["performer_names"].value.
+15. Select column `performer_names`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column `performer_names_original`, and then delete the old column `performer_names` and rename `reconciled_performer_names` to `performer_names`.
+16. Remove the columns `already_reconciled`,  `occupation musician`, `occupation jazz musician`, `genre jazz`.
+
+
+# Export procedures
+
+## For dtl1000_solos.csv:
+
+1. Delete the columns `possible_performer_reconciled`, `flagged_possible_solo_performers`, `solo_performer_reconciled`, `flagged_solo_performer`.
+2. Select column `possible_solo_performer_names`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column `possible_solo_performer_names_original`.
+3. Select column `solo_performer_name`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column `solo_performer_name_original`.
+4. Select column `instrument_label`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column `instrument_label_original`.
+5. Go to `export > custom tabular `, and then for the columns `possible_solo_performer_names`, `solo_performer_name`, and `instrument_label`, on the right side under `For reconciled cells, output`, select `Matched entity's ID`.
+
+## For dtl1000_tracks.csv:
+
+1. Delete the columns `band_leader_reconciled`, `occupation bandleader`, `occupation composer`, `occupation jazz musician`.
+2. Select column `band_name`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column `band_name_original`.
+3. Select column `leader_name`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column `leader_name_original`.
+4. Rename `disk_title` to `disk_title_original`, and then rename `disk_title_copy` to `disk_title`.
+5. Select column `track_title`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column`track_title_original`
+6. Select column `area`, go to `Edit column > Add column based on this column`, leave the Grel expression as value, name the new column`area_original`.
+7. Go to `export > custom tabular`, and then for the columns `band_name`, `leader_name`, `disk_title`, `track_title`, and `area`, on the right side under `For reconciled cells output`, select `Matched entity's ID`.
+
+## For dtl1000_performers.csv:
+
+1. Export as csv.
