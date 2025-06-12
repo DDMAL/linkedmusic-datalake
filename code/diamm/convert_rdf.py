@@ -1,5 +1,8 @@
 """
 Converts all the DIAMM reconciled CSV files to RDF (turtle) format.
+
+The script will also load a relations mapping file to handle the relationships
+between organizations/people and sources.
 """
 
 import json
@@ -11,6 +14,7 @@ from rdflib.namespace import RDFS
 
 BASE_PATH = "../../data/diamm/reconciled/"
 RELATIONS_PATH = "../../data/diamm/csv/relations.csv"
+RELATIONS_MAPPING_PATH = "./relations.json"
 OUTPUT_PATH = "../../data/diamm/RDF/"
 
 os.makedirs(OUTPUT_PATH, exist_ok=True)
@@ -57,6 +61,10 @@ DIAMM_SCHEMA = {
     "set_in_source": WDT["P361"],
     "display_name": WDT["P2561"],
 }
+
+# Load the relations mapping from the JSON file
+with open(RELATIONS_MAPPING_PATH, "r", encoding="utf-8") as file:
+    RELATIONS_MAPPING = json.load(file)
 
 namespaces = {
     "wdt": WDT,
@@ -407,6 +415,7 @@ for work in json_data:
             pred_uri = DIAMM_SCHEMA["holding_archive"]
             reverse = True
     elif first_type == "city":
+        first_uri = URIRef(f"{DI}{first_id}")
         if second_type == "country":
             second_uri = URIRef(f"{DN}{second_id}")
             pred_uri = DIAMM_SCHEMA["country"]
@@ -430,6 +439,7 @@ for work in json_data:
             second_uri = URIRef(f"{DS}{second_id}")
             pred_uri = DIAMM_SCHEMA["composition_in_source"]
     elif first_type == "country":
+        first_uri = URIRef(f"{DN}{first_id}")
         if second_type == "organization":
             second_uri = URIRef(f"{DO}{second_id}")
             pred_uri = DIAMM_SCHEMA["country"]
@@ -446,22 +456,33 @@ for work in json_data:
         elif second_type == "source":
             second_uri = URIRef(f"{DS}{second_id}")
             reverse = True
-            if work["type"] == "related":
-                pred_uri = DIAMM_SCHEMA["related_organization"]
-            elif work["type"] == "copied":
+            if work["type"] == "copied":
                 pred_uri = DIAMM_SCHEMA["copied_organization"]
             elif work["type"] == "provenance":
                 pred_uri = DIAMM_SCHEMA["provenance_organization"]
+            elif work["type"].startswith("related:"):
+                if pred_map := RELATIONS_MAPPING["organizations"].get(
+                    work["type"].split(":")[1]
+                ):
+                    if not pred_map.startswith("r"):
+                        reverse = True
+                    pred_uri = WDT[pred_map]
     elif first_type == "people":
         first_uri = URIRef(f"{DP}{first_id}")
         if second_type == "source":
             second_uri = URIRef(f"{DS}{second_id}")
             reverse = True
-            if work["type"] == "related":
-                pred_uri = DIAMM_SCHEMA["related_people"]
-            elif work["type"] == "copied":
+            if work["type"] == "copied":
                 pred_uri = DIAMM_SCHEMA["copied_people"]
+            elif work["type"].startswith("related"):
+                if pred_map := RELATIONS_MAPPING["people"].get(
+                    work["type"].split(":")[1]
+                ):
+                    if not pred_map.startswith("r"):
+                        reverse = True
+                    pred_uri = WDT[pred_map]
     elif first_type == "region":
+        first_uri = URIRef(f"{DR}{first_id}")
         if second_type == "source":
             second_uri = URIRef(f"{DS}{second_id}")
             pred_uri = DIAMM_SCHEMA["location"]
