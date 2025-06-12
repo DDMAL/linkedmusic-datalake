@@ -7,6 +7,7 @@ import json
 import re
 from pathlib import Path
 import pandas as pd
+from utils import HashableDict
 
 BASE_PATH = "../../data/diamm/raw/"
 BASE_CSV_PATH = "../../data/diamm/csv/"
@@ -17,45 +18,6 @@ PERSON_NAME_DATE_REGEX = re.compile(
 )
 
 os.makedirs(BASE_CSV_PATH, exist_ok=True)
-
-
-# Hashable dictionary class to use with relations to make removing duplicate relations easier
-class HashableDict:
-    """
-    A hashable dictionary class that allows for easy comparison and hashing.
-    This class is used to store dictionaries in a set, allowing for easy
-    removal of duplicate relations.
-
-    It is initialized with a dictionary and provides methods for hashing,
-    equality comparison, and representation.
-
-    It also includes a static method to convert a set of HashableDict objects
-    to a list of dictionaries, which is useful for converting the set of relations
-    to a DataFrame.
-    """
-
-    def __init__(self, d):
-        self.d = dict(d)
-        self._frozen = frozenset(self.d.items())
-
-    def __hash__(self):
-        return hash(self._frozen)
-
-    def __eq__(self, other):
-        return isinstance(other, HashableDict) and self._frozen == other._frozen
-
-    def __repr__(self):
-        return f"HashableDict({self.d})"
-
-    @staticmethod
-    def to_list_of_dicts(lst):
-        """
-        Takes an iterable object (set, list, etc) containing HashableDict
-        objects and returns a list of dictionaries.
-        This is useful for converting the set of relations to a DataFrame.
-        """
-        return [d.d for d in lst]
-
 
 # Make the relations set
 relations = set()
