@@ -44,6 +44,8 @@ Below are the steps you must execute from your console once you have cloned the 
   10. series.tar.xz
   11. work.tar.xz
 
+- The fetching script will pause fo a second between files. This is a magic number added by Yueqiao, most likely to rate limit our downloads. This value can also be adjusted in the future.
+
 #### 3. **Untar the dump**
 
 - Execute the following command to extract JSON Lines files from the tar.xz:
