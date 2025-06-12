@@ -14,9 +14,6 @@ import tomli
 from rdflib import Graph, URIRef, Literal, Namespace
 
 
-# === Utility Functions ===
-
-
 
 def to_rdf_node(val: str, namespace: Namespace = None) -> Union[URIRef, Literal, None]:
     """Convert a string value to an RDF node."""
@@ -26,15 +23,6 @@ def to_rdf_node(val: str, namespace: Namespace = None) -> Union[URIRef, Literal,
     if namespace and (namespace != wd or extract_wd_id(str(val))):
         return URIRef(f"{namespace}{val}")
     return Literal(str(val))
-
-
-def load_config(path: Path) -> dict:
-    """Load TOML configuration file."""
-    try:
-        with open(path, "rb") as f:
-            return tomli.load(f)
-    except Exception as e:
-        raise RuntimeError(f"Failed to load TOML config: {e}")
 
 
 
@@ -68,30 +56,30 @@ def main():
     parser.add_argument('--config', type=str, default='rdf_config.toml', help='Path to the TOML configuration file')
     args = parser.parse_args()
     config_path = Path(args.config)
-
-    # === Load Config ===
-    config = load_config(config_path)
-    general = config.get("general", {})
-    rdf_ns = config.get("namespaces", {})
-
-    # === Prepare Namespaces ===
-    wd = rdf_ns.get("wd")
-
-    # === Prepare Output ===
-    output_dir = Path(general["rdf_output_path"])
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # === Load TOML config ===
+    with open(config_path, "rb") as f:
+        config = tomli.load(f)
 
     # === Initialize RDF Graph ===
     graph = Graph()
+
+    # === Bind Namespaces ===
+    rdf_ns = config.get["namespaces"]
     for prefix, ns in rdf_ns.items():
         graph.bind(prefix, Namespace(ns))
 
-    # === Process CSV Tables ===
-    base_csv_path = Path(general["csv_path"])
-    for table_name, mapping in config.items():
-        if table_name in ("general", "namespaces"):
+    # === Find CSV Folder ===
+    rel_path = Path(config["general"]["csv_folder"])
+    script_dir = Path(__file__).parent.resolve()
+    csv_folder = (script_dir / rel_path).resolve()
+
+    # === Process CSV Files ===
+    for csv_name, col_mapping in config.items():
+        # "general" and "namespaces" tables are not CSV files
+        if csv_name in ("general", "namespaces"):
             continue
-        csv_file = base_csv_path / table_name.strip('"')
+        # csv_name does not have extension
+        csv_file = (csv_folder / csv_name).with_suffix(".csv")
         if not csv_file.exists():
             print(f"Warning: CSV file '{csv_file}' not found. Skipping.")
             continue
@@ -102,8 +90,11 @@ def main():
             continue
 
         print(f"Processing {csv_file.name}...")
-        process_csv_file(df, table_name, mapping, graph, rdf_ns)
+        process_csv_file(df, csv_name, col_mapping, graph, rdf_ns)
 
+    # === Prepare Output ===
+    output_dir = Path(config["general"]["rdf_output_path"])
+    output_dir.mkdir(parents=True, exist_ok=True)
     # === Serialize RDF Output ===
     output_file = output_dir / "output.ttl"
     graph.serialize(destination=str(output_file), format="turtle")
