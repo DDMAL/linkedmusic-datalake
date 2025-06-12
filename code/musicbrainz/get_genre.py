@@ -10,6 +10,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
+from rdflib.namespace import RDFS
 
 # Constants
 URL = "https://musicbrainz.org/ws/2/genre/all"
@@ -19,12 +20,18 @@ HEADERS = {
 }
 MAX_REQUEST_RETRIES = 3
 BATCH_SIZE = 50
-RATE_LIMIT_DELAY = 1  # Default delay between requests (seconds)
+RATE_LIMIT_DELAY = 1.375  # Default delay between requests (seconds)
+
+WDT = Namespace("http://www.wikidata.org/prop/direct/")
+WD = Namespace("http://www.wikidata.org/entity/")
+MB = Namespace("https://musicbrainz.org/")
+MBGE = Namespace(f"{MB}genre/")
 
 
 def make_request(url, params=None, retries=MAX_REQUEST_RETRIES, timeout=60):
     """Make an HTTP request with retry logic."""
     for attempt in range(retries):
+        response = None
         try:
             response = requests.get(
                 url=url, headers=HEADERS, params=params, timeout=timeout
@@ -37,12 +44,14 @@ def make_request(url, params=None, retries=MAX_REQUEST_RETRIES, timeout=60):
             requests.exceptions.ReadTimeout,
             requests.exceptions.ConnectionError,
         ) as exc:
-            print(f"Request error occurred: {exc}. Retry attempt {attempt+1}/{retries}")
+            tqdm.write(
+                f"Request error occurred: {exc}. Retry attempt {attempt+1}/{retries}"
+            )
 
-            if response.status_code == 503:
+            if response and response.status_code == 503:
                 # Rate limiting - wait longer
                 delay = 30
-                print(f"Rate limited. Waiting {delay} seconds...")
+                tqdm.write(f"Rate limited. Waiting {delay} seconds...")
             else:
                 delay = 10
 
@@ -82,7 +91,7 @@ def fetch_wikidata_relations(genre_ids):
 
         if wikidata_row and wikidata_row.find_next_sibling("td").find("a"):
             wikidata_value = wikidata_row.find_next_sibling("td").find("a").text
-            relations.append(f"http://www.wikidata.org/entity/{wikidata_value}")
+            relations.append(f"{WD}{wikidata_value}")
         else:
             relations.append("")
 
@@ -113,14 +122,17 @@ def main(output_path="../../data/musicbrainz/rdf/"):
 
     # Create RDF graph
     g = Graph()
-    RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
-    SCHEMA = Namespace("http://schema.org/")
+    g.bind("wdt", WDT)
+    g.bind("wd", WD)
+    g.bind("mb", MB)
+    g.bind("mbge", MBGE)
 
     for _, row in df.iterrows():
         genre_uri = URIRef(row["genre_id"])
         g.add((genre_uri, RDFS.label, Literal(row["name"])))
+        g.add((genre_uri, URIRef(f"{WDT}P8052"), Literal(row["genre_id"])))
         if row["relations_wiki"]:
-            g.add((genre_uri, SCHEMA.sameAs, URIRef(row["relations_wiki"])))
+            g.add((genre_uri, URIRef(f"{WDT}P2888"), URIRef(row["relations_wiki"])))
 
     # Serialize RDF graph to output file (RDF/XML format)
     g.serialize(destination=f"{output_path}/genre.ttl", format="turtle")

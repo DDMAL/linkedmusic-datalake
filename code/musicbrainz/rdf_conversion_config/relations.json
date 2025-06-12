@@ -1,0 +1,1014 @@
+{
+    "label": {
+        "label": {
+            "imprint_forward": "P355",
+            "imprint_backward": "P749",
+            "label reissue_forward": "P9237",
+            "label reissue_backward": null,
+            "label rename_forward": "P1365",
+            "label rename_backward": "P1366",
+            "label ownership_forward": "P355",
+            "label ownership_backward": "P749",
+            "label distribution_forward": null,
+            "label distribution_backward": "P750"
+        },
+        "release": {
+            "published": null,
+            "exported": null,
+            "produced for": null,
+            "arranged for": null,
+            "artwork": null,
+            "misc": null,
+            "mixed for": null,
+            "manufactured for": null,
+            "edited for": null,
+            "promoted": null,
+            "printed": null,
+            "marketed": null,
+            "copyright": null,
+            "pressed": null,
+            "mastered for": null,
+            "illustration": null,
+            "design": null,
+            "distributed": null,
+            "manufactured": null,
+            "art direction": null,
+            "licensee": null,
+            "photography": null,
+            "phonographic copyright": null,
+            "publishing": null,
+            "glass mastered": null,
+            "licensor": null,
+            "graphic design": null,
+            "rights society": null
+        },
+        "recording": {
+            "publishing": null,
+            "produced for": null,
+            "arranged for": null,
+            "edited for": null,
+            "mixed for": null,
+            "misc": null,
+            "video copyright": null,
+            "broadcast": null,
+            "remixed for": null,
+            "phonographic copyright": null
+        },
+        "series": {
+            "publishes series": null
+        },
+        "artist": {
+            "personal label": "P112",
+            "label founder": "P112",
+            "recording contract": null,
+            "producer position at": null,
+            "named after artist": null,
+            "personal publisher": null,
+            "engineer position at": null,
+            "named after label": null,
+            "creative position at": null,
+            "owner": "P127",
+            "position at": null,
+            "executive position at": null,
+            "artists and repertoire position at": null
+        },
+        "work": {
+            "commissioned": null,
+            "publishing": null,
+            "named after work": "P138",
+            "dedication": null
+        },
+        "event": {
+            "presented": null
+        },
+        "place": {
+            "owner": null
+        },
+        "release-group": {
+            "tribute": null
+        },
+        "area": {
+            "headquarters": "P159"
+        },
+        "genre": {
+            "named after label": "P138"
+        },
+        "instrument": {
+            "invented": null
+        }
+    },
+    "release-group": {
+        "series": {
+            "part of": "P179",
+            "recorded during": null,
+            "named after release group": null,
+            "tour in support of": "P144"
+        },
+        "artist": {
+            "named after release group": null,
+            "tribute": "P825",
+            "dedicated to": "P825",
+            "artists and repertoire": null,
+            "creative direction": "P12617"
+        },
+        "release-group": {
+            "single from_forward": "P361",
+            "single from_backward": "P527",
+            "excerpt from_forward": "P361",
+            "excerpt from_backward": "P527",
+            "commentary_forward": "P144",
+            "commentary_backward": null,
+            "live performance_forward": "P2550",
+            "live performance_backward": null,
+            "translated version_forward": "P629",
+            "translated version_backward": null,
+            "included in_forward": "P361",
+            "included in_backward": "P527",
+            "DJ-mix_forward": null,
+            "DJ-mix_backward": "P658",
+            "re‐recording_forward": "P2550",
+            "re‐recording_backward": null,
+            "mashes up_forward": "P9810",
+            "mashes up_backward": "P9810",
+            "remix_forward": "P144",
+            "remix_backward": "P144",
+            "cover_forward": "P144",
+            "cover_backward": null
+        },
+        "event": {
+            "launch event": null,
+            "performance of": null
+        },
+        "label": {
+            "tribute": "P825"
+        },
+        "genre": {
+            "named after release group": "P138"
+        }
+    },
+    "event": {
+        "artist": {
+            "engineer": "P5028",
+            "host": "P371",
+            "illustration": "P110",
+            "design": "P287",
+            "tribute to": null,
+            "support act": "P175",
+            "artwork": "P170",
+            "teacher": "P371",
+            "jury member": "P12484",
+            "participant": "P710",
+            "main performer": "P175",
+            "graphic design": "P287",
+            "VJ": "P371",
+            "supporting DJ": "P175",
+            "orchestra": "P175",
+            "guest performer": "P175",
+            "conductor": "P3300"
+        },
+        "place": {
+            "held at": "P276"
+        },
+        "recording": {
+            "video shot at": "P915",
+            "recorded at": "P144"
+        },
+        "series": {
+            "part of": "P179"
+        },
+        "area": {
+            "held in": "P276"
+        },
+        "event": {
+            "parts_forward": "P527",
+            "parts_backward": null,
+            "rescheduled as_forward": "P1366",
+            "rescheduled as_backward": "P1365"
+        },
+        "release": {
+            "launch event": "P144",
+            "available at": null,
+            "recorded at": null
+        },
+        "release-group": {
+            "launch event": "P144",
+            "performance of": "P2550"
+        },
+        "work": {
+            "premiere": null
+        },
+        "label": {
+            "presented": "P664"
+        }
+    },
+    "place": {
+        "recording": {
+            "recorded at": null,
+            "remixed at": null,
+            "engineered at": null,
+            "video shot at": "P915",
+            "mixed at": null,
+            "edited at": null,
+            "arranged at": null,
+            "produced at": null
+        },
+        "event": {
+            "held at": null
+        },
+        "place": {
+            "parts_forward": "P527",
+            "parts_backward": "P361",
+            "relocated to_forward": "P1366",
+            "relocated to_backward": "P1365"
+        },
+        "release": {
+            "manufactured at": null,
+            "recorded at": null,
+            "written at": null,
+            "mastered at": null,
+            "transferred at": null,
+            "remixed at": null,
+            "engineered at": null,
+            "lacquer cut at": null,
+            "mixed at": null,
+            "edited at": null,
+            "glass mastered at": null,
+            "arranged at": null,
+            "lyrics written at": null,
+            "composed at": null,
+            "pressed at": null,
+            "produced at": null
+        },
+        "artist": {
+            "studied at": null,
+            "carillonneur": null,
+            "engineer position": null,
+            "primary concert venue": null,
+            "associated with": null,
+            "founder": "P112",
+            "taught at": null,
+            "mastering engineer position": null,
+            "mixing engineer position": null,
+            "recording engineer position": null,
+            "composer-in-residence": null,
+            "named after artist": "P138",
+            "school director at": "P1037",
+            "named after place": null,
+            "owner": "P127",
+            "organist": null
+        },
+        "work": {
+            "written at": null,
+            "revised at": null,
+            "commissioned": null,
+            "arranged at": null,
+            "lyrics written at": null,
+            "composed at": null,
+            "premiere": null,
+            "dedication": "P825"
+        },
+        "label": {
+            "owner": "P127"
+        },
+        "series": {
+            "held at": null
+        },
+        "genre": {
+            "named after place": "P138"
+        }
+    },
+    "recording": {
+        "work": {
+            "performance": "P2550"
+        },
+        "event": {
+            "video shot at": "P915",
+            "recorded at": null
+        },
+        "artist": {
+            "chorus master": "P5024",
+            "orchestrator": "P10806",
+            "design/illustration": "P110",
+            "legal representation": "P6275",
+            "concertmaster": "P3300",
+            "video appearance": "P161",
+            "field recordist": "P767",
+            "misc": "P767",
+            "compiler": "P98",
+            "artwork": "P736",
+            "performer": "P175",
+            "mastering": "P767",
+            "recording": "P767",
+            "video director": "P57",
+            "balance": "P767",
+            "animation": "P6942",
+            "sound effects": "P5028",
+            "producer": "P162",
+            "vocal": "P175",
+            "editor": "P98",
+            "booking": "P767",
+            "mix": "P767",
+            "sound": "P767",
+            "mix-DJ": "P767",
+            "cinematographer": "P344",
+            "samples from artist": "P5707",
+            "conductor": "P3300",
+            "illustration": "P110",
+            "audio director": "P767",
+            "design": "P287",
+            "artists and repertoire": "P767",
+            "choreographer": "P1809",
+            "programming": "P943",
+            "instrument": "P175",
+            "vocal arranger": "P5202",
+            "art direction": "P3174",
+            "photography": "P767",
+            "performing orchestra": "P175",
+            "instrument technician": "P767",
+            "instrument arranger": "P5202",
+            "engineer": "P767",
+            "audio": "P767",
+            "graphic design": "P287",
+            "creative direction": "P12617",
+            "arranger": "P5202",
+            "remixer": "P767",
+            "phonographic copyright": "P3931"
+        },
+        "recording": {
+            "DJ-mix_forward": "P144",
+            "DJ-mix_backward": null,
+            "first track release_forward": null,
+            "first track release_backward": null,
+            "compilation_forward": "P527",
+            "compilation_backward": "P361",
+            "karaoke_forward": null,
+            "karaoke_backward": null,
+            "mashes up_forward": "P9810",
+            "mashes up_backward": null,
+            "samples material_forward": "P5707",
+            "samples material_backward": null,
+            "music video_forward": "P6718",
+            "music video_backward": null,
+            "instrumental_forward": "P4969",
+            "instrumental_backward": null,
+            "remix_forward": "P9810",
+            "remix_backward": null,
+            "edit_forward": "P9767",
+            "edit_backward": null,
+            "a cappella_forward": "P4969",
+            "a cappella_backward": null,
+            "remaster_forward": "P9767",
+            "remaster_backward": null
+        },
+        "place": {
+            "recorded at": "P8546",
+            "remixed at": "P1071",
+            "engineered at": "P1071",
+            "video shot at": "P915",
+            "mixed at": "P1071",
+            "arranged at": "P1071",
+            "edited at": "P1071",
+            "produced at": "P1071"
+        },
+        "label": {
+            "publishing": "P123",
+            "produced for": "P162",
+            "arranged for": "P5202",
+            "edited for": "P98",
+            "mixed for": "P272",
+            "misc": null,
+            "video copyright": "P3931",
+            "broadcast": "P3301",
+            "phonographic copyright": "P3931"
+        },
+        "area": {
+            "produced in": "P1071",
+            "edited in": "P1071",
+            "remixed in": "P1071",
+            "mixed in": "P1071",
+            "video shot in": "P915",
+            "recorded in": "P8546",
+            "arranged in": "P1071",
+            "engineered in": "P1071"
+        },
+        "series": {
+            "part of": "P179",
+            "recorded during": null
+        },
+        "release": {
+            "samples material": "P5707"
+        }
+    },
+    "instrument": {
+        "instrument": {
+            "children_forward": "P279",
+            "children_backward": null,
+            "hybrid of_forward": "P1531",
+            "hybrid of_backward": null,
+            "related to_forward": "P7084",
+            "related to_backward": "P7084",
+            "parts_forward": "P527",
+            "parts_backward": null,
+            "derivation_forward": "P156",
+            "derivation_backward": "P155",
+            "subtype_forward": "P279",
+            "subtype_backward": null
+        },
+        "area": {
+            "instrument origin": "P495"
+        },
+        "genre": {
+            "associated instrument": null
+        },
+        "artist": {
+            "invented": "P61"
+        },
+        "label": {
+            "invented": "P61"
+        }
+    },
+    "series": {
+        "label": {
+            "publishes series": "P123"
+        },
+        "release-group": {
+            "part of": "P179",
+            "recorded during": null,
+            "named after release group": "P138",
+            "tour in support of": null
+        },
+        "artist": {
+            "residency": null,
+            "founder": "P112",
+            "has catalogue": null,
+            "named after artist": "P138",
+            "part of": null,
+            "tour": "P175",
+            "catalogued": "P50"
+        },
+        "area": {
+            "held in": "P276"
+        },
+        "event": {
+            "part of": null
+        },
+        "release": {
+            "part of": "P179"
+        },
+        "series": {
+            "award ceremony_forward": null,
+            "award ceremony_backward": null,
+            "subseries_forward": "P361",
+            "subseries_backward": "P527",
+            "recorded during_forward": null,
+            "recorded during_backward": null
+        },
+        "place": {
+            "held at": "P276"
+        },
+        "recording": {
+            "part of": null,
+            "recorded during": null
+        },
+        "work": {
+            "commissioned": null,
+            "part of": null
+        }
+    },
+    "work": {
+        "artist": {
+            "orchestrator": "P10806",
+            "lyricist": "P676",
+            "previous attribution": null,
+            "revised by": "P2567",
+            "misc": null,
+            "named after work": null,
+            "dedication": "P825",
+            "librettist": "P87",
+            "writer": "P50",
+            "reconstructed by": null,
+            "premiere": "P11849",
+            "vocal arranger": "P5202",
+            "publishing": "P123",
+            "instrument arranger": "P5202",
+            "commissioned": "P88",
+            "translator": "P655",
+            "named after artist": "P138",
+            "arranger": "P5202",
+            "composer": "P86"
+        },
+        "recording": {
+            "performance": null
+        },
+        "work": {
+            "medley_forward": "P527",
+            "medley_backward": null,
+            "other version_forward": "P629",
+            "other version_backward": null,
+            "lyrical quotation_forward": "P6166",
+            "lyrical quotation_backward": null,
+            "named after work_forward": "P138",
+            "named after work_backward": null,
+            "orchestration_forward": "P4969",
+            "orchestration_backward": null,
+            "revision of_forward": "P5059",
+            "revision of_backward": null,
+            "parts_forward": "P527",
+            "parts_backward": "P361",
+            "arrangement_forward": "P4969",
+            "arrangement_backward": null,
+            "musical quotation_forward": null,
+            "musical quotation_backward": null,
+            "based on_forward": "P144",
+            "based on_backward": null
+        },
+        "label": {
+            "commissioned": "P88",
+            "publishing": "P123",
+            "named after work": null,
+            "dedication": "P825"
+        },
+        "area": {
+            "translated in": "P1071",
+            "written in": "P1701",
+            "composed in": "P1071",
+            "lyrics written in": "P1071",
+            "revised in": "P1071",
+            "arranged in": "P1071",
+            "commissioned": "P88",
+            "anthem": null,
+            "libretto written in": "P1071",
+            "premiere": "P4647",
+            "dedication": "P825"
+        },
+        "series": {
+            "commissioned": "P88",
+            "part of": "P179"
+        },
+        "place": {
+            "premiere": "P4647",
+            "written at": "P1071",
+            "revised at": "P1071",
+            "commissioned": "P88",
+            "arranged at": "P1071",
+            "lyrics written at": "P1071",
+            "composed at": "P1071",
+            "dedication": "P825"
+        },
+        "event": {
+            "premiere": "P4647"
+        }
+    },
+    "artist": {
+        "artist": {
+            "is person_forward": "P742",
+            "is person_backward": null,
+            "subgroup_forward": "P361",
+            "subgroup_backward": "P527",
+            "founder_forward": null,
+            "founder_backward": null,
+            "member of band_forward": "P361",
+            "member of band_backward": "P527",
+            "conductor position_forward": null,
+            "conductor position_backward": "P3300",
+            "teacher_forward": null,
+            "teacher_backward": "P1066",
+            "instrumental supporting musician_forward": "P361",
+            "instrumental supporting musician_backward": "P527",
+            "composer-in-residence_forward": null,
+            "composer-in-residence_backward": "P108",
+            "collaboration_forward": "P2652",
+            "collaboration_backward": "P2652",
+            "parent_forward": "P8810",
+            "parent_backward": "P40",
+            "vocal supporting musician_forward": "P361",
+            "vocal supporting musician_backward": "P521",
+            "artist rename_forward": null,
+            "artist rename_backward": null,
+            "artistic director_forward": null,
+            "artistic director_backward": "P3174",
+            "voice actor_forward": null,
+            "voice actor_backward": "P725",
+            "married_forward": "P26",
+            "married_backward": "P26",
+            "supporting musician_forward": null,
+            "supporting musician_backward": null,
+            "tribute_forward": "P825",
+            "tribute_backward": null,
+            "involved with_forward": "P451",
+            "involved with_backward": "P451",
+            "named after artist_forward": "P138",
+            "named after artist_backward": null,
+            "sibling_forward": "P3373",
+            "sibling_backward": "P3373"
+        },
+        "label": {
+            "personal label": null,
+            "label founder": null,
+            "recording contract": "P264",
+            "producer position at": "P108",
+            "named after artist": "P138",
+            "personal publisher": "P123",
+            "engineer position at": "P108",
+            "named after label": "P138",
+            "creative position at": "P108",
+            "owner": null,
+            "position at": "P108",
+            "executive position at": "P108",
+            "artists and repertoire position at": "P108"
+        },
+        "recording": {
+            "orchestrator": null,
+            "concertmaster": null,
+            "chorus master": null,
+            "design/illustration": null,
+            "legal representation": null,
+            "video appearance": null,
+            "field recordist": null,
+            "misc": null,
+            "compiler": null,
+            "artwork": null,
+            "video copyright": null,
+            "performer": null,
+            "mastering": null,
+            "recording": null,
+            "video director": null,
+            "balance": null,
+            "animation": null,
+            "sound effects": null,
+            "producer": null,
+            "vocal": null,
+            "editor": null,
+            "booking": null,
+            "mix": null,
+            "sound": null,
+            "mix-DJ": null,
+            "cinematographer": null,
+            "samples from artist": null,
+            "conductor": null,
+            "illustration": null,
+            "audio director": null,
+            "design": null,
+            "artists and repertoire": null,
+            "choreographer": null,
+            "programming": null,
+            "instrument": null,
+            "vocal arranger": null,
+            "art direction": null,
+            "photography": null,
+            "performing orchestra": null,
+            "instrument technician": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "engineer": null,
+            "audio": null,
+            "graphic design": null,
+            "creative direction": null,
+            "arranger": null,
+            "remixer": null,
+            "phonographic copyright": null
+        },
+        "release": {
+            "orchestrator": null,
+            "chorus master": null,
+            "lyricist": null,
+            "design/illustration": null,
+            "concertmaster": null,
+            "legal representation": null,
+            "artwork": null,
+            "misc": null,
+            "compiler": null,
+            "field recordist": null,
+            "transfer": null,
+            "performer": null,
+            "mastering": null,
+            "recording": null,
+            "video director": null,
+            "balance": null,
+            "librettist": null,
+            "sound effects": null,
+            "producer": null,
+            "vocal": null,
+            "lacquer cut": null,
+            "editor": null,
+            "booking": null,
+            "writer": null,
+            "sound": null,
+            "mix": null,
+            "copyright": null,
+            "mix-DJ": null,
+            "samples from artist": null,
+            "conductor": null,
+            "illustration": null,
+            "design": null,
+            "audio director": null,
+            "instrument": null,
+            "programming": null,
+            "art direction": null,
+            "vocal arranger": null,
+            "liner notes": null,
+            "photography": null,
+            "performing orchestra": null,
+            "instrument technician": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "engineer": null,
+            "audio": null,
+            "booklet editor": null,
+            "licensor": null,
+            "translator": null,
+            "graphic design": null,
+            "production coordinator": null,
+            "arranger": null,
+            "remixer": null,
+            "composer": null,
+            "phonographic copyright": null
+        },
+        "work": {
+            "orchestrator": null,
+            "lyricist": null,
+            "previous attribution": null,
+            "revised by": null,
+            "named after work": "P138",
+            "misc": null,
+            "dedication": null,
+            "librettist": null,
+            "writer": null,
+            "reconstructed by": null,
+            "premiere": null,
+            "vocal arranger": null,
+            "publishing": null,
+            "instrument arranger": null,
+            "commissioned": null,
+            "translator": null,
+            "named after artist": null,
+            "arranger": null,
+            "composer": null
+        },
+        "event": {
+            "engineer": null,
+            "host": null,
+            "illustration": null,
+            "design": null,
+            "tribute to": null,
+            "support act": null,
+            "artwork": null,
+            "teacher": null,
+            "jury member": null,
+            "participant": "P1344",
+            "main performer": null,
+            "graphic design": null,
+            "VJ": null,
+            "supporting DJ": null,
+            "orchestra": null,
+            "guest performer": null,
+            "conductor": null
+        },
+        "place": {
+            "studied at": "P69",
+            "carillonneur": "P108",
+            "engineer position": "P108",
+            "primary concert venue": null,
+            "associated with": "P1416",
+            "founder": null,
+            "taught at": "P108",
+            "mastering engineer position": "P108",
+            "mixing engineer position": "P108",
+            "recording engineer position": "P108",
+            "composer-in-residence": "P108",
+            "named after artist": null,
+            "school director at": "P57",
+            "named after place": "P138",
+            "owner": "P127",
+            "organist": "P108"
+        },
+        "series": {
+            "residency": null,
+            "founder": null,
+            "named after artist": null,
+            "has catalogue": "P972",
+            "part of": "P361",
+            "tour": null,
+            "catalogued": null
+        },
+        "release-group": {
+            "named after release group": "P138",
+            "tribute": null,
+            "dedicated to": null,
+            "artists and repertoire": null,
+            "creative direction": null
+        },
+        "genre": {
+            "named after artist": "P138"
+        },
+        "instrument": {
+            "invented": null
+        }
+    },
+    "release": {
+        "artist": {
+            "orchestrator": "P10806",
+            "chorus master": "P5024",
+            "design/illustration": "P110",
+            "legal representation": "P6275",
+            "lyricist": "P676",
+            "concertmaster": "P3300",
+            "artwork": "P287",
+            "misc": null,
+            "compiler": "P98",
+            "field recordist": "P767",
+            "transfer": "P767",
+            "performer": "P175",
+            "mastering": "P767",
+            "recording": "P767",
+            "balance": "P767",
+            "video director": "P57",
+            "sound effects": "P5028",
+            "librettist": "P87",
+            "producer": "P162",
+            "vocal": "P175",
+            "lacquer cut": "P767",
+            "editor": "P98",
+            "booking": "P767",
+            "mix": "P767",
+            "sound": "P767",
+            "writer": "P50",
+            "copyright": "P3931",
+            "mix-DJ": "P767",
+            "samples from artist": "P5707",
+            "conductor": "P3300",
+            "illustration": "P110",
+            "design": "P287",
+            "audio director": "P767",
+            "instrument": "P175",
+            "art direction": "P3174",
+            "programming": "P943",
+            "vocal arranger": "P5202",
+            "liner notes": "P767",
+            "photography": "P344",
+            "performing orchestra": "P175",
+            "instrument technician": "P767",
+            "publishing": "P123",
+            "instrument arranger": "P5202",
+            "engineer": "P5028",
+            "audio": "P767",
+            "booklet editor": "P767",
+            "translator": "P655",
+            "licensor": "P3931",
+            "graphic design": "P287",
+            "production coordinator": "P767",
+            "arranger": "P5202",
+            "remixer": "P767",
+            "composer": "P86",
+            "phonographic copyright": "P3931"
+        },
+        "place": {
+            "manufactured at": "P1071",
+            "recorded at": "P8546",
+            "written at": "P1071",
+            "mastered at": "P1071",
+            "produced at": "P1071",
+            "transferred at": "P1071",
+            "remixed at": "P1071",
+            "engineered at": "P1071",
+            "lacquer cut at": "P1071",
+            "arranged at": "P1071",
+            "edited at": "P1071",
+            "glass mastered at": "P1071",
+            "lyrics written at": "P1071",
+            "composed at": "P1071",
+            "pressed at": "P1071",
+            "mixed at": "P1071"
+        },
+        "area": {
+            "manufactured in": "P1071",
+            "produced in": "P1071",
+            "written in": "P1081",
+            "printed in": "P1071",
+            "edited in": "P1071",
+            "composed in": "P1071",
+            "transferred in": "P1071",
+            "remixed in": "P1071",
+            "mixed in": "P1071",
+            "arranged in": "P1071",
+            "recorded in": "P8546",
+            "mastered in": "P1071",
+            "lacquer cut in": "P1071",
+            "engineered in": "P1071"
+        },
+        "label": {
+            "published": "P123",
+            "exported": null,
+            "produced for": "P272",
+            "arranged for": "P5202",
+            "artwork": "P287",
+            "manufactured for": "P176",
+            "misc": null,
+            "mixed for": "P272",
+            "edited for": "P98",
+            "promoted": "P264",
+            "printed": "P872",
+            "marketed": "P264",
+            "copyright": "P3931",
+            "pressed": "P264",
+            "mastered for": "P272",
+            "illustration": "P110",
+            "design": "P287",
+            "distributed": "P750",
+            "manufactured": "P176",
+            "art direction": "P3174",
+            "licensee": null,
+            "photography": "P344",
+            "publishing": "P123",
+            "glass mastered": "P176",
+            "licensor": "P3931",
+            "graphic design": "P287",
+            "rights society": "P6275",
+            "phonographic copyright": "P3931"
+        },
+        "release": {
+            "part of set_forward": "P156",
+            "part of set_backward": "P155",
+            "replaced by_forward": "P1366",
+            "replaced by_backward": "P1365",
+            "supporting release_forward": null,
+            "supporting release_backward": null,
+            "remaster_forward": "P9767",
+            "remaster_backward": null,
+            "transl-tracklisting_forward": "P629",
+            "transl-tracklisting_backward": null
+        },
+        "series": {
+            "part of": null
+        },
+        "event": {
+            "launch event": null,
+            "available at": null,
+            "recorded at": "P144"
+        },
+        "recording": {
+            "samples material": null
+        }
+    },
+    "area": {
+        "area": {
+            "part of_forward": null,
+            "part of_backward": "P131"
+        },
+        "recording": {
+            "edited in": null,
+            "remixed in": null,
+            "mixed in": null,
+            "video shot in": null,
+            "recorded in": null,
+            "engineered in": null,
+            "arranged in": null,
+            "produced in": null
+        },
+        "event": {
+            "held in": null
+        },
+        "release": {
+            "manufactured in": null,
+            "written in": null,
+            "printed in": null,
+            "edited in": null,
+            "composed in": null,
+            "transferred in": null,
+            "remixed in": null,
+            "engineered in": null,
+            "mixed in": null,
+            "recorded in": null,
+            "arranged in": null,
+            "mastered in": null,
+            "lacquer cut in": null,
+            "produced in": null
+        },
+        "work": {
+            "translated in": null,
+            "written in": null,
+            "composed in": null,
+            "lyrics written in": null,
+            "revised in": null,
+            "arranged in": null,
+            "commissioned": null,
+            "anthem": "P85",
+            "libretto written in": null,
+            "premiere": null,
+            "dedication": null
+        },
+        "series": {
+            "held in": null
+        },
+        "label": {
+            "headquarters": null
+        },
+        "genre": {
+            "genre origin": "P495",
+            "named after area": "P138"
+        },
+        "instrument": {
+            "instrument origin": null
+        }
+    }
+}
