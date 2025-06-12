@@ -1,8 +1,8 @@
 # DIAMM Database Data Layout
 
-This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual entity is received as a JSON file describing it.
+This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual object is received as a JSON file describing it. Each entity type has its own JSON structure and different fields, whcih are described below.
 
-In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key)
+In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key).
 
 The `related_source` field for both `organizations` and `people` contains relationships between those entities and `sources` (e.g. owner, discovered by, etc). Each relationship contains the entity it links to, as well as the type of relationship it is.  
 The `relationships` field for `sources` is very similar, containing relationships between the set and `organizations` and `people`. Each relationship contains the entity it links to (and its type), as well as the type of relationship.
@@ -39,7 +39,7 @@ The `relationships` field for `sources` is very similar, containing relationship
 ## Organizations
 
 - `organization_type` is the type of organization
-- `related_sources` is a list of related sources
+- `related_sources` is a list of related sources, that also contains information about the relationship type
 - `copied_sources` is a list of sources that were copied at that organization
 - `source_provenance` is a list of sources whose provenance is this organization
 - `location` is the city in which the organization is located
@@ -47,7 +47,7 @@ The `relationships` field for `sources` is very similar, containing relationship
 ## People
 
 - `compositions` is the list of compositions that they wrote
-- `related_sources`, `copied_sources` and `uninventoried_items` contain a list of sources. `uninventoried_items` seems to be a catch-all for sources that don't fit in the other 2 lists
+- `related_sources`, `copied_sources` and `uninventoried_items` contain a list of sources. `uninventoried_items` seems to be a catch-all for sources that don't fit in the other 2 lists. `related_sources` also contains information about the relationship type
 - `identifiers` has 3rd party identifiers (RISM, VIAF, GNS, Wikidata)
 
 ## Regions
@@ -75,4 +75,4 @@ This designates administrative regions between cities and countries (think provi
 - `bibliography` is unclear
 - `identifiers` is 3rd-party identifiers
 - `notes` are a list of notes, the pks here are unclear
-- `relationships` is a list of relationships to `people` and `organizations`, they are the complement of those eneity types' `related_sources` fields
+- `relationships` is a list of relationships to `people` and `organizations`, they are the complement of those entity types' `related_sources` fields

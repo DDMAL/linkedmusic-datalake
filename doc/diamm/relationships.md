@@ -6,14 +6,14 @@ For both `related_sources` fields, they contain the type of relationship, as wel
 
 All relationships are bidirectional, which is to say that the relationship type and name is the same whether you're going from `sources` to `people` or vice-versa, and similarly for `organizations`. However, Wikidata's relationships are unidirectional and often don't have inverses. To give an example of this, the relationship "owner" between a person and a source is the same whether you're saying that the person owns the source or that the source is owned by the person, whereas Wikidata has an "owner" property to indicate who the owner of a source is, but does not have an inverse to indicate the sources that a person owns.
 
-Furthermore, DIAMM distinguishes its relationships depending on the entity types that it links. As an example, the `source`-`person` "owner" relationship is different from the `organization`-`person` relationship, while in Wikidata, they are the same.
+Furthermore, DIAMM distinguishes its relationships depending on the entity types that it links. As an example, the `source`-`person` "owner" relationship is different from the `organization`-`person` "owner" relationship, while in Wikidata, they would be the same.
 
 To handle this, the [`code/diamm/extract_relation.py`](/code/diamm/extract_relations.py) script will extract all the relationship types and will output them to the [`code/diamm/relations.json`](/code/diamm/relations.json) file. Since all relationships are bidirectional and involve a source, and thus it is only the second entity type that can be different, relationships are classified on that second type, which can either be `people` or `organizations`.
 
-The `code/diamm/relations.json` file contains a mapping of relations to properties. The properties are assumed to be from the source towards the other entity type. Properties that are the reverse have the property ID prefixed with `r` (lowercase). As an example, `rP86` would indicate that the relationship translates into P86 from the other entity type to the source, whereas `P86` would indicate that the relationship translates into P86 from the source to the other entity type.  
+The `code/diamm/relations.json` file contains a mapping of relations to properties. The properties are assumed to be from the source towards the other entity type. Properties that are the reverse of this have the property ID prefixed with `r` (lowercase). As an example, `rP86` would indicate that the relationship translates into P86 from the other entity type to the source, whereas `P86` would indicate that the relationship translates into P86 from the source to the other entity type.  
 Relationships mapped to `null`/`None` are ignored by the RDF conversion script.
 
-Non-trivial/obvious decisions made about that proeprty mapping are listed below:
+Non-trivial/non-obvious decisions made about that proeprty mapping are listed below:
 
 - The "patron" relationship is mapped to P859 "sponsor" as it is for individuals/organizsations that have materially/financially supported a work. The "Establishment Patron" relationship is also mapped to this because there is no other property that can indicate this relationship
 - The "copied at" and "scriptorium" relationships are mapped to P1071 "location of creation", which is the property used to indicate the location at which an object was made, as there isn't a more specific property to indicate that it was copied there

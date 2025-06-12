@@ -69,7 +69,7 @@ Data in `organizations`, `cities`, and `provenance` will be put in the relations
 This will hold all relationships between objects. `key1` will contain the object whose type is alphabetically before the other (for example, `key1` will contain `author` and `key2` will contain `source`, but not vice-versa).
 
 - `key1` and `key2` will have the format `type:pk` (for example `archive:1`) and denote the keys linked by the relationship
-- `type` will be used to differentiate between relationship types between the same 2 entity types: for example for people-source relationships, where a person can have different types of relationships with a source (sources that they copied, sources that they are related to, etc)
+- `type` will be used to differentiate between relationship types between the same 2 entity types: for example for people-source relationships, where a person can have different types of relationships with a source (sources that they copied, sources that they are related to, etc). For the `people`-`sources` and `organizations`-`sources` relationships that have types, the value in the type field will be `f"related:{relationship_type}"`, to be able to conveniently store the relationship type
 
 ## Sets
 
