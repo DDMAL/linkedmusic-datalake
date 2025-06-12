@@ -8,9 +8,9 @@ All relationships are bidirectional, which is to say that the relationship type 
 
 Furthermore, DIAMM distinguishes its relationships depending on the entity types that it links. As an example, the `source`-`person` "owner" relationship is different from the `organization`-`person` relationship, while in Wikidata, they are the same.
 
-To handle this, the `code/diamm/extract_relation.py` script will extract all the relationship types and will output them to the `code/diamm/relations.json` file. Since all relationships are bidirectional and involve a source, and thus it is only the second entity type that can be different, relationships are classified on that second type, which can either be `people` or `organizations`.
+To handle this, the [`code/diamm/extract_relation.py`](/code/diamm/extract_relations.py) script will extract all the relationship types and will output them to the [`code/diamm/relations.json`](/code/diamm/relations.json) file. Since all relationships are bidirectional and involve a source, and thus it is only the second entity type that can be different, relationships are classified on that second type, which can either be `people` or `organizations`.
 
-The `relations.json` file contains a mapping of relations to properties. The properties are assumed to be from the source towards the other entity type. Properties that are the reverse have the property ID prefixed with `r` (lowercase). As an example, `rP86` would indicate that the relationship translates into P86 from the other entity type to the source, whereas `P86` would indicate that the relationship translates into P86 from the source to the other entity type.  
+The `code/diamm/relations.json` file contains a mapping of relations to properties. The properties are assumed to be from the source towards the other entity type. Properties that are the reverse have the property ID prefixed with `r` (lowercase). As an example, `rP86` would indicate that the relationship translates into P86 from the other entity type to the source, whereas `P86` would indicate that the relationship translates into P86 from the source to the other entity type.  
 Relationships mapped to `null`/`None` are ignored by the RDF conversion script.
 
 Non-trivial/obvious decisions made about that proeprty mapping are listed below:

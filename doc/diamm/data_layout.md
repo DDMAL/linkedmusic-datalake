@@ -4,7 +4,7 @@ This file clarifies and explains the data layout of the DIAMM database, as it is
 
 In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key)
 
-The `related_source` field for both `organizations` and `people` contains relationships between those entities and `sources` (e.g. owner, discovered by, etc). Each relationship contains the entity it links to, as well as the type of relationship it is.
+The `related_source` field for both `organizations` and `people` contains relationships between those entities and `sources` (e.g. owner, discovered by, etc). Each relationship contains the entity it links to, as well as the type of relationship it is.  
 The `relationships` field for `sources` is very similar, containing relationships between the set and `organizations` and `people`. Each relationship contains the entity it links to (and its type), as well as the type of relationship.
 
 ## Archives

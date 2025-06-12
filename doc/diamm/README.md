@@ -8,7 +8,7 @@ The website supports content negotiation, either by adding `?format=json` to the
 
 Additionally, each page that will be saved is scanned to find URLs corresponding to `cities`, `countries`, or `regions` to load and save those as well.
 
-There are 2 scripts that can achieve this, `code/diamm/fetch.py` is a synchronous script, and `code/diamm/async_fetch.py` is asynchronous, and thus much faster.
+There are 2 scripts that can achieve this, [`code/diamm/fetch.py`](/code/diamm/fetch.py) is a synchronous script, and [`code/diamm/async_fetch.py`](/code/diamm/async_fetch.py) is asynchronous, and thus much faster.
 
 The synchronous script is limited to a request every 100ms, but so far has never reached this limit. The async script is rate limited to a maximum of 2 simultaneous connections across 3 workers, 1 of which is for querying the search page and the other 2 are for downloading the item pages. It is also limited to 10 requests per second (globally, across all workers). In addition to this, the searching worker is further limited to 1 request per second. This rate is pending review by Andrew Hankinson in [#285](https://github.com/DDMAL/linkedmusic-datalake/issues/285)
 
@@ -18,19 +18,19 @@ As per discussion in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues
 
 ## 2. Processing Data
 
-See `doc/diamm/data_layout.md` for a brief overview of the data downloaded by the scraper. The script `code/diamm/to_csv.py` parses the downloaded JSON data into CSVs, with columns described in `doc/diamm/csv_fields.md`. Relations, like the list of sources contained in an archive, is stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. This includes both one-to-many and many-to-many relations. The CSV files are sent to the `data/diamm/csv/` folder.
+See [`doc/diamm/data_layout.md`](./data_layout.md) for a brief overview of the data downloaded by the scraper. The script [`code/diamm/to_csv.py`](/code/diamm/to_csv.py) parses the downloaded JSON data into CSVs, with columns described in [`doc/diamm/csv_fields.md`](./csv_fields.md). Relations, like the list of sources contained in an archive, are stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. This includes both one-to-many and many-to-many relations. The CSV files are sent to the `data/diamm/csv/` folder.
 
 ## 3. Reconciling Data
 
-All of the CSV files produced by `code/diamm/to_csv.py`, except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in `reconciliation.md`. The folder `doc/diamm/reconciliation_files` contains the history and export template files for the reconciliation of each CSV.
+All of the CSV files produced by [`code/diamm/to_csv.py`](/code/diamm/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`doc/diamm/reconciliation.md`](./reconciliation.md). The `doc/diamm/reconciliation_files` folder contains the history and export template files for the reconciliation of each CSV.
 
 ## 4. Transforming to RDF (Turtle)
 
-The `code/diamm/convert_rdf.py` will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
+The [`code/diamm/convert_rdf.py`](/code/diamm/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
 
 For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
 
-The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in `relationships_properties.md`.
+The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in [`doc/diamm/relationships_properties.md`](./relationships_properties.md).
 
 Some properties of interest:
 
@@ -46,4 +46,4 @@ Some properties of interest:
 
 ### JSON-LD
 
-The JSON-LD approach was not followed for this database. However, the beginnings of a context file can be found in the `jsonld_approach/diamm` folder.
+The JSON-LD approach was not followed for this database. However, the beginnings of a context file can be found in the `jsonld_approach/diamm/` folder.

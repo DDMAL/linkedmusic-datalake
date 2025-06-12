@@ -1,6 +1,6 @@
 # DIAMM Database CSV Layout
 
-This file explains the layout of the CSV files produced by the CSV conversion script. It is simply a list of columns in the CSVs for each entity type, to explain how the data is translated from the downloaded JSON files (explained in `doc/diamm/data_layout.md`) to CSV files for reconciliation.
+This file explains the layout of the CSV files produced by the CSV conversion script. It is simply a list of columns in the CSVs for each entity type, to explain how the data is translated from the downloaded JSON files (explained in [`doc/diamm/data_layout.md`](./data_layout.md)) to CSV files for reconciliation.
 
 As explained in the [Relations](#relations) section of this file, to handle relations between entity types, an additional CSV file is created to store relations between entity types. For each entity type, I list which relationships/fields will be put in the relations CSV.
 
