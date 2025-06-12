@@ -41,7 +41,7 @@ Some properties of interest:
 - P1449 (nickname) is used for the variant names, as it's the closest thing I could find and is what ChatGPT suggested to use
 - P276 (location) is used for provenance organizations because the fact that an organization is the provenance organization of a source means that it most likely was its location at some point in time
 - P767 (contributor to the creative work or subject) is used to indicate people that are related to a source, as it's the closest thing I could find for this relationship
-- P170 (creator) is used to indicate people that copied a source
+- P11603 (transcribed by) is used to indicate people that copied a source as one of the alternate uses is to indicate copying
 - P361 (part of) is used to indicate sets or compositions that are contained in sources
 
 ### JSON-LD

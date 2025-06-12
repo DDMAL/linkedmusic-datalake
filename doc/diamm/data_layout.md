@@ -75,3 +75,4 @@ This designates administrative regions between cities and countries (think provi
 - `bibliography` is unclear
 - `identifiers` is 3rd-party identifiers
 - `notes` are a list of notes, the pks here are unclear
+- `relationships` is a list of relationships to `people` and `organizations`, they are the complement of those eneity types' `related_sources` fields

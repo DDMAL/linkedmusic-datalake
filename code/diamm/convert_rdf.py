@@ -51,11 +51,9 @@ DIAMM_SCHEMA = {
     "cluster_shelfmark": WDT["P217"],
     "holding_archive": WDT["P276"],
     "composition_in_source": WDT["P361"],
-    "related_organization": WDT["P2860"],
     "copied_organization": WDT["P1071"],
     "provenance_organization": WDT["P276"],
-    "related_people": WDT["P767"],
-    "copied_people": WDT["P170"],
+    "copied_people": WDT["P11603"],
     "set_in_source": WDT["P361"],
     "display_name": WDT["P2561"],
 }
