@@ -12,6 +12,7 @@ from code.wikidata_utils import extract_wd_id
 import pandas as pd
 import tomli
 from rdflib import Graph, URIRef, Literal, Namespace
+import logging
 
 
 
@@ -49,6 +50,13 @@ def process_csv_file(
 
 
 def main():
+    # === Setup Logger ===
+    logger = logging.getLogger("csv_to_rdf")
+    if not logger.hasHandlers():
+        logging.basicConfig(
+            level=logging.INFO,
+            format='[%(levelname)s] %(message)s'
+        )
     # === Argument Parsing ===
     parser = argparse.ArgumentParser(
         description="General CSV to RDF converter driven by a TOML configuration file."
@@ -68,7 +76,7 @@ def main():
     for prefix, ns in rdf_ns.items():
         graph.bind(prefix, Namespace(ns))
 
-    # === Find CSV Folder ===
+    # === Resolve CSV Folder Path ===
     rel_path = Path(config["general"]["csv_folder"])
     script_dir = Path(__file__).parent.resolve()
     csv_folder = (script_dir / rel_path).resolve()
@@ -78,18 +86,17 @@ def main():
         # "general" and "namespaces" tables are not CSV files
         if csv_name in ("general", "namespaces"):
             continue
-        # csv_name does not have extension
+        # csv_name does not have ".csv" extension
         csv_file = (csv_folder / csv_name).with_suffix(".csv")
         if not csv_file.exists():
-            print(f"Warning: CSV file '{csv_file}' not found. Skipping.")
+            logger.warning("CSV file '%s' not found. Skipping.", csv_file)
             continue
         try:
             df = pd.read_csv(csv_file)
         except Exception as e:
-            print(f"Error reading '{csv_file}': {e}")
+            logger.error("Error reading '%s': %e", csv_file, e)
             continue
-
-        print(f"Processing {csv_file.name}...")
+        logger.info("Processing %s...", csv_file.name)
         process_csv_file(df, csv_name, col_mapping, graph, rdf_ns)
 
     # === Prepare Output ===
@@ -98,7 +105,7 @@ def main():
     # === Serialize RDF Output ===
     output_file = output_dir / "output.ttl"
     graph.serialize(destination=str(output_file), format="turtle")
-    print(f"RDF conversion completed. Output saved to: {output_file.resolve()}")
+    logger.info("RDF conversion completed. Output saved to: %s", output_file.resolve())
 
 if __name__ == "__main__":
     main()
