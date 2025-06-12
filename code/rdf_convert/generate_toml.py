@@ -22,6 +22,7 @@ Usage:
 
 import argparse
 import sys
+import os
 from pathlib import Path
 import pandas as pd
 # tomli reads TOML files, tomli_w writes TOML files
@@ -188,23 +189,10 @@ if __name__ == "__main__":
         default="rdf_config.toml",
         help="Output TOML file (default: rdf_config.toml)",
     )
-    parser.add_argument(
-        "--label",
-        type=Path,
-        help="Add labels as comment to all Wikidata ID found in the TOML file",
-    )
     args = parser.parse_args()
 
     if args.update:
         update_toml(args.update)
-    elif args.label:
-        async def add_toml_labels(config_file: Path):
-            """Add Wikidata labels as comments to all PIDs found in the TOML file."""
-            async with aiohttp.ClientSession() as session:
-                client = WikidataAPIClient(session=session)
-                # add_labels can write to another file, but we want to overwrite the original
-                await add_labels(config_file, config_file, client)
-        asyncio.run(add_toml_labels(args.label))
     elif args.input_folder:
         output_path = args.output
         if output_path.exists():
@@ -217,4 +205,4 @@ if __name__ == "__main__":
         print(40 * "-")
         print(f"\nGenerated '{output_path}'")
     else:
-        parser.error("You must specify --update, --label, or --input_folder.")
+        parser.error("You must specify --update or --input_folder.")
