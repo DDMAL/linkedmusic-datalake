@@ -2,13 +2,9 @@ import asyncio
 import sys
 from typing import List, Tuple
 from pathlib import Path
+from code.wikidata_utils import extract_wd_id, WikidataAPIClient
 import aiohttp
-# Add the parent directory (code/) to sys.path
-sys.path.append(str(Path(__file__).parent.parent))
-from wikidata_utils import extract_wd_id, WikidataAPIClient
 
-# Add the parent directory (code/) to sys.path
-sys.path.append(str(Path(__file__).parent.parent))
 
 
 async def add_labels(input_path: Path, output_path: Path, client: WikidataAPIClient):
