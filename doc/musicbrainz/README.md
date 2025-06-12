@@ -119,6 +119,7 @@ Below are the steps you must execute from your console once you have cloned the 
 - The script outputs an RDF file, which is stored in `data/musicbrainz/rdf/`, along the other RDF files.
 - The script is rate-limited to 1 request every 1.375 seconds following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works). It was increased from 1 second to 1.375 second because we were still getting rate limited even with a 1 second delay.
 - The script also provides a user-agent header, following the same guidelines.
+- The [MusicBrainz API Documentation](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works) states that they will respond to requests with a 503 when they rate limit you. However, I've never seen this happen, it seems like they simply timeout the request instead.
 
 - The genres are handled this way because they are stored and treated differently by MusicBrainz compared to the other core entity types, and they are not available in the [main database dumps](https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/). This is why we use the [API](https://musicbrainz.org/doc/MusicBrainz_API/#Introduction) to fetch the list of genres, and scrape the webpages to get the wikidata links.
 
