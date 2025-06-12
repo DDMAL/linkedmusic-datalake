@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+
 """
 RDF Configuration Generator
 
@@ -24,14 +24,16 @@ import argparse
 import sys
 from pathlib import Path
 import pandas as pd
-
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
 import asyncio
 import aiohttp
+# Add the parent directory (code/) to sys.path
+sys.path.append(str(Path(__file__).parent.parent))
+from wikidata_utils import extract_wd_id, WikidataAPIClient
 from add_labels import add_labels
-from wikidata_utilities import WikidataAPIClient
+
 
 
 def validate_input_folder(input_folder):
@@ -197,7 +199,7 @@ if __name__ == "__main__":
         update_toml(args.update)
     elif args.label:
         async def add_toml_labels(config_file: Path):
-            """Add Wikidata labels as comments to all QIDs found in the TOML file."""
+            """Add Wikidata labels as comments to all PIDs found in the TOML file."""
             async with aiohttp.ClientSession() as session:
                 client = WikidataAPIClient(session=session)
                 # add_labels can write to another file, but we want to overwrite the original
