@@ -19,7 +19,7 @@ In an effort to reduce the clutter of constant global variables containing mappi
 
 ## Rules for Literal Datatypes
 
-The below rules are conform with RDF standards and with Wikidata standards
+The below rules are to conform with RDF standards and with Wikidata standards
 
 - Any literal value not given an explicit type will default to `XSD:string`. This is part of the RDF standard.
 - Dates are given the type `XSD:date`. If the value has both date and time, it will be in `XSD:datetime`
