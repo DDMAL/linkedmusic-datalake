@@ -28,13 +28,6 @@ import pandas as pd
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
-import asyncio
-import aiohttp
-# Add the parent directory (code/) to sys.path
-sys.path.append(str(Path(__file__).parent.parent))
-from wikidata_utils import extract_wd_id, WikidataAPIClient
-from add_labels import add_labels
-
 
 
 def validate_input_folder(input_folder):
@@ -108,7 +101,7 @@ def deep_merge(old_toml, new_toml):
     return merged_toml
 
 
-def make_template(input_folder):
+def make_template(input_folder, base):
     """
     Generate a TOML configuration dictionary from the structure of CSV files in the input folder.
 
@@ -118,9 +111,11 @@ def make_template(input_folder):
         dict: The TOML data as a dictionary.
     """
     csv_files = validate_input_folder(input_folder)
+    # Find the relative path to the input folder from the base path
+    rel_path = Path(os.path.relpath(input_folder, start=base))
     general_headers = {
         "name": "Name of the Dataset [required]",
-        "csv_path": input_folder.as_posix(),
+        "csv_path": rel_path.as_posix(),
         "rdf_output_path": "output/path/for/rdf/files [required]",
     }
     namespaces = {
@@ -198,7 +193,9 @@ if __name__ == "__main__":
         if output_path.exists():
             print(f"Error: '{output_path}' already exists.")
             sys.exit(1)
-        toml_data = make_template(args.input_folder)
+        base_path = Path(__file__).parent
+        # Ensure that the path stored in config is relative to the script folder
+        toml_data = make_template(args.input_folder.resolve(), base_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
