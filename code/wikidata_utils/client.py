@@ -126,7 +126,7 @@ class _WikidataAPIClientRaw:
                 return data
 
     async def search_raw(
-        self, query: str, limit: Optional[int] = 10, timeout: int = 10
+        self, query: str, limit: Optional[int] = 10, entity_type: str = "item", timeout: int = 10
     ) -> JsonResponse:
         """
         Queries Wikidata Elasticsearch API.
@@ -143,6 +143,11 @@ class _WikidataAPIClientRaw:
         }
         if limit:
             params["srlimit"] = str(limit)
+        if entity_type == "item":
+            params["srnamespace"] = 0
+        elif entity_type == "property":
+            params["srnamespace"] = 120
+
         async with self.limiter_wikidata:
             data = await self._get(url, params=params, timeout=timeout)
             if not data:
@@ -276,7 +281,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         return results
 
     async def search(
-        self, query: str, limit: int = 10, timeout: int = 10
+        self, query: str, limit: int = 10, entity_type: str = "", timeout: int = 10
     ) -> list[WikiEntity]:
         """
         Perform a full-text search using Wikidata's Elasticsearch-backed API.
@@ -294,13 +299,13 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 - "id": Entity ID (e.g., "Q42")
                 - "description": Text snippet or matched context
         """
-        data = await self.search_raw(query, limit=limit, timeout=timeout)
+        data = await self.search_raw(query, limit=limit,entity_type=entity_type,timeout=timeout)
         matches_list = data.get("query", {}).get("search", [])
         results = []
         # Each match is a dictionary containing a search result
         for match in matches_list:
             match_dict = {
-                "id": match.get("title", ""),
+                "id": match.get("title", "").split(":")[-1],  # ID can be in the format "Property:P134"
                 "description": match.get("snippet", ""),
             }
             results.append(match_dict)
