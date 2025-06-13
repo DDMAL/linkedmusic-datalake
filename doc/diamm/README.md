@@ -43,6 +43,7 @@ The `related_sources` field in the `organizations` and `people` entity types, as
 Some properties of interest:
 
 - RDFS:label is used instead of P2561 to indicte the name of places/objects, as that's what Wikidata uses for the primary label for items
+- For composition titles, both P1476 and RDFS:label are used as that's what Wikidata also does
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
 - P131 is used to indicate the city or region an entity is in, and P17 is used for the country
 - P217 (inventory number) is used for shelfmarks, as it's the closest thing I could find and is what ChatGPT suggested to use

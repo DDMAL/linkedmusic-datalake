@@ -168,6 +168,7 @@ for work in json_data:
     if work["id"] is not None:  # If it is none, skip to the genre
         subject_uri = URIRef(f"{DM}{int(work['id'])}")
 
+        g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["title"])))
         g.add((subject_uri, DIAMM_SCHEMA["title"], Literal(work["title"])))
 
         if work["anonymous"] is True:
