@@ -13,7 +13,7 @@ To handle this, the [`code/diamm/extract_relation.py`](/code/diamm/extract_relat
 The `code/diamm/relations.json` file contains a mapping of relations to properties. The properties are assumed to be from the source towards the other entity type. Properties that are the reverse of this have the property ID prefixed with `r` (lowercase). As an example, `rP86` would indicate that the relationship translates into P86 from the other entity type to the source, whereas `P86` would indicate that the relationship translates into P86 from the source to the other entity type.  
 Relationships mapped to `null`/`None` are ignored by the RDF conversion script.
 
-Non-trivial/non-obvious decisions made about that proeprty mapping are listed below:
+Non-trivial/non-obvious decisions made about that property mapping are listed below:
 
 - The "patron" relationship is mapped to P859 "sponsor" as it is for individuals/organizsations that have materially/financially supported a work. The "Establishment Patron" relationship is also mapped to this because there is no other property that can indicate this relationship
 - The "copied at" and "scriptorium" relationships are mapped to P1071 "location of creation", which is the property used to indicate the location at which an object was made, as there isn't a more specific property to indicate that it was copied there
