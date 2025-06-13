@@ -47,7 +47,7 @@
       }
     },
     {
-      "name": "siglum",
+      "name": "country",
       "reconSettings": {
         "output": "entity-name",
         "blankUnmatchedCells": false,
@@ -60,22 +60,9 @@
       }
     },
     {
-      "name": "website",
+      "name": "country_@id",
       "reconSettings": {
-        "output": "entity-name",
-        "blankUnmatchedCells": false,
-        "linkToEntityPages": true
-      },
-      "dateSettings": {
-        "format": "iso-8601",
-        "useLocalTimeZone": false,
-        "omitTime": false
-      }
-    },
-    {
-      "name": "rism_id",
-      "reconSettings": {
-        "output": "entity-name",
+        "output": "entity-id",
         "blankUnmatchedCells": false,
         "linkToEntityPages": true
       },

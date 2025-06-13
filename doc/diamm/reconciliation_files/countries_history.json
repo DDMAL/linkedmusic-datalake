@@ -1,0 +1,47 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "name",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "name_@id",
+    "columnInsertIndex": 2,
+    "description": "Create column name_@id at index 2 based on column name using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "name_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q6256",
+        "name": "country"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column name_@id to type Q6256"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "name_@id",
+    "description": "Match each cell to its best recon candidate in column name_@id"
+  }
+]
