@@ -75,12 +75,16 @@ def matched_wikidata(field: str) -> bool:
 
 def to_rdf_node(
     val: str,
-    namespace: str = WD,
-) -> Union[URIRef, Literal]:  # Unreconciled values will be returned as RDF Literal
+    namespace: Namespace = WD
+) -> Union[None,URIRef, Literal]:  # Unreconciled values will be returned as RDF Literal
     """Convert a value to an RDF node (URIRef or Literal) to allow usage within RDF triple"""
     if pd.isna(val):
         return None
-    if namespace != WD or matched_wikidata(str(val)):
+    if namespace != WD:
+        # DTL1000 ids need the prefix prepended
+        return URIRef(f"{namespace}{val}")
+    if matched_wikidata(val):
+        # If the value is a Wikidata ID, return it as a URIRef
         return URIRef(f"{namespace}{val}")
     else:
         return Literal(str(val))
@@ -119,7 +123,11 @@ try:
             continue
         for column, wikidata_property in DTL_SOLOS_SCHEMA.items():
             predicate = URIRef(f"{WDT}{wikidata_property}")
-            object_node = to_rdf_node(row[column])
+            if column == "track_id":
+                # For track_id, we use the DTLT namespace
+                object_node = to_rdf_node(row[column], namespace=DTLT)
+            else:
+                object_node = to_rdf_node(row[column])
 
             if object_node is None:
                 continue
