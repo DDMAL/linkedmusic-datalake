@@ -1,6 +1,6 @@
 # DIAMM Database Data Layout
 
-This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual object is received as a JSON file describing it. Each entity type has its own JSON structure and different fields, whcih are described below.
+This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual object is received as a JSON file describing it. Each entity type has its own JSON structure and different fields, which are described below.
 
 In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key).
 
