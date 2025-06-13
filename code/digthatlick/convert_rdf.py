@@ -70,7 +70,7 @@ DTL_PERFORMERS_SCHEMA = {
 
 def matched_wikidata(field: str) -> bool:
     """Check if the field is a matched Wikidata URI."""
-    return re.match(r"http://www\.wikidata\.org/entity/Q\d+", field) is not None
+    return re.match(r"Q\d+", field) is not None
 
 
 def to_rdf_node(
