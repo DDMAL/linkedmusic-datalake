@@ -20,7 +20,7 @@ Furthermore, to help with legibility, utility classes for the async script have 
 
 As per discussion in [#288](https://github.com/DDMAL/linkedmusic-datalake/issues/288), we will store pages for cities, countries, and regions to reconcile them, to better handle disambiguations.
 
-As per discussion in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues/287), we will not be handling the bibliographic data as it is a pre-rendered HTML field, and is incredibly difficult to parse. We will still be able to point people to the bibliography on the DIAMM website because we still store DIAMM URLs. As such, there is no need to download the pages on authors because they onl contain bibliographic links, we will only store the links to them.
+As per discussion in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues/287), we will not be handling the bibliographic data as it is a pre-rendered HTML field, and is incredibly difficult to parse. We will still be able to point people to the bibliography on the DIAMM website because we still store DIAMM URLs. As such, there is no need to download the pages on authors because they only contain bibliographic links, we will only store the links to them.
 
 ## 2. Processing Data
 
