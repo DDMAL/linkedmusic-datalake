@@ -1,6 +1,6 @@
 # Property Mappings for Relationships
 
-In the DIAMM database, there are more complex reltionships between `people` and `sources` and between `organizations` and `sources`. They are modeled with a `related_sources` field in the `people` and `organizations` entity types, and with a `relationships` field in the `sources` entity type.
+In the DIAMM database, there are more complex relationships between `people` and `sources` and between `organizations` and `sources`. They are modeled with a `related_sources` field in the `people` and `organizations` entity types, and with a `relationships` field in the `sources` entity type.
 
 For both `related_sources` fields, they contain the type of relationship, as well as the url and name of the related source. For the `relationships` field, it contains the type of relationship, as well as the url and name of the related entity, and we can retrieve the entity type of the related entity from its url.
 
