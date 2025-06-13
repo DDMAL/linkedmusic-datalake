@@ -4,8 +4,6 @@ Reads rdf_config.toml, processes all listed CSVs, and generates RDF triples acco
 """
 
 import argparse
-import sys
-import re
 from pathlib import Path
 from typing import Union
 from code.wikidata_utils import extract_wd_id
@@ -16,38 +14,104 @@ import logging
 
 
 
-def to_rdf_node(val: str, namespace: Namespace = None) -> Union[URIRef, Literal, None]:
+def to_rdf_node(val: str, namespaces: dict, lang: str = None, datatype: str = None) -> Union[URIRef, Literal, None]:
     """Convert a string value to an RDF node."""
     if pd.isna(val) or val == "":
         return None
-    # Need fixing
-    if namespace and (namespace != wd or extract_wd_id(str(val))):
-        return URIRef(f"{namespace}{val}")
-    return Literal(str(val))
+    qid = extract_wd_id(val)
+    if qid:
+        return URIRef(f"{namespaces['wd']}{qid}")
+    elif val.startswith("http://"):
+        for uri in namespaces.values():
+            if val.startswith(uri):
+                # Only considered a value URI if it is in a binded namespace
+                return URIRef(val)
+    else:
+        if ":" in datatype:
+            prefix, local = datatype.split(":", 1)
+            ns_uri = namespaces.get(prefix)
+            if ns_uri:
+                datatype = {ns_uri}{local}
+        return Literal(str(val), lang=lang, datatype=datatype)
 
-
+def to_predicate(val: str, namespaces: dict) -> URIRef:
+    """
+    Convert a property string to a predicate URIRef.
+    If the value is a Wikidata property (QID or PID), use the wdt namespace.
+    Otherwise, if the value contains a colon, use the prefix to look up the namespace.
+    """
+    pid = extract_wd_id(val)
+    if pid:
+        return URIRef(f"{namespaces['wdt']}{pid}")
+    if ":" in val:
+        prefix, local = val.split(":", 1)
+        ns_uri = namespaces.get(prefix)
+        if ns_uri:
+            return URIRef(f"{ns_uri}{local}")
+    raise ValueError(f"Invalid property value: {val}. Expected a Wikidata ID or a valid prefixed URI.")
 
 def process_csv_file(
     df: pd.DataFrame, table_name: str, column_mapping: dict, graph: Graph, ns: dict
 ) -> None:
-    """Convert a CSV DataFrame to RDF triples and add them to the graph."""
-    subject_col = next(iter(column_mapping))
-    for row in df.to_dict(orient="records"):
-        subject_val = row.get(subject_col, "")
-        subject_node = to_rdf_node(subject_val, namespace=wd)
-        if subject_node is None:
-            continue
-        for col, prop in column_mapping.items():
-            if col == subject_col or not prop:
+    """
+    Convert a CSV DataFrame to RDF triples and add them to the graph.
+    
+    column_mapping example:
+    {
+        "primary_key": "subject_column_name",
+        "col1": "predicate1",
+        "col2": "predicate2",
+        ...
+    }
+    """
+    # === Verify that the CSV can be processed ===
+    primary_col = column_mapping.get("primary_key")
+    if primary_col is None:
+        raise ValueError(f"the 'primary_key' of {table_name}.csv is not defined")
+    property_columns = {col: prop for col, prop in column_mapping.items() if col != "primary_key"}
+    for col in property_columns:
+        if col not in df.columns:
+            raise ValueError(f"'{col}' is not a column in {table_name}.csv ")
+    # Using namedtuples: row.subject_col is valid
+    # === Processing Each Row ===
+    for row in df.itertuples(index=False):
+        primary_val = getattr(row, primary_col, None)
+        if primary_val:
+            # Useful for record lookup
+            primary_row = row
+            primary_node = to_rdf_node(primary_val, ns)
+        # === Processing Each Column of the Row====
+        for col, prop in property_columns.items():
+            if not prop:
                 continue
-            if prop.startswith("http://"):
-                predicate = URIRef(prop)
-            else:
-                predicate = URIRef(f"{ns.get('wdt', '')}{prop}")
-            object_node = to_rdf_node(row.get(col, ""), namespace=wd)
-            if object_node:
-                graph.add((subject_node, predicate, object_node))
-
+            object_val = getattr(row, col, None)
+            if not object_val:
+                continue
+            predicate = to_predicate(prop, ns)
+            # === Build the Object Node ===
+            datatype = prop.get("datatype", None)
+            lang = prop.get("lang", None)
+            if datatype is not None and lang is not None:
+                raise ValueError("Cannot specify both datatype and lang for column {col} in {table_name}.csv")
+            object_node = to_rdf_node(object_val, ns, lang=lang, datatype=datatype)
+            if isinstance(prop, str):
+                # simplest logic
+                subject_node = primary_node # every record must have a primary key
+            if isinstance(prop, dict):
+                # complex logic
+                if condition := prop.get("condition", None):
+                    row_dict = row._asdict()  # Convert namedtuple to dict
+                    if not eval(condition, {}, row_dict): # evaluate the condition using values in this row as variable
+                        continue 
+                # === Build the subject node ===
+                subject_val = getattr(primary_row, prop.get("subj", ""), None)
+                if subject_val:
+                    # subject val must be an URI
+                    subject_node = to_rdf_node(subject_val, ns)
+                else:
+                    subject_node = primary_node
+            # === Add the triple to the graph ===    
+            graph.add((subject_node, predicate, object_node))
 
 def main():
     # === Setup Logger ===
@@ -77,9 +141,9 @@ def main():
         graph.bind(prefix, Namespace(ns))
 
     # === Resolve CSV Folder Path ===
-    rel_path = Path(config["general"]["csv_folder"])
+    rel_in_dir = Path(config["general"]["csv_folder"])
     script_dir = Path(__file__).parent.resolve()
-    csv_folder = (script_dir / rel_path).resolve()
+    csv_folder = (script_dir / rel_in_dir).resolve()
 
     # === Process CSV Files ===
     for csv_name, col_mapping in config.items():
@@ -99,13 +163,15 @@ def main():
         logger.info("Processing %s...", csv_file.name)
         process_csv_file(df, csv_name, col_mapping, graph, rdf_ns)
 
-    # === Prepare Output ===
-    output_dir = Path(config["general"]["rdf_output_path"])
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # === Resolve RDF Folder Path ===
+    rel_out_dir = Path(config["general"]["rdf_output_path"])
+    rdf_folder = (script_dir / rel_out_dir).resolve()
+    rdf_folder.mkdir(parents=True, exist_ok=True)
+    ttl_path = (rdf_folder / Path(config["general"]["name"])).with_suffix(".ttl")
+    
     # === Serialize RDF Output ===
-    output_file = output_dir / "output.ttl"
-    graph.serialize(destination=str(output_file), format="turtle")
-    logger.info("RDF conversion completed. Output saved to: %s", output_file.resolve())
+    graph.serialize(destination=str(ttl_path), format="turtle")
+    logger.info("RDF conversion completed. Output saved to: %s", ttl_path.resolve())
 
 if __name__ == "__main__":
     main()
