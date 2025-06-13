@@ -1,4 +1,3 @@
-
 """
 RDF Configuration Generator
 
@@ -61,7 +60,7 @@ def extract_csv_headers(csv_files):
         csv_files (list[Path]): List of CSV file paths.
 
     Returns:
-        dict: A dictionary mapping file names to column templates.
+        dict: A dictionary mapping file names (without .csv extension) to column templates.
     """
     toml_tables = {}
     for csv_file in sorted(csv_files):
@@ -72,7 +71,8 @@ def extract_csv_headers(csv_files):
                     f"Warning: Could not process '{csv_file.name}' because it is empty."
                 )
             else:
-                toml_tables[csv_file.name] = {col: "" for col in df.columns}
+                table_name = csv_file.stem  # Use file name without extension
+                toml_tables[table_name] = {col: "" for col in df.columns}
                 print(f"Processed '{csv_file.name}' - {len(df.columns)} columns")
         except Exception as e:
             print(f"Warning: Could not process '{csv_file.name}': {e}")
@@ -115,8 +115,8 @@ def make_template(input_folder, base):
     rel_path = Path(os.path.relpath(input_folder, start=base))
     general_headers = {
         "name": "Name of the Dataset [required]",
-        "csv_path": rel_path.as_posix(),
-        "rdf_output_path": "output/path/for/rdf/files [required]",
+        "csv_folder": rel_path.as_posix(),
+        "rdf_output_folder": "output/path/for/rdf/files [required]",
     }
     namespaces = {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
