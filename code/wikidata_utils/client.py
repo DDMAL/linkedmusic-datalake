@@ -26,6 +26,7 @@ Example:
 """
 
 from typing import Any, Optional, Union, TypeAlias
+import logging
 import asyncio
 import aiohttp
 from aiolimiter import AsyncLimiter
@@ -71,6 +72,7 @@ class _WikidataAPIClientRaw:
         self.limiter_sparql = AsyncLimiter(max_rate=20, time_period=1)
         # limiter for all API calls starting with "https://www.wikidata.org/w/api.php"
         self.limiter_wikidata = AsyncLimiter(max_rate=30, time_period=1)
+        self.logger = logging.getLogger(__name__)
 
     async def _get(
         self,
@@ -93,19 +95,19 @@ class _WikidataAPIClientRaw:
                 response.raise_for_status()
                 return await response.json()
         except aiohttp.ContentTypeError as e:
-            print(f"Content type error at {url}: {e}")
+            self.logger.error("Content type error at %s: %s", url, e)
             return None
         except aiohttp.ClientConnectionError as e:
-            print(f"Connection error at {url}: {e}")
+            self.logger.error("Connection error at %s: %s", url, e)
             return None
         except aiohttp.ClientResponseError as e:
-            print(f"HTTP error at {url}: Status {e.status}, message: {e.message}")
+            self.logger.error("HTTP error at %s: Status %s, message: %s", url, e.status, e.message)
             return None
         except aiohttp.ClientError as e:
-            print(f"Client error at {url}: {e}")
+            self.logger.error("Client error at %s: %s", url, e)
             return None
         except Exception as e:
-            print(f"Unexpected error at {url}: {e}")
+            self.logger.error("Unexpected error at %s: %s", url, e)
             return None
 
     async def sparql_raw(self, query: str, timeout: int = 40) -> JsonResponse:
@@ -208,7 +210,7 @@ class _WikidataAPIClientRaw:
             elif isinstance(arg, str):
                 ids.append(arg)
         if len(ids) > 50:
-            print("wbgetentities can only handle up to 50 IDs at a time")
+            self.logger.error("wbgetentities can only handle up to 50 IDs at a time")
             return {}
         # Properties requested simultaneously must be separated by "|"
         # Example: "labels|descriptions|claims"
