@@ -12,7 +12,7 @@ Additionally, each page that will be saved is scanned to find URLs corresponding
 
 There are 2 scripts that can achieve this, [`code/diamm/fetch.py`](/code/diamm/fetch.py) is a synchronous script, and [`code/diamm/async_fetch.py`](/code/diamm/async_fetch.py) is asynchronous, and thus much faster.
 
-The synchronous script is limited to a request every 100ms, but so far has never reached this limit. The async script is rate limited to a maximum of 2 simultaneous connections across 3 workers, 1 of which is for querying the search page and the other 2 are for downloading the item pages. It is also limited to 10 requests per second (globally, across all workers). In addition to this, the searching worker is further limited to 1 request per second. This rate is pending review by Andrew Hankinson in [#285](https://github.com/DDMAL/linkedmusic-datalake/issues/285)
+The synchronous script is limited to a request every 100ms, but so far has never reached this limit. The async script is rate limited to a maximum of 2 simultaneous connections across 3 workers, 1 of which is for querying the search page and the other 2 are for downloading the item pages. It is also limited to 10 requests per second (globally, across all workers). In addition to this, the searching worker is further limited to 1 request per second. This rate has been approved by Andrew Hankinson in [#368](https://github.com/DDMAL/linkedmusic-datalake/pull/368#issuecomment-2972496886).
 
 Additionally, the async script has a maximum queue size for the queue of pages to be downloaded that will pause the searching worker if the queue gets too full to help even the load on the search endpoint.
 
