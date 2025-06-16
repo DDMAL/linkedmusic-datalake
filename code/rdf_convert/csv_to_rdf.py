@@ -14,30 +14,31 @@ import logging
 
 
 
-def to_rdf_node(val: str, namespaces: dict, lang: str = None, datatype: str = None) -> Union[URIRef, Literal, None]:
-    """Convert a string value to an RDF node."""
+def to_rdf_node(val: str, namespaces: dict, lang: str|None = None, datatype: str|None = None) -> Union[URIRef, Literal, None]:
+    """Convert a value to the appropriate RDF node."""
     if pd.isna(val) or val == "":
         return None
     qid = extract_wd_id(val)
     if qid:
         return URIRef(f"{namespaces['wd']}{qid}")
-    elif val.startswith("http://"):
-        for uri in namespaces.values():
-            if val.startswith(uri):
-                # Only considered a value URI if it is in a binded namespace
-                return URIRef(val)
-    else:
-        if ":" in datatype:
-            prefix, local = datatype.split(":", 1)
-            ns_uri = namespaces.get(prefix)
-            if ns_uri:
-                datatype = {ns_uri}{local}
-        return Literal(str(val), lang=lang, datatype=datatype)
+    for prefix ,uri in namespaces.items():
+        if val.startswith(uri):
+            # Only considered a value URI if it is in a binded namespace
+            return URIRef(val)
+        if val.startswith(prefix + ":"):
+            # If the value starts with a prefix, use the namespace URI
+            return URIRef(f"{uri}{val.split(':', 1)[1]}")
+    if ":" in datatype:
+        prefix, body = datatype.split(":", 1)
+        ns_uri = namespaces.get(prefix)
+        if ns_uri:
+            datatype = (f"{ns_uri}{body}")
+    return Literal(str(val), lang=lang, datatype=datatype)
 
 def to_predicate(val: str, namespaces: dict) -> URIRef:
     """
     Convert a property string to a predicate URIRef.
-    If the value is a Wikidata property (QID or PID), use the wdt namespace.
+    If the value is a Wikidata property (PID), use the wdt namespace.
     Otherwise, if the value contains a colon, use the prefix to look up the namespace.
     """
     pid = extract_wd_id(val)
@@ -65,14 +66,14 @@ def process_csv_file(
     }
     """
     # === Verify that the CSV can be processed ===
-    primary_col = column_mapping.get("primary_key")
+    primary_col = column_mapping.get("PRIMARY_KEY")
     if primary_col is None:
-        raise ValueError(f"the 'primary_key' of {table_name}.csv is not defined")
+        raise ValueError(f"the 'PRIMARY_KEY' of {table_name}.csv is not defined")
+    # PRIMARY_KEY is not a column that exists in the CSV
     property_columns = {col: prop for col, prop in column_mapping.items() if col != "primary_key"}
     for col in property_columns:
         if col not in df.columns:
             raise ValueError(f"'{col}' is not a column in {table_name}.csv ")
-    # Using namedtuples: row.subject_col is valid
     # === Processing Each Row ===
     for row in df.itertuples(index=False):
         primary_val = getattr(row, primary_col, None)
@@ -87,20 +88,14 @@ def process_csv_file(
             object_val = getattr(row, col, None)
             if not object_val:
                 continue
-            predicate = to_predicate(prop, ns)
             # === Build the Object Node ===
-            datatype = prop.get("datatype", None)
-            lang = prop.get("lang", None)
-            if datatype is not None and lang is not None:
-                raise ValueError("Cannot specify both datatype and lang for column {col} in {table_name}.csv")
-            object_node = to_rdf_node(object_val, ns, lang=lang, datatype=datatype)
             if isinstance(prop, str):
-                # simplest logic
-                subject_node = primary_node # every record must have a primary key
-            if isinstance(prop, dict):
+                predicate = to_predicate(prop, ns)
+                subject_node = primary_node 
+            elif isinstance(prop, dict):
                 # complex logic
                 if condition := prop.get("condition", None):
-                    row_dict = row._asdict()  # Convert namedtuple to dict
+                    row_dict = row._asdict()  # eval context must be provided as dict
                     if not eval(condition, {}, row_dict): # evaluate the condition using values in this row as variable
                         continue 
                 # === Build the subject node ===
@@ -110,6 +105,18 @@ def process_csv_file(
                     subject_node = to_rdf_node(subject_val, ns)
                 else:
                     subject_node = primary_node
+                pred = prop.get("pred", None)
+                if not pred:
+                    continue
+                datatype = prop.get("datatype", None)
+                lang = prop.get("lang", None)
+                if datatype is not None and lang is not None:
+                    raise ValueError("Cannot specify both datatype and lang for column {col} in {table_name}.csv")
+                object_node = to_rdf_node(object_val, ns, lang=lang, datatype=datatype)
+            else:
+                # can not parse toml
+                pass
+
             # === Add the triple to the graph ===    
             graph.add((subject_node, predicate, object_node))
 
