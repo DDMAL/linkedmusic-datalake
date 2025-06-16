@@ -161,6 +161,11 @@ def main():
     script_dir = Path(__file__).parent.resolve()
     csv_folder = (script_dir / rel_inp_dir).resolve()
 
+    # === Resolve RDF Folder Path ===
+    rdf_folder = (script_dir / rel_out_dir).resolve()
+    rdf_folder.mkdir(parents=True, exist_ok=True)
+    ttl_path = (rdf_folder / ttl_name).with_suffix(".ttl")
+
     # === Process CSV Files ===
     for csv_name, col_mapping in config.items():
         # "general" and "namespaces" are default tables in the config file
@@ -174,16 +179,11 @@ def main():
         try:
             df = pd.read_csv(csv_file)
         except Exception as e:
-            logger.error("Error reading '%s'. Skipping. %e", csv_file, e)
+            logger.error("Error reading '%s'. Skipping. %s", csv_file, e)
             continue
         logger.info("Processing %s...", csv_file.name)
         process_csv_file(df, csv_name, col_mapping, graph, rdf_ns)
 
-    # === Resolve RDF Folder Path ===
-    rdf_folder = (script_dir / rel_out_dir).resolve()
-    rdf_folder.mkdir(parents=True, exist_ok=True)
-    ttl_path = (rdf_folder / ttl_name).with_suffix(".ttl")
-    
     # === Serialize RDF Output ===
     graph.serialize(destination=str(ttl_path), format="turtle")
     logger.info("RDF conversion completed. Output saved to: %s", ttl_path.resolve())
