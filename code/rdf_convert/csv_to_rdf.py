@@ -66,26 +66,24 @@ def process_csv_file(
         ...
     }
     """
-    # === Verify that the CSV can be processed ===
+    # === Verifying configuration ===
     primary_key = column_mapping.get("PRIMARY_KEY", None)
     if primary_key is None:
         raise ValueError(f"Missing 'PRIMARY_KEY' in config section: [{table_name}]")
-    if primary_key is None:
-        raise ValueError(f"the 'PRIMARY_KEY' of {table_name}.csv is not defined")
-    # PRIMARY_KEY is not a column that exists in the CSV
     property_columns = {col: prop for col, prop in column_mapping.items() if col != "PRIMARY_KEY"}
     for col in property_columns:
         if col not in df.columns:
             raise ValueError(f"'{col}' is not a column in {table_name}.csv ")
     # === Processing Each Row ===
     for row in df.itertuples(index=False):
+        # Preserve the first row of a multi-row record, 
+        # Subsequent rows of the record may be incomplete
         primary_val = getattr(row, primary_key, None)
         if pd.isna(primary_val) or primary_val == "":
             continue
-        # Useful for record lookup
         primary_row = row
         primary_node = to_rdf_node(primary_val, ns)
-    # === Processing Each Column of the Row====
+    # === Processing Each Column of the Row ====
         for col, prop in property_columns.items():
             if not prop:
                 continue
@@ -94,33 +92,36 @@ def process_csv_file(
                 continue
             # === Build the Object Node ===
             if isinstance(prop, str):
+                # simple logic
                 predicate = to_predicate(prop, ns)
                 subject_node = primary_node 
             elif isinstance(prop, dict):
                 # complex logic
-                if condition := prop.get("condition", None):
+                if condition := prop.get("condition"):
                     row_dict = row._asdict()  # eval context must be provided as dict
                     if not eval(condition, {}, row_dict): # evaluate the condition using values in this row as variable
                         continue 
-                # === Build the subject node ===
-                subject_val = getattr(primary_row, prop.get("subj", ""), None)
+                # === Build subject node ===
+                subj_field = prop.get("subj")
+                subject_val = getattr(primary_row, subj_field, None) if subj_field else None
                 if pd.isna(subject_val) or subject_val == "":
                     subject_node = primary_node
                 else:
                     subject_node = to_rdf_node(subject_val, ns)
+                # === Build predicate ===
                 pred = prop.get("pred", None)
                 if not pred:
                     continue
+                predicate = to_predicate(pred, ns)
+                # === Build object node ===
                 datatype = prop.get("datatype", None)
                 lang = prop.get("lang", None)
                 if datatype is not None and lang is not None:
-                    raise ValueError("Cannot specify both datatype and lang for column {col} in {table_name}.csv")
+                    raise ValueError(f"Cannot specify both datatype and lang for column {col} in {table_name}.csv")
                 object_node = to_rdf_node(object_val, ns, lang=lang, datatype=datatype)
             else:
-                # can not parse toml
-                pass
-
-            # === Add the triple to the graph ===    
+                raise ValueError(f"Invalid property mapping for column '{col}' in [{table_name}]. Expected a string or a dict, got {type(prop)}")
+            # === Add triple to graph ===    
             graph.add((subject_node, predicate, object_node))
 
 def main():
