@@ -52,9 +52,11 @@ def validate_input_folder(input_folder):
     return csv_files
 
 
-def extract_csv_headers(csv_files):
+def build_csv_table(csv_files):
     """
     Extract column headers from a list of CSV files for TOML template generation.
+
+    Also add the field PRIMARY_KEY to each table, and set it as the first column
 
     Args:
         csv_files (list[Path]): List of CSV file paths.
@@ -72,7 +74,10 @@ def extract_csv_headers(csv_files):
                 )
             else:
                 table_name = csv_file.stem  # Use file name without extension
-                toml_tables[table_name] = {col: "" for col in df.columns}
+                toml_tables[table_name] = {
+                "PRIMARY_KEY": df.columns[0],
+                **{col: "" for col in df.columns}
+                }
                 print(f"Processed '{csv_file.name}' - {len(df.columns)} columns")
         except Exception as e:
             print(f"Warning: Could not process '{csv_file.name}': {e}")
@@ -126,7 +131,7 @@ def make_template(input_folder, base):
         "wdt": "http://www.wikidata.org/prop/direct/",
     }
     toml_dict = {"general": general_headers, "namespaces": namespaces}
-    csv_tables = extract_csv_headers(csv_files)
+    csv_tables = build_csv_table(csv_files)
     if not csv_tables:
         print("Error: No TOML file was generated: no valid CSV files were processed.")
         sys.exit(1)
@@ -137,7 +142,7 @@ def make_template(input_folder, base):
 def update_toml(toml_path):
     """
     Update an existing TOML file by merging in new tables/fields from the current CSV files.
-    The input folder is determined from the [general][csv_path] field in the TOML file.
+    The input folder is determined from the [general][csv_folder] field in the TOML file.
 
     Args:
         toml_path (Path): Path to the TOML file to update.
@@ -148,16 +153,17 @@ def update_toml(toml_path):
     with open(toml_path, "rb") as fi:
         existing_toml = tomli.load(fi)
         try:
-            data_path = existing_toml["general"]["csv_path"]
+            data_path = existing_toml["general"]["csv_folder"]
             input_folder = Path(data_path)
-            print(f"[UPDATE] Using csv_path from TOML: {input_folder}")
+            print(f"[UPDATE] Using csv_folder from TOML: {input_folder}")
         except KeyError as e:
-            print(f"Error: Could not find [general][csv_path] in TOML: {e}")
+            print(f"Error: Could not find [general][csv_folder] in TOML: {e}")
             sys.exit(1)
         except Exception as e:
             print(f"Error reading TOML file: {e}")
             sys.exit(1)
-    updated_toml = make_template(input_folder)
+    base_path = Path(__file__).parent
+    updated_toml = make_template(input_folder, base_path)
     merged = deep_merge(existing_toml, updated_toml)
     with open(toml_path, "wb") as fi:
         tomli_w.dump(merged, fi)
