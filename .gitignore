@@ -5,6 +5,7 @@ psqldump
 .history/*
 
 *.sql*
+*.tar*
 rdb2rdf/
 *.nt
 *.xz
