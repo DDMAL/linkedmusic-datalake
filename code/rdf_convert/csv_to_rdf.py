@@ -67,7 +67,9 @@ def process_csv_file(
     }
     """
     # === Verify that the CSV can be processed ===
-    primary_key = column_mapping.get("PRIMARY_KEY")
+    primary_key = column_mapping.get("PRIMARY_KEY", None)
+    if primary_key is None:
+        raise ValueError(f"Missing 'PRIMARY_KEY' in config section: [{table_name}]")
     if primary_key is None:
         raise ValueError(f"the 'PRIMARY_KEY' of {table_name}.csv is not defined")
     # PRIMARY_KEY is not a column that exists in the CSV
@@ -140,42 +142,47 @@ def main():
     with open(config_path, "rb") as f:
         config = tomli.load(f)
 
+    # == Extract general variables from RDF config ===
+    try:
+        rdf_ns = config["namespaces"]
+        rel_inp_dir = Path(config["general"]["csv_folder"])
+        rel_out_dir = Path(config["general"]["rdf_output_path"])
+        ttl_name = config["general"]["name"]
+    except KeyError as e:
+        raise ValueError(f" {config} is missing required key: {e}")
     # === Initialize RDF Graph ===
     graph = Graph()
 
     # === Bind Namespaces ===
-    rdf_ns = config.get["namespaces"]
     for prefix, ns in rdf_ns.items():
         graph.bind(prefix, Namespace(ns))
 
     # === Resolve CSV Folder Path ===
-    rel_in_dir = Path(config["general"]["csv_folder"])
     script_dir = Path(__file__).parent.resolve()
-    csv_folder = (script_dir / rel_in_dir).resolve()
+    csv_folder = (script_dir / rel_inp_dir).resolve()
 
     # === Process CSV Files ===
     for csv_name, col_mapping in config.items():
-        # "general" and "namespaces" tables are not CSV files
+        # "general" and "namespaces" are default tables in the config file
         if csv_name in ("general", "namespaces"):
             continue
-        # csv_name does not have ".csv" extension
+        # the table names do not have ".csv" extension
         csv_file = (csv_folder / csv_name).with_suffix(".csv")
         if not csv_file.exists():
-            logger.warning("CSV file '%s' not found. Skipping.", csv_file)
+            logger.warning("'%s' not found. Skipping.", csv_file)
             continue
         try:
             df = pd.read_csv(csv_file)
         except Exception as e:
-            logger.error("Error reading '%s': %e", csv_file, e)
+            logger.error("Error reading '%s'. Skipping. %e", csv_file, e)
             continue
         logger.info("Processing %s...", csv_file.name)
         process_csv_file(df, csv_name, col_mapping, graph, rdf_ns)
 
     # === Resolve RDF Folder Path ===
-    rel_out_dir = Path(config["general"]["rdf_output_path"])
     rdf_folder = (script_dir / rel_out_dir).resolve()
     rdf_folder.mkdir(parents=True, exist_ok=True)
-    ttl_path = (rdf_folder / Path(config["general"]["name"])).with_suffix(".ttl")
+    ttl_path = (rdf_folder / ttl_name).with_suffix(".ttl")
     
     # === Serialize RDF Output ===
     graph.serialize(destination=str(ttl_path), format="turtle")
