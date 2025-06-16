@@ -16,10 +16,24 @@ The dumps also contain every submission for every recording (~30 million), but t
 
 I use the data dumps instead of downloading from the [API](https://acousticbrainz.readthedocs.io/api.html) as it requires less work on the acousticbrainz serveer and it is easier to process the data ourselves.
 
-Run the following command to download all the high and low level files. Since the data isn't being updated, this should only need to be run once.
+Run the following command to download all the high level files and the partial low level dumps. Since the data isn't being updated, this should only need to be run once.
 
 ```bash
 python fetch.py
 ```
 
 The script will download all 30 high and low level files, and will output them in the `data/acousticbrainz/raw/highlevel/` and `data/acousticbrainz/raw/lowlevel/` folders, respectively. The script will skip all the files already downloaded, instead of redownloading them.
+
+### 2. Extracting the data
+
+The data is compressed using [zstandard](https://en.wikipedia.org/wiki/Zstd), and the full dumps contain 1 JSON file per recording. The files in these dumps are organized in the following directory structure `acousticbrainz-highlevel-json-20220623/{type}/{ab}/{c}/{mbid}-{n}.json` where `type` is either `lowlevel` or `highlevel`, `abc` are the first 3 digits (in hexadecimal) of the MBID for the recording, `mbid` is the full MBID for the recording, and `n` is the submission number for that recording (starting at 0).
+
+The partial dumps are much simpler, containing a single CSV file in the `acousticbrainz-lowlevel-features-20220623` folder.
+
+The [`code/acousticbrainz/untar.py`](/code/acousticbrainz/untar.py) script will extract all files from the tarfiles, ignoring the outermost directory and keeping the rest of the directory structure the same.
+
+Run the following command to extract all compressed files:
+
+```bash
+python untar.py
+```
