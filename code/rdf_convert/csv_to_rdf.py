@@ -15,7 +15,8 @@ import logging
 
 
 def to_rdf_node(val: str, namespaces: dict, lang: str|None = None, datatype: str|None = None) -> Union[URIRef, Literal, None]:
-    """Convert a value to the appropriate RDF node."""
+    """Convert a value to the appropriate RDF node.
+    The result is either a URIRef"""
     if pd.isna(val) or val == "":
         return None
     qid = extract_wd_id(val)
@@ -66,27 +67,28 @@ def process_csv_file(
     }
     """
     # === Verify that the CSV can be processed ===
-    primary_col = column_mapping.get("PRIMARY_KEY")
-    if primary_col is None:
+    primary_key = column_mapping.get("PRIMARY_KEY")
+    if primary_key is None:
         raise ValueError(f"the 'PRIMARY_KEY' of {table_name}.csv is not defined")
     # PRIMARY_KEY is not a column that exists in the CSV
-    property_columns = {col: prop for col, prop in column_mapping.items() if col != "primary_key"}
+    property_columns = {col: prop for col, prop in column_mapping.items() if col != "PRIMARY_KEY"}
     for col in property_columns:
         if col not in df.columns:
             raise ValueError(f"'{col}' is not a column in {table_name}.csv ")
     # === Processing Each Row ===
     for row in df.itertuples(index=False):
-        primary_val = getattr(row, primary_col, None)
-        if primary_val:
-            # Useful for record lookup
-            primary_row = row
-            primary_node = to_rdf_node(primary_val, ns)
-        # === Processing Each Column of the Row====
+        primary_val = getattr(row, primary_key, None)
+        if pd.isna(primary_val) or primary_val == "":
+            continue
+        # Useful for record lookup
+        primary_row = row
+        primary_node = to_rdf_node(primary_val, ns)
+    # === Processing Each Column of the Row====
         for col, prop in property_columns.items():
             if not prop:
                 continue
             object_val = getattr(row, col, None)
-            if not object_val:
+            if pd.isna(object_val) or object_val == "":
                 continue
             # === Build the Object Node ===
             if isinstance(prop, str):
@@ -100,11 +102,10 @@ def process_csv_file(
                         continue 
                 # === Build the subject node ===
                 subject_val = getattr(primary_row, prop.get("subj", ""), None)
-                if subject_val:
-                    # subject val must be an URI
-                    subject_node = to_rdf_node(subject_val, ns)
-                else:
+                if pd.isna(subject_val) or subject_val == "":
                     subject_node = primary_node
+                else:
+                    subject_node = to_rdf_node(subject_val, ns)
                 pred = prop.get("pred", None)
                 if not pred:
                     continue
