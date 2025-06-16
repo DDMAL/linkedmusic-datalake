@@ -121,7 +121,7 @@ def make_template(input_folder, base):
     general_headers = {
         "name": "Name of the Dataset [required]",
         "csv_folder": rel_path.as_posix(),
-        "rdf_output_folder": "output/path/for/rdf/files [required]",
+        "rdf_output_path": "output/path/for/rdf/files [required]",
     }
     namespaces = {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
