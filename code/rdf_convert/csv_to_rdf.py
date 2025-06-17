@@ -14,8 +14,9 @@ from rdflib import Graph, URIRef, Literal, Namespace
 import logging
 
 
-
-def to_rdf_node(val: str, namespaces: dict, lang: str|None = None, datatype: str|None = None) -> Union[URIRef, Literal, None]:
+def to_rdf_node(
+    val: str, namespaces: dict, lang: str | None = None, datatype: str | None = None
+) -> Union[URIRef, Literal, None]:
     """Convert a value to the appropriate RDF node.
     The result is either a URIRef"""
     if pd.isna(val) or val == "":
@@ -23,7 +24,7 @@ def to_rdf_node(val: str, namespaces: dict, lang: str|None = None, datatype: str
     qid = extract_wd_id(val)
     if qid:
         return URIRef(f"{namespaces['wd']}{qid}")
-    for prefix ,uri in namespaces.items():
+    for prefix, uri in namespaces.items():
         if val.startswith(uri):
             # Only considered a value URI if it is in a binded namespace
             return URIRef(val)
@@ -34,8 +35,9 @@ def to_rdf_node(val: str, namespaces: dict, lang: str|None = None, datatype: str
         prefix, body = datatype.split(":", 1)
         ns_uri = namespaces.get(prefix)
         if ns_uri:
-            datatype = (f"{ns_uri}{body}")
+            datatype = f"{ns_uri}{body}"
     return Literal(str(val), lang=lang, datatype=datatype)
+
 
 def to_predicate(val: str, namespaces: dict) -> URIRef:
     """
@@ -51,14 +53,17 @@ def to_predicate(val: str, namespaces: dict) -> URIRef:
         ns_uri = namespaces.get(prefix)
         if ns_uri:
             return URIRef(f"{ns_uri}{local}")
-    raise ValueError(f"Invalid property value: {val}. Expected a Wikidata ID or a valid prefixed URI.")
+    raise ValueError(
+        f"Invalid property value: {val}. Expected a Wikidata ID or a valid prefixed URI."
+    )
+
 
 def process_csv_file(
     df: pd.DataFrame, table_name: str, column_mapping: dict, graph: Graph, ns: dict
 ) -> None:
     """
     Convert a CSV DataFrame to RDF triples and add them to the graph.
-    
+
     column_mapping example:
     {
         "primary_key": "subject_column_name",
@@ -71,20 +76,22 @@ def process_csv_file(
     primary_key = column_mapping.get("PRIMARY_KEY", None)
     if primary_key is None:
         raise ValueError(f"Missing 'PRIMARY_KEY' in config section: [{table_name}]")
-    property_columns = {col: prop for col, prop in column_mapping.items() if col != "PRIMARY_KEY"}
+    property_columns = {
+        col: prop for col, prop in column_mapping.items() if col != "PRIMARY_KEY"
+    }
     for col in property_columns:
         if col not in df.columns:
             raise ValueError(f"'{col}' is not a column in {table_name}.csv ")
     # === Processing Each Row ===
     for row in df.itertuples(index=False):
-        # Preserve the first row of a multi-row record, 
+        # Preserve the first row of a multi-row record,
         # Subsequent rows of the record may be incomplete
         primary_val = getattr(row, primary_key, "")
         if pd.isna(primary_val) or primary_val == "":
             continue
         primary_row = row
         primary_node = to_rdf_node(primary_val, ns)
-    # === Processing Each Column of the Row ====
+        # === Processing Each Column of the Row ====
         for col, prop in property_columns.items():
             if not prop:
                 continue
@@ -95,17 +102,21 @@ def process_csv_file(
             if isinstance(prop, str):
                 # simple logic
                 predicate = to_predicate(prop, ns)
-                subject_node = primary_node 
+                subject_node = primary_node
                 object_node = to_rdf_node(getattr(row, col, ""), ns)
             elif isinstance(prop, dict):
                 # complex logic
                 if condition := prop.get("condition"):
                     row_dict = row._asdict()  # eval context must be provided as dict
-                    if not eval(condition, {}, row_dict): # evaluate the condition using values in this row as variable
-                        continue 
+                    if not eval(
+                        condition, {}, row_dict
+                    ):  # evaluate the condition using values in this row as variable
+                        continue
                 # === Build subject node ===
                 subj_field = prop.get("subj")
-                subject_val = getattr(primary_row, subj_field, "") if subj_field else None
+                subject_val = (
+                    getattr(primary_row, subj_field, "") if subj_field else None
+                )
                 if pd.isna(subject_val) or subject_val == "":
                     subject_node = primary_node
                 else:
@@ -119,26 +130,33 @@ def process_csv_file(
                 datatype = prop.get("datatype", None)
                 lang = prop.get("lang", None)
                 if datatype is not None and lang is not None:
-                    raise ValueError(f"Cannot specify both datatype and lang for column {col} in {table_name}.csv")
+                    raise ValueError(
+                        f"Cannot specify both datatype and lang for column {col} in {table_name}.csv"
+                    )
                 object_node = to_rdf_node(object_val, ns, lang=lang, datatype=datatype)
             else:
-                raise ValueError(f"Invalid property mapping for column '{col}' in [{table_name}]. Expected a string or a dict, got {type(prop)}")
-            # === Add triple to graph ===    
+                raise ValueError(
+                    f"Invalid property mapping for column '{col}' in [{table_name}]. Expected a string or a dict, got {type(prop)}"
+                )
+            # === Add triple to graph ===
             graph.add((subject_node, predicate, object_node))
+
 
 def main():
     # === Setup Logger ===
     logger = logging.getLogger("csv_to_rdf")
     if not logger.hasHandlers():
-        logging.basicConfig(
-            level=logging.INFO,
-            format='[%(levelname)s] %(message)s'
-        )
+        logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
     # === Argument Parsing ===
     parser = argparse.ArgumentParser(
         description="General CSV to RDF converter driven by a TOML configuration file."
     )
-    parser.add_argument('--config', type=str, default='rdf_config.toml', help='Path to the TOML configuration file')
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="rdf_config.toml",
+        help="Path to the TOML configuration file",
+    )
     args = parser.parse_args()
     config_path = Path(args.config)
     # === Load TOML config ===
@@ -190,6 +208,7 @@ def main():
     # === Serialize RDF Output ===
     graph.serialize(destination=str(ttl_path), format="turtle")
     logger.info("RDF conversion completed. Output saved to: %s", ttl_path.resolve())
+
 
 if __name__ == "__main__":
     main()

@@ -18,12 +18,12 @@ Usage:
     python generate_toml.py --update existing_config.toml
 """
 
-
 import argparse
 import sys
 import os
 from pathlib import Path
 import pandas as pd
+
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
@@ -43,12 +43,10 @@ def validate_input_folder(input_folder):
         SystemExit: If the folder does not exist or contains no CSV files.
     """
     if not input_folder.is_dir():
-        print(f"Error: '{input_folder}' is not a valid directory.")
-        sys.exit(1)
+        raise ValueError(f"Error: '{input_folder}' is not a valid directory.")
     csv_files = list(input_folder.glob("*.csv"))
     if not csv_files:
-        print(f"Error: No CSV file found in '{input_folder}'.")
-        sys.exit(1)
+        raise ValueError(f"Error: No CSV file found in '{input_folder}'.")
     return csv_files
 
 
@@ -69,18 +67,20 @@ def build_csv_table(csv_files):
         try:
             df = pd.read_csv(csv_file)
             if df.empty:
-                print(
-                    f"Warning: Could not process '{csv_file.name}' because it is empty."
+                logger.warning(
+                    f"Could not process '{csv_file.name}' because it is empty."
                 )
+                continue
             else:
                 table_name = csv_file.stem  # Use file name without extension
+                # Each table must have a PRIMARY_KEY field
                 toml_tables[table_name] = {
-                "PRIMARY_KEY": df.columns[0],
-                **{col: "" for col in df.columns}
+                    "PRIMARY_KEY": df.columns[0],
+                    **{col: "" for col in df.columns},
                 }
-                print(f"Processed '{csv_file.name}' - {len(df.columns)} columns")
+                logger.info(f"Processed '{csv_file.name}' - {len(df.columns)} columns")
         except Exception as e:
-            print(f"Warning: Could not process '{csv_file.name}': {e}")
+            logger.warning(f"Could not process '{csv_file.name}': {e}")
     return toml_tables
 
 
@@ -95,7 +95,7 @@ def deep_merge(old_toml, new_toml):
     Returns:
         dict: The merged TOML data.
     """
-    # We must create a deep copy of new_toml to avoid modifying the original
+    # Create a deep copy of new_toml to avoid modifying the original
     merged_toml = {k: v.copy() for k, v in new_toml.items()}
     for table, fields in old_toml.items():
         if table not in merged_toml:
@@ -106,7 +106,7 @@ def deep_merge(old_toml, new_toml):
     return merged_toml
 
 
-def make_template(input_folder, base):
+def make_template(input_folder, base_path):
     """
     Generate a TOML configuration dictionary from the structure of CSV files in the input folder.
 
@@ -117,11 +117,11 @@ def make_template(input_folder, base):
     """
     csv_files = validate_input_folder(input_folder)
     # Find the relative path to the input folder from the base path
-    rel_path = Path(os.path.relpath(input_folder, start=base))
+    rel_path = Path(os.path.relpath(input_folder, start=base_path))
     general_headers = {
-        "name": "Name of the Dataset [required]",
+        "name": "",
         "csv_folder": rel_path.as_posix(),
-        "rdf_output_path": "output/path/for/rdf/files [required]",
+        "rdf_output_path": "",
     }
     namespaces = {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -133,8 +133,9 @@ def make_template(input_folder, base):
     toml_dict = {"general": general_headers, "namespaces": namespaces}
     csv_tables = build_csv_table(csv_files)
     if not csv_tables:
-        print("Error: No TOML file was generated: no valid CSV files were processed.")
-        sys.exit(1)
+        raise ValueError(
+            "No TOML file was generated: no valid CSV files were processed."
+        )
     toml_dict.update(csv_tables)
     return toml_dict
 
