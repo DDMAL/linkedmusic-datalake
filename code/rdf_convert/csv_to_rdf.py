@@ -6,7 +6,8 @@ Reads rdf_config.toml, processes all listed CSVs, and generates RDF triples acco
 import argparse
 from pathlib import Path
 from typing import Union
-from code.wikidata_utils import extract_wd_id
+from wikidata_utils import extract_wd_id
+import numpy as np
 import pandas as pd
 import tomli
 from rdflib import Graph, URIRef, Literal, Namespace
@@ -29,7 +30,7 @@ def to_rdf_node(val: str, namespaces: dict, lang: str|None = None, datatype: str
         if val.startswith(prefix + ":"):
             # If the value starts with a prefix, use the namespace URI
             return URIRef(f"{uri}{val.split(':', 1)[1]}")
-    if ":" in datatype:
+    if datatype is not None and ":" in datatype:
         prefix, body = datatype.split(":", 1)
         ns_uri = namespaces.get(prefix)
         if ns_uri:
@@ -78,7 +79,7 @@ def process_csv_file(
     for row in df.itertuples(index=False):
         # Preserve the first row of a multi-row record, 
         # Subsequent rows of the record may be incomplete
-        primary_val = getattr(row, primary_key, None)
+        primary_val = getattr(row, primary_key, "")
         if pd.isna(primary_val) or primary_val == "":
             continue
         primary_row = row
@@ -87,7 +88,7 @@ def process_csv_file(
         for col, prop in property_columns.items():
             if not prop:
                 continue
-            object_val = getattr(row, col, None)
+            object_val = getattr(row, col, "")
             if pd.isna(object_val) or object_val == "":
                 continue
             # === Build the Object Node ===
@@ -95,6 +96,7 @@ def process_csv_file(
                 # simple logic
                 predicate = to_predicate(prop, ns)
                 subject_node = primary_node 
+                object_node = to_rdf_node(getattr(row, col, ""), ns)
             elif isinstance(prop, dict):
                 # complex logic
                 if condition := prop.get("condition"):
@@ -103,7 +105,7 @@ def process_csv_file(
                         continue 
                 # === Build subject node ===
                 subj_field = prop.get("subj")
-                subject_val = getattr(primary_row, subj_field, None) if subj_field else None
+                subject_val = getattr(primary_row, subj_field, "") if subj_field else None
                 if pd.isna(subject_val) or subject_val == "":
                     subject_node = primary_node
                 else:
@@ -178,7 +180,7 @@ def main():
             logger.warning("'%s' not found. Skipping.", csv_file)
             continue
         try:
-            df = pd.read_csv(csv_file)
+            df = pd.read_csv(csv_file).replace({None: np.nan, "": np.nan})
         except Exception as e:
             logger.error("Error reading '%s'. Skipping. %s", csv_file, e)
             continue

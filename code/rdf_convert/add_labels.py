@@ -2,7 +2,7 @@ import asyncio
 import sys
 from typing import List, Tuple
 from pathlib import Path
-from code.wikidata_utils import extract_wd_id, WikidataAPIClient
+from wikidata_utils import extract_wd_id, WikidataAPIClient
 import aiohttp
 
 
