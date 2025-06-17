@@ -40,6 +40,7 @@ def extract_tar_files(folder_name):
                                 ) as out_file:
                                     out_file.write(extracted_file.read())
 
+
 if __name__ == "__main__":
     os.makedirs(OUTPUT_PATH, exist_ok=True)
     extract_tar_files("highlevel")
