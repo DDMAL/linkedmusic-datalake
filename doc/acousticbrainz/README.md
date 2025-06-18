@@ -28,9 +28,11 @@ The script will download all 30 high and low level files, and will output them i
 
 The data is compressed using [zstandard](https://en.wikipedia.org/wiki/Zstd), and the full dumps contain 1 JSON file per recording. The files in these dumps are organized in the following directory structure `acousticbrainz-highlevel-json-20220623/{type}/{ab}/{c}/{mbid}-{n}.json` where `type` is either `lowlevel` or `highlevel`, `abc` are the first 3 digits (in hexadecimal) of the MBID for the recording, `mbid` is the full MBID for the recording, and `n` is the submission number for that recording (starting at 0).
 
+Since the full dumps contain 1 JSON file per entry (and there are 29.5M entries), storing 1 json file per entry is not realistic. As such, the extraction script will output the data in JSON Lines files, where each line will be a full JSON entry. There will be 256 JSONL files, from `00.jsonl` to `ff.jsonl`, indicating the first 2 digits of the MBID for the recording. In addition, since the submission number is only stored in the name of the JSON file, the script will also output a `versions.json` file that contains a list of versions for each recording ID, in the order in which they appear in the JSONL files.
+
 The partial dumps are much simpler, containing a single CSV file in the `acousticbrainz-lowlevel-features-20220623` folder.
 
-The [`code/acousticbrainz/untar.py`](/code/acousticbrainz/untar.py) script will extract all files from the tarfiles, ignoring the outermost directory and keeping the rest of the directory structure the same.
+The [`code/acousticbrainz/untar.py`](/code/acousticbrainz/untar.py) script will extract all files from the tarfiles, ignoring the outermost directory and following the structure described above.
 
 Run the following command to extract all compressed files:
 
