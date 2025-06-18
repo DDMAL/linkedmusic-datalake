@@ -1,6 +1,8 @@
 """
 General CSV to RDF converter driven by a TOML configuration file.
-Reads rdf_config.toml, processes all listed CSVs, and generates RDF triples accordingly.
+
+Reads rdf_config.toml, processes all CSVs listed in the config, 
+and generates RDF triples accordingly.
 """
 
 import argparse
@@ -17,9 +19,17 @@ import logging
 def to_rdf_node(
     val: str, namespaces: dict, lang: str | None = None, datatype: str | None = None
 ) -> Union[URIRef, Literal, None]:
-    """Convert a value to the appropriate RDF node.
-    The result is either a URIRef"""
-    if pd.isna(val) or val == "":
+    """Convert a value to the appropriate RDF node:
+
+    A URIRef is returned if:
+    1. The value is a Wikidata ID (e.g. Q3 or P1234)
+    2. The value starts with a bound namespace URI or prefix
+
+    None is returned if the value is empty or NaN.
+
+    In all others cases, a Literal is returned.
+    The Literal can have a language label or a datatype specified"""
+    if not isinstance(val, str) or val == "":
         return None
     qid = extract_wd_id(val)
     if qid:
@@ -29,8 +39,9 @@ def to_rdf_node(
             # Only considered a value URI if it is in a binded namespace
             return URIRef(val)
         if val.startswith(prefix + ":"):
-            # If the value starts with a prefix, use the namespace URI
+            # If the value starts with a prefix, expand to full URI
             return URIRef(f"{uri}{val.split(':', 1)[1]}")
+    # Expand datatype if it is prefixed
     if datatype is not None and ":" in datatype:
         prefix, body = datatype.split(":", 1)
         ns_uri = namespaces.get(prefix)
@@ -42,17 +53,25 @@ def to_rdf_node(
 def to_predicate(val: str, namespaces: dict) -> URIRef:
     """
     Convert a property string to a predicate URIRef.
-    If the value is a Wikidata property (PID), use the wdt namespace.
-    Otherwise, if the value contains a colon, use the prefix to look up the namespace.
+    
+    A URIRef is returned if:
+    1. The value is a Wikidata PID (e.g. P1234)
+    2. The value starts with a bound namespace prefix or URI.
+
+    This function raises a ValueError is none of the above conditions are met.
+    It will never return Literal, since a predicate can not be a Literal.
     """
-    pid = extract_wd_id(val)
-    if pid:
-        return URIRef(f"{namespaces['wdt']}{pid}")
-    if ":" in val:
-        prefix, local = val.split(":", 1)
-        ns_uri = namespaces.get(prefix)
-        if ns_uri:
-            return URIRef(f"{ns_uri}{local}")
+    # The function extracts both QID and PID
+    wiki_id = extract_wd_id(val)
+    if wiki_id and wiki_id.startswith("P"):
+        return URIRef(f"{namespaces['wdt']}{wiki_id}")
+    for prefix, uri in namespaces.items():
+        if val.startswith(uri):
+            # Only considered a value URI if it is in a binded namespace
+            return URIRef(val)
+        if val.startswith(prefix + ":"):
+            # If the value starts with a prefix, expand to full URI
+            return URIRef(f"{uri}{val.split(':', 1)[1]}")
     raise ValueError(
         f"Invalid property value: {val}. Expected a Wikidata ID or a valid prefixed URI."
     )
@@ -198,7 +217,8 @@ def main():
             logger.warning("'%s' not found. Skipping.", csv_file)
             continue
         try:
-            df = pd.read_csv(csv_file).replace({None: np.nan, "": np.nan})
+            df = pd.read_csv(csv_file)
+            df = df.replace({None: "", np.nan: ""})
         except Exception as e:
             logger.error("Error reading '%s'. Skipping. %s", csv_file, e)
             continue
