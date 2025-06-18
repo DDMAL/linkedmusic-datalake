@@ -17,7 +17,7 @@ import logging
 
 
 def to_rdf_node(
-    val: str, namespaces: dict, lang: str | None = None, datatype: str | None = None
+    val: str, namespaces: dict, lang: str | None = None, datatype: str | None = None, prefix: str = None
 ) -> Union[URIRef, Literal, None]:
     """Convert a value to the appropriate RDF node:
 
@@ -34,13 +34,10 @@ def to_rdf_node(
     qid = extract_wd_id(val)
     if qid:
         return URIRef(f"{namespaces['wd']}{qid}")
-    for prefix, uri in namespaces.items():
-        if val.startswith(uri):
-            # Only considered a value URI if it is in a binded namespace
-            return URIRef(val)
-        if val.startswith(prefix + ":"):
-            # If the value starts with a prefix, expand to full URI
-            return URIRef(f"{uri}{val.split(':', 1)[1]}")
+    if val.startswith("http") and datatype not in ("xsd:anyURI", XSD.anyURI):
+        return URIRef(val)
+    if prefix:
+        return URIRef(f"{namespaces.get(prefix)}{val}")
     # Expand datatype if it is prefixed
     if datatype is not None and ":" in datatype:
         prefix, body = datatype.split(":", 1)
