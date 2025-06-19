@@ -82,7 +82,7 @@ async def add_labels(input_path: Path, output_path: Path, client: WikidataAPICli
                 f_out.write(line + "\n")
 
 
-async def main(input_file: Path, output_file: Path):
+async def main(input_path: Path, output_path: Path):
     """
     Main async entry point. Initializes the Wikidata API client session and
     delegates to `add_labels`.
@@ -93,7 +93,7 @@ async def main(input_file: Path, output_file: Path):
     """
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
-        await add_labels(input_file, output_file, client)
+        await add_labels(input_path, output_path, client)
 
 
 if __name__ == "__main__":
