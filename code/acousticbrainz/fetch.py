@@ -16,7 +16,7 @@ HIGHLEVEL_FILES = [
 ]
 FEATURE_FILES = [
     f"{FEATURES_URL}acousticbrainz-lowlevel-features-20220623-{k}.tar.zst"
-    for k in ("lowlevel", "rhythm", "tonal")
+    for k in ("rhythm", "tonal")
 ]
 
 OUTPUT_PATH = "../../data/acousticbrainz/raw/"
