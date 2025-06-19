@@ -14,7 +14,7 @@ the new CSV structure in the input folder. Only fields with empty
 values will be overwritten. No comment is preserved.
 
 Usage:
-    python generate_toml.py --input_folder path/to/reconciled/csvs --output rdf_config.toml
+    python generate_toml.py --input path/to/reconciled/csvs --output rdf_config.toml
     python generate_toml.py --update existing_config.toml
 """
 
@@ -182,7 +182,7 @@ if __name__ == "__main__":
         description="Generate TOML template from CSV files."
     )
     parser.add_argument(
-        "--input_folder", type=Path, help="Path to folder containing CSV files"
+        "--input", type=Path, help="Path to folder containing CSV files"
     )
     parser.add_argument(
         "--update",
@@ -200,18 +200,18 @@ if __name__ == "__main__":
 
     if args.update:
         update_toml(args.update)
-    elif args.input_folder:
+    elif args.input:
         output_path = args.output
         if output_path.exists():
             logger.error(f"Error: '{output_path}' already exists.")
             sys.exit(1)
         base_path = Path(__file__).parent
         # Ensure that the path stored in config is relative to the script folder
-        toml_data = make_template(args.input_folder.resolve(), base_path)
+        toml_data = make_template(args.input.resolve(), base_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
         logger.info(40 * "-")
         logger.info(f"\nGenerated '{output_path}'")
     else:
-        parser.error("You must specify --update or --input_folder.")
+        parser.error("You must specify --update or --input.")
