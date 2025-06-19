@@ -20,7 +20,11 @@ WD = Namespace("http://www.wikidata.org/entity/")
 RDFS = Namespace("http://www.w3.org/2000/01/rdf-schema#")
 # http://www.DTL.org/JE/ is the official namespace used in DDL1000.ttl, which is hosted at https://osf.io/bwg42/files/osfstorage.
 # Dig That Lick does not own the domain.
-DTLS = Namespace("http://www.DTL.org/JE/solo_performances/")
+
+#DTLS = Namespace("http://www.DTL.org/JE/solo_performances/")
+#just testing something:
+DTLS = Namespace("https://dig-that-lick.hfm-weimar.de/similarity_search/details?melid=")
+
 DTLT = Namespace("http://www.DTL.org/JE/tracks/")
 
 # These prefixes are used as shorthand in the Turtle file
@@ -45,7 +49,8 @@ DTL_SOLOS_SCHEMA = {
 
 # This schema is for tracks.csv
 DTL_TRACKS_SCHEMA = {
-    "track_title": "rdfs:label",
+    "track_title": "P2888",
+    "track_title_original": "rdfs:label",
     "band_name": "P175",
     "session_date": "P10135",
     "area": "P8546",
@@ -149,14 +154,14 @@ try:
         if subject_node is None:
             continue
         for column, wikidata_property in DTL_TRACKS_SCHEMA.items():
-            if column == "track_title":
+            if column == "track_title_original":
                 predicate = RDFS.label  # Use rdfs:label for track titles
             else:
                 predicate = URIRef(f"{WDT}{wikidata_property}")
             object_node = to_rdf_node(row[column])
 
-            if object_node is None:
-                continue
+            if object_node is None or (column == "track_title" and not matched_wikidata(row[column])):
+                continue # Skip none and unmatched track titles (because dont want to exact match to a string and already have rdfslabel)
             g.add((subject_node, predicate, object_node))
 
 except KeyError as e:
