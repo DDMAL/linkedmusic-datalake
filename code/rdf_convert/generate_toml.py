@@ -22,11 +22,15 @@ import argparse
 import sys
 import os
 from pathlib import Path
+import logging
 import pandas as pd
-
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def validate_input_folder(input_folder):
@@ -150,32 +154,32 @@ def update_toml(toml_path):
         toml_path (Path): Path to the TOML file to update.
     """
     if not toml_path.exists():
-        print(f"Error: '{toml_path}' does not exist.")
+        logger.error(f"Error: '{toml_path}' does not exist.")
         sys.exit(1)
     with open(toml_path, "rb") as fi:
         existing_toml = tomli.load(fi)
         try:
             data_path = existing_toml["general"]["csv_folder"]
             input_folder = Path(data_path)
-            print(f"[UPDATE] Using csv_folder from TOML: {input_folder}")
+            logger.info(f"[UPDATE] Using csv_folder from TOML: {input_folder}")
         except KeyError as e:
-            print(f"Error: Could not find [general][csv_folder] in TOML: {e}")
+            logger.error(f"Error: Could not find [general][csv_folder] in TOML: {e}")
             sys.exit(1)
         except Exception as e:
-            print(f"Error reading TOML file: {e}")
+            logger.error(f"Error reading TOML file: {e}")
             sys.exit(1)
     base_path = Path(__file__).parent
     updated_toml = make_template(input_folder, base_path)
     merged = deep_merge(existing_toml, updated_toml)
     with open(toml_path, "wb") as fi:
         tomli_w.dump(merged, fi)
-    print(40 * "-")
-    print(f"\nUpdated '{toml_path}' with {len(updated_toml) - 2} tables.")
+    logger.info(40 * "-")
+    logger.info(f"\nUpdated '{toml_path}' with {len(updated_toml) - 2} tables.")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Generate TOML templates from CSV files."
+        description="Generate TOML template from CSV files."
     )
     parser.add_argument(
         "--input_folder", type=Path, help="Path to folder containing CSV files"
@@ -199,7 +203,7 @@ if __name__ == "__main__":
     elif args.input_folder:
         output_path = args.output
         if output_path.exists():
-            print(f"Error: '{output_path}' already exists.")
+            logger.error(f"Error: '{output_path}' already exists.")
             sys.exit(1)
         base_path = Path(__file__).parent
         # Ensure that the path stored in config is relative to the script folder
@@ -207,7 +211,7 @@ if __name__ == "__main__":
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
-        print(40 * "-")
-        print(f"\nGenerated '{output_path}'")
+        logger.info(40 * "-")
+        logger.info(f"\nGenerated '{output_path}'")
     else:
         parser.error("You must specify --update or --input_folder.")
