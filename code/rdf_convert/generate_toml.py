@@ -122,7 +122,7 @@ def make_template(input_folder, base_path):
         "name": "",
         "csv_folder": rel_path.as_posix(),
         "rdf_output_folder": "",
-        "test_mode": False
+        "test_mode": False,
     }
     namespaces = {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
