@@ -151,7 +151,7 @@ def rdf_process_predicates(
             elif isinstance(col_schema, dict):
                 # Complex config value
                 for key in col_schema:
-                    if key not in ("pred", "datatype", "lang", "subj", "if"):
+                    if key not in ("pred", "datatype", "lang", "subj", "if", "prefix"):
                         raise ValueError(
                             f"Config[{file}]: invalid key '{key}' in column '{col}'"
                         )
