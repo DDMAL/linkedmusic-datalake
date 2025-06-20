@@ -20,6 +20,8 @@ logger = logging.getLogger("csv_to_rdf")
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
+# === Suppress rdflib Warnings ===
+logging.getLogger("rdflib.term").setLevel(logging.ERROR)
 
 def to_rdf_node(
     val: str,
@@ -338,7 +340,7 @@ def main():
         logger.info(
             "RDF graph built successfully. Serializing... (this may take a while)"
         )
-        print(f"Graph has {len(rdf_graph)} triples")
+        logger.info("RDF graph contains %d triples!", len(rdf_graph))
     # === Finding Output Directory ===
     script_dir = Path(__file__).parent.resolve()
     rdf_folder = (script_dir / rel_out_dir).resolve()
