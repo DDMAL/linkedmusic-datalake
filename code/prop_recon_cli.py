@@ -13,10 +13,9 @@ def print_heading(title: str) -> None:
     """
     Print title heading with separator
     """
-    if title:
-        print("\n" + "=" * 40 + "\n")
-        print(title)
-        print("-" * 40 + "\n")
+    print("\n" + "=" * 40 + "\n")
+    print(title)
+    print("-" * 40 + "\n")
 
 
 def print_separator() -> None:
