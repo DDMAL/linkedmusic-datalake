@@ -20,6 +20,7 @@ Usage:
 
 import argparse
 from pathlib import Path
+import os
 import logging
 import pandas as pd
 # tomli reads TOML files, tomli_w writes TOML files
@@ -96,7 +97,7 @@ def create_toml(input_folder: Path):
     # === Prepare the default TOML tables ===
     # Find the relative path to the input folder from the base path
     script_dir = Path(__file__).parent.resolve()
-    rel_path = input_folder.resolve().relative_to(script_dir)
+    rel_path = Path(os.path.relpath(input_folder.resolve(), script_dir))
     general_headers = {
         "name": "",
         "csv_folder": rel_path.as_posix(),
