@@ -16,6 +16,7 @@ Usage:
 """
 
 import asyncio
+import re
 from pathlib import Path
 import argparse
 import logging
@@ -49,8 +50,10 @@ async def add_labels_as_comments(input_path: Path, output_path: Path, client: Wi
     with open(input_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.rstrip("\n")
-            wd_id: str = extract_wd_id(line)
-            lines_with_ids.append((line, wd_id))
+            # Remove existing comments
+            line_no_comm = re.split(r'\s#', line, maxsplit=1)[0].rstrip()
+            wd_id: str = extract_wd_id(line_no_comm)
+            lines_with_ids.append((line_no_comm, wd_id))
             if wd_id:
                 ids.append(wd_id)
     # === Fetching labels from Wikidata ===
