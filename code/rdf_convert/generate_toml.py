@@ -24,6 +24,7 @@ import os
 from pathlib import Path
 import logging
 import pandas as pd
+
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
@@ -177,24 +178,28 @@ def update_toml(toml_path):
     logger.info(f"\nUpdated '{toml_path}' with {len(updated_toml) - 2} tables.")
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Generate TOML template from CSV files."
     )
     parser.add_argument(
-        "--input", type=Path, help="Path to folder containing CSV files"
-    )
-    parser.add_argument(
-        "--update",
-        metavar="TOML_PATH",
+        "--input",
+        metavar="CSV_PATH",
         type=Path,
-        help="Update existing TOML file using its general.data_path as input folder",
+        help="Path to folder containing CSV files",
     )
     parser.add_argument(
         "--output",
         type=Path,
+        metavar="TOML_PATH",
         default="rdf_config.toml",
-        help="Output TOML file (default: rdf_config.toml)",
+        help="Path to TOML file to be outputted default: 'rdf_config.toml'",
+    )
+    parser.add_argument(
+        "--update",
+        metavar="EXISTING_TOML_PATH",
+        type=Path,
+        help="Path to an existing TOML file to update; input folder is taken from its [general.data_path]",
     )
     args = parser.parse_args()
 
@@ -215,3 +220,7 @@ if __name__ == "__main__":
         logger.info(f"\nGenerated '{output_path}'")
     else:
         parser.error("You must specify --update or --input.")
+
+
+if __name__ == "__main__":
+    main()
