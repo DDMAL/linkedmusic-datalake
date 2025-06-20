@@ -12,7 +12,7 @@ As per their [website](https://acousticbrainz.org/), AcousticBrainz is no longer
 
 However, there are partial dumps in CSV for "features", which are subsets of the 3 "subtypes" of lowlevel data `tonal`, `rhythm` and `lowlevel`. The `tonal` dump contains information about the tonality, the `rhythm` dump contains information about the bpm, and the `lowlevel` dump contains some coefficients about spectral data.
 
-Another thing to consider is that the high and low level dumps are respectively 39GB and 589GB compressed, while the partial low level dumps are 3GB compressed, so we also save a lot of space (and procesing time) by going with the partial dumps.
+Another thing to consider is that the high and low level dumps are respectively 39GB and 589GB compressed, while the partial low level dumps are 3GB compressed, so we also save a lot of space (and processing time) by going with the partial dumps.
 
 As such, we will be downloading and processing the full highlevel dumps, and the partial `tonal` and `rhythm` dumps.
 
