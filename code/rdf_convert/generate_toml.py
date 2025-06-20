@@ -73,7 +73,7 @@ def build_csv_table(csv_files):
             df = pd.read_csv(csv_file)
             if df.empty:
                 logger.warning(
-                    f"Could not process '{csv_file.name}' because it is empty."
+                    "Could not process '%s' because it is empty.", csv_file.name
                 )
                 continue
             else:
@@ -83,9 +83,9 @@ def build_csv_table(csv_files):
                     "PRIMARY_KEY": df.columns[0],
                     **{col: "" for col in df.columns},
                 }
-                logger.info(f"Processed '{csv_file.name}' - {len(df.columns)} columns")
+                logger.info("Processed '%s' - %d columns", csv_file.name, len(df.columns))
         except Exception as e:
-            logger.warning(f"Could not process '{csv_file.name}': {e}")
+            logger.warning("Could not process '%s': %s", csv_file.name, e)
     return toml_tables
 
 
@@ -155,27 +155,24 @@ def update_toml(toml_path):
         toml_path (Path): Path to the TOML file to update.
     """
     if not toml_path.exists():
-        logger.error(f"Error: '{toml_path}' does not exist.")
-        sys.exit(1)
+        raise FileNotFoundError(f"Error: '{toml_path}' does not exist.")
     with open(toml_path, "rb") as fi:
         existing_toml = tomli.load(fi)
         try:
             data_path = existing_toml["general"]["csv_folder"]
             input_folder = Path(data_path)
-            logger.info(f"[UPDATE] Using csv_folder from TOML: {input_folder}")
+            logger.info("[UPDATE] Using csv_folder from TOML: %s", input_folder)
         except KeyError as e:
-            logger.error(f"Error: Could not find [general][csv_folder] in TOML: {e}")
-            sys.exit(1)
+            raise KeyError(f"Error: Could not find [general][csv_folder] in TOML: {e}") from e
         except Exception as e:
-            logger.error(f"Error reading TOML file: {e}")
-            sys.exit(1)
+            raise RuntimeError(f"Error reading TOML file: {e}") from e
     base_path = Path(__file__).parent
     updated_toml = make_template(input_folder, base_path)
     merged = deep_merge(existing_toml, updated_toml)
     with open(toml_path, "wb") as fi:
         tomli_w.dump(merged, fi)
     logger.info(40 * "-")
-    logger.info(f"\nUpdated '{toml_path}' with {len(updated_toml) - 2} tables.")
+    logger.info("\nUpdated '%s' with %d tables.", toml_path, len(updated_toml) - 2)
 
 
 def main():
@@ -208,8 +205,7 @@ def main():
     elif args.input:
         output_path = args.output
         if output_path.exists():
-            logger.error(f"Error: '{output_path}' already exists.")
-            sys.exit(1)
+            raise FileExistsError(f"Error: '{output_path}' already exists.")
         base_path = Path(__file__).parent
         # Ensure that the path stored in config is relative to the script folder
         toml_data = make_template(args.input.resolve(), base_path)
@@ -217,7 +213,7 @@ def main():
         with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
         logger.info(40 * "-")
-        logger.info(f"\nGenerated '{output_path}'")
+        logger.info("\nGenerated '%s'", output_path)
     else:
         parser.error("You must specify --update or --input.")
 
