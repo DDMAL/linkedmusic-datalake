@@ -9,7 +9,7 @@ import os
 import json
 import zstandard as zstd
 
-BASE_PATH = "../../data/acousticbrainz/raw/"
+BASE_PATH = "../../data/acousticbrainz/archived/"
 OUTPUT_PATH = "../../data/acousticbrainz/extracted/"
 
 

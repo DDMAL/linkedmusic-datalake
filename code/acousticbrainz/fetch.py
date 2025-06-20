@@ -19,7 +19,7 @@ FEATURE_FILES = [
     for k in ("rhythm", "tonal")
 ]
 
-OUTPUT_PATH = "../../data/acousticbrainz/raw/"
+OUTPUT_PATH = "../../data/acousticbrainz/archived/"
 HIGHLEVEL_OUTPUT_PATH = os.path.join(OUTPUT_PATH, "highlevel")
 
 

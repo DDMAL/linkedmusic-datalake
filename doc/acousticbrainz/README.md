@@ -26,7 +26,7 @@ Run the following command to download all the high level files and the partial l
 python fetch.py
 ```
 
-The script will download all 30 high level files and the 2 partial lowlevel dumps, and will output them in the `data/acousticbrainz/raw/highlevel/` and `data/acousticbrainz/raw/` folders, respectively. The script will skip all the files already downloaded, instead of redownloading them.
+The script will download all 30 high level files and the 2 partial lowlevel dumps, and will output them in the `data/acousticbrainz/archived/highlevel/` and `data/acousticbrainz/archived/` folders, respectively. The script will skip all the files already downloaded, instead of redownloading them.
 
 ### 2. Extracting the data
 
