@@ -19,12 +19,9 @@ Usage:
 """
 
 import argparse
-import sys
-import os
 from pathlib import Path
 import logging
 import pandas as pd
-
 # tomli reads TOML files, tomli_w writes TOML files
 import tomli
 import tomli_w
@@ -34,62 +31,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def validate_input_folder(input_folder):
-    """
-    Validate that the input folder exists and contains at least one CSV file.
-
-    Args:
-        input_folder (Path): Path to the directory to check.
-
-    Returns:
-        list[Path]: List of CSV file paths within the directory.
-
-    Raises:
-        SystemExit: If the folder does not exist or contains no CSV files.
-    """
-    if not input_folder.is_dir():
-        raise ValueError(f"Error: '{input_folder}' is not a valid directory.")
-    csv_files = list(input_folder.glob("*.csv"))
-    if not csv_files:
-        raise ValueError(f"Error: No CSV file found in '{input_folder}'.")
-    return csv_files
-
-
-def build_csv_table(csv_files):
-    """
-    Extract column headers from a list of CSV files for TOML template generation.
-
-    Also add the field PRIMARY_KEY to each table, and set it as the first column
-
-    Args:
-        csv_files (list[Path]): List of CSV file paths.
-
-    Returns:
-        dict: A dictionary mapping file names (without .csv extension) to column templates.
-    """
-    toml_tables = {}
-    for csv_file in sorted(csv_files):
-        try:
-            df = pd.read_csv(csv_file)
-            if df.empty:
-                logger.warning(
-                    "Could not process '%s' because it is empty.", csv_file.name
-                )
-                continue
-            else:
-                table_name = csv_file.stem  # Use file name without extension
-                # Each table must have a PRIMARY_KEY field
-                toml_tables[table_name] = {
-                    "PRIMARY_KEY": df.columns[0],
-                    **{col: "" for col in df.columns},
-                }
-                logger.info("Processed '%s' - %d columns", csv_file.name, len(df.columns))
-        except Exception as e:
-            logger.warning("Could not process '%s': %s", csv_file.name, e)
-    return toml_tables
-
-
-def deep_merge(old_toml, new_toml):
+def deep_merge(old_dict, new_dict):
     """
     Merge old TOML into new TOML, any non-null value from the old TOML will overwrite or be added.
 
@@ -101,17 +43,17 @@ def deep_merge(old_toml, new_toml):
         dict: The merged TOML data.
     """
     # Create a deep copy of new_toml to avoid modifying the original
-    merged_toml = {k: v.copy() for k, v in new_toml.items()}
-    for table, fields in old_toml.items():
-        if table not in merged_toml:
-            merged_toml[table] = {}
+    combined_toml = {k: v.copy() for k, v in new_dict.items()}
+    for table, fields in old_dict.items():
+        if table not in combined_toml:
+            combined_toml[table] = {}
         for field, value in fields.items():
             if value != "":
-                merged_toml[table][field] = value
-    return merged_toml
+                combined_toml[table][field] = value
+    return combined_toml
 
 
-def make_template(input_folder, base_path):
+def create_toml(input_folder: Path):
     """
     Generate a TOML configuration dictionary from the structure of CSV files in the input folder.
 
@@ -120,9 +62,41 @@ def make_template(input_folder, base_path):
     Returns:
         dict: The TOML data as a dictionary.
     """
-    csv_files = validate_input_folder(input_folder)
+    # === Search input_folder for CSV files ===
+    if not input_folder.is_dir():
+        raise ValueError(f"Error: '{input_folder}' is not a valid directory.")
+    csv_files = list(input_folder.glob("*.csv"))
+    if not csv_files:
+        raise ValueError(f"Error: No CSV file found in '{input_folder}'.")
+    # === Process CSV files ===
+    logger.info("Processing CSV files in '%s':", input_folder)
+    csv_tables = {}
+    for csv_file in sorted(csv_files):
+        try:
+            df = pd.read_csv(csv_file)
+            if df.empty:
+                logger.warning(
+                    "Could not process '%s' because it is empty.", csv_file.name
+                )
+                continue
+            table_name = csv_file.stem  # Use file name without extension
+            csv_tables[table_name] = {
+                # Each table must have a PRIMARY_KEY field
+                "PRIMARY_KEY": df.columns[0],
+                **{col: "" for col in df.columns},
+            }
+            logger.info("Processed '%s' - %d columns", csv_file.name, len(df.columns))
+        except Exception as e:
+            logger.warning("Could not process '%s': %s", csv_file.name, e)
+            continue
+    if not csv_tables:
+        raise ValueError(
+            f"Error: no valid CSV file can be processed in {input_folder}."
+        )
+    # === Prepare the default TOML tables ===
     # Find the relative path to the input folder from the base path
-    rel_path = Path(os.path.relpath(input_folder, start=base_path))
+    script_dir = Path(__file__).parent.resolve()
+    rel_path = input_folder.resolve().relative_to(script_dir)
     general_headers = {
         "name": "",
         "csv_folder": rel_path.as_posix(),
@@ -136,17 +110,11 @@ def make_template(input_folder, base_path):
         "wd": "http://www.wikidata.org/entity/",
         "wdt": "http://www.wikidata.org/prop/direct/",
     }
-    toml_dict = {"general": general_headers, "namespaces": namespaces}
-    csv_tables = build_csv_table(csv_files)
-    if not csv_tables:
-        raise ValueError(
-            "No TOML file was generated: no valid CSV files were processed."
-        )
-    toml_dict.update(csv_tables)
+    toml_dict = {"general": general_headers, "namespaces": namespaces, **csv_tables}
     return toml_dict
 
 
-def update_toml(toml_path):
+def update_toml(toml_path: Path):
     """
     Update an existing TOML file by merging in new tables/fields from the current CSV files.
     The input folder is determined from the [general][csv_folder] field in the TOML file.
@@ -156,23 +124,26 @@ def update_toml(toml_path):
     """
     if not toml_path.exists():
         raise FileNotFoundError(f"Error: '{toml_path}' does not exist.")
-    with open(toml_path, "rb") as fi:
-        existing_toml = tomli.load(fi)
-        try:
-            data_path = existing_toml["general"]["csv_folder"]
-            input_folder = Path(data_path)
-            logger.info("[UPDATE] Using csv_folder from TOML: %s", input_folder)
-        except KeyError as e:
-            raise KeyError(f"Error: Could not find [general][csv_folder] in TOML: {e}") from e
-        except Exception as e:
-            raise RuntimeError(f"Error reading TOML file: {e}") from e
-    base_path = Path(__file__).parent
-    updated_toml = make_template(input_folder, base_path)
-    merged = deep_merge(existing_toml, updated_toml)
+    try:
+        with open(toml_path, "rb") as fi:
+            existing_toml = tomli.load(fi)
+    except Exception as e:
+        raise RuntimeError(f"Error reading TOML file: {e}") from e
+    # === Finding the path to the input folder ===
+    try:
+        rel_csv_path = existing_toml["general"]["csv_folder"]
+    except KeyError:
+        raise ValueError("Error: 'csv_folder' is not defined in the TOML file.") from e
+    script_path = Path(__file__).parent.resolve()
+    csv_path = (script_path / rel_csv_path).resolve()
+    logger.info("[UPDATE] Using csv_folder from TOML: %s", csv_path)
+    # === Create a new TOML from the CSV files in the input folder ===
+    new_toml = create_toml(csv_path)
+    updated_toml = deep_merge(existing_toml, new_toml)
     with open(toml_path, "wb") as fi:
-        tomli_w.dump(merged, fi)
+        tomli_w.dump(updated_toml, fi)
     logger.info(40 * "-")
-    logger.info("\nUpdated '%s' with %d tables.", toml_path, len(updated_toml) - 2)
+    logger.info("\nSuccessfully updated '%s'", toml_path)
 
 
 def main():
@@ -196,26 +167,29 @@ def main():
         "--update",
         metavar="EXISTING_TOML_PATH",
         type=Path,
-        help="Path to an existing TOML file to update; input folder is taken from its [general.data_path]",
+        help="Path to an existing TOML file to update; input folder is taken from its [general][csv_folder].",
     )
     args = parser.parse_args()
-
     if args.update:
-        update_toml(args.update)
-    elif args.input:
+        update_toml(Path(args.update))
+    elif args.input and args.output:
+        # === Ensure that output does not overwrite an existing file ===
         output_path = args.output
         if output_path.exists():
             raise FileExistsError(f"Error: '{output_path}' already exists.")
-        base_path = Path(__file__).parent
-        # Ensure that the path stored in config is relative to the script folder
-        toml_data = make_template(args.input.resolve(), base_path)
+        # === Create TOML data from the input folder ===
+        toml_data = create_toml(Path(args.input))
+        # === Write TOML data to file ===
+        logger.info("Finish processing. Saving configuration to '%s'", output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
         logger.info(40 * "-")
-        logger.info("\nGenerated '%s'", output_path)
+        logger.info("\n Configuration saved to '%s'", output_path)
     else:
-        parser.error("You must specify --update or --input.")
+        parser.error(
+            "You must specify --update or --input. Optionally, you can specify --output."
+        )
 
 
 if __name__ == "__main__":
