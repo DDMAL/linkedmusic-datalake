@@ -53,15 +53,18 @@ def extract_tar_files(folder_name):
                                     member.name.split("/")[-1].split(".")[0].split("-")
                                 )
                                 mbid = "-".join(mbid)
-                                if mbid not in versions:
-                                    versions[mbid] = []
-                                versions[mbid].append(version)
-                                file = int(member.name.split("/")[-1][:2], base=16)
-                                with tar.extractfile(member) as extracted_file:
-                                    data = json.load(extracted_file)
-                                    jsonl_files[file].write(
-                                        json.dumps(data, ensure_ascii=False) + "\n"
-                                    )
+                                version = int(version)
+                                # Only add the file to the JSONL file if the version is higher
+                                # than the one already stored for this MBID
+                                if versions.get(mbid, -1) < version:
+                                    versions[mbid] = version
+                                    file = int(member.name.split("/")[-1][:2], base=16)
+                                    with tar.extractfile(member) as extracted_file:
+                                        data = json.load(extracted_file)
+                                        data["submission_number"] = version
+                                        jsonl_files[file].write(
+                                            json.dumps(data, ensure_ascii=False) + "\n"
+                                        )
                             else:
                                 new_filename = os.path.join(
                                     OUTPUT_PATH, *member.name.split("/")[1:]
