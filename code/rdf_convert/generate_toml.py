@@ -144,7 +144,7 @@ def update_toml(toml_path: Path):
     with open(toml_path, "wb") as fi:
         tomli_w.dump(updated_toml, fi)
     logger.info(40 * "-")
-    logger.info("\nSuccessfully updated '%s'", toml_path)
+    logger.info("Successfully updated '%s'", toml_path)
 
 
 def main():
@@ -186,7 +186,7 @@ def main():
         with open(output_path, "wb") as f:
             tomli_w.dump(toml_data, f)
         logger.info(40 * "-")
-        logger.info("\n Configuration saved to '%s'", output_path)
+        logger.info("Configuration saved to '%s'", output_path)
     else:
         parser.error(
             "You must specify --update or --input. Optionally, you can specify --output."
