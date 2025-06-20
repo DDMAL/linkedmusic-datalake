@@ -27,7 +27,7 @@ if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 
-async def add_labels(input_path: Path, output_path: Path, client: WikidataAPIClient):
+async def add_labels_as_comments(input_path: Path, output_path: Path, client: WikidataAPIClient):
     """
     Reads an input file line-by-line, extracts the last Wikidata ID from each line,
     fetches the corresponding label from Wikidata, and writes the lines to an output file
@@ -38,33 +38,32 @@ async def add_labels(input_path: Path, output_path: Path, client: WikidataAPICli
         output_path (Path): Path to the output file to write results.
         client (WikidataAPIClient): An instance of WikidataAPIClient for label fetching.
     """
-    lines: list[tuple[str, str]] = []
+    lines_with_ids: list[tuple[str, str]] = []
     ids: list[str] = []
 
     if not input_path.exists():
         logger.error("Input file '%s' does not exist.", input_path)
-        return
-
+        return None
+    # === Reading input file ===
     logger.info("Reading input file: %s", input_path)
     with open(input_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.rstrip("\n")
             wd_id: str = extract_wd_id(line)
-            lines.append((line, wd_id))
+            lines_with_ids.append((line, wd_id))
             if wd_id:
                 ids.append(wd_id)
-
+    # === Fetching labels from Wikidata ===
     unique_ids = list(set(ids))
     logger.info("Fetching labels for %d unique Wikidata IDs...", len(unique_ids))
-
     try:
         labels_dict = await client.wbgetentities(
             unique_ids, props="labels", languages="en"
         )
     except Exception as e:
         logger.error("Error fetching labels from Wikidata API: %s", e)
-        return
-
+        return None
+    # === Write output ===
     output_dir = output_path.parent
     if not output_dir.exists():
         logger.info("Creating output directory: %s", output_dir)
@@ -72,8 +71,9 @@ async def add_labels(input_path: Path, output_path: Path, client: WikidataAPICli
 
     logger.info("Writing output to: %s", output_path)
     with open(output_path, "w", encoding="utf-8") as f_out:
-        for line, wd_id in lines:
-            label = labels_dict.get(wd_id, {}).get("labels", {})
+        for line, wd_id in lines_with_ids:
+            # In labels_dict, the each Wikidata ID is paired with a dictionary containing the field "labels"
+            label = labels_dict.get(wd_id, {}).get("labels", "")
             if label:
                 f_out.write(f"{line}  # {label} ({wd_id})\n")
             elif wd_id:
@@ -82,7 +82,7 @@ async def add_labels(input_path: Path, output_path: Path, client: WikidataAPICli
                 f_out.write(line + "\n")
 
 
-async def main(input_path: Path, output_path: Path):
+async def process(input_path: Path, output_path: Path):
     """
     Main async entry point. Initializes the Wikidata API client session and
     delegates to `add_labels`.
@@ -93,16 +93,17 @@ async def main(input_path: Path, output_path: Path):
     """
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
-        await add_labels(input_path, output_path, client)
+        await add_labels_as_comments(input_path, output_path, client)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Script to add Wikidata labels as comments based on QID/PID on each line."
     )
 
     parser.add_argument(
         "input_file",
+        metavar="INPUT_FILE",
         type=str,
         help="Path to the input file containing Wikidata IDs (e.g., Q42, P31) line by line",
     )
@@ -115,6 +116,7 @@ if __name__ == "__main__":
     )
     output_group.add_argument(
         "--output",
+        metavar="OUTPUT_FILE",
         type=str,
         help="Path to the output file",
     )
@@ -124,4 +126,7 @@ if __name__ == "__main__":
     input_file = Path(args.input_file)
     output_file = Path(args.output) if args.output else input_file
 
-    asyncio.run(main(input_file, output_file))
+    asyncio.run(process(input_file, output_file))
+
+if __name__ == "__main__":
+    main()
