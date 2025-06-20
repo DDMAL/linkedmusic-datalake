@@ -43,3 +43,9 @@ Run the following command to extract all compressed files:
 ```bash
 python untar.py
 ```
+
+### 3. Reconciliation
+
+All objects in AcousticBrainz are recordings, and their ID is the same as their MusicBrainz Recording ID, and MusicBrainz is already reconciled with Wikidata, so there is no need to reconcile the recordings themselves against Wikidata. The only thing that will need reconciling is the values of the fields (e.g. the key/tonality).
+
+The values for the `genre_tzanetakis` and `genre_rosamerica` fields are acronyms. The acronyms are expanded according to the following documentation: [this paper](https://web.archive.org/web/20120530070141/http://marsyas.info/docs/manual/marsyas-user.pdf) (page 30) for `genre_tzanetakis` and [this page](https://acousticbrainz.org/datasets/accuracy#genre_rosamerica) for `genre_rosamerica`.
