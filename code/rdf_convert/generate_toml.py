@@ -161,7 +161,7 @@ def main():
         type=Path,
         metavar="TOML_PATH",
         default="rdf_config.toml",
-        help="Path to TOML file to be outputted default: 'rdf_config.toml'",
+        help="Path to the output TOML file. Default: 'rdf_config.toml'",
     )
     parser.add_argument(
         "--update",

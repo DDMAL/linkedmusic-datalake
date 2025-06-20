@@ -116,7 +116,7 @@ if __name__ == "__main__":
     output_group.add_argument(
         "--output",
         type=str,
-        help="Path to the output file with labels added as comments (original file remains unchanged)",
+        help="Path to the output file",
     )
 
     args = parser.parse_args()
