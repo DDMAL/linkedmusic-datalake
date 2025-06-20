@@ -1,17 +1,25 @@
-"""Utilities for interacting with Wikidata SPARQL endpoint and search API calls."""
+"""
+A simple command-line interface to assist reconciling against Wikidata properties.
+
+Supports:
+- Basic and fuzzy search of Wikidata entities (items and properties).
+- Finding forward/backward relationships (predicates) between two entities.
+- Listing all predicates (forward and backward) associated with a single entity.
+"""
 
 import asyncio
-
-# readline helps user navigate using left and right arrows
-# it works as long as it is imported
-import readline  # type: ignore[import-untyped];
+import readline  # type: ignore[import-untyped]
 import aiohttp
 from wikidata_utils import WikidataAPIClient, build_wd_hyperlink, extract_wd_id
 
 
 def print_heading(title: str) -> None:
     """
-    Print title heading with separator
+    Print a formatted heading with the given title.
+    Includes separators for visual clarity in CLI output.
+
+    Args:
+        title (str): The heading title to print.
     """
     print("\n" + "=" * 40 + "\n")
     print(title)
@@ -20,12 +28,27 @@ def print_heading(title: str) -> None:
 
 def print_separator() -> None:
     """
-    Print a separator line.
+    Print a simple horizontal separator line for CLI output.
     """
     print("-" * 40 + "\n")
 
 
 async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> str | None:
+    """
+    Attempt to resolve a human-readable search term to a Wikidata QID.
+    Tries:
+    - Direct QID match via regex
+    - Exact match via wbsearchentities
+    - Fuzzy match via search API
+
+    Args:
+        term (str): The search term or possible QID.
+        client (WikidataAPIClient): An initialized Wikidata API client.
+        limit (int): Maximum number of results to return per search.
+
+    Returns:
+        str | None: The resolved QID if found, otherwise None.
+    """
     if match := extract_wd_id(term.upper()):
         return match[-1]
     elif result := await client.wbsearchentities(term, limit=limit):
@@ -39,20 +62,23 @@ async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> s
 
 async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> None:
     """
-    Find and print all forward and backward properties connecting two Wikidata entities.
+    Find and print all Wikidata properties connecting two entities:
+    - Forward (term1 → term2)
+    - Backward (term2 → term1)
+
+    Args:
+        client (WikidataAPIClient): Initialized Wikidata API client.
+        term1 (str): First entity (subject or object).
+        term2 (str): Second entity (subject or object).
     """
-    # Lookup both terms concurrently using the lookup_term helper
     qid1, qid2 = await asyncio.gather(
         lookup_term(term1, client),
         lookup_term(term2, client),
     )
-
-    # Exit if either term is not found
     if not qid1 or not qid2:
         print_separator()
         return
 
-    # One API call for forward relationships and one for backward relationships
     triples = ["?item1 ?property ?item2.", "?item2 ?property ?item1."]
     queries = [
         f"""
@@ -66,9 +92,7 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
         for triple in triples
     ]
 
-    # Run both SPARQL queries concurrently
     sparql_tasks = [client.sparql(query) for query in queries]
-    # Returns a list of two dictionaries
     item_label_task = client.wbgetentities(qid1, qid2)
     forward_props, backward_props, qid_labels = await asyncio.gather(
         *sparql_tasks, item_label_task
@@ -79,7 +103,6 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
     if forward_props:
         print_heading("Forward properties")
         for row in forward_props:
-            # property is a full URI, but we want to print just the QID
             pid = extract_wd_id(row["property"])
             label = row["propLabel"]
             entity = build_wd_hyperlink(pid, label)
@@ -87,32 +110,33 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
     if backward_props:
         print_heading("Backward properties")
         for row in backward_props:
-            # property is a full URI, but we want to print just the QID
             entity = build_wd_hyperlink(
                 extract_wd_id(row["property"]), row["propLabel"]
             )
             print(f"{entity2}  {entity}  {entity1}")
     if not forward_props and not backward_props:
-        # Empty string argument prints a separator
         print_separator()
         print(f"No properties found between {entity1} and {entity2}")
-    # print a terminating separator
     print_separator()
 
 
 async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     """
-    Find and print all forward and backward predicates for a single Wikidata entity (term).
-    Only one QID example is shown for each predicate.
+    Show all forward and backward predicates associated with a given entity.
+
+    - Forward predicates are retrieved via wbget_statements.
+    - Backward predicates are found via a SPARQL query for incoming triples.
+
+    Args:
+        client (WikidataAPIClient): An initialized Wikidata API client.
+        term (str): The search term or QID.
     """
     qid = await lookup_term(term, client)
     if not qid:
         print_separator()
         return
 
-    # Fetch forward predicates (claims) from wbget_statements
     forward_relationships = await client.wbget_statements(qid)
-
     forward_ids_set = set()
     for pid, objects in forward_relationships.items():
         forward_ids_set.add(pid)
@@ -120,10 +144,8 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
             forward_ids_set.add(objects[0])
 
     forward_ids_list = list(forward_ids_set)
-    # The label of the qid has not yet been fetched
-    labels_dict = await client.wbgetentities(qid,forward_ids_list, props="labels")
+    labels_dict = await client.wbgetentities(qid, forward_ids_list, props="labels")
 
-    # SPARQL query for backward predicates where this entity is object
     backward_query = f"""
     SELECT ?property ?propLabel ?example ?exampleLabel WHERE {{
     {{
@@ -140,7 +162,6 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     """
     backward_props = await client.sparql(backward_query)
 
-    # use the search term if ever no label is found
     entity = build_wd_hyperlink(qid, labels_dict.get(qid, {}).get("labels", term))
 
     if forward_relationships:
@@ -171,11 +192,18 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     print_separator()
 
 
-async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = "property" ) -> None:
+async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = "property") -> None:
     """
-    Perform a basic search for a term and print the results.
+    Perform a basic and fuzzy search for a term using both wbsearchentities and search APIs.
+    Ensures up to 5 unique results by combining exact and fuzzy search.
+
+    Args:
+        client (WikidataAPIClient): An initialized API client.
+        term (str): The search term to look up.
+        entity_type (str): Optional. One of "property", "item", etc. Defaults to "property".
     """
     results = await client.wbsearchentities(term, limit=5, entity_type=entity_type)
+    seen_ids = {result["id"] for result in results if "id" in result}
 
     if results:
         print_heading(f'Search results for: "{term}"')
@@ -183,31 +211,41 @@ async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = 
             entity = build_wd_hyperlink(result["id"], result.get("label", ""))
             print(f"Result {idx}: {entity}")
 
-    length = len(results)
-    if length < 5:
-        fuzzy_results = await client.search(term, limit=(5 - length), entity_type=entity_type)
-        if fuzzy_results:
-            fuzzy_ids = [result["id"] for result in fuzzy_results if "id" in result]
-            labels = await client.wbgetentities(fuzzy_ids, props="labels")
-            # fuzzy search result are in purple
-            for position, id_ in enumerate(fuzzy_ids, 1):
-                entity = build_wd_hyperlink(id_, labels.get(id_, {}).get("labels", ""))
-                print("\033[35m" + f"Result {length + position}: {entity}" + "\033[0m")
+    # Fetch up to 5 fuzzy results (even if we already have 5 from above)
+    fuzzy_results = await client.search(term, limit=10, entity_type=entity_type)
+    unique_fuzzy = [res for res in fuzzy_results if res.get("id") not in seen_ids]
+
+    if unique_fuzzy:
+        fuzzy_ids = [res["id"] for res in unique_fuzzy[:5]]  # limit to 5 additional
+        labels = await client.wbgetentities(fuzzy_ids, props="labels")
+        for idx, id_ in enumerate(fuzzy_ids, len(results) + 1):
+            label = labels.get(id_, {}).get("labels", "")
+            entity = build_wd_hyperlink(id_, label)
+            print("\033[35m" + f"Result {idx}: {entity}" + "\033[0m")
+
+    if not results and not unique_fuzzy:
+        print(f"No results found for term: {term}")
+    print_separator()
+
+
     if not results and not fuzzy_results:
         print(f"No results found for term: {term}")
     print_separator()
-        
-     
 
 
 async def fuzzy_search(client: WikidataAPIClient, term: str) -> None:
     """
-    Perform a basic search for a term and print the results.
+    Perform a fuzzy search for a Wikidata term using the general search API.
+
+    Args:
+        client (WikidataAPIClient): Initialized API client.
+        term (str): The fuzzy term to search for.
     """
     results = await client.search(term, limit=5)
     if not results:
         print(f"No results found for term: {term}")
         return None
+
     ids = [result["id"] for result in results if "id" in result]
     labels = await client.wbgetentities(ids, props="labels")
 
@@ -217,7 +255,18 @@ async def fuzzy_search(client: WikidataAPIClient, term: str) -> None:
         print(f"Result {position}: {entity}")
     print_separator()
 
+
 async def main():
+    """
+    Entry point for the CLI application.
+    Handles user input and calls appropriate search or relationship functions.
+    Commands:
+    - <term1>, <term2>: Show relations between two entities.
+    - <term>: Search for a property.
+    - --r <term>: Show all predicates for one entity.
+    - --q <term>: Search for items instead of properties.
+    - 'exit' or 'quit': End the session.
+    """
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
         while True:
@@ -236,10 +285,11 @@ async def main():
                     continue
                 await find_all_predicates(client, term)
                 continue
+
             elif user_input.startswith("--q"):
                 term = user_input[3:].strip()
                 if not term:
-                    print("Please provide a search term after --f")
+                    print("Please provide a search term after --q")
                     continue
                 await basic_search(client, term, entity_type="item")
                 continue
@@ -247,7 +297,6 @@ async def main():
             terms = [term.strip() for term in user_input.split(",")]
 
             if len(terms) == 1:
-                # Search properties by default
                 await basic_search(client, terms[0])
                 continue
             elif len(terms) == 2:
@@ -255,7 +304,6 @@ async def main():
                 continue
             else:
                 print("Unable to parse input")
-
 
 
 if __name__ == "__main__":
