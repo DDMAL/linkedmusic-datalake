@@ -132,7 +132,7 @@ def make_template(input_folder, base_path):
     namespaces = {
         "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "xs": "http://www.w3.org/2001/XMLSchema",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
         "wd": "http://www.wikidata.org/entity/",
         "wdt": "http://www.wikidata.org/prop/direct/",
     }
