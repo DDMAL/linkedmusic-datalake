@@ -14,6 +14,9 @@ import pandas as pd
 import tomli
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace, XSD
+from isodate.isoerror import ISO8601Error
+from isodate.isodates import parse_date
+from isodate.isodatetime import parse_datetime
 
 # === Setup Logger ===
 logger = logging.getLogger("csv_to_rdf")
@@ -56,6 +59,22 @@ def to_rdf_node(
         ns_uri = namespaces.get(prefix)
         if ns_uri:
             datatype = f"{ns_uri}{body}"
+    # Special logic for handling date datatype
+    if datatype == XSD.date:
+        try:
+            # Validate the date string, and catch any exception that might occur
+            return Literal(parse_date(val), datatype=XSD.date)
+        except (ISO8601Error, ValueError):
+            return Literal(val)  # Fallback to a plain literal if conversion fails
+    # Special logic for handling datetime datatype
+    if datatype == XSD.dateTime:
+        try:
+            # Validate the datetime string, and catch any exception that might occur
+            return Literal(
+                parse_datetime(val), datatype=XSD.dateTime
+            )
+        except (ISO8601Error, ValueError):
+            return Literal(val)  # Fallback to a plain literal if conversion fails
     return Literal(str(val), lang=lang, datatype=datatype)
 
 
