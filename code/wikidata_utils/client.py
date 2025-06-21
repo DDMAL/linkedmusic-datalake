@@ -447,8 +447,8 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         entity = entities.get(entity_id, {})
         claims = entity.get("claims", {})
 
-        simplified_claims: dict[str, list[str]] = {}
-        for p, values in claims.items():
+        results: dict[str, list[str]] = {}
+        for prop, values in claims.items():
             for statement in values:
                 object_list = []
                 try:
@@ -461,5 +461,5 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 except KeyError:
                     continue
             if object_list:
-                simplified_claims[p] = object_list
-        return simplified_claims
+                results[prop] = object_list
+        return results
