@@ -410,8 +410,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         for response in raw_responses:
             entities = response.get("entities", {})
             for id_, entity in entities.items():
-                # id is stored twice for convenience of the user
-                item_dict = {"id": id_}
+                item_dict = {}
                 for prop in props_list:
                     if prop in ("labels", "descriptions"):
                         item_dict[prop] = entity.get(prop, {}).get(languages, {}).get("value", "")
