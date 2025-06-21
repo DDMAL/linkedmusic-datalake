@@ -19,10 +19,9 @@ Dependencies:
 
 Usage:
 - Instantiate WikidataAPIClient with an existing aiohttp.ClientSession
-- Use the client's async instance methods to perform entity searches, SPARQL queries, and QID/PID-based fetches.
+- Use the client's async methods to perform entity searches, SPARQL queries, and QID/PID-based fetches.
 
 Example:
-
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
         results = await client.search("capital of", limit=10, entity_type="property", timeout=10)
@@ -36,7 +35,7 @@ import asyncio
 import aiohttp
 from aiolimiter import AsyncLimiter
 
-# Type aliases allow better type hinting
+# Type aliases allow more informative type hinting
 WikiId: TypeAlias = str
 JsonResponse: TypeAlias = dict[str, Any]
 WikiEntity: TypeAlias = dict[str, Any]
@@ -64,6 +63,7 @@ class _WikidataAPIClientRaw:
     ):
         """
         Initialize the WikidataAPIClient with an aiohttp session.
+        Asking the user to provide session to allow their control over session reuse.
 
         Args:
             session (aiohttp.ClientSession): An active aiohttp session for making requests.
@@ -72,7 +72,7 @@ class _WikidataAPIClientRaw:
             - `limiter_sparql`: For SPARQL queries, allowing 20 requests per second.
             - `limiter_wikidata`: For all other Wikidata API calls, allowing 30 requests per second.
         """
-        # Session is user-provided to allow control over reuse and cleanup.
+        
         self.session = session
         self.limiter_sparql = AsyncLimiter(max_rate=20, time_period=1)
         # limiter for all API calls starting with "https://www.wikidata.org/w/api.php"
@@ -87,8 +87,8 @@ class _WikidataAPIClientRaw:
         timeout: int = 10,
     ) -> Optional[dict[str, Any]]:
         """
-        Internal helper method to perform GET requests with consistent error handling.
-        Returns the JSON response or None on error.
+        Internal helper method to perform HTTP GET requests with consistent error handling.
+        Returns either the JSON response or None on error.
         """
         try:
             async with self.session.get(
@@ -117,7 +117,7 @@ class _WikidataAPIClientRaw:
 
     async def sparql_raw(self, query: str, timeout: int = 60) -> JsonResponse:
         """
-        Executes a SPARQL query at the Wikidata endpoint.
+        Executes a SPARQL query at Wikidata Query Service.
 
         Returns raw JSON response, or an empty dictionary on request error.
         """
@@ -140,6 +140,8 @@ class _WikidataAPIClientRaw:
 
         Allows for more powerful fuzzy matching than wbsearchentities API.
         Returns raw JSON response, or an empty dictionary on request error.
+        
+        By default, the query searches for Wikidata entities ("items") and returns up to 10 results
         """
         url = "https://www.wikidata.org/w/api.php"
         params = {
@@ -174,6 +176,8 @@ class _WikidataAPIClientRaw:
 
         Searches for precise matches in names or aliases.
         Returns raw JSON response, or an empty dictionary on request error.
+
+        By default, the query searches for Wikidata entities ("items") and returns up to 10 results
         """
         url = "https://www.wikidata.org/w/api.php"
         params = {
@@ -205,6 +209,8 @@ class _WikidataAPIClientRaw:
         Fetches additional information on Wikidata entities using their IDs.
         Returns raw JSON response, or an empty dictionary on request error.
         Up to 50 items can be requested at once.  
+
+        Be default, only the English labels of the entities are returned.
         """
 
         # Flatten ids_input into a single list of strings
@@ -249,13 +255,11 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
     - Wikidata wbsearchentities
     - Wikidata wbgetentities
 
-    Inherits from WikidataAPIClientRaw and provides higher-level methods
-    that parses raw JSON responses into a list of dictionaries:
-        - For SPARQL queries, each dictionary corresponds to a row in the result set.
-        - For all other queries, each dictionary contain a single Wikidata entity.
-
-    Methods to fetch raw/unprocessed JSON response remain available.
-
+    Methods:
+    - Raw methods (search_raw) fetch raw JSON response from the APIs. 
+    - Higher-level methods (search) return parsed API responses. 
+    - All methods are coroutines and must be awaited.
+    
     Usage example:
     async def main():
         async with aiohttp.ClientSession() as session:
@@ -291,7 +295,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         self, query: str, limit: int = 10, entity_type: str = "", timeout: int = 10
     ) -> list[WikiEntity]:
         """
-        Perform a full-text search using Wikidata's Elasticsearch-backed API.
+        Perform a full-text search using Wikidata's ElasticSearch API.
 
         This method offers better fuzzy matching than `wbsearchentities`,
         but returns only the entity ID and a text snippet.
@@ -303,8 +307,8 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
 
         Returns:
             List of dictionaries with keys:
-                - "id": Entity ID (e.g., "Q42")
-                - "description": Text snippet or matched context
+                - "id": ID (e.g. "Q42")
+                - "snippet": Text snippet matching the search term
         """
         data = await self.search_raw(query, limit=limit,entity_type=entity_type,timeout=timeout)
         matches_list = data.get("query", {}).get("search", [])
@@ -313,7 +317,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         for match in matches_list:
             match_dict = {
                 "id": match.get("title", "").split(":")[-1],  # ID can be in the format "Property:P134"
-                "description": match.get("snippet", ""),
+                "snippet": match.get("snippet", ""),
             }
             results.append(match_dict)
         return results
@@ -341,6 +345,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             List of dictionaries with keys:
                 - "id": Entity ID
                 - "label": Label in the language of the search term
+                   Example: [{"id": "Q42", "label": "Douglas Adams"}, {"id":..., "label": ...}]
         """
         data = await self.wbsearchentities_raw(
             term, entity_type=entity_type, limit=limit, timeout=timeout
@@ -364,21 +369,27 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         timeout: int = 10,
     ) -> dict[str, WikiEntity]:
         """
-        Fetch Wikidata entities by ID and extract text-based properties as an embedded dictionary.
+        Fetch Wikidata entities by ID and returns requested "props" an embedded dictionary.
 
         Args:
             *ids_input: One or more entity IDs, or lists of IDs.
-            props: Single property or list of properties to retrieve (default: "labels").
+            props: Prop or list of props to retrieve (default: "labels").
                 Only supports: "labels", "descriptions", "aliases"
-            languages: Language code for property values (default: "en").
+            languages: Language code of props to retrieve(default: "en").
             timeout: Request timeout in seconds (default: 10).
 
         Returns:
-            dict: Mapping from entity ID to a dictionary of requested properties.
+            dict: Mapping from entity ID to a dictionary of requested props
+            - The keys of the returned dictionary are entity IDs (e.g. "Q42"),
+            - the values are dictionaries containing "props" (e.g. "labels", "descriptions", "aliases").
                 Example: {"Q42": {"labels": "Douglas Adams", ...}, ...}
+        
+        Note:
+            - wbgetentities uses "labels" whereas wbsearchentities uses "label"
         """
         supported_props = {"labels", "descriptions", "aliases"}
         if isinstance(props, str):
+            # Ensure that there will be no iteration over a string
             props_list = [props]
         else:
             props_list = props
@@ -427,20 +438,23 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         timeout: int = 10,
     ) -> dict[str, list[str]]:
         """
-        Fetches claims/statements of a single Wikidata entity by ID.
-        
-        Uses wbgetentities API.
-        Exists as a separate method to simplify the data structure.
+        Fetches claims/statements about a single Wikidata entity using wbgetentities.
+
+        - Exists as a separate method because the JSON response structure is different.
+        - Allows fetching only one entity at a time to simplify the return type. 
+        - Only returns statements in which the object is a Wikidata entity 
 
         Args:
-            entity_id: Single entity ID (e.g., "Q42").
+            entity_id: Single entity ID (e.g. "Q42").
             timeout: Request timeout in seconds (default: 10).
 
         Returns:
-            Dict mapping PIDs (e.g., "P31") to lists of QIDs.
-            Only statements whose values are Wikidata entities are included.
-            Statements with more complex data types (e.g., dates, quantities, strings) are excluded 
-            to avoid overly complex or nested data structures.
+            dict: mapping from PID to lists of QIDs.
+                - Each PID is the predicate of the statement.
+                - Each QID is an object of a statement with that PID.
+                Example: {"P25": ["Q66671"], "P279": ["Q146", "Q42"]}
+            
+
         """
         response = await self.wbgetentities_raw(entity_id, props="claims", timeout=timeout)
         entities = response.get("entities", {})
@@ -454,7 +468,6 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 try:
                     datavalue = statement["mainsnak"]["datavalue"]["value"]
                     if isinstance(datavalue, dict) and "id" in datavalue:
-                        
                         object_list.append(datavalue["id"])
                     else:
                         continue
