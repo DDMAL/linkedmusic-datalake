@@ -1,26 +1,31 @@
 """
 Asynchronous Python client for querying Wikidata APIs.
 
-Features:
-- Execute queries with rate limiting and error handling.
-- Perform full-text searches using Wikidata's Elasticsearch API.
-- Access wbsearchentities and wbgetentities APIs.
-- Supports batching and concurrency for efficient entity data retrieval.
+Supported APIs:
+- Wikidata Query Service (SPARQL)
+- Wikidata Elasticsearch API  (Full-text search)
+- Wikidata wbsearchentities (Entity search by label or alias)
+- Wikidata wbgetentities (Entity retrieval by ID)
 
-Usage:
-- Instantiate with an aiohttp.ClientSession.
-- Use async methods to perform searches, queries, and entity fetches.
-- Handles raw API calls and processes results into list of dictionaries.
+Features:
+- Built-in rate limiting to comply with Wikidata usage policies
+- Structured JSON parsing 
+- Common HTTP error handling
+- Support for asynchronous requests using asyncio and aiohttp
 
 Dependencies:
 - aiohttp
 - aiolimiter
 
+Usage:
+- Instantiate WikidataAPIClient with an existing aiohttp.ClientSession
+- Use the client's async instance methods to perform entity searches, SPARQL queries, and QID/PID-based fetches.
+
 Example:
 
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
-        results = await client.sparql("SELECT ?item WHERE {?item wdt:P31 wd:Q146}")
+        results = await client.search("capital of", limit=10, entity_type="property", timeout=10)
         print(results)
 
 """
