@@ -463,8 +463,8 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
 
         results: dict[str, list[str]] = {}
         for prop, values in claims.items():
+            object_list = []
             for statement in values:
-                object_list = []
                 try:
                     datavalue = statement["mainsnak"]["datavalue"]["value"]
                     if isinstance(datavalue, dict) and "id" in datavalue:
