@@ -115,7 +115,7 @@ class _WikidataAPIClientRaw:
             self.logger.error("Unexpected error at %s: %s", url, e)
             return None
 
-    async def sparql_raw(self, query: str, timeout: int = 40) -> JsonResponse:
+    async def sparql_raw(self, query: str, timeout: int = 60) -> JsonResponse:
         """
         Executes a SPARQL query at the Wikidata endpoint.
 
