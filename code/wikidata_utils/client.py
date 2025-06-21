@@ -151,9 +151,9 @@ class _WikidataAPIClientRaw:
         if limit:
             params["srlimit"] = str(limit)
         if entity_type == "item":
-            params["srnamespace"] = 0
+            params["srnamespace"] = "0"
         elif entity_type == "property":
-            params["srnamespace"] = 120
+            params["srnamespace"] = "120"
 
         async with self.limiter_wikidata:
             data = await self._get(url, params=params, timeout=timeout)
