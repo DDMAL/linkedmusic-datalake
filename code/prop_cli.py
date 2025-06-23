@@ -34,10 +34,12 @@ def print_separator() -> None:
     print("-" * 40 + "\n")
 
 
-async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> str | None:
+async def lookup_term(
+    term: str, client: WikidataAPIClient, limit: int = 1
+) -> str | None:
     """
     Attempt to resolve a search term to a Wikidata QID.
-    
+
     Tries:
     1. Extract a QID/PID directly from the term (e.g. Q6603).
     2. Search for exact match via wbsearchentities (e.g. Paris).
@@ -136,7 +138,7 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
 async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     """
     Print all forward and backward predicates associated with a given entity.
-    
+
     - Forward predicates are retrieved via wbget_statements.
     - Backward predicates are found via a SPARQL query.
 
@@ -213,7 +215,9 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     print_separator()
 
 
-async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = "property") -> None:
+async def basic_search(
+    client: WikidataAPIClient, term: str, entity_type: str = "property"
+) -> None:
     """
     Print Wikidata entities/properties matching a given search term.
 
@@ -222,7 +226,7 @@ async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = 
     2. Search for fuzzy match via ElasticSearch API (e.g. Paaris).
 
     Up to five results are printed for each search.
-    Fuzzy match results are printed in purple. 
+    Fuzzy match results are printed in purple.
     Each result is a hyperlink pointing to a Wikidata entity.
 
     Args:
@@ -239,7 +243,6 @@ async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = 
             entity = build_wd_hyperlink(result["id"], result.get("label", ""))
             print(f"Result {pos}: {entity}")
 
-    
     fuzzy_results = await client.search(term, limit=5, entity_type=entity_type)
     unique_fuzzy = []
     for res in fuzzy_results:
@@ -248,9 +251,9 @@ async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = 
             unique_fuzzy.append(res["id"])
             # In case the code is extended in the future
             seen_ids.add(res["id"])
-    
+
     if unique_fuzzy:
-        display_fuzzy = unique_fuzzy[:5 - len(results)]
+        display_fuzzy = unique_fuzzy[: 5 - len(results)]
         labels = await client.wbgetentities(display_fuzzy, props="labels")
         for pos, id_ in enumerate(display_fuzzy, len(results) + 1):
             label = labels.get(id_, {}).get("labels", "")
@@ -261,14 +264,15 @@ async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = 
         print(f"No results found for term: {term}")
     print_separator()
 
+
 async def main():
     """
     Entry point for the CLI application.
     Handles user input and calls appropriate search or relationship functions.
-    
+
     Commands:
     - <term1>, <term2>: Show all relations between two entities.
-        Example: 
+        Example:
             paris, france
             France(Q142)  capital(P36)  Paris(Q90)
             Paris(Q90)  capital of(P1376)  France(Q142)
@@ -326,7 +330,9 @@ async def main():
                 await find_relation(client, terms[0], terms[1])
                 continue
             else:
-                print("Examples: 'paris', 'paris, france', '--r paris', '--q france', or 'exit'")
+                print(
+                    "Examples: 'paris', 'paris, france', '--r paris', '--q france', or 'exit'"
+                )
 
 
 if __name__ == "__main__":
