@@ -15,8 +15,8 @@ from wikidata_utils import WikidataAPIClient, build_wd_hyperlink, extract_wd_id
 
 def print_heading(title: str) -> None:
     """
-    Print a formatted heading with the given title.
-    Includes separators for visual clarity in CLI output.
+    Print title sandwiched between two separators.
+    This is used to format CLI output.
 
     Args:
         title (str): The heading title to print.
@@ -28,18 +28,22 @@ def print_heading(title: str) -> None:
 
 def print_separator() -> None:
     """
-    Print a simple horizontal separator line for CLI output.
+    Print a horizontal separator line.
+    This is used to format CLI output.
     """
     print("-" * 40 + "\n")
 
 
 async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> str | None:
     """
-    Attempt to resolve a human-readable search term to a Wikidata QID.
+    Attempt to resolve a search term to a Wikidata QID.
+    
     Tries:
-    - Direct QID match via regex
-    - Exact match via wbsearchentities
-    - Fuzzy match via search API
+    1. Extract a QID/PID directly from the term (e.g. Q6603).
+    2. Search for exact match via wbsearchentities (e.g. Paris).
+    3. Search for fuzzy match via ElasticSearch API (e.g. Paaris).
+
+    Returns the first found QID/PID, or None.
 
     Args:
         term (str): The search term or possible QID.
@@ -50,6 +54,7 @@ async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> s
         str | None: The resolved QID if found, otherwise None.
     """
     if match := extract_wd_id(term.upper()):
+        # match is a QID/PID extracted directly from the term
         return match
     elif result := await client.wbsearchentities(term, limit=limit):
         return result[0]["id"]
@@ -62,15 +67,18 @@ async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> s
 
 async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> None:
     """
-    Find and print all Wikidata properties connecting two entities:
+    Print all Wikidata triples connecting two entities:
     - Forward (term1 → term2)
     - Backward (term2 → term1)
 
+    Each result is a hyperlink pointing to a Wikidata entity.
+
     Args:
         client (WikidataAPIClient): Initialized Wikidata API client.
-        term1 (str): First entity (subject or object).
-        term2 (str): Second entity (subject or object).
+        term1 (str): First search term.
+        term2 (str): Second search term.
     """
+    # == Find QIDs for both search terms ==
     qid1, qid2 = await asyncio.gather(
         lookup_term(term1, client),
         lookup_term(term2, client),
@@ -80,6 +88,7 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
         return
 
     triples = ["?item1 ?property ?item2.", "?item2 ?property ?item1."]
+    # Label of the property is fetched via the SPARQL query
     queries = [
         f"""
         SELECT ?property ?propLabel WHERE {{
@@ -92,12 +101,16 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
         for triple in triples
     ]
 
+    # == Run SPARQL queries and fetch labels ==
     sparql_tasks = [client.sparql(query) for query in queries]
     item_label_task = client.wbgetentities(qid1, qid2)
+    # qid_labels is an embedded dict with qid as key
+    # forward_props and backward_props are lists of dicts
     forward_props, backward_props, qid_labels = await asyncio.gather(
         *sparql_tasks, item_label_task
     )
 
+    # == Print results in a formatted table ==
     entity1 = build_wd_hyperlink(qid1, qid_labels[qid1].get("labels", ""))
     entity2 = build_wd_hyperlink(qid2, qid_labels[qid2].get("labels", ""))
     if forward_props:
@@ -105,15 +118,15 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
         for row in forward_props:
             pid = extract_wd_id(row["property"])
             label = row["propLabel"]
-            entity = build_wd_hyperlink(pid, label)
-            print(f"{entity1}  {entity}  {entity2}")
+            prop_entity = build_wd_hyperlink(pid, label)
+            print(f"{entity1}  {prop_entity}  {entity2}")
     if backward_props:
         print_heading("Backward properties")
         for row in backward_props:
-            entity = build_wd_hyperlink(
+            prop_entity = build_wd_hyperlink(
                 extract_wd_id(row["property"]), row["propLabel"]
             )
-            print(f"{entity2}  {entity}  {entity1}")
+            print(f"{entity2}  {prop_entity}  {entity1}")
     if not forward_props and not backward_props:
         print_separator()
         print(f"No properties found between {entity1} and {entity2}")
@@ -122,30 +135,37 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
 
 async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     """
-    Show all forward and backward predicates associated with a given entity.
-
+    Print all forward and backward predicates associated with a given entity.
+    
     - Forward predicates are retrieved via wbget_statements.
-    - Backward predicates are found via a SPARQL query for incoming triples.
+    - Backward predicates are found via a SPARQL query.
+
+    For each predicate, one triple is printed as example.
+    Each result is a hyperlink pointing to a Wikidata entity.
 
     Args:
         client (WikidataAPIClient): An initialized Wikidata API client.
         term (str): The search term or QID.
     """
+    # == Find QID of the search term ==
     qid = await lookup_term(term, client)
     if not qid:
         print_separator()
         return
 
+    # == Fetch ID and labels for forward relationships ==
     forward_relationships = await client.wbget_statements(qid)
     forward_ids_set = set()
     for pid, objects in forward_relationships.items():
         forward_ids_set.add(pid)
         if objects:
+            # Take only the first object as an example
             forward_ids_set.add(objects[0])
 
     forward_ids_list = list(forward_ids_set)
     labels_dict = await client.wbgetentities(qid, forward_ids_list, props="labels")
 
+    # == Fetch ID and labels for backward relationships ==
     backward_query = f"""
     SELECT ?property ?propLabel ?example ?exampleLabel WHERE {{
     {{
@@ -162,6 +182,7 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
     """
     backward_props = await client.sparql(backward_query)
 
+    # == Print results in a formatted table ==
     entity = build_wd_hyperlink(qid, labels_dict.get(qid, {}).get("labels", term))
 
     if forward_relationships:
@@ -194,8 +215,15 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
 
 async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = "property") -> None:
     """
-    Perform a basic and fuzzy search for a term using both wbsearchentities and search APIs.
-    Ensures up to 5 unique results by combining exact and fuzzy search.
+    Print Wikidata entities/properties matching a given search term.
+
+    Tries:
+    1. Search for exact match via wbsearchentities (e.g. Paris).
+    2. Search for fuzzy match via ElasticSearch API (e.g. Paaris).
+
+    Up to five results are printed for each search.
+    Fuzzy match results are printed in purple. 
+    Each result is a hyperlink pointing to a Wikidata entity.
 
     Args:
         client (WikidataAPIClient): An initialized API client.
