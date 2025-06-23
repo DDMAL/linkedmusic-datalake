@@ -203,34 +203,36 @@ async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = 
         entity_type (str): Optional. One of "property", "item", etc. Defaults to "property".
     """
     results = await client.wbsearchentities(term, limit=5, entity_type=entity_type)
-    seen_ids = {result["id"] for result in results if "id" in result}
+    seen_ids = {result["id"] for result in results}
 
     if results:
         print_heading(f'Search results for: "{term}"')
-        for idx, result in enumerate(results, 1):
+        for pos, result in enumerate(results, 1):
             entity = build_wd_hyperlink(result["id"], result.get("label", ""))
-            print(f"Result {idx}: {entity}")
+            print(f"Result {pos}: {entity}")
 
-    # Fetch up to 5 fuzzy results (even if we already have 5 from above)
-    fuzzy_results = await client.search(term, limit=10, entity_type=entity_type)
-    unique_fuzzy = [res for res in fuzzy_results if res.get("id") not in seen_ids]
-
+    
+    fuzzy_results = await client.search(term, limit=5, entity_type=entity_type)
+    unique_fuzzy = []
+    for res in fuzzy_results:
+        id_ = res.get("id")
+        if id_ not in seen_ids:
+            unique_fuzzy.append(res["id"])
+            # In case the code is extended in the future
+            seen_ids.add(res["id"])
+    
     if unique_fuzzy:
-        fuzzy_ids = [res["id"] for res in unique_fuzzy[:5]]  # limit to 5 additional
-        labels = await client.wbgetentities(fuzzy_ids, props="labels")
-        for idx, id_ in enumerate(fuzzy_ids, len(results) + 1):
+        display_fuzzy = unique_fuzzy[:5 - len(results)]
+        labels = await client.wbgetentities(display_fuzzy, props="labels")
+        for pos, id_ in enumerate(display_fuzzy, len(results) + 1):
             label = labels.get(id_, {}).get("labels", "")
             entity = build_wd_hyperlink(id_, label)
-            print("\033[35m" + f"Result {idx}: {entity}" + "\033[0m")
+            print("\033[35m" + f"Result {pos}: {entity}" + "\033[0m")
 
     if not results and not unique_fuzzy:
         print(f"No results found for term: {term}")
     print_separator()
 
-
-    if not results and not fuzzy_results:
-        print(f"No results found for term: {term}")
-    print_separator()
 
 
 async def fuzzy_search(client: WikidataAPIClient, term: str) -> None:
@@ -260,18 +262,36 @@ async def main():
     """
     Entry point for the CLI application.
     Handles user input and calls appropriate search or relationship functions.
+    
     Commands:
-    - <term1>, <term2>: Show relations between two entities.
+    - <term1>, <term2>: Show all relations between two entities.
+        Example: 
+            paris, france
+            France(Q142)  capital(P36)  Paris(Q90)
+            Paris(Q90)  capital of(P1376)  France(Q142)
     - <term>: Search for a property.
-    - --r <term>: Show all predicates for one entity.
+        Example:
+            capital
+            Result 1: capital(P36)
+            Result 2: capital of(P1376)
     - --q <term>: Search for items instead of properties.
-    - 'exit' or 'quit': End the session.
+        Example:
+            --q Paris
+            Result 1: Paris(Q90)
+            Result 2: Paris Saint-Germain FC(Q483020)
+    - --r <term>: Show all predicates that have been used for that entity with an example triple.
+        Example:
+            --r Paris
+            Paris(Q90)  part of(P361)  Île-de-France(Q13917)
+            Claude Monet(Q296)  place of birth(P19)  Paris(Q90)
+
+    'exit' or 'quit': End the session.
     """
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
         while True:
             user_input = input(
-                "\033[91mEnter two terms separated by a comma (or type 'exit'): \033[0m"
+                "\033[91mEnter a term, two terms (comma-separated), or a flag (--q, --r), or 'exit': \033[0m"
             ).strip()
 
             if user_input.lower() in {"exit", "quit"}:
@@ -303,7 +323,7 @@ async def main():
                 await find_relation(client, terms[0], terms[1])
                 continue
             else:
-                print("Unable to parse input")
+                print("Examples: 'paris', 'paris, france', '--r paris', '--q france', or 'exit'")
 
 
 if __name__ == "__main__":
