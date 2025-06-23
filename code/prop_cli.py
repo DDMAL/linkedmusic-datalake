@@ -233,31 +233,6 @@ async def basic_search(client: WikidataAPIClient, term: str, entity_type: str = 
         print(f"No results found for term: {term}")
     print_separator()
 
-
-
-async def fuzzy_search(client: WikidataAPIClient, term: str) -> None:
-    """
-    Perform a fuzzy search for a Wikidata term using the general search API.
-
-    Args:
-        client (WikidataAPIClient): Initialized API client.
-        term (str): The fuzzy term to search for.
-    """
-    results = await client.search(term, limit=5)
-    if not results:
-        print(f"No results found for term: {term}")
-        return None
-
-    ids = [result["id"] for result in results if "id" in result]
-    labels = await client.wbgetentities(ids, props="labels")
-
-    print_heading(f'Fuzzy search results for: "{term}"')
-    for position, id_ in enumerate(ids, 1):
-        entity = build_wd_hyperlink(id_, labels.get(id_, {}).get("labels", ""))
-        print(f"Result {position}: {entity}")
-    print_separator()
-
-
 async def main():
     """
     Entry point for the CLI application.
