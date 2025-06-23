@@ -9,7 +9,7 @@ Supported APIs:
 
 Features:
 - Built-in rate limiting to comply with Wikidata usage policies
-- Structured JSON parsing 
+- Structured JSON parsing
 - Common HTTP error handling
 - Support for asynchronous requests using asyncio and aiohttp
 
@@ -22,11 +22,19 @@ Usage:
 - Use the client's async methods to perform entity searches, SPARQL queries, and QID/PID-based fetches.
 
 Example:
-    async with aiohttp.ClientSession() as session:
-        client = WikidataAPIClient(session)
-        results = await client.search("capital of", limit=10, entity_type="property", timeout=10)
-        print(results)
+    ```python
+    from wikidata_utils import WikidataAPIClient
+    import asyncio
+    import aiohttp
 
+    async def main():
+        async with aiohttp.ClientSession() as session:
+            client = WikidataAPIClient(session)
+            results = await client.search("capital of", limit=10, entity_type="property", timeout=10)
+            print(results)
+            
+    asyncio.run(main())
+    ```
 """
 
 from typing import Any, Optional, Union, TypeAlias
@@ -261,10 +269,15 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
     - All methods are coroutines and must be awaited.
     
     Usage example:
-    async def main():
-        async with aiohttp.ClientSession() as session:
-            client = WikidataAPIClient(session)
-            await client.wbget_statements("Q91")
+        ```python   
+        from wikidata_utils import WikidataAPIClient
+        import asyncio
+        import aiohttp
+
+        async def main():
+            async with aiohttp.ClientSession() as session:
+                client = WikidataAPIClient(session)
+                await client.wbget_claims("Q91")
 
     asyncio.run(main())
     """
