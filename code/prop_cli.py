@@ -50,7 +50,7 @@ async def lookup_term(term: str, client: WikidataAPIClient, limit: int = 1) -> s
         str | None: The resolved QID if found, otherwise None.
     """
     if match := extract_wd_id(term.upper()):
-        return match[-1]
+        return match
     elif result := await client.wbsearchentities(term, limit=limit):
         return result[0]["id"]
     elif result := await client.search(term, limit=limit):
