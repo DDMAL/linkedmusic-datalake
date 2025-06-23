@@ -408,7 +408,14 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             props_list = props
         invalid_props = [p for p in props_list if p not in supported_props]
         if invalid_props:
-            raise ValueError(f"Unsupported props requested: {', '.join(invalid_props)}")
+            self.logger.error(
+                "Unsupported props requested: %s", {", ".join(invalid_props)}
+            )
+            if "claims" in invalid_props:
+                self.logger.error(
+                    "Please use wbget_claims method instead to fetch claims."
+                )
+            return {}
 
         ids: list[str] = []
         for arg in ids_input:
@@ -444,18 +451,17 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 results[id_] = item_dict
         return results
 
-
-    async def wbget_statements(
+    async def wbget_claims(
         self,
         entity_id: str,
         timeout: int = 10,
     ) -> dict[str, list[str]]:
         """
-        Fetches claims/statements about a single Wikidata entity using wbgetentities.
+        Fetches claims/claims about a single Wikidata entity using wbgetentities.
 
         - Exists as a separate method because the JSON response structure is different.
-        - Allows fetching only one entity at a time to simplify the return type. 
-        - Only returns statements in which the object is a Wikidata entity 
+        - Allows fetching only one entity at a time to simplify the return type.
+        - Only returns claims in which the object is a Wikidata entity
 
         Args:
             entity_id: Single entity ID (e.g. "Q42").

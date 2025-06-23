@@ -156,7 +156,7 @@ async def find_all_predicates(client: WikidataAPIClient, term: str) -> None:
         return
 
     # == Fetch ID and labels for forward relationships ==
-    forward_relationships = await client.wbget_statements(qid)
+    forward_relationships = await client.wbget_claims(qid)
     forward_ids_set = set()
     for pid, objects in forward_relationships.items():
         forward_ids_set.add(pid)
