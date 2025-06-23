@@ -80,7 +80,7 @@ class _WikidataAPIClientRaw:
             - `limiter_sparql`: For SPARQL queries, allowing 20 requests per second.
             - `limiter_wikidata`: For all other Wikidata API calls, allowing 30 requests per second.
         """
-        
+
         self.session = session
         self.limiter_sparql = AsyncLimiter(max_rate=20, time_period=1)
         # limiter for all API calls starting with "https://www.wikidata.org/w/api.php"
@@ -114,7 +114,9 @@ class _WikidataAPIClientRaw:
             self.logger.error("Connection error at %s: %s", url, e)
             return None
         except aiohttp.ClientResponseError as e:
-            self.logger.error("HTTP error at %s: Status %s, message: %s", url, e.status, e.message)
+            self.logger.error(
+                "HTTP error at %s: Status %s, message: %s", url, e.status, e.message
+            )
             return None
         except aiohttp.ClientError as e:
             self.logger.error("Client error at %s: %s", url, e)
@@ -141,14 +143,18 @@ class _WikidataAPIClientRaw:
                 return data
 
     async def search_raw(
-        self, query: str, limit: Optional[int] = 10, entity_type: str = "item", timeout: int = 10
+        self,
+        query: str,
+        limit: Optional[int] = 10,
+        entity_type: str = "item",
+        timeout: int = 10,
     ) -> JsonResponse:
         """
         Queries Wikidata Elasticsearch API.
 
         Allows for more powerful fuzzy matching than wbsearchentities API.
         Returns raw JSON response, or an empty dictionary on request error.
-        
+
         By default, the query searches for Wikidata entities ("items") and returns up to 10 results
         """
         url = "https://www.wikidata.org/w/api.php"
@@ -216,7 +222,7 @@ class _WikidataAPIClientRaw:
 
         Fetches additional information on Wikidata entities using their IDs.
         Returns raw JSON response, or an empty dictionary on request error.
-        Up to 50 items can be requested at once.  
+        Up to 50 items can be requested at once.
 
         Be default, only the English labels of the entities are returned.
         """
@@ -264,10 +270,10 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
     - Wikidata wbgetentities
 
     Methods:
-    - Raw methods (search_raw) fetch raw JSON response from the APIs. 
-    - Higher-level methods (search) return parsed API responses. 
+    - Raw methods (search_raw) fetch raw JSON response from the APIs.
+    - Higher-level methods (search) return parsed API responses.
     - All methods are coroutines and must be awaited.
-    
+
     Usage example:
         ```python   
         from wikidata_utils import WikidataAPIClient
@@ -279,7 +285,8 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 client = WikidataAPIClient(session)
                 await client.wbget_claims("Q91")
 
-    asyncio.run(main())
+        asyncio.run(main())
+        ```
     """
 
     async def sparql(
@@ -316,6 +323,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
         Args:
             query: Search term.
             limit: Maximum number of results (default: 10).
+            entity_type: Type of entity to search (e.g. "items", "properties") (default: "": searches both types).
             timeout: Request timeout in seconds (default: 10).
 
         Returns:
@@ -323,13 +331,17 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 - "id": ID (e.g. "Q42")
                 - "snippet": Text snippet matching the search term
         """
-        data = await self.search_raw(query, limit=limit,entity_type=entity_type,timeout=timeout)
+        data = await self.search_raw(
+            query, limit=limit, entity_type=entity_type, timeout=timeout
+        )
         matches_list = data.get("query", {}).get("search", [])
         results = []
         # Each match is a dictionary containing a search result
         for match in matches_list:
             match_dict = {
-                "id": match.get("title", "").split(":")[-1],  # ID can be in the format "Property:P134"
+                "id": match.get("title", "").split(":")[
+                    -1
+                ],  # ID can be in the format "Property:P134"
                 "snippet": match.get("snippet", ""),
             }
             results.append(match_dict)
@@ -396,7 +408,7 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
             - The keys of the returned dictionary are entity IDs (e.g. "Q42"),
             - the values are dictionaries containing "props" (e.g. "labels", "descriptions", "aliases").
                 Example: {"Q42": {"labels": "Douglas Adams", ...}, ...}
-        
+
         Note:
             - wbgetentities uses "labels" whereas wbsearchentities uses "label"
         """
@@ -444,7 +456,9 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 item_dict = {}
                 for prop in props_list:
                     if prop in ("labels", "descriptions"):
-                        item_dict[prop] = entity.get(prop, {}).get(languages, {}).get("value", "")
+                        item_dict[prop] = (
+                            entity.get(prop, {}).get(languages, {}).get("value", "")
+                        )
                     elif prop == "aliases":
                         aliases = entity.get("aliases", {}).get(languages, [])
                         item_dict[prop] = [alias.get("value", "") for alias in aliases]
@@ -472,10 +486,12 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
                 - Each PID is the predicate of the statement.
                 - Each QID is an object of a statement with that PID.
                 Example: {"P25": ["Q66671"], "P279": ["Q146", "Q42"]}
-            
+
 
         """
-        response = await self.wbgetentities_raw(entity_id, props="claims", timeout=timeout)
+        response = await self.wbgetentities_raw(
+            entity_id, props="claims", timeout=timeout
+        )
         entities = response.get("entities", {})
         entity = entities.get(entity_id, {})
         claims = entity.get("claims", {})

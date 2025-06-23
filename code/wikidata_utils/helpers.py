@@ -6,7 +6,7 @@ def build_terminal_link(text: str, link: str) -> str:
     Return a terminal hyperlink string for the given URL and label.
 
     This uses ANSI escape sequences to create clickable links
-    in supported terminals (e.g., iTerm2, some Linux terminals).
+    in supported terminals.
 
     Args:
         text: The label to display in the terminal.
@@ -24,14 +24,14 @@ def build_terminal_link(text: str, link: str) -> str:
 
 def build_wd_hyperlink(item_id, item_label) -> str:
     """
-    Format a Wikidata entity into a terminal hyperlink with its label and ID.
+    Format a Wikidata entity into a terminal hyperlink using its label and ID.
 
     Args:
         item_id: The Wikidata entity ID (e.g., "Q42").
         item_label: The human-readable label for the entity.
 
     Returns:
-        A formatted hyperlink string like "Douglas Adams(Q42)" linked to the entity's URL.
+        A formatted hyperlink string, like "Douglas Adams(Q42)", linked to the entity's URL.
     """
     uri = f"https://www.wikidata.org/entity/{item_id}"
     text = f"{item_label}({item_id})"
@@ -44,7 +44,7 @@ def extract_wd_id(s: str, all_match: bool = False) -> str | list[str] | None:
 
     Returns:
         str | list[str] | None:
-            - If all_match is False, returns the last matched ID as a string.
+            - If all_match is False (default), returns the last matched ID as a string.
             - If all_match is True, returns a list of all matched IDs
             - If no matches are found, returns None.
     """
