@@ -68,7 +68,7 @@ The APIs covered in this guide are:
 
 ## 2.3 Wikidata Search
 
-- This performs full-text search (with fuzzy matching) on Wikidata entities. This is sould be identical to using the [Wikidata Search Page](https://www.wikidata.org/wiki/Special:Search).
+- This performs full-text search (with fuzzy matching) on Wikidata entities. This should be identical to using the [Wikidata Search Page](https://www.wikidata.org/wiki/Special:Search).
 
 - Example query: https://www.wikidata.org/w/api.php?action=query&list=search&srsearch=Earl+Warren&&format=json
 
