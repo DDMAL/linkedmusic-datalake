@@ -1,3 +1,7 @@
+"""
+A collection of utility functions for working with Wikidata entities
+"""
+
 import re
 
 
@@ -52,5 +56,6 @@ def extract_wd_id(s: str, all_match: bool = False) -> str | list[str] | None:
     matches = pattern.findall(s)
     if all_match:
         return matches if matches else None
+    # By default, return the last match
     else:
         return matches[-1] if matches else None
