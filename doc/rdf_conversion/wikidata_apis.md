@@ -92,7 +92,7 @@ WikibaseCirrusSearch comes with keywords that can help filter the query. For exa
 
 When calling https://www.wikidata.org/w/api.php?action=query&list=search, it is possible to include CirrusSearch keywords in the search string.
 
-- Example query: `https://www.wikidata.org/w/api.php?action=query&list=search&srsearch=Earle+Warren+haswbstatement:P106=Q15981151&format=json`
+- Example query: https://www.wikidata.org/w/api.php?action=query&list=search&srsearch=Earle+Warren+haswbstatement:P106=Q15981151&format=json
 
 ## 2.4 Wikidata Query Service
 
