@@ -96,7 +96,7 @@ When calling https://www.wikidata.org/w/api.php?action=query&list=search, it is 
 
 ## 2.4 Wikidata Query Service
 
-- This performs a SPARQL query at Wikidata's SPARQL endpoint. 
+- This performs a SPARQL query at Wikidata's SPARQL endpoint.
 
 - Example query: https://query.wikidata.org/sparql?query=SELECT%20%3Fitem%20%3FitemLabel%20WHERE%20%7B%20%3Fitem%20wdt%3AP31%20wd%3AQ5%20.%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%22.%20%7D%20%7D%20LIMIT%205&format=json
 
@@ -136,7 +136,7 @@ WikidataAPIClient is a Python class which provides async methods to call the fou
           client = WikidataAPIClient(session)
           results = await client.search("capital of", limit=10, entity_type="property", timeout=10)
           print(results)
-        
+
         # Output example:
         # [
         #   {'id': 'P1376', 'snippet': 'country, state, department, canton or other administrative division of which the municipality is the governmental seat'},
@@ -144,21 +144,23 @@ WikidataAPIClient is a Python class which provides async methods to call the fou
         #   {'id': ..., 'snippet': ...},
         #   ...
         # ]
-               
+
   asyncio.run(main())
   ```
 
 ## 3.3 Implementation Ideas
 
 ### 3.3.1 "Productivity Tools"
+
 - `WikidataAPIClient` is currently implemented in `code/prop_cli.py`, a command-line interface to assist mapping properties against Wikidata (read more about it [here](./rdf_property_mapping_guide.md)).
 - The client is also implemented in `add_labels.py` (will appear in a separate pull request), which adds Wikidata labels as comments next to PIDs in `rdf_config` files.
 - Similar "productivity tools" could be developed to make other parts of our workflow more efficient.
 
 ### 3.3.2 Custom Reconciliation Logic
 
-Another potential application of this API is in the development of custom reconciliation logic. 
-- Having our own reconciliation service (which we can connect to OpenRefine) would give us much more opportunity to fine-tune match scoring, which (hopefully) would increase reconciliation accuracy. 
+Another potential application of this API is in the development of custom reconciliation logic.
+
+- Having our own reconciliation service (which we can connect to OpenRefine) would give us much more opportunity to fine-tune match scoring, which (hopefully) would increase reconciliation accuracy.
 - It is also likely faster than OpenRefine's built-in reconciliation service.
 
 - Example of custom reconciliation logic for performers on Dig That Lick:
