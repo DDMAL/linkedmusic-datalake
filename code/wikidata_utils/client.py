@@ -19,7 +19,7 @@ Dependencies:
 
 Usage:
 - Instantiate WikidataAPIClient with an existing aiohttp.ClientSession
-- Use the client's async methods to perform entity searches, SPARQL queries, and QID/PID-based fetches.
+- Use client's async methods to perform entity searches, SPARQL queries, and QID/PID-based fetches.
 
 Example:
     ```python
@@ -30,9 +30,9 @@ Example:
     async def main():
         async with aiohttp.ClientSession() as session:
             client = WikidataAPIClient(session)
-            results = await client.search("capital of", limit=10, entity_type="property", timeout=10)
+            results = await client.search("occupation", limit=10, entity_type="property", timeout=10)
             print(results)
-            
+
     asyncio.run(main())
     ```
 """
@@ -55,7 +55,7 @@ class _WikidataAPIClientRaw:
     Base client for interacting with Wikidata APIs.
 
     Provides asynchronous methods to request different Wikidata API endpoints
-    and returns raw JSON responses.
+    Returns raw JSON responses.
     Handles HTTP errors and rate limiting internally.
 
     Supported endpoints:
@@ -71,7 +71,7 @@ class _WikidataAPIClientRaw:
     ):
         """
         Initialize the WikidataAPIClient with an aiohttp session.
-        Asking the user to provide session to allow their control over session reuse.
+        Externally-provided session allows user control over session reuse.
 
         Args:
             session (aiohttp.ClientSession): An active aiohttp session for making requests.
@@ -129,7 +129,7 @@ class _WikidataAPIClientRaw:
         """
         Executes a SPARQL query at Wikidata Query Service.
 
-        Returns raw JSON response, or an empty dictionary on request error.
+        Returns raw JSON response, or an empty dictionary on error.
         """
         url = "https://query.wikidata.org/sparql"
         headers = {"Accept": "application/sparql-results+json"}
@@ -270,12 +270,12 @@ class WikidataAPIClient(_WikidataAPIClientRaw):
     - Wikidata wbgetentities
 
     Methods:
-    - Raw methods (search_raw) fetch raw JSON response from the APIs.
-    - Higher-level methods (search) return parsed API responses.
+    - Raw methods (e.g. search_raw) fetch raw JSON response from API.
+    - Higher-level methods (e.g. search) return parsed API responses.
     - All methods are coroutines and must be awaited.
 
     Usage example:
-        ```python   
+        ```python
         from wikidata_utils import WikidataAPIClient
         import asyncio
         import aiohttp
