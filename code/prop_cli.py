@@ -15,7 +15,7 @@ from wikidata_utils import WikidataAPIClient, build_wd_hyperlink, extract_wd_id
 
 def print_heading(title: str) -> None:
     """
-    Print title sandwiched between two separators.
+    Print title sandwiched between two separator lines.
     This is used to format CLI output.
 
     Args:
@@ -35,22 +35,22 @@ def print_separator() -> None:
 
 
 async def lookup_term(
-    term: str, client: WikidataAPIClient, limit: int = 1
+    term: str,
+    client: WikidataAPIClient,
 ) -> str | None:
     """
     Attempt to resolve a search term to a Wikidata QID.
 
     Tries:
-    1. Extract a QID/PID directly from the term (e.g. Q6603).
-    2. Search for exact match via wbsearchentities (e.g. Paris).
-    3. Search for fuzzy match via ElasticSearch API (e.g. Paaris).
+    1. Extract a QID/PID directly from the term (e.g. with Q6603).
+    2. Search for exact match via wbsearchentities (e.g. with Paris).
+    3. Search for fuzzy match via ElasticSearch API (e.g. with Paaris).
 
     Returns the first found QID/PID, or None.
 
     Args:
         term (str): The search term or possible QID.
         client (WikidataAPIClient): An initialized Wikidata API client.
-        limit (int): Maximum number of results to return per search.
 
     Returns:
         str | None: The resolved QID if found, otherwise None.
@@ -58,9 +58,9 @@ async def lookup_term(
     if match := extract_wd_id(term.upper()):
         # match is a QID/PID extracted directly from the term
         return match
-    elif result := await client.wbsearchentities(term, limit=limit):
+    elif result := await client.wbsearchentities(term, limit=1):
         return result[0]["id"]
-    elif result := await client.search(term, limit=limit):
+    elif result := await client.search(term, limit=1):
         return result[0]["id"]
     else:
         print(f"No results found for term: {term}")
@@ -86,6 +86,7 @@ async def find_relation(client: WikidataAPIClient, term1: str, term2: str) -> No
         lookup_term(term2, client),
     )
     if not qid1 or not qid2:
+        # "No match found" message is to be printed by lookup_term
         print_separator()
         return
 
