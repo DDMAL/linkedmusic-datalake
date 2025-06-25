@@ -151,7 +151,7 @@ def rdf_process_predicates(
             elif isinstance(col_schema, dict):
                 # Complex config value
                 for key in col_schema:
-                    if key not in ("pred", "datatype", "lang", "subj", "if"):
+                    if key not in ("pred", "datatype", "lang", "subj", "if", "prefix"):
                         raise ValueError(
                             f"Config[{file}]: invalid key '{key}' in column '{col}'"
                         )
@@ -331,6 +331,9 @@ def build_rdf_graph(
                     continue
                 if subject_node and predicate and object_node:
                     graph.add((subject_node, predicate, object_node))
+                    triple_counter += 1
+    # dynamically add the number of triples as a attribute of graph
+    graph.count = triple_counter
     return graph
 
 
