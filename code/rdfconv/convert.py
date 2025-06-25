@@ -265,7 +265,7 @@ def build_rdf_graph(
         raise ValueError(f" {config} is missing required key: {e}") from e
     # === Initialize RDF Graph ===
     graph = Graph()
-
+    triple_counter = 0
     # === Bind Namespaces ===
     for prefix, ns in rdf_ns.items():
         graph.bind(prefix, Namespace(ns))
@@ -359,7 +359,7 @@ def main():
         logger.info(
             "RDF graph built successfully. Serializing... (this may take a while)"
         )
-        logger.info("RDF graph contains %d triples!", len(rdf_graph))
+        logger.info("RDF graph contains %d triples!", rdf_graph.count)
     # === Finding Output Directory ===
     script_dir = Path(__file__).parent.resolve()
     rdf_folder = (script_dir / rel_out_dir).resolve()
