@@ -1,0 +1,116 @@
+[general]
+name = "thesession"
+csv_folder = "../../data/thesession/reconciled"
+rdf_output_folder = "../thesession/"
+test_mode = true
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+geo = "http://www.opengis.net/ont/geosparql#"
+skos = "http://www.w3.org/2004/02/skos/core#"
+ts = "https://thesession.org/"
+
+[events-reconciled]
+PRIMARY_KEY = "events_id"
+events_id = ""
+event = "rdfs:label"
+venue = "P276"  # location (P276)
+town = "P276"  # location (P276)
+town_literal = ""
+town_wiki = ""
+area_literal = ""
+area_wiki = ""
+country = "P17"  # country (P17)
+country_literal = ""
+country_wiki = ""
+latitude = ""
+longitude = ""
+
+[events-reconciled.dtstart]
+pred = "P580"  # start time (P580)
+datatype = "xsd:dateTime"
+
+[events-reconciled.dtend]
+pred = "P582"  # end time (P582)
+datatype = "xsd:dateTime"
+
+[events-reconciled.coordinate]
+pred = "P625"  # coordinate location (P625)
+datatype = "geo:wktLiteral"
+
+[recordings-reconciled]
+PRIMARY_KEY = "recording_id"
+recording_id = ""
+artist = "P170"  # creator (P170)
+artist_literal = ""
+recording = "rdfs:label"
+recording_literal = ""
+recording_wiki = ""
+track = ""
+number = ""
+tune = {subj = "tune_id", pred = "rdfs:label"}
+tune_id = "P361"  # part of (P361)
+artist_url = ""
+
+[sessions-reconciled]
+PRIMARY_KEY = "sessions_id"
+sessions_id = ""
+name = "P276"  # location (P276)
+area = ""
+area_wiki = "P276"  # location (P276)
+country_wiki = ""
+latitude = ""
+longitude = ""
+country = "P17"  # country (P17)
+
+[sessions-reconciled.coordinate]
+pred = "P625"  # coordinate location (P625)
+datatype = "geo:wktLiteral"
+
+[sessions-reconciled.date]
+pred = "P585"  # point in time (P585)
+datatype = "xsd:dateTime"
+
+[sets-reconciled]
+PRIMARY_KEY = "tuneset_id"
+tuneset_id = ""
+date = { pred = "P571", datatype = "xsd:dateTime"}  # inception (P571)
+member_id = "P170"  # creator (P170)
+username = { pred = "rdfs:label", subj = "member_id"}
+settingorder = ""
+name = "rdfs:label"
+tune_id = "P361"  # part of (P361)
+setting_id = ""
+
+[tune-aliases-reconciled]
+PRIMARY_KEY = "tune_id"
+tune_id = ""
+alias = "skos:altLabel"
+name = ""
+
+[tune-popularity-reconciled]
+PRIMARY_KEY = "tune_id"
+tune_id = ""
+name = ""
+tunebooks = ""
+
+[tunes-reconciled]
+PRIMARY_KEY = "tune_id"
+tune_id = ""
+setting_id = "P747"  # has edition or translation (P747)
+name = "rdfs:label"
+type = ""
+type_wiki = "P7937"  # form of creative work (P7937)
+meter = ""
+meter_wiki = "P3440"  # time signature (P3440)
+mode = "P826"  # tonality (P826)
+mode_wiki = ""
+username = ""
+
+[tunes-reconciled.date]
+pred = "P571"  # inception (P571)
+datatype = "xsd:dateTime"
