@@ -1072,13 +1072,13 @@ if __name__ == "__main__":
                 dict(zip(statuses["status"], statuses["status_@id"]))
             )
 
-    bad_files = []
+    bad_files = set()
     if Path(args.output_folder).exists() and not REPROCESSING:
         output_folder = Path(args.output_folder)
         for file in output_folder.iterdir():
             # Get rid of numbers for ttl files
             if file.is_file() and (match := re.match(r"^(\w+)-\d+$", file.stem)):
-                bad_files.append(match.group(1))
+                bad_files.add(match.group(1))
 
     for input_file in input_folder.iterdir():
         if not input_file.is_file() or not str(input_file).endswith(".jsonl"):
