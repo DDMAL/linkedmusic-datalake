@@ -6,6 +6,7 @@ and generates RDF triples accordingly.
 """
 
 import argparse
+import time
 from pathlib import Path
 from typing import Union, Any
 import logging
@@ -22,9 +23,6 @@ from isodate.isodatetime import parse_datetime
 logger = logging.getLogger("csv_to_rdf")
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
-
-# === Suppress rdflib Warnings ===
-logging.getLogger("rdflib.term").setLevel(logging.ERROR)
 
 def to_rdf_node(
     val: str,
@@ -118,6 +116,7 @@ def rdf_process_predicates(
     Returns:
         A new config dict with all predicate strings replaced by resolved RDF URIs.
         The new config does not include the sections "general" and "namespaces"
+        Empty fields are removed from the config.
 
     Raises:
         ValueError: On missing or invalid 'PRIMARY_KEY', invalid keys, or bad value types.
@@ -143,36 +142,43 @@ def rdf_process_predicates(
             if col == "PRIMARY_KEY":
                 new_file_schema["PRIMARY_KEY"] = col_schema  # Keep PRIMARY_KEY as is
                 continue
-            if not col_schema:
-                continue  # Skip empty fields
+
             if isinstance(col_schema, str):
+                # Skip empty fields
+                if not col_schema:
+                    continue  
                 # Transform predicate to URIRef
                 new_file_schema[col] = to_predicate(col_schema, ns)
             elif isinstance(col_schema, dict):
                 # Complex config value
-                for key in col_schema:
+                for key, val in col_schema.items():
                     if key not in ("pred", "datatype", "lang", "subj", "if", "prefix"):
                         raise ValueError(
                             f"Config[{file}]: invalid key '{key}' in column '{col}'"
                         )
+                    if not isinstance(val, str):
+                        raise ValueError(f"Config[{file}]: '{key}' in column '{col}' must a string value")
                 # Verifying that datatype and lang are not both specified
                 datatype = col_schema.get("datatype")
                 lang = col_schema.get("lang")
-                if datatype is not None and lang is not None:
+                if datatype and lang:
                     raise ValueError(
                         f"Config[{file}]: cannot specify both datatype and lang for column '{col}'"
                     )
+                new_col_schema = {k: v for k, v in col_schema.items() if v != ""}
+                # Skip empty dict
+                if not new_col_schema:
+                    continue  
                 # Transform predicate to URIRef, if it exists
-                pred: str = col_schema.get("pred")
-                new_file_schema[col] = {
-                    **col_schema,
-                    "pred": to_predicate(pred, ns),
-                }
+                if "pred" in new_col_schema:
+                    new_col_schema["pred"] = to_predicate(new_col_schema["pred"], ns)
+                new_file_schema[col] = new_col_schema
             else:
                 raise ValueError(
                     f"Config[{file}]: invalid value type for column '{col}'. Expected a string or a dict, got {type(col_schema)}"
                 )
-        new_config[file] = new_file_schema
+        if len(new_file_schema) > 1:
+            new_config[file] = new_file_schema
     return new_config
 
 
@@ -265,7 +271,7 @@ def build_rdf_graph(
         raise ValueError(f" {config} is missing required key: {e}") from e
     # === Initialize RDF Graph ===
     graph = Graph()
-
+    triple_counter = 0
     # === Bind Namespaces ===
     for prefix, ns in rdf_ns.items():
         graph.bind(prefix, Namespace(ns))
@@ -303,10 +309,16 @@ def build_rdf_graph(
         df = fill_down_until_key(df, primary_key)
         # === Make sure that Pandas does not store any NaN ===
         df = df.where(pd.notna(df), None)
+        # === Filter out columns that don't have predicates
+        filtered_csv_schema = {
+        k: v for k, v in csv_schema.items()
+        # dict without "pred" were needed for rdf_transform_csv, but not for building the triple
+        if k != "PRIMARY_KEY" and (not isinstance(v, dict) or "pred" in v)
+        }
         # === Iterate through all the rows of the CSV file ===
         for row in tqdm(df.itertuples(index=False), total=len(df)):
             primary_node = getattr(row, primary_key)
-            for col, col_value in csv_schema.items():
+            for col, col_value in filtered_csv_schema.items():
                 object_node = getattr(row, col, None)
                 if object_node is None:
                     continue
@@ -331,11 +343,15 @@ def build_rdf_graph(
                     continue
                 if subject_node and predicate and object_node:
                     graph.add((subject_node, predicate, object_node))
+                    triple_counter += 1
+    # dynamically add the number of triples as a attribute of graph
+    graph.count = triple_counter
     return graph
 
 
 def main():
 
+    start_time = time.time()
     # === Argument Parsing ===
     parser = argparse.ArgumentParser(
         description="Convert a CSV to RDF using a TOML configuration file."
@@ -357,9 +373,9 @@ def main():
 
     if rdf_graph:
         logger.info(
-            "RDF graph built successfully. Serializing... (this may take a while)"
-        )
-        logger.info("RDF graph contains %d triples!", len(rdf_graph))
+            "RDF graph built successfully: graph contains %d triples!", rdf_graph.count) 
+        logger.info("Serializing... (this may take a while)")
+        
     # === Finding Output Directory ===
     script_dir = Path(__file__).parent.resolve()
     rdf_folder = (script_dir / rel_out_dir).resolve()
@@ -368,6 +384,8 @@ def main():
     rdf_folder.mkdir(parents=True, exist_ok=True)
     rdf_graph.serialize(destination=ttl_path, format="turtle")
     logger.info("RDF conversion completed. Output saved to: %s", ttl_path.resolve())
+    elapsed_time = time.time() - start_time
+    logger.info("Script finished in %.2f seconds." % elapsed_time)
 
 
 if __name__ == "__main__":
