@@ -20,12 +20,12 @@ from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
 
 # === Setup Logger ===
-logger = logging.getLogger("csv_to_rdf")
+logger = logging.getLogger(__name__)
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 # === Suppress rdflib Warnings ===
-logging.getLogger("rdflib.term").setLevel(logging.ERROR)
+logging.getLogger("rdflib").setLevel(logging.ERROR)
 
 
 def to_rdf_node(
@@ -401,9 +401,7 @@ def main():
     rdf_graph = build_rdf_graph(processed_config)
 
     if rdf_graph:
-        logger.info(
-            "RDF graph built successfully"
-        )
+        logger.info("RDF graph built successfully")
         logger.info("Serializing... (this may take a while)")
 
     # === Finding Output Directory ===
@@ -418,9 +416,12 @@ def main():
     logger.info("Script finished in %.2f seconds.", elapsed_time)
     # Each non-empty line in ttl (except prefix) is a triple
     non_empty_lines = sum(
-    1 for line in ttl_path.open("r", encoding="utf-8")
-    if line.strip() and not line.lstrip().startswith("@prefix"))
+        1
+        for line in ttl_path.open("r", encoding="utf-8")
+        if line.strip() and not line.lstrip().startswith("@prefix")
+    )
     logger.info("TTL file contains %d triples.", non_empty_lines)
+
 
 if __name__ == "__main__":
     main()
