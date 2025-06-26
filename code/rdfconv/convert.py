@@ -24,6 +24,9 @@ logger = logging.getLogger("csv_to_rdf")
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
+# === Suppress rdflib Warnings ===
+logging.getLogger("rdflib.term").setLevel(logging.ERROR)
+
 
 def to_rdf_node(
     val: str,
@@ -358,7 +361,7 @@ def build_rdf_graph(
                         subject_node = primary_node
                     if not eval(
                         col_value.get("if", "True"),
-                        {"URIRef": URIRef, "Literal": Literal},
+                        {"URIRef": URIRef, "Literal": Literal, "None": None},
                         {"subj": subject_node, "obj": object_node},
                     ):
                         continue
