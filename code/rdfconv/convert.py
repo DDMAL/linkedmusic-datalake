@@ -275,7 +275,6 @@ def build_rdf_graph(
         raise ValueError(f" {config} is missing required key: {e}") from e
     # === Initialize RDF Graph ===
     graph = Graph()
-    triple_counter = 0
     # === Bind Namespaces ===
     for prefix, ns in rdf_ns.items():
         graph.bind(prefix, Namespace(ns))
@@ -370,14 +369,12 @@ def build_rdf_graph(
                 if subject_node and predicate and object_node:
                     try:
                         graph.add((subject_node, predicate, object_node))
-                        triple_counter += 1
                     except Exception as e:
                         raise ValueError(
                             f"Error adding triple ({subject_node}, {predicate}, {object_node}): {col}"
                         )
 
     # dynamically add the number of triples as a attribute of graph
-    graph.count = triple_counter
     return graph
 
 
@@ -405,7 +402,7 @@ def main():
 
     if rdf_graph:
         logger.info(
-            "RDF graph built successfully: graph contains %d triples!", rdf_graph.count
+            "RDF graph built successfully"
         )
         logger.info("Serializing... (this may take a while)")
 
@@ -418,8 +415,12 @@ def main():
     rdf_graph.serialize(destination=ttl_path, format="turtle")
     logger.info("RDF conversion completed. Output saved to: %s", ttl_path.resolve())
     elapsed_time = time.time() - start_time
-    logger.info("Script finished in %.2f seconds." % elapsed_time)
-
+    logger.info("Script finished in %.2f seconds.", elapsed_time)
+    # Each non-empty line in ttl (except prefix) is a triple
+    non_empty_lines = sum(
+    1 for line in ttl_path.open("r", encoding="utf-8")
+    if line.strip() and not line.lstrip().startswith("@prefix"))
+    logger.info("TTL file contains %d triples.", non_empty_lines)
 
 if __name__ == "__main__":
     main()
