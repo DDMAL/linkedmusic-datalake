@@ -358,7 +358,7 @@ def build_rdf_graph(
                         subject_node = primary_node
                     if not eval(
                         col_value.get("if", "True"),
-                        {},
+                        {"URIRef": URIRef, "Literal": Literal},
                         {"subj": subject_node, "obj": object_node},
                     ):
                         continue
