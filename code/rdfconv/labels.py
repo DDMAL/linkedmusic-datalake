@@ -28,7 +28,9 @@ if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 
-async def add_labels_as_comments(input_path: Path, output_path: Path, client: WikidataAPIClient):
+async def add_labels_as_comments(
+    input_path: Path, output_path: Path, client: WikidataAPIClient
+):
     """
     Reads an input file line-by-line, extracts the last Wikidata ID from each line,
     fetches the corresponding label from Wikidata, and writes the lines to an output file
@@ -51,7 +53,7 @@ async def add_labels_as_comments(input_path: Path, output_path: Path, client: Wi
         for line in f:
             line = line.rstrip("\n")
             # Remove existing comments
-            line_no_comm = re.split(r'\s#', line, maxsplit=1)[0].rstrip()
+            line_no_comm = re.split(r"\s#", line, maxsplit=1)[0].rstrip()
             wd_id: str = extract_wd_id(line_no_comm)
             lines_with_ids.append((line_no_comm, wd_id))
             if wd_id:
@@ -130,6 +132,7 @@ def main():
     output_file = Path(args.output) if args.output else input_file
 
     asyncio.run(process(input_file, output_file))
+
 
 if __name__ == "__main__":
     main()
