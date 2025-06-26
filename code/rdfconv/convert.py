@@ -24,6 +24,7 @@ logger = logging.getLogger("csv_to_rdf")
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
+
 def to_rdf_node(
     val: str,
     namespaces: dict,
@@ -68,9 +69,7 @@ def to_rdf_node(
     if datatype == XSD.dateTime:
         try:
             # Validate the datetime string, and catch any exception that might occur
-            return Literal(
-                parse_datetime(val), datatype=XSD.dateTime
-            )
+            return Literal(parse_datetime(val), datatype=XSD.dateTime)
         except (ISO8601Error, ValueError):
             return Literal(val)  # Fallback to a plain literal if conversion fails
     return Literal(str(val), lang=lang, datatype=datatype)
@@ -146,7 +145,7 @@ def rdf_process_predicates(
             if isinstance(col_schema, str):
                 # Skip empty fields
                 if not col_schema:
-                    continue  
+                    continue
                 # Transform predicate to URIRef
                 new_file_schema[col] = to_predicate(col_schema, ns)
             elif isinstance(col_schema, dict):
@@ -157,7 +156,9 @@ def rdf_process_predicates(
                             f"Config[{file}]: invalid key '{key}' in column '{col}'"
                         )
                     if not isinstance(val, str):
-                        raise ValueError(f"Config[{file}]: '{key}' in column '{col}' must a string value")
+                        raise ValueError(
+                            f"Config[{file}]: '{key}' in column '{col}' must a string value"
+                        )
                 # Verifying that datatype and lang are not both specified
                 datatype = col_schema.get("datatype")
                 lang = col_schema.get("lang")
@@ -168,7 +169,7 @@ def rdf_process_predicates(
                 new_col_schema = {k: v for k, v in col_schema.items() if v != ""}
                 # Skip empty dict
                 if not new_col_schema:
-                    continue  
+                    continue
                 # Transform predicate to URIRef, if it exists
                 if "pred" in new_col_schema:
                     new_col_schema["pred"] = to_predicate(new_col_schema["pred"], ns)
@@ -234,8 +235,8 @@ def fill_down_until_key(df: pd.DataFrame, primary_key: str) -> pd.DataFrame:
     Empty values are assumed to be either NaN or empty strings.
     """
     df = df.copy()
-    # Any value not None becomes True
-    mask = df[primary_key].notna()
+    # Any value not None and not empty string becomes True
+    mask = df[primary_key].notna() & (df[primary_key] != "") & (df[primary_key] != None)
     group = mask.cumsum()
 
     filled_df = df.groupby(group).ffill()
@@ -295,7 +296,28 @@ def build_rdf_graph(
             logger.warning("'%s' not found. Skipping.", csv_file)
             continue
         try:
-            df = pd.read_csv(csv_file)
+            df = pd.read_csv(
+                csv_file,
+                dtype=str,
+                keep_default_na=False,
+                na_values=[
+                    "",  # Empty string
+                    " ",  # Space
+                    "NA",  # Capitalized NA
+                    "N/A",  # Common spreadsheet notation
+                    "na",  # lowercase
+                    "n/a",  # lowercase
+                    "-",  # Often used to indicate "no data"
+                    "--",  # Sometimes double-dash
+                    "None",  # Pythonic
+                    "none",  # lowercase variant
+                    "NULL",  # SQL style
+                    "null",  # lowercase
+                    "NaN",  # Python/NumPy/Pandas
+                    "nan",  # lowercase
+                    "?",  # Occasionally used for unknowns
+                ],
+            )
         except Exception as e:
             logger.error("Error reading '%s'. Skipping. %s", csv_file, e)
             continue
@@ -311,15 +333,16 @@ def build_rdf_graph(
         df = df.where(pd.notna(df), None)
         # === Filter out columns that don't have predicates
         filtered_csv_schema = {
-        k: v for k, v in csv_schema.items()
-        # dict without "pred" were needed for rdf_transform_csv, but not for building the triple
-        if k != "PRIMARY_KEY" and (not isinstance(v, dict) or "pred" in v)
+            k: v
+            for k, v in csv_schema.items()
+            # dict without "pred" were needed for rdf_transform_csv, but not for building the triple
+            if k != "PRIMARY_KEY" and (not isinstance(v, dict) or "pred" in v)
         }
         # === Iterate through all the rows of the CSV file ===
-        for row in tqdm(df.itertuples(index=False), total=len(df)):
-            primary_node = getattr(row, primary_key)
+        for _, row in tqdm(df.iterrows(), total=len(df)):
+            primary_node = row[primary_key]
             for col, col_value in filtered_csv_schema.items():
-                object_node = getattr(row, col, None)
+                object_node = row.get(col, None)
                 if object_node is None:
                     continue
                 if isinstance(col_value, URIRef):
@@ -330,7 +353,7 @@ def build_rdf_graph(
                     # complex config value
                     predicate = col_value["pred"]
                     if subj_col := col_value.get("subj"):
-                        subject_node = getattr(row, subj_col, None)
+                        subject_node = row.get(subj_col, None)
                     else:
                         subject_node = primary_node
                     if not eval(
@@ -342,8 +365,14 @@ def build_rdf_graph(
                 else:
                     continue
                 if subject_node and predicate and object_node:
-                    graph.add((subject_node, predicate, object_node))
-                    triple_counter += 1
+                    try:
+                        graph.add((subject_node, predicate, object_node))
+                        triple_counter += 1
+                    except Exception as e:
+                        raise ValueError(
+                            f"Error adding triple ({subject_node}, {predicate}, {object_node}): {col}"
+                        )
+
     # dynamically add the number of triples as a attribute of graph
     graph.count = triple_counter
     return graph
@@ -373,9 +402,10 @@ def main():
 
     if rdf_graph:
         logger.info(
-            "RDF graph built successfully: graph contains %d triples!", rdf_graph.count) 
+            "RDF graph built successfully: graph contains %d triples!", rdf_graph.count
+        )
         logger.info("Serializing... (this may take a while)")
-        
+
     # === Finding Output Directory ===
     script_dir = Path(__file__).parent.resolve()
     rdf_folder = (script_dir / rel_out_dir).resolve()
