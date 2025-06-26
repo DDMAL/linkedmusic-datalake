@@ -6,6 +6,7 @@ and generates RDF triples accordingly.
 """
 
 import argparse
+import time
 from pathlib import Path
 from typing import Union, Any
 import logging
@@ -336,6 +337,7 @@ def build_rdf_graph(
 
 def main():
 
+    start_time = time.time()
     # === Argument Parsing ===
     parser = argparse.ArgumentParser(
         description="Convert a CSV to RDF using a TOML configuration file."
@@ -357,9 +359,9 @@ def main():
 
     if rdf_graph:
         logger.info(
-            "RDF graph built successfully. Serializing... (this may take a while)"
-        )
-        logger.info("RDF graph contains %d triples!", rdf_graph.count)
+            "RDF graph built successfully: graph contains %d triples!", rdf_graph.count) 
+        logger.info("Serializing... (this may take a while)")
+        
     # === Finding Output Directory ===
     script_dir = Path(__file__).parent.resolve()
     rdf_folder = (script_dir / rel_out_dir).resolve()
@@ -368,6 +370,8 @@ def main():
     rdf_folder.mkdir(parents=True, exist_ok=True)
     rdf_graph.serialize(destination=ttl_path, format="turtle")
     logger.info("RDF conversion completed. Output saved to: %s", ttl_path.resolve())
+    elapsed_time = time.time() - start_time
+    logger.info("Script finished in %.2f seconds." % elapsed_time)
 
 
 if __name__ == "__main__":
