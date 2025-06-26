@@ -361,7 +361,7 @@ def build_rdf_graph(
                     if not eval(
                         col_value.get("if", "True"),
                         {"URIRef": URIRef, "Literal": Literal, "None": None},
-                        {"subj": subject_node, "obj": object_node},
+                        {"subj": subject_node, "obj": object_node, "row": row},
                     ):
                         continue
                 else:
