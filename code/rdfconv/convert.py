@@ -24,6 +24,9 @@ logger = logging.getLogger("csv_to_rdf")
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
+# === Suppress rdflib Warnings ===
+logging.getLogger("rdflib.term").setLevel(logging.ERROR)
+
 
 def to_rdf_node(
     val: str,
