@@ -742,7 +742,9 @@ def merge_subgraph(graph, subgraph):
     graph.commit()  # Commit the changes to the main graph
 
 
-async def graph_worker(subgraph_queue, namespaces, main_graphs, graph_store, subgraph_bar):
+async def graph_worker(
+    subgraph_queue, namespaces, main_graphs, graph_store, subgraph_bar
+):
     """Worker function to merge subgraphs into the main graph."""
     if graph_store:
         graph = Graph("Oxigraph")
@@ -751,6 +753,7 @@ async def graph_worker(subgraph_queue, namespaces, main_graphs, graph_store, sub
         graph = Graph()
     for prefix, ns in namespaces.items():
         graph.bind(prefix, ns)
+    main_graphs.append(graph)
 
     chunk_count = 0
     loop = asyncio.get_event_loop()
@@ -769,11 +772,11 @@ async def graph_worker(subgraph_queue, namespaces, main_graphs, graph_store, sub
 
             if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
                 # Start a new graph
-                main_graphs.append(graph)
                 graph = Graph("Oxigraph")
                 graph.open(f"./store-{len(main_graphs)}", create=True)
                 for prefix, ns in namespaces.items():
                     graph.bind(prefix, ns)
+                main_graphs.append(graph)
     except asyncio.CancelledError:
         sigint = True
     except Exception as e:
@@ -791,12 +794,11 @@ async def graph_worker(subgraph_queue, namespaces, main_graphs, graph_store, sub
             chunk_count += 1
             if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
                 # Start a new graph
-                main_graphs.append(graph)
                 graph = Graph("Oxigraph")
                 graph.open(f"./store-{len(main_graphs)}", create=True)
                 for prefix, ns in namespaces.items():
                     graph.bind(prefix, ns)
-        main_graphs.append(graph)  # Add the last graph to the list
+                main_graphs.append(graph)
 
 
 async def get_final_graphs(
@@ -849,7 +851,9 @@ async def get_final_graphs(
                 for _ in range(MAX_SIMULTANEOUS_CHUNK_WORKERS)
             ]
             merge_worker = asyncio.create_task(
-                graph_worker(subgraph_queue, namespaces, main_graphs, graph_store, subgraph_bar)
+                graph_worker(
+                    subgraph_queue, namespaces, main_graphs, graph_store, subgraph_bar
+                )
             )
 
             # Read file and split into chunks
@@ -944,12 +948,12 @@ def main(args):
     )
 
     # Save the final result
-    for i, main_graph in tqdm(enumerate(main_graphs), desc="Saving RDF graphs"):
+    for i, main_graph in enumerate(tqdm(main_graphs, desc="Saving RDF graphs")):
         output_file = output_folder / f"{entity_type}-{i}.ttl"
-        print(f"Saving RDF data to: {output_file}")
+        tqdm.write(f"Saving RDF data to: {output_file}")
         with open(output_file, "wb") as f:
             main_graph.serialize(f, format="turtle", encoding="utf-8")
-        print(f"Successfully saved RDF data to: {output_file}")
+        tqdm.write(f"Successfully saved RDF data to: {output_file}")
         main_graph.close()
 
         # Fully delete the stores
@@ -1072,8 +1076,9 @@ if __name__ == "__main__":
     if Path(args.output_folder).exists() and not REPROCESSING:
         output_folder = Path(args.output_folder)
         for file in output_folder.iterdir():
-            if file.is_file():
-                bad_files.append(file.stem)
+            # Get rid of numbers for ttl files
+            if file.is_file() and (match := re.match(r"^(\w+)-\d+$", file.stem)):
+                bad_files.append(match.group(1))
 
     for input_file in input_folder.iterdir():
         if not input_file.is_file() or not str(input_file).endswith(".jsonl"):
