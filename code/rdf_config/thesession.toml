@@ -2,7 +2,7 @@
 name = "thesession"
 csv_folder = "../../data/thesession/reconciled"
 rdf_output_folder = "../thesession/"
-test_mode = true
+test_mode = false
 
 [namespaces]
 rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -12,14 +12,17 @@ wd = "http://www.wikidata.org/entity/"
 wdt = "http://www.wikidata.org/prop/direct/"
 geo = "http://www.opengis.net/ont/geosparql#"
 skos = "http://www.w3.org/2004/02/skos/core#"
-ts = "https://thesession.org/"
+tse = "https://thesession.org/events/"
+tst = "https://thesession.org/tunes/"
+tsm = "https://thesession.org/members/"
+tsr = "https://thesession.org/recordings/"
 
 [events-reconciled]
 PRIMARY_KEY = "events_id"
 events_id = ""
 event = "rdfs:label"
 venue = "P276"  # location (P276)
-town = "P276"  # location (P276)
+town = "P131"  # location (P276)
 town_literal = ""
 town_wiki = ""
 area_literal = ""
@@ -45,15 +48,15 @@ datatype = "geo:wktLiteral"
 [recordings-reconciled]
 PRIMARY_KEY = "recording_id"
 recording_id = ""
-artist = "P170"  # creator (P170)
+artist = "P175"  # creator (P170)
 artist_literal = ""
-recording = "rdfs:label"
-recording_literal = ""
-recording_wiki = ""
+recording = ""
+recording_literal = "rdfs:label"
+recording_wiki = "P2888"
 track = ""
 number = ""
-tune = {subj = "tune_id", pred = "rdfs:label"}
-tune_id = "P361"  # part of (P361)
+tune = ""
+tune_id = "P527"  # part of (P361)
 artist_url = ""
 
 [sessions-reconciled]
@@ -61,7 +64,7 @@ PRIMARY_KEY = "sessions_id"
 sessions_id = ""
 name = "P276"  # location (P276)
 area = ""
-area_wiki = "P276"  # location (P276)
+area_wiki = "P131"  # location (P276)
 country_wiki = ""
 latitude = ""
 longitude = ""
@@ -83,7 +86,7 @@ member_id = "P170"  # creator (P170)
 username = { pred = "rdfs:label", subj = "member_id"}
 settingorder = ""
 name = "rdfs:label"
-tune_id = "P361"  # part of (P361)
+tune_id = "P527"  # part of (P361)
 setting_id = ""
 
 [tune-aliases-reconciled]
@@ -104,13 +107,14 @@ tune_id = ""
 setting_id = "P747"  # has edition or translation (P747)
 name = "rdfs:label"
 type = ""
-type_wiki = "P7937"  # form of creative work (P7937)
+type_wiki = {pred = "P7937", subj = "setting_id"}  # form of creative work (P7937)
 meter = ""
-meter_wiki = "P3440"  # time signature (P3440)
-mode = "P826"  # tonality (P826)
+meter_wiki = {pred = "P3440", subj = "setting_id"}  # time signature (P3440)
+mode = {pred = "P826", subj = "setting_id" }  # tonality (P826)
 mode_wiki = ""
 username = ""
 
 [tunes-reconciled.date]
 pred = "P571"  # inception (P571)
 datatype = "xsd:dateTime"
+subj = "setting_id"
