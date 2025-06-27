@@ -12,4 +12,5 @@ rdb2rdf/
 *.csv
 *.ttl
 store/
+store-*/
 *.log
