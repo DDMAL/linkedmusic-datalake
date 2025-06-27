@@ -27,7 +27,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
 - All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting, or because they are links to personal websites (e.g. the link to a band's website).
 
-## Miscellanous Notes on convert_to_rdf.py
+## Miscellaneous Notes on convert_to_rdf.py
 
 - The script is optimized to be memory-efficient, but there's only so much you can do when one of the input files is >250GB.
 - The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `f"./store-{i}"` (with `i` being the index of the graph, starting at 0), from the working directory. The script automatically deletes the folder(s) when it finishes. However, if the script crashes, it is recommended to delete the folder(s) before running it again.
