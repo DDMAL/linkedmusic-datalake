@@ -284,8 +284,8 @@ def build_rdf_graph(
     csv_folder = (script_dir / rel_inp_dir).resolve()
     # === Check for Test Mode ===
     # If test_mode is set to True, only sample up to 20 rows per CSV
-    test_mode = config["general"].get("test_mode") is True
-    if test_mode:
+    test_mode = config["general"].get("test_mode")
+    if test_mode is True:
         logger.info("Running in test mode — sampling up to 20 rows per CSV file.")
     # === Opening csv files ===
     for csv_name, csv_schema in config.items():
@@ -323,7 +323,7 @@ def build_rdf_graph(
         except Exception as e:
             logger.error("Error reading '%s'. Skipping. %s", csv_file, e)
             continue
-        if test_mode:
+        if test_mode is True:
             df = df.sample(n=min(20, len(df)))
         logger.info("Processing %s...", csv_file.name)
         # === Convert entire csv to rdf node ===
@@ -407,7 +407,11 @@ def main():
     # === Finding Output Directory ===
     script_dir = Path(__file__).parent.resolve()
     rdf_folder = (script_dir / rel_out_dir).resolve()
-    ttl_path = (rdf_folder / ttl_name).with_suffix(".ttl")
+    ttl_path = (rdf_folder / ttl_name)
+    if config["general"].get("test_mode") is True:
+        ttl_path = ttl_path.with_name(f"{ttl_path.stem}_test").with_suffix(".ttl")
+    else:
+        ttl_path = ttl_path.with_suffix(".ttl")
     # === Serializing RDF Graph ===
     rdf_folder.mkdir(parents=True, exist_ok=True)
     rdf_graph.serialize(destination=ttl_path, format="turtle")
