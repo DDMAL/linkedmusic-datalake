@@ -86,44 +86,31 @@ async def add_labels_as_comments(
             else:
                 f_out.write(line + "\n")
 
-
-async def process(input_path: Path, output_path: Path):
+async def main():
     """
-    Main async entry point. Initializes the Wikidata API client session and
-    delegates to `add_labels`.
+    Asynchronous CLI entry point for the Wikidata label annotator script.
 
-    Args:
-        input_file (Path): Path to the input file.
-        output_file (Path): Path to the output file (can be same as input).
+    CLI arguments:
+        input_file (str): Path to the input file containing Wikidata IDs.
+        --output (str): Optional path to the output file. If omitted, the input file
+                        will be overwritten.
     """
-    async with aiohttp.ClientSession() as session:
-        client = WikidataAPIClient(session)
-        await add_labels_as_comments(input_path, output_path, client)
-
-
-def main():
     parser = argparse.ArgumentParser(
-        description="Script to add Wikidata labels as comments based on QID/PID on each line."
+        description="Script to add Wikidata labels as comments using QID/PID extracted from each line."
     )
 
     parser.add_argument(
         "input_file",
         metavar="INPUT_FILE",
         type=str,
-        help="Path to the input file containing Wikidata IDs (e.g., Q42, P31) line by line",
+        help="Path to the input file containing Wikidata IDs (e.g., Q42, P31).",
     )
 
-    output_group = parser.add_mutually_exclusive_group(required=True)
-    output_group.add_argument(
-        "--overwrite",
-        action="store_true",
-        help="Overwrite the original file with labels added as comments",
-    )
-    output_group.add_argument(
+    parser.add_argument(
         "--output",
         metavar="OUTPUT_FILE",
         type=str,
-        help="Path to the output file",
+        help="Path to the output file. If omitted, the input file will be overwritten.",
     )
 
     args = parser.parse_args()
@@ -131,8 +118,9 @@ def main():
     input_file = Path(args.input_file)
     output_file = Path(args.output) if args.output else input_file
 
-    asyncio.run(process(input_file, output_file))
-
+    async with aiohttp.ClientSession() as session:
+        client = WikidataAPIClient(session)
+        await add_labels_as_comments(input_file, output_file, client)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
