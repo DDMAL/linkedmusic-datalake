@@ -48,8 +48,7 @@ The APIs covered in this guide are:
 
 ## 2.2 wbsearchentities
 
-- wbsearchentities looks for an entity whose label or alias exactly matches the search term.
-- wbsearchentities, unlike the [Wikidata Search Page](https://www.wikidata.org/wiki/Special:Search), doesn't allow any fuzzy matching. Although, to be fair, Wikidata's ElasticSearch fuzzy-matching is not very fuzzy either.
+- wbsearchentities looks for an entity whose label or alias matches the search term. It supports case-insensitive and prefix-based matching (e.g. "canad" -> Canada(Q16)), but does not support more advanced fuzzy-matching features.
 
 - Example query: https://www.wikidata.org/w/api.php?action=wbsearchentities&search=abc&language=en&limit=1
 
