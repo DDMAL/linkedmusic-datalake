@@ -4,6 +4,8 @@ A collection of utility functions for working with Wikidata entities
 
 import re
 
+WD_ID_PATTERN = re.compile(r"Q\d+|P\d+")
+
 
 def build_terminal_link(text: str, link: str) -> str:
     """
@@ -52,8 +54,7 @@ def extract_wd_id(s: str, all_match: bool = False) -> str | list[str] | None:
             - If all_match is True, returns a list of all matched IDs
             - If no matches are found, returns None.
     """
-    pattern = re.compile(r"Q\d+|P\d+")
-    matches = pattern.findall(s)
+    matches = WD_ID_PATTERN.findall(s)
     if all_match:
         return matches if matches else None
     # By default, return the last match
