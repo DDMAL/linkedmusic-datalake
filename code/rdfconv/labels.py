@@ -23,7 +23,7 @@ import logging
 from wikidata_utils import extract_wd_id, WikidataAPIClient
 import aiohttp
 
-logger = logging.getLogger("add_labels")
+logger = logging.getLogger(__name__)
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 

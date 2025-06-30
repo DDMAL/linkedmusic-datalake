@@ -29,8 +29,9 @@ import tomli
 import tomli_w
 
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 
 def diff_nested_keys(old_dict, new_dict):
