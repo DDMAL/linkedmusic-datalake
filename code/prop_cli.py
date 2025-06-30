@@ -250,7 +250,6 @@ async def basic_search(
         id_ = res.get("id")
         if id_ not in seen_ids:
             unique_fuzzy.append(res["id"])
-            # In case the code is extended in the future
             seen_ids.add(res["id"])
 
     if unique_fuzzy:
