@@ -28,7 +28,7 @@ def build_terminal_link(text: str, link: str) -> str:
     return f"{start}{text}{end}"
 
 
-def build_wd_hyperlink(item_id, item_label) -> str:
+def build_wd_hyperlink(item_id: str, item_label: str) -> str:
     """
     Format a Wikidata entity into a terminal hyperlink using its label and ID.
 
