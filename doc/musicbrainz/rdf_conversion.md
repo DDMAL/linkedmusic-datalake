@@ -27,11 +27,12 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
 - All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting, or because they are links to personal websites (e.g. the link to a band's website).
 
-## Miscellanous Notes on convert_to_rdf.py
+## Miscellaneous Notes on convert_to_rdf.py
 
 - The script is optimized to be memory-efficient, but there's only so much you can do when one of the input files is >250GB.
-- The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `./store`, from the working directory. The script automatically deletes the folder when it finishes. However, if the script crashes, it is recommended to delete the folder before running it again.
+- The script uses disk storage to store the graph as it builds it to save on memory space. By default, this folder is `f"./store-{i}"` (with `i` being the index of the graph, starting at 0), from the working directory. The script automatically deletes the folder(s) when it finishes. However, if the script crashes, it is recommended to delete the folder(s) before running it again.
 - The graph will not use disk storage if the input file is less than 1GB in size. This is a configurable limit in the script.
+- Additionally, if a file is large enough to use disk storage, the output graph will be split into a separate graph every 3400 data chunks. This value can be changed, but was set to 3400 so that the release file (~9.8k chunks) will be split into 3 graphs with some extra space. This is useful to upload the data to Virtuoso as it doesn't seem to handle files bigger than ~2GB very well.
 - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
 - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script.
 - For ease of reading, the fields are processed in alphabetical order in the `process_line` function.
