@@ -1,18 +1,19 @@
 """
-add_labels.py
+Wikidata Label Annotator
 
-This script extracts the last Wikidata ID from each line,
-fetches the English label for those IDs from the Wikidata API, and appends the label
-as a comment at the end of the line (using #). It supports either overwriting the original file or
-writing to a separate output file.
+Features:
+- Extract Wikidata ID from each line of a text file.
+- Fetch English label for each Wikidata ID using the Wikidata API.
+- Append the label as comment at the end of each line (using `#`).
+- If more than one Wikidata ID is found on a single line, only the last one is considered.
 
 Requires:
 - aiohttp
-- wikidata_utils (must provide extract_wd_id and WikidataAPIClient)
+- wikidata_utils (internal module)
 
 Usage:
-    python -m add_labels input.txt --output output.txt
-    python -m add_labels input.txt --overwrite
+    python -m rdfconv.labels input.txt --output output.txt
+    python -m rdfconv.labels input.txt  # overwrites input.txt
 """
 
 import asyncio
@@ -33,13 +34,19 @@ async def add_labels_as_comments(
 ):
     """
     Reads an input file line-by-line, extracts the last Wikidata ID from each line,
-    fetches the corresponding label from Wikidata, and writes the lines to an output file
-    with the label as a comment.
+    fetches the corresponding English label from Wikidata, and writes the annotated
+    lines to an output file with the label appended as a comment.
+
+    Each line will be formatted as:
+        original content  # label (QID)
+    or:
+        original content  # QID does not exist
+    or unchanged if no ID was found.
 
     Args:
-        input_path (Path): Path to the input file.
+        input_path (Path): Path to the input text file.
         output_path (Path): Path to the output file to write results.
-        client (WikidataAPIClient): An instance of WikidataAPIClient for label fetching.
+        client (WikidataAPIClient): An async API client to fetch labels from Wikidata.
     """
     lines_with_ids: list[tuple[str, str]] = []
     ids: list[str] = []
@@ -47,17 +54,19 @@ async def add_labels_as_comments(
     if not input_path.exists():
         logger.error("Input file '%s' does not exist.", input_path)
         return None
+
     # === Reading input file ===
     logger.info("Reading input file: %s", input_path)
     with open(input_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.rstrip("\n")
-            # Remove existing comments
-            line_no_comm = re.split(r"\s#", line, maxsplit=1)[0].rstrip()
+            # Remove existing comments (but preserve inline hash inside quotes)
+            line_no_comm = re.split(r"\s+#", line, maxsplit=1)[0].rstrip()
             wd_id: str = extract_wd_id(line_no_comm)
             lines_with_ids.append((line_no_comm, wd_id))
             if wd_id:
                 ids.append(wd_id)
+
     # === Fetching labels from Wikidata ===
     unique_ids = list(set(ids))
     logger.info("Fetching labels for %d unique Wikidata IDs...", len(unique_ids))
@@ -68,6 +77,7 @@ async def add_labels_as_comments(
     except Exception as e:
         logger.error("Error fetching labels from Wikidata API: %s", e)
         return None
+
     # === Write output ===
     output_dir = output_path.parent
     if not output_dir.exists():
