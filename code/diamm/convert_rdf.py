@@ -10,7 +10,7 @@ import re
 import os
 import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDFS
+from rdflib.namespace import RDFS, RDF
 
 BASE_PATH = "../../data/diamm/reconciled/"
 RELATIONS_PATH = "../../data/diamm/csv/relations.csv"
@@ -21,6 +21,7 @@ os.makedirs(OUTPUT_PATH, exist_ok=True)
 
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
+LMDIAMM = Namespace("https://linkedmusic.ca/graphs/diamm/")
 DIAMM = Namespace("https://www.diamm.ac.uk/")
 DA = Namespace(f"{DIAMM}archives/")
 DI = Namespace(f"{DIAMM}cities/")
@@ -69,7 +70,7 @@ with open(RELATIONS_MAPPING_PATH, "r", encoding="utf-8") as file:
 namespaces = {
     "wdt": WDT,
     "wd": WD,
-    "diamm": DIAMM,
+    "diamm": LMDIAMM,
     "da": DA,
     "di": DI,
     "dm": DM,
@@ -109,6 +110,15 @@ print("Processing archives...")
 json_data = json.loads(archives.to_json(orient="records"))
 for work in json_data:
     subject_uri = URIRef(f"{DA}{int(work['id'])}")
+
+    # Add the entity type
+    g.add(
+        (
+            subject_uri,
+            RDF.type,
+            LMDIAMM["Archive"],
+        )
+    )
 
     if matched_wikidata(work["name_@id"]):
         # Use the `same as` property to indicate if the archive has been reconciled
@@ -151,6 +161,15 @@ json_data = json.loads(cities.to_json(orient="records"))
 for work in json_data:
     subject_uri = URIRef(f"{DI}{int(work['id'])}")
 
+    # Add the entity type
+    g.add(
+        (
+            subject_uri,
+            RDF.type,
+            LMDIAMM["City"],
+        )
+    )
+
     if matched_wikidata(work["name_@id"]):
         # Use the `same as` property to indicate if the city has been reconciled
         g.add(
@@ -167,6 +186,15 @@ json_data = json.loads(compositions.to_json(orient="records"))
 for work in json_data:
     if work["id"] is not None:  # If it is none, skip to the genre
         subject_uri = URIRef(f"{DM}{int(work['id'])}")
+
+        # Add the entity type
+        g.add(
+            (
+                subject_uri,
+                RDF.type,
+                LMDIAMM["Composition"],
+            )
+        )
 
         g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["title"])))
         g.add((subject_uri, DIAMM_SCHEMA["title"], Literal(work["title"])))
@@ -203,6 +231,15 @@ json_data = json.loads(countres.to_json(orient="records"))
 for work in json_data:
     subject_uri = URIRef(f"{DN}{int(work['id'])}")
 
+    # Add the entity type
+    g.add(
+        (
+            subject_uri,
+            RDF.type,
+            LMDIAMM["Country"],
+        )
+    )
+
     if matched_wikidata(work["name_@id"]):
         # Use the `same as` property to indicate if the country has been reconciled
         g.add(
@@ -219,6 +256,15 @@ json_data = json.loads(organizations.to_json(orient="records"))
 for work in json_data:
     if work["id"] is not None:  # If it is none, skip to the type
         subject_uri = URIRef(f"{DO}{int(work['id'])}")
+
+        # Add the entity type
+        g.add(
+            (
+                subject_uri,
+                RDF.type,
+                LMDIAMM["Organization"],
+            )
+        )
 
         if matched_wikidata(work["name_@id"]):
             # Use the `same as` property to indicate if the organization has been reconciled
@@ -253,6 +299,15 @@ print("Processing people...")
 json_data = json.loads(people.to_json(orient="records"))
 for work in json_data:
     subject_uri = URIRef(f"{DP}{int(work['id'])}")
+
+    # Add the entity type
+    g.add(
+        (
+            subject_uri,
+            RDF.type,
+            LMDIAMM["Person"],
+        )
+    )
 
     if matched_wikidata(work["full_name_@id"]):
         # Use the `same as` property to indicate if the person has been reconciled
@@ -320,6 +375,15 @@ json_data = json.loads(regions.to_json(orient="records"))
 for work in json_data:
     subject_uri = URIRef(f"{DR}{int(work['id'])}")
 
+    # Add the entity type
+    g.add(
+        (
+            subject_uri,
+            RDF.type,
+            LMDIAMM["Region"],
+        )
+    )
+
     if matched_wikidata(work["name_@id"]):
         # Use the `same as` property to indicate if the region has been reconciled
         g.add(
@@ -335,6 +399,15 @@ print("Processing sets...")
 json_data = json.loads(sets.to_json(orient="records"))
 for work in json_data:
     subject_uri = URIRef(f"{DE}{int(work['id'])}")
+
+    # Add the entity type
+    g.add(
+        (
+            subject_uri,
+            RDF.type,
+            LMDIAMM["Set"],
+        )
+    )
 
     if matched_wikidata(work["type_@id"]):
         g.add(
@@ -359,6 +432,15 @@ print("Processing sources...")
 json_data = json.loads(sources.to_json(orient="records"))
 for work in json_data:
     subject_uri = URIRef(f"{DS}{int(work['id'])}")
+
+    # Add the entity type
+    g.add(
+        (
+            subject_uri,
+            RDF.type,
+            LMDIAMM["Source"],
+        )
+    )
 
     g.add(
         (
