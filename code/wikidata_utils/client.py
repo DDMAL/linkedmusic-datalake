@@ -145,17 +145,21 @@ class _WikidataAPIClientRaw:
     async def search_raw(
         self,
         query: str,
-        limit: Optional[int] = 10,
+        limit: int = 10,
         entity_type: str = "item",
         timeout: int = 10,
     ) -> JsonResponse:
         """
-        Queries Wikidata Elasticsearch API.
+        Queries the Wikidata Elasticsearch API.
 
-        Allows for more powerful fuzzy matching than wbsearchentities API.
-        Returns raw JSON response, or an empty dictionary on request error.
+        This method allows for more powerful fuzzy matching than the wbsearchentities API.
+        It returns the raw JSON response from the API, or an empty dictionary on request error.
 
-        By default, the query searches for Wikidata entities ("items") and returns up to 10 results
+        Parameters:
+            query (str): The search string.
+            limit (int, ): Maximum number of results to return. Defaults to 10.
+            entity_type (str): Either "item" (namespace 0) or "property" (namespace 120). Defaults to "item" (namespace 0).
+            timeout (int): Timeout for the request in seconds. Defaults to 10.
         """
         url = "https://www.wikidata.org/w/api.php"
         params = {
@@ -164,12 +168,8 @@ class _WikidataAPIClientRaw:
             "format": "json",
             "srsearch": str(query),
         }
-        if limit:
-            params["srlimit"] = str(limit)
-        if entity_type == "item":
-            params["srnamespace"] = "0"
-        elif entity_type == "property":
-            params["srnamespace"] = "120"
+        params["srlimit"] = str(limit) if limit else "10"
+        params["srnamespace"] = "120" if entity_type == "property" else "0"
 
         async with self.limiter_wikidata:
             data = await self._get(url, params=params, timeout=timeout)
