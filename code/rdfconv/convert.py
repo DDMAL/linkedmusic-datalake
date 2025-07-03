@@ -14,7 +14,7 @@ from wikidata_utils import extract_wd_id
 import pandas as pd
 import tomli
 from tqdm import tqdm
-from rdflib import Graph, URIRef, Literal, Namespace, XSD
+from rdflib import Graph, URIRef, Literal, Namespace, XSD, RDF
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
@@ -154,7 +154,7 @@ def rdf_process_predicates(
             elif isinstance(col_schema, dict):
                 # Complex config value
                 for key, val in col_schema.items():
-                    if key not in ("pred", "datatype", "lang", "subj", "if", "prefix"):
+                    if key not in ("pred", "datatype", "lang", "subj", "if", "prefix", "type"):
                         raise ValueError(
                             f"Config[{file}]: invalid key '{key}' in column '{col}'"
                         )
@@ -174,6 +174,13 @@ def rdf_process_predicates(
                 if not new_col_schema:
                     continue
                 # Transform predicate to URIRef, if it exists
+                if "type" in new_col_schema:
+                    rdf_type = new_col_schema["type"]
+                    if ":" in rdf_type:
+                        prefix, body = rdf_type.split(":", 1)
+                        ns_uri = ns.get(prefix)
+                        if ns_uri:
+                            new_col_schema["type"] = f"{ns_uri}{body}"
                 if "pred" in new_col_schema:
                     new_col_schema["pred"] = to_predicate(new_col_schema["pred"], ns)
                 new_file_schema[col] = new_col_schema
@@ -333,17 +340,12 @@ def build_rdf_graph(
         df = fill_down_until_key(df, primary_key)
         # === Make sure that Pandas does not store any NaN ===
         df = df.where(pd.notna(df), None)
-        # === Filter out columns that don't have predicates
-        filtered_csv_schema = {
-            k: v
-            for k, v in csv_schema.items()
-            # dict without "pred" were needed for rdf_transform_csv, but not for building the triple
-            if k != "PRIMARY_KEY" and (not isinstance(v, dict) or "pred" in v)
-        }
         # === Iterate through all the rows of the CSV file ===
         for _, row in tqdm(df.iterrows(), total=len(df)):
             primary_node = row[primary_key]
-            for col, col_value in filtered_csv_schema.items():
+            for col, col_value in csv_schema.items():
+                if col == "PRIMARY_KEY":
+                    continue
                 object_node = row.get(col, None)
                 if object_node is None:
                     continue
@@ -353,7 +355,7 @@ def build_rdf_graph(
                     predicate = col_value
                 elif isinstance(col_value, dict):
                     # complex config value
-                    predicate = col_value["pred"]
+                    predicate = col_value.get("pred")
                     if subj_col := col_value.get("subj"):
                         subject_node = row.get(subj_col, None)
                     else:
@@ -364,6 +366,9 @@ def build_rdf_graph(
                         {"subj": subject_node, "obj": object_node, "row": row},
                     ):
                         continue
+                    rdf_type = col_value.get("type")
+                    if rdf_type:
+                        graph.add((object_node, RDF.type, URIRef(rdf_type)))
                 else:
                     continue
                 if subject_node and predicate and object_node:
