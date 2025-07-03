@@ -2,7 +2,7 @@
 name = "theglobaljukebox"
 csv_folder = "../../data/theglobaljukebox/reconciled"
 rdf_output_folder = "../../data/theglobaljukebox/rdf"
-test_mode = false
+test_mode = true
 
 [namespaces]
 rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -35,7 +35,7 @@ Division_literal = ""
 Subregion = ""
 Subregion_literal = ""
 Area = "P2341"  # indigenous to (P2341)
-society = {"pred" = "P2888", "if" = "obj == URIRef"}  # exact match (P2888)
+society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
 "alternative_names 1" = "P4970"  # alternative name (P4970)
 "alternative_names 2" = "P4970"  # alternative name (P4970)
@@ -356,7 +356,7 @@ Division_literal = ""
 Subregion = ""
 Subregion_literal = ""
 Area = "P2341"  # indigenous to (P2341)
-society = {"pred" = "P2888", "if" = "obj == URIRef"}  # exact match (P2888)
+society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
 "alternative_names 1" = "P4970"  # alternative name (P4970)
 "alternative_names 2" = "P4970"  # alternative name (P4970)
@@ -491,7 +491,7 @@ Possible_GJB_All_cid_Matches = {pred = "P2596", prefix = "gjc", type = "gj:Cultu
 Cultural_focus = ""
 Instrument_Name = ""
 Instrument_Name_literal = ""
-Alt_Instrument_Names = {"pred" = "P2888", "if" = "obj == URIRef"}  # exact match (P2888)
+Alt_Instrument_Names = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 Alt_Instrument_Names_literal = "rdfs:label"
 Sachs_Number = ""
 Sachs_Suffix = ""
@@ -514,7 +514,7 @@ Division = ""
 Division_literal = ""
 Subregion = ""
 Area = "P2341"  # indigenous to (P2341)
-society = {"pred" = "P2888", "if" = "obj == URIRef"}  # exact match (P2888)
+society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
 "alternative_names 1" = "P4970"  # alternative name (P4970)
 "alternative_names 2" = "P4970"  # alternative name (P4970)
@@ -757,7 +757,7 @@ Subregion_literal = ""
 "Area 5 literal" = ""
 "Area 6" = "P2341"  # indigenous to (P2341)
 "Area 6 literal" = ""
-society = {"pred" = "P2888", "if" = "obj == URIRef"}  # exact match (P2888)
+society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
 "alternative_names 1" = "P4970"  # alternative name (P4970)
 "alternative_names 2" = "P4970"  # alternative name (P4970)
@@ -1263,7 +1263,7 @@ Subregion = ""
 Subregion_literal = ""
 Area = "P2341"  # indigenous to (P2341)
 Area_literal = ""
-society = {"pred" = "P2888", "if" = "obj == URIRef"}  # exact match (P2888)
+society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
 "alternative_names 1" = "P4970"  # alternative name (P4970)
 "alternative_names 2" = "P4970"  # alternative name (P4970)
@@ -1388,7 +1388,7 @@ Region_literal = ""
 "Area 8_literal" = ""
 "Area 9" = "P2341"
 "Area 9_literal" = ""
-society = {"pred" = "P2888", "if" = "obj == URIRef"}
+society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}
 society_literal = "rdfs:label"
 "alternative_names 1" = "P4970"
 "alternative_names 2" = "P4970"
