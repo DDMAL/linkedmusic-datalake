@@ -18,6 +18,7 @@ gji = "https://linkedmusic.ca/graphs/theglobaljukebox/instruments/"
 gjm = "https://linkedmusic.ca/graphs/theglobaljukebox/minutage/"
 gjp = "https://linkedmusic.ca/graphs/theglobaljukebox/parlametrics/"
 gjh = "https://linkedmusic.ca/graphs/theglobaljukebox/phonotactics/"
+gj = "https://linkedmusic.ca/graphs/theglobaljukebox/"
 
 [the-global-jukebox-cantometrics-societies-csv]
 PRIMARY_KEY = "society_id"
@@ -109,7 +110,7 @@ Country10_literal = ""
 "Country 11" = "P17"  # country (P17)
 Country11_literal = ""
 Country_id = ""
-society_id = {"prefix" = "gjc"}
+society_id = {"prefix" = "gjc", "type" = "gj:Culture"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
@@ -156,7 +157,7 @@ KK_ISSUE = ""
 
 [the-global-jukebox-cantometrics-songs-csv]
 PRIMARY_KEY = "song_id"
-song_id = {"prefix" = "gjs"}
+song_id = {"prefix" = "gjs", "type" = "gj:Song"}
 Local_latitude = ""
 Local_longitude = ""
 Homeland_latitude = ""
@@ -271,10 +272,10 @@ Source_tag = ""
 
 [the-global-jukebox-ensembles-ensembles-csv]
 PRIMARY_KEY = "E_id"
-E_id = {"prefix" = "gje"}
+E_id = {"prefix" = "gje", "type" = "gj:Ensemble"}
 Archival_Culture_Name = "P2596"  # culture (P2596)
 Archival_Culture_Name_literal = ""
-Possible_GJB_All_cid_Matches = {pred = "P2596", prefix = "gjc"}  # culture (P2596)
+Possible_GJB_All_cid_Matches = {pred = "P2596", prefix = "gjc", type = "gj:Culture"}  # culture (P2596)
 Cultural_focus = ""
 "Ensemble/Song_name 1" = "P7937"  # form of creative work (P7937)
 "Ensemble/Song_name1_literal" = ""
@@ -435,7 +436,7 @@ c10 = ""
 "Country 11" = "P17"  # country (P17)
 c11 = ""
 Country_id = ""
-society_id = {prefix = "gjc"}
+society_id = {prefix = "gjc", type = "gj:Culture"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
@@ -457,7 +458,7 @@ Notes_2 = ""
 [the-global-jukebox-instrument-data-csv]
 PRIMARY_KEY = "I_id"
 "Instrument_#" = ""
-I_id = {"prefix" = "gji"}
+I_id = {"prefix" = "gji", "type" = "gj:Instrument"}
 Instrument_Name = ""
 Instrument_Name_literal = ""
 Archival_Culture_Name = "P2341"  # indigenous to (P2341)
@@ -486,7 +487,7 @@ PRIMARY_KEY = "I_id"
 I_id = {"prefix" = "gji"}
 Archival_Culture_Name = "P2341"  # indigenous to (P2341)
 Archival_Culture_Name_literal = ""
-Possible_GJB_All_cid_Matches = {pred = "P2596", prefix = "gjc"}  # culture (P2596)
+Possible_GJB_All_cid_Matches = {pred = "P2596", prefix = "gjc", type = "gj:Culture"}  # culture (P2596)
 Cultural_focus = ""
 Instrument_Name = ""
 Instrument_Name_literal = ""
@@ -591,7 +592,7 @@ Country10_literal = ""
 "Country 11" = "P17"  # country (P17)
 Country11_literal = ""
 Country_id = ""
-society_id = {"prefix" = "gjc"}
+society_id = {"prefix" = "gjc", "type" = "gj:Culture"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
@@ -612,11 +613,11 @@ Notes_2 = ""
 
 [the-global-jukebox-instrument-sources-csv]
 PRIMARY_KEY = "Source_ID"
-"Source_ID" = {"prefix" = "gjb"}
+"Source_ID" = {"prefix" = "gjb", "type" = "gj:Source"}
 "Culture Old" = ""
 "Culture New" = "P2341"  # indigenous to (P2341)
 "Culture New literal" = ""
-All_cid = {pred = "P2596", prefix = "gjc"}  # culture (P2596)
+All_cid = {pred = "P2596", prefix = "gjc", type = "gj:Culture"}  # culture (P2596)
 "B#" = ""
 Author = "P50"  # author (P50)
 Author_literal = ""
@@ -633,8 +634,8 @@ Notes = ""
 
 [the-global-jukebox-minutage-phrasing-csv]
 PRIMARY_KEY = "M_id"
-M_id = {"prefix" = "gjm"}
-C_id = {"prefix" = "gjs", "pred" = "P921"}  # main subject (P921)
+M_id = {"prefix" = "gjm", "type" = "gj:Minutage"}
+C_id = {"prefix" = "gjs", "pred" = "P921", "type" = "gj:Song"}  # main subject (P921)
 Local_lat = ""
 Local_long = ""
 Region = ""
@@ -677,7 +678,7 @@ Culture_loc5_literal = ""
 "Culture_loc6 2_literal" = ""
 "Culture_loc 7" = ""
 Culture_loc7_literal = ""
-M_cid = {pred = "P2596", prefix = "gjc"}  # culture (P2596)
+M_cid = {pred = "P2596", prefix = "gjc", type = "gj:Culture"}  # culture (P2596)
 Audio_notes = ""
 Duration = ""
 Audio_file = ""
@@ -816,7 +817,7 @@ Country4_literal = ""
 "Country 5" = "P17"  # country (P17)
 Country5_literal = ""
 Country_id = ""
-society_id = {"prefix" = "gjc"}
+society_id = {"prefix" = "gjc", "type" = "gj:Culture"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
@@ -837,7 +838,7 @@ Notes_2 = ""
 
 [the-global-jukebox-parlametrics-conversation-csv]
 PRIMARY_KEY = "P_id"
-P_id = {"prefix" = "gjp"}
+P_id = {"prefix" = "gjp", "type" = "gj:Parlametrics"}
 CultureName_Speaker1 = ""
 CultureName_Speaker1_literal = ""
 P_cid_Speaker1 = ""
@@ -984,7 +985,7 @@ Coding_notes = ""
 
 [the-global-jukebox-parlametrics-data-csv]
 PRIMARY_KEY = "P_id"
-P_id = {"prefix" = "gjp"}
+P_id = {"prefix" = "gjp", "type" = "gj:Parlametrics"}
 Parla_Accession_No = ""
 Parla_Language_Name = ""
 Parla_Language_Name_literal = ""
@@ -1157,7 +1158,7 @@ Country3_literal = ""
 "Country 4" = "P17"  # country (P17)
 Country4_literal = ""
 Country_id = ""
-society_id = {"prefix" = "gjc"}
+society_id = {"prefix" = "gjc", "type" = "gj:Culture"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
@@ -1178,8 +1179,8 @@ Notes_2 = ""
 
 [the-global-jukebox-phonotactics-phonotactics-csv]
 PRIMARY_KEY = "Ph_id"
-Ph_id = {"prefix" = "gjh"}
-C_id = {"prefix" = "gjs", "pred" = "P921"}  # main subject (P921)
+Ph_id = {"prefix" = "gjh", "type" = "gj:Phonotactics"}
+C_id = {"prefix" = "gjs", "pred" = "P921", "type" = "gj:Song"}  # main subject (P921)
 Local_lat = ""
 Local_long = ""
 Region = ""
@@ -1328,7 +1329,7 @@ Country3_literal = ""
 "Country 4" = "P17"  # country (P17)
 Country4_literal = ""
 Country_id = ""
-society_id = {"prefix" = "gjc"}
+society_id = {"prefix" = "gjc", "type" = "gj:Culture"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
@@ -1467,7 +1468,7 @@ Glottocode = ""
 "Country 11" = "P17"  # country (P17)
 "Country_11_ literal" = ""
 Country_id = ""
-society_id = {"prefix" = "gjc"}
+society_id = {"prefix" = "gjc", "type" = "gj:Culture"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
