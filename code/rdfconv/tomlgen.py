@@ -29,30 +29,55 @@ import tomli
 import tomli_w
 
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+if not logger.hasHandlers():
+    logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 
-def deep_merge(old_dict, new_dict):
-    """
-    Merge old TOML into new TOML, any non-null value from the old TOML will overwrite or be added.
+def diff_nested_keys(old_dict, new_dict):
+    diff = {}
 
-    Args:
-        old_toml (dict): The original TOML data.
-        new_toml (dict): The new TOML data to merge into.
+    for key in new_dict:
+        if key not in old_dict:
+            diff.setdefault(key, {})["added"] = new_dict[key]
+            continue
+        inner_added = {k: v for k, v in new_dict[key].items() if k not in old_dict[key]}
+        if inner_added:
+            diff.setdefault(key, {})["added"] = inner_added
 
-    Returns:
-        dict: The merged TOML data.
-    """
-    # Create a deep copy of new_toml to avoid modifying the original
-    combined_toml = {k: v.copy() for k, v in new_dict.items()}
-    for table, fields in old_dict.items():
-        if table not in combined_toml:
-            combined_toml[table] = {}
-        for field, value in fields.items():
-            if value != "":
-                combined_toml[table][field] = value
-    return combined_toml
+    for key in old_dict:
+        if key not in new_dict:
+            diff.setdefault(key, {})["removed"] = old_dict[key]
+            continue
+        inner_removed = {
+            k: v for k, v in old_dict[key].items() if k not in new_dict[key]
+        }
+        if inner_removed:
+            diff.setdefault(key, {})["removed"] = inner_removed
+
+    return diff
+
+
+def format_toml_log(diff_dict):
+    lines = []
+    for table, diff in diff_dict.items():
+        lines.append(f"[{table}]")
+        removed_fields = diff.get("removed", {})
+        for k, v in removed_fields.items():
+            if isinstance(v, dict):
+                inner = ", ".join(f'{ik} = "{iv}"' for ik, iv in v.items())
+                lines.append(f"-{k} = {{ {inner} }}")
+            else:
+                lines.append(f'-{k} = "{v}"')
+        added_fields = diff.get("added", {})
+        for k, v in added_fields.items():
+            if isinstance(v, dict):
+                inner = ", ".join(f'{ik} = "{iv}"' for ik, iv in v.items())
+                lines.append(f"+{k} = {{ {inner} }}")
+            else:
+                lines.append(f'+{k} = "{v}"')
+        lines.append("")  # blank line after each table
+    return "\n".join(lines)
 
 
 def create_toml(input_folder: Path):
@@ -141,9 +166,30 @@ def update_toml(toml_path: Path):
     logger.info("[UPDATE] Using csv_folder from TOML: %s", csv_path)
     # === Create a new TOML from the CSV files in the input folder ===
     new_toml = create_toml(csv_path)
-    updated_toml = deep_merge(existing_toml, new_toml)
+    # === Insert the existing general and namespaces headers ===
+    new_toml["general"] = existing_toml.get("general", {})
+    new_toml["namespaces"] = existing_toml.get("namespaces", {})
+    # === Insert values from existing TOML for identical columns ===
+    for csv_table, csv_fields in new_toml.items():
+        if csv_table in ["general", "namespaces"]:
+            continue
+        if csv_table in existing_toml:
+            existing_table = existing_toml.get(csv_table, {})
+            for field in csv_fields:
+                new_toml[csv_table][field] = existing_table.get(field, "")
+    diff = diff_nested_keys(existing_toml, new_toml)
+    logger.info(40 * "-")
+    if diff:
+        logger.info("\n")
+        logger.info("CHANGES")
+        logger.info("\n")
+        for line in format_toml_log(diff).splitlines():
+            logger.info(line)
+    else:
+        logger.info("No changes made. The TOML file is already up-to-date.")
+        return
     with open(toml_path, "wb") as fi:
-        tomli_w.dump(updated_toml, fi)
+        tomli_w.dump(new_toml, fi)
     logger.info(40 * "-")
     logger.info("Successfully updated '%s'", toml_path)
 

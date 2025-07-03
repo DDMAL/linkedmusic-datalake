@@ -1,8 +1,8 @@
 [general]
 name = "thesession"
 csv_folder = "../../data/thesession/reconciled"
-rdf_output_folder = "../thesession/"
-test_mode = true
+rdf_output_folder = "../../data/thesession/rdf"
+test_mode = false
 
 [namespaces]
 rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -12,16 +12,23 @@ wd = "http://www.wikidata.org/entity/"
 wdt = "http://www.wikidata.org/prop/direct/"
 geo = "http://www.opengis.net/ont/geosparql#"
 skos = "http://www.w3.org/2004/02/skos/core#"
-ts = "https://thesession.org/"
+tse = "https://thesession.org/events/"
+tst = "https://thesession.org/tunes/"
+tsm = "https://thesession.org/members/"
+tsr = "https://thesession.org/recordings/"
+lmts = "https://linkedmusic.ca/graphs/thesession/"
 
 [events-reconciled]
 PRIMARY_KEY = "events_id"
-events_id = ""
 event = "rdfs:label"
 venue = "P276"  # location (P276)
-town = "P276"  # location (P276)
+venue_literal = ""
+venue_wiki = ""
+address = ""
+town = ""
 town_literal = ""
-town_wiki = ""
+town_wiki = "P131"  # located in the administrative territorial entity (P131)
+area = ""
 area_literal = ""
 area_wiki = ""
 country = "P17"  # country (P17)
@@ -29,6 +36,9 @@ country_literal = ""
 country_wiki = ""
 latitude = ""
 longitude = ""
+
+[events-reconciled.events_id]
+type = "lmts:Events"
 
 [events-reconciled.dtstart]
 pred = "P580"  # start time (P580)
@@ -44,47 +54,65 @@ datatype = "geo:wktLiteral"
 
 [recordings-reconciled]
 PRIMARY_KEY = "recording_id"
-recording_id = ""
-artist = "P170"  # creator (P170)
+artist = "P175"  # performer (P175)
 artist_literal = ""
-recording = "rdfs:label"
-recording_literal = ""
-recording_wiki = ""
+recording = ""
+recording_literal = "rdfs:label"
+recording_wiki = "P2888"  # exact match (P2888)
 track = ""
 number = ""
-tune = {subj = "tune_id", pred = "rdfs:label"}
-tune_id = "P361"  # part of (P361)
+tune = ""
+tune_id = "P527"  # has part(s) (P527)
 artist_url = ""
+
+[recordings-reconciled.recording_id]
+type = "lmts:Recording"
 
 [sessions-reconciled]
 PRIMARY_KEY = "sessions_id"
-sessions_id = ""
 name = "P276"  # location (P276)
+address = ""
+town = ""
+town_literal = ""
+town_wiki = "P131"  # located in the administrative territorial entity (P131)
 area = ""
-area_wiki = "P276"  # location (P276)
-country_wiki = ""
+area_literal = ""
+area_wiki = "P131"  # located in the administrative territorial entity (P131)
+country = ""
+country_literal = ""
+country_wiki = "P17"  # country (P17)
 latitude = ""
 longitude = ""
-country = "P17"  # country (P17)
+date = ""
+
+[sessions-reconciled.sessions_id]
+type = "lmts:Session"
 
 [sessions-reconciled.coordinate]
 pred = "P625"  # coordinate location (P625)
 datatype = "geo:wktLiteral"
 
-[sessions-reconciled.date]
-pred = "P585"  # point in time (P585)
-datatype = "xsd:dateTime"
-
 [sets-reconciled]
 PRIMARY_KEY = "tuneset_id"
-tuneset_id = ""
-date = { pred = "P571", datatype = "xsd:dateTime"}  # inception (P571)
-member_id = "P170"  # creator (P170)
-username = { pred = "rdfs:label", subj = "member_id"}
 settingorder = ""
-name = "rdfs:label"
-tune_id = "P361"  # part of (P361)
+name = ""
+tune_id = "P527"  # has part(s) (P527)
 setting_id = ""
+
+[sets-reconciled.tuneset_id]
+type = "lmts:Tuneset"
+
+[sets-reconciled.date]
+pred = "P571"  # inception (P571)
+datatype = "xsd:dateTime"
+
+[sets-reconciled.member_id]
+pred = "P170"  # creator (P170)
+type = "lmts:Member"
+
+[sets-reconciled.username]
+pred = "rdfs:label"
+subj = "member_id"
 
 [tune-aliases-reconciled]
 PRIMARY_KEY = "tune_id"
@@ -100,17 +128,31 @@ tunebooks = ""
 
 [tunes-reconciled]
 PRIMARY_KEY = "tune_id"
-tune_id = ""
-setting_id = "P747"  # has edition or translation (P747)
 name = "rdfs:label"
 type = ""
-type_wiki = "P7937"  # form of creative work (P7937)
+type_literal = ""
 meter = ""
-meter_wiki = "P3440"  # time signature (P3440)
-mode = "P826"  # tonality (P826)
-mode_wiki = ""
+meter_literal = ""
+mode = ""
+mode_literal = ""
+date = ""
 username = ""
 
-[tunes-reconciled.date]
-pred = "P571"  # inception (P571)
-datatype = "xsd:dateTime"
+[tunes-reconciled.tune_id]
+type = "lmts:Tune"
+
+[tunes-reconciled.setting_id]
+pred = "P747"  # has edition or translation (P747)
+type = "lmts:TuneSetting"
+
+[tunes-reconciled.type_wiki]
+pred = "P136"  # genre (P136)
+subj = "setting_id"
+
+[tunes-reconciled.meter_wiki]
+pred = "P3440"  # time signature (P3440)
+subj = "setting_id"
+
+[tunes-reconciled.mode_wiki]
+pred = "P826"  # tonality (P826)
+subj = "setting_id"

@@ -14,18 +14,18 @@ from wikidata_utils import extract_wd_id
 import pandas as pd
 import tomli
 from tqdm import tqdm
-from rdflib import Graph, URIRef, Literal, Namespace, XSD
+from rdflib import Graph, URIRef, Literal, Namespace, XSD, RDF
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
 
 # === Setup Logger ===
-logger = logging.getLogger("csv_to_rdf")
+logger = logging.getLogger(__name__)
 if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 # === Suppress rdflib Warnings ===
-logging.getLogger("rdflib.term").setLevel(logging.ERROR)
+logging.getLogger("rdflib").setLevel(logging.ERROR)
 
 
 def to_rdf_node(
@@ -154,7 +154,7 @@ def rdf_process_predicates(
             elif isinstance(col_schema, dict):
                 # Complex config value
                 for key, val in col_schema.items():
-                    if key not in ("pred", "datatype", "lang", "subj", "if", "prefix"):
+                    if key not in ("pred", "datatype", "lang", "subj", "if", "prefix", "type"):
                         raise ValueError(
                             f"Config[{file}]: invalid key '{key}' in column '{col}'"
                         )
@@ -174,6 +174,13 @@ def rdf_process_predicates(
                 if not new_col_schema:
                     continue
                 # Transform predicate to URIRef, if it exists
+                if "type" in new_col_schema:
+                    rdf_type = new_col_schema["type"]
+                    if ":" in rdf_type:
+                        prefix, body = rdf_type.split(":", 1)
+                        ns_uri = ns.get(prefix)
+                        if ns_uri:
+                            new_col_schema["type"] = f"{ns_uri}{body}"
                 if "pred" in new_col_schema:
                     new_col_schema["pred"] = to_predicate(new_col_schema["pred"], ns)
                 new_file_schema[col] = new_col_schema
@@ -275,7 +282,6 @@ def build_rdf_graph(
         raise ValueError(f" {config} is missing required key: {e}") from e
     # === Initialize RDF Graph ===
     graph = Graph()
-    triple_counter = 0
     # === Bind Namespaces ===
     for prefix, ns in rdf_ns.items():
         graph.bind(prefix, Namespace(ns))
@@ -285,8 +291,8 @@ def build_rdf_graph(
     csv_folder = (script_dir / rel_inp_dir).resolve()
     # === Check for Test Mode ===
     # If test_mode is set to True, only sample up to 20 rows per CSV
-    test_mode = config["general"].get("test_mode") is True
-    if test_mode:
+    test_mode = config["general"].get("test_mode")
+    if test_mode is True:
         logger.info("Running in test mode — sampling up to 20 rows per CSV file.")
     # === Opening csv files ===
     for csv_name, csv_schema in config.items():
@@ -324,7 +330,7 @@ def build_rdf_graph(
         except Exception as e:
             logger.error("Error reading '%s'. Skipping. %s", csv_file, e)
             continue
-        if test_mode:
+        if test_mode is True:
             df = df.sample(n=min(20, len(df)))
         logger.info("Processing %s...", csv_file.name)
         # === Convert entire csv to rdf node ===
@@ -334,17 +340,12 @@ def build_rdf_graph(
         df = fill_down_until_key(df, primary_key)
         # === Make sure that Pandas does not store any NaN ===
         df = df.where(pd.notna(df), None)
-        # === Filter out columns that don't have predicates
-        filtered_csv_schema = {
-            k: v
-            for k, v in csv_schema.items()
-            # dict without "pred" were needed for rdf_transform_csv, but not for building the triple
-            if k != "PRIMARY_KEY" and (not isinstance(v, dict) or "pred" in v)
-        }
         # === Iterate through all the rows of the CSV file ===
         for _, row in tqdm(df.iterrows(), total=len(df)):
             primary_node = row[primary_key]
-            for col, col_value in filtered_csv_schema.items():
+            for col, col_value in csv_schema.items():
+                if col == "PRIMARY_KEY":
+                    continue
                 object_node = row.get(col, None)
                 if object_node is None:
                     continue
@@ -354,7 +355,7 @@ def build_rdf_graph(
                     predicate = col_value
                 elif isinstance(col_value, dict):
                     # complex config value
-                    predicate = col_value["pred"]
+                    predicate = col_value.get("pred")
                     if subj_col := col_value.get("subj"):
                         subject_node = row.get(subj_col, None)
                     else:
@@ -362,22 +363,23 @@ def build_rdf_graph(
                     if not eval(
                         col_value.get("if", "True"),
                         {"URIRef": URIRef, "Literal": Literal, "None": None},
-                        {"subj": subject_node, "obj": object_node},
+                        {"subj": subject_node, "obj": object_node, "row": row},
                     ):
                         continue
+                    rdf_type = col_value.get("type")
+                    if rdf_type:
+                        graph.add((object_node, RDF.type, URIRef(rdf_type)))
                 else:
                     continue
                 if subject_node and predicate and object_node:
                     try:
                         graph.add((subject_node, predicate, object_node))
-                        triple_counter += 1
                     except Exception as e:
                         raise ValueError(
                             f"Error adding triple ({subject_node}, {predicate}, {object_node}): {col}"
                         )
 
     # dynamically add the number of triples as a attribute of graph
-    graph.count = triple_counter
     return graph
 
 
@@ -404,21 +406,30 @@ def main():
     rdf_graph = build_rdf_graph(processed_config)
 
     if rdf_graph:
-        logger.info(
-            "RDF graph built successfully: graph contains %d triples!", rdf_graph.count
-        )
+        logger.info("RDF graph built successfully")
         logger.info("Serializing... (this may take a while)")
 
     # === Finding Output Directory ===
     script_dir = Path(__file__).parent.resolve()
     rdf_folder = (script_dir / rel_out_dir).resolve()
-    ttl_path = (rdf_folder / ttl_name).with_suffix(".ttl")
+    ttl_path = (rdf_folder / ttl_name)
+    if config["general"].get("test_mode") is True:
+        ttl_path = ttl_path.with_name(f"{ttl_path.stem}_test").with_suffix(".ttl")
+    else:
+        ttl_path = ttl_path.with_suffix(".ttl")
     # === Serializing RDF Graph ===
     rdf_folder.mkdir(parents=True, exist_ok=True)
     rdf_graph.serialize(destination=ttl_path, format="turtle")
     logger.info("RDF conversion completed. Output saved to: %s", ttl_path.resolve())
     elapsed_time = time.time() - start_time
-    logger.info("Script finished in %.2f seconds." % elapsed_time)
+    logger.info("Script finished in %.2f seconds.", elapsed_time)
+    # Each non-empty line in ttl (except prefix) is a triple
+    non_empty_lines = sum(
+        1
+        for line in ttl_path.open("r", encoding="utf-8")
+        if line.strip() and not line.lstrip().startswith("@prefix")
+    )
+    logger.info("TTL file contains %d triples.", non_empty_lines)
 
 
 if __name__ == "__main__":
