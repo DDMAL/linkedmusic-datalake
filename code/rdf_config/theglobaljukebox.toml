@@ -435,7 +435,7 @@ c10 = ""
 "Country 11" = "P17"  # country (P17)
 c11 = ""
 Country_id = ""
-society_id = ""
+society_id = {prefix = "gjc"}
 C_cid = ""
 M_cid = ""
 P_cid = ""
