@@ -4,7 +4,24 @@ A collection of utility functions for working with Wikidata entities
 
 import re
 
-WD_ID_PATTERN = re.compile(r"Q\d+|P\d+")
+WD_ID_PATTERN = re.compile(
+    r"""
+    (?:
+        ^\s*
+        |
+        www\.wikidata\.org/wiki/Property:
+        |
+        www\.wikidata\.org/wiki/
+        |
+        www\.wikidata\.org/entity/
+        |
+        www\.wikidata\.org/prop/direct/
+    )
+    (Q\d+|P\d+)
+    $
+    """,
+    re.VERBOSE
+)
 
 
 def build_terminal_link(text: str, link: str) -> str:
