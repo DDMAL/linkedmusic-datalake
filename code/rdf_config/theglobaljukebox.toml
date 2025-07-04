@@ -170,7 +170,7 @@ Division_literal = ""
 Subregion = ""
 Subregion_literal = ""
 Area = ""
-Preferred_name = "P2596"  # culture (P2596)
+Preferred_name = ""
 Preferred_name_literal = ""
 "Society_location 1" = ""
 "Society_location 2" = ""
@@ -274,17 +274,17 @@ Source_tag = ""
 [the-global-jukebox-ensembles-ensembles-csv]
 PRIMARY_KEY = "E_id"
 E_id = {"prefix" = "gje", "type" = "gj:Ensemble"}
-Archival_Culture_Name = "P2596"  # culture (P2596)
+Archival_Culture_Name = ""
 Archival_Culture_Name_literal = ""
 Possible_GJB_All_cid_Matches = {pred = "P2596", prefix = "gjc", type = "gj:Culture"}  # culture (P2596)
 Cultural_focus = ""
-"Ensemble/Song_name 1" = "P7937"  # form of creative work (P7937)
+"Ensemble/Song_name 1" = "P136"  
 "Ensemble/Song_name1_literal" = ""
-"Ensemble/Song_name 2" = "P7937"  # form of creative work (P7937)
+"Ensemble/Song_name 2" = "P136"  
 "Ensemble/Song_name2_literal" = ""
-"Ensemble/Song_name 3" = "P7937"  # form of creative work (P7937)
+"Ensemble/Song_name 3" = "P136"  
 "Ensemble/Song_name3_literal" = ""
-"Ensemble/Song_name 4" = "P7937"  # form of creative work (P7937)
+"Ensemble/Song_name 4" = "P136"  
 "Ensemble/Song_name4_literal" = ""
 "Instruments_in_Ensemble 1" = "P870"  # instrumentation (P870)
 Instruments_in_Ensemble1_literal = ""
@@ -486,9 +486,9 @@ Active = ""
 PRIMARY_KEY = "I_id"
 "Instrument_#" = ""
 I_id = {"prefix" = "gji"}
-Archival_Culture_Name = "P2341"  # indigenous to (P2341)
+Archival_Culture_Name = ""
 Archival_Culture_Name_literal = ""
-Possible_GJB_All_cid_Matches = {pred = "P2596", prefix = "gjc", type = "gj:Culture"}  # culture (P2596)
+Possible_GJB_All_cid_Matches = {pred = "P2341", prefix = "gjc", type = "gj:Culture"}
 Cultural_focus = ""
 Instrument_Name = ""
 Instrument_Name_literal = ""
@@ -616,13 +616,13 @@ Notes_2 = ""
 PRIMARY_KEY = "Source_ID"
 "Source_ID" = {"prefix" = "gjb", "type" = "gj:Source"}
 "Culture Old" = ""
-"Culture New" = "P2341"  # indigenous to (P2341)
+"Culture New" = ""
 "Culture New literal" = ""
-All_cid = {pred = "P2596", prefix = "gjc", type = "gj:Culture"}  # culture (P2596)
+All_cid = {pred = "P921", prefix = "gjc", type = "gj:Culture"}  
 "B#" = ""
 Author = "P50"  # author (P50)
 Author_literal = ""
-Year = {"datatype" = "xsd:date", "pred" = "P585"}  # point in time (P585)
+Year = {"datatype" = "xsd:date", "pred" = "P577"}
 "Source Title" = "rdfs:label"
 "Publication/Collection/Journal" = ""
 Repository = ""
