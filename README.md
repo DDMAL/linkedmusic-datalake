@@ -67,3 +67,5 @@ Consult the [AcousticBrainz manual](https://github.com/DDMAL/linkedmusic-datalak
 ## ArchiveForReconciledEntries
 In terms of reconciliation, OpenRefine primarily automate the matching of property values. However, perfect matches on Wikidata are not always guaranteed. To address this, we have been creating the "archive", storing those manually reconciled entries. This shared resource ensures that previously verified mappings can be reused, saving time and effort for others.
 Reconciliation with OpenRefine may not always yield perfect matches on Wikidata. The "archive" stores manually reconciled entries, allowing verified mappings to be reused and saving time and effort.
+
+<img src="images/wikidata_stamp_light.svg" alt="wikidata_stamp" width="400"/>
