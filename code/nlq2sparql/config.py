@@ -69,10 +69,16 @@ class Config:
     
     def get_provider_config(self, provider: str) -> Dict[str, Any]:
         """Get provider-specific configuration"""
-        return self.config_data.get(provider, {})
+        return self.config_data.get("providers", {}).get(provider, {})
     
     def get_prefixes(self, database: str) -> Dict[str, str]:
         """Get prefixes for specified database"""
+        # Check config.json first, then prefixes.json
+        config_prefixes = self.config_data.get("prefixes", {}).get(database.lower(), {})
+        if config_prefixes:
+            return config_prefixes
+        
+        # Fallback to prefixes.json
         # Always include common prefixes as they're commonly used
         prefixes = self.prefixes_data.get("common", {}).copy()
         
@@ -94,10 +100,11 @@ class Config:
     
     def get_available_databases(self) -> list:
         """Get list of available databases"""
-        return self.config_data.get("databases", {}).get("available", [])
+        return list(self.config_data.get("databases", {}).keys())
     
     def get_default_query(self, database: str) -> str:
         """Get default test query for specified database"""
-        config_queries = self.config_data.get("databases", {}).get("default_queries", {})
+        databases = self.config_data.get("databases", {})
+        db_config = databases.get(database, {})
         
-        return config_queries.get(database, "Find all items")
+        return db_config.get("default_query", "Find all items")

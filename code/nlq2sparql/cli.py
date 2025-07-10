@@ -47,7 +47,6 @@ def main():
     parser.add_argument(
         "--database",
         choices=available_databases,
-        required=True,
         help="Database to query against"
     )
     
@@ -70,7 +69,27 @@ def main():
         help="Enable verbose output"
     )
     
+    parser.add_argument(
+        "--list-databases",
+        action="store_true",
+        help="List available databases and exit"
+    )
+    
     args = parser.parse_args()
+    
+    # Handle list databases command
+    if args.list_databases:
+        print("Available databases:")
+        for db in available_databases:
+            query = config.get_default_query(db)
+            print(f"  - {db}: {query[:50]}{'...' if len(query) > 50 else ''}")
+        return
+    
+    # Validate required arguments for query processing
+    if not args.database:
+        print("Error: --database is required when processing queries")
+        print("Use --list-databases to see available options")
+        sys.exit(1)
     
     try:
         # Update configuration with custom config file if provided

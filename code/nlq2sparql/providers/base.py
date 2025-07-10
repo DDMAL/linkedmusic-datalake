@@ -78,33 +78,16 @@ class BaseLLMClient(ABC):
         return sparql_query.strip()
     
     def _get_provider_config(self, provider_name: str) -> dict:
-        """Get configuration for this provider with defaults"""
-        defaults = {
-            "gemini": {
-                "model": "gemini-pro",
-                "temperature": 0.1
-            },
-            "chatgpt": {
-                "model": "gpt-3.5-turbo",
-                "max_tokens": 1000,
-                "temperature": 0.1
-            },
-            "claude": {
-                "model": "claude-3-sonnet-20240229",
-                "max_tokens": 1000,
-                "temperature": 0.1
-            }
-        }
-        
-        # Get config from file, fall back to defaults
+        """Get configuration for this provider from config.json"""
+        # Get config from file - all defaults are stored in config.json
         config_data = self.config.get_provider_config(provider_name)
-        provider_defaults = defaults.get(provider_name, {})
         
-        # Merge defaults with config file values
-        final_config = provider_defaults.copy()
-        final_config.update(config_data)
+        if not config_data:
+            # Log warning if provider config is missing
+            if hasattr(self, 'verbose') and self.verbose:
+                print(f"Warning: No configuration found for provider '{provider_name}' in config.json")
         
-        return final_config
+        return config_data
     
     def _build_prompt(self, nlq: str, database: str, ontology_context: str = "") -> str:
         """Build the prompt for the LLM"""
