@@ -42,12 +42,11 @@ The `related_sources` field in the `organizations` and `people` entity types, as
 
 Some properties of interest:
 
-- RDFS:label is used instead of P2561 to indicate the name of places/objects, as that's what Wikidata uses for the primary label for items
-- For composition titles, both P1476 and RDFS:label are used as that's what Wikidata also does
+- RDFS:label is used instead of P2561 to indicate the name of places/objects, as that's what Wikidata uses for the primary label for items, including for the title of compositions
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
-- P131 is used to indicate the city or region an entity is in, and P17 is used for the country
-- P217 (inventory number) is used for shelfmarks, as it's the closest thing I could find and is what ChatGPT suggested to use
-- P1449 (nickname) is used for the variant names, as it's the closest thing I could find and is what ChatGPT suggested to use
+- P131 is used to indicate the city an entity is in, and P17 is used for the country. P131 is only used to point to the most specific point (city), and the city will point to the region.
+- RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
+- skos:altLabel is used for the variant names, as it's what Wikidata uses
 - P276 (location) is used for provenance organizations because the fact that an organization is the provenance organization of a source means that it most likely was its location at some point in time
 - P11603 (transcribed by) is used to indicate people that copied a source as one of the alternate uses is to indicate copying
 - P361 (part of) is used to indicate sets or compositions that are contained in sources
