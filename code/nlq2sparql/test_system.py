@@ -105,7 +105,7 @@ def test_router():
     
     # Test router creation
     assert router.config is config, "Router config not set"
-    assert router.llm_clients == {}, "Router should start with empty clients"
+    assert router.provider_clients == {}, "Router should start with empty clients"
     print("   ✓ Router creation works")
     
     # Test client creation (should fail due to missing API keys)

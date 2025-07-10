@@ -8,8 +8,12 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-from router import QueryRouter
-from config import Config
+try:
+    from .router import QueryRouter
+    from .config import Config
+except ImportError:
+    from router import QueryRouter
+    from config import Config
 
 
 def main():
@@ -34,10 +38,10 @@ def main():
     )
     
     parser.add_argument(
-        "--llm",
+        "--provider",
         choices=["gemini", "chatgpt", "claude"],
         default="gemini",
-        help="LLM provider to use (default: gemini)"
+        help="Provider to use (default: gemini)"
     )
     
     parser.add_argument(
@@ -88,7 +92,7 @@ def main():
         # Process query
         sparql_query = router.process_query(
             nlq=query,
-            provider=args.llm,
+            provider=args.provider,
             database=args.database,
             ontology_file=args.ontology_file,
             verbose=args.verbose

@@ -4,8 +4,8 @@ Simple demo script for the NLQ to SPARQL generator
 Run this from the code directory with: poetry run python nlq2sparql/demo.py
 """
 
-from config import Config
-from router import QueryRouter
+from .config import Config
+from .router import QueryRouter
 
 
 def main():

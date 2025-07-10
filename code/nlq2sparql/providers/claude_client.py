@@ -3,7 +3,10 @@ Anthropic Claude client for NLQ to SPARQL conversion
 """
 
 from typing import Optional
-from providers.base import BaseLLMClient
+try:
+    from .base import BaseLLMClient
+except ImportError:
+    from providers.base import BaseLLMClient
 
 
 class ClaudeClient(BaseLLMClient):

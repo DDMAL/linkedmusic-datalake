@@ -1,36 +1,48 @@
 """
-Query router that coordinates between different LLM providers
+Query router that coordinates between different providers
 """
 
 from pathlib import Path
 from typing import Optional
 
-from config import Config
+try:
+    from .config import Config
+except ImportError:
+    from config import Config
 
 
 class QueryRouter:
-    """Routes queries to appropriate LLM providers and handles response formatting"""
+    """Routes queries to appropriate providers and handles response formatting"""
     
     def __init__(self, config: Config):
         self.config = config
-        self.llm_clients = {}
+        self.provider_clients = {}
     
     def _get_client(self, provider: str):
         """Get or create a client for the specified provider"""
-        if provider not in self.llm_clients:
+        if provider not in self.provider_clients:
             if provider == "gemini":
-                from providers.gemini_client import GeminiClient
-                self.llm_clients[provider] = GeminiClient(self.config)
+                try:
+                    from .providers.gemini_client import GeminiClient
+                except ImportError:
+                    from providers.gemini_client import GeminiClient
+                self.provider_clients[provider] = GeminiClient(self.config)
             elif provider == "chatgpt":
-                from providers.chatgpt_client import ChatGPTClient
-                self.llm_clients[provider] = ChatGPTClient(self.config)
+                try:
+                    from .providers.chatgpt_client import ChatGPTClient
+                except ImportError:
+                    from providers.chatgpt_client import ChatGPTClient
+                self.provider_clients[provider] = ChatGPTClient(self.config)
             elif provider == "claude":
-                from providers.claude_client import ClaudeClient
-                self.llm_clients[provider] = ClaudeClient(self.config)
+                try:
+                    from .providers.claude_client import ClaudeClient
+                except ImportError:
+                    from providers.claude_client import ClaudeClient
+                self.provider_clients[provider] = ClaudeClient(self.config)
             else:
                 raise ValueError(f"Unknown provider: {provider}")
         
-        return self.llm_clients[provider]
+        return self.provider_clients[provider]
     
     def process_query(
         self,
@@ -45,7 +57,7 @@ class QueryRouter:
         
         Args:
             nlq: Natural language query
-            provider: LLM provider to use
+            provider: Provider to use
             database: Target database name
             ontology_file: Optional path to ontology file
             verbose: Enable verbose output
