@@ -1,0 +1,53 @@
+# SPARQL Prefixes for LinkedMusic Data Lake
+# This file contains all the prefixes used across different databases
+
+# WikiData
+wd: http://www.wikidata.org/entity/
+wdt: http://www.wikidata.org/prop/direct/
+wikibase: http://wikiba.se/ontology#
+
+# DIAMM
+da: https://www.diamm.ac.uk/archives/
+de: https://www.diamm.ac.uk/sets/
+di: https://www.diamm.ac.uk/cities/
+dm: https://www.diamm.ac.uk/compositions/
+dn: https://www.diamm.ac.uk/countries/
+do: https://www.diamm.ac.uk/organizations/
+dp: https://www.diamm.ac.uk/people/
+dr: https://www.diamm.ac.uk/regions/
+ds: https://www.diamm.ac.uk/sources/
+
+# Dig That Lick
+dtls: https://dig-that-lick.hfm-weimar.de/similarity_search/details?melid=
+dtlt: http://www.dtl.org/JE/tracks/
+
+# MusicBrainz
+mbae: https://musicbrainz.org/area/
+mbat: https://musicbrainz.org/artist/
+mbcd: https://musicbrainz.org/cdtoc/
+mbev: https://musicbrainz.org/event/
+mbge: https://musicbrainz.org/genre/
+mbin: https://musicbrainz.org/instrument/
+mbla: https://musicbrainz.org/label/
+mbpl: https://musicbrainz.org/place/
+mbrc: https://musicbrainz.org/recording/
+mbrg: https://musicbrainz.org/release-group/
+mbrl: https://musicbrainz.org/release/
+mbse: https://musicbrainz.org/series/
+mbwo: https://musicbrainz.org/work/
+
+# The Global Jukebox
+gjb: https://linkedmusic.ca/graphs/theglobaljukebox/sources/
+gjc: https://theglobaljukebox.org/culture/
+gje: https://linkedmusic.ca/graphs/theglobaljukebox/ensembles/
+gjh: https://linkedmusic.ca/graphs/theglobaljukebox/phonotactics/
+gji: https://linkedmusic.ca/graphs/theglobaljukebox/instruments/
+gjm: https://linkedmusic.ca/graphs/theglobaljukebox/minutage/
+gjp: https://linkedmusic.ca/graphs/theglobaljukebox/parlametrics/
+gjs: https://theglobaljukebox.org/song/
+
+# The Session
+tst: https://thesession.org/tunes/
+tsr: https://thesession.org/recordings/
+tse: https://thesession.org/events/
+tss: https://thesession.org/sessions/

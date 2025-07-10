@@ -14,3 +14,4 @@ rdb2rdf/
 store/
 store-*/
 *.log
+*.env

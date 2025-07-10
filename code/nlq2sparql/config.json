@@ -1,0 +1,25 @@
+{
+  "databases": {
+    "available": ["diamm", "session", "dlt1000", "global-jukebox"],
+    "default_queries": {
+      "diamm": "Return a list of sources in DIAMM that were commissioned by King Henry VII of England",
+      "session": "Return all entries in The Session that took place in Montreal",
+      "dlt1000": "Find all solos recorded in New York City in 1929",
+      "global-jukebox": "Song in The Global Jukebox from cultures in Ethiopia"
+    }
+  },
+  "gemini": {
+    "model": "gemini-pro",
+    "temperature": 0.1
+  },
+  "chatgpt": {
+    "model": "gpt-3.5-turbo",
+    "max_tokens": 1000,
+    "temperature": 0.1
+  },
+  "claude": {
+    "model": "claude-3-sonnet-20240229",
+    "max_tokens": 1000,
+    "temperature": 0.1
+  }
+}

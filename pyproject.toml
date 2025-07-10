@@ -22,6 +22,10 @@ aiohttp = "^3.11.18"
 aiofiles = "^24.1.0"
 aiolimiter = "^1.2.1"
 isodate = "^0.7.2"
+google-generativeai = "^0.8.0"
+openai = "^1.0.0"
+anthropic = "^0.34.0"
+python-dotenv = "^1.0.0"
 
 
 [tool.poetry.group.dev.dependencies]
