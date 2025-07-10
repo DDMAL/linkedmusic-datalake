@@ -131,8 +131,7 @@ then reconcile against type of musical form, christian liturgical element, and h
 
 - then go to column `_ - cao_concordances`, use this transformation: `value.replace(" ", "")`, get rid of empty spaces
 - Then go to `Edit cells > Split multi-valued cells...`, use this regular expression: `(?<=\w)(?=\w)`, and select regular expression. This splits into all them separately
-- open a text facet. Make sure you are in row view
-Facet by x, go to `Reconcile > Actions > Match all filtered cells to...`
-reconcile `C` to `Antiphonaire de Compiègne - BNF Lat17436 ` (Q26833944)
-reconcile `D` to (Q125136886)
-reconcile `F` to (Q125136090)
+- open a text facet. Make sure you are in row view.
+- Facet by `C`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to `Antiphonaire de Compiègne - BNF Lat17436 ` (Q26833944).
+- Facet by `D`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136886).
+- Facet by `F`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136090).
