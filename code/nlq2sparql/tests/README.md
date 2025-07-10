@@ -36,10 +36,10 @@ python tests/test_comprehensive.py
 ### Run Individual Test Modules
 ```bash
 # Test configuration only
-python -m tests.test_config
+python tests/test_config.py
 
 # Test providers only
-python -m tests.test_providers
+python tests/test_providers.py
 
 # Run specific comprehensive tests
 python tests/test_comprehensive.py

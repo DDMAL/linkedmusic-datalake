@@ -493,11 +493,16 @@ def test_integration_with_mock_api(results):
                 self.api_key = "mock_key"
                 
             def _call_llm_api(self, prompt, verbose=False):
-                # Return a realistic SPARQL query
-                return '''SELECT ?source ?title WHERE {
-    ?source a diamm:Source .
-    ?source diamm:title ?title .
-    ?source diamm:commissioner <http://example.org/henry7> .
+                # Return the actual correct SPARQL query from query_database_10july2025.csv
+                # This is the "Correct" query for Henry VII from the CSV (line ~2620)
+                # It properly uses wdt:P88 for "commissioned by" and FILTER(STR()) for string matching
+                return '''PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+SELECT ?source WHERE {
+  ?source wdt:P88 ?commissioner .
+  FILTER(STR(?commissioner) = "https://www.diamm.ac.uk/people/2899")
 }'''
         
         # Test the full pipeline
@@ -512,7 +517,10 @@ def test_integration_with_mock_api(results):
         
         assert "SELECT" in sparql, "Generated query should contain SELECT"
         assert "WHERE" in sparql, "Generated query should contain WHERE"
-        print("   ✓ End-to-end query generation works")
+        assert "wdt:P88" in sparql, "Query should use wdt:P88 for commissioned by"
+        assert "people/2899" in sparql, "Query should reference Henry VII's DIAMM ID"
+        assert "FILTER(STR(" in sparql, "Query should use FILTER(STR()) for string matching"
+        print("   ✓ End-to-end query generation works with realistic DIAMM query")
         
         # Restore original method
         config.get_api_key = original_get_api_key
