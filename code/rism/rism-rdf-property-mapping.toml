@@ -1,0 +1,66 @@
+PRIMARY_KEY = "subject"
+http://www.w3.org/1999/02/22-rdf-syntax-ns#type = "rdf:type"
+http://wikidata.org/prop/direct/P31 = ""
+http://www.w3.org/2000/01/rdf-schema#label = "rdfs:label"
+http://wikidata.org/prop/direct/P2888 = "P2888"
+http://www.w3.org/1999/02/22-rdf-syntax-ns#value = "" #TODO
+https://rism.online/api/v1#hasPAETimesig = "P3440"
+https://rism.online/api/v1#hasPAEKeysig = ""
+https://rism.online/api/v1#hasEncoding = "P2701" 
+# take the rdfs:value of the blank node (we are ignoring the URL to the MEI file)
+
+
+https://rism.online/api/v1#hasPAEClef = ""
+https://rism.online/api/v1#hasPAEData = ""
+https://rism.online/api/v1#hasRole = "" #used by blank nodes
+http://purl.org/dc/terms/relation = "" #used by blank nodes
+https://rism.online/api/v1#hasQualifier = ""
+https://rism.online/api/v1#meiEncoding = ""
+https://rism.online/api/v1#hasRelationship = "" 
+# use the PID corresponding to the https://rism.online/api/v1#hasRole" column;
+# as object, use "http://purl.org/dc/terms/relation"
+
+
+https://rism.online/api/v1#hasHolding = "P276" 
+# take the value of "http://www.wikidata.org/prop/direct/P195" of the blank node as the object (traverse the blank node)
+
+
+http://www.wikidata.org/prop/direct/P1922 = "P1922"
+http://www.wikidata.org/prop/direct/P921 = "P136" 
+# if there is a P2888 use that; otherwise use the rdfs:value
+
+
+https://rism.online/api/v1#hasMaterialGroup = "" 
+# keep MaterialGroup as an entity type; 
+# replace the blank node URI with a LinkedMusic one, using the existing ID;
+# for the MaterialGroup "https://rism.online/api/v1#hasRelationship", process them using the same instructions as above;
+# for "https://rism.online/api/v1#hasSummary", use the rdfs:label to determine predicate and rdf:value to determine object
+
+
+http://www.wikidata.org/prop/direct/P50 = "P86"
+https://rism.online/api/v1#hasKeyMode = "P826"
+http://www.wikidata.org/prop/direct/P361 = "P361"
+http://www.wikidata.org/prop/direct/P195 = ""
+# only relevant to holdings; dealt with in "https://rism.online/api/v1#hasHolding" column
+
+https://rism.online/api/v1#dateStatement = ""
+# WikiData does not support date ranges
+
+http://www.wikidata.org/prop/direct/P1319 = "P569"
+# remove "^^" and anything after
+
+http://www.wikidata.org/prop/direct/P1326 = "P570"
+# remove "^^" and anything after
+
+https://rism.online/api/v1#hasSummary = ""
+# addressed in "https://rism.online/api/v1#hasMaterialGroup" column
+
+https://rism.online/api/v1#paeEncoding = ""
+https://rism.online/api/v1#hasPhysicalDimensions = ""
+# redundant/already present in "https://rism.online/api/v1#hasSummary" of MaterialGroup;
+# also no good Wikidata property for dimensions (only height and width)
+
+http://www.wikidata.org/prop/direct/P585 = ""
+# redundant/already present in "https://rism.online/api/v1#hasSummary" of MaterialGroup;
+
+http://www.wikidata.org/prop/direct/P144 = "P527"
