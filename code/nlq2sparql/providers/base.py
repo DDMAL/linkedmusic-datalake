@@ -4,6 +4,7 @@ Base class for LLM provider clients
 
 from abc import ABC, abstractmethod
 from typing import Optional
+from ..prompts import build_sparql_generation_prompt
 
 
 class BaseLLMClient(ABC):
@@ -42,7 +43,9 @@ class BaseLLMClient(ABC):
         This method is implemented in the base class to provide consistent
         behavior across all providers. Only the API call differs.
         """
-        prompt = self._build_prompt(nlq, database, ontology_context)
+        # Get prefix declarations for the database and build prompt
+        prefix_declarations = self.config.get_prefix_declarations(database)
+        prompt = build_sparql_generation_prompt(nlq, database, prefix_declarations, ontology_context)
         
         if verbose:
             print(f"Sending request to {self.__class__.__name__}...")
@@ -88,27 +91,3 @@ class BaseLLMClient(ABC):
                 print(f"Warning: No configuration found for provider '{provider_name}' in config.json")
         
         return config_data
-    
-    def _build_prompt(self, nlq: str, database: str, ontology_context: str = "") -> str:
-        """Build the prompt for the LLM"""
-        
-        # Get prefix declarations for the database
-        prefix_declarations = self.config.get_prefix_declarations(database)
-        
-        prompt = f"""You are a SPARQL query generator working with musical Linked Data.
-
-Task: Convert the following natural language query to a SPARQL query that retrieve all 
-relevant results from the {database} database. Do not guess Wikidata QIDs or PIDs, use the provided
-ontology context if available. Return only the SPARQL query, no explanations. Ensure the query is syntatically correct.
-
-Natural Language Query: {nlq}
-
-Available Prefixes:
-{prefix_declarations}
-
-{"Ontology Context:" if ontology_context else ""}
-{ontology_context}
-
-SPARQL Query:"""
-        
-        return prompt
