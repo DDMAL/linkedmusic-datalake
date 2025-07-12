@@ -7,12 +7,15 @@ import pytest
 import sys
 from pathlib import Path
 
-# Handle imports
+# Handle imports - add parent directory to path for direct execution
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 try:
-    from ..config import Config
-except ImportError:
-    sys.path.insert(0, str(Path(__file__).parent.parent))
     from config import Config
+except ImportError as e:
+    print(f"Import error: {e}")
+    print("Make sure you're running from the nlq2sparql directory")
+    sys.exit(1)
 
 
 class TestConfig:

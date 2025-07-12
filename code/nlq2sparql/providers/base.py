@@ -4,7 +4,11 @@ Base class for LLM provider clients
 
 from abc import ABC, abstractmethod
 from typing import Optional
-from ..prompts import build_sparql_generation_prompt
+
+try:
+    from ..prompts import build_sparql_generation_prompt
+except ImportError:
+    from prompts import build_sparql_generation_prompt
 
 
 class BaseLLMClient(ABC):
