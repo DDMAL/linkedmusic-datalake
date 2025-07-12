@@ -23,9 +23,14 @@ class ChatGPTClient(BaseLLMClient):
         # Store config for later use
         self.api_key = api_key
         provider_config = self._get_provider_config("chatgpt")
-        self.model = provider_config.get("model", "gpt-3.5-turbo")
-        self.max_tokens = provider_config.get("max_tokens", 1000)
-        self.temperature = provider_config.get("temperature", 0.1)
+        
+        # Get provider settings from config (all defaults should be in config.json)
+        if not provider_config:
+            raise ValueError("ChatGPT provider configuration not found in config.json")
+            
+        self.model = provider_config["model"]
+        self.max_tokens = provider_config["max_tokens"] 
+        self.temperature = provider_config["temperature"]
         
         # Initialize client lazily in _call_llm_api
         self.client = None

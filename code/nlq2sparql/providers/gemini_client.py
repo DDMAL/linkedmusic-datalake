@@ -23,8 +23,13 @@ class GeminiClient(BaseLLMClient):
         # Store config for later use
         self.api_key = api_key
         provider_config = self._get_provider_config("gemini")
-        self.model_name = provider_config.get("model", "gemini-pro")
-        self.temperature = provider_config.get("temperature", 0.1)
+        
+        # Get provider settings from config (all defaults should be in config.json)
+        if not provider_config:
+            raise ValueError("Gemini provider configuration not found in config.json")
+            
+        self.model_name = provider_config["model"]
+        self.temperature = provider_config["temperature"]
         
         # Initialize model lazily in _call_llm_api
         self.model = None
