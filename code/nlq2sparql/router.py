@@ -42,10 +42,14 @@ class QueryRouter:
             # Split module path and class name
             module_name, class_name = module_path.rsplit('.', 1)
             
-            # Try relative import first
+            # Try relative import first, but handle package context properly
             try:
-                module = importlib.import_module(f".{module_name}", package=__package__)
-            except (ImportError, ValueError):
+                if __package__:
+                    module = importlib.import_module(f".{module_name}", package=__package__)
+                else:
+                    # If no package context, try absolute import directly
+                    raise ImportError("No package context for relative import")
+            except (ImportError, ValueError, TypeError):
                 # Fall back to absolute import
                 module = importlib.import_module(module_name)
             
