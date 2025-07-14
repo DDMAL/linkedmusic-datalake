@@ -1,25 +1,13 @@
-# Debug prompt files - these are local debugging artifacts
-debug_prompts/*.txt
+# nlq2sparql module-specific ignores
+# (Python cache, debug prompts, and .env files are handled by root .gitignore)
 
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-
-# Virtual environments
-.env
-.venv
-env/
-venv/
-
-# IDE files
+# IDE files not covered by root
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS files
-.DS_Store
-Thumbs.db
+# Virtual environments not covered by root  
+.venv
+venv/
+env/
