@@ -18,7 +18,7 @@ def test_all_list_exists():
     expected_classes = [
         '"Config"',
         '"QueryRouter"', 
-        '"CLIParser"',
+        '"ArgumentHandler"',
         '"QueryProcessor"',
         '"PromptDebugClient"'
     ]
@@ -34,7 +34,7 @@ def test_corresponding_files_exist():
     class_to_file = {
         'Config': 'config.py',
         'QueryRouter': 'router.py',
-        'CLIParser': 'cli_parser.py', 
+        'ArgumentHandler': 'arguments.py', 
         'QueryProcessor': 'query_processor.py',
         'PromptDebugClient': 'debug_client.py'
     }

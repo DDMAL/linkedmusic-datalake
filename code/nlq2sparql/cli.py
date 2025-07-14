@@ -8,11 +8,11 @@ from pathlib import Path
 
 try:
     from .config import Config
-    from .cli_parser import CLIParser
+    from .arguments import ArgumentHandler
     from .query_processor import QueryProcessor
 except ImportError:
     from config import Config
-    from cli_parser import CLIParser
+    from arguments import ArgumentHandler
     from query_processor import QueryProcessor
 
 
@@ -23,7 +23,7 @@ def main():
         config = Config()
         
         # Parse command line arguments
-        cli_parser = CLIParser(config)
+        cli_parser = ArgumentHandler(config)
         parser = cli_parser.create_parser()
         args = parser.parse_args()
         

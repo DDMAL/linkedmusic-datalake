@@ -1,5 +1,8 @@
 """
-Command-line argument parser for NLQ to SPARQL generator
+Command-line argument handling for NLQ to SPARQL generator
+
+This module handles all argument parsing, validation, and processing for the CLI.
+Separated from main CLI to keep concerns focused and code organized.
 """
 
 import argparse
@@ -12,7 +15,7 @@ except ImportError:
     from config import Config
 
 
-class CLIParser:
+class ArgumentHandler:
     """Handles command-line argument parsing and validation"""
     
     def __init__(self, config: Config):
