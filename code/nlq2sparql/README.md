@@ -27,33 +27,38 @@ cd code
 
 Basic usage:
 ```bash
-poetry run python -m nlq2sparql "Find all compositions by Antonio il Verso" --database diamm
+python cli.py "Find all compositions by Antonio il Verso" --database diamm
 ```
 
 Test mode (uses default queries):
 ```bash
-poetry run python -m nlq2sparql --database diamm --test
+python cli.py --database diamm --test
 ```
 
 With specific LLM provider:
 ```bash
-poetry run python -m nlq2sparql "Return all traditional tunes" --database session --llm gemini
+python cli.py "Return all traditional tunes" --database session --provider gemini
 ```
 
 With ontology context:
 ```bash
-poetry run python -m nlq2sparql "Show me all manuscripts" --database diamm --ontology-file path/to/ontology.ttl
+python cli.py "Show me all manuscripts" --database diamm --ontology-file path/to/ontology.ttl
 ```
 
 With custom configuration:
 ```bash
-poetry run python -m nlq2sparql "Find jazz tracks" --database dlt1000 --config nlq2sparql/config.json --verbose
+python cli.py "Find jazz tracks" --database dlt1000 --config config.json --verbose
+```
+
+Debug mode (capture prompts):
+```bash
+python cli.py "Find works by Palestrina" --database diamm --debug-prompt
 ```
 
 ## Command Line Options
 
 - `query`: Natural language query (optional - uses test query if not provided)
-- `--llm`: LLM provider to use (`gemini`, `chatgpt`, `claude`) - default: `gemini`
+- `--provider`: LLM provider to use (`gemini`, `chatgpt`, `claude`) - default: `gemini`
 - `--database`: Target database (`diamm`, `session`, `dlt1000`, `global-jukebox`) - required
 - `--test`: Run with a default test query to verify setup
 - `--ontology-file`: Path to ontology file for additional context
@@ -104,10 +109,10 @@ The tool includes a debug mode that allows you to capture and inspect the exact 
 
 ```bash
 # Capture the prompt for a specific query
-poetry run python -m nlq2sparql "Find sources by John Doe" --database diamm --debug-prompt
+python cli.py "Find sources by John Doe" --database diamm --debug-prompt
 
 # Capture the prompt for a test query
-poetry run python -m nlq2sparql --database session --test --debug-prompt
+python cli.py --database session --test --debug-prompt
 ```
 
 The captured prompts are saved to the `debug_prompts/` directory with filenames that include:
@@ -123,42 +128,40 @@ This is useful for:
 
 ## Examples
 
-**Note**: All examples assume you're in the `code` directory (`cd code`)
-
 ### DIAMM Queries
 ```bash
 # Find manuscripts by a specific composer
-poetry run python -m nlq2sparql "Find all manuscripts by Josquin" --database diamm
+python cli.py "Find all manuscripts by Josquin" --database diamm
 
 # Find sources from a specific location
-poetry run python -m nlq2sparql "Show me all sources from Paris" --database diamm
+python cli.py "Show me all sources from Paris" --database diamm
 ```
 
 ### The Session Queries
 ```bash
 # Find traditional Irish tunes
-poetry run python -m nlq2sparql "Find all jigs in D major" --database session
+python cli.py "Find all jigs in D major" --database session
 
 # Find recordings by a specific musician
-poetry run python -m nlq2sparql "Show me recordings by Kevin Burke" --database session
+python cli.py "Show me recordings by Kevin Burke" --database session
 ```
 
 ### DLT1000 Queries
 ```bash
 # Find jazz tracks
-poetry run python -m nlq2sparql "Find all bebop tracks" --database dlt1000
+python cli.py "Find all bebop tracks" --database dlt1000
 
 # Find tracks with specific characteristics
-poetry run python -m nlq2sparql "Show me tracks with swing rhythm" --database dlt1000
+python cli.py "Show me tracks with swing rhythm" --database dlt1000
 ```
 
 ### Global Jukebox Queries
 ```bash
 # Find cultural recordings
-poetry run python -m nlq2sparql "Find all African vocal music" --database global-jukebox
+python cli.py "Find all African vocal music" --database global-jukebox
 
 # Find songs by characteristics
-poetry run python -m nlq2sparql "Show me pentatonic melodies" --database global-jukebox
+python cli.py "Show me pentatonic melodies" --database global-jukebox
 ```
 
 ## Output
