@@ -1,4 +1,9 @@
 {
+  "api_key_mappings": {
+    "gemini": "gemini_api_key",
+    "chatgpt": "openai_api_key",
+    "claude": "anthropic_api_key"
+  },
   "databases": {
     "diamm": {
       "default_query": "Return a list of sources in DIAMM that were commissioned by King Henry VII of England"
@@ -12,6 +17,11 @@
     "global-jukebox": {
       "default_query": "Song in The Global Jukebox from cultures in Ethiopia"
     }
+  },
+  "provider_registry": {
+    "gemini": "providers.gemini_client.GeminiClient",
+    "chatgpt": "providers.chatgpt_client.ChatGPTClient", 
+    "claude": "providers.claude_client.ClaudeClient"
   },
   "providers": {
     "gemini": {
