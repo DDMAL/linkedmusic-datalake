@@ -59,6 +59,8 @@ poetry run python -m nlq2sparql "Find jazz tracks" --database dlt1000 --config n
 - `--ontology-file`: Path to ontology file for additional context
 - `--config`: Path to custom configuration file
 - `--verbose`: Enable verbose output
+- `--debug-prompt`: Capture and save the prompt that would be sent to the LLM instead of executing the query
+- `--list-databases`: Show all available databases and their default test queries
 
 ## Configuration
 
@@ -95,6 +97,29 @@ You can customize model parameters in the configuration file:
   }
 }
 ```
+
+## Debugging and Prompt Inspection
+
+The tool includes a debug mode that allows you to capture and inspect the exact prompt that would be sent to the LLM, without making an API call:
+
+```bash
+# Capture the prompt for a specific query
+poetry run python -m nlq2sparql "Find sources by John Doe" --database diamm --debug-prompt
+
+# Capture the prompt for a test query
+poetry run python -m nlq2sparql --database session --test --debug-prompt
+```
+
+The captured prompts are saved to the `debug_prompts/` directory with filenames that include:
+- Database name
+- Cleaned query text
+- Timestamp
+
+This is useful for:
+- Understanding how your natural language query is being processed
+- Debugging unexpected results
+- Fine-tuning your queries
+- Development and testing without API costs
 
 ## Examples
 

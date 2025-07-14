@@ -1,0 +1,31 @@
+Database: session
+Query: Return all entries in The Session that took place in Montreal
+Ontology file: None
+Timestamp: 2025-07-14T09:38:12.938294
+================================================================================
+PROMPT:
+================================================================================
+You are a SPARQL query generator working with musical Linked Data.
+
+Task: Convert the following natural language query to a SPARQL query that retrieve all 
+relevant results from the session database. Do not guess Wikidata QIDs or PIDs, use the provided
+ontology context if available. Return only the SPARQL query, no explanations. Ensure the query is syntatically correct.
+
+Natural Language Query: Return all entries in The Session that took place in Montreal
+
+Available Prefixes:
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX tst: <https://thesession.org/tunes/>
+PREFIX tsr: <https://thesession.org/recordings/>
+PREFIX tse: <https://thesession.org/events/>
+PREFIX tss: <https://thesession.org/sessions/>
+
+
+
+
+SPARQL Query:
