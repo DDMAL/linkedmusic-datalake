@@ -2,57 +2,89 @@
 Anthropic Claude client for NLQ to SPARQL conversion
 """
 
-from typing import Optional
+import logging
+from typing import Optional, Any
+
 try:
-    from .base import BaseLLMClient
+    from .base import BaseLLMClient, APIError, ConfigurationError
+    from ..config import Config
 except ImportError:
-    from providers.base import BaseLLMClient
+    from providers.base import BaseLLMClient, APIError, ConfigurationError
+    from config import Config
 
 
 class ClaudeClient(BaseLLMClient):
     """Client for Anthropic Claude API"""
     
-    def __init__(self, config):
+    def __init__(self, config: Config):
         super().__init__(config)
         
-        # Get API key
-        api_key = config.get_api_key("claude")
-        if not api_key:
-            raise ValueError("Anthropic API key not found. Please set anthropic_api_key in config or environment")
+        # Get provider configuration
+        provider_config = self._get_provider_config()
         
-        # Store config for later use
-        self.api_key = api_key
-        provider_config = self._get_provider_config("claude")
+        # Validate required config fields
+        required_fields = ["model", "max_tokens", "temperature"]
+        missing_fields = [field for field in required_fields if field not in provider_config]
+        if missing_fields:
+            raise ConfigurationError(
+                f"Missing required Claude configuration fields: {missing_fields}"
+            )
         
-        # Get provider settings from config (all defaults should be in config.json)
-        if not provider_config:
-            raise ValueError("Claude provider configuration not found in config.json")
-            
+        # Store configuration
+        self.api_key = self.config.get_api_key(self.provider_name)
         self.model = provider_config["model"]
         self.max_tokens = provider_config["max_tokens"]
         self.temperature = provider_config["temperature"]
         
+        # Validate configuration values
+        if not isinstance(self.max_tokens, int) or self.max_tokens <= 0:
+            raise ConfigurationError("Claude max_tokens must be a positive integer")
+        
+        if not isinstance(self.temperature, (int, float)) or not (0 <= self.temperature <= 1):
+            raise ConfigurationError("Claude temperature must be a number between 0 and 1")
+        
         # Initialize client lazily in _call_llm_api
         self.client = None
+        
+        self.logger.info(f"Initialized Claude client with model: {self.model}")
     
     def _call_llm_api(self, prompt: str, verbose: bool = False) -> str:
         """Make API call to Claude"""
         try:
             import anthropic
         except ImportError:
-            raise ImportError("anthropic package not installed. Install with: poetry add anthropic")
+            raise ImportError(
+                "anthropic package not installed. "
+                "Install with: poetry add anthropic"
+            )
         
         # Initialize client if not already done
         if self.client is None:
-            self.client = anthropic.Anthropic(api_key=self.api_key)
+            try:
+                self.client = anthropic.Anthropic(api_key=self.api_key)
+                self.logger.debug("Anthropic client initialized successfully")
+            except Exception as e:
+                raise APIError(f"Failed to initialize Anthropic client: {e}")
         
-        response = self.client.messages.create(
-            model=self.model,
-            max_tokens=self.max_tokens,
-            temperature=self.temperature,
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-        )
-        
-        return response.content[0].text
+        try:
+            if verbose:
+                print(f"Calling Claude API with model: {self.model}")
+            
+            response = self.client.messages.create(
+                model=self.model,
+                max_tokens=self.max_tokens,
+                temperature=self.temperature,
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            
+            if not response.content or not response.content[0].text:
+                raise APIError("Claude returned empty response")
+            
+            self.logger.debug("Claude API call completed successfully")
+            return response.content[0].text
+            
+        except Exception as e:
+            self.logger.error(f"Claude API call failed: {e}")
+            raise APIError(f"Claude API error: {str(e)}")
