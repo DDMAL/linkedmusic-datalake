@@ -51,7 +51,7 @@ from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import XSD
+from rdflib.namespace import XSD, RDF
 import pandas as pd
 import aiofiles
 from url_patterns import DATABASES_REGEX
@@ -63,6 +63,7 @@ WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
 # This namespace is to encode coordinates like Wikidata does
 GEO = Namespace("http://www.opengis.net/ont/geosparql#")
+LMMB = Namespace("https://linkedmusic.ca/graphs/musicbrainz/")
 MB = Namespace("https://musicbrainz.org/")
 # Define MusicBrainz namespaces, to save space in exported RDF
 MBAE = Namespace(f"{MB}area/")
@@ -153,6 +154,14 @@ def convert_datetime(date_str: str, time_str: str) -> Literal:
         return Literal(date_str)  # Fallback to a plain literal if conversion fails
 
 
+def dashes_to_upper_camel(string: str) -> str:
+    """
+    Convert a string with dashes to UpperCamelCase.
+    Example: "release-group" -> "ReleaseGroup"
+    """
+    return "".join(word.capitalize() for word in string.split("-"))
+
+
 def process_line(
     data,
     entity_type,
@@ -169,6 +178,9 @@ def process_line(
 
     # Create subject URI
     subject_uri = URIRef(f"https://musicbrainz.org/{entity_type}/{entity_id}")
+
+    # Add the entity type, use UpperCamelCase for entity type
+    g.add((subject_uri, RDF.type, LMMB[dashes_to_upper_camel(entity_type)]))
 
     # Process id
     g.add((subject_uri, mb_schema[f"{entity_type}-id"], Literal(entity_id)))
@@ -921,7 +933,7 @@ def main(args):
         "wdt": WDT,
         "wd": WD,
         "geo": GEO,
-        "mb": MB,
+        "mb": LMMB,
         "mbae": MBAE,
         "mbat": MBAT,
         "mbcd": MBCD,
