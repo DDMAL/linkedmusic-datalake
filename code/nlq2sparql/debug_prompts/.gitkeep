@@ -1,0 +1,3 @@
+# This file ensures the debug_prompts directory is tracked by git
+# The actual .txt files in this directory are ignored via .gitignore
+# This directory is used for storing debug prompt outputs during development
