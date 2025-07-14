@@ -28,7 +28,8 @@ def main():
     test_files = [
         "tests/test_config.py",
         "tests/test_providers.py", 
-        "tests/test_comprehensive.py"
+        "tests/test_comprehensive.py",
+        "tests/test_public_api.py"
     ]
     
     all_passed = True
