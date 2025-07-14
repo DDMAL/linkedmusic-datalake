@@ -6,10 +6,12 @@ Tests the essential provider functionality without unnecessary complexity.
 
 import pytest
 from unittest.mock import Mock, patch
-from pathlib import Path
 import sys
+from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add parent directory to path for imports
+if str(Path(__file__).parent.parent) not in sys.path:
+    sys.path.append(str(Path(__file__).parent.parent))
 
 try:
     from providers.base import BaseLLMClient, ConfigurationError, APIError

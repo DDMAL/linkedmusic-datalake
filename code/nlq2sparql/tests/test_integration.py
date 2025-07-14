@@ -7,10 +7,12 @@ Focuses on what users actually interact with.
 
 import pytest
 from unittest.mock import Mock, patch
-from pathlib import Path
 import sys
+from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add parent directory to path for imports
+if str(Path(__file__).parent.parent) not in sys.path:
+    sys.path.append(str(Path(__file__).parent.parent))
 
 from cli import main
 from arguments import ArgumentHandler

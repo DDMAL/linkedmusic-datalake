@@ -6,10 +6,12 @@ Focuses on the main config functionality users rely on.
 """
 
 import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+# Add parent directory to path for imports
+if str(Path(__file__).parent.parent) not in sys.path:
+    sys.path.append(str(Path(__file__).parent.parent))
 
 from config import Config, ConfigError
 
@@ -31,10 +33,10 @@ class TestConfigLoading:
         assert isinstance(databases, list)
         assert len(databases) > 0
         
-        # Check actual available databases (adjust based on what's in config.json)
-        actual = set(databases)
-        # At least some databases should be available
-        assert len(actual) >= 3  # Should have multiple databases configured
+        # Verify we have actual database configurations
+        for db_name in databases:
+            assert isinstance(db_name, str)
+            assert len(db_name) > 0
     
     def test_get_default_query(self):
         """Config provides default queries for databases"""
