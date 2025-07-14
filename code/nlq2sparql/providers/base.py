@@ -4,7 +4,7 @@ Base class for LLM provider clients
 
 import logging
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 
 try:
     from ..prompts import build_sparql_generation_prompt
@@ -39,8 +39,24 @@ class BaseLLMClient(ABC):
         # Get provider name from class name (e.g., "GeminiClient" -> "gemini")
         self.provider_name = self._get_provider_name()
         
-        # Validate configuration
+        # Validate configuration and setup provider
         self._validate_configuration()
+        self._setup_provider()
+    
+    @abstractmethod
+    def get_required_config_fields(self) -> List[str]:
+        """Return list of required configuration fields for this provider"""
+        pass
+    
+    @abstractmethod
+    def get_package_name(self) -> str:
+        """Return the package name to import for this provider"""
+        pass
+    
+    @abstractmethod
+    def get_install_command(self) -> str:
+        """Return the command to install the required package"""
+        pass
     
     def _get_provider_name(self) -> str:
         """Extract provider name from class name"""
@@ -68,7 +84,56 @@ class BaseLLMClient(ABC):
                 f"{self.provider_name.title()} provider configuration not found in config.json"
             )
         
+        # Validate required fields
+        required_fields = self.get_required_config_fields()
+        missing_fields = [field for field in required_fields if field not in provider_config]
+        if missing_fields:
+            raise ConfigurationError(
+                f"Missing required {self.provider_name.title()} configuration fields: {missing_fields}"
+            )
+        
         self.logger.info(f"Configuration validated for {self.provider_name} provider")
+    
+    def _setup_provider(self) -> None:
+        """Setup provider-specific configuration and validate parameters"""
+        # Get provider configuration
+        provider_config = self._get_provider_config()
+        
+        # Store API key
+        self.api_key = self.config.get_api_key(self.provider_name)
+        
+        # Store common configuration parameters
+        self.model = provider_config.get("model")
+        self.temperature = provider_config.get("temperature")
+        self.max_tokens = provider_config.get("max_tokens")
+        
+        # Validate common parameters
+        if self.temperature is not None:
+            if not isinstance(self.temperature, (int, float)) or not (0 <= self.temperature <= 2):
+                raise ConfigurationError(
+                    f"{self.provider_name.title()} temperature must be a number between 0 and 2"
+                )
+        
+        if self.max_tokens is not None:
+            if not isinstance(self.max_tokens, int) or self.max_tokens <= 0:
+                raise ConfigurationError(
+                    f"{self.provider_name.title()} max_tokens must be a positive integer"
+                )
+        
+        # Initialize client as None - will be lazy loaded in _call_llm_api
+        self.client = None
+        
+        self.logger.info(f"Initialized {self.provider_name.title()} client with model: {self.model}")
+    
+    def _ensure_package_installed(self) -> None:
+        """Ensure the required package is installed, with helpful error message"""
+        try:
+            __import__(self.get_package_name())
+        except ImportError:
+            raise ImportError(
+                f"{self.get_package_name()} package not installed. "
+                f"Install with: {self.get_install_command()}"
+            )
     
     @abstractmethod
     def _call_llm_api(self, prompt: str, verbose: bool = False) -> str:

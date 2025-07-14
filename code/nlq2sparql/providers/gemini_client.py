@@ -3,7 +3,7 @@ Google Gemini client for NLQ to SPARQL conversion
 """
 
 import logging
-from typing import Optional, Any
+from typing import List
 
 try:
     from .base import BaseLLMClient, APIError, ConfigurationError
@@ -16,58 +16,39 @@ except ImportError:
 class GeminiClient(BaseLLMClient):
     """Client for Google Gemini API"""
     
-    def __init__(self, config: Config):
-        super().__init__(config)
-        
-        # Get provider configuration
-        provider_config = self._get_provider_config()
-        
-        # Validate required config fields
-        required_fields = ["model", "temperature"]
-        missing_fields = [field for field in required_fields if field not in provider_config]
-        if missing_fields:
-            raise ConfigurationError(
-                f"Missing required Gemini configuration fields: {missing_fields}"
-            )
-        
-        # Store configuration
-        self.api_key = self.config.get_api_key(self.provider_name)
-        self.model_name = provider_config["model"]
-        self.temperature = provider_config["temperature"]
-        
-        # Validate configuration values
-        if not isinstance(self.temperature, (int, float)) or not (0 <= self.temperature <= 1):
-            raise ConfigurationError("Gemini temperature must be a number between 0 and 1")
-        
-        # Initialize model lazily in _call_llm_api
-        self.model = None
-        
-        self.logger.info(f"Initialized Gemini client with model: {self.model_name}")
+    def get_required_config_fields(self) -> List[str]:
+        """Return required configuration fields for Gemini"""
+        return ["model", "temperature"]
+    
+    def get_package_name(self) -> str:
+        """Return the package name for Gemini"""
+        return "google.generativeai"
+    
+    def get_install_command(self) -> str:
+        """Return install command for Gemini"""
+        return "poetry add google-generativeai"
     
     def _call_llm_api(self, prompt: str, verbose: bool = False) -> str:
         """Make API call to Gemini"""
-        try:
-            import google.generativeai as genai
-        except ImportError:
-            raise ImportError(
-                "google-generativeai package not installed. "
-                "Install with: poetry add google-generativeai"
-            )
+        self._ensure_package_installed()
+        
+        # Import here to avoid dependency issues
+        import google.generativeai as genai
         
         # Initialize model if not already done
-        if self.model is None:
+        if self.client is None:
             try:
                 genai.configure(api_key=self.api_key)
-                self.model = genai.GenerativeModel(self.model_name)
+                self.client = genai.GenerativeModel(self.model)
                 self.logger.debug("Gemini model initialized successfully")
             except Exception as e:
                 raise APIError(f"Failed to initialize Gemini model: {e}")
         
         try:
             if verbose:
-                print(f"Calling Gemini API with model: {self.model_name}")
+                print(f"Calling Gemini API with model: {self.model}")
             
-            response = self.model.generate_content(
+            response = self.client.generate_content(
                 prompt,
                 generation_config=genai.types.GenerationConfig(
                     temperature=self.temperature
