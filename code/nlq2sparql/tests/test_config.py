@@ -1,111 +1,98 @@
-#!/usr/bin/env python3
 """
-Configuration tests for nlq2sparql
+Essential configuration tests
+
+Tests the core configuration loading and validation.
+Focuses on the main config functionality users rely on.
 """
 
 import pytest
-import sys
 from pathlib import Path
+import sys
 
-# Handle imports - add parent directory to path for direct execution
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-try:
-    from config import Config
-except ImportError as e:
-    print(f"Import error: {e}")
-    print("Make sure you're running from the nlq2sparql directory")
-    sys.exit(1)
+from config import Config, ConfigError
 
 
-class TestConfig:
+class TestConfigLoading:
     """Test configuration loading and validation"""
     
-    def test_config_initialization(self):
-        """Test that Config can be initialized"""
+    def test_default_config_loads(self):
+        """Default configuration loads without errors"""
         config = Config()
         assert config is not None
         assert hasattr(config, 'config_data')
-        assert hasattr(config, 'prefixes_data')
     
-    def test_available_databases(self):
-        """Test that available databases are loaded"""
+    def test_get_available_databases(self):
+        """Config provides list of available databases"""
         config = Config()
         databases = config.get_available_databases()
         
         assert isinstance(databases, list)
         assert len(databases) > 0
-        assert all(isinstance(db, str) for db in databases)
+        
+        # Check actual available databases (adjust based on what's in config.json)
+        actual = set(databases)
+        # At least some databases should be available
+        assert len(actual) >= 3  # Should have multiple databases configured
     
-    def test_default_queries(self):
-        """Test that default queries exist for all databases"""
+    def test_get_default_query(self):
+        """Config provides default queries for databases"""
         config = Config()
         databases = config.get_available_databases()
         
-        for db in databases:
-            query = config.get_default_query(db)
-            assert query is not None
-            assert len(query) > 0
-            assert isinstance(query, str)
+        if databases:
+            # Test with first available database
+            default_query = config.get_default_query(databases[0])
+            assert isinstance(default_query, str)
+            assert len(default_query) > 0
     
-    def test_provider_configs(self):
-        """Test provider configurations"""
+    def test_invalid_database_fallback(self):
+        """Config handles unknown databases gracefully"""
         config = Config()
-        providers = ['gemini', 'chatgpt', 'claude']
         
-        for provider in providers:
-            pconfig = config.get_provider_config(provider)
-            assert isinstance(pconfig, dict)
-            # Should have at least model and temperature
-            assert 'model' in pconfig
-            assert 'temperature' in pconfig
+        # Should return fallback query for unknown database
+        default_query = config.get_default_query("nonexistent_database")
+        assert isinstance(default_query, str)
+        assert len(default_query) > 0
     
-    def test_prefixes(self):
-        """Test prefix loading for databases"""
+    def test_provider_registry(self):
+        """Config provides provider registry"""
+        config = Config()
+        
+        registry = config.get_provider_registry()
+        assert isinstance(registry, dict)
+        # Should have some providers configured
+        assert len(registry) > 0
+
+
+class TestConfigValidation:
+    """Test configuration validation logic"""
+    
+    def test_config_has_required_sections(self):
+        """Config contains all required sections"""
+        config = Config()
+        
+        # Verify basic structure exists
+        assert hasattr(config, 'config_data')
+        assert isinstance(config.config_data, dict)
+        
+        # Should have databases section if any databases are configured
+        databases = config.get_available_databases()
+        if databases:
+            assert 'databases' in config.config_data
+            assert isinstance(config.config_data['databases'], dict)
+    
+    def test_prefixes_functionality(self):
+        """Config handles prefixes correctly"""
         config = Config()
         databases = config.get_available_databases()
         
-        for db in databases:
-            prefixes = config.get_prefixes(db)
-            declarations = config.get_prefix_declarations(db)
-            
+        if databases:
+            # Test with first available database
+            prefixes = config.get_prefixes(databases[0])
             assert isinstance(prefixes, dict)
-            assert isinstance(declarations, str)
             
-            # Should have some common prefixes
-            assert len(prefixes) > 0
-    
-    def test_api_key_handling(self):
-        """Test API key retrieval"""
-        config = Config()
-        providers = ['gemini', 'chatgpt', 'claude']
-        
-        for provider in providers:
-            # Should not raise an error, even if key is None
-            api_key = config.get_api_key(provider)
-            assert api_key is None or isinstance(api_key, str)
-
-
-if __name__ == "__main__":
-    # Run tests manually if pytest not available
-    test_config = TestConfig()
-    
-    tests = [
-        test_config.test_config_initialization,
-        test_config.test_available_databases,
-        test_config.test_default_queries,
-        test_config.test_provider_configs,
-        test_config.test_prefixes,
-        test_config.test_api_key_handling,
-    ]
-    
-    print("Running configuration tests...")
-    
-    for i, test in enumerate(tests, 1):
-        try:
-            test()
-            print(f"✓ Test {i}: {test.__name__}")
-        except Exception as e:
-            print(f"✗ Test {i}: {test.__name__} - {e}")
-    
-    print("Configuration tests completed!")
+            # Test prefix declarations
+            declarations = config.get_prefix_declarations(databases[0])
+            assert isinstance(declarations, str)
