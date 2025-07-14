@@ -24,34 +24,87 @@ class PromptDebugClient(BaseLLMClient):
     def __init__(self, config):
         super().__init__(config)
         self.captured_prompt = None
+        self.last_query_info = {}
     
     def _call_llm_api(self, prompt: str, verbose: bool = False) -> str:
         """Capture the prompt instead of calling an API"""
         self.captured_prompt = prompt
+        
+        # Save prompt to file immediately when captured
+        self._save_prompt_to_file()
+        
         return "DEBUG_MODE_NO_API_CALL"
     
-    def capture_prompt(self, nlq: str, database: str, ontology_file=None):
-        """Capture the prompt that would be sent to the LLM and save it to a file"""
+    def _extract_keywords(self, text: str, max_words: int = 4) -> str:
+        """Extract key terms from natural language query for filename"""
+        # Common English stop words to remove
+        stop_words = {
+            'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 
+            'he', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'was', 
+            'will', 'with', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 
+            'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 
+            'so', 'than', 'too', 'very', 'can', 'will', 'just', 'should', 'now',
+            'show', 'me', 'get', 'find', 'return', 'give', 'list', 'display'
+        }
+        
+        # First, handle special compound terms (like musical keys)
+        text_lower = text.lower()
+        
+        # Look for musical keys and preserve them as single terms
+        import re
+        # Match patterns like "D major", "C# minor", "Bb major", etc.
+        key_pattern = r'\b([a-g][#b]?)\s+(major|minor)\b'
+        keys = re.findall(key_pattern, text_lower)
+        key_terms = [f"{note}{mode}" for note, mode in keys]
+        
+        # Remove the matched key patterns from text to avoid double-processing
+        text_cleaned = re.sub(key_pattern, '', text_lower)
+        
+        # Clean and split the remaining text
+        words = text_cleaned.replace('-', ' ').split()
+        
+        # Filter out stop words and keep meaningful terms
+        keywords = []
+        
+        # Add preserved key terms first
+        for key_term in key_terms:
+            keywords.append(key_term)
+            if len(keywords) >= max_words:
+                break
+        
+        # Add other meaningful words
+        if len(keywords) < max_words:
+            for word in words:
+                # Remove punctuation and keep only alphanumeric
+                clean_word = ''.join(c for c in word if c.isalnum())
+                if clean_word and clean_word not in stop_words and len(clean_word) > 1:  # Changed from >2 to >1 to keep single meaningful chars
+                    keywords.append(clean_word)
+                    if len(keywords) >= max_words:
+                        break
+        
+        # Join with underscores, limit total length
+        result = '_'.join(keywords)
+        return result[:30] if result else 'query'  # Fallback and length limit
+    
+    def generate_sparql(self, nlq: str, database: str, ontology_context: str = "", verbose: bool = False) -> str:
+        """Override to store query info before calling parent method"""
+        # Store info for filename generation
+        self.last_query_info = {
+            'nlq': nlq,
+            'database': database,
+            'ontology_context': ontology_context
+        }
+        
+        # Call parent method which will trigger _call_llm_api where we capture the prompt
+        return super().generate_sparql(nlq, database, ontology_context, verbose)
+    
+    def _save_prompt_to_file(self):
+        """Save the captured prompt to a file"""
         from pathlib import Path
-        import os
         from datetime import datetime
-        try:
-            from .prompts import build_sparql_generation_prompt
-        except ImportError:
-            from prompts import build_sparql_generation_prompt
         
-        # Generate the prompt using the same logic as production
-        prefix_declarations = self.config.get_prefix_declarations(database)
-        ontology_context = ""
-        if ontology_file:
-            # Read ontology file if provided
-            try:
-                with open(ontology_file, 'r') as f:
-                    ontology_context = f.read()
-            except Exception as e:
-                print(f"Warning: Could not read ontology file {ontology_file}: {e}")
-        
-        prompt = build_sparql_generation_prompt(nlq, database, prefix_declarations, ontology_context)
+        if not self.captured_prompt or not self.last_query_info:
+            return ""
         
         # Create output directory
         output_dir = Path("debug_prompts")
@@ -59,21 +112,25 @@ class PromptDebugClient(BaseLLMClient):
         
         # Generate filename with timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        safe_query = "".join(c for c in nlq if c.isalnum() or c in (' ', '-', '_')).rstrip()
-        safe_query = safe_query.replace(' ', '_')[:50]  # Limit length
-        filename = f"prompt_{database}_{safe_query}_{timestamp}.txt"
+        keywords = self._extract_keywords(self.last_query_info['nlq'])
+        filename = f"prompt_{self.last_query_info['database']}_{keywords}_{timestamp}.txt"
         
         # Save prompt to file
         output_file = output_dir / filename
         with open(output_file, 'w', encoding='utf-8') as f:
-            f.write(f"Database: {database}\n")
-            f.write(f"Query: {nlq}\n")
-            f.write(f"Ontology file: {ontology_file}\n")
-            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
+            # Format timestamp with timezone shown separately
+            dt_with_tz = datetime.now().astimezone()
+            timezone_name = dt_with_tz.strftime("%Z")  # e.g., "EDT", "PDT", "UTC"
+            timestamp_formatted = dt_with_tz.strftime("%Y-%m-%d %H:%M:%S")
+            
+            f.write(f"Database: {self.last_query_info['database']}\n")
+            f.write(f"Query: {self.last_query_info['nlq']}\n")
+            f.write(f"Ontology context: {'Yes' if self.last_query_info['ontology_context'] else 'None'}\n")
+            f.write(f"Timestamp ({timezone_name}): {timestamp_formatted}\n")
             f.write("=" * 80 + "\n")
-            f.write("PROMPT:\n")
+            f.write("PROMPT SENT TO LLM:\n")
             f.write("=" * 80 + "\n")
-            f.write(prompt)
+            f.write(self.captured_prompt)
         
         return str(output_file)
 
@@ -175,14 +232,24 @@ def main():
         
         # Handle debug prompt mode
         if args.debug_prompt:
+            # Use the debug client through the router to follow the same code path
+            router = QueryRouter(config)
+            # Temporarily replace the provider client with our debug client
             debug_client = PromptDebugClient(config)
-            prompt_file = debug_client.capture_prompt(
+            router.provider_clients[args.provider] = debug_client
+            
+            sparql_query = router.process_query(
                 nlq=query,
+                provider=args.provider,
                 database=args.database,
-                ontology_file=args.ontology_file
+                ontology_file=args.ontology_file,
+                verbose=args.verbose
             )
-            print(f"Prompt captured and saved to: {prompt_file}")
+            
+            # The debug client automatically saves the prompt during the process
+            print(f"Prompt captured and saved to debug_prompts/")
             print(f"Query processed: {query}")
+            print(f"Debug response: {sparql_query}")
         else:
             # Initialize router and process query normally
             router = QueryRouter(config)
