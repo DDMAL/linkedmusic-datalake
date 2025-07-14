@@ -4,7 +4,6 @@ psqldump
 .DS_Store
 .history/*
 
-# Debug prompt files from nlq2sparql - local debugging artifacts
 code/nlq2sparql/debug_prompts/*.txt
 
 *.sql*
