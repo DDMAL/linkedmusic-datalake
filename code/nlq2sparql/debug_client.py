@@ -43,7 +43,7 @@ class PromptDebugClient(BaseLLMClient):
         return super().generate_sparql(nlq, database, ontology_context, verbose)
     
     def _extract_keywords(self, text: str, max_words: int = 4) -> str:
-        """Extract key terms from natural language query for filename"""
+        """Extract key terms from natural language query to simplify output filenames"""
         # Common English stop words to remove
         stop_words = {
             'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 

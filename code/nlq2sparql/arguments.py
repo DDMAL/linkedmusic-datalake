@@ -2,7 +2,6 @@
 Command-line argument handling for NLQ to SPARQL generator
 
 This module handles all argument parsing, validation, and processing for the CLI.
-Separated from main CLI to keep concerns focused and code organized.
 """
 
 import argparse
