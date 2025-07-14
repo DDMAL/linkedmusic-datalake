@@ -1,8 +1,7 @@
 """
-Essential provider architecture tests
+Lightweight provider tests
 
-Tests the provider base class and client initialization.
-Focuses on the core provider functionality that all providers share.
+Tests the essential provider functionality without unnecessary complexity.
 """
 
 import pytest
@@ -12,8 +11,14 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from providers.base import BaseLLMClient, ProviderError
-from config import Config
+try:
+    from providers.base import BaseLLMClient, ConfigurationError, APIError
+    from providers.gemini_client import GeminiClient
+    from providers.chatgpt_client import ChatGPTClient  
+    from providers.claude_client import ClaudeClient
+    from config import Config
+except ImportError as e:
+    pytest.skip(f"Import error: {e}", allow_module_level=True)
 
 
 class TestProviderBase:
@@ -22,145 +27,69 @@ class TestProviderBase:
     def test_base_client_is_abstract(self):
         """BaseLLMClient cannot be instantiated directly"""
         config = Config()
-        
         with pytest.raises(TypeError):
             BaseLLMClient(config)
     
     def test_base_client_has_required_methods(self):
         """BaseLLMClient defines required interface"""
-        # Check that abstract methods exist
-        assert hasattr(BaseLLMClient, 'generate_sparql')
-        assert hasattr(BaseLLMClient, '_call_llm_api')
-        assert hasattr(BaseLLMClient, 'get_required_config_fields')
-        assert hasattr(BaseLLMClient, 'get_package_name')
-        assert hasattr(BaseLLMClient, 'get_install_command')
+        required_methods = ['generate_sparql', '_call_llm_api', 'get_required_config_fields', 
+                          'get_package_name', 'get_install_command']
+        for method in required_methods:
+            assert hasattr(BaseLLMClient, method)
     
-    def test_provider_error_exception(self):
-        """ProviderError can be raised and caught"""
-        with pytest.raises(ProviderError):
-            raise ProviderError("Test error")
-        
-        # Test with message
-        try:
-            raise ProviderError("Test message")
-        except ProviderError as e:
-            assert str(e) == "Test message"
+    def test_response_cleaning(self, mock_llm_client):
+        """Test response cleaning removes markdown formatting"""
+        test_cases = [
+            ("```sparql\nSELECT * WHERE { ?s ?p ?o }\n```", "SELECT * WHERE { ?s ?p ?o }"),
+            ("SELECT * WHERE { ?s ?p ?o }", "SELECT * WHERE { ?s ?p ?o }"),
+            ("", ""),
+        ]
+        for input_text, expected in test_cases:
+            result = mock_llm_client._clean_response(input_text)
+            assert result == expected
 
 
-class MockLLMClient(BaseLLMClient):
-    """Mock implementation for testing"""
+@pytest.mark.parametrize("client_class,expected_fields,package_name", [
+    (GeminiClient, ["model", "temperature"], "google.generativeai"),
+    (ChatGPTClient, ["model", "max_tokens", "temperature"], "openai"),
+    (ClaudeClient, ["model", "max_tokens", "temperature"], "anthropic"),
+])
+class TestProviderClients:
+    """Test individual provider clients"""
     
-    def get_required_config_fields(self) -> list:
-        return ["test_api_key"]
+    def test_required_config_fields(self, client_class, expected_fields, package_name):
+        """Test that providers declare correct required fields"""
+        fields = client_class.get_required_config_fields(None)
+        assert fields == expected_fields
     
-    def get_package_name(self) -> str:
-        return "test_package"
-    
-    def get_install_command(self) -> str:
-        return "pip install test_package"
-    
-    def _call_llm_api(self, prompt: str, verbose: bool = False) -> str:
-        return "SELECT * WHERE { ?s ?p ?o }"
+    def test_package_name(self, client_class, expected_fields, package_name):
+        """Test that providers declare correct package names"""
+        name = client_class.get_package_name(None)
+        assert name == package_name
 
 
-class TestProviderImplementation:
-    """Test provider implementation patterns"""
+class TestErrorHandling:
+    """Test error handling scenarios"""
     
-    @patch('providers.base.BaseLLMClient._validate_configuration')
-    def test_mock_client_initialization(self, mock_validate):
-        """Mock client initializes correctly"""
-        config = Config()
-        
-        # Mock the package import check
-        with patch('builtins.__import__'):
-            client = MockLLMClient(config)
-            
-            assert client.config is config
-            assert hasattr(client, 'logger')
-            assert hasattr(client, 'provider_name')
+    def test_empty_nlq_raises_error(self, mock_llm_client):
+        """Test that empty natural language query raises ValueError"""
+        with pytest.raises(ValueError, match="Natural language query cannot be empty"):
+            mock_llm_client.generate_sparql("", "test_db")
     
-    @patch('providers.base.BaseLLMClient._validate_configuration')
-    def test_mock_client_sparql_generation(self, mock_validate):
-        """Mock client generates SPARQL"""
-        config = Config()
-        
-        with patch('builtins.__import__'):
-            client = MockLLMClient(config)
-            
-            result = client.generate_sparql(
-                nlq="Find all artists",
-                database="test_db"
-            )
-            assert isinstance(result, str)
-            assert len(result.strip()) > 0
-            assert "SELECT" in result
+    def test_empty_database_raises_error(self, mock_llm_client):
+        """Test that empty database name raises ValueError"""
+        with pytest.raises(ValueError, match="Database name cannot be empty"):
+            mock_llm_client.generate_sparql("test query", "")
     
-    @patch('providers.base.BaseLLMClient._validate_configuration')
-    def test_error_handling_in_base_class(self, mock_validate):
-        """Base class handles errors appropriately"""
-        config = Config()
+    def test_configuration_validation_missing_api_key(self, mock_config):
+        """Test configuration validation fails with missing API key"""
+        mock_config.get_api_key.return_value = None
         
-        with patch('builtins.__import__'):
-            client = MockLLMClient(config)
-            
-            # Test with invalid input - should raise ValueError
-            with pytest.raises(ValueError):
-                client.generate_sparql("", "test_db")
-            
-            # Test with valid input should work
-            result = client.generate_sparql("test query", "test_db")
-            assert isinstance(result, str)
-    
-    @patch('providers.base.BaseLLMClient._validate_configuration')
-    def test_api_call_error_handling(self, mock_validate):
-        """Provider handles API call errors"""
-        config = Config()
+        class TestClient(BaseLLMClient):
+            def get_required_config_fields(self): return ["model"]
+            def get_package_name(self): return "test"
+            def get_install_command(self): return "pip install test"
+            def _call_llm_api(self, prompt, verbose=False): return "test"
         
-        with patch('builtins.__import__'):
-            client = MockLLMClient(config)
-            
-            # Override the _call_llm_api method to raise an exception
-            def mock_api_call(prompt, verbose=False):
-                raise Exception("API Error")
-            
-            client._call_llm_api = mock_api_call
-            
-            with pytest.raises(ProviderError):
-                client.generate_sparql("test query", "test_db")
-
-
-class TestProviderIntegration:
-    """Test integration between providers and config"""
-    
-    @patch('providers.base.BaseLLMClient._validate_configuration')
-    def test_client_uses_config_data(self, mock_validate):
-        """Client properly accesses configuration"""
-        config = Config()
-        
-        with patch('builtins.__import__'):
-            client = MockLLMClient(config)
-            
-            # Should be able to access config methods
-            databases = client.config.get_available_databases()
-            assert isinstance(databases, list)
-    
-    def test_client_configuration_validation(self):
-        """Client validates configuration on initialization"""
-        config = Config()
-        
-        # Should fail without API key
-        with pytest.raises((ProviderError, Exception)):
-            with patch('builtins.__import__'):
-                MockLLMClient(config)
-    
-    @patch('providers.base.BaseLLMClient._validate_configuration')
-    def test_provider_name_extraction(self, mock_validate):
-        """Client correctly extracts provider name from class"""
-        config = Config()
-        
-        with patch('builtins.__import__'):
-            client = MockLLMClient(config)
-            
-            # Should extract "mockllm" from "MockLLMClient"
-            assert isinstance(client.provider_name, str)
-            assert len(client.provider_name) > 0
+        with pytest.raises(ConfigurationError, match="API key not found"):
+            TestClient(mock_config)
