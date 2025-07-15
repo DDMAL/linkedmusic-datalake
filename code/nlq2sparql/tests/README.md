@@ -8,6 +8,8 @@ Lightweight test suite for the NLQ-to-SPARQL system using modern pytest.
 - **test_providers.py**: Provider base class and client tests  
 - **test_integration.py**: CLI and end-to-end functionality
 - **test_query_processing.py**: Query routing and processing
+- **test_wikidata_tool.py**: Wikidata tool functions (minimal mocked tests)
+- **test_wikidata_agent.py**: Wikidata agent class (delegation tests)
 - **conftest.py**: Simple shared fixtures
 
 ## Running Tests
