@@ -51,10 +51,14 @@ class TestQueryProcessing:
         with pytest.raises(ValueError, match="Unknown provider"):
             router._get_client("nonexistent_provider")
     
-    def test_router_handles_missing_api_keys(self):
+    def test_router_handles_missing_api_keys(self, mock_config):
         """Router handles missing API keys gracefully"""
-        config = Config()
-        router = QueryRouter(config)
+        # Mock config to return None for API key
+        mock_config.get_api_key.return_value = None
+        mock_config.get_provider_registry.return_value = {"gemini": "providers.gemini_client.GeminiClient"}
+        mock_config.validate_configuration.return_value = True
+        
+        router = QueryRouter(mock_config)
         
         # Should fail due to missing API keys, but with proper error
         with pytest.raises(RouterError, match="Failed to create.*client"):
