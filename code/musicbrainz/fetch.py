@@ -4,7 +4,9 @@ fetch the latest test data dump files
 
 import os
 import time
+import argparse
 import requests
+
 
 def get_latest_json_dump_url():
     """
@@ -12,7 +14,10 @@ def get_latest_json_dump_url():
     """
     resp = requests.get(URL, timeout=50)
     resp.raise_for_status()
-    return "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/" + resp.text.strip()
+    return (
+        "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/"
+        + resp.text.strip()
+    )
 
 
 def fetch_api_call(url):
@@ -21,7 +26,9 @@ def fetch_api_call(url):
     """
 
     for file in tar_xz_files:
-        file_path = os.path.join(url, file)
+        file_path = (
+            url + file if url.endswith("/") else url + "/" + file
+        )  # Safer than os.path.join because Windows uses \
         local_path = os.path.join(RAW_PATH, file)
         with requests.get(file_path, stream=True, timeout=50) as r:
             r.raise_for_status()
@@ -45,11 +52,22 @@ tar_xz_files = [
     "release-group.tar.xz",
     "release.tar.xz",
     "series.tar.xz",
-    "work.tar.xz"
+    "work.tar.xz",
 ]
 URL = "https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/LATEST"
-RAW_PATH = "./data/musicbrainz/raw/archived/"
-if not os.path.exists(RAW_PATH):
-    os.makedirs(RAW_PATH)
-latest_url = get_latest_json_dump_url()
-fetch_api_call(latest_url)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Fetch the latest MusicBrainz JSON dump files."
+    )
+    parser.add_argument(
+        "--output_folder",
+        default="../../data/musicbrainz/raw/archived/",
+        help="Path to save the downloaded files.",
+    )
+    args = parser.parse_args()
+    RAW_PATH = args.output_folder
+    if not os.path.exists(RAW_PATH):
+        os.makedirs(RAW_PATH)
+    latest_url = get_latest_json_dump_url()
+    fetch_api_call(latest_url)

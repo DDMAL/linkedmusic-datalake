@@ -1,10 +1,11 @@
 # DIAMM Database Data Layout
 
-This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual entity is received as a JSON file describing it.
+This file clarifies and explains the data layout of the DIAMM database, as it is received by the fetching script. Each individual object is received as a JSON file describing it. Each entity type has its own JSON structure and different fields, which are described below.
 
-In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key)
+In addition to the fields described below, all entity types have `url` and `pk` fields, which respectively indicate the URL/URI of that entity, and its DIAMM ID (or primary key).
 
-The fields of `related` items (e.g. `related_sources`) are unclear, the issue [#313](https://github.com/DDMAL/linkedmusic-datalake/issues/313) has been created to address this and hopefully improve our handling of it.
+The `related_source` field for both `organizations` and `people` contains relationships between those entities and `sources` (e.g. owner, discovered by, etc). Each relationship contains the entity it links to, as well as the type of relationship it is.  
+The `relationships` field for `sources` is very similar, containing relationships between the set and `organizations` and `people`. Each relationship contains the entity it links to (and its type), as well as the type of relationship.
 
 ## Archives
 
@@ -33,13 +34,12 @@ The fields of `related` items (e.g. `related_sources`) are unclear, the issue [#
 ## Countries
 
 - `cities` is a list of cities in that country
-- `regions` is a list of regions in that country
-- `states` is a list of states in that country
+- `regions` and `states` are a list of regions in that country
 
 ## Organizations
 
 - `organization_type` is the type of organization
-- `related_sources` is a list of related sources
+- `related_sources` is a list of related sources, that also contains information about the relationship type
 - `copied_sources` is a list of sources that were copied at that organization
 - `source_provenance` is a list of sources whose provenance is this organization
 - `location` is the city in which the organization is located
@@ -47,13 +47,14 @@ The fields of `related` items (e.g. `related_sources`) are unclear, the issue [#
 ## People
 
 - `compositions` is the list of compositions that they wrote
-- `related_sources`, `copied_sources` and `uninventoried_items` contain a list of sources. `uninventoried_items` seems to be a catch-all for sources that don't fit in the other 2 lists
+- `related_sources`, `copied_sources` and `uninventoried_items` contain a list of sources. `uninventoried_items` seems to be a catch-all for sources that don't fit in the other 2 lists. `related_sources` also contains information about the relationship type
 - `identifiers` has 3rd party identifiers (RISM, VIAF, GNS, Wikidata)
 
 ## Regions
 
-This designates administrative regions between cities and countries (think provinces). It seems to be rarely used
+This designates administrative regions between cities and countries (think provinces). It does not always seem to be used.
 
+- `organizations` is a list of organizations in that region
 - `cities` is a list of cities in the region
 - `provenance` is a list of sources that came from this region
 
@@ -74,3 +75,4 @@ This designates administrative regions between cities and countries (think provi
 - `bibliography` is unclear
 - `identifiers` is 3rd-party identifiers
 - `notes` are a list of notes, the pks here are unclear
+- `relationships` is a list of relationships to `people` and `organizations`, they are the complement of those entity types' `related_sources` fields

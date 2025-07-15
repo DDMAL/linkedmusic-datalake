@@ -11,4 +11,6 @@ rdb2rdf/
 *.jsonl
 *.csv
 *.ttl
+store/
+store-*/
 *.log

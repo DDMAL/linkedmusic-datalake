@@ -1,0 +1,1563 @@
+[
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Region",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q82794",
+        "name": "geographic region"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Region to type Q82794"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Region: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Region",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "Region: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "Region",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Region",
+    "description": "Match each cell to its best recon candidate in column Region"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Region: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Region",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Region",
+    "similarValue": "North Eurasia",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5401",
+      "name": "Eurasia",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Eurasia (Q5401) for cells containing \"North Eurasia\" in column Region"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Division",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q82794",
+        "name": "geographic region"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Division to type Q82794"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Division",
+    "similarValue": "Central Africa",
+    "judgment": "matched",
+    "match": {
+      "id": "Q27433",
+      "name": "Central Africa",
+      "types": [
+        "Q82794",
+        "Q3502482",
+        "Q7631958"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Central Africa (Q27433) for cells containing \"Central Africa\" in column Division"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Division: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Division",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Division",
+    "similarValue": "Northern Territory",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3235",
+      "name": "Northern Territory",
+      "types": [
+        "Q14192234"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Northern Territory (Q3235) for cells containing \"Northern Territory\" in column Division"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Division: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Division",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Division",
+    "similarValue": "Mexico",
+    "judgment": "matched",
+    "match": {
+      "id": "Q96",
+      "name": "Mexico",
+      "types": [
+        "Q3624078",
+        "Q6256",
+        "Q512187",
+        "Q5255892",
+        "Q1520223",
+        "Q6266",
+        "Q48349",
+        "Q48349",
+        "Q611214"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mexico (Q96) for cells containing \"Mexico\" in column Division"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Division: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Division",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Division",
+    "similarValue": "Canada",
+    "judgment": "matched",
+    "match": {
+      "id": "Q16",
+      "name": "Canada",
+      "types": [
+        "Q3624078",
+        "Q6256",
+        "Q223832",
+        "Q202686",
+        "Q43702"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Canada (Q16) for cells containing \"Canada\" in column Division"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Division: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Division",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Division",
+    "similarValue": "New Zealand",
+    "judgment": "matched",
+    "match": {
+      "id": "Q664",
+      "name": "New Zealand",
+      "types": [
+        "Q202686",
+        "Q3624078",
+        "Q6256",
+        "Q112099",
+        "Q223832",
+        "Q1351282",
+        "Q63438000"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item New Zealand (Q664) for cells containing \"New Zealand\" in column Division"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Division: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Division",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Division",
+    "similarValue": "Middle East",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7204",
+      "name": "Middle East",
+      "types": [
+        "Q82794",
+        "Q3502482"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Middle East (Q7204) for cells containing \"Middle East\" in column Division"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Subregion",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q82794",
+        "name": "geographic region"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Subregion to type Q82794"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Subregion",
+    "similarValue": "Great Lakes Africa",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2826204",
+      "name": "Great Lakes Africa",
+      "types": [
+        "Q82794"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Great Lakes Africa (Q2826204) for cells containing \"Great Lakes Africa\" in column Subregion"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "society",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q41710",
+        "name": "ethnic group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column society to type Q41710"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "society",
+    "similarValue": "Bahima",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1604701",
+      "name": "Hema people",
+      "types": [
+        "Q41710"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hema people (Q1604701) for cells containing \"Bahima\" in column society"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "society: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "society",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "society",
+    "similarValue": "Kunwinjku",
+    "judgment": "matched",
+    "match": {
+      "id": "Q48769238",
+      "name": "Gunwinggu",
+      "types": [
+        "Q41710"
+      ],
+      "score": 67
+    },
+    "shareNewTopics": false,
+    "description": "Match item Gunwinggu (Q48769238) for cells containing \"Kunwinjku\" in column society"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "society: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "society",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "society",
+    "similarValue": "Mudburra",
+    "judgment": "matched",
+    "match": {
+      "id": "Q55624041",
+      "name": "Mudburra",
+      "types": [
+        ""
+      ],
+      "score": 50
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mudburra (Q55624041) for cells containing \"Mudburra\" in column society"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": ",",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column Koppen_climate_terrain by separator"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 1",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q23702033",
+        "name": "category in the Köppen climate classification systems"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Koppen_climate_terrain 1 to type Q23702033"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 1",
+    "similarValue": "Tropical Rainforest",
+    "judgment": "matched",
+    "match": {
+      "id": "Q209531",
+      "name": "tropical rainforest climate",
+      "types": [
+        "Q23702033"
+      ],
+      "score": 83
+    },
+    "shareNewTopics": false,
+    "description": "Match item tropical rainforest climate (Q209531) for cells containing \"Tropical Rainforest\" in column Koppen_climate_terrain 1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 1",
+    "similarValue": "Tropical Savannah",
+    "judgment": "matched",
+    "match": {
+      "id": "Q113562",
+      "name": "tropical savanna climate",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item tropical savanna climate (Q113562) for cells containing \"Tropical Savannah\" in column Koppen_climate_terrain 1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 1",
+    "similarValue": "Warm Desert",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5772665",
+      "name": "hot desert climate",
+      "types": [
+        "Q23702033"
+      ],
+      "score": 56
+    },
+    "shareNewTopics": false,
+    "description": "Match item hot desert climate (Q5772665) for cells containing \"Warm Desert\" in column Koppen_climate_terrain 1"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 2",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q23702033",
+        "name": "category in the Köppen climate classification systems"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Koppen_climate_terrain 2 to type Q23702033"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 2",
+    "similarValue": " Monsoon",
+    "judgment": "matched",
+    "match": {
+      "id": "Q863882",
+      "name": "tropical monsoon climate",
+      "types": [
+        "Q23702033"
+      ],
+      "score": 57
+    },
+    "shareNewTopics": false,
+    "description": "Match item tropical monsoon climate (Q863882) for cells containing \" Monsoon\" in column Koppen_climate_terrain 2"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 3",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q23702033",
+        "name": "category in the Köppen climate classification systems"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Koppen_climate_terrain 3 to type Q23702033"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Koppen_climate_terrain 3",
+    "similarValue": " Tropical Savanna",
+    "judgment": "matched",
+    "match": {
+      "id": "Q113562",
+      "name": "tropical savanna climate",
+      "types": [
+        "Q23702033"
+      ],
+      "score": 80
+    },
+    "shareNewTopics": false,
+    "description": "Match item tropical savanna climate (Q113562) for cells containing \" Tropical Savanna\" in column Koppen_climate_terrain 3"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q34770",
+        "name": "language"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Language to type Q34770"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language",
+    "similarValue": "Mongo",
+    "judgment": "matched",
+    "match": {
+      "id": "Q112893",
+      "name": "Mongo",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mongo (Q112893) for cells containing \"Mongo\" in column Language"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language",
+    "similarValue": "Bulu (Cameroon)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q35028",
+      "name": "Bulu",
+      "types": [
+        "Q34770",
+        "Q1288568"
+      ],
+      "score": 70
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bulu (Q35028) for cells containing \"Bulu (Cameroon)\" in column Language"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_nearsubfamily",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q25295",
+        "name": "language family"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Language_nearsubfamily to type Q25295"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_nearsubfamily",
+    "similarValue": "Tuareg",
+    "judgment": "matched",
+    "match": {
+      "id": "Q34065",
+      "name": "Tuareg",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tuareg (Q34065) for cells containing \"Tuareg\" in column Language_nearsubfamily"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_nearsubfamily",
+    "similarValue": "Dogon (language isolate)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1234776",
+      "name": "Dogon",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Dogon (Q1234776) for cells containing \"Dogon (language isolate)\" in column Language_nearsubfamily"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_nearsubfamily",
+    "similarValue": "Southwest Mande",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33681",
+      "name": "Mande",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mande (Q33681) for cells containing \"Southwest Mande\" in column Language_nearsubfamily"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_largersubfamily",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q25295",
+        "name": "language family"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Language_largersubfamily to type Q25295"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_largersubfamily",
+    "similarValue": "Narrow Bantu",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33146",
+      "name": "Bantu",
+      "types": [
+        "Q25295"
+      ],
+      "score": 74
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bantu (Q33146) for cells containing \"Narrow Bantu\" in column Language_largersubfamily"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_largersubfamily",
+    "similarValue": "Dogon (language isolate)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1234776",
+      "name": "Dogon",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Dogon (Q1234776) for cells containing \"Dogon (language isolate)\" in column Language_largersubfamily"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_nearsubfamily",
+    "similarValue": "Yuulngu",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2511254",
+      "name": "Yolŋu",
+      "types": [
+        "Q25295"
+      ],
+      "score": 88
+    },
+    "shareNewTopics": false,
+    "description": "Match item Yolŋu (Q2511254) for cells containing \"Yuulngu\" in column Language_nearsubfamily"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_largersubfamily",
+    "similarValue": "Yuulngu",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2511254",
+      "name": "Yolŋu",
+      "types": [
+        "Q25295"
+      ],
+      "score": 88
+    },
+    "shareNewTopics": false,
+    "description": "Match item Yolŋu (Q2511254) for cells containing \"Yuulngu\" in column Language_largersubfamily"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Language_family",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q25295",
+        "name": "language family"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Language_family to type Q25295"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column Country by separator"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 1",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q3624078",
+        "name": "sovereign state"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Country 1 to type Q3624078"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 1",
+    "similarValue": "Republic of the Congo",
+    "judgment": "matched",
+    "match": {
+      "id": "Q971",
+      "name": "Republic of the Congo",
+      "types": [
+        "Q3624078",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Republic of the Congo (Q971) for cells containing \"Republic of the Congo\" in column Country 1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 1",
+    "similarValue": "Democratic Republic of the Congo",
+    "judgment": "matched",
+    "match": {
+      "id": "Q974",
+      "name": "Democratic Republic of the Congo",
+      "types": [
+        "Q3624078",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Democratic Republic of the Congo (Q974) for cells containing \"Democratic Republic of the Congo\" in column Country 1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 1",
+    "similarValue": "Uganda",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1036",
+      "name": "Uganda",
+      "types": [
+        "Q3624078",
+        "Q7270",
+        "Q123480",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Uganda (Q1036) for cells containing \"Uganda\" in column Country 1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 1",
+    "similarValue": "Niger",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1032",
+      "name": "Niger",
+      "types": [
+        "Q7270",
+        "Q3624078",
+        "Q123480",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Niger (Q1032) for cells containing \"Niger\" in column Country 1"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 2",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q3624078",
+        "name": "sovereign state"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Country 2 to type Q3624078"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 2",
+    "similarValue": " Mali",
+    "judgment": "matched",
+    "match": {
+      "id": "Q912",
+      "name": "Mali",
+      "types": [
+        "Q3624078",
+        "Q123480",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mali (Q912) for cells containing \" Mali\" in column Country 2"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Country 3",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q3624078",
+        "name": "sovereign state"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column Country 3 to type Q3624078"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Country 3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Country 3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Country 2",
+    "similarValue": " Norway",
+    "judgment": "matched",
+    "match": {
+      "id": "Q20",
+      "name": "Norway",
+      "types": [
+        "Q3624078",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Norway (Q20) for cells containing \" Norway\" in column Country 2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "Country 3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "Country 3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "Country 3",
+    "similarValue": " Russia",
+    "judgment": "matched",
+    "match": {
+      "id": "Q159",
+      "name": "Russia",
+      "types": [
+        "Q3624078",
+        "Q859563",
+        "Q6256",
+        "Q1323642",
+        "Q43702",
+        "Q127693126"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Russia (Q159) for cells containing \" Russia\" in column Country 3"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Region",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Region_literal",
+    "columnInsertIndex": 5,
+    "description": "Create column Region_literal at index 5 based on column Region using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Division",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Division_literal",
+    "columnInsertIndex": 7,
+    "description": "Create column Division_literal at index 7 based on column Division using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Subregion",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Subregion_literal",
+    "columnInsertIndex": 9,
+    "description": "Create column Subregion_literal at index 9 based on column Subregion using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "society",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "society_literal",
+    "columnInsertIndex": 12,
+    "description": "Create column society_literal at index 12 based on column society using expression grel:value"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "alternative_names",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column alternative_names by separator"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "People",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q41710",
+        "name": "ethnic group"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "People2",
+          "propertyName": "alternative name",
+          "propertyID": "P4970"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column People to type Q41710"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "People: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "People",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "People",
+    "description": "Match each cell to its best recon candidate in column People"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "People",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "People_literal",
+    "columnInsertIndex": 24,
+    "description": "Create column People_literal at index 24 based on column People using expression grel:value"
+  },
+  {
+    "op": "core/column-split",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "Focal_years",
+    "guessCellType": true,
+    "removeOriginalColumn": true,
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "maxColumns": 0,
+    "description": "Split column Focal_years by separator"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain_literal",
+    "columnInsertIndex": 49,
+    "description": "Create column Koppen_climate_terrain_literal at index 49 based on column Koppen_climate_terrain 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain2_literal",
+    "columnInsertIndex": 51,
+    "description": "Create column Koppen_climate_terrain2_literal at index 51 based on column Koppen_climate_terrain 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Koppen_climate_terrain 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Koppen_climate_terrain3_literal",
+    "columnInsertIndex": 53,
+    "description": "Create column Koppen_climate_terrain3_literal at index 53 based on column Koppen_climate_terrain 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_literal",
+    "columnInsertIndex": 58,
+    "description": "Create column Language_literal at index 58 based on column Language using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language_nearsubfamily",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_nearsubfamily_literal",
+    "columnInsertIndex": 60,
+    "description": "Create column Language_nearsubfamily_literal at index 60 based on column Language_nearsubfamily using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language_largersubfamily",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_largersubfamily_literal",
+    "columnInsertIndex": 62,
+    "description": "Create column Language_largersubfamily_literal at index 62 based on column Language_largersubfamily using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Language_family",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Language_family_literal",
+    "columnInsertIndex": 64,
+    "description": "Create column Language_family_literal at index 64 based on column Language_family using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 1",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country1_literal",
+    "columnInsertIndex": 69,
+    "description": "Create column Country1_literal at index 69 based on column Country 1 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 2",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country2_literal",
+    "columnInsertIndex": 71,
+    "description": "Create column Country2_literal at index 71 based on column Country 2 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 3",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country3_literal",
+    "columnInsertIndex": 73,
+    "description": "Create column Country3_literal at index 73 based on column Country 3 using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Country 4",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "Country4_literal",
+    "columnInsertIndex": 75,
+    "description": "Create column Country4_literal at index 75 based on column Country 4 using expression grel:value"
+  }
+]
