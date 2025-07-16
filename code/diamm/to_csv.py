@@ -338,44 +338,6 @@ df = pd.DataFrame(rows)
 df.to_csv(os.path.join(BASE_CSV_PATH, "people.csv"), index=False)
 print("Finished processing people")
 
-# Sets
-print("Starting to process sets")
-rows = []
-for file in (Path(BASE_PATH) / "sets").glob("*.json"):
-    with open(file, "r", encoding="utf-8") as f:
-        data = json.load(f)
-        line = {}
-        line["id"] = data["pk"]
-        line["type"] = data["type"]
-        line["cluster_shelfmark"] = data["cluster_shelfmark"]
-        line["description"] = data["description"] if "description" in data else ""
-        for archive in data["holding_archives"]:
-            archive_id = int(archive["url"].split("/")[-2])
-            archive_dict = HashableDict(
-                {
-                    "key1": f"archive:{archive_id}",
-                    "key2": f"set:{line['id']}",
-                    "type": "",
-                }
-            )
-            if archive_dict not in relations:
-                relations.add(archive_dict)
-        for source in data["sources"]:
-            source_id = int(source["url"].split("/")[-2])
-            relations.add(
-                HashableDict(
-                    {
-                        "key1": f"set:{line['id']}",
-                        "key2": f"source:{source_id}",
-                        "type": "",
-                    }
-                )
-            )
-        rows.append(line)
-df = pd.DataFrame(rows)
-df.to_csv(os.path.join(BASE_CSV_PATH, "sets.csv"), index=False)
-print("Finished processing sets")
-
 # Regions
 print("Starting to process regions")
 rows = []
@@ -423,6 +385,44 @@ for file in (Path(BASE_PATH) / "regions").glob("*.json"):
 df = pd.DataFrame(rows)
 df.to_csv(os.path.join(BASE_CSV_PATH, "regions.csv"), index=False)
 print("Finished processing regions")
+
+# Sets
+print("Starting to process sets")
+rows = []
+for file in (Path(BASE_PATH) / "sets").glob("*.json"):
+    with open(file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        line = {}
+        line["id"] = data["pk"]
+        line["type"] = data["type"]
+        line["cluster_shelfmark"] = data["cluster_shelfmark"]
+        line["description"] = data["description"] if "description" in data else ""
+        for archive in data["holding_archives"]:
+            archive_id = int(archive["url"].split("/")[-2])
+            archive_dict = HashableDict(
+                {
+                    "key1": f"archive:{archive_id}",
+                    "key2": f"set:{line['id']}",
+                    "type": "",
+                }
+            )
+            if archive_dict not in relations:
+                relations.add(archive_dict)
+        for source in data["sources"]:
+            source_id = int(source["url"].split("/")[-2])
+            relations.add(
+                HashableDict(
+                    {
+                        "key1": f"set:{line['id']}",
+                        "key2": f"source:{source_id}",
+                        "type": "",
+                    }
+                )
+            )
+        rows.append(line)
+df = pd.DataFrame(rows)
+df.to_csv(os.path.join(BASE_CSV_PATH, "sets.csv"), index=False)
+print("Finished processing sets")
 
 # Sources
 print("Starting to process sources")
