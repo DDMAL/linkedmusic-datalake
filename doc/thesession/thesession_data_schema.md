@@ -2,8 +2,6 @@
 
 This document explains the schema of the raw data that can be extracted from thesession.org.
 
-In the near future, I plan on completing two additional documents: one will explain our entire data processing workflow for thesession.org (an update to the existing reconcile_procedures.md); the other will explain the schema of the RDF graph we create from the The Session's data (perhaps I can merge that document with this one).
-
 # 3. Schema of The Session Dataset
 
 ## 3.1 General Structure of The Dataset
