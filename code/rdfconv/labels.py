@@ -107,7 +107,7 @@ async def main():
     CLI arguments:
         input_file (str): Path to the input file containing Wikidata IDs.
         --output (str): Optional path to the output file. If omitted, the input file
-                        will be overwritten.
+            will be overwritten.
     """
     parser = argparse.ArgumentParser(
         description="Script to add Wikidata labels as comments using QID/PID extracted from each line."
