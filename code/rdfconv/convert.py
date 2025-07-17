@@ -93,16 +93,16 @@ def to_predicate(val: str, namespaces: dict) -> URIRef:
     wiki_id = extract_wd_id(val)
     if wiki_id and wiki_id.startswith("P"):
         return URIRef(f"{namespaces['wdt']}{wiki_id}")
-    for prefix, uri in namespaces.items():
-        if val.startswith(uri):
-            # Only considered a value URI if it is in a bound namespace
-            return URIRef(val)
-        if val.startswith(prefix + ":"):
-            # If the value starts with a prefix, expand to full URI
-            return URIRef(f"{uri}{val.split(':', 1)[1]}")
-    raise ValueError(
-        f"Invalid property value: {val}. Expected a Wikidata ID or a valid prefixed URI."
-    )
+    elif val.startswith("http"):
+        return URIRef(val)
+    else:
+        for prefix, prefix_uri in namespaces.items():
+            if val.startswith(prefix + ":"):
+                # If the value starts with a prefix, expand to full URI
+                return URIRef(f"{prefix_uri}{val.split(':', 1)[1]}")
+        raise ValueError(
+            f"Invalid property value: {val}. Expected a Wikidata ID or a valid prefixed URI."
+        )
 
 
 def rdf_process_predicates(
