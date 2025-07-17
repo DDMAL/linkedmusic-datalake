@@ -15,6 +15,7 @@ skos = "http://www.w3.org/2004/02/skos/core#"
 tse = "https://thesession.org/events/"
 tst = "https://thesession.org/tunes/"
 tsm = "https://thesession.org/members/"
+tss = "https://thesession.org/sessions/"
 tsr = "https://thesession.org/recordings/"
 lmts = "https://linkedmusic.ca/graphs/thesession/"
 
