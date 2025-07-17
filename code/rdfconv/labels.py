@@ -11,12 +11,16 @@ Requires:
 - aiohttp
 - wikidata_utils (internal module)
 
+Note:
+    This script must be run with the current working directory set to `/code`.
+
 Usage:
     python -m rdfconv.labels input.txt --output output.txt
     python -m rdfconv.labels input.txt  # overwrites input.txt
 """
 
 import asyncio
+
 import re
 from pathlib import Path
 import argparse
@@ -66,7 +70,6 @@ async def add_labels_as_comments(
             lines_with_ids.append((line_no_comm, wd_id))
             if wd_id:
                 ids.append(wd_id)
-
     # === Fetching labels from Wikidata ===
     unique_ids = list(set(ids))
     logger.info("Fetching labels for %d unique Wikidata IDs...", len(unique_ids))
@@ -95,6 +98,7 @@ async def add_labels_as_comments(
                 f_out.write(f"{line}  # {wd_id} does not exist\n")
             else:
                 f_out.write(line + "\n")
+
 
 async def main():
     """
@@ -131,6 +135,7 @@ async def main():
     async with aiohttp.ClientSession() as session:
         client = WikidataAPIClient(session)
         await add_labels_as_comments(input_file, output_file, client)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
