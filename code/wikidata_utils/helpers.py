@@ -7,20 +7,15 @@ import re
 WD_ID_PATTERN = re.compile(
     r"""
     (?:
-        ^\s*
-        |
-        www\.wikidata\.org/wiki/Property:
-        |
-        www\.wikidata\.org/wiki/
-        |
-        www\.wikidata\.org/entity/
-        |
-        www\.wikidata\.org/prop/direct/
+        \bwd: |
+        \bwdt: |
+        https?://www\.wikidata\.org/(?:wiki/Property:|wiki/|entity/|prop/direct/) |
+        (?:\b|\s|"|'|^)
     )
     (Q\d+|P\d+)
-    $
+    (?:\b|\s|"|'|$)
     """,
-    re.VERBOSE
+    re.VERBOSE,
 )
 
 
