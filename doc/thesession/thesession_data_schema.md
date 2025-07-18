@@ -41,7 +41,7 @@ Here is an explanation of each of the columns in events.csv
 | coordinate | Location: Coordinate point (WKT format) | Point(42.24073792 -71.00814819)  |
 | longitude  | Location: Longitude                     | -71.00814819                     |
 
-The Session dataset does not include the organizers nor the performers of an event. As discussed [here](#question-2-why-is-there-not-an-artistscsv-nor-a-composerscsv), it is not a artist-centered database.
+The Session dataset does not include the organizers nor the performers of an event. As discussed [here](#question-2-why-is-there-not-an-artistscsv-nor-a-composerscsv), it is not an artist-centered database.
 
 ### 3.2.1 Mapping events.csv to RDF
 
