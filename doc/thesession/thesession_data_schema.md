@@ -78,7 +78,7 @@ The primary key in recordings.csv is, in fact, "tune*id". In Irish traditional m
 | coordinate  | Location: Coordinates (WKT format)              | Point(-64.18499756 -31.42639351)     |
 | date        | Time last modified on thesession.org (ISO 8601) | 2022-09-18T08:19:38                  |
 
-Sessions themselves don't have a name. They are identified by the venue at which they are periodically held. Though it is not in the dataset, we can find when this session reccurs (Thursday), as well as an [Instagram link](https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Firish.session.cordoba%2F&is_from_rle), by visiting https://thesession.org/sessions/7567
+Sessions themselves don't have a name. They are identified by the venue at which they are periodically held. Though it is not in the dataset, we can find when this session recurs (Thursday), as well as an [Instagram link](https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Firish.session.cordoba%2F&is_from_rle), by visiting https://thesession.org/sessions/7567
 
 ## 3.5 tunes.csv
 
