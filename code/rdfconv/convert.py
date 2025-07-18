@@ -464,9 +464,9 @@ def build_rdf_graph(
                     try:
                         graph.add((subject_node, predicate, object_node))
                     except Exception as e:
-                        raise ValueError from e(
+                        raise ValueError(
                             f"Error adding triple ({subject_node}, {predicate}, {object_node}): defined by '{col}={col_value}'"
-                        )
+                        ) from e
 
     # dynamically add the number of triples as a attribute of graph
     return graph
