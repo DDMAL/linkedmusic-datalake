@@ -132,7 +132,6 @@ def main(output_path="../../data/musicbrainz/rdf/"):
         genre_uri = URIRef(row["genre_id"])
         g.add((genre_uri, RDF.type, LMMB["Genre"]))
         g.add((genre_uri, RDFS.label, Literal(row["name"])))
-        g.add((genre_uri, URIRef(f"{WDT}P8052"), Literal(row["genre_id"])))
         if row["relations_wiki"]:
             g.add((genre_uri, URIRef(f"{WDT}P2888"), URIRef(row["relations_wiki"])))
 
