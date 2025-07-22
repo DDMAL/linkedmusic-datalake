@@ -277,7 +277,7 @@ def process_line(
                 )
 
     # Process begin area
-    if begin_area := data.get("begin_area"):
+    if begin_area := data.get("begin-area"):
         if begin_area_id := begin_area.get("id"):
             g.add(
                 (
@@ -309,8 +309,8 @@ def process_line(
         g.add((subject_uri, mb_schema["date"], convert_date(date)))
 
     # Process end area
-    if data.get("end_area"):
-        if end_area_id := data["end_area"].get("id"):
+    if end_area := data.get("end-area"):
+        if end_area_id := end_area.get("id"):
             g.add(
                 (
                     subject_uri,
