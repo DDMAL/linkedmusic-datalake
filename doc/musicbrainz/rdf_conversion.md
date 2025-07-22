@@ -48,6 +48,14 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The `event` entity type's `setlist` field seems to contain pre-rendered data about the setlist, which makes it difficult to parse. Furthermore, the same data is also located in the `relations` field, and as such, the `setlist` field is ignored during the RDF conversion process.
 - The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, and as the name of a field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
 
+## Identifiers to other databases
+
+MusicBrainz has a lot of identifiers to other databases, which significantly complicates the structure of the graph without really providing a benefit for prompting (see [#430](https://github.com/DDMAL/linkedmusic-datalake/issues/430)). As such, it was decided to not store any database IDs (other than QIDs).
+
+However, since work was already done to map database IDs to properties, removed mappings will be located in the [`doc/musicbrainz/removed_properties/attribute_mapping.json`](/doc/musicbrainz/removed_properties/attribute_mapping.json) file for attributes, and in the [`doc/musicbrainz/removed_properties/mappings.json`](/doc/musicbrainz/removed_properties/mappings.json) file for general mappings. These files follow the same dictionary structure as the files with the same name in the `code/musicbrainz/rdf_conversion_config` folder.
+
+Additionally, all the regex patterns in the [`doc/musicbrainz/removed_properties/url_patterns.py`](/doc/musicbrainz/removed_properties/url_patterns.py) are now irrelevant because they all match external identifiers. As such, it was moved to the `removed_properties` folder.
+
 ## Attributes
 
 The `work` entity type has an additional field `attributes` that contains a list of various attributes for that work:
@@ -57,11 +65,15 @@ The `work` entity type has an additional field `attributes` that contains a list
   - the key (i.e. tonality) of the work (extracted and reconciled with OpenRefine, see [`doc/musicbrainz/miscellaneous_reconciliation.md`](/doc/musicbrainz/miscellaneous_reconciliation.md))
   - Non-Western musical concepts, such as the Tala, the musical meter of Indian classical music
 
-- Unlike RISM, which has [P5504 "RISM ID"](https://www.wikidata.org/prop/direct/P5504) as a corresponding Wikidata property, the majority of these databases have no corresponding Wikidata property. Since the field contains only IDs, not full URLs/URIs, these IDs are not stored unless there is an corresponding Wikidata property.
+- As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, IDs to other databases are not stored.
 
 - The file with all possible attribute values and Wikidata properties they map onto can be found in [`doc/musicbrainz/rdf_conversion_config/attribute_mapping.json`](/doc/musicbrainz/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
 
 ## URLS
+
+We store all URLs (except for Wikidata URIs) as string literals in the [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888) property, and Wikidata URIs are also stored in this property, but as URIs.
+
+As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, we no longer store IDs to external non-Wikidata databases, but the following section has been kept in the event that we choose to reintegrate those IDs, to not lose the work that was done. The file containing the URL patterns has been moved to the `doc/musicbrainz/removed_properties` folder.
 
 For some databases, MusicBrainz decides to store number IDs (e.g. Discogs Artist ID 1000 ). For other databases, MusicBrainz decide to store the full url (e.g. <https://www.discogs.com/artist/25058>).
 

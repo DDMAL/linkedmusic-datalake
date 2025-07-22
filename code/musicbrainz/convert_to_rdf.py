@@ -54,7 +54,6 @@ from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import XSD, RDF
 import pandas as pd
 import aiofiles
-from url_patterns import DATABASES_REGEX
 from mapping_schema import MappingSchema
 
 # Define namespaces
@@ -182,9 +181,6 @@ def process_line(
     # Add the entity type, use UpperCamelCase for entity type
     g.add((subject_uri, RDF.type, LMMB[dashes_to_upper_camel(entity_type)]))
 
-    # Process id
-    g.add((subject_uri, mb_schema[f"{entity_type}-id"], Literal(entity_id)))
-
     # Process name
     if name := data.get("name"):
         g.add((subject_uri, mb_schema["name"], Literal(name)))
@@ -256,16 +252,6 @@ def process_line(
                 )
             )
 
-    # Process ASIN
-    if asin := data.get("asin"):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["asin"],
-                Literal(asin),
-            )
-        )
-
     # Process attributes
     for attribute in data.get("attributes", []):
         if (attribute_type := attribute.get("type")) and (
@@ -289,16 +275,6 @@ def process_line(
                         attribute_value,
                     )
                 )
-
-    # Process barcode
-    if barcode := data.get("barcode"):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["barcode"],
-                Literal(barcode),
-            )
-        )
 
     # Process begin area
     if begin_area := data.get("begin_area"):
@@ -384,46 +360,6 @@ def process_line(
                     genre_uri,
                 )
             )
-
-    # Process IPIs
-    for ipi in data.get("ipis", []):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["ipi"],
-                Literal(ipi),
-            )
-        )
-
-    # Process ISNIs
-    for isni in data.get("isnis", []):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["isni"],
-                Literal(isni),
-            )
-        )
-
-    # Process ISWCs
-    for iswc in data.get("iswcs", []):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["iswc"],
-                Literal(iswc),
-            )
-        )
-
-    # Process label code
-    if label_code := data.get("label-code"):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["labelcode"],
-                Literal(label_code),
-            )
-        )
 
     # Process labels
     for label in data.get("label-info", []):
@@ -562,15 +498,8 @@ def process_line(
                     )
                 )
             else:
-                # Check if the URL matches any of the known databases
-                for db, regex in DATABASES_REGEX.items():
-                    if match := regex.match(url):
-                        target = Literal(str(match.group(1)))
-                        pred_uri = mb_schema[db]
-                        break
-                else:
-                    # If no match, treat it as a generic URL
-                    target = Literal(url)
+                # Treat it as a generic URL
+                target = Literal(url)
 
         target_type = target_type.replace("_", "-")  # Normalize target type
         if not target:
