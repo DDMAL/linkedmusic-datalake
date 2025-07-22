@@ -550,9 +550,9 @@ def process_line(
         if (status_map := reconciled_mapping.get(status)) and matched_wikidata(
             status_map
         ):
-            status = URIRef(f"{WD}{status_map}")
+            status_rdf = URIRef(f"{WD}{status_map}")
         else:
-            status = Literal(status)
+            status_rdf = Literal(status)
         g.add(
             (
                 subject_uri,
@@ -561,7 +561,7 @@ def process_line(
                     if status not in END_STATUSES
                     else mb_schema["end-status"]
                 ),
-                status,
+                status_rdf,
             )
         )
 
