@@ -1018,7 +1018,7 @@ if __name__ == "__main__":
         output_folder = Path(args.output_folder)
         for file in output_folder.iterdir():
             # Get rid of numbers for ttl files
-            if file.is_file() and (match := re.match(r"^(\w+)-\d+$", file.stem)):
+            if file.is_file() and (match := re.match(r"^([-\w]+)-\d+$", file.stem)):
                 bad_files.add(match.group(1))
 
     for input_file in input_folder.iterdir():
