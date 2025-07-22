@@ -310,15 +310,11 @@ def process_line(
 
     # Process end area
     if end_area := data.get("end-area"):
-        if end_area_id := end_area.get("id"):
+        if (end_area_id := end_area.get("id")) and data["type"] == "Person":
             g.add(
                 (
                     subject_uri,
-                    (
-                        mb_schema["end-area-person"]
-                        if data["type"] == "Person"
-                        else mb_schema["end-area"]
-                    ),
+                    mb_schema["end-area-person"],
                     URIRef(f"https://musicbrainz.org/area/{end_area_id}"),
                 )
             )
