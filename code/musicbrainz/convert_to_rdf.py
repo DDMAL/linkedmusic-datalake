@@ -174,6 +174,9 @@ def process_entity(
     if not entity_id:
         return
 
+    entity_mb_schema = mb_schema.to_dict_for_type(entity_type)
+    entity_relationship_mapping = relationship_mapping.get(entity_type, {})
+
     # Create subject URI
     subject_uri = URIRef(f"https://musicbrainz.org/{entity_type}/{entity_id}")
 
@@ -182,7 +185,7 @@ def process_entity(
 
     # Process name
     if name := data.get("name"):
-        g.add((subject_uri, mb_schema["name"], Literal(name)))
+        g.add((subject_uri, entity_mb_schema["name"], Literal(name)))
 
     # Process type
     for t in data.get("secondary-types", []) + [
@@ -192,16 +195,22 @@ def process_entity(
         if t and (converted_type := reconciled_mapping.get(t)):
             # If the type is a Wikidata ID, use it directly
             if matched_wikidata(converted_type):
-                g.add((subject_uri, mb_schema["type"], URIRef(f"{WD}{converted_type}")))
+                g.add(
+                    (
+                        subject_uri,
+                        entity_mb_schema["type"],
+                        URIRef(f"{WD}{converted_type}"),
+                    )
+                )
             else:
-                g.add((subject_uri, mb_schema["type"], Literal(t)))
+                g.add((subject_uri, entity_mb_schema["type"], Literal(t)))
 
     # Process address
     if address := data.get("address"):
         g.add(
             (
                 subject_uri,
-                mb_schema["address"],
+                entity_mb_schema["address"],
                 Literal(address),
             )
         )
@@ -213,7 +222,7 @@ def process_entity(
                 g.add(
                     (
                         subject_uri,
-                        mb_schema["alias"],
+                        entity_mb_schema["alias"],
                         Literal(
                             alias_name,
                             lang=alias.get("locale", "none"),
@@ -224,7 +233,7 @@ def process_entity(
                 g.add(
                     (
                         subject_uri,
-                        mb_schema["alias"],
+                        entity_mb_schema["alias"],
                         Literal(alias_name),
                     )
                 )
@@ -235,7 +244,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["area"],
+                    entity_mb_schema["area"],
                     URIRef(f"https://musicbrainz.org/area/{area_id}"),
                 )
             )
@@ -246,7 +255,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["artist"],
+                    entity_mb_schema["artist"],
                     URIRef(f"https://musicbrainz.org/artist/{artist_id}"),
                 )
             )
@@ -282,9 +291,9 @@ def process_entity(
                 (
                     subject_uri,
                     (
-                        mb_schema["begin-area-person"]
+                        entity_mb_schema["begin-area-person"]
                         if data["type"] == "Person"
-                        else mb_schema["begin-area"]
+                        else entity_mb_schema["begin-area"]
                     ),
                     URIRef(f"https://musicbrainz.org/area/{begin_area_id}"),
                 )
@@ -298,14 +307,14 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["coordinates"],
+                    entity_mb_schema["coordinates"],
                     Literal(f"Point({lon} {lat})", datatype=GEO["wktLiteral"]),
                 )
             )
 
     # Process date
     if date := data.get("date"):
-        g.add((subject_uri, mb_schema["date"], convert_date(date)))
+        g.add((subject_uri, entity_mb_schema["date"], convert_date(date)))
 
     # Process end area
     if end_area := data.get("end-area"):
@@ -313,7 +322,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["end-area-person"],
+                    entity_mb_schema["end-area-person"],
                     URIRef(f"https://musicbrainz.org/area/{end_area_id}"),
                 )
             )
@@ -323,7 +332,7 @@ def process_entity(
         g.add(
             (
                 subject_uri,
-                mb_schema["first-release-date"],
+                entity_mb_schema["first-release-date"],
                 convert_date(first_release_date),
             )
         )
@@ -339,7 +348,7 @@ def process_entity(
         g.add(
             (
                 subject_uri,
-                mb_schema["gender"],
+                entity_mb_schema["gender"],
                 gender,
             )
         )
@@ -351,7 +360,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["genre"],
+                    entity_mb_schema["genre"],
                     genre_uri,
                 )
             )
@@ -363,7 +372,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["label"],
+                    entity_mb_schema["label"],
                     URIRef(f"https://musicbrainz.org/label/{label_id}"),
                 )
             )
@@ -380,7 +389,7 @@ def process_entity(
         g.add(
             (
                 subject_uri,
-                mb_schema["language"],
+                entity_mb_schema["language"],
                 lang,
             )
         )
@@ -392,7 +401,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["length"],
+                    entity_mb_schema["length"],
                     Literal(str(length_seconds), datatype=XSD.decimal),
                 )
             )
@@ -401,7 +410,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["length"],
+                    entity_mb_schema["length"],
                     Literal(length),
                 )
             )
@@ -413,9 +422,9 @@ def process_entity(
                 (
                     subject_uri,
                     (
-                        mb_schema["begin-date-person"]
+                        entity_mb_schema["begin-date-person"]
                         if data["type"] == "Person"
-                        else mb_schema["begin-date"]
+                        else entity_mb_schema["begin-date"]
                     ),
                     convert_date(begin_date),
                 )
@@ -425,9 +434,9 @@ def process_entity(
                 (
                     subject_uri,
                     (
-                        mb_schema["end-date-person"]
+                        entity_mb_schema["end-date-person"]
                         if data["type"] == "Person"
-                        else mb_schema["end-date"]
+                        else entity_mb_schema["end-date"]
                     ),
                     convert_date(end_date),
                 )
@@ -440,7 +449,7 @@ def process_entity(
                 g.add(
                     (
                         subject_uri,
-                        mb_schema["cdtoc"],
+                        entity_mb_schema["cdtoc"],
                         URIRef(f"https://musicbrainz.org/cdtoc/{disc_id}"),
                     )
                 )
@@ -452,7 +461,7 @@ def process_entity(
                 g.add(
                     (
                         subject_uri,
-                        mb_schema["recording"],
+                        entity_mb_schema["recording"],
                         URIRef(f"https://musicbrainz.org/recording/{recording_id}"),
                     )
                 )
@@ -477,7 +486,7 @@ def process_entity(
         g.add(
             (
                 subject_uri,
-                mb_schema["packaging"],
+                entity_mb_schema["packaging"],
                 packaging,
             )
         )
@@ -492,7 +501,7 @@ def process_entity(
         target = None
         pred_uri = None
         if target_type == "url" and (url := relation.get("url", {}).get("resource")):
-            pred_uri = mb_schema["url"]
+            pred_uri = entity_mb_schema["url"]
             if WIKIDATA_REGEX.match(url):
                 # Convert Wikidata URL to URIRef
                 target = URIRef(
@@ -513,7 +522,7 @@ def process_entity(
                 rel_direction := relation.get("direction")
             ):
                 rel_type += f"_{rel_direction}"
-            pred_uri = relationship_mapping.get(target_type, {}).get(rel_type)
+            pred_uri = entity_relationship_mapping.get(target_type, {}).get(rel_type)
 
             # We need the underscores because the release group field will be `release_group`
             if target_id := relation.get(target_type.replace("-", "_"), {}).get("id"):
@@ -534,7 +543,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["area"],
+                    entity_mb_schema["area"],
                     URIRef(f"https://musicbrainz.org/area/{area_id}"),
                 )
             )
@@ -545,7 +554,7 @@ def process_entity(
             g.add(
                 (
                     subject_uri,
-                    mb_schema["release-group"],
+                    entity_mb_schema["release-group"],
                     URIRef(f"https://musicbrainz.org/release-group/{release_group_id}"),
                 )
             )
@@ -562,9 +571,9 @@ def process_entity(
             (
                 subject_uri,
                 (
-                    mb_schema["status"]
+                    entity_mb_schema["status"]
                     if status not in END_STATUSES
-                    else mb_schema["end-status"]
+                    else entity_mb_schema["end-status"]
                 ),
                 status_rdf,
             )
@@ -576,14 +585,14 @@ def process_entity(
         g.add(
             (
                 subject_uri,
-                mb_schema["time"],
+                entity_mb_schema["time"],
                 convert_datetime(date, time),
             )
         )
 
     # Process title
     if title := data.get("title"):
-        g.add((subject_uri, mb_schema["title"], Literal(title)))
+        g.add((subject_uri, entity_mb_schema["title"], Literal(title)))
 
 
 def process_chunk(
@@ -747,9 +756,7 @@ async def graph_worker(
                 main_graphs.append(graph)
 
 
-async def get_final_graphs(
-    entity_type, input_file, namespaces, reconciled_mapping, relationship_mapping
-):
+async def get_final_graphs(entity_type, input_file, namespaces, reconciled_mapping):
     """Main function to process the input file and return the final RDF graph."""
     with open(input_file, "r", encoding="utf-8") as f:
         total_lines = sum(1 for _ in f)
@@ -787,8 +794,8 @@ async def get_final_graphs(
                         chunk_queue,
                         subgraph_queue,
                         entity_type,
-                        MB_SCHEMA.to_dict_for_type(entity_type),
-                        relationship_mapping,
+                        MB_SCHEMA,
+                        RELATIONSHIP_MAPPING,
                         reconciled_mapping,
                         chunk_bar,
                         executor,
@@ -888,7 +895,6 @@ def main(args):
             input_file,
             namespaces,
             reconciled_mapping,
-            RELATIONSHIP_MAPPING.get(entity_type, {}),
         )
     )
 

@@ -40,6 +40,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The same situation applies to the `convert_datetime` function with the `XSD:dateTime` datatype and the `parse_datetime` isodate function.
 - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in [`code/musicbrainz/rdf_conversion_config/mappings.json`](/code/musicbrainz/rdf_conversion_config/mappings.json). The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
 - To update this dictionary, either modify the JSON file, or modify the `MB_SCHEMA` and then use `json.dump(MB_SCHEMA.schema, file, indent=4)` to export it.
+- The full `MB_SCHEMA` and `RELATIONSHIP_MAPPING` are passed down to the `process_entity` function because it will need the full mappings when `process_entity` for a `release` will call`process_entity` for a `recording`. Luckily, neither `recording` nor `entity` data types have subtypes, so the `reconciliation_mapping` is the same for both, so no special handling is required for that one.
 
 ## Notes on Particularities in MusicBrainz Dataset
 
