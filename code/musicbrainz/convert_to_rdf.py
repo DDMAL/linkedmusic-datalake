@@ -57,7 +57,6 @@ import aiofiles
 from mapping_schema import MappingSchema
 
 # Define namespaces
-SCHEMA = Namespace("http://schema.org/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
 # This namespace is to encode coordinates like Wikidata does
@@ -864,7 +863,6 @@ def main(args):
 
     # Initialize namespaces
     namespaces = {
-        "schema": SCHEMA,
         "wdt": WDT,
         "wd": WD,
         "geo": GEO,
