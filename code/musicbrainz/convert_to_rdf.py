@@ -98,7 +98,7 @@ MAX_SUBGRAPHS_IN_MEMORY = 120  # Max number of subgraphs to keep in memory at on
 GRAPH_STORE_CUTOFF = 1000000000
 # Number of chunks after which a new graph will be created
 # This will only be used if the input file is big enough to use Oxigraph
-MAX_CHUNKS_PER_GRAPH = 3400
+MAX_CHUNKS_PER_GRAPH = 2000
 
 # Set to True if you want to reprocess entity types that are already present in the output folder
 REPROCESSING = False
