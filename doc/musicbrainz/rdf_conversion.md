@@ -47,6 +47,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The `release` entity type's `status` field does not neatly map onto a single Wikidata property: I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Though we reconciled the predicate against a Wikidata property, the object (e.g. bootleg, official album) is left as literal because there is no Wikidata equivalent for all of them.
 - The `event` entity type's `setlist` field seems to contain pre-rendered data about the setlist, which makes it difficult to parse. Furthermore, the same data is also located in the `relations` field, and as such, the `setlist` field is ignored during the RDF conversion process.
 - The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, and as the name of a field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
+- As per this [forum thread](https://community.metabrainz.org/t/recording-json-dumps-incomplete/322708) and this [bug report](https://tickets.metabrainz.org/browse/MBS-9433), the data dump for the `recording` entities only contains "standalone" recordings, i.e. recordings that are not associated with any release, and all other recordings are located in the `release` data dump, as a list in each `release` entity.
 
 ## Identifiers to other databases
 

@@ -161,7 +161,7 @@ def dashes_to_upper_camel(string: str) -> str:
     return "".join(word.capitalize() for word in string.split("-"))
 
 
-def process_line(
+def process_entity(
     data,
     entity_type,
     mb_schema,
@@ -447,14 +447,24 @@ def process_line(
                 )
 
         for track in media.get("tracks", []):
-            recording = track.get("recording")
-            if recording and (recording_id := recording.get("id")):
+            if (recording := track.get("recording")) and (
+                recording_id := recording.get("id")
+            ):
                 g.add(
                     (
                         subject_uri,
                         mb_schema["recording"],
                         URIRef(f"https://musicbrainz.org/recording/{recording_id}"),
                     )
+                )
+                process_entity(
+                    recording,
+                    "recording",
+                    mb_schema,
+                    relationship_mapping,
+                    reconciled_mapping,
+                    attribute_mapping,
+                    g,
                 )
 
     # Process packaging
@@ -590,7 +600,7 @@ def process_chunk(
     for i, line in enumerate(chunk):
         try:
             data = json.loads(line.strip())
-            process_line(
+            process_entity(
                 data,
                 entity_type,
                 mb_schema,
