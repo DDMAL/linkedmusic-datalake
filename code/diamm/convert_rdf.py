@@ -10,7 +10,7 @@ import re
 import os
 import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDFS, RDF
+from rdflib.namespace import RDFS, RDF, SKOS
 
 BASE_PATH = "../../data/diamm/reconciled/"
 RELATIONS_PATH = "../../data/diamm/csv/relations.csv"
@@ -48,11 +48,11 @@ DIAMM_SCHEMA = {
     "type": WDT["P31"],
     "composer": WDT["P86"],
     "genre": WDT["P136"],
-    "variant_names": WDT["P1449"],
+    "variant_names": SKOS.altLabel,
     "earliest_year": WDT["P569"],
     "latest_year": WDT["P570"],
     "viaf_id": WDT["P214"],
-    "shelfmark": WDT["P217"],
+    "shelfmark": RDFS.label,
     "cluster_shelfmark": WDT["P217"],
     "holding_archive": WDT["P276"],
     "composition_in_source": WDT["P361"],
@@ -60,7 +60,7 @@ DIAMM_SCHEMA = {
     "provenance_organization": WDT["P276"],
     "copied_people": WDT["P11603"],
     "set_in_source": WDT["P361"],
-    "display_name": WDT["P2561"],
+    "display_name": RDFS.label,
 }
 
 # Load the relations mapping from the JSON file
@@ -197,7 +197,6 @@ for work in json_data:
         )
 
         g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["title"])))
-        g.add((subject_uri, DIAMM_SCHEMA["title"], Literal(work["title"])))
 
         if work["anonymous"] is True:
             g.add(
@@ -489,10 +488,6 @@ for work in json_data:
         if second_type == "city":
             second_uri = URIRef(f"{DI}{second_id}")
             pred_uri = DIAMM_SCHEMA["city"]
-        elif second_type == "set":
-            second_uri = URIRef(f"{DE}{second_id}")
-            pred_uri = DIAMM_SCHEMA["holding_archive"]
-            reverse = True
         elif second_type == "source":
             second_uri = URIRef(f"{DS}{second_id}")
             pred_uri = DIAMM_SCHEMA["holding_archive"]
@@ -511,7 +506,7 @@ for work in json_data:
             pred_uri = DIAMM_SCHEMA["region"]
         elif second_type == "source":
             second_uri = URIRef(f"{DS}{second_id}")
-            pred_uri = DIAMM_SCHEMA["location"]
+            pred_uri = DIAMM_SCHEMA["city"]
             reverse = True
     elif first_type == "composition":
         first_uri = URIRef(f"{DM}{first_id}")
@@ -533,10 +528,7 @@ for work in json_data:
             reverse = True
     elif first_type == "organization":
         first_uri = URIRef(f"{DO}{first_id}")
-        if second_type == "region":
-            second_uri = URIRef(f"{DR}{second_id}")
-            pred_uri = DIAMM_SCHEMA["region"]
-        elif second_type == "source":
+        if second_type == "source":
             second_uri = URIRef(f"{DS}{second_id}")
             reverse = True
             if work["type"] == "copied":
@@ -547,8 +539,9 @@ for work in json_data:
                 if pred_map := RELATIONS_MAPPING["organizations"].get(
                     work["type"].split(":")[1]
                 ):
-                    if not pred_map.startswith("r"):
-                        reverse = True
+                    if pred_map.startswith("r"):
+                        reverse = False
+                        pred_map = pred_map[1:]  # Remove 'r' prefix
                     pred_uri = WDT[pred_map]
     elif first_type == "people":
         first_uri = URIRef(f"{DP}{first_id}")
@@ -561,20 +554,16 @@ for work in json_data:
                 if pred_map := RELATIONS_MAPPING["people"].get(
                     work["type"].split(":")[1]
                 ):
-                    if not pred_map.startswith("r"):
-                        reverse = True
+                    if pred_map.startswith("r"):
+                        reverse = False
+                        pred_map = pred_map[1:]  # Remove 'r' prefix
                     pred_uri = WDT[pred_map]
-    elif first_type == "region":
-        first_uri = URIRef(f"{DR}{first_id}")
-        if second_type == "source":
-            second_uri = URIRef(f"{DS}{second_id}")
-            pred_uri = DIAMM_SCHEMA["location"]
-            reverse = True
     elif first_type == "set":
         first_uri = URIRef(f"{DE}{first_id}")
         if second_type == "source":
             second_uri = URIRef(f"{DS}{second_id}")
             pred_uri = DIAMM_SCHEMA["set_in_source"]
+            reverse = True
 
     if first_uri and pred_uri and second_uri:
         if reverse:
