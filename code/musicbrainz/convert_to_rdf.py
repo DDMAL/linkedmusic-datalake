@@ -54,7 +54,6 @@ from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import XSD, RDF
 import pandas as pd
 import aiofiles
-from url_patterns import DATABASES_REGEX
 from mapping_schema import MappingSchema
 
 # Define namespaces
@@ -182,9 +181,6 @@ def process_line(
     # Add the entity type, use UpperCamelCase for entity type
     g.add((subject_uri, RDF.type, LMMB[dashes_to_upper_camel(entity_type)]))
 
-    # Process id
-    g.add((subject_uri, mb_schema[f"{entity_type}-id"], Literal(entity_id)))
-
     # Process name
     if name := data.get("name"):
         g.add((subject_uri, mb_schema["name"], Literal(name)))
@@ -256,16 +252,6 @@ def process_line(
                 )
             )
 
-    # Process ASIN
-    if asin := data.get("asin"):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["asin"],
-                Literal(asin),
-            )
-        )
-
     # Process attributes
     for attribute in data.get("attributes", []):
         if (attribute_type := attribute.get("type")) and (
@@ -290,18 +276,8 @@ def process_line(
                     )
                 )
 
-    # Process barcode
-    if barcode := data.get("barcode"):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["barcode"],
-                Literal(barcode),
-            )
-        )
-
     # Process begin area
-    if begin_area := data.get("begin_area"):
+    if begin_area := data.get("begin-area"):
         if begin_area_id := begin_area.get("id"):
             g.add(
                 (
@@ -333,16 +309,12 @@ def process_line(
         g.add((subject_uri, mb_schema["date"], convert_date(date)))
 
     # Process end area
-    if data.get("end_area"):
-        if end_area_id := data["end_area"].get("id"):
+    if end_area := data.get("end-area"):
+        if (end_area_id := end_area.get("id")) and data["type"] == "Person":
             g.add(
                 (
                     subject_uri,
-                    (
-                        mb_schema["end-area-person"]
-                        if data["type"] == "Person"
-                        else mb_schema["end-area"]
-                    ),
+                    mb_schema["end-area-person"],
                     URIRef(f"https://musicbrainz.org/area/{end_area_id}"),
                 )
             )
@@ -384,46 +356,6 @@ def process_line(
                     genre_uri,
                 )
             )
-
-    # Process IPIs
-    for ipi in data.get("ipis", []):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["ipi"],
-                Literal(ipi),
-            )
-        )
-
-    # Process ISNIs
-    for isni in data.get("isnis", []):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["isni"],
-                Literal(isni),
-            )
-        )
-
-    # Process ISWCs
-    for iswc in data.get("iswcs", []):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["iswc"],
-                Literal(iswc),
-            )
-        )
-
-    # Process label code
-    if label_code := data.get("label-code"):
-        g.add(
-            (
-                subject_uri,
-                mb_schema["labelcode"],
-                Literal(label_code),
-            )
-        )
 
     # Process labels
     for label in data.get("label-info", []):
@@ -562,15 +494,8 @@ def process_line(
                     )
                 )
             else:
-                # Check if the URL matches any of the known databases
-                for db, regex in DATABASES_REGEX.items():
-                    if match := regex.match(url):
-                        target = Literal(str(match.group(1)))
-                        pred_uri = mb_schema[db]
-                        break
-                else:
-                    # If no match, treat it as a generic URL
-                    target = Literal(url)
+                # Treat it as a generic URL
+                target = Literal(url)
 
         target_type = target_type.replace("_", "-")  # Normalize target type
         if not target:
@@ -621,9 +546,9 @@ def process_line(
         if (status_map := reconciled_mapping.get(status)) and matched_wikidata(
             status_map
         ):
-            status = URIRef(f"{WD}{status_map}")
+            status_rdf = URIRef(f"{WD}{status_map}")
         else:
-            status = Literal(status)
+            status_rdf = Literal(status)
         g.add(
             (
                 subject_uri,
@@ -632,7 +557,7 @@ def process_line(
                     if status not in END_STATUSES
                     else mb_schema["end-status"]
                 ),
-                status,
+                status_rdf,
             )
         )
 
@@ -1089,7 +1014,7 @@ if __name__ == "__main__":
         output_folder = Path(args.output_folder)
         for file in output_folder.iterdir():
             # Get rid of numbers for ttl files
-            if file.is_file() and (match := re.match(r"^(\w+)-\d+$", file.stem)):
+            if file.is_file() and (match := re.match(r"^([\w-]+)-\d+$", file.stem)):
                 bad_files.add(match.group(1))
 
     for input_file in input_folder.iterdir():
