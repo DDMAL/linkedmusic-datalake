@@ -51,6 +51,7 @@ class MappingSchema:
         pointing_to should always be a single type.
         If the value is a string, it will be converted to a URIRef with the Wikidata namespace (WDT).
         """
+        self._type_dicts = {}
         self.schema = {}
         for types, mapping in schema.items():
             if not isinstance(mapping, URIRef):
@@ -87,6 +88,7 @@ class MappingSchema:
         Add an additional mapping to the schema,
         with the same properties and behaviour as init.
         """
+        self._type_dicts = {} # Reset the cache when updating the schema
         for types, mapping in schema.items():
             if not isinstance(mapping, URIRef):
                 mapping = URIRef(f"{WDT}{mapping}")
@@ -105,7 +107,11 @@ class MappingSchema:
         This will simplify calls to the schema to avoid having to pass the pointing_from type.
         This will return a dictionary where keys are the pointing_to types
         and values are the corresponding URIRef.
+        It uses caching to avoid re-processing the same entity type multiple times.
+        If the entity type is already cached, it will return the cached value.
         """
+        if entity_type in self._type_dicts:
+            return self._type_dicts[entity_type]
         to_return = {}
         for pointing_to, mappings in self.schema.items():
             for pointing_from, mapping in mappings.items():
@@ -113,6 +119,7 @@ class MappingSchema:
                     pointing_from is None and pointing_to not in to_return
                 ):
                     to_return[pointing_to] = mapping
+        self._type_dicts[entity_type] = to_return
         return to_return
 
     def add_from_formatted_dict(self, formatted_dict):
@@ -128,6 +135,7 @@ class MappingSchema:
         This is a convenience method to add mappings from a dictionary
         that was the internal schema dictionary dumped to a JSON file.
         """
+        self._type_dicts = {} # Reset the cache when updating the schema
         self.add(
             {
                 (key if key != "null" else None, k): URIRef(val)
