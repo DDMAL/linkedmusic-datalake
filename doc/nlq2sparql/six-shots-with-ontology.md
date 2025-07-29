@@ -4,6 +4,8 @@ VERY IMPORTANT:
 "Relevant Ontology" must be extracted from ## Context - Full Ontology. The Wikidata properties in the full ontology with the closest matching semantic meaning must be selected.
 "SPARQL Query" must be as simple as possible. It must be beautiful, elegant, and perfect.
 
+Ensure all spaces are standard spaces (ASCII 32).
+
 THANK YOU FOR YOUR ATTENTION
 
 ## Example 1
@@ -227,7 +229,7 @@ WHERE {
 
 ## You must complete the output below
 
-Input: Find the capital city of the top 20 countries with most sessions
+Input: Find all Global Jukebox cultures that have at least one song with flute instrumentation
 
 Graph:
 
