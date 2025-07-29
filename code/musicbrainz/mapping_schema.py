@@ -88,7 +88,7 @@ class MappingSchema:
         Add an additional mapping to the schema,
         with the same properties and behaviour as init.
         """
-        self._type_dicts = {} # Reset the cache when updating the schema
+        self._type_dicts = {}  # Reset the cache when updating the schema
         for types, mapping in schema.items():
             if not isinstance(mapping, URIRef):
                 mapping = URIRef(f"{WDT}{mapping}")
@@ -135,7 +135,7 @@ class MappingSchema:
         This is a convenience method to add mappings from a dictionary
         that was the internal schema dictionary dumped to a JSON file.
         """
-        self._type_dicts = {} # Reset the cache when updating the schema
+        self._type_dicts = {}  # Reset the cache when updating the schema
         self.add(
             {
                 (key if key != "null" else None, k): URIRef(val)
