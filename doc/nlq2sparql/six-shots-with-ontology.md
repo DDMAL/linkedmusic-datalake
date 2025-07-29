@@ -229,7 +229,7 @@ WHERE {
 
 ## You must complete the output below
 
-Input: Find all Global Jukebox cultures that have at least one song with flute instrumentation
+Input: Find all tracks with 'blackbird' or 'black bird' in the title.MusicBrainz, Dig That Lick, The Session
 
 Graph:
 
@@ -244,9 +244,9 @@ SPARQL Query:
 @prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix mb:        <https://linkedmusic.ca/graphs/musicbrainz/> .
 @prefix wdt:        <http://www.wikidata.org/prop/direct/> .
+@prefix skos:        <http://www.w3.org/2004/02/skos/core#> .
 @prefix dtl:        <https://linkedmusic.ca/graphs/dig-that-lick/> .
 @prefix gj:        <https://linkedmusic.ca/graphs/theglobaljukebox/> .
-@prefix skos:        <http://www.w3.org/2004/02/skos/core#> .
 @prefix ts:        <https://linkedmusic.ca/graphs/thesession/> .
 @prefix diamm:        <https://linkedmusic.ca/graphs/diamm/> .
 
@@ -255,11 +255,11 @@ mb:Area
         wdt:P136        mb:Genre ;
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
-        wdt:P4970        "alternative name" ;
         wdt:P571        "inception" ;
         wdt:P576        "dissolved, abolished or demolished date" ;
         wdt:P131        mb:Area ;
-        wdt:P85        mb:Work .
+        wdt:P85        mb:Work ;
+        skos:altLabel        "alt label" .
 mb:Artist
         rdfs:label        "label" ;
         wdt:P1066        mb:Artist ;
@@ -283,7 +283,6 @@ mb:Artist
         wdt:P361        mb:Artist , mb:Series ;
         wdt:P40        mb:Artist ;
         wdt:P451        mb:Artist ;
-        wdt:P4970        "alternative name" ;
         wdt:P521        mb:Artist ;
         wdt:P527        mb:Artist ;
         wdt:P569        "date of birth" ;
@@ -296,14 +295,17 @@ mb:Artist
         wdt:P825        mb:Artist ;
         wdt:P8810        mb:Artist ;
         wdt:P972        mb:Series ;
-        wdt:P57        mb:Place .
+        wdt:P57        mb:Place ;
+        wdt:P19        mb:Area ;
+        wdt:P20        mb:Area ;
+        wdt:P740        mb:Area ;
+        skos:altLabel        "alt label" .
 mb:Event
         rdfs:label        "label" ;
         wdt:P136        mb:Genre ;
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
         wdt:P3300        mb:Artist ;
-        wdt:P4970        "alternative name" ;
         wdt:P527        mb:Event ;
         wdt:P1365        mb:Event ;
         wdt:P1366        mb:Event ;
@@ -323,7 +325,8 @@ mb:Event
         wdt:P585        "point in time" ;
         wdt:P664        mb:Label ;
         wdt:P710        mb:Artist ;
-        wdt:P915        mb:Recording .
+        wdt:P915        mb:Recording ;
+        skos:altLabel        "alt label" .
 mb:Genre
         rdfs:label        "label" ;
         wdt:P138        mb:Artist , mb:Area , mb:Label , mb:Place , mb:ReleaseGroup ;
@@ -334,7 +337,6 @@ mb:Instrument
         wdt:P136        mb:Genre ;
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
-        wdt:P4970        "alternative name" ;
         wdt:P527        mb:Instrument ;
         wdt:P1531        mb:Instrument ;
         wdt:P155        mb:Instrument ;
@@ -342,7 +344,8 @@ mb:Instrument
         wdt:P279        mb:Instrument ;
         wdt:P61        mb:Artist , mb:Label ;
         wdt:P7084        mb:Instrument ;
-        wdt:P495        mb:Area .
+        wdt:P495        mb:Area ;
+        skos:altLabel        "alt label" .
 mb:Label
         rdfs:label        "label" ;
         wdt:P127        mb:Artist ;
@@ -350,7 +353,6 @@ mb:Label
         wdt:P138        mb:Work ;
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
-        wdt:P4970        "alternative name" ;
         wdt:P571        "inception" ;
         wdt:P576        "dissolved, abolished or demolished date" ;
         wdt:P112        mb:Artist ;
@@ -361,7 +363,8 @@ mb:Label
         wdt:P1365        mb:Label ;
         wdt:P1366        mb:Label ;
         wdt:P355        mb:Label ;
-        wdt:P749        mb:Label .
+        wdt:P749        mb:Label ;
+        skos:altLabel        "alt label" .
 mb:Place
         rdfs:label        "label" ;
         wdt:P127        mb:Artist , mb:Label ;
@@ -370,7 +373,6 @@ mb:Place
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
         wdt:P361        mb:Place ;
-        wdt:P4970        "alternative name" ;
         wdt:P527        mb:Place ;
         wdt:P571        "inception" ;
         wdt:P576        "dissolved, abolished or demolished date" ;
@@ -382,21 +384,21 @@ mb:Place
         wdt:P915        mb:Recording ;
         wdt:P1037        mb:Artist ;
         wdt:P625        "coordinate location" ;
-        wdt:P6375        "street address" .
+        wdt:P6375        "street address" ;
+        skos:altLabel        "alt label" .
 mb:Recording
+        rdfs:label        "label" ;
         wdt:P123        mb:Label ;
         wdt:P136        mb:Genre ;
         wdt:P2888        "exact match" ;
         wdt:P3174        mb:Artist ;
         wdt:P3300        mb:Artist ;
         wdt:P361        mb:Recording ;
-        wdt:P4970        "alternative name" ;
         wdt:P527        mb:Recording ;
         wdt:P57        mb:Artist ;
         wdt:P1071        mb:Area , mb:Place ;
         wdt:P10806        mb:Artist ;
         wdt:P12617        mb:Artist ;
-        wdt:P1476        "title" ;
         wdt:P161        mb:Artist ;
         wdt:P162        mb:Artist , mb:Label ;
         wdt:P1809        mb:Artist ;
@@ -405,6 +407,7 @@ mb:Recording
         wdt:P3301        mb:Label ;
         wdt:P344        mb:Artist ;
         wdt:P3931        mb:Artist , mb:Label ;
+        wdt:P4969        mb:Recording ;
         wdt:P5024        mb:Artist ;
         wdt:P5202        mb:Artist , mb:Label ;
         wdt:P5707        mb:Artist , mb:Recording , mb:Release ;
@@ -425,8 +428,10 @@ mb:Recording
         wdt:P2550        mb:Work ;
         wdt:P287        mb:Artist ;
         wdt:P5028        mb:Artist ;
-        wdt:P915        mb:Area , mb:Event , mb:Place .
+        wdt:P915        mb:Area , mb:Event , mb:Place ;
+        skos:altLabel        "alt label" .
 mb:Release
+        rdfs:label        "label" ;
         wdt:P123        mb:Artist , mb:Label ;
         wdt:P136        mb:Genre ;
         wdt:P264        mb:Label ;
@@ -435,15 +440,14 @@ mb:Release
         wdt:P3174        mb:Artist , mb:Label ;
         wdt:P3300        mb:Artist ;
         wdt:P361        mb:ReleaseGroup ;
-        wdt:P4970        "alternative name" ;
         wdt:P57        mb:Artist ;
+        wdt:P1534        "end cause" ;
         wdt:P655        mb:Artist ;
         wdt:P155        mb:Release ;
         wdt:P156        mb:Release ;
         wdt:P750        mb:Label ;
         wdt:P1071        mb:Area , mb:Place ;
         wdt:P10806        mb:Artist ;
-        wdt:P1476        "title" ;
         wdt:P162        mb:Artist ;
         wdt:P272        mb:Label ;
         wdt:P344        mb:Artist , mb:Label ;
@@ -474,17 +478,17 @@ mb:Release
         wdt:P872        mb:Label ;
         wdt:P9813        "container" ;
         wdt:P495        mb:Area ;
+        skos:altLabel        "alt label" ;
         wdt:P1081        mb:Area .
 mb:ReleaseGroup
+        rdfs:label        "label" ;
         wdt:P136        mb:Genre ;
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
         wdt:P361        mb:ReleaseGroup ;
-        wdt:P4970        "alternative name" ;
         wdt:P527        mb:ReleaseGroup ;
         wdt:P825        mb:Artist , mb:Label ;
         wdt:P12617        mb:Artist ;
-        wdt:P1476        "title" ;
         wdt:P9810        mb:ReleaseGroup ;
         wdt:P144        mb:Series , mb:ReleaseGroup ;
         wdt:P175        mb:Artist ;
@@ -492,7 +496,8 @@ mb:ReleaseGroup
         wdt:P2550        mb:ReleaseGroup ;
         wdt:P577        "publication date" ;
         wdt:P629        mb:ReleaseGroup ;
-        wdt:P658        mb:ReleaseGroup .
+        wdt:P658        mb:ReleaseGroup ;
+        skos:altLabel        "alt label" .
 mb:Series
         rdfs:label        "label" ;
         wdt:P123        mb:Label ;
@@ -501,27 +506,26 @@ mb:Series
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
         wdt:P361        mb:Series ;
-        wdt:P4970        "alternative name" ;
         wdt:P527        mb:Series ;
         wdt:P112        mb:Artist ;
         wdt:P175        mb:Artist ;
         wdt:P179        mb:Release , mb:ReleaseGroup ;
         wdt:P276        mb:Area , mb:Place ;
-        wdt:P50        mb:Artist .
+        wdt:P50        mb:Artist ;
+        skos:altLabel        "alt label" .
 mb:Work
+        rdfs:label        "label" ;
         wdt:P123        mb:Artist , mb:Label ;
         wdt:P136        mb:Genre ;
         wdt:P138        mb:Artist , mb:Work ;
         wdt:P2888        "exact match" ;
         wdt:P31        "instance of" ;
         wdt:P361        mb:Work ;
-        wdt:P4970        "alternative name" ;
         wdt:P527        mb:Work ;
         wdt:P825        mb:Artist , mb:Area , mb:Label , mb:Place ;
         wdt:P655        mb:Artist ;
         wdt:P1071        mb:Area , mb:Place ;
         wdt:P10806        mb:Artist ;
-        wdt:P1476        "title" ;
         wdt:P4969        mb:Work ;
         wdt:P5202        mb:Artist ;
         wdt:P87        mb:Artist ;
@@ -532,6 +536,7 @@ mb:Work
         wdt:P676        mb:Artist ;
         wdt:P86        mb:Artist ;
         wdt:P11849        mb:Artist ;
+        skos:altLabel        "alt label" ;
         wdt:P1701        mb:Area ;
         wdt:P2567        mb:Artist ;
         wdt:P407        "language of work or name" ;
@@ -599,54 +604,6 @@ gj:Source
         wdt:P50        "author" ;
         wdt:P577        "publication date" ;
         wdt:P921        gj:Culture .
-ts:Events
-        rdfs:label        "label" ;
-        wdt:P131        "located in the administrative territorial entity" ;
-        wdt:P17        "country" ;
-        wdt:P276        "location" ;
-        wdt:P580        "start time" ;
-        wdt:P582        "end time" ;
-        wdt:P625        "coordinate location" .
-ts:Member
-        rdfs:label        "label" .
-ts:Recording
-        rdfs:label        "label" ;
-        wdt:P2888        "exact match" ;
-        wdt:P175        "performer" ;
-        wdt:P658        ts:Tune .
-ts:Session
-        wdt:P131        "located in the administrative territorial entity" ;
-        wdt:P17        "country" ;
-        wdt:P276        "location" ;
-        wdt:P625        "coordinate location" .
-ts:Tune
-        rdfs:label        "label" ;
-        skos:altLabel        "alt label" ;
-        wdt:P747        ts:TuneSetting .
-ts:Tuneset
-        wdt:P527        ts:Tune ;
-        wdt:P571        "inception" ;
-        wdt:P170        ts:Member .
-ts:TuneSetting
-        wdt:P136        "genre" ;
-        wdt:P826        "tonality" ;
-        wdt:P3440        "time signature" .
-diamm:Archive
-        rdfs:label        "label" ;
-        wdt:P2888        "exact match" ;
-        wdt:P5504        "RISM ID" ;
-        wdt:P131        diamm:City ;
-        wdt:P11550        "RISM siglum" .
-diamm:City
-        rdfs:label        "label" ;
-        wdt:P2888        "exact match" ;
-        wdt:P131        diamm:Region ;
-        wdt:P17        diamm:Country .
-diamm:Composition
-        rdfs:label        "label" ;
-        wdt:P136        "genre" ;
-        wdt:P361        diamm:Source ;
-        wdt:P86        diamm:Person , "composer" .
 diamm:Country
         rdfs:label        "label" ;
         wdt:P2888        "exact match" .
@@ -659,6 +616,7 @@ diamm:Organization
         wdt:P1343        diamm:Source .
 diamm:Person
         rdfs:label        "label" ;
+        wdt:P214        "VIAF cluster ID" ;
         wdt:P2888        "exact match" ;
         wdt:P569        "date of birth" ;
         wdt:P570        "date of death" ;
@@ -695,4 +653,52 @@ diamm:Source
         wdt:P547        diamm:Person ;
         wdt:P859        diamm:Organization , diamm:Person ;
         wdt:P941        diamm:Organization , diamm:Person .
+diamm:Archive
+        rdfs:label        "label" ;
+        wdt:P2888        "exact match" ;
+        wdt:P5504        "RISM ID" ;
+        wdt:P131        diamm:City ;
+        wdt:P11550        "RISM siglum" .
+diamm:City
+        rdfs:label        "label" ;
+        wdt:P2888        "exact match" ;
+        wdt:P131        diamm:Region ;
+        wdt:P17        diamm:Country .
+diamm:Composition
+        rdfs:label        "label" ;
+        wdt:P136        "genre" ;
+        wdt:P361        diamm:Source ;
+        wdt:P86        diamm:Person , "composer" .
+ts:Events
+        rdfs:label        "label" ;
+        wdt:P131        "located in the administrative territorial entity" ;
+        wdt:P17        "country" ;
+        wdt:P276        "location" ;
+        wdt:P580        "start time" ;
+        wdt:P582        "end time" ;
+        wdt:P625        "coordinate location" .
+ts:Member
+        rdfs:label        "label" .
+ts:Recording
+        rdfs:label        "label" ;
+        wdt:P2888        "exact match" ;
+        wdt:P175        "performer" ;
+        wdt:P658        ts:Tune .
+ts:Session
+        wdt:P131        "located in the administrative territorial entity" ;
+        wdt:P17        "country" ;
+        wdt:P276        "location" ;
+        wdt:P625        "coordinate location" .
+ts:Tune
+        rdfs:label        "label" ;
+        skos:altLabel        "alt label" ;
+        wdt:P747        ts:TuneSetting .
+ts:Tuneset
+        wdt:P527        ts:Tune ;
+        wdt:P571        "inception" ;
+        wdt:P170        ts:Member .
+ts:TuneSetting
+        wdt:P136        "genre" ;
+        wdt:P826        "tonality" ;
+        wdt:P3440        "time signature" .
 ```
