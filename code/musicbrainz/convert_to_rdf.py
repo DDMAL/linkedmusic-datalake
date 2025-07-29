@@ -529,6 +529,21 @@ def process_entity(
                 # If the target is a MusicBrainz entity, create a URIRef
                 target = URIRef(f"{MB}{target_type}/{target_id}")
 
+        # Handle instrument relationships
+        if (
+            entity_type == "recording"
+            and target_type == "artist"
+            and rel_type == "instrument"
+        ):
+            for inst in relation.get("attribute-ids", {}).values():
+                g.add(
+                    (
+                        subject_uri,
+                        entity_mb_schema["instrument"],
+                        MBIN[inst],
+                    )
+                )
+
         if target and pred_uri:
             # All genre relationships need the genre as a subject
             if target_type == "genre":

@@ -49,6 +49,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The `event` entity type's `setlist` field seems to contain pre-rendered data about the setlist, which makes it difficult to parse. Furthermore, the same data is also located in the `relations` field, and as such, the `setlist` field is ignored during the RDF conversion process.
 - The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, and as the name of a field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
 - As per this [forum thread](https://community.metabrainz.org/t/recording-json-dumps-incomplete/322708) and this [bug report](https://tickets.metabrainz.org/browse/MBS-9433), the data dump for the `recording` entities only contains "standalone" recordings, i.e. recordings that are not associated with any release, and all other recordings are located in the `release` data dump, as a list in each `release` entity.
+- Data on instrumentation for recordings is stored as an attribute of the ["instrument" artist-recording relationship](https://musicbrainz.org/relationship/59054b12-01ac-43ee-a618-285fd397e461), not as a direct relationship or as a field of the `recording` entity
 
 ## Identifiers to other databases
 
