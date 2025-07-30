@@ -4,7 +4,8 @@ VERY IMPORTANT:
 "Relevant Ontology" must be extracted from ## Context - Full Ontology. The Wikidata properties in the full ontology with the closest matching semantic meaning must be selected.
 "SPARQL Query" must be as simple as possible. It must be beautiful, elegant, and perfect.
 
-Ensure all spaces are standard spaces (ASCII 32).
+- Ensure all spaces are standard spaces (ASCII 32).
+- Don't use an alias in ORDER BY—repeat the full aggregate expression instead.
 
 THANK YOU FOR YOUR ATTENTION
 
@@ -229,14 +230,13 @@ WHERE {
 
 ## You must complete the output below
 
-Input: Find all tracks with 'blackbird' or 'black bird' in the title.MusicBrainz, Dig That Lick, The Session
+Natural Language Question: Count how many session each country has in the Session.
 
 Graph:
 
 Relevant Ontology:
 
 SPARQL Query:
-
 
 ## Context - Full Ontology
 
