@@ -50,7 +50,7 @@ from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
 from tqdm import tqdm
-from rdflib import Graph, URIRef, Literal, Namespace
+from rdflib import Graph, ConjunctiveGraph, URIRef, Literal, Namespace
 from rdflib.namespace import XSD, RDF
 import pandas as pd
 import aiofiles
@@ -89,7 +89,8 @@ CHUNK_SIZE = 500  # Adjustable chunk size
 # Max number of chunk processing threads to run simultaneously
 MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
 # Max number of processes to run simultaneously
-MAX_PROCESSES = min(MAX_SIMULTANEOUS_CHUNK_WORKERS, os.cpu_count() or 1)
+# The +1 is for the process that will be serializing the graphs
+MAX_PROCESSES = min(MAX_SIMULTANEOUS_CHUNK_WORKERS + 1, os.cpu_count() or 1)
 MAX_CHUNKS_IN_MEMORY = 120  # Max number of chunks to keep in memory at once
 MAX_SUBGRAPHS_IN_MEMORY = 120  # Max number of subgraphs to keep in memory at once
 
@@ -647,7 +648,7 @@ def process_chunk(
     return g
 
 
-async def subgraph_worker(
+async def chunk_worker(
     chunk_queue,
     subgraph_queue,
     entity_type,
@@ -712,18 +713,14 @@ def merge_subgraph(graph, subgraph):
     graph.commit()  # Commit the changes to the main graph
 
 
-async def graph_worker(
-    subgraph_queue, namespaces, main_graphs, graph_store, subgraph_bar
-):
+async def merge_worker(subgraph_queue, graph_queue, graph_store, subgraph_bar):
     """Worker function to merge subgraphs into the main graph."""
+    graph_num = 0
     if graph_store:
         graph = Graph("Oxigraph")
-        graph.open(f"./store-{len(main_graphs)}", create=True)
+        graph.open(f"./store-{graph_num}", create=True)
     else:
         graph = Graph()
-    for prefix, ns in namespaces.items():
-        graph.bind(prefix, ns)
-    main_graphs.append(graph)
 
     chunk_count = 0
     loop = asyncio.get_event_loop()
@@ -741,38 +738,131 @@ async def graph_worker(
             chunk_count += 1
 
             if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
+                # Save the current graph to the queue
+                if graph_store:
+                    graph.commit()
+                    graph.close()
+                    await graph_queue.put((graph_num, f"./store-{graph_num}"))
+                else:
+                    await graph_queue.put((graph_num, graph))
                 # Start a new graph
+                graph_num += 1
                 graph = Graph("Oxigraph")
-                graph.open(f"./store-{len(main_graphs)}", create=True)
-                for prefix, ns in namespaces.items():
-                    graph.bind(prefix, ns)
-                main_graphs.append(graph)
+                graph.open(f"./store-{graph_num}", create=True)
     except asyncio.CancelledError:
         sigint = True
     except Exception as e:
         with tqdm.get_lock():
             tqdm.write(f"Error merging subgraph: {type(e).__name__}: {e}")
     finally:
+        if not sigint:
+            while not subgraph_queue.empty():
+                subgraph = await subgraph_queue.get()
+                await loop.run_in_executor(None, merge_subgraph, graph, subgraph)
+                subgraph_queue.task_done()
+                with tqdm.get_lock():
+                    subgraph_bar.update(1)
+                chunk_count += 1
+                if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
+                    # Save the current graph to the queue
+                    if graph_store:
+                        graph.commit()
+                        graph.close()
+                        await graph_queue.put((graph_num, f"./store-{graph_num}"))
+                    else:
+                        await graph_queue.put((graph_num, graph))
+                    # Start a new graph
+                    graph_num += 1
+                    graph = Graph("Oxigraph")
+                    graph.open(f"./store-{graph_num}", create=True)
+        if graph_store:
+            graph.commit()
+            graph.close()
+            await graph_queue.put((graph_num, f"./store-{graph_num}"))
+        else:
+            await graph_queue.put((graph_num, graph))
+
+
+def serialize_graph(graph, filename, namespaces):
+    """
+    Serialize the graph to a Turtle file.
+    If a string is given, it is assumed to be the path to the store for the graph.
+    """
+    if isinstance(graph, Graph):
+        for prefix, ns in namespaces.items():
+            graph.bind(prefix, ns)
+        with open(filename, "wb") as f:
+            graph.serialize(f, format="turtle", encoding="utf-8")
+    else:
+        # Use a ConjunctiveGraph to get around the fact that Oxigraph is a quad store
+        # and rdflib's Graph is a triple store, which can cause issues with reopening the graph
+        # due to triples not appearing
+        g = ConjunctiveGraph("Oxigraph")
+        g.open(graph, create=False)
+        for prefix, ns in namespaces.items():
+            g.bind(prefix, ns)
+        with open(filename, "wb") as f:
+            g.serialize(f, format="turtle", encoding="utf-8")
+
+
+async def serialize_worker(
+    entity_type, output_folder, graph_queue, serialize_bar, namespaces, executor
+):
+    """
+    Worker function to serialize graphs.
+    This function runs in a separate process to speed up the serialization.
+    """
+    loop = asyncio.get_event_loop()
+    sigint = False
+    try:
+        while True:
+            i, graph = await graph_queue.get()
+            output_file = output_folder / f"{entity_type}-{i}.ttl"
+            await loop.run_in_executor(
+                executor, serialize_graph, graph, str(output_file), namespaces
+            )
+            # Fully delete the stores
+            if os.path.exists(f"./store-{i}"):
+                for root, dirs, files in os.walk(f"./store-{i}", topdown=False):
+                    for file in files:
+                        os.remove(os.path.join(root, file))
+                    for name in dirs:
+                        os.rmdir(os.path.join(root, name))
+                os.rmdir(f"./store-{i}")
+            graph_queue.task_done()
+            with tqdm.get_lock():
+                serialize_bar.update(1)
+    except asyncio.CancelledError:
+        sigint = True
+    except Exception as e:
+        with tqdm.get_lock():
+            tqdm.write(f"Error serializing graph: {type(e).__name__}: {e}")
+    finally:
         if sigint:
             return
-        while not subgraph_queue.empty():
-            subgraph = await subgraph_queue.get()
-            await loop.run_in_executor(None, merge_subgraph, graph, subgraph)
-            subgraph_queue.task_done()
+        while not graph_queue.empty():
+            i, graph = await graph_queue.get()
+            output_file = output_folder / f"{entity_type}-{i}.ttl"
+            await loop.run_in_executor(
+                executor, serialize_graph, graph, str(output_file), namespaces
+            )
+            # Fully delete the stores
+            if os.path.exists(f"./store-{i}"):
+                for root, dirs, files in os.walk(f"./store-{i}", topdown=False):
+                    for file in files:
+                        os.remove(os.path.join(root, file))
+                    for name in dirs:
+                        os.rmdir(os.path.join(root, name))
+                os.rmdir(f"./store-{i}")
+            graph_queue.task_done()
             with tqdm.get_lock():
-                subgraph_bar.update(1)
-            chunk_count += 1
-            if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
-                # Start a new graph
-                graph = Graph("Oxigraph")
-                graph.open(f"./store-{len(main_graphs)}", create=True)
-                for prefix, ns in namespaces.items():
-                    graph.bind(prefix, ns)
-                main_graphs.append(graph)
+                serialize_bar.update(1)
 
 
-async def get_final_graphs(entity_type, input_file, namespaces, reconciled_mapping):
-    """Main function to process the input file and return the final RDF graph."""
+async def create_graphs(
+    entity_type, input_file, output_folder, namespaces, reconciled_mapping
+):
+    """Main function to process the input file and export the final RDF graphs."""
     with open(input_file, "r", encoding="utf-8") as f:
         total_lines = sum(1 for _ in f)
     total_chunks = (
@@ -790,22 +880,32 @@ async def get_final_graphs(entity_type, input_file, namespaces, reconciled_mappi
         graph_store = False
         print(f"{input_file} is small enough to use an in-memory graph.")
 
-    main_graphs = []
+    # Only use 1 graph if we don't use a graph store
+    if graph_store:
+        graph_count = (
+            total_chunks // MAX_CHUNKS_PER_GRAPH + 1
+            if total_chunks % MAX_CHUNKS_PER_GRAPH != 0
+            else total_chunks // MAX_CHUNKS_PER_GRAPH
+        )
+    else:
+        graph_count = 1
 
-    # Create task queue
+    # Create queues
     chunk_queue = asyncio.Queue(MAX_CHUNKS_IN_MEMORY)
     subgraph_queue = asyncio.Queue(MAX_SUBGRAPHS_IN_MEMORY)
+    graph_queue = asyncio.Queue(graph_count)
 
     # Create the progress bars
     file_bar = tqdm(total=total_lines, desc="Processing lines", position=0)
     chunk_bar = tqdm(total=total_chunks, desc="Processing chunks", position=1)
     subgraph_bar = tqdm(total=total_chunks, desc="Merging subgraphs", position=2)
+    serialize_bar = tqdm(total=graph_count, desc="Saving RDF graphs", position=3)
 
     with ProcessPoolExecutor(max_workers=MAX_PROCESSES) as executor:
         try:
             subgraph_workers = [
                 asyncio.create_task(
-                    subgraph_worker(
+                    chunk_worker(
                         chunk_queue,
                         subgraph_queue,
                         entity_type,
@@ -818,9 +918,22 @@ async def get_final_graphs(entity_type, input_file, namespaces, reconciled_mappi
                 )
                 for _ in range(MAX_SIMULTANEOUS_CHUNK_WORKERS)
             ]
-            merge_worker = asyncio.create_task(
-                graph_worker(
-                    subgraph_queue, namespaces, main_graphs, graph_store, subgraph_bar
+            merge_worker_task = asyncio.create_task(
+                merge_worker(
+                    subgraph_queue,
+                    graph_queue,
+                    graph_store,
+                    subgraph_bar,
+                )
+            )
+            serialize_worker_task = asyncio.create_task(
+                serialize_worker(
+                    entity_type,
+                    output_folder,
+                    graph_queue,
+                    serialize_bar,
+                    namespaces,
+                    executor,
                 )
             )
 
@@ -852,17 +965,25 @@ async def get_final_graphs(entity_type, input_file, namespaces, reconciled_mappi
 
             await subgraph_queue.join()  # Wait for all subgraphs to be processed
 
-            merge_worker.cancel()
+            merge_worker_task.cancel()
 
-            await asyncio.gather(merge_worker)
+            await asyncio.gather(merge_worker_task)
+
+            with tqdm.get_lock():
+                subgraph_bar.refresh()
+
+            await graph_queue.join()  # Wait for all graphs to be serialized
+
+            serialize_worker_task.cancel()
+
+            await asyncio.gather(serialize_worker_task)
 
             file_bar.close()
             chunk_bar.close()
             subgraph_bar.close()
+            serialize_bar.close()
         except KeyboardInterrupt:
             executor.shutdown(wait=False, cancel_futures=True)
-
-    return main_graphs
 
 
 def main(args):
@@ -904,32 +1025,15 @@ def main(args):
         "mbwo": MBWO,
     }
 
-    main_graphs = asyncio.run(
-        get_final_graphs(
+    asyncio.run(
+        create_graphs(
             entity_type,
             input_file,
+            output_folder,
             namespaces,
             reconciled_mapping,
         )
     )
-
-    # Save the final result
-    for i, main_graph in enumerate(tqdm(main_graphs, desc="Saving RDF graphs")):
-        output_file = output_folder / f"{entity_type}-{i}.ttl"
-        tqdm.write(f"Saving RDF data to: {output_file}")
-        with open(output_file, "wb") as f:
-            main_graph.serialize(f, format="turtle", encoding="utf-8")
-        tqdm.write(f"Successfully saved RDF data to: {output_file}")
-        main_graph.close()
-
-        # Fully delete the stores
-        if os.path.exists(f"./store-{i}"):
-            for root, dirs, files in os.walk(f"./store-{i}", topdown=False):
-                for file in files:
-                    os.remove(os.path.join(root, file))
-                for name in dirs:
-                    os.rmdir(os.path.join(root, name))
-            os.rmdir(f"./store-{i}")
 
 
 if __name__ == "__main__":
