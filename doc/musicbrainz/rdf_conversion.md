@@ -45,6 +45,8 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The amount of subgraph merging workers is set to 3. This will be refined if needed.
 - The amount of graph serializing workers is set to 3 since graphs tend to queue up since they are quite big.
 - For ease of reading, the fields are processed in alphabetical order in the `process_entity` function.
+- Errors within an entity are caught, and the problematic entity is safely skipped
+- Unexpected errors that cause workers to crash are logged, the problematic task is marked as complete so that other workers don't run into it, and the worker safely exits.
 - If you call `Literal(...)` with `XSD:date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
 - The same situation applies to the `convert_datetime` function with the `XSD:dateTime` datatype and the `parse_datetime` isodate function.
 - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in [`code/musicbrainz/rdf_conversion_config/mappings.json`](/code/musicbrainz/rdf_conversion_config/mappings.json). The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.

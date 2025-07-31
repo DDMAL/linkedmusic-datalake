@@ -34,6 +34,8 @@ Exception Handling:
 
     - Skips any lines that fail JSON decoding or lack the necessary entity id.
     - Handles missing or malformed data gracefully, logging errors to the terminal without crashing the script.
+    - Unexpected exceptions that cause workers to stop are logged, the worker will mark the problematic task
+    as complete so that other workers don't get stuck, and the worker will exit.
 
 This module is intended for converting MusicBrainz data to RDF format, facilitating integration with other linked data sources.
 """
@@ -668,9 +670,11 @@ async def chunk_worker(
     This function runs in a separate process to speed up the processing.
     """
     loop = asyncio.get_event_loop()
+    chunk_started = False
     try:
         while True:
             chunk = await chunk_queue.get()
+            chunk_started = True
 
             # Process the chunk in a separate process to speed up the processing
             g = await asyncio.gather(
@@ -694,14 +698,26 @@ async def chunk_worker(
                 with tqdm.get_lock():
                     tqdm.write(f"Error processing chunk: {type(g).__name__}: {g}")
                     chunk_bar.update(1)
+                chunk_started = False
                 continue
 
             await subgraph_queue.put(g)  # Add the subgraph to the queue
             chunk_queue.task_done()
             with tqdm.get_lock():
                 chunk_bar.update(1)
+            chunk_started = False
     except asyncio.CancelledError:
         pass
+    except Exception as e:
+        with tqdm.get_lock():
+            tqdm.write(f"Error processing chunk: {type(e).__name__}: {e}")
+    finally:
+        # Ensure all tasks are marked as done
+        if chunk_started:
+            chunk_queue.task_done()
+            # If the chunk was not processed, we still need to update the progress bar
+            with tqdm.get_lock():
+                chunk_bar.update(1)
 
 
 def merge_subgraph(graph, subgraph):
@@ -731,10 +747,11 @@ async def merge_worker(
 
     chunk_count = 0
     loop = asyncio.get_event_loop()
-    sigint = False
+    chunk_started = False
     try:
         while True:
             subgraph = await subgraph_queue.get()
+            chunk_started = True
 
             # Do this in a separate thread to avoid blocking the event loop
             await loop.run_in_executor(None, merge_subgraph, graph, subgraph)
@@ -742,13 +759,13 @@ async def merge_worker(
             subgraph_queue.task_done()
             with tqdm.get_lock():
                 subgraph_bar.update(1)
+            chunk_started = False
             chunk_count += 1
 
             if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
                 try:
                     new_graph_num = graph_number_queue.get_nowait()
                 except asyncio.QueueEmpty:
-                    sigint = True
                     break  # No more graphs to create
                 # Save the current graph to the queue
                 if graph_store:
@@ -762,35 +779,17 @@ async def merge_worker(
                 graph = Graph("Oxigraph")
                 graph.open(f"./store-{graph_num}", create=True)
     except asyncio.CancelledError:
-        sigint = True
+        pass
     except Exception as e:
         with tqdm.get_lock():
             tqdm.write(f"Error merging subgraph: {type(e).__name__}: {e}")
     finally:
-        if not sigint:
-            while not subgraph_queue.empty():
-                subgraph = await subgraph_queue.get()
-                await loop.run_in_executor(None, merge_subgraph, graph, subgraph)
-                subgraph_queue.task_done()
-                with tqdm.get_lock():
-                    subgraph_bar.update(1)
-                chunk_count += 1
-                if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
-                    try:
-                        new_graph_num = graph_number_queue.get_nowait()
-                    except asyncio.QueueEmpty:
-                        break  # No more graphs to create
-                    # Save the current graph to the queue
-                    if graph_store:
-                        graph.commit()
-                        graph.close()
-                        await graph_queue.put((graph_num, f"./store-{graph_num}"))
-                    else:
-                        await graph_queue.put((graph_num, graph))
-                    # Start a new graph
-                    graph_num += 1
-                    graph = Graph("Oxigraph")
-                    graph.open(f"./store-{graph_num}", create=True)
+        # Ensure all tasks are marked as done
+        if chunk_started:
+            subgraph_queue.task_done()
+            # If the last subgraph was not processed, we still need to update the progress bar
+            with tqdm.get_lock():
+                subgraph_bar.update(1)
         if graph_store:
             graph.commit()
             graph.close()
@@ -829,10 +828,11 @@ async def serialize_worker(
     This function runs in a separate process to speed up the serialization.
     """
     loop = asyncio.get_event_loop()
-    sigint = False
+    graph_started = False
     try:
         while True:
             i, graph = await graph_queue.get()
+            graph_started = True
             output_file = output_folder / f"{entity_type}-{i}.ttl"
             await loop.run_in_executor(
                 executor, serialize_graph, graph, str(output_file), namespaces
@@ -848,29 +848,17 @@ async def serialize_worker(
             graph_queue.task_done()
             with tqdm.get_lock():
                 serialize_bar.update(1)
+            graph_started = False
     except asyncio.CancelledError:
-        sigint = True
+        pass
     except Exception as e:
         with tqdm.get_lock():
             tqdm.write(f"Error serializing graph: {type(e).__name__}: {e}")
     finally:
-        if sigint:
-            return
-        while not graph_queue.empty():
-            i, graph = await graph_queue.get()
-            output_file = output_folder / f"{entity_type}-{i}.ttl"
-            await loop.run_in_executor(
-                executor, serialize_graph, graph, str(output_file), namespaces
-            )
-            # Fully delete the stores
-            if os.path.exists(f"./store-{i}"):
-                for root, dirs, files in os.walk(f"./store-{i}", topdown=False):
-                    for file in files:
-                        os.remove(os.path.join(root, file))
-                    for name in dirs:
-                        os.rmdir(os.path.join(root, name))
-                os.rmdir(f"./store-{i}")
+        # Ensure all tasks are marked as done
+        if graph_started:
             graph_queue.task_done()
+            # If the graph was not processed, we still need to update the progress bar
             with tqdm.get_lock():
                 serialize_bar.update(1)
 
