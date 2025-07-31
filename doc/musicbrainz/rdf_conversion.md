@@ -45,7 +45,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The amount of subgraph merging workers is set to 3. This will be refined if needed.
 - The amount of graph serializing workers is set to 3 since graphs tend to queue up since they are quite big.
 - For ease of reading, the fields are processed in alphabetical order in the `process_entity` function.
-- Errors within an entity are caught, and the problematic entity is safely skipped
+- Errors within an entity are caught, and the problematic entity is safely skipped. The same logic is also applied to chunks.
 - Unexpected errors that cause workers to crash are logged, the problematic task is marked as complete so that other workers don't run into it, and the worker safely exits.
 - If you call `Literal(...)` with `XSD:date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
 - The same situation applies to the `convert_datetime` function with the `XSD:dateTime` datatype and the `parse_datetime` isodate function.
