@@ -71,7 +71,7 @@
         "recording": "http://www.wikidata.org/prop/direct/P2047"
     },
     "first-release-date": {
-        "release-group": "http://www.wikidata.org/prop/direct/P577"
+        "null": "http://www.wikidata.org/prop/direct/P577"
     },
     "cdtoc": {
         "release": "http://www.wikidata.org/prop/direct/P527"
