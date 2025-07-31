@@ -39,9 +39,10 @@ The below rules are to conform with RDF standards and with Wikidata standards
   - Converting chunks into RDF subgraphs
   - Merging the subgraphs into larger graphs that will be serialized to turtle
   - Serializing the graphs to the turtle output files
-- The script uses `asyncio` queues to send data between the steps, and the queues have size limits to limit pending operations to avoid using up a large amount of memory on pending tasks
+- The script uses `asyncio.Queue` queues to send data between the steps, and the queues have size limits to limit pending operations to avoid using up a large amount of memory on pending tasks
 - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script.
 - The amount of chunk processing workers is set to 3 because that's what I found to be the most efficient, since ultimately you are limited by the subgraph merging.
+- The amount of subgraph merging workers is set to 3. This will be refined if needed.
 - The amount of graph serializing workers is set to 3 since graphs tend to queue up since they are quite big.
 - For ease of reading, the fields are processed in alphabetical order in the `process_entity` function.
 - If you call `Literal(...)` with `XSD:date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.

@@ -88,6 +88,8 @@ RECONCILIATION_MAPPING = {}
 CHUNK_SIZE = 500  # Adjustable chunk size
 # Max number of chunk processing processes to run simultaneously
 MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
+# Max number of subgraph merging threads to run simultaneously
+MAX_SIMULTANEOUS_SUBGRAPH_WORKERS = 3
 # Max number of graph serializing processes to run simultaneously
 MAX_SIMULTANEOUS_GRAPH_WORKERS = 3
 # Max number of processes to run simultaneously
@@ -921,14 +923,17 @@ async def create_graphs(
                 )
                 for _ in range(MAX_SIMULTANEOUS_CHUNK_WORKERS)
             ]
-            merge_worker_task = asyncio.create_task(
-                merge_worker(
-                    subgraph_queue,
-                    graph_queue,
-                    graph_store,
-                    subgraph_bar,
+            merge_workers = [
+                asyncio.create_task(
+                    merge_worker(
+                        subgraph_queue,
+                        graph_queue,
+                        graph_store,
+                        subgraph_bar,
+                    )
                 )
-            )
+                for _ in range(min(graph_count, MAX_SIMULTANEOUS_SUBGRAPH_WORKERS))
+            ]
             serialize_workers = [
                 asyncio.create_task(
                     serialize_worker(
@@ -940,7 +945,7 @@ async def create_graphs(
                         executor,
                     )
                 )
-                for _ in range(MAX_SIMULTANEOUS_GRAPH_WORKERS)
+                for _ in range(min(graph_count, MAX_SIMULTANEOUS_GRAPH_WORKERS))
             ]
 
             # Read file and split into chunks
@@ -971,9 +976,10 @@ async def create_graphs(
 
             await subgraph_queue.join()  # Wait for all subgraphs to be processed
 
-            merge_worker_task.cancel()
+            for worker in merge_workers:
+                worker.cancel()
 
-            await asyncio.gather(merge_worker_task)
+            await asyncio.gather(*merge_workers)
 
             with tqdm.get_lock():
                 subgraph_bar.refresh()
