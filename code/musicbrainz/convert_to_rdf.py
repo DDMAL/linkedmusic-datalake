@@ -86,11 +86,14 @@ ATTRIBUTE_MAPPING = {}
 RECONCILIATION_MAPPING = {}
 
 CHUNK_SIZE = 500  # Adjustable chunk size
-# Max number of chunk processing threads to run simultaneously
+# Max number of chunk processing processes to run simultaneously
 MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
+# Max number of graph serializing processes to run simultaneously
+MAX_SIMULTANEOUS_GRAPH_WORKERS = 3
 # Max number of processes to run simultaneously
-# The +1 is for the process that will be serializing the graphs
-MAX_PROCESSES = min(MAX_SIMULTANEOUS_CHUNK_WORKERS + 1, os.cpu_count() or 1)
+MAX_PROCESSES = min(
+    MAX_SIMULTANEOUS_CHUNK_WORKERS + MAX_SIMULTANEOUS_GRAPH_WORKERS, os.cpu_count() or 1
+)
 MAX_CHUNKS_IN_MEMORY = 120  # Max number of chunks to keep in memory at once
 MAX_SUBGRAPHS_IN_MEMORY = 120  # Max number of subgraphs to keep in memory at once
 
@@ -926,16 +929,19 @@ async def create_graphs(
                     subgraph_bar,
                 )
             )
-            serialize_worker_task = asyncio.create_task(
-                serialize_worker(
-                    entity_type,
-                    output_folder,
-                    graph_queue,
-                    serialize_bar,
-                    namespaces,
-                    executor,
+            serialize_workers = [
+                asyncio.create_task(
+                    serialize_worker(
+                        entity_type,
+                        output_folder,
+                        graph_queue,
+                        serialize_bar,
+                        namespaces,
+                        executor,
+                    )
                 )
-            )
+                for _ in range(MAX_SIMULTANEOUS_GRAPH_WORKERS)
+            ]
 
             # Read file and split into chunks
             async with aiofiles.open(input_file, "r", encoding="utf-8") as f:
@@ -974,9 +980,10 @@ async def create_graphs(
 
             await graph_queue.join()  # Wait for all graphs to be serialized
 
-            serialize_worker_task.cancel()
+            for worker in serialize_workers:
+                worker.cancel()
 
-            await asyncio.gather(serialize_worker_task)
+            await asyncio.gather(*serialize_workers)
 
             file_bar.close()
             chunk_bar.close()
