@@ -718,9 +718,11 @@ def merge_subgraph(graph, subgraph):
     graph.commit()  # Commit the changes to the main graph
 
 
-async def merge_worker(subgraph_queue, graph_queue, graph_store, subgraph_bar):
+async def merge_worker(
+    subgraph_queue, graph_queue, graph_number_queue, graph_store, subgraph_bar
+):
     """Worker function to merge subgraphs into the main graph."""
-    graph_num = 0
+    graph_num = graph_number_queue.get_nowait()
     if graph_store:
         graph = Graph("Oxigraph")
         graph.open(f"./store-{graph_num}", create=True)
@@ -743,6 +745,11 @@ async def merge_worker(subgraph_queue, graph_queue, graph_store, subgraph_bar):
             chunk_count += 1
 
             if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
+                try:
+                    new_graph_num = graph_number_queue.get_nowait()
+                except asyncio.QueueEmpty:
+                    sigint = True
+                    break  # No more graphs to create
                 # Save the current graph to the queue
                 if graph_store:
                     graph.commit()
@@ -751,7 +758,7 @@ async def merge_worker(subgraph_queue, graph_queue, graph_store, subgraph_bar):
                 else:
                     await graph_queue.put((graph_num, graph))
                 # Start a new graph
-                graph_num += 1
+                graph_num = new_graph_num
                 graph = Graph("Oxigraph")
                 graph.open(f"./store-{graph_num}", create=True)
     except asyncio.CancelledError:
@@ -769,6 +776,10 @@ async def merge_worker(subgraph_queue, graph_queue, graph_store, subgraph_bar):
                     subgraph_bar.update(1)
                 chunk_count += 1
                 if graph_store and chunk_count % MAX_CHUNKS_PER_GRAPH == 0:
+                    try:
+                        new_graph_num = graph_number_queue.get_nowait()
+                    except asyncio.QueueEmpty:
+                        break  # No more graphs to create
                     # Save the current graph to the queue
                     if graph_store:
                         graph.commit()
@@ -899,6 +910,11 @@ async def create_graphs(
     chunk_queue = asyncio.Queue(MAX_CHUNKS_IN_MEMORY)
     subgraph_queue = asyncio.Queue(MAX_SUBGRAPHS_IN_MEMORY)
     graph_queue = asyncio.Queue(graph_count)
+    # This queue is to ensure that graph numbering is consistent across all workers
+    # It also allows workers to know when to stop creating graphs
+    graph_number_queue = asyncio.Queue(graph_count)
+    for i in range(graph_count):
+        graph_number_queue.put_nowait(i)
 
     # Create the progress bars
     file_bar = tqdm(total=total_lines, desc="Processing lines", position=0)
@@ -928,6 +944,7 @@ async def create_graphs(
                     merge_worker(
                         subgraph_queue,
                         graph_queue,
+                        graph_number_queue,
                         graph_store,
                         subgraph_bar,
                     )
