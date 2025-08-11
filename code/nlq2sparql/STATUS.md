@@ -36,6 +36,11 @@ Recent Changes (this branch)
 - Added outcome‑focused tests (ontology slice determinism, example ranking, prompt structure, supervisor end‑to‑end).
 - Adjusted Wikidata precise search limits to 1 (entity/property) to match tests & reduce response noise.
 - Root `conftest.py` ensures repository `code` package shadows stdlib `code` during pytest collection.
+- Implemented automated property mappings extractor (`ontology/extract_property_mappings.py`) producing coverage + conflict metrics and updating `property_mappings.json`.
+- Added raw TTL slice mode (`mode="ttl"`) to `UnifiedOntologyAgent` returning verbatim triple snippets (`ttl_snippets`).
+- Supervisor now explicitly sets `ontology_mode=ttl` (future‑proofing for alternative modes).
+- Added ontology agent mode test (ttl vs structured) raising total tests to 43 (all passing).
+- Extended STATUS with future investigation note for intermediate mapping layer.
 
 Completed (Phase 1 Skeleton Scope)
 ----------------------------------
@@ -43,22 +48,23 @@ Completed (Phase 1 Skeleton Scope)
 - Prompt builder (structured payload assembly).
 - Baseline ExampleRetrievalAgent (token overlap heuristic).
 - UnifiedOntologyAgent loading immutable unified TTL.
-- Property mappings stub & manual builder script.
+- Property mappings stub + automated extractor + coverage metrics (current coverage ~81%).
+- Raw TTL slice mode implemented & integrated (supervisor explicit mode call).
 - Foundational behavioral tests.
 
 Outstanding Gaps / Risks
 ------------------------
-1. Property mappings extractor automation & coverage metrics missing (stub is manual).
+1. Property mappings enrichment: alias expansion, conflict resolution workflow, PID suggestion heuristics not yet implemented (only baseline extraction).
 2. No caching (Wikidata lookups & ontology slices) → latency + rate limit exposure.
 3. google-genai version drift / lack of extras grouping.
 4. Broader tests absent (Wikidata tool mock, regression dataset harness, negative cases).
 5. Runtime config consolidation (endpoints, prefixes, rate limits) incomplete.
 6. Evaluation harness (accuracy/latency/token metrics) not built.
-7. CI pipeline absent (lint + tests + mini eval + ontology immutability guard).
+7. CI pipeline absent (lint + tests + mini eval + ontology immutability + coverage guard).
 8. Multi‑provider expansion (OpenAI / Anthropic) missing.
 9. Error handling / retry/backoff minimal.
 10. Example retrieval semantic upgrade (embeddings) not implemented.
-11. Ontology relevance heuristic simplistic (lexical only; no alias weighting).
+11. Ontology relevance heuristic simplistic (lexical only; no alias weighting or pruning scores).
 12. Prompt size budgeting strategy absent (risk of token overflow later).
 13. Query verification / repair loop missing.
 14. Self‑healing / iterative refinement not started.
@@ -71,14 +77,14 @@ Assumptions (To Validate / Document)
 
 Short‑Term Roadmap (Next Focus)
 --------------------------------
-1. Property mappings extractor + coverage report (mapped %, unresolved terms list, alias suggestions).
-2. Ontology relevance: integrate alias expansion & scoring; deterministic pruning.
+1. Property mappings enrichment: alias sidecar file + conflict resolution + candidate PID suggestion scaffold.
+2. Ontology relevance: integrate alias expansion & scoring; deterministic pruning and token budgeting heuristic.
 3. Caching layer (LRU) for Wikidata & ontology slices w/ metrics (hit%, size).
 4. Evaluation harness v1 -> JSONL (provider, latency_ms, tokens_in/out, success, error_type).
 5. Runtime config consolidation (prefixes, endpoints, rate limits, provider keys via .env).
-6. CI pipeline (GitHub Actions): lint, unit tests, ontology hash check, tiny eval subset.
+6. CI pipeline (GitHub Actions): lint, unit tests, ontology hash check, property coverage floor, tiny eval subset.
 7. Provider stubs (OpenAI, Anthropic) reusing prompt + tool interface.
-8. Prompt budgeting & trimming strategy (score-based node/property ranking).
+8. Prompt budgeting & trimming strategy (score-based node/property ranking) leveraging coverage + frequency.
 9. Query verification module (syntax parse, allowed prefixes, graph scoping).
 10. Example retrieval semantic upgrade (embedding model optional path).
 11. Robust error handling utilities (retry w/ backoff + circuit breaker).
@@ -118,7 +124,7 @@ Update Process
 --------------
 - Edit this file on each milestone (add date + summary under a new heading if preferred later).
 
-Last Updated: 2025-08-11 (phase 1 skeleton complete; roadmap reprioritized)
+Last Updated: 2025-08-11 (phase 1 skeleton complete; ontology TTL slice mode + extractor automation + mode tests added)
 
 Future Investigation Note (Intermediate Mapping Layer vs Direct TTL)
 --------------------------------------------------------------------
