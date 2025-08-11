@@ -5,8 +5,11 @@ Natural Language → SPARQL generation for LinkedMusic graphs (DIAMM, The Sessio
 This README reflects the CURRENT implemented scope (ontology summarization + Wikidata ID resolution + Gemini integration scaffold). For roadmap and detailed status see `STATUS.md`.
 
 ## Implemented (Current)
-- OntologyAgent (`agents/ontology_agent.py`) – simplified schema extraction.
+- UnifiedOntologyAgent (`agents/ontology_agent.py`) – read‑only unified TTL slice heuristic.
+- ExampleRetrievalAgent (`agents/example_agent.py`) – token overlap baseline retrieval.
 - Wikidata tool functions (`tools/wikidata_tool.py`) – async entity & property ID resolution.
+- SupervisorAgent skeleton (`agents/supervisor.py`).
+- Prompt builder (`prompt_builder.py`).
 - Gemini integration scaffold (`integrations/gemini_integration.py`) – function calling support.
 - Evaluation dataset (`query_database_10july2025.csv`).
 
@@ -36,15 +39,41 @@ Draft SPARQL → Verification → Final SPARQL
 - Multi‑provider integrations (OpenAI, Anthropic).
 - Query verification / self‑repair loop.
 
-## Quick Smoke Test
-```
+## Quick Smoke Tests
+Install (if not already):
+```bash
 poetry install
+```
+
+Wikidata resolution:
+```bash
 poetry run python - <<'PY'
-from nlq2sparql.tools.wikidata_tool import find_entity_id, find_property_id
+from code.nlq2sparql.tools.wikidata_tool import find_entity_id, find_property_id
 import asyncio
 async def main():
     print('Dufay ->', await find_entity_id('Guillaume Dufay'))
     print('composer ->', await find_property_id('composer'))
+asyncio.run(main())
+PY
+```
+
+Supervisor dry run (no LLM call yet):
+```bash
+poetry run python - <<'PY'
+import asyncio
+from code.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, WikidataAgent
+from code.nlq2sparql import prompt_builder
+
+async def main():
+    sup = SupervisorAgent(
+        ontology_agent=UnifiedOntologyAgent(),
+        wikidata_agent=WikidataAgent(),
+        example_agent=ExampleRetrievalAgent(),
+        prompt_builder=prompt_builder,
+    )
+    result = await sup.run("List compositions by Guillaume Dufay with incipit information")
+    print('Prompt keys:', list(result.prompt.keys()))
+    print('Resolved sample:', list(result.resolved_entities.items())[:5])
 asyncio.run(main())
 PY
 ```
@@ -61,18 +90,8 @@ async def run():
 asyncio.run(run())
 ```
 
-## Ontology Summaries
-Use the `OntologyAgent` directly:
-```
-poetry run python - <<'PY'
-from nlq2sparql.agents.ontology_agent import OntologyAgent
-from pathlib import Path
-agent = OntologyAgent(Path('code/nlq2sparql/ontology/diamm_ontology.ttl'))
-schema = agent.get_schema_summary()
-print('Classes:', schema['classes'][:5])
-print('Relationships sample:', schema['relationships'][:5])
-PY
-```
+## Ontology Slices
+The `UnifiedOntologyAgent` automatically loads `ontology/11Aug2025_ontology.ttl` (read‑only). The heuristic will improve; current output structure is stable for prompt building.
 
 ## Contributing
 - Keep changes off `main`; use `nlq2sparql-api` (current working branch) or feature branches.
@@ -82,4 +101,4 @@ PY
 ## License
 Part of the LinkedMusic Data Lake repository. See root LICENSE (if present) or repository terms.
 
-Last Updated: 2025-08-11 (multi‑agent vision added)
+Last Updated: 2025-08-11 (skeleton multi‑agent components added)

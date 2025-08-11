@@ -12,11 +12,47 @@ This GitHub repo contains codes, documentations, and test files are used to
 -   reconcile, 
 -   convert the reconciled CSV to RDF turtle, then upload them to the Virtuoso Staging. 
 
-## Virtual Environment Setup
+## Development Environment (Poetry)
 
-1. Open a terminal in the `/linkedmusic-datalake` folder.
-2. Run `poetry install` to install the required packages.
-3. Activate the virtual environment with `eval $(poetry env activate)`.
+This repository is fully managed by Poetry (see `pyproject.toml`). Avoid creating a separate `venv` manually; mixing environments is the most common cause of `ModuleNotFoundError` (e.g. for `aiolimiter`).
+
+Recommended workflow:
+
+1. Install dependencies (and create the managed env if missing):
+    ```bash
+    poetry install
+    ```
+2. Run ad‑hoc commands inside the environment (preferred):
+    ```bash
+    poetry run pytest -q
+    poetry run python -m code.nlq2sparql --help
+    ```
+3. Or spawn an interactive shell:
+    ```bash
+    poetry shell
+    ```
+4. (Optional) If you really need to “activate” in your current shell without `poetry shell`:
+    ```bash
+    source "$(poetry env info --path)/bin/activate"
+    ```
+
+If you previously created a manual virtualenv, deactivate it and rely on the Poetry one. To inspect which environment Poetry is using:
+```bash
+poetry env info
+```
+
+To remove and recreate (e.g. after Python upgrade):
+```bash
+poetry env remove --all
+poetry install
+```
+
+Running tests (the `nlq2sparql/Makefile` already wraps these):
+```bash
+poetry run make -C code/nlq2sparql test
+```
+
+Environment variables (API keys) should be placed in a local `.env` (not committed). Common keys you may need later: `GEMINI_API_KEY`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`.
 
 ## Database Introductions
 

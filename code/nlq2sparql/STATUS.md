@@ -32,6 +32,7 @@ Recent Changes (this branch)
 ----------------------------
 - Added async Wikidata resolution tool functions (`find_entity_id`, `find_property_id`).
 - Added package initializers for clean imports.
+- Phase 1 skeleton architecture added: base, ontology, example, supervisor agents; prompt builder; property mappings stub + builder.
 
 Outstanding Gaps / Risks
 ------------------------
@@ -58,23 +59,18 @@ Assumptions (To Validate / Document)
 
 Short‑Term Roadmap (Priority Ordered)
 -------------------------------------
-1. Supervisor Orchestrator (`supervisor.py`): dispatch order & data passing between sub‑agents; define interaction protocol (simple dataclass messages).
-2. Prompt Builder (`prompt_builder.py`): unify system prompt assembly (ontology slice + examples + mappings + task instructions + resolved IDs placeholder region).
-3. Example Retrieval Agent (`agents/example_agent.py`): similarity search over NLQ text (baseline: TF‑IDF / RapidFuzz; later upgrade to embedding index) returning k examples.
-4. Unified Ontology Subagent (refactor): parser + relevance extractor operating over `11Aug2025_ontology.ttl` (must NOT alter or rewrite TTL; builds transient in‑memory index of: class→{properties: [(pid, rawObjects, rawLiterals)], reverseCandidates?}). Relevance heuristics: lexical overlap with NLQ (class labels, literal property labels), property alias match from property_mappings, plus expansion to one hop of related classes. Config: bias to inclusion (recall > precision). Output: JSON slice passed to Prompt Builder.
-5. Build & populate `ontology/property_mappings.json` via automated extractor (inputs: DIAMM_SCHEMA, DIAMM relations.json, MusicBrainz mappings + relations, RISM mapping.json non‑empty values, literal labels harvested from unified ontology) plus curated synonyms (composer→P86, birth date→P569, genre→P136, performer→P175, location→P276, administrative area→P131, country→P17, part of→P361, instance of→P31, member of→P463, has part(s)→P527, shelfmark→P217, patron→P859, commissioned by→P88, dedicatee→P825, transcribed by→P11603, incipit→P1922, subject→P921, exact match→P2888).
-5. Tests (phase 1):
-   - Unit: OntologyAgent determinism.
-   - Unit: wikidata_tool (mock network).
-   - Unit: Example retrieval ranking.
-   - Integration: supervisor end‑to‑end dry run (mock LLM) producing assembled prompt JSON.
-6. Add `google-genai` dependency & feature gate via extras (e.g. `[gemini]`).
-7. Caching layer (simple in‑memory LRU) for entity/property lookups.
-8. Evaluation Harness (`evaluate_queries.py`): run N queries per provider, store JSONL with: provider, latency_ms, token_in/out (if available), correctness flags.
-9. Runtime config (`config.py`): endpoints, graph prefix map, provider keys via env.
-10. CI workflow: lint + tests + evaluation smoke (subset size=5) to catch regressions.
-11. Add OpenAI & Anthropic provider stubs reusing BaseLLMIntegration.
-12. Query verification module: parse & validate allowed prefixes, named graph scoping, disallow disallowed constructs.
+1. Add tests for new skeleton (ontology slice hash guardrail, example retrieval ordering, supervisor prompt keys).
+2. Enhance ontology relevance (property alias expansion using property_mappings stub).
+3. Implement real property mappings extractor to populate stub JSON (metrics: mapped %, unmapped count).
+4. Introduce caching (LRU) for Wikidata + ontology slices.
+5. Evaluation harness generating per‑provider JSONL metrics.
+6. Runtime config consolidation (prefix map, endpoints, provider keys via env).
+7. Provider expansion (OpenAI / Anthropic stubs).
+8. Prompt optimization & size budgeting.
+9. Query verification (syntax + prefix filtering; later semantic dry‑run).
+10. CI workflow (lint, unit tests, smoke eval) incl. ontology hash check.
+11. Upgrade example retrieval to embedding similarity.
+12. Self‑healing loop (post baseline accuracy).
 
 Stretch Items
 -------------
@@ -110,4 +106,4 @@ Update Process
 --------------
 - Edit this file on each milestone (add date + summary under a new heading if preferred later).
 
-Last Updated: 2025-08-11 (added unified ontology constraints & subagent plan)
+Last Updated: 2025-08-11 (added skeleton multi-agent architecture & updated roadmap)
