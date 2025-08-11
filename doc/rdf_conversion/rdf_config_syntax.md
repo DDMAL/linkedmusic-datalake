@@ -236,9 +236,32 @@ Charlie,c@example.com,
 
 - In the general RDF conversion script, fill-down continues only until a non-empty value is encountered in the column set to be `PRIMARY_KEY`.
 
-  - When setting a `PRIMARY_KEY`, you need to ensure that values in this column is never empty at the beginning of a record `session_id` is a good `PRIMARY_KEY` within `sessions-reconciled.csv` because each record is guaranteed to have a `session_id`
+  - When setting a `PRIMARY_KEY`, you need to ensure that values in this column is **central** to the record. This means that, for each record, there is guaranteed to be **exactly one** value in this column. 
 
-- In the example above, the `PRIMARY_KEY` would have to be set to `Name`
+- In the example above, the `PRIMARY_KEY` needs to be set to `Name`:
+
+  - There is always a non-null `Name` value at the beginning of a record (e.g. the moment we see "Charlie", we know that it's a new person's record).
+  - There is never more than one non-null `Name` value in the same record: each record is guaranteed to be only about one person, who we understand as having only one `Name`.
+  - The fill-down resets when it detects the start of a new record: this prevents Bob's phone number from incorrectly overwriting Charlie's empty phone number field.
+
+- On the contrary, in the example above, `Email` is not a good `PRIMARY-KEY`:
+
+  - There can be more than one email per record: the record is centered around person, and a person may have more than one email, or no email at all.
+  - The fill-down will reset upon reaching the person's second email when it shouldn't.
+  - Also, anyone without email will have their null fields overwritten by the previous person't data.
+
+  If we incorrectly used `Email` as the PRIMARY_KEY, the result would be:
+
+  ```csv
+  Name,Email,Phone
+  Alice,a@example.com,123-456
+  ,a.work@example.com,
+  Bob,b@example.com,789-000
+  Bob,b@example.com,789-001
+  Charlie,c@example.com,
+  ```
+
+- Notice that Alice's name didn't fill down to her second email row because the fill-down reset when encountering the non-empty `Email` value `a.work@example.com`.
 
 ### 2.2 Understanding Inline Dictionary Mappings
 
