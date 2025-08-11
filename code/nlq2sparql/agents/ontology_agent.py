@@ -46,7 +46,7 @@ class UnifiedOntologyAgent(BaseAgent):
     def _tokenize(self, question: str) -> List[str]:
         return [t for t in re.findall(r"[a-zA-Z0-9]+", question.lower()) if len(t) >= 3]
 
-    async def run(self, question: str, max_neighbors: int = 30) -> Dict[str, Any]:  # type: ignore[override]
+    async def run(self, question: str, max_neighbors: int = 30, mode: str = "ttl") -> Dict[str, Any]:  # type: ignore[override]
         self._ensure_loaded()
         assert self._graph is not None
         tokens = self._tokenize(question)
@@ -55,31 +55,73 @@ class UnifiedOntologyAgent(BaseAgent):
             for label, subs in self._label_index.items():
                 if token in label:
                     matched_subjects.update(subs)
-        edges: List[Dict[str, Any]] = []
-        literals: List[Dict[str, Any]] = []
-        added_nodes: Set[str] = set(matched_subjects)
         g = self._graph
-        for subj in list(matched_subjects):
-            if len(edges) >= max_neighbors:
-                break
-            subj_ref = URIRef(subj)
-            for _, pred, obj in g.triples((subj_ref, None, None)):
+        if mode == "ttl":
+            # Return raw TTL snippet(s) verbatim for each matched subject
+            snippets: List[str] = []
+            # Limit subjects to avoid runaway size
+            for subj in list(matched_subjects)[: max_neighbors]:
+                subj_ref = URIRef(subj)
+                lines: List[str] = []
+                # Collect triples for this subject
+                for _, pred, obj in g.triples((subj_ref, None, None)):
+                    if isinstance(obj, Literal):
+                        o_txt = f'"{obj}"@en' if obj.language == 'en' else f'"{obj}"'
+                    else:
+                        o_txt = self._shorten(str(obj))
+                    lines.append(f"{self._shorten(str(pred))}\t{o_txt} .")
+                if lines:
+                    header = self._shorten(str(subj_ref))
+                    snippet = header + "\n\t" + "\n\t".join(lines)
+                    snippets.append(snippet)
+            # Maintain backward-compatible empty structural fields so older tests / consumers don't break.
+            return {"tokens": tokens, "ttl_snippets": snippets, "nodes": [], "edges": [], "literals": [], "source": "unified_ontology_v1", "mode": "ttl"}
+        else:
+            # Structured mode (original behavior) retained for future experimentation
+            edges: List[Dict[str, Any]] = []
+            literals: List[Dict[str, Any]] = []
+            added_nodes: Set[str] = set(matched_subjects)
+            for subj in list(matched_subjects):
                 if len(edges) >= max_neighbors:
                     break
-                if isinstance(obj, Literal):
-                    literals.append({"subject": subj, "predicate": str(pred), "value": str(obj)})
-                else:
-                    oid = str(obj)
-                    edges.append({"subject": subj, "predicate": str(pred), "object": oid})
-                    added_nodes.add(oid)
-        labels_map: Dict[str, str] = {}
-        for s in added_nodes:
-            for _, _, o in g.triples((URIRef(s), RDFS.label, None)):
-                if isinstance(o, Literal):
-                    labels_map[s] = str(o)
-                    break
-        nodes = [{"id": nid, "label": labels_map.get(nid)} for nid in sorted(added_nodes)]
-        return {"tokens": tokens, "nodes": nodes, "edges": edges, "literals": literals, "source": "unified_ontology_v1"}
+                subj_ref = URIRef(subj)
+                for _, pred, obj in g.triples((subj_ref, None, None)):
+                    if len(edges) >= max_neighbors:
+                        break
+                    if isinstance(obj, Literal):
+                        literals.append({"subject": subj, "predicate": str(pred), "value": str(obj)})
+                    else:
+                        oid = str(obj)
+                        edges.append({"subject": subj, "predicate": str(pred), "object": oid})
+                        added_nodes.add(oid)
+            labels_map: Dict[str, str] = {}
+            for s in added_nodes:
+                for _, _, o in g.triples((URIRef(s), RDFS.label, None)):
+                    if isinstance(o, Literal):
+                        labels_map[s] = str(o)
+                        break
+            nodes = [{"id": nid, "label": labels_map.get(nid)} for nid in sorted(added_nodes)]
+            return {"tokens": tokens, "nodes": nodes, "edges": edges, "literals": literals, "source": "unified_ontology_v1", "mode": "structured"}
+
+    def _shorten(self, iri: str) -> str:
+        """Best‑effort compaction of full IRI to prefix:local if it matches known namespaces.
+        Falls back to original IRI if no match.
+        """
+        # Simple static prefix mapping mirroring top of TTL file
+        prefixes = {
+            "https://linkedmusic.ca/graphs/musicbrainz/": "mb:",
+            "https://linkedmusic.ca/graphs/thesession/": "ts:",
+            "https://linkedmusic.ca/graphs/diamm/": "diamm:",
+            "https://linkedmusic.ca/graphs/dig-that-lick/": "dtl:",
+            "https://linkedmusic.ca/graphs/theglobaljukebox/": "gj:",
+            "http://www.wikidata.org/prop/direct/": "wdt:",
+            "http://www.w3.org/2000/01/rdf-schema#": "rdfs:",
+            "http://www.w3.org/2004/02/skos/core#": "skos:",
+        }
+        for base, p in prefixes.items():
+            if iri.startswith(base):
+                return p + iri[len(base):]
+        return iri
 
 
 __all__ = ["UnifiedOntologyAgent", "OntologySlice"]

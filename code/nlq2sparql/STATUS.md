@@ -119,3 +119,43 @@ Update Process
 - Edit this file on each milestone (add date + summary under a new heading if preferred later).
 
 Last Updated: 2025-08-11 (phase 1 skeleton complete; roadmap reprioritized)
+
+Future Investigation Note (Intermediate Mapping Layer vs Direct TTL)
+--------------------------------------------------------------------
+Context (Added 2025-08-11): During early Phase 1 we discussed two alternative strategies for how the OntologyAgent supplies schema context to the LLM:
+1. Direct TTL Slicing (CURRENT V1 CHOICE): Read the unified ontology file (`ontology/11Aug2025_ontology.ttl`) and extract ONLY the raw TTL blocks (verbatim triples) for subjects judged relevant to the user question. The agent returns these snippets unchanged (e.g., if only `ts:Tuneset` is relevant, it emits exactly that subject block with its predicates/objects). No NL paraphrasing, no restructuring.  This keeps implementation simple and guarantees fidelity to source.
+2. Intermediate Mapping / Abstraction Layer (DEFERRED): Pre‑process ontology & relation inventories into a compact, NL‑oriented, alias‑rich JSON (e.g., `property_mappings.json` plus potential class/property summaries) that the LLM can ingest more economically. This layer would add curated aliases, confidence scores, usage frequencies, and allow coverage metrics & regression checks.
+
+Decision for V1: Stick with (1) to minimize scope & moving parts. The OntologyAgent has been (or will be) adjusted to output raw TTL slices under a `raw_ttl` (and/or `ttl_snippets`) field so the Supervisor can inject those directly into prompts. No transformation beyond selecting which subject blocks to include.
+
+Why Revisit Later:
+- Token Efficiency: Raw TTL grows linearly with dataset count; many triples are irrelevant noise in prompts. A distilled mapping layer can cut prompt size while preserving semantic recall.
+- Alias / Phrase Matching: User queries rarely mirror RDF labels exactly; intermediate layer supports robust normalization (aliases, inflections, synonyms) and property disambiguation.
+- Governance & Metrics: JSON layer enables explicit coverage (%) of NL phrases → properties, conflict detection, and CI guardrails (fail builds if coverage regresses).
+- Caching & Retrieval: Structured layer supports per‑query retrieval (fetch only N most relevant properties) vs. coarse TTL slicing.
+- Extensibility: New datasets (future interns) just add an `extract_relations` script; unified harvester updates mappings automatically; less RDF parsing logic baked into agent code.
+
+Deferred Architecture Sketch (for future implementers):
+1. Standard Relation Export: Each dataset provides `extract_relations.py` emitting JSON objects: `{source, subject_type, raw_phrase, direction, object_type, candidate_pid?, evidence}`.
+2. Harvester (existing prototype: `extract_property_mappings.py`): Merges all relation exports + existing mappings; normalizes phrases; tracks metrics (`mapped_count`, `unmapped_count`, `coverage`, `conflicts`).
+3. Alias Sidecar: Human‑curated `alias_rules.yml` merged in (never overwritten by generator) to enrich matching without touching auto file.
+4. PID Suggestion (future): Lightweight Wikidata search for unmapped phrases -> `candidate_pid_suggestions` with confidence scores.
+5. CI Gates: (a) Coverage floor, (b) Zero conflicts, (c) Ontology TTL hash unchanged, (d) Report freshness check.
+6. Query-Time Retrieval: Given user question -> extract phrases/tokens -> retrieve only needed subset of mappings (plus a few high‑scoring expansions) -> inject into prompt. Avoids dumping entire TTL or entire mappings file.
+7. Optional Sharding: If mappings become large, shard by initial letter or semantic cluster; loader provides unified view.
+
+Migration Plan When Revisiting:
+Phase A (Introduce Safely): Keep raw TTL slice path; add optional `mode="mappings"` to OntologyAgent returning curated subset from mapping layer. Run dual‑path evaluation (A/B) to quantify token savings & accuracy impact.
+Phase B (Optimize): Add caching & retrieval scoring (frequency * semantic similarity). Implement PID suggestion workflow & alias governance.
+Phase C (Enforce): Switch Supervisor default to mapping mode; retain TTL fallback for debugging / explainability.
+
+Risks If Deferred Too Long:
+- Prompt bloat as ontology grows (The Session, DIAMM, RISM, etc.) leading to truncated or degraded model performance.
+- Lack of measurable progress on property coverage; regressions may slip through unnoticed.
+- Increasing manual burden to add aliases directly in code instead of structured sidecar.
+
+Explicit TODO Trigger for Future Team:
+Reassess once (a) raw TTL slice injected into prompts routinely exceeds a configurable soft token budget (e.g., >1500 tokens for schema section) OR (b) unmapped NL test set phrases exceed 15% of total queries. At that point, implement Phase A of the migration plan above.
+
+Summary: V1 intentionally prioritizes simplicity & fidelity via direct TTL slicing. This note records the rationale and supplies a concrete, testable roadmap so a future contributor (or LLM agent) can implement the abstraction layer without rediscovery effort.
+
