@@ -291,7 +291,7 @@ Below is a list of keywords that can be used in a inline dictionary:
   - String comparison work on `URIRef` or `Literal`. However, you should convert them to string first if you want to use any string method.
     ```toml
     # Only create triple if object does not start with "M"
-    username = {pred = "rdfs:label", if = "str(obj).startswith('M')"}
+    username = {pred = "rdfs:label", if = "not str(obj).startswith('M')"}
     ```
 
 Note that all keywords above would all be useless if `pred` is not defined within the dictionary: you cannot customize how the triple is created if it is not created at all!
