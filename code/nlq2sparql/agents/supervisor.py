@@ -37,7 +37,8 @@ class SupervisorAgent(BaseAgent):
 
     async def run(self, question: str) -> SupervisorResult:  # type: ignore[override]
         self.logger.debug("Supervisor start: %s", question)
-        ontology_slice = await self.ontology_agent.run(question=question)
+        ontology_mode = self.config.get("ontology_mode", "ttl") if self.config else "ttl"
+        ontology_slice = await self.ontology_agent.run(question=question, mode=ontology_mode)
         tokens = [t.strip(",.?;:") for t in question.split() if len(t) > 3]
         resolved = await self.wikidata_agent.lookup_entities_and_properties(tokens, tokens)
         examples = await self.example_agent.run(question=question)
