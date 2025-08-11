@@ -1,3 +1,12 @@
+"""NLQ2SPARQL package initialization.
+
+Exposes high-level tools for resolving Wikidata IDs when translating natural
+language to SPARQL over the linked music datasets.
+"""
+
+from .tools.wikidata_tool import find_entity_id, find_property_id  # re-export
+
+__all__ = ["find_entity_id", "find_property_id"]
 """
 NLQ to SPARQL Generator Package
 
