@@ -220,3 +220,146 @@ Reasoning: This sharply delimits baseline so subsequent optimizations (caching, 
 
 Next Action Toward MVP: Curate seed question list + minimal examples file (no code changes needed to architecture) → add smoke test harness.
 
+
+Multi-Dataset Federated Planning (Added 2025-08-11)
+---------------------------------------------------
+Context: All five datasets (MusicBrainz, The Session, DIAMM, The Global Jukebox, Dig That Lick) must be addressable transparently. The system should infer at runtime which graphs participate while hiding internal dataset boundaries from end users unless an explicit explain/debug mode is enabled.
+
+Catalog Skeleton (INITIAL – CREATED):
+- `catalog/concepts.json` – Abstract concepts (Artist, Work, Recording, Tune, TuneSet, Manuscript, Culture).
+- `catalog/capabilities.musicbrainz.json` – MusicBrainz capability manifest (entities, relations, strengths, limitations).
+- `catalog/router_rules.yml` – Ordered keyword/pattern rules mapping NL tokens → candidate datasets + concept hints.
+
+Planned Additional Capability Files (PENDING):
+- `catalog/capabilities.diamm.json`
+- `catalog/capabilities.thesession.json`
+- `catalog/capabilities.gj.json` (Global Jukebox)
+- `catalog/capabilities.dtl.json` (Dig That Lick)
+
+Future Linking Layer (NOT STARTED):
+- `catalog/linking_rules.json` – Declarative join strategies (e.g., Artist via shared Wikidata QID across MusicBrainz & DIAMM; Tune ↔ Work heuristics; Culture ↔ Area mappings; instrumentation alignment).
+
+Federated Query Planning Roadmap:
+1. RouterAgent: loads router_rules.yml, scores patterns, outputs: `{dataset_candidates, concept_hints, rationale}`. (Rules file present; code NOT IMPLEMENTED.)
+2. CapabilityLoader: merges capabilities.*.json to expose predicates/classes per candidate dataset. (PENDING)
+3. OntologyAgent Enhancement: accept dataset list → filter TTL snippets by dataset prefix/namespace. (PENDING; current global slice.)
+4. Plan Builder: produce intermediate plan JSON: `{concepts, datasets, steps:[{graph, rationale}]}` for prompt injection & testing. (PENDING)
+5. Join Strategy Resolver: consult linking_rules.json to propose merge keys / alignment predicates. (PENDING)
+6. Prompt Assembly Update: embed plan summary + per-dataset TTL sections (ordered by confidence). (PENDING)
+7. Pre-SPARQL Validation: sanity check coverage (all required concepts represented) before generation. (PENDING)
+
+Design Principles:
+- Layer separation: Concepts (what) vs capabilities (how) vs router rules (when) vs linking rules (join logic).
+- Determinism & Inspectability: plan JSON persisted (optional) to enable reproducible evaluation & diffing.
+- Conservative Inclusion: prefer minimal dataset set satisfying concepts; add others only if high-confidence overlap or explicit mention.
+
+Open Federation Questions:
+F1. Multi-dataset inclusion threshold (absolute score vs margin vs concept coverage gap)?
+F2. Conflict resolution when predicates differ semantically (pick richest / most specific?).
+F3. Strategy decision for UNION vs multi-subquery with post-hoc join (cost vs completeness)?
+F4. Soft cap on datasets per initial plan (2–3?) to control prompt size.
+F5. Precomputed concept frequency metrics to rank fallback datasets? (future enhancement)
+
+Incremental Implementation Order (Suggested):
+ [ ] Implement RouterAgent stub returning dataset_candidates (musicbrainz only for now).
+ [ ] Add capabilities loader (musicbrainz) & assert shape via test.
+ [ ] Wire Supervisor -> RouterAgent -> OntologyAgent (still unfiltered TTL initially).
+ [ ] Extend OntologyAgent to filter TTL by namespace (dataset-aware slices).
+ [ ] Introduce plan object into prompt payload (tests for presence & determinism).
+ [ ] Add negative test: question with domain-specific token routes away from unrelated dataset.
+ [ ] Prepare placeholder capability files for at least one additional dataset to validate multi-load path.
+
+Metrics (Future Federation Layer):
+- Dataset routing precision/recall against labeled evaluation set.
+- Plan size (tokens) vs single-dataset baseline.
+- Join success rate (correct cross-dataset alignments present in gold queries).
+- Time added by routing + capability loading (< 150ms target cached).
+
+Risk Mitigation:
+- Start with single dataset capability; others incremental to avoid speculative modeling.
+- Keep router rules purely lexical first pass; later augment with embedding similarity if needed.
+- Maintain fallback to single best dataset if federation confidence low.
+
+Single vs Multiple STATUS Files Decision:
+Decision: KEEP A SINGLE STATUS.md
+Rationale: Central narrative avoids fragmentation & stale divergence. For deep dives (e.g., federation, mapping abstraction) create anchored subsections here first. Only if a subsection becomes disproportionately large or process-heavy, spin out a focused doc under `docs/` (e.g., `docs/federation.md`) and link back, while STATUS remains the authoritative timeline & milestone ledger.
+
+Routing Layer Documentation (Added 2025-08-11)
+---------------------------------------------
+Purpose: Record the initial implementation details of the lexical routing layer so future sessions can continue federation work without re-deriving design intent.
+
+Implemented Component:
+- `RouterAgent` (`agents/router_agent.py`): Loads `catalog/router_rules.yml`, tokenizes question, applies additive boost scoring per matched rule.
+
+Current Data Flow Order (Supervisor):
+1. RouterAgent (if present) → routing dict.
+2. OntologyAgent (still global TTL slice, not dataset-filtered yet).
+3. WikidataAgent → entity/property IDs.
+4. ExampleRetrievalAgent → baseline examples list.
+5. Prompt assembly (injects routing under `config_meta.routing`).
+
+Routing Output Fields (stored in `SupervisorResult.routing` and prompt config):
+- `ranked_datasets` (List[str]): Dataset codes sorted by descending accumulated score.
+- `dataset_scores` (Dict[str,float]): Raw additive scores per dataset.
+- `concept_hints` (List[str]): Sorted unique abstract concepts implicated by matched rules.
+- `matched_rules` (List[Object]): Trace objects containing:
+   - `rule_index`: 0-based index within YAML.
+   - `matched_patterns`: Patterns from that rule found in question.
+   - `datasets`: Datasets boosted by this rule.
+   - `boost`: Numeric weight applied.
+   - `concepts`: Concept hints contributed.
+- `tokens` (List[str]): Basic alphanumeric tokens (length ≥3) extracted from the NL question.
+- `rule_count` (int): Total rules loaded (sanity/debug value).
+
+Why Keep All Trace Data:
+- Determinism / Repro: Matched rule indices + patterns allow regression tests to pinpoint changes when rules evolve.
+- Explainability: Future `--explain` mode can surface rationale directly from this structure.
+
+Separation of Layers (Recap):
+- Concepts (`catalog/concepts.json`): Semantic WHAT the user asks about (Artist, Work, Manuscript...).
+- Router Rules (`catalog/router_rules.yml`): Lexical WHEN/IF heuristics mapping surface tokens → datasets + concept hints.
+- Capabilities (`catalog/capabilities.*.json`): HOW each dataset can answer (entities, predicates, limitations). Only MusicBrainz file exists now.
+- (Future) Linking Rules: HOW TO JOIN across datasets when multiple chosen.
+
+Dataset Code Legend:
+- musicbrainz = `musicbrainz` (prefix target `mb:` later)
+- The Session = `thesession` (prefix `ts:`)
+- DIAMM = `diamm`
+- The Global Jukebox = `gj`
+- Dig That Lick = `dtl`
+
+Current Limitations:
+1. Ontology slice not filtered by `ranked_datasets` (still global TTL snippet selection).
+2. Scores unnormalized (pure additive boosts; no thresholding).
+3. No negative / exclusion rules or phrase boundary sensitivity (substring match only).
+4. Capability validation not yet used to prune false-positive datasets.
+5. Multi-dataset plan & join strategy unresolved (no linking rules file yet).
+
+Planned Near-Term Enhancements (Routing → Planning Evolution):
+ [ ] Introduce capability loader (start with existing musicbrainz file) to check if required concept hints are supported; drop unsupported datasets.
+ [ ] Apply a simple threshold or top-N cap (e.g., keep datasets with score ≥0.6 * top_score or max 2) to stabilize prompt size.
+ [ ] Pass filtered dataset list into OntologyAgent so TTL slicing can restrict subjects by namespace/prefix (add param `datasets`).
+ [ ] Emit a structured `plan` object (separate from raw routing) summarizing: {datasets_selected, concepts, rationale_summary}.
+ [ ] Add tests: (a) rule match triggers dataset inclusion, (b) unrelated query yields empty or single default dataset, (c) plan JSON stable for identical input.
+ [ ] Prepare at least one additional capability stub (e.g., `capabilities.thesession.json`) to validate multi-load path.
+
+Future (Beyond Immediate Increment):
+- Introduce weight decay / tie-break on longer pattern lists to reduce overfitting.
+- Add phrase boundary detection (`\bpattern\b`) to avoid accidental substring matches.
+- Hybrid lexical + embedding similarity scoring (keep lexical deterministic path as primary).
+- Confidence metric (e.g., softmax over scores) to drive fallback behavior.
+- Linkage feasibility pre-check: only select multi-dataset if at least one linking rule exists connecting their concepts.
+
+Testing Notes:
+- New test (`test_supervisor_end_to_end_minimal`) now asserts routing dict presence and prompt config embedding.
+- RouterAgent currently not directly unit-tested in isolation; future test could provide synthetic rules file to assert scoring merges.
+
+Pickup Instructions for Next Session:
+1. Implement capability loader (start by reading existing musicbrainz JSON; design interface returning entity & relation maps).
+2. Extend OntologyAgent: accept `datasets` list -> filter TTL snippets whose compacted prefix matches allowed dataset prefixes (mb:, ts:, diamm:, dtl:, gj:).
+3. Insert plan object (distinct from raw routing) into SupervisorResult & prompt.
+4. Add tests covering dataset filtering & plan shape.
+5. Create additional capability stub (`catalog/capabilities.thesession.json`) with minimal fields to exercise multi-capability load.
+
+Reference SHA / Date: Commit after RouterAgent integration & tests passing (2025-08-11). All 43 tests green under Poetry environment.
+

@@ -11,6 +11,7 @@ from .base import BaseAgent, AgentConfig
 @dataclass
 class SupervisorResult:
     question: str
+    routing: Dict[str, Any]
     ontology_slice: Dict[str, Any]
     resolved_entities: Dict[str, Optional[str]]
     examples: List[Dict[str, Any]]
@@ -26,6 +27,7 @@ class SupervisorAgent(BaseAgent):
         wikidata_agent: Any,
         example_agent: BaseAgent,
         prompt_builder,
+        router_agent: BaseAgent | None = None,
         config: Optional[AgentConfig] = None,
         logger: Optional[logging.Logger] = None,
     ):
@@ -34,9 +36,17 @@ class SupervisorAgent(BaseAgent):
         self.wikidata_agent = wikidata_agent
         self.example_agent = example_agent
         self.prompt_builder = prompt_builder
+        self.router_agent = router_agent
 
     async def run(self, question: str) -> SupervisorResult:  # type: ignore[override]
         self.logger.debug("Supervisor start: %s", question)
+        # Routing (optional first step)
+        routing: Dict[str, Any] = {"ranked_datasets": [], "dataset_scores": {}, "concept_hints": []}
+        if self.router_agent is not None:
+            try:
+                routing = await self.router_agent.run(question=question)
+            except Exception as e:  # pragma: no cover
+                self.logger.error("Routing failed: %s", e)
         ontology_mode = self.config.get("ontology_mode", "ttl") if self.config else "ttl"
         ontology_slice = await self.ontology_agent.run(question=question, mode=ontology_mode)
         tokens = [t.strip(",.?;:") for t in question.split() if len(t) > 3]
@@ -47,9 +57,9 @@ class SupervisorAgent(BaseAgent):
             ontology_slice=ontology_slice,
             resolved=resolved,
             examples=examples,
-            config=self.config.settings,
+            config={**(self.config.settings if self.config else {}), "routing": routing},
         )
-        return SupervisorResult(question, ontology_slice, resolved, examples, prompt)
+        return SupervisorResult(question, routing, ontology_slice, resolved, examples, prompt)
 
 
 __all__ = ["SupervisorAgent", "SupervisorResult"]

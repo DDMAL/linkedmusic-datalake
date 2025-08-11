@@ -13,8 +13,12 @@ try:
 except ImportError:
     import sys
     root = Path(__file__).resolve().parents[2]
-    if str(root) not in sys.path:
-        sys.path.append(str(root))
+    code_dir = root / "code"
+    # Ensure both repository root and 'code' package directory are on sys.path
+    for p in (root, code_dir):
+        sp = str(p)
+        if sp not in sys.path:
+            sys.path.append(sp)
     from wikidata_utils import WikidataAPIClient  # type: ignore
 logger = logging.getLogger(__name__)
 _session: Optional[aiohttp.ClientSession] = None

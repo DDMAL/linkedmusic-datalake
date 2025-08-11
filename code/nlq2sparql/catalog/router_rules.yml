@@ -1,0 +1,32 @@
+# Router rules skeleton (order matters; first match can boost score)
+# Each rule: pattern(s), boost, datasets, concepts (optional), notes
+- patterns: ["manuscript", "incipit", "source"]
+  boost: 2.0
+  datasets: ["diamm"]
+  concepts: ["Manuscript", "Work", "Artist"]
+  notes: "Manuscript-centric queries"
+- patterns: ["tuneset", "tune"]
+  boost: 2.0
+  datasets: ["thesession"]
+  concepts: ["Tune", "TuneSet", "Artist"]
+  notes: "Traditional tune queries"
+- patterns: ["recording", "release", "label"]
+  boost: 1.8
+  datasets: ["musicbrainz"]
+  concepts: ["Recording", "Artist", "Work"]
+  notes: "Production & discography"
+- patterns: ["culture", "indigenous", "language"]
+  boost: 1.7
+  datasets: ["gj"]
+  concepts: ["Culture", "Artist"]
+  notes: "Ethnographic context"
+- patterns: ["solo", "lick", "improvisation"]
+  boost: 1.5
+  datasets: ["dtl"]
+  concepts: ["Recording", "Artist", "Work"]
+  notes: "Dig That Lick specifics"
+- patterns: ["composer", "work", "piece"]
+  boost: 1.2
+  datasets: ["musicbrainz", "diamm"]
+  concepts: ["Work", "Artist"]
+  notes: "Composition queries spanning MB + DIAMM"

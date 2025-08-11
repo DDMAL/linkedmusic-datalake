@@ -9,6 +9,7 @@ from .base import BaseAgent, AgentConfig
 from .ontology_agent import UnifiedOntologyAgent
 from .example_agent import ExampleRetrievalAgent
 from .supervisor import SupervisorAgent
+from .router_agent import RouterAgent
 
 __all__ = [
 	"WikidataAgent",
@@ -17,22 +18,6 @@ __all__ = [
 	"UnifiedOntologyAgent",
 	"ExampleRetrievalAgent",
 	"SupervisorAgent",
-]
-
-"""Agent package exports (skeleton multi-agent architecture)."""
-
-from .wikidata_agent import WikidataAgent
-from .base import BaseAgent, AgentConfig
-from .ontology_agent import UnifiedOntologyAgent
-from .example_agent import ExampleRetrievalAgent
-from .supervisor import SupervisorAgent
-
-__all__ = [
-	"WikidataAgent",
-	"BaseAgent",
-	"AgentConfig",
-	"UnifiedOntologyAgent",
-	"ExampleRetrievalAgent",
-	"SupervisorAgent",
+	"RouterAgent",
 ]
 

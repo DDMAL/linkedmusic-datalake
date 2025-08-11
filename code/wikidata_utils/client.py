@@ -41,7 +41,17 @@ from typing import Any, Optional, Union, TypeAlias
 import logging
 import asyncio
 import aiohttp
-from aiolimiter import AsyncLimiter
+try:
+    from aiolimiter import AsyncLimiter  # type: ignore
+except ImportError:  # pragma: no cover
+    class AsyncLimiter:  # minimal stub for tests when dependency absent
+        def __init__(self, max_rate: int, time_period: int):
+            self.max_rate = max_rate
+            self.time_period = time_period
+        async def __aenter__(self):
+            return self
+        async def __aexit__(self, exc_type, exc, tb):
+            return False
 
 # Type aliases allow more informative type hinting
 WikiId: TypeAlias = str

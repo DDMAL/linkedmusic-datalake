@@ -1,0 +1,31 @@
+{
+  "graph_prefix": "mb:",
+  "strengths": ["rich recording + release metadata", "composer & performer relations", "label hierarchy"],
+  "limitations": ["no detailed manuscript context", "limited cultural classification"],
+  "entities": {
+    "Artist": {
+      "id_keys": ["wikidata_qid"],
+      "label_predicates": ["rdfs:label"],
+      "sample_properties": ["wdt:P86", "wdt:P175", "wdt:P264"],
+      "notes": "Includes bands and individual performers"
+    },
+    "Work": {
+      "id_keys": ["wikidata_qid"],
+      "label_predicates": ["rdfs:label"],
+      "sample_properties": ["wdt:P86", "wdt:P676", "wdt:P825"],
+      "notes": "Abstract compositions, some with incipits elsewhere."
+    },
+    "Recording": {
+      "id_keys": ["wikidata_qid"],
+      "label_predicates": ["rdfs:label"],
+      "sample_properties": ["wdt:P175", "wdt:P272", "wdt:P3931"],
+      "notes": "Captures performer lineup and production roles."
+    }
+  },
+  "relations": {
+    "Artist->Work:composer": {"predicate": "wdt:P86"},
+    "Artist->Recording:performer": {"predicate": "wdt:P175"},
+    "Work->Artist:lyricist": {"predicate": "wdt:P676"},
+    "Recording->Artist:producer": {"predicate": "wdt:P162"}
+  }
+}

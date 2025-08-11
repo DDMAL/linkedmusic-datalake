@@ -1,24 +1,24 @@
-"""NLQ2SPARQL package initialization.
+"""NLQ2SPARQL lightweight package init.
 
-High-level tooling for natural language → SPARQL with ontology grounding and
-Wikidata assistance. Consolidated exports for public API.
+Intentionally minimalist to avoid importing heavy submodules (network clients,
+large ontology files) during test collection or when only agents are needed.
+
+Heavy modules (tools.wikidata_tool, full CLI stack) are accessible via lazy
+access functions to prevent side effects at import time.
 """
 
-from .tools.wikidata_tool import find_entity_id, find_property_id  # re-export
-
-from .config import Config
-from .router import QueryRouter
-from .arguments import ArgumentHandler
-from .query_processor import QueryProcessor
-from .debug_client import PromptDebugClient
-
 __version__ = "1.0.0"
+
+def find_entity_id(label: str):  # type: ignore[return-type]
+    from .tools.wikidata_tool import find_entity_id as _f
+    return _f(label)
+
+def find_property_id(label: str):  # type: ignore[return-type]
+    from .tools.wikidata_tool import find_property_id as _f
+    return _f(label)
+
 __all__ = [
     "find_entity_id",
     "find_property_id",
-    "Config",
-    "QueryRouter",
-    "ArgumentHandler",
-    "QueryProcessor",
-    "PromptDebugClient",
+    "__version__",
 ]

@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "version": 1,
+    "description": "Abstract concept catalog (skeleton). Each concept unifies similar entities across datasets."
+  },
+  "Artist": {
+    "description": "A person or group responsible for creation or performance.",
+    "datasets": ["musicbrainz", "diamm", "thesession", "gj", "dtl"],
+    "primary_ids": ["wikidata_qid"],
+    "notes": "May correspond to different local classes; unify via Wikidata when possible."
+  },
+  "Work": {
+    "description": "A musical composition (abstract).",
+    "datasets": ["musicbrainz", "diamm"],
+    "primary_ids": ["wikidata_qid"],
+    "notes": "The Session 'Tune' maps partially to Work; keep separate for now."
+  },
+  "Recording": {
+    "description": "A realized performance capture (audio).",
+    "datasets": ["musicbrainz"],
+    "primary_ids": ["wikidata_qid"],
+    "notes": "Not all datasets expose recordings; may expand later."
+  },
+  "Tune": {
+    "description": "A traditional melody entry in The Session.",
+    "datasets": ["thesession"],
+    "primary_ids": ["local_id", "wikidata_qid"],
+    "notes": "Potentially align with Work via melodic equivalence heuristics (future)."
+  },
+  "TuneSet": {
+    "description": "A set/medley of tunes (The Session).",
+    "datasets": ["thesession"],
+    "primary_ids": ["local_id"],
+    "notes": "Join to Tune via membership relation."
+  },
+  "Manuscript": {
+    "description": "A physical or digitized manuscript/source (DIAMM).",
+    "datasets": ["diamm"],
+    "primary_ids": ["local_id", "wikidata_qid"],
+    "notes": "Cross-link to Work/Artist via composition / authorship."
+  },
+  "Culture": {
+    "description": "Cultural grouping (Global Jukebox).",
+    "datasets": ["gj"],
+    "primary_ids": ["wikidata_qid"],
+    "notes": "Supports ethnographic queries."
+  }
+}
