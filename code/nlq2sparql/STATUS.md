@@ -20,8 +20,9 @@ High‑Level Goals
 
 Current Components
 ------------------
-- Ontologies: `ontology/diamm_ontology.ttl`, `ontology/session_ontology.ttl`.
-- OntologyAgent: extracts simplified schema for prompt grounding.
+- Unified Ontology Slice: `ontology/11Aug2025_ontology.ttl` (single cross‑dataset snapshot; DO NOT MODIFY CONTENTS – authoritative despite reconciliation imperfections).
+- (Legacy per‑dataset ontology files slated for removal; no longer used for prompt grounding.)
+- OntologyAgent (to be refactored) currently extracts simplified schema; will evolve into UnifiedOntologySubagent working off the unified TTL.
 - Wikidata tools: `tools/wikidata_tool.py` (entity & property ID resolution).
 - LLM integration scaffolding: base + Gemini integration (function calling only).
 - Evaluation dataset: `query_database_10july2025.csv` (multi‑model attempts + gold SPARQL).
@@ -46,6 +47,8 @@ Outstanding Gaps / Risks
 10. Multi‑provider architecture incomplete (only Gemini; OpenAI / Anthropic placeholders absent).
 11. Error handling / retries around network calls minimal.
 12. Example retrieval agent not implemented (no similarity search / indexing over existing NLQ/SPARQL pairs).
+13. Unified ontology not yet parsed into an internal query‑time index; current OntologyAgent logic assumes smaller per‑dataset TTLs.
+14. Risk of prompt bloat or omission without a relevance extraction algorithm over growing unified ontology.
 
 Assumptions (To Validate / Document)
 ------------------------------------
@@ -58,7 +61,8 @@ Short‑Term Roadmap (Priority Ordered)
 1. Supervisor Orchestrator (`supervisor.py`): dispatch order & data passing between sub‑agents; define interaction protocol (simple dataclass messages).
 2. Prompt Builder (`prompt_builder.py`): unify system prompt assembly (ontology slice + examples + mappings + task instructions + resolved IDs placeholder region).
 3. Example Retrieval Agent (`agents/example_agent.py`): similarity search over NLQ text (baseline: TF‑IDF / RapidFuzz; later upgrade to embedding index) returning k examples.
-4. Build & populate `ontology/property_mappings.json` via automated extractor (inputs: DIAMM_SCHEMA, DIAMM relations.json, MusicBrainz mappings + relations, RISM mapping.json non‑empty values) plus curated synonyms (composer→P86, birth date→P569, genre→P136, performer→P175, location→P276, administrative area→P131, country→P17, part of→P361, instance of→P31, member of→P463, has part(s)→P527, shelfmark→P217, patron→P859, commissioned by→P88, dedicatee→P825, transcribed by→P11603, incipit→P1922, subject→P921, exact match→P2888).
+4. Unified Ontology Subagent (refactor): parser + relevance extractor operating over `11Aug2025_ontology.ttl` (must NOT alter or rewrite TTL; builds transient in‑memory index of: class→{properties: [(pid, rawObjects, rawLiterals)], reverseCandidates?}). Relevance heuristics: lexical overlap with NLQ (class labels, literal property labels), property alias match from property_mappings, plus expansion to one hop of related classes. Config: bias to inclusion (recall > precision). Output: JSON slice passed to Prompt Builder.
+5. Build & populate `ontology/property_mappings.json` via automated extractor (inputs: DIAMM_SCHEMA, DIAMM relations.json, MusicBrainz mappings + relations, RISM mapping.json non‑empty values, literal labels harvested from unified ontology) plus curated synonyms (composer→P86, birth date→P569, genre→P136, performer→P175, location→P276, administrative area→P131, country→P17, part of→P361, instance of→P31, member of→P463, has part(s)→P527, shelfmark→P217, patron→P859, commissioned by→P88, dedicatee→P825, transcribed by→P11603, incipit→P1922, subject→P921, exact match→P2888).
 5. Tests (phase 1):
    - Unit: OntologyAgent determinism.
    - Unit: wikidata_tool (mock network).
@@ -91,6 +95,8 @@ Metrics & Success Criteria
  - Per‑provider comparative accuracy & latency dashboard.
  - Prompt assembly determinism (hash stable given same inputs).
  - Property lexicon coverage: % NL test phrases resolved deterministically (target ≥70% initial, ≥90% after refinement cycle).
+ - Ontology slice recall: % of gold query properties/classes present in extracted slice (target ≥95%) while keeping slice token size manageable (< configurable soft cap; no hard limit enforced per user guidance).
+ - Zero mutation guarantee: hash of source ontology TTL remains unchanged across runs (guardrail test).
 
 Open Questions
 --------------
@@ -104,4 +110,4 @@ Update Process
 --------------
 - Edit this file on each milestone (add date + summary under a new heading if preferred later).
 
-Last Updated: 2025-08-11 (added dataset mapping cheat sheet + lexicon coverage metric)
+Last Updated: 2025-08-11 (added unified ontology constraints & subagent plan)
