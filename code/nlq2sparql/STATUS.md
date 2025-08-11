@@ -165,3 +165,48 @@ Reassess once (a) raw TTL slice injected into prompts routinely exceeds a config
 
 Summary: V1 intentionally prioritizes simplicity & fidelity via direct TTL slicing. This note records the rationale and supplies a concrete, testable roadmap so a future contributor (or LLM agent) can implement the abstraction layer without rediscovery effort.
 
+
+Step 1 (MVP) Scope Definition (Added 2025-08-11)
+------------------------------------------------
+Purpose: Deliver a lean, demonstrable end-to-end NLQ→SPARQL path for a narrow, representative subset WITHOUT early optimization layers. This anchors future enhancements against a working baseline.
+
+In-Scope (only what is strictly required):
+1. Dataset Coverage: Single primary graph (choose MusicBrainz OR The Session) for baseline queries about works/recordings/artists (pick 5–10 canonical question patterns).
+2. Ontology Context: Raw TTL slice mode (mode="ttl") – no alias expansion, no pruning heuristics beyond current lexical token match + neighbor cap.
+3. Entity/Property Resolution: Minimal Wikidata lookup (current async tool) limited to top-1 result; tolerate unresolved tokens silently.
+4. Prompt Assembly: Existing prompt_builder output (system + user question + ttl_snippets + resolved ids + 1–2 example pairs).
+5. Examples: Hard-coded small example set (manual JSON or inline list) – no retrieval scoring beyond current simple overlap heuristic.
+6. Query Generation Target: SELECT queries returning core identifiers + labels (e.g., work, composer) with LIMIT guards; no OPTIONAL / FILTER unless explicitly required by example.
+7. Evaluation: Manual smoke list (text file or README section) containing NL question, expected property presence in generated query (not full logical equivalence yet).
+8. Determinism: Repeat call with same question yields identical ontology slice and identical prompt (hash stable for ontology_context JSON).
+
+Success Criteria (Objective):
+- ≥80% of the curated seed question set produce syntactically valid SPARQL using only the TTL slice + minimal resolved IDs.
+- Ontology slice token size per query < 1.5 KB raw (enforced by current max_neighbors heuristic without extra logic).
+- No network errors / unhandled exceptions for seed set (graceful None resolution acceptable).
+- Zero mutation to source ontology TTL (hash check passes).
+
+Explicitly Out-of-Scope (Deferred to Step 2+):
+- Multi-dataset / multi-graph queries.
+- Advanced alias / synonym expansion or property disambiguation scoring.
+- Property mappings enrichment / coverage gating.
+- Caching (ontology slice, Wikidata results).
+- CI pipeline & automated evaluation harness.
+- Embedding-based example retrieval or semantic ranking.
+- Query verification / repair loop, self-healing retries.
+- Token budgeting / prompt trimming heuristics beyond fixed neighbor cap.
+- Multi-provider abstraction (stick to single provider binding or mock layer).
+- Performance metrics dashboard & cost tracking.
+
+Minimal Implementation Checklist (MVP Step 1):
+ [ ] Select target dataset subset (e.g., MusicBrainz works & artists) and enumerate 5–10 seed NL questions.
+ [ ] Add a lightweight seed_examples.json (or inline constant) consumed directly by ExampleRetrievalAgent.
+ [ ] Add a simple smoke_test_questions.md with expected high-level intent (not full SPARQL gold yet).
+ [ ] Add a pytest smoke test that iterates seed questions and asserts: (a) prompt present, (b) ontology slice has at least one ttl_snippet, (c) generated query string contains at least one expected predicate fragment (temporary heuristic; can stub generator if LLM not integrated).
+ [ ] Document run instructions in README section "MVP Step 1 Run".
+ [ ] Freeze commit tagging (git tag nlq2sparql-mvp-step1) when criteria met.
+
+Reasoning: This sharply delimits baseline so subsequent optimizations (caching, mapping abstraction, alias expansion) can be measured for delta impact instead of conflated with initial bring-up complexity.
+
+Next Action Toward MVP: Curate seed question list + minimal examples file (no code changes needed to architecture) → add smoke test harness.
+
