@@ -25,6 +25,7 @@ Current Components
 - Wikidata tools: `tools/wikidata_tool.py` (entity & property ID resolution).
 - LLM integration scaffolding: base + Gemini integration (function calling only).
 - Evaluation dataset: `query_database_10july2025.csv` (multi‑model attempts + gold SPARQL).
+ - NEW: Consolidated dataset & mapping reference: `docs/dataset_mapping_cheatsheet.md` (lexicon seeding source).
 
 Recent Changes (this branch)
 ----------------------------
@@ -35,7 +36,7 @@ Outstanding Gaps / Risks
 ------------------------
 1. Supervisor + sub‑agent orchestration layer absent (currently only individual pieces).
 2. Prompt builder module missing (no unified assembly of instructions + ontology + mappings + examples).
-3. `property_mappings.json` empty (prevents deterministic NL → PID substitution).
+3. `property_mappings.json` absent (can now be auto‑seeded from existing dataset assets; extractor script required).
 4. No caching layer for repeated lookups (risk: latency, rate limits).
 5. google-genai dependency not yet explicitly pinned (Gemini integration requires it).
 6. Missing tests (OntologyAgent, wikidata_tool, integration flows, regression on CSV dataset).
@@ -57,7 +58,7 @@ Short‑Term Roadmap (Priority Ordered)
 1. Supervisor Orchestrator (`supervisor.py`): dispatch order & data passing between sub‑agents; define interaction protocol (simple dataclass messages).
 2. Prompt Builder (`prompt_builder.py`): unify system prompt assembly (ontology slice + examples + mappings + task instructions + resolved IDs placeholder region).
 3. Example Retrieval Agent (`agents/example_agent.py`): similarity search over NLQ text (baseline: TF‑IDF / RapidFuzz; later upgrade to embedding index) returning k examples.
-4. Populate `ontology/property_mappings.json` with core terms (composer→P86, birth date→P569, genre→P136, performer→P175, location→P276, administrative area→P131, country→P17, part of→P361, instance of→P31, memberOf→P463, has part(s)→P527).
+4. Build & populate `ontology/property_mappings.json` via automated extractor (inputs: DIAMM_SCHEMA, DIAMM relations.json, MusicBrainz mappings + relations, RISM mapping.json non‑empty values) plus curated synonyms (composer→P86, birth date→P569, genre→P136, performer→P175, location→P276, administrative area→P131, country→P17, part of→P361, instance of→P31, member of→P463, has part(s)→P527, shelfmark→P217, patron→P859, commissioned by→P88, dedicatee→P825, transcribed by→P11603, incipit→P1922, subject→P921, exact match→P2888).
 5. Tests (phase 1):
    - Unit: OntologyAgent determinism.
    - Unit: wikidata_tool (mock network).
@@ -89,6 +90,7 @@ Metrics & Success Criteria
 - Tool call success rate (entity/property resolved on first attempt ≥ 90%).
  - Per‑provider comparative accuracy & latency dashboard.
  - Prompt assembly determinism (hash stable given same inputs).
+ - Property lexicon coverage: % NL test phrases resolved deterministically (target ≥70% initial, ≥90% after refinement cycle).
 
 Open Questions
 --------------
@@ -102,4 +104,4 @@ Update Process
 --------------
 - Edit this file on each milestone (add date + summary under a new heading if preferred later).
 
-Last Updated: 2025-08-11 (initial draft)
+Last Updated: 2025-08-11 (added dataset mapping cheat sheet + lexicon coverage metric)
