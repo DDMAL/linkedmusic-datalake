@@ -33,23 +33,35 @@ Recent Changes (this branch)
 - Added async Wikidata resolution tool functions (`find_entity_id`, `find_property_id`).
 - Added package initializers for clean imports.
 - Phase 1 skeleton architecture added: base, ontology, example, supervisor agents; prompt builder; property mappings stub + builder.
+- Added outcome‑focused tests (ontology slice determinism, example ranking, prompt structure, supervisor end‑to‑end).
+- Adjusted Wikidata precise search limits to 1 (entity/property) to match tests & reduce response noise.
+- Root `conftest.py` ensures repository `code` package shadows stdlib `code` during pytest collection.
+
+Completed (Phase 1 Skeleton Scope)
+----------------------------------
+- Supervisor skeleton orchestration flow.
+- Prompt builder (structured payload assembly).
+- Baseline ExampleRetrievalAgent (token overlap heuristic).
+- UnifiedOntologyAgent loading immutable unified TTL.
+- Property mappings stub & manual builder script.
+- Foundational behavioral tests.
 
 Outstanding Gaps / Risks
 ------------------------
-1. Supervisor + sub‑agent orchestration layer absent (currently only individual pieces).
-2. Prompt builder module missing (no unified assembly of instructions + ontology + mappings + examples).
-3. `property_mappings.json` absent (can now be auto‑seeded from existing dataset assets; extractor script required).
-4. No caching layer for repeated lookups (risk: latency, rate limits).
-5. google-genai dependency not yet explicitly pinned (Gemini integration requires it).
-6. Missing tests (OntologyAgent, wikidata_tool, integration flows, regression on CSV dataset).
-7. No runtime configuration (SPARQL endpoint URL, graph prefix map, rate limit overrides).
-8. No automated evaluation script / harness to recompute correctness & log provider metrics.
-9. No CI pipeline (lint + tests).
-10. Multi‑provider architecture incomplete (only Gemini; OpenAI / Anthropic placeholders absent).
-11. Error handling / retries around network calls minimal.
-12. Example retrieval agent not implemented (no similarity search / indexing over existing NLQ/SPARQL pairs).
-13. Unified ontology not yet parsed into an internal query‑time index; current OntologyAgent logic assumes smaller per‑dataset TTLs.
-14. Risk of prompt bloat or omission without a relevance extraction algorithm over growing unified ontology.
+1. Property mappings extractor automation & coverage metrics missing (stub is manual).
+2. No caching (Wikidata lookups & ontology slices) → latency + rate limit exposure.
+3. google-genai version drift / lack of extras grouping.
+4. Broader tests absent (Wikidata tool mock, regression dataset harness, negative cases).
+5. Runtime config consolidation (endpoints, prefixes, rate limits) incomplete.
+6. Evaluation harness (accuracy/latency/token metrics) not built.
+7. CI pipeline absent (lint + tests + mini eval + ontology immutability guard).
+8. Multi‑provider expansion (OpenAI / Anthropic) missing.
+9. Error handling / retry/backoff minimal.
+10. Example retrieval semantic upgrade (embeddings) not implemented.
+11. Ontology relevance heuristic simplistic (lexical only; no alias weighting).
+12. Prompt size budgeting strategy absent (risk of token overflow later).
+13. Query verification / repair loop missing.
+14. Self‑healing / iterative refinement not started.
 
 Assumptions (To Validate / Document)
 ------------------------------------
@@ -57,20 +69,20 @@ Assumptions (To Validate / Document)
 - LLM should generate queries WITHOUT SERVICE / OPTIONAL unless explicitly allowed.
 - Post‑generation validation (syntax + dry‑run) desirable before presenting to user.
 
-Short‑Term Roadmap (Priority Ordered)
--------------------------------------
-1. Add tests for new skeleton (ontology slice hash guardrail, example retrieval ordering, supervisor prompt keys).
-2. Enhance ontology relevance (property alias expansion using property_mappings stub).
-3. Implement real property mappings extractor to populate stub JSON (metrics: mapped %, unmapped count).
-4. Introduce caching (LRU) for Wikidata + ontology slices.
-5. Evaluation harness generating per‑provider JSONL metrics.
-6. Runtime config consolidation (prefix map, endpoints, provider keys via env).
-7. Provider expansion (OpenAI / Anthropic stubs).
-8. Prompt optimization & size budgeting.
-9. Query verification (syntax + prefix filtering; later semantic dry‑run).
-10. CI workflow (lint, unit tests, smoke eval) incl. ontology hash check.
-11. Upgrade example retrieval to embedding similarity.
-12. Self‑healing loop (post baseline accuracy).
+Short‑Term Roadmap (Next Focus)
+--------------------------------
+1. Property mappings extractor + coverage report (mapped %, unresolved terms list, alias suggestions).
+2. Ontology relevance: integrate alias expansion & scoring; deterministic pruning.
+3. Caching layer (LRU) for Wikidata & ontology slices w/ metrics (hit%, size).
+4. Evaluation harness v1 -> JSONL (provider, latency_ms, tokens_in/out, success, error_type).
+5. Runtime config consolidation (prefixes, endpoints, rate limits, provider keys via .env).
+6. CI pipeline (GitHub Actions): lint, unit tests, ontology hash check, tiny eval subset.
+7. Provider stubs (OpenAI, Anthropic) reusing prompt + tool interface.
+8. Prompt budgeting & trimming strategy (score-based node/property ranking).
+9. Query verification module (syntax parse, allowed prefixes, graph scoping).
+10. Example retrieval semantic upgrade (embedding model optional path).
+11. Robust error handling utilities (retry w/ backoff + circuit breaker).
+12. Self‑healing refinement loop (post-baseline).
 
 Stretch Items
 -------------
@@ -106,4 +118,4 @@ Update Process
 --------------
 - Edit this file on each milestone (add date + summary under a new heading if preferred later).
 
-Last Updated: 2025-08-11 (added skeleton multi-agent architecture & updated roadmap)
+Last Updated: 2025-08-11 (phase 1 skeleton complete; roadmap reprioritized)
