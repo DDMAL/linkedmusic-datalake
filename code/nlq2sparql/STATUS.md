@@ -168,23 +168,29 @@ Summary: V1 intentionally prioritizes simplicity & fidelity via direct TTL slici
 
 Step 1 (MVP) Scope Definition (Added 2025-08-11)
 ------------------------------------------------
-Purpose: Deliver a lean, demonstrable end-to-end NLQ→SPARQL path for a narrow, representative subset WITHOUT early optimization layers. This anchors future enhancements against a working baseline.
+Purpose: Deliver a lean, demonstrable NLQ→(proto)SPARQL preparation path for a narrow subset WITHOUT optimization layers or finalized example retrieval. Examples are explicitly deferred until external curated pairs arrive.
 
-In-Scope (only what is strictly required):
-1. Dataset Coverage: Single primary graph (choose MusicBrainz OR The Session) for baseline queries about works/recordings/artists (pick 5–10 canonical question patterns).
-2. Ontology Context: Raw TTL slice mode (mode="ttl") – no alias expansion, no pruning heuristics beyond current lexical token match + neighbor cap.
-3. Entity/Property Resolution: Minimal Wikidata lookup (current async tool) limited to top-1 result; tolerate unresolved tokens silently.
-4. Prompt Assembly: Existing prompt_builder output (system + user question + ttl_snippets + resolved ids + 1–2 example pairs).
-5. Examples: Hard-coded small example set (manual JSON or inline list) – no retrieval scoring beyond current simple overlap heuristic.
-6. Query Generation Target: SELECT queries returning core identifiers + labels (e.g., work, composer) with LIMIT guards; no OPTIONAL / FILTER unless explicitly required by example.
-7. Evaluation: Manual smoke list (text file or README section) containing NL question, expected property presence in generated query (not full logical equivalence yet).
-8. Determinism: Repeat call with same question yields identical ontology slice and identical prompt (hash stable for ontology_context JSON).
+In-Scope (strict minimum RIGHT NOW):
+1. Dataset Coverage: Single primary graph (choose ONE early: MusicBrainz OR The Session) for baseline queries (works ↔ artists OR tunesets ↔ tunes). Seed questions can exist as a simple list (no examples pairing required yet).
+2. Ontology Context: Raw TTL slice mode (mode="ttl") – lexical token match + neighbor cap only.
+3. Entity/Property Resolution: Minimal Wikidata lookup (top-1) with graceful fallback (missing IDs allowed).
+4. Prompt Assembly: Existing prompt_builder producing system + user_question + ontology_context + resolved_ids. (NOTE: examples_text may be empty or contain a placeholder string.)
+5. Query Output (Provisional): We may stub actual SPARQL generation for Step 1 if LLM integration waits on examples. Accept a placeholder or skeletal SELECT template.
+6. Evaluation: Manual smoke list (seed_questions.md) asserting ontology slice non-empty + no crashes.
+7. Determinism: Same question => identical ontology slice + prompt payload hash (excluding timestamps).
 
-Success Criteria (Objective):
-- ≥80% of the curated seed question set produce syntactically valid SPARQL using only the TTL slice + minimal resolved IDs.
-- Ontology slice token size per query < 1.5 KB raw (enforced by current max_neighbors heuristic without extra logic).
-- No network errors / unhandled exceptions for seed set (graceful None resolution acceptable).
-- Zero mutation to source ontology TTL (hash check passes).
+Explicitly Deferred (Requires external curated data):
+- Example pairs (NLQ ↔ SPARQL) collection & relevance sub-agent scoring.
+- ExampleRetrievalAgent enhancement beyond trivial placeholder.
+
+Temporary Placeholder Behavior:
+- ExampleRetrievalAgent returns a single static placeholder entry: `{question: "(examples deferred)", sparql: null}` until real dataset arrives.
+
+Success Criteria (Objective for Deferred-Examples MVP):
+- ≥80% seed questions yield: (a) non-empty ttl_snippets, (b) no unhandled exceptions, (c) deterministic ontology slice.
+- Ontology slice token size < 1.5 KB (current heuristic).
+- Zero mutation to source ontology TTL (hash stable).
+- Placeholder examples pathway functional (prompt still serializable) even with empty real examples.
 
 Explicitly Out-of-Scope (Deferred to Step 2+):
 - Multi-dataset / multi-graph queries.
@@ -198,13 +204,17 @@ Explicitly Out-of-Scope (Deferred to Step 2+):
 - Multi-provider abstraction (stick to single provider binding or mock layer).
 - Performance metrics dashboard & cost tracking.
 
-Minimal Implementation Checklist (MVP Step 1):
- [ ] Select target dataset subset (e.g., MusicBrainz works & artists) and enumerate 5–10 seed NL questions.
- [ ] Add a lightweight seed_examples.json (or inline constant) consumed directly by ExampleRetrievalAgent.
- [ ] Add a simple smoke_test_questions.md with expected high-level intent (not full SPARQL gold yet).
- [ ] Add a pytest smoke test that iterates seed questions and asserts: (a) prompt present, (b) ontology slice has at least one ttl_snippet, (c) generated query string contains at least one expected predicate fragment (temporary heuristic; can stub generator if LLM not integrated).
- [ ] Document run instructions in README section "MVP Step 1 Run".
- [ ] Freeze commit tagging (git tag nlq2sparql-mvp-step1) when criteria met.
+Minimal Implementation Checklist (Revised MVP Step 1):
+ [ ] Select target dataset subset (MusicBrainz OR The Session) and record decision in STATUS.
+ [ ] Create `seed_questions.md` listing 5–10 NL questions (no answers required yet) + brief intent notes.
+ [ ] Adjust ExampleRetrievalAgent to supply a static placeholder when no examples file present.
+ [ ] Add pytest smoke test: for each seed question -> supervisor.run() returns ontology_slice.ttl_snippets non-empty.
+ [ ] README: Add "MVP Step 1 Run" section (how to invoke smoke test & inspect a sample prompt JSON).
+ [ ] Tag `nlq2sparql-mvp-step1` once above complete.
+
+Post-External-Data TODO (Examples Phase Re-entry):
+- Replace placeholder with `seed_examples.json` once curated pairs delivered by domain contributors.
+- Introduce overlap scoring test & minimal accuracy metric.
 
 Reasoning: This sharply delimits baseline so subsequent optimizations (caching, mapping abstraction, alias expansion) can be measured for delta impact instead of conflated with initial bring-up complexity.
 
