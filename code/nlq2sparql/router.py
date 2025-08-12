@@ -92,32 +92,35 @@ class QueryRouter:
         
         return self.provider_clients[provider]
     
-    def _load_ontology_context(self, ontology_file: Optional[Path], verbose: bool = False) -> str:
-        """Load ontology context from file with error handling"""
-        if not ontology_file:
-            return ""
-            
-        try:
-            if not ontology_file.exists():
-                self.logger.warning(f"Ontology file not found: {ontology_file}")
+    def _load_ontology_context(self, nlq: str, ontology_file: Optional[Path], verbose: bool = False) -> str:
+        """Load ontology context from file or build it via multi-agent orchestrator."""
+        # If a file is provided, prefer it (explicit override)
+        if ontology_file:
+            try:
+                if not ontology_file.exists():
+                    self.logger.warning(f"Ontology file not found: {ontology_file}")
+                    return ""
+                content = ontology_file.read_text(encoding='utf-8')
+                if verbose:
+                    print(f"Loaded ontology from: {ontology_file}")
+                if not content.strip():
+                    self.logger.warning(f"Ontology file is empty: {ontology_file}")
+                return content
+            except Exception as e:
+                self.logger.error(f"Failed to load ontology file {ontology_file}: {e}")
+                if verbose:
+                    print(f"Warning: Could not load ontology file: {e}")
                 return ""
-                
-            with open(ontology_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-                
-            if verbose:
-                print(f"Loaded ontology from: {ontology_file}")
-                
-            if not content.strip():
-                self.logger.warning(f"Ontology file is empty: {ontology_file}")
-                
-            return content
-            
-        except Exception as e:
-            self.logger.error(f"Failed to load ontology file {ontology_file}: {e}")
-            if verbose:
-                print(f"Warning: Could not load ontology file: {e}")
-            return ""
+        # Build via orchestrator
+        try:
+            from .agents.orchestrator import MultiAgentOrchestrator
+        except ImportError:
+            from agents.orchestrator import MultiAgentOrchestrator  # type: ignore
+        orch = MultiAgentOrchestrator()
+        context = orch.build_ontology_context(nlq)
+        if verbose:
+            print("Built ontology context via multi-agent pipeline")
+        return context
     
     def process_query(
         self,
@@ -163,9 +166,9 @@ class QueryRouter:
             print(f"Using provider: {provider}")
             print(f"Target database: {database}")
             print(f"Query: {nlq}")
-        
-        # Load ontology context with error handling
-        ontology_context = self._load_ontology_context(ontology_file, verbose)
+
+        # Load ontology context with file override or multi-agent pipeline
+        ontology_context = self._load_ontology_context(nlq, ontology_file, verbose)
         
         try:
             # Get the appropriate client

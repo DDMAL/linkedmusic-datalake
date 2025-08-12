@@ -23,11 +23,30 @@ except ImportError:
 logger = logging.getLogger(__name__)
 _session: Optional[aiohttp.ClientSession] = None
 _client: Optional[WikidataAPIClient] = None
+_loop_ref: Optional[asyncio.AbstractEventLoop] = None
+
 async def _get_client() -> WikidataAPIClient:
-    global _session,_client
-    if _session is None or _session.closed:
+    """Return a WikidataAPIClient, recreating it when the event loop changes.
+
+    This avoids re-using a client/session across pytest's different loops and
+    ensures patched classes in tests take effect by constructing fresh instances.
+    """
+    global _session, _client, _loop_ref
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = asyncio.get_event_loop()
+
+    if _session is None or _session.closed or _client is None or _loop_ref is not loop:
+        # Close any previous session tied to another loop
+        if _session and not _session.closed:
+            try:
+                await _session.close()
+            except Exception:
+                pass
         _session = aiohttp.ClientSession()
         _client = WikidataAPIClient(_session)  # type: ignore[arg-type]
+        _loop_ref = loop
     return _client  # type: ignore[return-value]
 async def _search_entities_precise(term: str, entity_type: str, limit: int = 1):
     client = await _get_client()
@@ -75,8 +94,12 @@ async def find_property_id(property_label: str) -> Optional[str]:
     precise = await _search_entities_precise(term,'property',1)
     return _pick_best_candidate(term, precise)
 async def _close_session():
-    global _session
-    if _session and not _session.closed: await _session.close()
+    global _session, _client, _loop_ref
+    if _session and not _session.closed:
+        await _session.close()
+    _session = None
+    _client = None
+    _loop_ref = None
 class WikidataTool:
     """Lightweight OO wrapper kept for backward compatibility with tests.
 
