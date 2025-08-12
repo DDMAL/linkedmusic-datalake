@@ -363,3 +363,24 @@ Pickup Instructions for Next Session:
 
 Reference SHA / Date: Commit after RouterAgent integration & tests passing (2025-08-11). All 43 tests green under Poetry environment.
 
+
+Scope Guardrails & Adapter Plan (Added 2025-08-12)
+--------------------------------------------------
+Context: To avoid impacting other teams, keep functional changes within `code/nlq2sparql` and avoid edits to shared libs (e.g., `code/wikidata_utils`).
+
+Guardrails:
+- Scope: Only modify files under `code/nlq2sparql/` (docs/tests included). Shared modules remain untouched; if behavior is needed, use adapters.
+- Adapters: Introduce a thin wrapper `code/nlq2sparql/integrations/wikidata_adapter.py` that owns `WikidataAPIClient` creation, session/loop handling, and any local fallbacks. Tools/agents import this adapter instead of importing `wikidata_utils` directly.
+- Testing: Patch adapter functions/classes in tests, not shared libs, to keep test doubles isolated to nlq2sparql.
+- Config: If necessary, expose minimal flags in `code/nlq2sparql/config.py` for timeouts/rate limits without touching shared code.
+- Dependencies: pyproject updates allowed if needed for nlq2sparql; use conservative pins.
+
+Status:
+- Restored `code/wikidata_utils/` from `origin/main` to prevent cross-team drift; all tests pass (44/44) with nlq2sparql-local fixes only.
+
+Action Items:
+- [ ] Add `integrations/wikidata_adapter.py` and re-export a factory/getter for the Wikidata client.
+- [ ] Route `tools/wikidata_tool.py` and `agents/wikidata_agent.py` through the adapter.
+- [ ] Add a brief README note documenting the adapter boundary and patching guidance for tests.
+- [ ] Keep `conftest.py` ensuring the repo `code` package shadows stdlib `code` during test collection.
+

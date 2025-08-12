@@ -1,18 +1,8 @@
-"""
-LLM Integrations
+"""Integration package for nlq2sparql.
 
-This package contains integrations for various Large Language Models (LLMs)
-that can use the NLQ2SPARQL tools via function calling.
-
-Each integration module handles the specific function calling format and
-communication protocol for its respective LLM while using the same underlying
-tools and agents.
+Note: Avoid importing heavy/provider modules at package import time to keep
+lightweight consumers (like tools) free from side effects and import errors
+during tests. Import integrations explicitly where needed.
 """
 
-from .base_integration import BaseLLMIntegration
-from .gemini_integration import GeminiWikidataIntegration
-
-__all__ = [
-    "BaseLLMIntegration",
-    "GeminiWikidataIntegration",
-]
+__all__: tuple[str, ...] = ()

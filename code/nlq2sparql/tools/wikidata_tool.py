@@ -1,53 +1,21 @@
 """Wikidata Tool Functions for NLQ2SPARQL LLM Integrations
 
-Clean version (no trailing placeholder corruption).
+Adapter-backed client creation to avoid touching shared libs.
 """
 from __future__ import annotations
 import asyncio, logging
 from functools import lru_cache
 from pathlib import Path
 from typing import Optional, Sequence
-import aiohttp
-try:
-    from wikidata_utils import WikidataAPIClient
-except ImportError:
-    import sys
-    root = Path(__file__).resolve().parents[2]
-    code_dir = root / "code"
-    # Ensure both repository root and 'code' package directory are on sys.path
-    for p in (root, code_dir):
-        sp = str(p)
-        if sp not in sys.path:
-            sys.path.append(sp)
-    from wikidata_utils import WikidataAPIClient  # type: ignore
+from integrations.wikidata_adapter import (
+    get_wikidata_client,
+    close_wikidata_client,
+)
 logger = logging.getLogger(__name__)
-_session: Optional[aiohttp.ClientSession] = None
-_client: Optional[WikidataAPIClient] = None
-_loop_ref: Optional[asyncio.AbstractEventLoop] = None
 
-async def _get_client() -> WikidataAPIClient:
-    """Return a WikidataAPIClient, recreating it when the event loop changes.
-
-    This avoids re-using a client/session across pytest's different loops and
-    ensures patched classes in tests take effect by constructing fresh instances.
-    """
-    global _session, _client, _loop_ref
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:
-        loop = asyncio.get_event_loop()
-
-    if _session is None or _session.closed or _client is None or _loop_ref is not loop:
-        # Close any previous session tied to another loop
-        if _session and not _session.closed:
-            try:
-                await _session.close()
-            except Exception:
-                pass
-        _session = aiohttp.ClientSession()
-        _client = WikidataAPIClient(_session)  # type: ignore[arg-type]
-        _loop_ref = loop
-    return _client  # type: ignore[return-value]
+async def _get_client():
+    """Get a loop-safe Wikidata client via the local adapter."""
+    return await get_wikidata_client()
 async def _search_entities_precise(term: str, entity_type: str, limit: int = 1):
     client = await _get_client()
     try:
@@ -94,12 +62,7 @@ async def find_property_id(property_label: str) -> Optional[str]:
     precise = await _search_entities_precise(term,'property',1)
     return _pick_best_candidate(term, precise)
 async def _close_session():
-    global _session, _client, _loop_ref
-    if _session and not _session.closed:
-        await _session.close()
-    _session = None
-    _client = None
-    _loop_ref = None
+    await close_wikidata_client()
 class WikidataTool:
     """Lightweight OO wrapper kept for backward compatibility with tests.
 

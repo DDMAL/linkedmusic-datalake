@@ -20,52 +20,37 @@ class TestWikidataToolFunctions:
     @pytest.mark.asyncio
     async def test_find_entity_id_success(self):
         """Test successful entity lookup."""
-        with patch('tools.wikidata_tool.WikidataAPIClient') as mock_client_class:
+        with patch('tools.wikidata_tool.get_wikidata_client') as mock_get:
             mock_client = AsyncMock()
             mock_client.wbsearchentities.return_value = [{"id": "Q123", "label": "Test Entity"}]
-            mock_client_class.return_value = mock_client
+            mock_get.return_value = mock_client
 
-            with patch('tools.wikidata_tool.aiohttp.ClientSession') as mock_session_class:
-                mock_session = AsyncMock()
-                mock_session_class.return_value = mock_session
-
-                result = await find_entity_id("test entity")
-                
-                assert result == "Q123"
-                mock_client.wbsearchentities.assert_called_once_with("test entity", entity_type="item", limit=1)
+            result = await find_entity_id("test entity")
+            assert result == "Q123"
+            mock_client.wbsearchentities.assert_called_once_with("test entity", entity_type="item", limit=1)
 
     @pytest.mark.asyncio
     async def test_find_entity_id_not_found(self):
         """Test entity not found."""
-        with patch('tools.wikidata_tool.WikidataAPIClient') as mock_client_class:
+        with patch('tools.wikidata_tool.get_wikidata_client') as mock_get:
             mock_client = AsyncMock()
             mock_client.wbsearchentities.return_value = []
-            mock_client_class.return_value = mock_client
+            mock_get.return_value = mock_client
 
-            with patch('tools.wikidata_tool.aiohttp.ClientSession') as mock_session_class:
-                mock_session = AsyncMock()
-                mock_session_class.return_value = mock_session
-
-                result = await find_entity_id("nonexistent entity")
-                
-                assert result is None
+            result = await find_entity_id("nonexistent entity")
+            assert result is None
 
     @pytest.mark.asyncio
     async def test_find_property_id_success(self):
         """Test successful property lookup."""
-        with patch('tools.wikidata_tool.WikidataAPIClient') as mock_client_class:
+        with patch('tools.wikidata_tool.get_wikidata_client') as mock_get:
             mock_client = AsyncMock()
             mock_client.wbsearchentities.return_value = [{"id": "P123", "label": "test property"}]
-            mock_client_class.return_value = mock_client
+            mock_get.return_value = mock_client
 
-            with patch('tools.wikidata_tool.aiohttp.ClientSession') as mock_session_class:
-                mock_session = AsyncMock()
-                mock_session_class.return_value = mock_session
-
-                result = await find_property_id("test property")
-                
-                assert result == "P123"
-                mock_client.wbsearchentities.assert_called_once_with("test property", entity_type="property", limit=1)
+            result = await find_property_id("test property")
+            assert result == "P123"
+            mock_client.wbsearchentities.assert_called_once_with("test property", entity_type="property", limit=1)
 
     @pytest.mark.asyncio
     async def test_empty_input(self):
