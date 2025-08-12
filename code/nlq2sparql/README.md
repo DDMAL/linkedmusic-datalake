@@ -87,6 +87,33 @@ async def run():
     integ = GeminiWikidataIntegration()  # needs GEMINI_API_KEY in env
     resp = await integ.send_message_with_tools('Find the property ID for composer and QID for Guillaume Dufay')
     print(resp)
+
+### Execute generated SPARQL (optional)
+
+You can have the main CLI execute the generated SPARQL against a SPARQL HTTP endpoint (read‑only):
+
+- Save JSON to `code/nlq2sparql/results/` (gitignored):
+
+```bash
+poetry run python -m code.nlq2sparql.cli \
+    --provider gemini \
+    --database session \
+    --exec-sparql \
+    --sparql-endpoint https://virtuoso.staging.simssa.ca/sparql \
+    --sparql-format json \
+    "Return all entries in The Session that took place in Montreal"
+```
+
+Guardrails: SELECT/ASK only, LIMIT capped (default 1000), HTTP timeout (default 15s), dangerous tokens rejected (INSERT/DELETE/LOAD/...)
+
+For ad‑hoc queries without the LLM path, use the small SPARQL runner:
+
+```bash
+poetry run python -m code.nlq2sparql.tools.sparql_cli \
+    --endpoint https://virtuoso.staging.simssa.ca/sparql \
+    --query "SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 1" \
+    --format json
+```
 asyncio.run(run())
 ```
 

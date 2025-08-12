@@ -29,18 +29,16 @@ Current Components
  - NEW: Consolidated dataset & mapping reference: `docs/dataset_mapping_cheatsheet.md` (lexicon seeding source).
 
 Recent Changes (this branch)
-----------------------------
-- Added async Wikidata resolution tool functions (`find_entity_id`, `find_property_id`).
-- Added package initializers for clean imports.
-- Phase 1 skeleton architecture added: base, ontology, example, supervisor agents; prompt builder; property mappings stub + builder.
-- Added outcome‑focused tests (ontology slice determinism, example ranking, prompt structure, supervisor end‑to‑end).
-- Adjusted Wikidata precise search limits to 1 (entity/property) to match tests & reduce response noise.
-- Root `conftest.py` ensures repository `code` package shadows stdlib `code` during pytest collection.
-- Implemented automated property mappings extractor (`ontology/extract_property_mappings.py`) producing coverage + conflict metrics and updating `property_mappings.json`.
-- Added raw TTL slice mode (`mode="ttl"`) to `UnifiedOntologyAgent` returning verbatim triple snippets (`ttl_snippets`).
-- Supervisor now explicitly sets `ontology_mode=ttl` (future‑proofing for alternative modes).
-- Added ontology agent mode test (ttl vs structured) raising total tests to 43 (all passing).
-- Extended STATUS with future investigation note for intermediate mapping layer.
+ Added async Wikidata resolution tool functions (`find_entity_id`, `find_property_id`).
+ 
+ New (Aug 12, 2025):
+ - Minimal CI via GitHub Actions to run pytest on push/PR.
+ - Data-driven routing improvements and ontology strategy toggle documented earlier remain in place; tests at 44 passing.
+ - Added HTTP SPARQL executor and CLI:
+    - `tools/sparql_http.py` (read-only guardrails, LIMIT cap, timeout, POST, content-type detection)
+    - `tools/sparql_cli.py` (ad-hoc runs; saves to `code/nlq2sparql/results/`, gitignored)
+    - Main CLI now supports optional post-generation execution flags (`--exec-sparql`, endpoint/format/timeout/limit/output-dir).
+    - Verified against staging endpoint; JSON results saved under `code/nlq2sparql/results/`.
 
 Completed (Phase 1 Skeleton Scope)
 ----------------------------------
