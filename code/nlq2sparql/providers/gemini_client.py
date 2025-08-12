@@ -54,12 +54,42 @@ class GeminiClient(BaseLLMClient):
                     temperature=self.temperature
                 )
             )
-            
-            if not response or not response.text:
-                raise APIError("Gemini returned empty response")
-            
+            # Safely extract text without assuming response.text exists
+            text = None
+            try:
+                # Some responses support .text; protect access
+                text = getattr(response, "text", None)
+            except Exception:
+                text = None
+
+            # Fallback: assemble text from candidates/parts
+            if not text:
+                assembled = []
+                candidates = getattr(response, "candidates", []) or []
+                if candidates:
+                    cand = candidates[0]
+                    content = getattr(cand, "content", None)
+                    parts = getattr(content, "parts", []) if content else []
+                    for part in parts:
+                        part_text = getattr(part, "text", None)
+                        if part_text:
+                            assembled.append(part_text)
+                text = "".join(assembled).strip() if assembled else None
+
+            if not text:
+                # Include finish_reason if present for diagnosability
+                finish_reason = None
+                try:
+                    if getattr(response, "candidates", None):
+                        finish_reason = getattr(response.candidates[0], "finish_reason", None)
+                except Exception:
+                    pass
+                raise APIError(
+                    "Gemini returned empty response" + (f" (finish_reason={finish_reason})" if finish_reason is not None else "")
+                )
+
             self.logger.debug("Gemini API call completed successfully")
-            return response.text
+            return text
             
         except Exception as e:
             self.logger.error(f"Gemini API call failed: {e}")

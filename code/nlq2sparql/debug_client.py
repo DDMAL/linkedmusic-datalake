@@ -1,25 +1,44 @@
 """
-Debug client for capturing prompts instead of making API calls
+Debug client for capturing prompts instead of making API calls.
+
+This client intentionally bypasses provider configuration and API key validation,
+so it can run in environments without any LLM credentials. It still uses the
+project's prompt builder to generate the exact prompt that would be sent.
 """
 
 import re
+import logging
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, Any
 
 try:
     from .providers.base import BaseLLMClient
+    from .prompts import build_sparql_generation_prompt
 except ImportError:
     from providers.base import BaseLLMClient
+    from prompts import build_sparql_generation_prompt
 
 
 class PromptDebugClient(BaseLLMClient):
     """Debug client that captures prompts instead of calling APIs"""
     
     def __init__(self, config):
-        super().__init__(config)
+        # Do NOT call super().__init__ to avoid provider API key validation.
+        self.config = config
+        self.logger = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
         self.captured_prompt = None
         self.last_query_info = {}
+
+    # Implement abstract methods with harmless stubs
+    def get_required_config_fields(self):
+        return []
+
+    def get_package_name(self):
+        return "builtins"
+
+    def get_install_command(self):
+        return "echo"
     
     def _call_llm_api(self, prompt: str, verbose: bool = False) -> str:
         """Capture the prompt instead of calling an API"""
@@ -31,16 +50,21 @@ class PromptDebugClient(BaseLLMClient):
         return "DEBUG_MODE_NO_API_CALL"
     
     def generate_sparql(self, nlq: str, database: str, ontology_context: str = "", verbose: bool = False) -> str:
-        """Override to store query info before calling parent method"""
+        """Build the prompt directly (no provider/API) and capture it."""
         # Store info for filename generation
         self.last_query_info = {
             'nlq': nlq,
             'database': database,
             'ontology_context': ontology_context
         }
-        
-        # Call parent method which will trigger _call_llm_api where we capture the prompt
-        return super().generate_sparql(nlq, database, ontology_context, verbose)
+
+        # Build prompt using the same builder as providers
+        prefix_declarations = self.config.get_prefix_declarations(database)
+        prompt = build_sparql_generation_prompt(nlq, database, prefix_declarations, ontology_context)
+
+        # Capture the prompt via the same hook used in provider flow
+        self._call_llm_api(prompt, verbose)
+        return "DEBUG_MODE_NO_API_CALL"
     
     def _extract_keywords(self, text: str, max_words: int = 4) -> str:
         """Extract key terms from natural language query to simplify output filenames"""
