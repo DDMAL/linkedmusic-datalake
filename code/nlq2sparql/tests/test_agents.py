@@ -111,3 +111,19 @@ async def test_supervisor_end_to_end_minimal():
     assert set(result.routing.keys()) >= {"ranked_datasets", "dataset_scores"}
     # Config meta includes routing block
     assert "routing" in result.prompt.get("config_meta", {})
+
+
+@pytest.mark.asyncio
+async def test_supervisor_dataset_filtering_plan_present():
+    ont = UnifiedOntologyAgent()
+    wikidata = _FakeWikidataAgent()
+    examples = _NoOpExampleAgent()
+    router = RouterAgent()
+    sup = SupervisorAgent(ontology_agent=ont, wikidata_agent=wikidata, example_agent=examples, prompt_builder=prompt_builder, router_agent=router)
+    # Query with tokens likely to trigger 'musicbrainz' rule
+    result = await sup.run("list recordings and releases by label")
+    meta = result.prompt.get("config_meta", {})
+    assert "plan" in meta
+    plan = meta["plan"]
+    # Plan should include datasets_selected key and be a list (maybe empty but present)
+    assert isinstance(plan.get("datasets_selected", []), list)

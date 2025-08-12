@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Optional
 import logging
 
 from .base import BaseAgent, AgentConfig
+from nlq2sparql.catalog.loader import load_capabilities, supports_concepts  # type: ignore
 
 
 @dataclass
@@ -47,8 +48,25 @@ class SupervisorAgent(BaseAgent):
                 routing = await self.router_agent.run(question=question)
             except Exception as e:  # pragma: no cover
                 self.logger.error("Routing failed: %s", e)
+        # Simple plan derivation: load capabilities and filter ranked datasets by concept support
+        ranked = routing.get("ranked_datasets", [])
+        concept_hints = routing.get("concept_hints", []) or []
+        caps = load_capabilities(ranked if ranked else None)
+        selected: List[str] = []
+        for ds in ranked:
+            cap = caps.get(ds)
+            if cap and supports_concepts(cap, concept_hints):
+                selected.append(ds)
+        # Soft cap to 2 datasets for now
+        if len(selected) > 2:
+            selected = selected[:2]
+        plan = {
+            "datasets_selected": selected,
+            "concepts": concept_hints,
+            "rationale": "capability-filtered routing",
+        }
         ontology_mode = self.config.get("ontology_mode", "ttl") if self.config else "ttl"
-        ontology_slice = await self.ontology_agent.run(question=question, mode=ontology_mode)
+        ontology_slice = await self.ontology_agent.run(question=question, mode=ontology_mode, datasets=selected or None)
         tokens = [t.strip(",.?;:") for t in question.split() if len(t) > 3]
         resolved = await self.wikidata_agent.lookup_entities_and_properties(tokens, tokens)
         examples = await self.example_agent.run(question=question)
@@ -57,7 +75,7 @@ class SupervisorAgent(BaseAgent):
             ontology_slice=ontology_slice,
             resolved=resolved,
             examples=examples,
-            config={**(self.config.settings if self.config else {}), "routing": routing},
+            config={**(self.config.settings if self.config else {}), "routing": routing, "plan": plan},
         )
         return SupervisorResult(question, routing, ontology_slice, resolved, examples, prompt)
 

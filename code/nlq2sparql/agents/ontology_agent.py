@@ -1,7 +1,7 @@
 """Unified Ontology Subagent (skeleton, read‑only)."""
 from __future__ import annotations
 
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List, Set, Optional
 from dataclasses import dataclass
 import logging
 from pathlib import Path
@@ -46,7 +46,7 @@ class UnifiedOntologyAgent(BaseAgent):
     def _tokenize(self, question: str) -> List[str]:
         return [t for t in re.findall(r"[a-zA-Z0-9]+", question.lower()) if len(t) >= 3]
 
-    async def run(self, question: str, max_neighbors: int = 30, mode: str = "ttl") -> Dict[str, Any]:  # type: ignore[override]
+    async def run(self, question: str, max_neighbors: int = 30, mode: str = "ttl", datasets: Optional[List[str]] = None) -> Dict[str, Any]:  # type: ignore[override]
         self._ensure_loaded()
         assert self._graph is not None
         tokens = self._tokenize(question)
@@ -55,6 +55,18 @@ class UnifiedOntologyAgent(BaseAgent):
             for label, subs in self._label_index.items():
                 if token in label:
                     matched_subjects.update(subs)
+        # Optional dataset filtering by prefix
+        allowed_prefixes: Optional[Set[str]] = None
+        if datasets:
+            # Map dataset codes to known prefixes used by _shorten
+            ds_map = {
+                "musicbrainz": "mb:",
+                "thesession": "ts:",
+                "diamm": "diamm:",
+                "dtl": "dtl:",
+                "gj": "gj:",
+            }
+            allowed_prefixes = {ds_map.get(d) for d in datasets if ds_map.get(d)}
         g = self._graph
         if mode == "ttl":
             # Return raw TTL snippet(s) verbatim for each matched subject
@@ -72,6 +84,9 @@ class UnifiedOntologyAgent(BaseAgent):
                     lines.append(f"{self._shorten(str(pred))}\t{o_txt} .")
                 if lines:
                     header = self._shorten(str(subj_ref))
+                    # If dataset filtering is enabled, skip subjects not matching allowed prefixes
+                    if allowed_prefixes and not any(header.startswith(p) for p in allowed_prefixes):
+                        continue
                     snippet = header + "\n\t" + "\n\t".join(lines)
                     snippets.append(snippet)
             # Maintain backward-compatible empty structural fields so older tests / consumers don't break.
