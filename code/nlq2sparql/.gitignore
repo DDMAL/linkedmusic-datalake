@@ -11,3 +11,6 @@
 .venv
 venv/
 env/
+
+# SPARQL results outputs
+results/
