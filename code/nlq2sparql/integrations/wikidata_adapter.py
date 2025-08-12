@@ -5,6 +5,7 @@ code doesn't import shared libs directly and avoids cross-event-loop reuse.
 """
 from __future__ import annotations
 import asyncio
+import atexit
 from typing import Optional
 import aiohttp
 
@@ -54,3 +55,29 @@ async def close_wikidata_client():
 
 
 __all__ = ["get_wikidata_client", "close_wikidata_client"]
+
+
+# Best-effort cleanup on process exit to avoid unclosed session warnings.
+def _close_session_at_exit() -> None:
+    try:
+        # If a loop is available and running, schedule async close; otherwise run a tiny loop.
+        if _session and not _session.closed:
+            try:
+                loop = _loop or asyncio.get_event_loop()
+            except RuntimeError:
+                loop = None  # no loop
+
+            if loop and loop.is_running():
+                loop.create_task(close_wikidata_client())
+            else:
+                try:
+                    asyncio.run(close_wikidata_client())
+                except RuntimeError:
+                    # Event loop policy/platform oddities; ignore at exit
+                    pass
+    except Exception:
+        # Swallow any exit-time errors
+        pass
+
+
+atexit.register(_close_session_at_exit)
