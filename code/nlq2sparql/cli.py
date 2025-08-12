@@ -39,6 +39,20 @@ def main():
         
         # Process the query
         processor = QueryProcessor(config)
+        # Surface execution flags from args into config (side-channel attributes)
+        # This avoids expanding the Config schema right now.
+        if hasattr(args, "exec_sparql") and args.exec_sparql:
+            setattr(config, "exec_sparql", True)
+            if getattr(args, "sparql_endpoint", None):
+                setattr(config, "sparql_endpoint", args.sparql_endpoint)
+            if getattr(args, "sparql_format", None):
+                setattr(config, "sparql_format", args.sparql_format)
+            if getattr(args, "sparql_timeout", None) is not None:
+                setattr(config, "sparql_timeout", args.sparql_timeout)
+            if getattr(args, "sparql_limit", None) is not None:
+                setattr(config, "sparql_limit", args.sparql_limit)
+            if getattr(args, "sparql_results_dir", None):
+                setattr(config, "sparql_results_dir", str(args.sparql_results_dir))
         processor.process_query_request(
             query=query,
             provider=args.provider,

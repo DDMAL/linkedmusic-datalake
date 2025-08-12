@@ -82,6 +82,43 @@ class ArgumentHandler:
             action="store_true",
             help="Save the prompt to file instead of sending to LLM (for debugging)"
         )
+
+        # Optional: execute generated SPARQL via HTTP and save results
+        parser.add_argument(
+            "--exec-sparql",
+            action="store_true",
+            help="Execute generated SPARQL against a SPARQL HTTP endpoint and save results",
+        )
+        parser.add_argument(
+            "--sparql-endpoint",
+            type=str,
+            default=None,
+            help="SPARQL endpoint URL (default: staging Virtuoso if omitted)",
+        )
+        parser.add_argument(
+            "--sparql-format",
+            choices=["json", "xml", "csv", "tsv"],
+            default="json",
+            help="Result format when executing SPARQL (default: json)",
+        )
+        parser.add_argument(
+            "--sparql-timeout",
+            type=int,
+            default=15,
+            help="HTTP timeout in seconds for SPARQL execution (default: 15)",
+        )
+        parser.add_argument(
+            "--sparql-limit",
+            type=int,
+            default=1000,
+            help="Max LIMIT enforced for SELECT when executing SPARQL (default: 1000)",
+        )
+        parser.add_argument(
+            "--sparql-results-dir",
+            type=Path,
+            default=None,
+            help="Directory to save SPARQL results (default: code/nlq2sparql/results)",
+        )
         
         return parser
     

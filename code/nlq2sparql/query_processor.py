@@ -107,4 +107,41 @@ class QueryProcessor:
         print("=" * 50)
         print(sparql_query)
         
+        # Optional: execute SPARQL over HTTP if configured via CLI flags (attrs on config)
+        try:
+            from .tools.sparql_http import run_http_sparql
+        except Exception:
+            from tools.sparql_http import run_http_sparql  # type: ignore
+
+        # Extract execution settings injected by ArgumentHandler via Config side channel
+        exec_sparql = getattr(self.config, "exec_sparql", False)
+        if exec_sparql and sparql_query and sparql_query.strip():
+            endpoint = getattr(self.config, "sparql_endpoint", None) or "https://virtuoso.staging.simssa.ca/sparql"
+            fmt = getattr(self.config, "sparql_format", "json")
+            timeout = int(getattr(self.config, "sparql_timeout", 15))
+            limit = int(getattr(self.config, "sparql_limit", 1000))
+            out_dir = getattr(self.config, "sparql_results_dir", None)
+            if out_dir is None:
+                out_dir = (Path(__file__).resolve().parent / "results")
+            else:
+                out_dir = Path(out_dir)
+
+            try:
+                res = run_http_sparql(
+                    endpoint_url=endpoint,
+                    raw_query=sparql_query,
+                    out_dir=out_dir,
+                    fmt=fmt,
+                    timeout_sec=timeout,
+                    max_limit=limit,
+                    allow_construct=False,
+                )
+                print("\nSPARQL execution:")
+                print("- Endpoint:", endpoint)
+                print("- Saved:", res.output_path)
+                print("- Content-Type:", res.content_type)
+                print("- Duration:", f"{res.duration_ms} ms")
+            except Exception as e:
+                print("\nWarning: SPARQL execution failed:", e)
+
         return sparql_query
