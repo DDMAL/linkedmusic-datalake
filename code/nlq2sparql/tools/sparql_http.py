@@ -83,11 +83,16 @@ def _enforce_limit(q: str, max_limit: int = 1000) -> str:
 
 
 def _inject_timeout_define(q: str, timeout_ms: int = 10000) -> str:
-    # Virtuoso honors DEFINE sql:timeout in milliseconds
+    # Virtuoso honors DEFINE sql:timeout in milliseconds (may be disabled on public endpoints)
     return f"DEFINE sql:timeout {timeout_ms}\n" + q
 
 
-def prepare_query(raw_query: str, max_limit: int = 1000, allow_construct: bool = False) -> str:
+def prepare_query(
+    raw_query: str,
+    max_limit: int = 1000,
+    allow_construct: bool = False,
+    use_define: bool = False,
+) -> str:
     """Prepare a SPARQL query for safe execution.
 
     - Strip optional 'SPARQL' prefix.
@@ -110,7 +115,8 @@ def prepare_query(raw_query: str, max_limit: int = 1000, allow_construct: bool =
         raise ValueError(f"Query contains disallowed token: {bad}")
 
     q = _enforce_limit(q, max_limit=max_limit)
-    q = _inject_timeout_define(q)
+    if use_define:
+        q = _inject_timeout_define(q)
     return q
 
 
@@ -142,24 +148,37 @@ def run_http_sparql(
     Returns execution metadata including output path.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
-    prepped = prepare_query(raw_query, max_limit=max_limit, allow_construct=allow_construct)
+    # First try without DEFINE directive; some public endpoints reject it
+    prepped = prepare_query(
+        raw_query,
+        max_limit=max_limit,
+        allow_construct=allow_construct,
+        use_define=False,
+    )
     mime, headers = _resolve_format_and_headers(fmt)
 
-    params = {"query": prepped}
+    data = {"query": prepped}
     start = time.perf_counter()
-    resp = requests.get(endpoint_url, params=params, headers=headers, timeout=timeout_sec)
+    resp = requests.post(endpoint_url, data=data, headers=headers, timeout=timeout_sec)
     duration_ms = int((time.perf_counter() - start) * 1000)
+
+    if resp.status_code == 400 and b"DEFINE" in resp.content:
+        # Retry without DEFINE already; as a fallback, try GET semantics without DEFINE (rarely needed)
+        start = time.perf_counter()
+        resp = requests.get(endpoint_url, params={"query": prepped}, headers=headers, timeout=timeout_sec)
+        duration_ms = int((time.perf_counter() - start) * 1000)
 
     resp.raise_for_status()
 
     # Build filename
     ts = time.strftime("%Y%m%d_%H%M%S")
+    content_type_header = resp.headers.get("Content-Type", mime).split(";")[0].strip().lower()
     ext = {
         "application/sparql-results+json": ".json",
         "application/sparql-results+xml": ".xml",
         "text/csv": ".csv",
         "text/tab-separated-values": ".tsv",
-    }.get(mime, ".out")
+    }.get(content_type_header, ".out")
 
     fname = f"sparql_{ts}{ext}"
     out_path = out_dir / fname
@@ -169,5 +188,5 @@ def run_http_sparql(
         status_code=resp.status_code,
         duration_ms=duration_ms,
         output_path=out_path,
-        content_type=mime,
+        content_type=content_type_header,
     )
