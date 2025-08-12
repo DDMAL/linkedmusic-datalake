@@ -1,5 +1,8 @@
-"""Tool subpackage for NLQ2SPARQL (Wikidata resolution, etc.)."""
+"""Tool subpackage for NLQ2SPARQL (Wikidata resolution, etc.).
 
-from .wikidata_tool import find_entity_id, find_property_id
+Avoid importing heavy or side-effectful modules at package import time.
+Consumers should import needed symbols directly from their modules, e.g.:
+	from code.nlq2sparql.tools.wikidata_tool import find_entity_id
+"""
 
-__all__ = ["find_entity_id", "find_property_id"]
+__all__: list[str] = []
