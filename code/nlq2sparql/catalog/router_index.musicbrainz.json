@@ -1,0 +1,8 @@
+{
+  "terms": [
+    "artist", "work", "recording", "release", "label", "composer", "performer", "producer", "genre", "instrument"
+  ],
+  "aliases": [
+    "band", "album", "track", "song", "orchestra", "soloist"
+  ]
+}

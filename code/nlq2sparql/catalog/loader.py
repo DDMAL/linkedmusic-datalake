@@ -59,3 +59,28 @@ def supports_concepts(cap: Dict[str, Any], concept_hints: List[str]) -> bool:
 
 
 __all__ = ["load_capabilities", "supports_concepts", "dataset_prefix"]
+
+
+# Router index loader
+def load_router_indexes(datasets: List[str] | None = None) -> Dict[str, Dict[str, Any]]:
+    """Load router indexes for specified datasets (or all available).
+
+    Each router index should be a small JSON file with fields like:
+    {"terms": ["artist", "recording", ...], "aliases": [..]}
+    """
+    out: Dict[str, Dict[str, Any]] = {}
+    if datasets:
+        candidates = [CATALOG_DIR / f"router_index.{d}.json" for d in datasets]
+    else:
+        candidates = list(CATALOG_DIR.glob("router_index.*.json"))
+    for p in candidates:
+        if not p.exists():
+            continue
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        name = p.stem.split(".", 1)[1] if "." in p.stem else p.stem
+        out[name] = data
+    return out
+

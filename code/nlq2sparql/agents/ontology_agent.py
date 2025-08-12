@@ -7,6 +7,7 @@ import logging
 from pathlib import Path
 import re
 from rdflib import Graph, RDFS, URIRef, Literal
+from functools import lru_cache
 
 from .base import BaseAgent
 
@@ -50,6 +51,11 @@ class UnifiedOntologyAgent(BaseAgent):
         self._ensure_loaded()
         assert self._graph is not None
         tokens = self._tokenize(question)
+        # Try cached result for identical tokens + datasets + mode
+        cache_key = (tuple(tokens), tuple(sorted(datasets or [])), mode)
+        cached = self._get_cached_slice(cache_key)
+        if cached is not None:
+            return cached
         matched_subjects: Set[str] = set()
         for token in tokens:
             for label, subs in self._label_index.items():
@@ -90,7 +96,9 @@ class UnifiedOntologyAgent(BaseAgent):
                     snippet = header + "\n\t" + "\n\t".join(lines)
                     snippets.append(snippet)
             # Maintain backward-compatible empty structural fields so older tests / consumers don't break.
-            return {"tokens": tokens, "ttl_snippets": snippets, "nodes": [], "edges": [], "literals": [], "source": "unified_ontology_v1", "mode": "ttl"}
+            result = {"tokens": tokens, "ttl_snippets": snippets, "nodes": [], "edges": [], "literals": [], "source": "unified_ontology_v1", "mode": "ttl"}
+            self._set_cached_slice(cache_key, result)
+            return result
         else:
             # Structured mode (original behavior) retained for future experimentation
             edges: List[Dict[str, Any]] = []
@@ -116,7 +124,9 @@ class UnifiedOntologyAgent(BaseAgent):
                         labels_map[s] = str(o)
                         break
             nodes = [{"id": nid, "label": labels_map.get(nid)} for nid in sorted(added_nodes)]
-            return {"tokens": tokens, "nodes": nodes, "edges": edges, "literals": literals, "source": "unified_ontology_v1", "mode": "structured"}
+            result = {"tokens": tokens, "nodes": nodes, "edges": edges, "literals": literals, "source": "unified_ontology_v1", "mode": "structured"}
+            self._set_cached_slice(cache_key, result)
+            return result
 
     def _shorten(self, iri: str) -> str:
         """Best‑effort compaction of full IRI to prefix:local if it matches known namespaces.
@@ -137,6 +147,24 @@ class UnifiedOntologyAgent(BaseAgent):
             if iri.startswith(base):
                 return p + iri[len(base):]
         return iri
+
+    # Simple in-process cache for slices
+    @lru_cache(maxsize=256)
+    def _get_cached_slice(self, key):  # type: ignore[no-untyped-def]
+        return None
+
+    def _set_cached_slice(self, key, value):  # type: ignore[no-untyped-def]
+        # lru_cache-based getter cannot be set directly; emulate via memoization in instance
+        # For simplicity, store on instance dict keyed by key
+        cache = getattr(self, "_slice_cache", None)
+        if cache is None:
+            cache = {}
+            setattr(self, "_slice_cache", cache)
+        cache[key] = value
+        # Monkey-patch getter to check this map first
+        def getter(k):
+            return getattr(self, "_slice_cache", {}).get(k)
+        object.__setattr__(self, "_get_cached_slice", getter)
 
 
 __all__ = ["UnifiedOntologyAgent", "OntologySlice"]

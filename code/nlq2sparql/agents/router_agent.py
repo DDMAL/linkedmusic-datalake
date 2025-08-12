@@ -25,6 +25,10 @@ import yaml
 import re
 
 from .base import BaseAgent
+try:
+    from ..catalog.loader import load_router_indexes
+except Exception:  # support direct import in tests
+    from catalog.loader import load_router_indexes  # type: ignore
 
 RULES_FILE = Path(__file__).resolve().parents[1] / "catalog" / "router_rules.yml"
 
@@ -67,7 +71,23 @@ class RouterAgent(BaseAgent):
         dataset_scores: Dict[str, float] = {}
         concept_hints: Set[str] = set()
         matched_rules: List[Dict[str, Any]] = []
-        for idx, rule in enumerate(self._rules):
+
+        # 1) Data-driven indexing pass (simple lexical)
+        indexes = load_router_indexes()
+        for ds, idx in indexes.items():
+            terms = [t.lower() for t in (idx.get("terms") or [])]
+            aliases = [t.lower() for t in (idx.get("aliases") or [])]
+            score = 0.0
+            for t in tokens:
+                if t in terms:
+                    score += 1.0
+                if t in aliases:
+                    score += 0.5
+            if score > 0:
+                dataset_scores[ds] = dataset_scores.get(ds, 0.0) + score
+
+        # 2) Rule overrides/additive boosts
+        for idx_num, rule in enumerate(self._rules):
             pats = rule.get("patterns", [])
             boost = float(rule.get("boost", 1.0))
             datasets = rule.get("datasets", [])
@@ -75,17 +95,17 @@ class RouterAgent(BaseAgent):
             matched_patterns = [p for p in pats if p.lower() in q_lower]
             if not matched_patterns:
                 continue
-            # Rule fires
             for ds in datasets:
                 dataset_scores[ds] = dataset_scores.get(ds, 0.0) + boost
             concept_hints.update(concepts)
             matched_rules.append({
-                "rule_index": idx,
+                "rule_index": idx_num,
                 "matched_patterns": matched_patterns,
                 "datasets": datasets,
                 "boost": boost,
                 "concepts": concepts,
             })
+
         ranked = sorted(dataset_scores.items(), key=lambda x: (-x[1], x[0]))
         ranked_datasets = [d for d, _ in ranked]
         result: Dict[str, Any] = {

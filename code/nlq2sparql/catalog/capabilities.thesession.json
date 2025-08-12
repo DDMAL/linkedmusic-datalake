@@ -1,0 +1,22 @@
+{
+  "graph_prefix": "ts:",
+  "strengths": ["tunes and sets", "community session metadata"],
+  "limitations": ["recording production details limited"],
+  "entities": {
+    "Tune": {
+      "id_keys": ["wikidata_qid"],
+      "label_predicates": ["rdfs:label"],
+      "sample_properties": ["wdt:P136"],
+      "notes": "Core entity for melody variants and sessions"
+    },
+    "TuneSet": {
+      "id_keys": ["wikidata_qid"],
+      "label_predicates": ["rdfs:label"],
+      "sample_properties": ["wdt:P361"],
+      "notes": "Grouping of tunes"
+    }
+  },
+  "relations": {
+    "TuneSet->Tune:hasPart": {"predicate": "wdt:P527"}
+  }
+}
