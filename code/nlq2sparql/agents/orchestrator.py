@@ -10,21 +10,32 @@ import asyncio
 
 from .router_agent import RouterAgent
 from .ontology_agent import UnifiedOntologyAgent
+from .ontology_delegate_agent import OntologyDelegateAgent
 from .wikidata_agent import WikidataAgent
 from .example_agent import ExampleRetrievalAgent
+try:
+    from ..config import Config
+except Exception:  # allow import when module loaded as top-level (no package)
+    from config import Config  # type: ignore
 
 
 class MultiAgentOrchestrator:
     def __init__(self) -> None:
         self.router = RouterAgent()
         self.ontology = UnifiedOntologyAgent()
+        self.ontology_delegate = OntologyDelegateAgent()
         self.wikidata = WikidataAgent()
         self.examples = ExampleRetrievalAgent()
+        self.config = Config()
 
     async def _run_async(self, question: str) -> Dict[str, Any]:
         routing = await self.router.run(question=question)
         selected = routing.get("ranked_datasets", [])
-        ont = await self.ontology.run(question=question, mode="ttl", datasets=selected or None)
+        strategy = self.config.get_ontology_strategy()
+        if strategy == "llm_delegate":
+            ont = self.ontology_delegate.run(question=question)
+        else:
+            ont = await self.ontology.run(question=question, mode="ttl", datasets=selected or None)
         # Token list from question; reuse tokens from ontology or simple split
         tokens = ont.get("tokens") or [t for t in question.split() if len(t) > 3]
         resolved = await self.wikidata.lookup_entities_and_properties(tokens, tokens)
@@ -71,6 +82,10 @@ class MultiAgentOrchestrator:
             # Limit to a safe number of lines
             for sn in snippets[:20]:
                 parts.append(sn)
+        elif ont.get("mode") == "delegate":
+            # In delegate mode, include a small header and omit full TTL in text block (too large).
+            parts.append("\n# Ontology Delegate Mode\n")
+            parts.append("Full ontology loaded separately; model instructed to extract relevant parts.")
 
         # Examples (optional, lightweight)
         if examples:

@@ -114,7 +114,7 @@ class QueryRouter:
         # Build via orchestrator
         try:
             from .agents.orchestrator import MultiAgentOrchestrator
-        except ImportError:
+        except Exception:
             from agents.orchestrator import MultiAgentOrchestrator  # type: ignore
         orch = MultiAgentOrchestrator()
         context = orch.build_ontology_context(nlq)

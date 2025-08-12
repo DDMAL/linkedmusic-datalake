@@ -39,5 +39,6 @@
       "temperature": 0.1
     }
   },
+  "ontology_strategy": "structured",
   "prefixes": {}
 }

@@ -181,6 +181,16 @@ class Config:
         if not registry:
             self.logger.error("No provider registry found in configuration")
         return registry
+
+    def get_ontology_strategy(self) -> str:
+        """Return ontology strategy: 'structured' (default) or 'llm_delegate'.
+
+        Also supports env override NLQ2SPARQL_ONTOLOGY_STRATEGY.
+        """
+        env_val = os.getenv("NLQ2SPARQL_ONTOLOGY_STRATEGY")
+        if env_val:
+            return env_val.strip().lower()
+        return (self.config_data.get("ontology_strategy") or "structured").strip().lower()
     
     def get_supported_providers(self) -> List[str]:
         """Get list of supported provider names"""

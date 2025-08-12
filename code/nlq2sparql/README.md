@@ -93,6 +93,14 @@ asyncio.run(run())
 ## Ontology Slices
 The `UnifiedOntologyAgent` automatically loads `ontology/11Aug2025_ontology.ttl` (read‑only). The heuristic will improve; current output structure is stable for prompt building.
 
+### Toggle: Structured vs Delegate (Full Ontology)
+- Default strategy is structured slicing (router + UnifiedOntologyAgent with TTL snippets).
+- To compare against a simple "give the whole ontology to the LLM" approach, set one of:
+    - Config file `code/nlq2sparql/config.json`: `"ontology_strategy": "llm_delegate"`
+    - Or environment: `NLQ2SPARQL_ONTOLOGY_STRATEGY=llm_delegate`
+
+In delegate mode, the orchestrator uses `OntologyDelegateAgent` to provide the full ontology (verbatim). The prompt text includes a small header rather than dumping the entire TTL; provider wrappers should pass the TTL as a separate large-context input and instruct the model to extract the relevant parts.
+
 ## Contributing
 - Keep changes off `main`; use `nlq2sparql-api` (current working branch) or feature branches.
 - Update `STATUS.md` with decisions & milestones.

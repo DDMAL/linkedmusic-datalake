@@ -384,3 +384,21 @@ Action Items:
 - [ ] Add a brief README note documenting the adapter boundary and patching guidance for tests.
 - [ ] Keep `conftest.py` ensuring the repo `code` package shadows stdlib `code` during test collection.
 
+Architecture Review (Added 2025-08-12)
+--------------------------------------
+Observations:
+- Two orchestration points exist: `SupervisorAgent` and the newer `MultiAgentOrchestrator`; `router.py` invokes the latter in the provider path. This is duplicative.
+- Tokenization appears in multiple spots (router vs ontology). Prefer a single source of question tokens (router output) to reduce divergence.
+- The `ExampleRetrievalAgent` is intentionally minimal; keep it optional with placeholder behavior until real examples are curated.
+- UnifiedOntologyAgent should be the single place for dataset-aware prefix filtering (ensure all call paths use the `datasets` parameter consistently).
+
+Recommendations:
+- Consolidate on `MultiAgentOrchestrator` as the single entrypoint; mark `SupervisorAgent` as deprecated or make it a thin wrapper around the orchestrator to avoid two flows.
+- Keep external deps behind adapters (e.g., `integrations/wikidata_adapter.py`), and patch adapters in tests, not shared libs.
+- Maintain the config-driven toggle for ontology strategy (`structured` vs `llm_delegate`) to enable apples-to-apples evaluation later.
+- Defer router_rules-heavy maintenance by moving toward an indexed, data-driven routing layer as datasets expand.
+
+Deferred Changes (to avoid churn now):
+- Do not remove `SupervisorAgent` yet; first, migrate any tests/usages to orchestrator, then deprecate in a follow-up.
+- Unify tokenization and dataset prefix enforcement after adding a second capability stub (to validate behavior across datasets).
+
