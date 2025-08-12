@@ -1,7 +1,7 @@
 # General notes
 
 - We are ignoring Parlametrics for now, as it concerns conversations which are not directly related to music.
-- We are ignoring latitutde and longitude for now, as locations
+- We are ignoring latitude and longitude for now, as locations
 - The Urban Strain files are incoherent and so are skipped for now
     - After much searching within both the files and on the Global Jukebox website, we were unable to match the songs in the files to songs on the website and vice versa
     - The metadata file is also clearly incomplete; there is not even a clear primary key column
