@@ -91,7 +91,7 @@ CHUNK_SIZE = 500  # Adjustable chunk size
 # Max number of chunk processing processes to run simultaneously
 MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
 # Max number of subgraph merging threads to run simultaneously
-MAX_SIMULTANEOUS_SUBGRAPH_WORKERS = 3
+MAX_SIMULTANEOUS_SUBGRAPH_WORKERS = 2
 # Max number of graph serializing processes to run simultaneously
 MAX_SIMULTANEOUS_GRAPH_WORKERS = 3
 # Max number of processes to run simultaneously
