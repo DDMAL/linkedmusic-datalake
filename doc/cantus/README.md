@@ -26,7 +26,7 @@ The ```cantus.csv``` file should be imported into OpenRefine for further operati
 
 ### Reconciliation
 
-- The `jsonld_approach/cantusdb/openrefine/sources_history.json` can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the `sources_history.json` file is specific against a particular test, mistakes are likely to happen.
+- The `doc/cantus/openrefine/sources_history.json` can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the `sources_history.json` file is specific against a particular test, mistakes are likely to happen.
 
 1. Create `service_@id`, `mode_@id` and `genre_@id` columns as copies of the respective columns.
 2. Reconcile the `service_@id` column against "Prayer in the Catholic Church" instance Q3406098.
@@ -39,6 +39,11 @@ The ```cantus.csv``` file should be imported into OpenRefine for further operati
 9. Since the mode are numbers, we have to search for the mode names manually, I used the [Wikipedia list of western church modes](https://en.wikipedia.org/wiki/Mode_(music)#Western_Church) for this.
 10. For example, if it's mode 1, then search for a new match > "mode 1" > "dorian mode".
 11. For all uncertain modes, create a new item for each.
+12. Rename service to service_original, and rename service_@id to service.
+13. Rename genre to genre_original, and rename genre_@id to genre.
+14. Rename mode to mode_original, and rename mode_@id to mode.
+15. Go to `Export > custom tabular`, then for the column `service` under `For reconciled cells, output`, select `Matched entity's ID`. Do the same for the columns `genre` and `mode`.
+16. Download as CSV.
 
 Made-up URIs of Properties:
 
