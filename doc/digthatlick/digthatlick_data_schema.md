@@ -4,7 +4,6 @@ This document explains the schema of the datasets provided by the Dig That Lick 
 
 So far, we have only ingested DTL1000, an original dataset the Dig That Lick team has compiled for their project. Dig That Lick also incorporates three non-original music datasets (see the [section below](#12-dig-that-lick-similarity-search-website))
 
-
 ## 1. Very Brief Introduction to Dig that Lick
 
 ## 1.1 What is Dig That Lick?
@@ -17,7 +16,7 @@ Dig That Lick is a scholarly effort to analyze melodic patterns in jazz (i.e. li
 
 https://dig-that-lick.hfm-weimar.de/similarity_search/documentation
 
-This website is one of the main deliverables (i.e. final products) of the Dig That Lick project. Its primary function is to enable searching for a jazz solo or folk song by inputting a melodic fragment, with metadata filtering available. 
+This website is one of the main deliverables (i.e. final products) of the Dig That Lick project. Its primary function is to enable searching for a jazz solo or folk song by inputting a melodic fragment, with metadata filtering available.
 
 Its [homepage](https://dig-that-lick.eecs.qmul.ac.uk/index.html) indicates that the site currently supports four databases:
 
