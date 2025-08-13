@@ -4,7 +4,7 @@
 - In the `reconciliation_history` folder, JSON files are generated in OpenRefine via `Undo/Redo > Extract... > Export`.
 - These files can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
 - This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
-- Note also these files don't do everything
+- Please not that these files do not do everything.
     - dtl_solos_history.json is for dtl1000_solo.csv, it takes you to step 22 of the reconciliation procedures, but the steps in Export procedures must still be applied.
     - dtl_tracks_history.json is for dtl1000_tracks.csv, it takes you to the final step of that file, but the steps in Export procedures must still be applied.
     - dtl_performers_history.json is for dtl1000_performers.csv, same as above.
