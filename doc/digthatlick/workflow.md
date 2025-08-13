@@ -4,23 +4,23 @@
 
 The CSV containing the entire DTL1000 dataset (also referred to as the Dig That Lick Database) can be downloaded at the bottom of [this page](https://dig-that-lick.hfm-weimar.de/similarity_search/documentation).
 
-It is named `dtl_metadata_v0.9.csv`. Please store it at `/data/digthatlick/raw`
+It is named `dtl_metadata_v0.9.csv`. Please store it at `/data/digthatlick/raw`.
 
-## 2. Splitting and Cleaning the CSV file
+## 2. Splitting and Cleaning the CSV File
 
-Change working directory to `code/digthatlick`
+Change the working directory to `code/digthatlick`.
 
-- Run the following command
+- Run the following command:
 
 ```python
 python split_dtl1000.py [path to csv]
 ```
 
-- The `[path to csv]` argument is not needed if the raw CSV is stored at `/data/digthatlick/raw`
+- The `[path to csv]` argument is not needed if the raw CSV is stored at `/data/digthatlick/raw`.
 
 ### 2.1 Logic Behind Splitting
 
-- Splitting the CSV file is not strictly mandatory, since reconciliation and RDF conversion can happen without. However, it does makes the data much easier to navigate.
+- Splitting the CSV file is not strictly mandatory, since reconciliation and RDF conversion can happen without it. However, it does make the data much easier to navigate.
 
 - We split up the raw CSV into three files:
 
@@ -28,25 +28,24 @@ python split_dtl1000.py [path to csv]
   - dtl1000_tracks.csv
   - dtl1000_performers.csv
 
-- `solos.csv` contains all metadata unique to the solo (e.g. performers on the solo, instrument used in the solo)
-- `track.csv` contains all metadata unique to the track from which the solo is taken (e.g. recording location). It does not include performers
-- `performers.csv`contains all track performers data. It is a separate file because track performers are often in multi-valued cells (i.e. multiple performer names in a single cell), splitting them into different cells create many extra rows, which would make `tracks.csv` unnecessarily large and cumbersome.
+- `solos.csv` contains all metadata unique to the solo (e.g., performers on the solo, instrument used in the solo).
+- `track.csv` contains all metadata unique to the track from which the solo is taken (e.g., recording location). It does not include performers.
+- `performers.csv` contains all track performers' data. It is a separate file because track performers are often in multi-valued cells (i.e., multiple performer names in a single cell). Splitting them into different cells creates many extra rows, which would make `tracks.csv` unnecessarily large and cumbersome.
 
 ### 2.2 Logic Behind Cleaning
 
 Columns changed:
 
-- solo_id
-  - We remove 0s within `solo_id` in order to build valid URI (see [digthatlick_data_schema.md](./digthatlick_data_schema.md)).
+- solo_id:
+  - We remove 0s within `solo_id` in order to build valid URIs (see [digthatlick_data_schema.md](./digthatlick_data_schema.md)).
 
-- track_id
-    - We create `track_id` using the first 32 characters of `solo_id`, which is unique per track. `tracks_id` are not dereferenceable (i.e. there is not Dig That Lick webpage for tracks)
-    - This is the only column present in all three CSVs; its values are used link entities across files.
+- track_id:
+    - We create `track_id` using the first 32 characters of `solo_id`, which is unique per track. `track_id`s are not dereferenceable (i.e., there is no Dig That Lick webpage for tracks).
+    - This is the only column present in all three CSVs; its values are used to link entities across files.
 
+- instrument_label (in `solos.csv`):
 
-- instrument_label (in `solos.csv`)
-
-In the raw dataset, instruments are stored as abbreviations. To help reconciliation, we expand the abbreviation with this mapping:
+In the raw dataset, instruments are stored as abbreviations. To help reconciliation, we expand the abbreviations with this mapping:
 
 ```
 {
@@ -70,17 +69,31 @@ In the raw dataset, instruments are stored as abbreviations. To help reconciliat
 
     - Note that "ts" is expanded to simply "saxophone" because it helps performer reconciliation. It should be changed to "tenor saxophone" once reconciliation is complete.
 
-- start_time and end_time: removed from CSV since they are not needed (already in the URI)
+- start_time and end_time: removed from CSV since they are not needed (already in the URI).
 
-- performer_names and possible_performer_names
-    - These columns contain a lot of cells that need to be split into multiple cells (e.g. "Charlie Parker, Stan Getz" needs to be split into "Charlie Parker" and "Stan Getz")
-    - Some performers have instrument in parenthesis (e.g. `Charlie Parker(as)`). These are removed during cleaning.
+- performer_names and possible_performer_names:
+    - These columns contain a lot of cells that need to be split into multiple cells (e.g., "Charlie Parker, Stan Getz" needs to be split into "Charlie Parker" and "Stan Getz").
+    - Some performers have instruments in parentheses (e.g., `Charlie Parker(as)`). These are removed during cleaning.
 
+# Reconciling Against Wikidata
 
-# Reconciling
+See [reconciliation_procedures.md](./reconciliation_procedures.md) for details.
 
-See [reconciliation_procedures.md](./reconciliation_procedures.md) for
+# Converting DTL1000 to RDF
 
-# Converting Dig That Lick to RDF
+DTL1000 is converted to RDF using the General RDF Conversion script (please read through [General RDF Conversion Guide](../rdf_conversion/using_rdfconv_script.md)).
+
+The TOML configuration for DTL1000 is `/code/rdf_config/digthatlick.toml`. But you may need to update the configuration file if your column names differ from the expected.
+
+Once the config is updated, you may convert the dataset to RDF by following the steps below:
+
+- Change your working directory to `/code`.
+
+- Run the following command:
+```bash
+python -m rdfconv.convert rdf_config/digthatlick.toml
+```
+
+- A TTL file should be outputted to `/data/digthatlick/rdf`, or whichever folder you specified in the config.
 
 
