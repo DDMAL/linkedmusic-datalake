@@ -3,16 +3,19 @@
 This repository contains code, documentation, and sample data set files to:
 - Fetch data dumps from various databases in various file formats.
 - Reconcile entries in these databases against entities and properties in WikiData.
-    - Please refer to [OpenRefine Tips](https://github.com/DDMAL/linkedmusic-datalake/blob/main/doc/openrefine_tips/README.md) if you are not familiar with how OpenRefine works.
-- Transform reconciled databases into RDF turtle format and upload it to Virtuoso Staging.
+- Transform reconciled databases into RDF turtle format
+- Upload the RDF files to Virtuoso
+- Generate visuals of the data lake ontology
+- Test and validate the data lake through benchmark SPARQL queries
+- Use LLMs to generate SPARQL through NLQ2SPARQL with the aid of a custom prompt engineering context
 
-## Virtual Environment Setup
-
-1. Open a terminal in the `/linkedmusic-datalake` folder.
-2. Run `poetry install` to install the required packages.
-3. Activate the virtual environment with `eval $(poetry env activate)`.
+Refer to the wiki for a [general overview of our current pipeline for adding a new dataset](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset).
 
 ## Database Introductions
+
+The following datasets are currently at least partially integrated into our data lake.
+
+Refer to the wiki for [more details on the project status](https://github.com/DDMAL/linkedmusic-datalake/wiki/Project-Status), including completed work, work in progress, and future directions.
 
 ### DIAMM
 The [Digital Image Archive of Medieval Music (DIAMM)](https://www.diamm.ac.uk/) is an archive of digital images of European medieval manuscripts. We use a web crawler to fetch metadata from the DIAMM site and use custom scripts to convert the JSON data to CSV, and then to RDF. See the [DIAMM manual](https://github.com/DDMAL/linkedmusic-datalake/blob/main/doc/diamm/README.md) for more information.
@@ -50,24 +53,5 @@ Refer to the [Simssa DB manual](https://github.com/DDMAL/linkedmusic-datalake/bl
 
 ### ESEA (East-and-Southeast-Asian) & Chinese (Traditional) Music Instrument  
 Detailed information is provided within the corresponding `.ttl` files.
-
-## Additional Resources
-    The definitive source of music information by allowing anyone to contribute and releasing the data under open licenses.
-    The universal lingua franca for music by providing a reliable and unambiguous form of music identification, enabling both people and machines to have meaningful conversations about music.
-    Find https://github.com/DDMAL/linkedmusic-datalake/blob/main/musicbrainz/README.md for further manual.
-
-## Abandoned Work
-
-### AcousticBrainz  
-~~[AcousticBrainz](https://acousticbrainz.org/) collected acoustic information from music recordings between 2015 and 2022, providing insights into spectral data, genres, moods, keys, and scales.  
-Consult the [AcousticBrainz manual](https://github.com/DDMAL/linkedmusic-datalake/blob/main/acousticbrainz/README.md) for more details.~~
-
-## Previous Work by Van
-
-- All located in the jsonld_approach folder. We share some test sample files.
-
-## ArchiveForReconciledEntries
-In terms of reconciliation, OpenRefine primarily automate the matching of property values. However, perfect matches on Wikidata are not always guaranteed. To address this, we have been creating the "archive", storing those manually reconciled entries. This shared resource ensures that previously verified mappings can be reused, saving time and effort for others.
-Reconciliation with OpenRefine may not always yield perfect matches on Wikidata. The "archive" stores manually reconciled entries, allowing verified mappings to be reused and saving time and effort.
 
 <img src="images/wikidata_stamp_light.svg" alt="wikidata_stamp" width="400"/>
