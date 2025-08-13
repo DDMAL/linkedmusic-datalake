@@ -1,4 +1,5 @@
 # DTL1000 Workflow
+
 ## 1. Fetching Raw Data
 
 The CSV containing the entire DTL1000 dataset (also referred to as the Dig That Lick Database) can be downloaded at the bottom of [this page](https://dig-that-lick.hfm-weimar.de/similarity_search/documentation).
@@ -6,40 +7,47 @@ The CSV containing the entire DTL1000 dataset (also referred to as the Dig That 
 It is named `dtl_metadata_v0.9.csv`. Please store it at `/data/digthatlick/raw`
 
 ## 2. Splitting and Cleaning the CSV file
+
 Change working directory to `code/digthatlick`
 
 - Run the following command
+
 ```python
 python split_dtl1000.py [path to csv]
 ```
+
 - The `[path to csv]` argument is not needed if the raw CSV is stored at `/data/digthatlick/raw`
 
-### 2.1 Logic Behind This Step
+### 2.1 Logic Behind Splitting
 
-- Splitting the CSV file is not strictly mandatory, since reconciliation and RDF conversion can happen without. However, it does makes the data much easier to navigate. 
+- Splitting the CSV file is not strictly mandatory, since reconciliation and RDF conversion can happen without. However, it does makes the data much easier to navigate.
 
 - We split up the raw CSV into three files:
-   - dtl1000_solos.csv 
-    - dtl1000_tracks.csv 
-    - dtl1000_performers.csv
 
-- `solos.csv` contains all metadata unique to the solo (e.g. performers on the solo,  instrument used in the solo)
+  - dtl1000_solos.csv
+  - dtl1000_tracks.csv
+  - dtl1000_performers.csv
+
+- `solos.csv` contains all metadata unique to the solo (e.g. performers on the solo, instrument used in the solo)
 - `track.csv` contains all metadata unique to the track from which the solo is taken (e.g. recording location). It does not include performers
 - `performers.csv`contains all track performers data. It is a separate file because track performers are often in multi-valued cells (i.e. multiple performer names in a single cell), splitting them into different cells create many extra rows, which would make `tracks.csv` unnecessarily large and cumbersome.
 
+### 2.2 Logic Behind Cleaning
 
-## Changes made to data during the split:
+Columns changed:
 
-### solo_id column
-We remove the 0's that are extra in the millisecond section of the times in the solo_id (see `digthatlick_data_schema.md` for the explanation).
+- solo_id
+  - We remove 0s within `solo_id` in order to build valid URI (see [digthatlick_data_schema.md](./digthatlick_data_schema.md)).
 
-### track_id column
-We make a new column `track_id` based on the solo_id column, it is the same as the solo_id but without the time stamps, since this is unique for each track.
-This new column gets added to all 3 files as a way to link performers to a track and solos to a track.
+- track_id
+    - We create `track_id` using the first 32 characters of `solo_id`, which is unique per track. `tracks_id` are not dereferenceable (i.e. there is not Dig That Lick webpage for tracks)
+    - This is the only column present in all three CSVs; its values are used link entities across files.
 
 
-### Instrument_label column (this is for soloist) 
-To help reconciliation, we expand the abbreviation with this map:
+- instrument_label (in `solos.csv`)
+
+In the raw dataset, instruments are stored as abbreviations. To help reconciliation, we expand the abbreviation with this mapping:
+
 ```
 {
     "as": "alto saxophone",
@@ -57,23 +65,22 @@ To help reconciliation, we expand the abbreviation with this map:
     "voc": "voice",
 }
 ```
-This way the instruments could be used as property `instrument` to be more accurate when reconciling the column solo_performer_name against type human.
-But notice ts (tenor saxophone) became saxophone, this is because we noticed for some musicians in wikidata their instrument is listed as just saxophone. I think it is better to do just saxophone as it still matches the tenor players, but tenor saxophone wouldnt match as well the people who just have saxophone in their wikidata.
-After the reconciliation is done we will transform saxophone to tenor saxophone so that it can be reconciled to the actual instrument tenor saxophone.
 
-### possible solo performer names
-we split this column to allow for reconciliation on each person.
+- Instrument labels can be used to more precisely reconcile performers (you specify in OpenRefine that the instrument is `instrument (P1303)` of the performer). 
 
-### performers
-Split this column so each person has their own row. We didn't include their instrument abbreviations, as they didn't seem entirely necessary and some people had multiple instruments, just made it complicated.
+    - Note that "ts" is expanded to simply "saxophone" because it helps performer reconciliation. It should be changed to "tenor saxophone" once reconciliation is complete.
 
-###
-Remove the solo start and end from all of them as it is already part of the solo_id.
+- start_time and end_time: removed from CSV since they are not needed (already in the URI)
+
+- performer_names and possible_performer_names
+    - These columns contain a lot of cells that need to be split into multiple cells (e.g. "Charlie Parker, Stan Getz" needs to be split into "Charlie Parker" and "Stan Getz")
+    - Some performers have instrument in parenthesis (e.g. `Charlie Parker(as)`). These are removed during cleaning.
 
 
 # Reconciling
-So far leader_name and most of solo_performer_name have been reconciled.
-see reconciliation_procedures.md for the steps to take in openrefine.
+
+See [reconciliation_procedures.md](./reconciliation_procedures.md) for
+
+# Converting Dig That Lick to RDF
 
 
-# mapping reconciled files to rdf using schema
