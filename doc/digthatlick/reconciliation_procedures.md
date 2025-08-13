@@ -229,7 +229,7 @@ This will make all the saxophones transform back into tenor saxophones and make 
     - Steven Kroon
     - Nolan Welsh
     - Garry Lee
-- Then there are some people that have a match in wikidata, but in wikidata it is not very clear it is them, but after research I have found it is correct but openrefine is not super confident, so may have to manually match these people:
+- May have to manually match this person if OpenRefine did not match correctly:
     - Paul Austerlitz should be matched to Q131779276 
 
 7. Select the column `leader_name`, go to `Reconcile > Add entity identifiers column ...`, and name the new column `band_leader_reconciled`. In the new column, go to `Facet > Customized facets > Facet by blank (null or empty string)`. Set the facet to True, and then go to `Edit cells > Transform > and make the value "new"`. This will create an additional column that contains the QID of the items that were matched in each column, and contain the word "new" for any items that were not matched. We will use this for exporting as well as to make reconciling the performers.csv file more efficient.
@@ -244,7 +244,7 @@ This will make all the saxophones transform back into tenor saxophones and make 
 
 
 ### For column medium_title
-1. nothing to reconcile, they are too specific and either not in wikidata or not helpful metadata. maybe later if we find a good way to reconcile we can
+1. nothing to reconcile, they are too specific and either not in wikidata or not helpful metadata. (Maybe later if we find a good way to reconcile we can)
 
 ### For column disk_title
 1. make new column based on this column, using this GREL expression:
@@ -261,8 +261,8 @@ if (value.startsWith("The Encyclopedia of Jazz"), "The Encyclopedia of Jazz", va
 
 
 ### For column track_title
-1. Reconcile against musical work with `leader_name` as performer
-2. Match `Merry-Go-Round` to (Q98687908)
+1. Reconcile against musical work with `leader_name` as performer.
+2. Match `Merry-Go-Round` to (Q98687908).
 3. Mark the rest as new items.
 
 
@@ -329,7 +329,7 @@ then do a value.trim() on all of them
     Carnegie Hall (Q200959)
     Westwood (Q2304357)
     Blue note (Q885822)
-    Judson Hall is i think Judson Memorial Church (Q3111397)
+    Judson Hall is (probably) Judson Memorial Church (Q3111397)
     Northbrook (Q570986)
 ```
 > Note: NY should be matched to the state New York, and New York should be matched to New York City, since all the states are abbreviated as two letters, but there was no way to automatically reconcile that would match NY to the state and New York to the city, so manually have to do one of them.
@@ -345,7 +345,6 @@ S/S Norway?
 
 16. Mark the rest as new item
 
-TODO: 
 
 # dtl1000_performers.csv
 
