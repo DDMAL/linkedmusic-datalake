@@ -1,6 +1,6 @@
 # The Global Jukebox Manual
 
-This file details the entire process for the The Global Jukebox database, from fetching the data all the way to converting it into RDF. Note that because The Global Jukebox does not update, these steps will not need to be redone once the process has been finalized.
+This file details the entire process for The Global Jukebox database, from fetching the data all the way to converting it into RDF. Note that because The Global Jukebox does not update, these steps will not need to be redone once the process has been finalized.
 
 In general, the [Current Pipeline for Adding a New Dataset](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset) instructions found on the wiki can be followed as written.
 
