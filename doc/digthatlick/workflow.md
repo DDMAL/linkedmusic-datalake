@@ -1,13 +1,32 @@
-# Workflow
-## dtl_metadata_v0.9.csv
+# DTL1000 Workflow
+## 1. Fetching Raw Data
 
-we split up the file into three smaller csv files: dtl1000_solos.csv, dtl1000_tracks.csv, dtl1000_performers.csv.
-Since each row in the file corresponded to a single solo and some tracks have multiple solos, we decided to split up to make reconciling faster and for rdf
-The three new files contain information on solos, tracks, and performers.
-the solos file contains the columns soloid, soloist (and potential soloists) and instrment, then a track_id to link back to the track
-tracks have a track id, and then the band leader, band, all the track stuff like when and where recorded
-performers, since each track had multiple performers listed, we wanted to expand that column out to reconcile each performer, but then we would have had so many duplicate
-track information, so this one is also separate, its 
+The CSV containing the entire DTL1000 dataset (also referred to as the Dig That Lick Database) can be downloaded at the bottom of [this page](https://dig-that-lick.hfm-weimar.de/similarity_search/documentation).
+
+It is named `dtl_metadata_v0.9.csv`. Please store it at `/data/digthatlick/raw`
+
+## 2. Splitting and Cleaning the CSV file
+Change working directory to `code/digthatlick`
+
+- Run the following command
+```python
+python split_dtl1000.py [path to csv]
+```
+- The `[path to csv]` argument is not needed if the raw CSV is stored at `/data/digthatlick/raw`
+
+### 2.1 Logic Behind This Step
+
+- Splitting the CSV file is not strictly mandatory, since reconciliation and RDF conversion can happen without. However, it does makes the data much easier to navigate. 
+
+- We split up the raw CSV into three files:
+   - dtl1000_solos.csv 
+    - dtl1000_tracks.csv 
+    - dtl1000_performers.csv
+
+- `solos.csv` contains all metadata unique to the solo (e.g. performers on the solo,  instrument used in the solo)
+- `track.csv` contains all metadata unique to the track from which the solo is taken (e.g. recording location). It does not include performers
+- `performers.csv`contains all track performers data. It is a separate file because track performers are often in multi-valued cells (i.e. multiple performer names in a single cell), splitting them into different cells create many extra rows, which would make `tracks.csv` unnecessarily large and cumbersome.
+
 
 ## Changes made to data during the split:
 
