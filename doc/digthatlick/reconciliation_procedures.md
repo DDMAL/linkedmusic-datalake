@@ -1,76 +1,76 @@
-
 # Applying Histories:
-> Do this before reading further.
+> **Do this before reading further.**
 - In the `reconciliation_history` folder, JSON files are generated in OpenRefine via `Undo/Redo > Extract... > Export`.
 - These files can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
-- This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
-- Please not that these files do not do everything.
-    - dtl_solos_history.json is for dtl1000_solo.csv, it takes you to step 22 of the reconciliation procedures, but the steps in Export procedures must still be applied.
-    - dtl_tracks_history.json is for dtl1000_tracks.csv, it takes you to the final step of that file, but the steps in Export procedures must still be applied.
-    - dtl_performers_history.json is for dtl1000_performers.csv, same as above.
-
+- **This process might cause errors during reconciliation.** If this happens, please check below for detailed reconciliation instructions.
+- **Please note** that these files do not do everything:
+    - `dtl_solos_history.json` is for `dtl1000_solo.csv`. It takes you to step 22 of the reconciliation procedures, but the steps in Export procedures must still be applied.
+    - `dtl_tracks_history.json` is for `dtl1000_tracks.csv`. It takes you to the final step of that file, but the steps in Export procedures must still be applied.
+    - `dtl_performers_history.json` is for `dtl1000_performers.csv`. Same as above.
 
 # dtl1000_solos.csv:
 1. Go to column `solo_performer_name`, select `Edit column > Add column based on this column...` and write `"musician"` in the expression box so that every cell of this new column contains the word `musician`. Name the column `occupation musician`.
 2. Go to column `solo_performer_name`, select `Edit column > Add column based on this column...` and write `"jazz musician"` in the expression box so that every cell of this new column contains the word `jazz musician`. Name the column `occupation jazz musician`.
 3. Go to column `solo_performer_name`, select `Edit column > Add column based on this column...` and write `"jazz"` in the expression box so that every cell of this new column contains the word `jazz`. Name the column `genre jazz`.
 
-4.  In the same column `solo_performer_name`, go to `Edit cells > Transform...` and use the expression:
+4. In the same column `solo_performer_name`, go to `Edit cells > Transform...` and use the expression:
 ```
 if(value == "Flip Philips", "Flip Phillips",
 if(value == "Allen", "J.D. Allen III", 
 if(value == "Earl Warren", "Earle Warren", value)
 ))
 ```
-To change Flip Philips to Flip Phillips, since although they are techinically the same person, wikidata only has an entry for Flip Phillips, and to change Allen to J.D. Allen III, since the Allen in this column is referring to J.D. Allen III. Also change Earl Warren to Earle Warren (since Earl Warren is not in wikidata, but Earle Warren is). 5 cells should be changed after this transformation.
+This will:
+- Change "Flip Philips" to "Flip Phillips" (Wikidata only has an entry for Flip Phillips).
+- Change "Allen" to "J.D. Allen III" (the Allen in this column refers to J.D. Allen III).
+- Change "Earl Warren" to "Earle Warren" (Earl Warren is not in Wikidata, but Earle Warren is).
 
 5. Go to column `solo_performer_name`, reconcile against `human` (Q5) and add `instrument_label` as property `instrument` (P1303).
-6. Set the judgment facet to `none` and reconcile the same column against `human` but with `genre jazz` as property `genre` (P136)
-7. Set the judgment facet to `none` and reconcile the same column against `human` but with `occupation jazz musician` as property `occupation` (P106)
-8. Set the judgment facet to `none` and reconcile the same column against `human` but with `occupation musician` as property `occupation` (P106)
-9. Make a text filter for the column `solo_performer_name`, and put `George Johnson` in the filter. Make new item for George Johnson. Because in wikidata there is a jazz musician George Johnson but he is the wrong one, and if we reconcile without doing this, it will match to the wrong George Johnson.
-10. In the column `solo_performer_name`, the following people should be flagged and marked as new item, as we are unsure about their reconciliation:
+6. Set the judgment facet to `none` and reconcile the same column against `human` but with `genre jazz` as property `genre` (P136).
+7. Set the judgment facet to `none` and reconcile the same column against `human` but with `occupation jazz musician` as property `occupation` (P106).
+8. Set the judgment facet to `none` and reconcile the same column against `human` but with `occupation musician` as property `occupation` (P106).
+9. Use a text filter for the column `solo_performer_name`, and filter by `George Johnson`. Create a new item for George Johnson because the jazz musician George Johnson in Wikidata is the wrong one. Without this step, reconciliation will match to the incorrect George Johnson.
+10. Flag and mark the following people as new items in the column `solo_performer_name` because their reconciliation is uncertain:
+    - Aleksander Gajic
+    - Arville Harris
+    - Bobby Bruce
+    - Bobby Lewis
+    - Bobby Sands
+    - Chuck Carter
+    - Colin Dawson
+    - Dave Klein
+    - Dave Young
+    - David Stump
+    - Don Landis
+    - Eli Asher
+    - Florencia Gonzalez
+    - Garry Lee
+    - George Johnson
+    - Harold Alexander
+    - Howie Smith
+    - Jared Sims
+    - Jerry Elliot
+    - Jesse Davis
+    - Jim Reider
+    - Joe Ellis
+    - Joe Thomas
+    - Junie (E. C.) Cobb
+    - Ken Shroyer
+    - Kenny Faulk
+    - Louis Stockwell
+    - Mark McGowan
+    - Mark Weinstein
+    - Melvin Butler
+    - Michael Bard
+    - Paul Austerlitz
+    - Pete Clark
+    - Raymond Williams
+    - Robeson
+    - Sean Corby
+    - Tom Morris
+    - Tony Owens
 
-    Aleksander Gajic
-    Arville Harris
-    Bobby Bruce
-    Bobby Lewis
-    Bobby Sands
-    Chuck Carter
-    Colin Dawson
-    Dave Klein
-    Dave Young
-    David Stump
-    Don Landis
-    Eli Asher
-    Florencia Gonzalez
-    Garry Lee
-    George Johnson
-    Harold Alexander
-    Howie Smith
-    Jared Sims
-    Jerry Elliot
-    Jesse Davis
-    Jim Reider
-    Joe Ellis
-    Joe Thomas
-    Junie (E. C.) Cobb
-    Ken Shroyer
-    Kenny Faulk
-    Louis Stockwell
-    Mark McGowan
-    Mark Weinstein
-    Melvin Butler
-    Michael Bard
-    Paul Austerlitz
-    Pete Clark
-    Raymond Williams
-    Robeson
-    Sean Corby
-    Tom Morris
-    Tony Owens
-
-You can do this with this GREL transformation:
+    Use this GREL transformation:
 ```
 if("Aleksander Gajic
     Arville Harris
@@ -111,44 +111,47 @@ if("Aleksander Gajic
     Tom Morris
     Tony Owens".contains(value), value, "")
 ```
-name the new column `flagged_solo_performer`.
+Name the new column `flagged_solo_performer`.
 
-11. Select `none` in the judgment facet and go to `Reconcile > Actions > Create one new item for similar cells ... ` to create new items for all the unmatched people.
-- should do a trim on all these guys in the column possible solo peformer names first
-12. Repeat steps 5-8 for the column `possible_solo_performer_names`
-13. trouble reconciling these people, flag them and mark as new item:
-    Elmer “skippy” williams
-    Milton Fletcher
-    Bob Burnett
-    Harvey Boone
-    Dave Richards
-    Ed hudson
-    Gene Johnson
-    Henry hicks
-    Irving mouse
-    Jack ferrier
-    Jay brower
-    Joe Thomas
-    John youngman
-    Mike young
-    Milton fletcher
-    Money
-    Pete brown
-    Richard torres
-    Robeson
-    Russell smith
-    Tito puente
-    William johnson
-    Alfie evans
-    Alfred bell
-    Earl(e) warren
-    Easy mo bee
-    Gene jefferson
-    George oldham
-    James king
-    John walsh
-    Ray reed
-14. To do this, go to `Add new column based on this column`, use this GREL expression:
+11. Select `none` in the judgment facet and go to `Reconcile > Actions > Create one new item for similar cells ...` to create new items for all unmatched people.
+- **Note**: Perform a trim operation on all names in the column `possible_solo_performer_names` before proceeding.
+
+12. Repeat steps 5-8 for the column `possible_solo_performer_names`.
+
+13. Flag and mark the following people as new items in the column `possible_solo_performer_names` because their reconciliation is uncertain:
+    - Elmer “Skippy” Williams
+    - Milton Fletcher
+    - Bob Burnett
+    - Harvey Boone
+    - Dave Richards
+    - Ed Hudson
+    - Gene Johnson
+    - Henry Hicks
+    - Irving Mouse
+    - Jack Ferrier
+    - Jay Brower
+    - Joe Thomas
+    - John Youngman
+    - Mike Young
+    - Milton Fletcher
+    - Money
+    - Pete Brown
+    - Richard Torres
+    - Robeson
+    - Russell Smith
+    - Tito Puente
+    - William Johnson
+    - Alfie Evans
+    - Alfred Bell
+    - Earl(e) Warren
+    - Easy Mo Bee
+    - Gene Jefferson
+    - George Oldham
+    - James King
+    - John Walsh
+    - Ray Reed
+
+    Use this GREL transformation:
 ```
 if("Elmer  'Skippy' Williams
     Milton Fletcher
@@ -180,37 +183,32 @@ if("Elmer  'Skippy' Williams
     George Oldham
     James King
     John Walsh
-    Ray Reed".contains(value),"flag","")
+    Ray Reed".contains(value), "flag", "")
 ```
 Name the new column `flagged_possible_solo_performers`.
-Then in that column go to `Facet > Customized facets > Facet by blank (null or empty string)`. Select `false` in that facet.
-Then go to the column `possible_solo_performer_names` and go to `Reconcile > Actions > Create one new item for similar cells ...`.
-Then you can unselect the facet
 
-15. Now select `none` in the judgment facet for `possible_solo_performer_names` and create one new item for similar cells for all of them.
+14. In the column `flagged_possible_solo_performers`, go to `Facet > Customized facets > Facet by blank (null or empty string)`. Select `false` in that facet. Then go to the column `possible_solo_performer_names` and go to `Reconcile > Actions > Create one new item for similar cells ...`.
 
-16. make columns of reconciled entries, name it `possible_solo_performer_names_reconciled`. do the same for solo_performer_name
+15. Select `none` in the judgment facet for `possible_solo_performer_names` and create one new item for similar cells for all of them.
 
-17. In the column `instrument_label`, go to `Edit cells > Transform ...` and use this Grel expression:
+16. Create columns for reconciled entries and name them `possible_solo_performer_names_reconciled` and `solo_performer_name_reconciled`.
+
+17. In the column `instrument_label`, go to `Edit cells > Transform ...` and use this GREL expression:
 ```
 if(value=="saxophone", "tenor saxophone", 
 if(value=="bari saxophone", "baritone saxophone", value))
 ```
-to make all the saxophones back into tenor saxophones and to make bari sax into baritone saxophone.
+This will make all the saxophones transform back into tenor saxophones and make bari sax tranform into baritone saxophone.
 
-18. Reconcile this column against `type of musical instrument` (Q110295396)
+18. Reconcile this column against `type of musical instrument` (Q110295396).
 
-19. Set the judgment facet to none and match clarinet to  `soprano clarinet` (Q7563204).
+19. Set the judgment facet to none and match clarinet to `soprano clarinet` (Q7563204).
 
-20. Then reconcile against no particular type, after this most should be matched, but to match the rest set the judgment facet to none
-and match all items to their top candidate.
+20. Reconcile against no particular type. After this, most items should be matched. For the remaining items, set the judgment facet to none and match all items to their top candidate.
 
-21. Delete the columns that were added at the beginning, (`occupation musician`, `occupation jazz musician`, `genre jazz`).
+21. Delete the columns added at the beginning (`occupation musician`, `occupation jazz musician`, `genre jazz`).
 
-22. Select the column `solo_performer_name`, go to `Reconcile > Add entity identifiers column ...`, and name the new column `solo_performer_reconciled`. Do the same for the column `possible_solo_performer_names`, and name the new column `possible_performer_reconciled`. Then for each of the new columns, go to `Facet > Customized facets > Facet by blank (null or empty string)`. Set the facet to True, and then go to `Edit cells > Transform > and make the value "new"`. This will create two additional columns that contain the QID of the items that were matched in each column, and contain the word "new" for any items that were not matched. We will use this for exporting as well as to make reconciling the performers.csv file more efficient.
-
-
-
+22. Select the column `solo_performer_name`, go to `Reconcile > Add entity identifiers column ...`, and name the new column `solo_performer_reconciled`. Repeat this for the column `possible_solo_performer_names`, naming the new column `possible_performer_reconciled`. For each of the new columns, go to `Facet > Customized facets > Facet by blank (null or empty string)`. Set the facet to True, and then go to `Edit cells > Transform > and make the value "new"`. This will create two additional columns containing the QID of matched items or the word "new" for unmatched items.
 
 # dtl1000_tracks.csv:
 ### For column leader_name
