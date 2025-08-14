@@ -22,6 +22,10 @@ The `code/cantus/merge.py` script takes care of implementing both abbreviation m
 
 The ```cantus.csv``` file should be imported into OpenRefine for further operations.
 
+### To work on
+
+Modes are also written in abbreviated form ([guidelines here](https://cantusdatabase.org/description/#Mode)). We need to figure out a way to store all relevant information in mode fields (e.g. transposing, simple polyphony).
+
 ## 3. Reconciliation with OpenRefine
 
 ### Reconciliation
@@ -45,26 +49,18 @@ The ```cantus.csv``` file should be imported into OpenRefine for further operati
 15. Go to `Export > custom tabular`, then for the column `service` under `For reconciled cells, output`, select `Matched entity's ID`. Do the same for the columns `genre` and `mode`.
 16. Download as CSV.
 
-Made-up URIs of Properties:
+Extra steps to add: reconcile feasts, combine holding_institutions and shelfmark to make source_label
 
-- https://cantusdatabase.org/marginalia
-- https://cantusdatabase.org/sequence
-- https://cantusdatabase.org/office
-- https://cantusindex.org/id
-- https://cantusdatabase.org/finalis
-- https://cantusdatabase.org/extra
+## 4. Convert to TTL 
 
-These are currently used in the JSON-LD context file, and will be changed to Wikidata properties when the Turtle conversion is implemented.
+The downloaded CSV can be converted to RDF using the General RDF Conversion script (see [General RDF Conversion Guide](../rdf_conversion/using_rdfconv_script.md)). 
 
-## 4. Reconcile column names and generating json-ld
+The RDF config of CantusDB is in `code/rdf_config/cantusdb.toml`. Please ensure that the column names of your CSV match the ones listed in the config before following the steps below:
 
-Currently the json-ld is generated as follows in `jsonld_approach/cantusdb/jsonld/generate_jsonld.py`:
-
-- Load the reconciled csv as a dataframe in pandas and convert them to json documents (each corresponds to an entry/line in the csv)
-- Loop through each json document and edit each entry, creating the compact jsonld. More information can be found in `jsonld_approach/cantusdb/jsonld/generate_jsonld.py`
-- Generate the jsonld file at `jsonld_approach/cantusdb/jsonld/compact.jsonld`
-- The contexts used in the compact.jsonld file is imported from `jsonld_approach/cantusdb/jsonld/context.jsonld`
-
-The `generate_jsonld.py` script should also be run from the repository root directory.
-
-### TODO: Convert to Turtle instead
+- Move the reconciled CSV to `data/cantus/reconciled`
+- Change working directory to `/code`
+- Run the following command 
+```bash
+python -m rdfconv.convert rdf_config/cantusdb.toml
+```
+- The output TTL file should be located at `data/cantus/rdf`
