@@ -153,7 +153,7 @@ Name the new column `flagged_solo_performer`.
 
     Use this GREL transformation:
 ```
-if("Elmer  'Skippy' Williams
+if("Elmer 'Skippy' Williams
     Milton Fletcher
     Bob Burnett
     Harvey Boone
