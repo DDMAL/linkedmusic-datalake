@@ -135,3 +135,4 @@ then reconcile against type of musical form, christian liturgical element, and h
 - Facet by `C`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to `Antiphonaire de Compiègne - BNF Lat17436 ` (Q26833944).
 - Facet by `D`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136886).
 - Facet by `F`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136090).
+- The other entries in `_ - cao_concordances` are not reconcilied at this moment, unable currently to find their entries in wikidata if they exist.
