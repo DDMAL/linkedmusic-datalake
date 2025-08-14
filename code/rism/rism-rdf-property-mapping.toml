@@ -3,7 +3,7 @@ http://www.w3.org/1999/02/22-rdf-syntax-ns#type = "rdf:type"
 http://wikidata.org/prop/direct/P31 = ""
 http://www.w3.org/2000/01/rdf-schema#label = "rdfs:label"
 http://wikidata.org/prop/direct/P2888 = "P2888"
-http://www.w3.org/1999/02/22-rdf-syntax-ns#value = "" #TODO
+http://www.w3.org/1999/02/22-rdf-syntax-ns#value = ""
 https://rism.online/api/v1#hasPAETimesig = "P3440"
 https://rism.online/api/v1#hasPAEKeysig = ""
 https://rism.online/api/v1#hasEncoding = "P2701" 
@@ -17,8 +17,9 @@ http://purl.org/dc/terms/relation = "" #used by blank nodes
 https://rism.online/api/v1#hasQualifier = ""
 https://rism.online/api/v1#meiEncoding = ""
 https://rism.online/api/v1#hasRelationship = "" 
-# use the PID corresponding to the https://rism.online/api/v1#hasRole" column;
-# as object, use "http://purl.org/dc/terms/relation"
+# points to a blank node with "https://rism.online/api/v1#hasRole", "http://purl.org/dc/terms/relation", "https://rism.online/api/v1#hasQualifier";
+# use the PID corresponding to the "https://rism.online/api/v1#hasRole" column of the blank node;
+# as object, use the value in the "http://purl.org/dc/terms/relation" of the blank node
 
 
 https://rism.online/api/v1#hasHolding = "P276" 
@@ -31,7 +32,10 @@ http://www.wikidata.org/prop/direct/P921 = "P136"
 
 
 https://rism.online/api/v1#hasMaterialGroup = "" 
-# keep MaterialGroup as an entity type; 
+# points to a blank node with "http://www.w3.org/2000/01/rdf-schema#label" and "https://rism.online/api/v1#hasSummary";
+# the hasSummary points to multiple blank nodes that indicate properties about the material group;
+# for these dummy nodes, "http://www.w3.org/2000/01/rdf-schema#label" has the name of the property, and "http://www.w3.org/1999/02/22-rdf-syntax-ns#value" has the value;
+# keep MaterialGroup as an entity type;
 # replace the blank node URI with a LinkedMusic one, using the existing ID;
 # for the MaterialGroup "https://rism.online/api/v1#hasRelationship", process them using the same instructions as above;
 # for "https://rism.online/api/v1#hasSummary", use the rdfs:label to determine predicate and rdf:value to determine object
