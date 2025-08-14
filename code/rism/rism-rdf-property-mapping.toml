@@ -7,7 +7,7 @@ http://www.w3.org/1999/02/22-rdf-syntax-ns#value = ""
 https://rism.online/api/v1#hasPAETimesig = "P3440"
 https://rism.online/api/v1#hasPAEKeysig = ""
 https://rism.online/api/v1#hasEncoding = "P2701" 
-# take the rdfs:value of the blank node (we are ignoring the URL to the MEI file)
+# take the rdf:value of the blank node (we are ignoring the URL to the MEI file)
 
 
 https://rism.online/api/v1#hasPAEClef = ""
