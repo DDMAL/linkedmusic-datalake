@@ -24,6 +24,7 @@ folio = ""
 sequence = ""
 incipit = "rdfs:label" 
 feast = "P837"  # day in year for periodic occurrence (P837)
+feast_original = ""
 service_original = ""
 service = "P366"  # has use (P366)
 genre_original = ""

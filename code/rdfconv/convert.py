@@ -22,6 +22,7 @@ from rdflib import Graph, URIRef, Literal, Namespace, XSD, RDF
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
+from urllib.parse import quote
 
 # === Setup Logger ===
 logger = logging.getLogger(__name__)
@@ -64,7 +65,15 @@ def to_rdf_node(
     if qid:
         return URIRef(f"{namespaces['wd']}{qid}")
     if val.startswith("http") and datatype not in ("xsd:anyURI", XSD.anyURI):
-        return URIRef(val)
+        try:
+            # Attempt to create a URIRef and validate it
+            node = URIRef(val)
+            node.n3()  # Validate the URI
+            return node
+        except Exception:
+            # Encode the URI if it contains invalid characters
+            encoded_val = quote(val, safe=":/#")
+            return URIRef(encoded_val)
     # A prefix can be specified to expand the value to a full URI
     if prefix:
         return URIRef(f"{namespaces.get(prefix)}{val}")
