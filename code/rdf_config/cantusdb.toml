@@ -13,10 +13,11 @@ wdt = "http://www.wikidata.org/prop/direct/"
 cc = "https://cantusdatabase.org/chant/"
 cs = "https://cantusdatabase.org/source/"
 cii = "https://cantusindex.org/id/"
+lmcd = "https://linkedmusic.ca/graphs/cantusdb/"
 
 [cantus-reconciled]
 PRIMARY_KEY = "chant_id"
-source_id = "P361"  # part of (P361)
+source_id = { pred = "P361", type = "lmcd:Source" }  # part of (P361)
 shelfmark = ""
 marginalia = ""
 folio = ""
@@ -44,6 +45,7 @@ extra = ""
 
 [cantus-reconciled.chant_id]
 prefix = "cc"
+type = "lmcd:Chant"
 
 [cantus-reconciled.source_label]
 subj = "source_id"
