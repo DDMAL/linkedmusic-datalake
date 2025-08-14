@@ -7,7 +7,7 @@ http://www.w3.org/1999/02/22-rdf-syntax-ns#value = ""
 https://rism.online/api/v1#hasPAETimesig = "P3440"
 https://rism.online/api/v1#hasPAEKeysig = ""
 https://rism.online/api/v1#hasEncoding = "P2701" 
-# take the rdf:value of the blank node (we are ignoring the URL to the MEI file)
+# take the rdfs:label of the blank node (we are ignoring the URL to the MEI file)
 
 
 https://rism.online/api/v1#hasPAEClef = ""
@@ -28,7 +28,7 @@ https://rism.online/api/v1#hasHolding = "P276"
 
 http://www.wikidata.org/prop/direct/P1922 = "P1922"
 http://www.wikidata.org/prop/direct/P921 = "P136" 
-# if there is a P2888 use that; otherwise use the rdfs:value
+# if there is a P2888 use that; otherwise use the rdf:value
 
 
 https://rism.online/api/v1#hasMaterialGroup = "" 
@@ -48,13 +48,14 @@ http://www.wikidata.org/prop/direct/P195 = ""
 # only relevant to holdings; dealt with in "https://rism.online/api/v1#hasHolding" column
 
 https://rism.online/api/v1#dateStatement = ""
-# WikiData does not support date ranges
+# This seems to be used by a date range blank node to store the range as text;
+# redundant with the 2 following properties
 
 http://www.wikidata.org/prop/direct/P1319 = "P569"
-# remove "^^" and anything after
+# convert to xsd:date
 
 http://www.wikidata.org/prop/direct/P1326 = "P570"
-# remove "^^" and anything after
+# convert to xsd:date
 
 https://rism.online/api/v1#hasSummary = ""
 # addressed in "https://rism.online/api/v1#hasMaterialGroup" column
@@ -65,6 +66,8 @@ https://rism.online/api/v1#hasPhysicalDimensions = ""
 # also no good Wikidata property for dimensions (only height and width)
 
 http://www.wikidata.org/prop/direct/P585 = ""
-# redundant/already present in "https://rism.online/api/v1#hasSummary" of MaterialGroup;
+# WikiData does not support date ranges;
+# points to a dummy node with "http://www.wikidata.org/prop/direct/P1319" and "http://www.wikidata.org/prop/direct/P1326";
+# traverse this blank node and use the other 2 property mappings to get start and end
 
 http://www.wikidata.org/prop/direct/P144 = "P527"
