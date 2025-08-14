@@ -32,24 +32,28 @@ Modes are also written in abbreviated form ([guidelines here](https://cantusdata
 
 - The `doc/cantus/openrefine/sources_history.json` can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the `sources_history.json` file is specific against a particular test, mistakes are likely to happen.
 
-1. Create `service_@id`, `mode_@id` and `genre_@id` columns as copies of the respective columns.
-2. Reconcile the `service_@id` column against "Prayer in the Catholic Church" instance Q3406098.
-3. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
-4. Reset the best candidate's score facet, choose none in the judgement facet and create new items for all of them.
-5. Reconcile the `genre_@id` column against "music genre" instance Q188451.
-6. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
-7. Reset the best candidate's score facet, choose none in the judgement facet, and create new items for all of them.
-8. Reconcile the `mode_@id` column against "mode" instance Q731978.
-9. Since the mode are numbers, we have to search for the mode names manually, I used the [Wikipedia list of western church modes](https://en.wikipedia.org/wiki/Mode_(music)#Western_Church) for this.
-10. For example, if it's mode 1, then search for a new match > "mode 1" > "dorian mode".
-11. For all uncertain modes, create a new item for each.
-12. Rename `service` to `service_original`, and rename `service_@id` to `service`.
-13. Rename `genre` to `genre_original`, and rename `genre_@id` to `genre`.
-14. Rename `mode` to `mode_original`, and rename `mode_@id` to `mode`.
-15. Go to `Export > custom tabular`, then for the column `service` under `For reconciled cells, output`, select `Matched entity's ID`. Do the same for the columns `genre` and `mode`.
-16. Download as CSV.
+1. Create new column `source_label` by going to column `holding_institution` then `Edit column > Add column based on this column...` and using the following GREL expression:
+```
+value + "," + cells["shelfmark"].value
+```
+2. Create `feast_original`, `service_original`, `mode_original` and `genre_original` columns as copies of the respective columns.
+3. Reconcile the `feast` column against "Christian Holy Day" instance Q60075825.
+4. Move the best candidate's score facet box to 99-101, match al of them to their best candidate.
+5. Reset the best candidate's score facet, choose none in the judgement facet and create new items for all of them.
+6. Reconcile the `service` column against "Prayer in the Catholic Church" instance Q3406098.
+7. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
+8. Reset the best candidate's score facet, choose none in the judgement facet and create new items for all of them.
+9. Reconcile the `genre` column against "music genre" instance Q188451.
+10. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
+11. Reset the best candidate's score facet, choose none in the judgement facet, and create new items for all of them.
+12. Reconcile the `mode` column against "mode" instance Q731978.
+13. Since the mode are numbers, we have to search for the mode names manually, I used the [Wikipedia list of western church modes](https://en.wikipedia.org/wiki/Mode_(music)#Western_Church) for tis.
+14. For example, if it's mode 1, then search for a new match > "mode 1" > "dorian mode".
+15. For all uncertain modes, create a new item for each.
+16. Go to `Export > custom tabular`, then for the column `feast` under `For reconciled cells, output`, select `Matched entity's ID`. Do the same for the columns `service`, `genre` and `mode`.
+17. Download as CSV.
 
-Extra steps to add: reconcile feasts, combine holding_institutions and shelfmark to make source_label
+TODO: think about what to do for the "*" in the mode column.
 
 ## 4. Convert to TTL 
 
@@ -57,7 +61,7 @@ The downloaded CSV can be converted to RDF using the General RDF Conversion scri
 
 The RDF config of CantusDB is in `code/rdf_config/cantusdb.toml`. Please ensure that the column names of your CSV match the ones listed in the config before following the steps below:
 
-- Move the reconciled CSV to `data/cantus/reconciled`
+- Move the reconciled CSV to `data/cantus/reconciled`. Make sure the reconciled CSV is named `cantus-reconciled.csv`.
 - Change working directory to `/code`
 - Run the following command 
 ```bash
