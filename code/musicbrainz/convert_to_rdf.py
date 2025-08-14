@@ -93,7 +93,7 @@ MAX_SIMULTANEOUS_CHUNK_WORKERS = 3
 # Max number of subgraph merging threads to run simultaneously
 MAX_SIMULTANEOUS_SUBGRAPH_WORKERS = 2
 # Max number of graph serializing processes to run simultaneously
-MAX_SIMULTANEOUS_GRAPH_WORKERS = 3
+MAX_SIMULTANEOUS_GRAPH_WORKERS = 1
 # Max number of processes to run simultaneously
 MAX_PROCESSES = min(
     MAX_SIMULTANEOUS_CHUNK_WORKERS + MAX_SIMULTANEOUS_GRAPH_WORKERS, os.cpu_count() or 1
@@ -845,6 +845,7 @@ async def serialize_worker(
                     for name in dirs:
                         os.rmdir(os.path.join(root, name))
                 os.rmdir(f"./store-{i}")
+            graph = None  # Clear the graph reference
             graph_queue.task_done()
             with tqdm.get_lock():
                 serialize_bar.update(1)

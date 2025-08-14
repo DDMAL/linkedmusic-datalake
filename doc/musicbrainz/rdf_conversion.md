@@ -43,7 +43,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script.
 - The amount of chunk processing workers is set to 3 because that's what I found to be the most efficient, since ultimately you are limited by the subgraph merging.
 - The amount of subgraph merging workers is set to 2 to reduce memory usage to avoid crashes.
-- The amount of graph serializing workers is set to 3 since graphs tend to queue up since they are quite big.
+- The amount of graph serializing workers is set to 1 since the graph serialization process is quite memory-intensive.
 - For ease of reading, the fields are processed in alphabetical order in the `process_entity` function.
 - Errors within an entity are caught, and the problematic entity is safely skipped. The same logic is also applied to chunks.
 - Unexpected errors that cause workers to crash are logged, the problematic task is marked as complete so that other workers don't run into it, and the worker safely exits.
