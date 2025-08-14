@@ -178,7 +178,7 @@ if("Elmer 'Skippy' Williams
     Alfie Evans
     Alfred Bell
     Earl(e) Warren
-    Easy mo bee
+    Easy Mo Bee
     Gene Jefferson
     George Oldham
     James King
