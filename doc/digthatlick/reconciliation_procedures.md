@@ -249,7 +249,7 @@ This will make all the saxophones transform back into tenor saxophones and make 
 ### For column disk_title
 1. make new column based on this column, using this GREL expression:
 ```
-if (value.startsWith("The Encyclopedia of Jazz"), "The Encyclopedia of Jazz", value) (makes copies)
+if (value.startsWith("The Encyclopedia of Jazz"), "The Encyclopedia of Jazz", value)
 ```
 2. Reconcile the column against `creative work` (Q17537576).
 3. Match `encyclopedia of jazz` to its top match (Q42189397)
