@@ -21,7 +21,7 @@ Refer to the wiki for [more details on the project status](https://github.com/DD
 The [Digital Image Archive of Medieval Music (DIAMM)](https://www.diamm.ac.uk/) is an archive of digital images of European medieval manuscripts. We use a web crawler to fetch metadata from the DIAMM site and use custom scripts to convert the JSON data to CSV, and then to RDF. See the [DIAMM manual](https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/diamm) for more information.
 
 ### Dig That Lick (DTL1000)
-[Dig That Lick](https://dig-that-lick.eecs.qmul.ac.uk/) is a project the extracts and analyses solos from jazz performances. Se the [Dig That Lick documentation](https://github.com/DDMAL/linkedmusic-datalake/blob/digthatlick-reconciliation/doc/digthatlick/documentation_draft.md) for more information.
+[Dig That Lick](https://dig-that-lick.eecs.qmul.ac.uk/) is a project the extracts and analyses solos from jazz performances. See the [Dig That Lick documentation](https://github.com/DDMAL/linkedmusic-datalake/blob/digthatlick-reconciliation/doc/digthatlick/documentation_draft.md) for more information.
 
 ### The Global Jukebox
 [The Global Jukebox](theglobaljukebox.org/) focuses on traditional folk, indigenous, and popular songs from around the world. Its data can be found on [The Global Jukebox Github](https://github.com/theglobaljukebox). See [The Global Jukebox manual](https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/theglobaljukebox) for more information.
