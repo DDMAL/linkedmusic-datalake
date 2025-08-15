@@ -297,7 +297,7 @@ async def worker(
             path = await graph_queue.get()
             graph_started = True
 
-            output_file = output_folder / f"{path.stem[:-4]}.ttl"  # Remove the "-ttl"
+            output_file = output_folder / f"{path.stem.removesuffix('-ttl')}.ttl"  # Remove the "-ttl" suffix robustly
 
             # Process the file in a separate process to speed up the processing
             g = await asyncio.gather(
