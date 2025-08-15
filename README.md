@@ -43,7 +43,7 @@ Refer to the [RISM manual](https://github.com/DDMAL/linkedmusic-datalake/tree/ma
 
 ### Cantus DB  
 [Cantus Database](https://cantusdatabase.org/) is a repository of Latin chants found in medieval manuscripts and early printed books.  
-Cantus DB provides us their sample Data Sets in CSV format. The work is still in progress.
+Cantus DB provides us their sample Data Sets in CSV format.
 Refer to the [Cantus DB manual](https://github.com/DDMAL/linkedmusic-datalake/tree/main/doc/cantus) for details.
 
 ### Simssa DB  
