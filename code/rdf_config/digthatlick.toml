@@ -1,0 +1,49 @@
+[general]
+name = "dtl1000"
+csv_folder = "../../data/digthatlick/reconciled"
+rdf_output_folder = "../../data/digthatlick/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+dtls = "https://dig-that-lick.hfm-weimar.de/similarity_search/details?melid="
+dtlt = "http://www.DTL.org/JE/tracks/"
+lkdt = "https://linkedmusic.ca/graphs/dig-that-lick/"
+
+[dtl1000-performers-reconciled]
+PRIMARY_KEY = "track_id"
+track_id = {prefix = "dtlt"}
+performer_names_original = ""
+performer_names = "P175"  # performer (P175)
+
+[dtl1000-solos-reconciled]
+PRIMARY_KEY = "solo_id"
+solo_id = {prefix = "dtls", type = "lkdt:Solo"}
+track_id = {prefix = "dtlt", pred = "P361"}  # part of (P361)
+possible_solo_performer_names = ""
+possible_solo_performer_names_original = ""
+solo_performer_name = "P175"  # performer (P175)
+solo_performer_name_original = ""
+instrument_label = "P870"  # instrumentation (P870)
+instrument_label_original = ""
+
+[dtl1000-tracks-reconciled]
+PRIMARY_KEY = "track_id"
+track_id = {prefix = "dtlt", type = "lkdt:Track"}
+band_name = "P175"  # performer (P175)
+band_name_original = ""
+leader_name = ""
+leader_name_original = ""
+medium_title = ""
+medium_record_number = ""
+disk_title_original = ""
+track_title = {pred = "P2888", if = "isinstance(obj, URIRef)"}  # exact match (P2888)
+track_title_original = "rdfs:label"
+disk_title = "P361"  # part of (P361)
+session_date = {pred = "P10135", datatype = "xsd:date"}  # recording date (P10135)
+area = "P8546"  # recording location (P8546)
+area_original = ""

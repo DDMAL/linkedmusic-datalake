@@ -1,0 +1,887 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "solo_performer_name",
+    "expression": "grel:\"musician\"",
+    "onError": "set-to-blank",
+    "newColumnName": "occupation musician",
+    "columnInsertIndex": 4,
+    "description": "Create column occupation musician at index 4 based on column solo_performer_name using expression grel:\"musician\""
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "solo_performer_name",
+    "expression": "grel:\"jazz musician\"",
+    "onError": "set-to-blank",
+    "newColumnName": "occupation jazz musician",
+    "columnInsertIndex": 4,
+    "description": "Create column occupation jazz musician at index 4 based on column solo_performer_name using expression grel:\"jazz musician\""
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "solo_performer_name",
+    "expression": "grel:\"jazz\"",
+    "onError": "set-to-blank",
+    "newColumnName": "genre jazz",
+    "columnInsertIndex": 4,
+    "description": "Create column genre jazz at index 4 based on column solo_performer_name using expression grel:\"jazz\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "expression": "grel:if(value == \"Flip Philips\", \"Flip Phillips\",\nif(value == \"Allen\", \"J.D. Allen III\", \nif(value == \"Earl Warren\", \"Earle Warren\", value)\n))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column solo_performer_name using expression grel:if(value == \"Flip Philips\", \"Flip Phillips\",\nif(value == \"Allen\", \"J.D. Allen III\", \nif(value == \"Earl Warren\", \"Earle Warren\", value)\n))"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "instrument_label",
+          "propertyName": "instrument",
+          "propertyID": "P1303"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column solo_performer_name to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "solo_performer_name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "solo_performer_name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "instrument_label",
+          "propertyName": "instrument",
+          "propertyID": "P1303"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column solo_performer_name to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "solo_performer_name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "solo_performer_name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "genre jazz",
+          "propertyName": "genre",
+          "propertyID": "P136"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column solo_performer_name to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "solo_performer_name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "solo_performer_name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation jazz musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column solo_performer_name to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "solo_performer_name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "solo_performer_name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column solo_performer_name to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "solo_performer_name",
+          "columnName": "solo_performer_name",
+          "query": "george",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "similarValue": "George Johnson",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"George Johnson\" in column solo_performer_name"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "solo_performer_name",
+    "expression": "grel:if(\"Aleksander Gajic\n    Arville Harris\n    Bobby Bruce\n    Bobby Lewis\n    Bobby Sands\n    Chuck Carter\n    Colin Dawson\n    Dave Klein\n    Dave Young\n    David Stump\n    Don Landis\n    Eli Asher\n    Florencia Gonzalez\n    Garry Lee\n    George Johnson\n    Harold Alexander\n    Howie Smith\n    Jared Sims\n    Jerry Elliot\n    Jesse Davis\n    Jim Reider\n    Joe Ellis\n    Joe Thomas\n    Junie (E. C.) Cobb\n    Ken Shroyer\n    Kenny Faulk\n    Louis Stockwell\n    Mark McGowan\n    Mark Weinstein\n    Melvin Butler\n    Michael Bard\n    Paul Austerlitz\n    Pete Clark\n    Raymond Williams\n    Robeson\n    Sean Corby\n    Tom Morris\n    Tony Owens\".contains(value), value, \"\")",
+    "onError": "set-to-blank",
+    "newColumnName": "flagged_solo_performer",
+    "columnInsertIndex": 4,
+    "description": "Create column flagged_solo_performer at index 4 based on column solo_performer_name using expression grel:if(\"Aleksander Gajic\n    Arville Harris\n    Bobby Bruce\n    Bobby Lewis\n    Bobby Sands\n    Chuck Carter\n    Colin Dawson\n    Dave Klein\n    Dave Young\n    David Stump\n    Don Landis\n    Eli Asher\n    Florencia Gonzalez\n    Garry Lee\n    George Johnson\n    Harold Alexander\n    Howie Smith\n    Jared Sims\n    Jerry Elliot\n    Jesse Davis\n    Jim Reider\n    Joe Ellis\n    Joe Thomas\n    Junie (E. C.) Cobb\n    Ken Shroyer\n    Kenny Faulk\n    Louis Stockwell\n    Mark McGowan\n    Mark Weinstein\n    Melvin Butler\n    Michael Bard\n    Paul Austerlitz\n    Pete Clark\n    Raymond Williams\n    Robeson\n    Sean Corby\n    Tom Morris\n    Tony Owens\".contains(value), value, \"\")"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "flagged_solo_performer",
+          "expression": "isBlank(value)",
+          "columnName": "flagged_solo_performer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column solo_performer_name, one item for each group of similar cells"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "solo_performer_name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "solo_performer_name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_name",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column solo_performer_name, one item for each group of similar cells"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "occupation jazz musician",
+    "expression": "grel:value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column occupation jazz musician using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "possible_solo_performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "instrument_label",
+          "propertyName": "instrument",
+          "propertyID": "P1303"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column possible_solo_performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "possible_solo_performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "possible_solo_performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "possible_solo_performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "genre jazz",
+          "propertyName": "genre",
+          "propertyID": "P136"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column possible_solo_performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "possible_solo_performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "possible_solo_performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "possible_solo_performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation jazz musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column possible_solo_performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "possible_solo_performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "possible_solo_performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "possible_solo_performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column possible_solo_performer_names to type Q5"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "possible_solo_performer_names",
+    "expression": "grel:if(\"Elmer  'Skippy' Williams\n    Milton Fletcher\n    Bob Burnett\n    Harvey Boone\n    Dave Richards\n    Ed Hudson\n    Gene Johnson\n    Henry Hicks\n    Irving Mouse\n    Jack Ferrier\n    Jay Brower\n    Joe Thomas\n    John Youngman\n    Mike Young\n    Milton Fletcher\n    Money\n    Pete Brown\n    Richard Torres\n    Robeson\n    Russell Smith\n    Tito Puente\n    William Johnson\n    Alfie Evans\n    Alfred Bell\n    Earl(e) Warren\n    Easy mo bee\n    Gene Jefferson\n    George Oldham\n    James King\n    John Walsh\n    Ray Reed\".contains(value),\"flag\",\"\")",
+    "onError": "set-to-blank",
+    "newColumnName": "flagged_possible_solo_performers",
+    "columnInsertIndex": 3,
+    "description": "Create column flagged_possible_solo_performers at index 3 based on column possible_solo_performer_names using expression grel:if(\"Elmer  'Skippy' Williams\n    Milton Fletcher\n    Bob Burnett\n    Harvey Boone\n    Dave Richards\n    Ed Hudson\n    Gene Johnson\n    Henry Hicks\n    Irving Mouse\n    Jack Ferrier\n    Jay Brower\n    Joe Thomas\n    John Youngman\n    Mike Young\n    Milton Fletcher\n    Money\n    Pete Brown\n    Richard Torres\n    Robeson\n    Russell Smith\n    Tito Puente\n    William Johnson\n    Alfie Evans\n    Alfred Bell\n    Earl(e) Warren\n    Easy mo bee\n    Gene Jefferson\n    George Oldham\n    James King\n    John Walsh\n    Ray Reed\".contains(value),\"flag\",\"\")"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "flagged_possible_solo_performers",
+          "expression": "isBlank(value)",
+          "columnName": "flagged_possible_solo_performers",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": false,
+                "l": "false"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "possible_solo_performer_names",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column possible_solo_performer_names, one item for each group of similar cells"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "possible_solo_performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "possible_solo_performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "possible_solo_performer_names",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column possible_solo_performer_names, one item for each group of similar cells"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "instrument_label",
+    "expression": "grel:if(value==\"saxophone\", \"tenor saxophone\", \nif(value==\"bari saxophone\", \"baritone saxophone\", value))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column instrument_label using expression grel:if(value==\"saxophone\", \"tenor saxophone\", \nif(value==\"bari saxophone\", \"baritone saxophone\", value))"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "instrument_label",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q110295396",
+        "name": "type of musical instrument"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column instrument_label to type Q110295396"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument_label: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument_label",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "instrument_label",
+    "similarValue": "clarinet",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7563204",
+      "name": "soprano clarinet",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item soprano clarinet (Q7563204) for cells containing \"clarinet\" in column instrument_label"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument_label: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument_label",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "instrument_label",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column instrument_label to type null"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument_label: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument_label",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "instrument_label",
+    "description": "Match each cell to its best recon candidate in column instrument_label"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "occupation musician",
+    "description": "Remove column occupation musician"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "genre jazz",
+    "description": "Remove column genre jazz"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "occupation jazz musician",
+    "description": "Remove column occupation jazz musician"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "solo_performer_name",
+    "expression": "cell.recon.match.id",
+    "onError": "set-to-blank",
+    "newColumnName": "solo_performer_reconciled",
+    "columnInsertIndex": 5,
+    "description": "Create column solo_performer_reconciled at index 5 based on column solo_performer_name using expression cell.recon.match.id"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "possible_solo_performer_names",
+    "expression": "cell.recon.match.id",
+    "onError": "set-to-blank",
+    "newColumnName": "possible_performer_reconciled",
+    "columnInsertIndex": 3,
+    "description": "Create column possible_performer_reconciled at index 3 based on column possible_solo_performer_names using expression cell.recon.match.id"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "solo_performer_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "solo_performer_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "solo_performer_reconciled",
+    "expression": "grel:\"new\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column solo_performer_reconciled using expression grel:\"new\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "possible_performer_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "possible_performer_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "possible_performer_reconciled",
+    "expression": "grel:\"new\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column possible_performer_reconciled using expression grel:\"new\""
+  }
+]
