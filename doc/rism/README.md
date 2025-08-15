@@ -71,10 +71,10 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
     ![RDF Skeleton](./assets/11.jpg)
     ![RDF Skeleton](./assets/12.jpg)
 
-6. **Reconcile Other Relevant Columns** using the other json files located in `/linkedmusic-datalake/code/rism/openrefine`.
+6. **Reconcile Other Relevant Columns** using the other json files located in `/linkedmusic-datalake/code/rism/openrefine`. Detailed reconciliation procedures for the relevant columns are located in `/linkedmusic-datalake/doc/rism/reconciliation_procedures`.
 
-7. **Export the RDF Data**:
-    ![RDF Skeleton](./assets/13.jpg)
+7. **Export to CSV**:
+    Go to `Export > Comma-separated value`.
 
 8. **Repeat Steps 1-7** for all remaining files located in the designated split output folder, by default located at `/linkedmusic-datalake/data/rism/split_output/`.
 
@@ -89,9 +89,9 @@ Ensure that the reconciled CSV files are in the `data/rism/reconciled/` folder.
 
 Then, from the `linkedmusic-datalake` directory, run the following command to convert the CSV files to Turtle:
 
-    ```bash
-    python convert_to_rdf.py --input_folder data/rism/reconciled/ --mappings_folder code/rism/mappings/ --output_folder data/rism/rdf/
-    ```
+```bash
+python convert_to_rdf.py --input_folder data/rism/reconciled/ --mappings_folder code/rism/mappings/ --output_folder data/rism/rdf/
+```
 
 Each CSV file will be converted into a Turtle file in the `data/rism/rdf/` folder.
 
