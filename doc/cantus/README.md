@@ -38,7 +38,7 @@ value + "," + cells["shelfmark"].value
 ```
 2. Create `feast_original`, `service_original`, `mode_original` and `genre_original` columns as copies of the respective columns.
 3. Reconcile the `feast` column against "Christian Holy Day" instance Q60075825.
-4. Move the best candidate's score facet box to 99-101, match al of them to their best candidate.
+4. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
 5. Reset the best candidate's score facet, choose none in the judgement facet and create new items for all of them.
 6. Reconcile the `service` column against "Prayer in the Catholic Church" instance Q3406098.
 7. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
