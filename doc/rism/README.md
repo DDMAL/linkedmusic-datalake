@@ -83,15 +83,16 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
 > In some cases, the output file might be empty due RDF-transform error.
 > Reapply the RDF transform (repeat step 2) if you encounter an output error.
 
-### 3. Joining the Processed Files
+### 3. Converting the reconciled CSV to Turtle
 
-1. Navigate to `/linkedmusic-datalake/code/rism/`.
-2. Run `python3 force_join.py`.
+Ensure that the reconciled CSV files are in the `data/rism/reconciled/` folder.
 
-> Note: ensure the path to input_file and output_dir are configured properly within the `__main__` function of `force_join.py`. The final output will by default be created at `/linkedmusic-datalake/data/rism/joined_output.ttl`. It is highly recommended to store the data files outside of this github repo.
+Then, from the `linkedmusic-datalake` directory, run the following command to convert the CSV files to Turtle:
 
-The joined file represents the complete processed RISM dataset.
+    ```bash
+    python convert_to_rdf.py --input_folder data/rism/reconciled/ --mappings_folder code/rism/mappings/ --output_folder data/rism/rdf/
+    ```
 
-### Others
+Each CSV file will be converted into a Turtle file in the `data/rism/rdf/` folder.
 
-mappingWithLog.json5 records the logs or comments for reconciliation of properties or types.
+For more details on the RDF conversion process, read [`rdf_conversion.md`](/doc/rism/rdf_conversion.md)
