@@ -1,7 +1,34 @@
 """
 RISM RDF Conversion
 
-Script to load all the RISM CSV files from a directory and convert them to RDF.
+This script will read all the reconciled CSV files for RISM in a given directory,
+and will convert them into Turtle RDF using the rdflib module.
+
+Key features:
+
+    - Batch processing of CSV files for efficient RDF conversion.
+    - Utilization of multiprocessing to speed up the conversion process.
+    - Error handling and logging for robust processing.
+
+Usage:
+    `python convert_to_rdf.py --input_folder <input_folder> --mappings_folder <mappings_folder> --output_folder <output_folder>`
+
+    Where:
+
+        - `<input_folder>` is the path to the folder containing the input CSV files.
+        - `<mappings_folder>` is the path to the folder containing the mapping files.
+        - `<output_folder>` is the path to the folder where the output RDF files will be saved.
+    
+    The script can also be run without arguments, in which case it will use default paths.
+    The output folder will contain the generated Turtle files named after the file number of the CSV files.
+    The script will create the output folder if it does not exist.
+
+Exception Handling:
+
+    - Skips any lines that raise errors, after logging the error.
+    - Handles missing or malformed data gracefully, logging errors to the terminal without crashing the script.
+    - Unexpected exceptions that cause workers to stop are logged, the worker will mark the problematic task
+    as complete so that other workers don't get stuck, and the worker will exit.
 
 Potential improvements: Handle a dummy node being in a different file than the subject
 """
@@ -35,10 +62,7 @@ RS = Namespace(f"{RISM}sources/")
 # Max number of file processing processes to run simultaneously
 MAX_WORKERS = 6
 # Max number of processes to run simultaneously
-MAX_PROCESSES = min(
-    MAX_WORKERS,
-    os.cpu_count() or 1,
-)
+MAX_PROCESSES = min(MAX_WORKERS, os.cpu_count() or 1)
 
 # Set to True if you want to reprocess entity types that are already present in the output folder
 REPROCESSING = False
@@ -97,7 +121,7 @@ def convert_rdf_object(obj: str) -> URIRef | Literal:
 
 
 def process_triple(s, p, o, mapping, roles, old_graph, g):
-    """Process a single triple from the file."""
+    """Process a single triple from the file, and add it to the graph."""
     # Make RDF Objects
     s_rdf = URIRef(s)
     p_rdf = URIRef(p)
@@ -141,8 +165,7 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
             g.add((s_rdf, p_map, convert_rdf_object(obj)))
 
     elif p_rdf == RISM_API["hasMaterialGroup"]:
-        if not isinstance(o_rdf, URIRef):
-            return  # TODO: handle
+        pass  # TODO: handle, see issue #444
 
     elif p_rdf == WDT["P585"]:
         if not isinstance(o_rdf, URIRef):
@@ -173,7 +196,7 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
         g.add((s_rdf, p_map, o_rdf))
 
 
-def process_graph(path, mapping, roles, output_file, namespaces):
+def process_file(path, mapping, roles, output_file, namespaces):
     """Process an entire file, loading it, creating a graph, and serializing it."""
     with tqdm.get_lock():
         tqdm.write(f"Processing {path}...")
@@ -280,7 +303,7 @@ async def worker(
             g = await asyncio.gather(
                 loop.run_in_executor(
                     executor,
-                    process_graph,
+                    process_file,
                     path,
                     mapping,
                     roles,
@@ -320,7 +343,10 @@ async def worker(
 
 
 async def main(paths, output_folder, mapping, roles):
-    """Main function to process all the RISM CSV files."""
+    """
+    Main function to process all the RISM CSV files.
+    This function orchestrates the processing of each file and manages the overall workflow.
+    """
     # Configure output directory
     output_folder.mkdir(parents=True, exist_ok=True)
 
@@ -430,8 +456,8 @@ if __name__ == "__main__":
             roles[k] = None
 
     bad_files = set()
-    if Path(args.output_folder).exists() and not REPROCESSING:
-        output_folder = Path(args.output_folder)
+    output_folder = Path(args.output_folder)
+    if output_folder.exists() and not REPROCESSING:
         for file in output_folder.iterdir():
             # Grab the numbers for ttl files
             if file.is_file() and (m := re.match(r"^part-(\d+)$", file.stem)):
@@ -450,4 +476,4 @@ if __name__ == "__main__":
             continue
         paths.append(input_file)
     if paths:
-        asyncio.run(main(paths, Path(args.output_folder), mapping, roles))
+        asyncio.run(main(paths, output_folder, mapping, roles))
