@@ -47,7 +47,7 @@ value + "," + cells["shelfmark"].value
 10. Move the best candidate's score facet box to 99-101, match all of them to their best candidate.
 11. Reset the best candidate's score facet, choose none in the judgement facet, and create new items for all of them.
 12. Reconcile the `mode` column against "mode" instance Q731978.
-13. Since the mode are numbers, we have to search for the mode names manually, I used the [Wikipedia list of western church modes](https://en.wikipedia.org/wiki/Mode_(music)#Western_Church) for tis.
+13. Since the mode are numbers, we have to search for the mode names manually, I used the [Wikipedia list of western church modes](https://en.wikipedia.org/wiki/Mode_(music)#Western_Church) for this.
 14. For example, if it's mode 1, then search for a new match > "mode 1" > "dorian mode".
 15. For all uncertain modes, create a new item for each.
 16. Go to `Export > custom tabular`, then for the column `feast` under `For reconciled cells, output`, select `Matched entity's ID`. Do the same for the columns `service`, `genre` and `mode`.
