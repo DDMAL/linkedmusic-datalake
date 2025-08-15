@@ -34,8 +34,19 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The graph will not use disk storage if the input file is less than 1GB in size. This is a configurable limit in the script.
 - Additionally, if a file is large enough to use disk storage, the output graph will be split into a separate graph every 2000 data chunks. This value can be changed, but was set to 2000 so that the release file (~9.8k chunks) will be split into 5 graphs with some extra space. This is useful to upload the data to Virtuoso as it doesn't seem to handle files bigger than ~2GB very well, and makes copying and moving the files easier.
 - By default, the script will ignore any data types that already have a corresponding file in the output directory. This is useful in the event that the program crashes and you only need to rerun the RDF conversion on the data that wasn't processed instead of the entire input directory.
+- The script is made to run as many things in parallel as possible, to reduce the amount of times that a single piece of data is duplicated in memory. As such, the 4 following tasks all run in parallel:
+  - Reading the file and creating chunks of 500 lines
+  - Converting chunks into RDF subgraphs
+  - Merging the subgraphs into larger graphs that will be serialized to turtle
+  - Serializing the graphs to the turtle output files
+- The script uses `asyncio.Queue` queues to send data between the steps, and the queues have size limits to limit pending operations to avoid using up a large amount of memory on pending tasks
 - Settings for queue sizes, as well as the number of parallel processes are in global variables at the beginning of the script.
-- For ease of reading, the fields are processed in alphabetical order in the `process_line` function.
+- The amount of chunk processing workers is set to 3 because that's what I found to be the most efficient, since ultimately you are limited by the subgraph merging.
+- The amount of subgraph merging workers is set to 1 to reduce memory usage to avoid crashes, it can be raised if you have more than 16GB of RAM.
+- The amount of graph serializing workers is set to 2 to avoid graphs queueing up since it is a very slow process.
+- For ease of reading, the fields are processed in alphabetical order in the `process_entity` function.
+- Errors within an entity are caught, and the problematic entity is safely skipped. The same logic is also applied to chunks.
+- Unexpected errors that cause workers to crash are logged, the problematic task is marked as complete so that other workers don't run into it, and the worker safely exits.
 - If you call `Literal(...)` with `XSD:date` as datatype, it will eventually call the `parse_date` isodate function to validate the format. However, `parse_date` is called after the construction of the `Literal`, making any exception it raises impossible to catch. This is why I call the `parse_date` function and pass its value to the constructor in the `convert_date` function, thus allowing any exceptions to be caught and dealt with.
 - The same situation applies to the `convert_datetime` function with the `XSD:dateTime` datatype and the `parse_datetime` isodate function.
 - The dictionary containing property mappings for the data fields and URLs was moved into a JSON file, located in [`code/musicbrainz/rdf_conversion_config/mappings.json`](/code/musicbrainz/rdf_conversion_config/mappings.json). The dictionary contains the internal dictionary of a `MappingSchema` object serialized into JSON by Python's built-in JSON module. As such, the outermost dictionary's are the properties, the innermost dictionary's keys are the source types (with `null` as a wildcard), and the values are the full URIs to the properties.
@@ -49,6 +60,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - The `event` entity type's `setlist` field seems to contain pre-rendered data about the setlist, which makes it difficult to parse. Furthermore, the same data is also located in the `relations` field, and as such, the `setlist` field is ignored during the RDF conversion process.
 - The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, and as the name of a field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
 - As per this [forum thread](https://community.metabrainz.org/t/recording-json-dumps-incomplete/322708) and this [bug report](https://tickets.metabrainz.org/browse/MBS-9433), the data dump for the `recording` entities only contains "standalone" recordings, i.e. recordings that are not associated with any release, and all other recordings are located in the `release` data dump, as a list in each `release` entity.
+- Data on instrumentation for recordings is stored as an attribute of the ["instrument" artist-recording relationship](https://musicbrainz.org/relationship/59054b12-01ac-43ee-a618-285fd397e461), not as a direct relationship or as a field of the `recording` entity
 
 ## Identifiers to other databases
 

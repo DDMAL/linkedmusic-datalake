@@ -57,7 +57,8 @@
         "event": "http://www.wikidata.org/prop/direct/P585"
     },
     "instrument": {
-        "instrument": "http://www.wikidata.org/prop/direct/P279"
+        "instrument": "http://www.wikidata.org/prop/direct/P279",
+        "recording": "http://www.wikidata.org/prop/direct/P870"
     },
     "address": {
         "place": "http://www.wikidata.org/prop/direct/P6375"
