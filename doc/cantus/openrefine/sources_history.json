@@ -5,12 +5,25 @@
       "facets": [],
       "mode": "row-based"
     },
+    "baseColumnName": "service",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "service_@id",
+    "columnInsertIndex": 10,
+    "description": "Create column service_@id at index 10 based on column service using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
     "baseColumnName": "genre",
     "expression": "grel:value",
     "onError": "set-to-blank",
     "newColumnName": "genre_@id",
-    "columnInsertIndex": 11,
-    "description": "Create column genre_@id at index 11 based on column genre using expression grel:value"
+    "columnInsertIndex": 12,
+    "description": "Create column genre_@id at index 12 based on column genre using expression grel:value"
   },
   {
     "op": "core/column-addition",
@@ -22,21 +35,8 @@
     "expression": "grel:value",
     "onError": "set-to-blank",
     "newColumnName": "mode_@id",
-    "columnInsertIndex": 15,
-    "description": "Create column mode_@id at index 15 based on column mode using expression grel:value"
-  },
-  {
-    "op": "core/column-addition",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "baseColumnName": "service",
-    "expression": "grel:value",
-    "onError": "set-to-blank",
-    "newColumnName": "service_@id",
-    "columnInsertIndex": 10,
-    "description": "Create column service_@id at index 10 based on column service using expression grel:value"
+    "columnInsertIndex": 16,
+    "description": "Create column mode_@id at index 16 based on column mode using expression grel:value"
   },
   {
     "op": "core/recon",
@@ -60,6 +60,47 @@
       "limit": 0
     },
     "description": "Reconcile cells in column service_@id to type Q3406098"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "service_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "service_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "service_@id: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "service_@id",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "service_@id",
+    "description": "Match each cell to its best recon candidate in column service_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -421,7 +462,20 @@
   {
     "op": "core/recon",
     "engineConfig": {
-      "facets": [],
+      "facets": [
+        {
+          "type": "range",
+          "name": "service_@id: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "service_@id",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
       "mode": "row-based"
     },
     "columnName": "genre_@id",
@@ -440,6 +494,59 @@
       "limit": 0
     },
     "description": "Reconcile cells in column genre_@id to type Q188451"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "service_@id: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "service_@id",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "genre_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "genre_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "genre_@id: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "genre_@id",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "genre_@id",
+    "description": "Match each cell to its best recon candidate in column genre_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -1014,6 +1121,48 @@
     "description": "Mark to create one single new item for all cells containing \"Gradual\" in column genre_@id"
   },
   {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "service_@id: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "service_@id",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "genre_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "genre_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "genre_@id",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column genre_@id, one item for each group of similar cells"
+  },
+  {
     "op": "core/recon",
     "engineConfig": {
       "facets": [],
@@ -1027,7 +1176,7 @@
       "schemaSpace": "http://www.wikidata.org/prop/direct/",
       "type": {
         "id": "Q731978",
-        "name": "mode_@id"
+        "name": "mode"
       },
       "autoMatch": true,
       "batchSize": 10,
@@ -2009,14 +2158,14 @@
     "description": "Mark to create one single new item for all cells containing \"7?\" in column mode_@id"
   },
   {
-    "op": "core/recon-judge-similar-cells",
+    "op": "core/recon-mark-new-topics",
     "engineConfig": {
       "facets": [
         {
           "type": "list",
-          "name": "genre_@id: judgment",
+          "name": "mode_@id: judgment",
           "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
+          "columnName": "mode_@id",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
@@ -2030,1194 +2179,25 @@
           ],
           "selectBlank": false,
           "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
         }
       ],
       "mode": "row-based"
     },
-    "columnName": "genre_@id",
-    "similarValue": "Kyrie",
+    "columnName": "mode_@id",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column mode_@id, one item for each group of similar cells"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "?",
     "judgment": "new",
     "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Kyrie\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Litany verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Litany verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Gradual verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Gradual verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Varia within Holy Week",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Varia within Holy Week\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Psalm",
-    "judgment": "matched",
-    "match": {
-      "id": "Q12497663",
-      "name": "psalm",
-      "types": [
-        "Q188451",
-        "Q110220157"
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item psalm (Q12497663) for cells containing \"Psalm\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Introit verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Introit verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Tract verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Tract verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Gloria",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Gloria\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Sequence verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Sequence verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Benedicamus domino",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Benedicamus domino\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-clear-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        },
-        {
-          "type": "range",
-          "name": "genre_@id: best candidate's score",
-          "expression": "cell.recon.best.score",
-          "columnName": "genre_@id",
-          "from": 99,
-          "to": 101,
-          "selectNumeric": true,
-          "selectNonNumeric": true,
-          "selectBlank": true,
-          "selectError": true
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Unknown, ambiguous, unidentifiable, illegible",
-    "description": "Clear recon data for cells containing \"Unknown, ambiguous, unidentifiable, illegible\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Versicle",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Versicle\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Introit",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Introit\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Hymn verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Hymn verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Offertory",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Offertory\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Communion",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Communion\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Varia",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Varia\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Litany",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Litany\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Prosa",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Prosa\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Tract",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Tract\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Sanctus",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Sanctus\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Offertory verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Offertory verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Communion verse",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Communion verse\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Agnus dei",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Agnus dei\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Cantio",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Cantio\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Miscellaneous",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Miscellaneous\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Prefatio",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Prefatio\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Credo",
-    "judgment": "matched",
-    "match": {
-      "id": "Q1139456",
-      "name": "Credo",
-      "types": [
-        ""
-      ],
-      "score": 50
-    },
-    "shareNewTopics": false,
-    "description": "Match item Credo (Q1139456) for cells containing \"Credo\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Pater noster",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Pater noster\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Ite missa est",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Ite missa est\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Collect",
-    "judgment": "matched",
-    "match": {
-      "id": "Q1144201",
-      "name": "collect",
-      "types": [
-        ""
-      ],
-      "score": 50
-    },
-    "shareNewTopics": false,
-    "description": "Match item collect (Q1144201) for cells containing \"Collect\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Oratio secreta",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Oratio secreta\" in column genre_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "genre_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "genre_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "genre_@id",
-    "similarValue": "Postcommunion",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Postcommunion\" in column genre_@id"
+    "description": "Mark to create one single new item for all cells containing \"?\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -3246,775 +2226,7 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "4?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"4?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "8?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"8?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "6?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"6?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "1?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"1?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "r?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"r?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "3?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"3?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*8",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*8\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "LACUNA",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"LACUNA\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "8*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"8*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "2*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"2*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "4*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"4*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "7*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"7*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "1*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"1*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "3*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"3*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "6*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"6*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "r*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"r*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5TS",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5TS\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "6TS",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"6TS\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "1TS",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"1TS\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "4TS",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"4TS\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "?S",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"?S\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*6",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*6\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "8.0",
+    "similarValue": "8",
     "judgment": "matched",
     "match": {
       "id": "Q57976142",
@@ -4025,7 +2237,7 @@
       "score": 100
     },
     "shareNewTopics": false,
-    "description": "Match item Hypomixolydian mode (Q57976142) for cells containing \"8.0\" in column mode_@id"
+    "description": "Match item Hypomixolydian mode (Q57976142) for cells containing \"8\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -4054,50 +2266,10 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "4.0",
-    "judgment": "matched",
-    "match": {
-      "id": "Q1641387",
-      "name": "hypophrygian mode",
-      "types": [
-        ""
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item hypophrygian mode (Q1641387) for cells containing \"4.0\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*4",
+    "similarValue": "r",
     "judgment": "new",
     "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*4\" in column mode_@id"
+    "description": "Mark to create one single new item for all cells containing \"r\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -4126,1623 +2298,7 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "M",
-    "judgment": "matched",
-    "match": {
-      "id": "Q1167788",
-      "name": "ionian mode",
-      "types": [
-        ""
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item ionian mode (Q1167788) for cells containing \"M\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "2.0",
-    "judgment": "matched",
-    "match": {
-      "id": "Q842766",
-      "name": "hypodorian mode",
-      "types": [
-        ""
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item hypodorian mode (Q842766) for cells containing \"2.0\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5T?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5T?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5S?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5S?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "IT",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"IT\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*3",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*3\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*1",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*1\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*2",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*2\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "?T",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"?T\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "* ",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"* \" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*5",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*5\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*7",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*7\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "7S?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"7S?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5/6",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5/6\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "*[8]",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"*[8]\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Gc",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Gc\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Da",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Da\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "F",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"F\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Gd",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Gd\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "E",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"E\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "ad",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"ad\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Ge",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Ge\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Ea",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Ea\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "DE",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"DE\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Ga",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Ga\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "DF",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"DF\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Eb",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Eb\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "CF",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"CF\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Fa",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Fa\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "EE",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"EE\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "ac",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"ac\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Ec",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Ec\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "EG",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"EG\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "Fc",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Fc\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "DG",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"DG\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "cd",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"cd\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "a",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"a\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "FC",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"FC\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "7T?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"7T?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "4T?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"4T?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "6T?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"6T?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "?*",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"?*\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5.0",
-    "judgment": "matched",
-    "match": {
-      "id": "Q686115",
-      "name": "lydian mode",
-      "types": [
-        ""
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item lydian mode (Q686115) for cells containing \"5.0\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "01",
-    "judgment": "matched",
-    "match": {
-      "id": "Q1167788",
-      "name": "ionian mode",
-      "types": [
-        ""
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item ionian mode (Q1167788) for cells containing \"01\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "6F",
-    "judgment": "matched",
-    "match": {
-      "id": "Q5959856",
-      "name": "hypolydian mode",
-      "types": [
-        ""
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item hypolydian mode (Q5959856) for cells containing \"6F\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "7 ",
-    "judgment": "matched",
-    "match": {
-      "id": "Q321814",
-      "name": "mixolydian mode",
-      "types": [
-        ""
-      ],
-      "score": 100
-    },
-    "shareNewTopics": false,
-    "description": "Match item mixolydian mode (Q321814) for cells containing \"7 \" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "4A",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"4A\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "8C",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"8C\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5C",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5C\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "1 ",
+    "similarValue": "1",
     "judgment": "matched",
     "match": {
       "id": "Q960729",
@@ -5753,7 +2309,7 @@
       "score": 100
     },
     "shareNewTopics": false,
-    "description": "Match item dorian mode (Q960729) for cells containing \"1 \" in column mode_@id"
+    "description": "Match item dorian mode (Q960729) for cells containing \"1\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -5782,10 +2338,170 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "?4",
+    "similarValue": "4",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1641387",
+      "name": "hypophrygian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item hypophrygian mode (Q1641387) for cells containing \"4\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7",
+    "judgment": "matched",
+    "match": {
+      "id": "Q321814",
+      "name": "mixolydian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item mixolydian mode (Q321814) for cells containing \"7\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "6",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5959856",
+      "name": "hypolydian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item hypolydian mode (Q5959856) for cells containing \"6\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "3",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1342409",
+      "name": "phrygian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item phrygian mode (Q1342409) for cells containing \"3\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "*",
     "judgment": "new",
     "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"?4\" in column mode_@id"
+    "description": "Mark to create one single new item for all cells containing \"*\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -5814,295 +2530,7 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "7B",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"7B\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "8T?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"8T?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "1A",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"1A\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "3.1",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"3.1\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "8 ",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"8 \" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "2/2T",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"2/2T\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "1/2T",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"1/2T\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "1/5",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"1/5\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "3TS?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"3TS?\" in column mode_@id"
-  },
-  {
-    "op": "core/recon-judge-similar-cells",
-    "engineConfig": {
-      "facets": [
-        {
-          "type": "list",
-          "name": "mode_@id: judgment",
-          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "mode_@id",
-          "invert": false,
-          "omitBlank": false,
-          "omitError": false,
-          "selection": [
-            {
-              "v": {
-                "v": "none",
-                "l": "none"
-              }
-            }
-          ],
-          "selectBlank": false,
-          "selectError": false
-        }
-      ],
-      "mode": "row-based"
-    },
-    "columnName": "mode_@id",
-    "similarValue": "5 ",
+    "similarValue": "5",
     "judgment": "matched",
     "match": {
       "id": "Q686115",
@@ -6113,7 +2541,7 @@
       "score": 100
     },
     "shareNewTopics": false,
-    "description": "Match item lydian mode (Q686115) for cells containing \"5 \" in column mode_@id"
+    "description": "Match item lydian mode (Q686115) for cells containing \"5\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -6142,10 +2570,18 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "1T?",
-    "judgment": "new",
-    "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"1T?\" in column mode_@id"
+    "similarValue": "2",
+    "judgment": "matched",
+    "match": {
+      "id": "Q842766",
+      "name": "hypodorian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item hypodorian mode (Q842766) for cells containing \"2\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -6174,10 +2610,10 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "6T*",
+    "similarValue": "4S",
     "judgment": "new",
     "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"6T*\" in column mode_@id"
+    "description": "Mark to create one single new item for all cells containing \"4S\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -6206,10 +2642,10 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "4t",
+    "similarValue": "1S",
     "judgment": "new",
     "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"4t\" in column mode_@id"
+    "description": "Mark to create one single new item for all cells containing \"1S\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -6238,10 +2674,10 @@
       "mode": "row-based"
     },
     "columnName": "mode_@id",
-    "similarValue": "5T*",
+    "similarValue": "8S",
     "judgment": "new",
     "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"5T*\" in column mode_@id"
+    "description": "Mark to create one single new item for all cells containing \"8S\" in column mode_@id"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -6249,9 +2685,9 @@
       "facets": [
         {
           "type": "list",
-          "name": "service_@id: judgment",
+          "name": "mode_@id: judgment",
           "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
-          "columnName": "service_@id",
+          "columnName": "mode_@id",
           "invert": false,
           "omitBlank": false,
           "omitError": false,
@@ -6269,10 +2705,2155 @@
       ],
       "mode": "row-based"
     },
-    "columnName": "service_@id",
-    "similarValue": "Mass",
+    "columnName": "mode_@id",
+    "similarValue": "2S",
     "judgment": "new",
     "shareNewTopics": true,
-    "description": "Mark to create one single new item for all cells containing \"Mass\" in column service_@id"
+    "description": "Mark to create one single new item for all cells containing \"2S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "1T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"1T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "4T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"4T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "6T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"6T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "3T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"3T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "3S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"3S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "5S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"5S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "6S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"6S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"7S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "5T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"5T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"7T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "2T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"2T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "8T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"8T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "2?",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"2?\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7?",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"7?\" in column mode_@id"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q731978",
+        "name": "mode"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column mode_@id to type Q731978"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "?",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"?\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "8",
+    "judgment": "matched",
+    "match": {
+      "id": "Q57976142",
+      "name": "Hypomixolydian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hypomixolydian mode (Q57976142) for cells containing \"8\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "r",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"r\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "1",
+    "judgment": "matched",
+    "match": {
+      "id": "Q960729",
+      "name": "dorian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item dorian mode (Q960729) for cells containing \"1\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "4",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1641387",
+      "name": "hypophrygian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item hypophrygian mode (Q1641387) for cells containing \"4\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7",
+    "judgment": "matched",
+    "match": {
+      "id": "Q321814",
+      "name": "mixolydian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item mixolydian mode (Q321814) for cells containing \"7\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "6",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5959856",
+      "name": "hypolydian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item hypolydian mode (Q5959856) for cells containing \"6\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "3",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1342409",
+      "name": "phrygian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item phrygian mode (Q1342409) for cells containing \"3\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "*",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"*\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "5",
+    "judgment": "matched",
+    "match": {
+      "id": "Q686115",
+      "name": "lydian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item lydian mode (Q686115) for cells containing \"5\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "2",
+    "judgment": "matched",
+    "match": {
+      "id": "Q842766",
+      "name": "hypodorian mode",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item hypodorian mode (Q842766) for cells containing \"2\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "4S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"4S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "1S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"1S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "8S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"8S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "2S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"2S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "1T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"1T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "4T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"4T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "6T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"6T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "3T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"3T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "3S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"3S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "5S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"5S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "6S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"6S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7S",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"7S\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "5T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"5T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"7T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "2T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"2T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "8T",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"8T\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "2?",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"2?\" in column mode_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "mode_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "mode_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode_@id",
+    "similarValue": "7?",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"7?\" in column mode_@id"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "service",
+    "newColumnName": "service_original",
+    "description": "Rename column service to service_original"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "genre",
+    "newColumnName": "genre_original",
+    "description": "Rename column genre to genre_original"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "mode",
+    "newColumnName": "mode_original",
+    "description": "Rename column mode to mode_original"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "service_@id",
+    "newColumnName": "service",
+    "description": "Rename column service_@id to service"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "genre_@id",
+    "newColumnName": "genre",
+    "description": "Rename column genre_@id to genre"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "mode_@id",
+    "newColumnName": "mode",
+    "description": "Rename column mode_@id to mode"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q60075825",
+        "name": "Christian holy day"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column feast to type Q60075825"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "feast",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "description": "Match each cell to its best recon candidate in column feast"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q179461",
+        "name": "religious text"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column feast to type Q179461"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "feast",
+          "from": 98,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "similarValue": "Nativitas Mariae",
+    "judgment": "matched",
+    "match": {
+      "id": "Q501107",
+      "name": "Nativity of Mary",
+      "types": [
+        "Q1509831",
+        "Q1445650",
+        "Q60075825",
+        "Q375011",
+        "Q1897717"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Nativity of Mary (Q501107) for cells containing \"Nativitas Mariae\" in column feast"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "feast",
+          "from": 98,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "similarValue": "Nativitas Mariae,8",
+    "judgment": "matched",
+    "match": {
+      "id": "Q134087676",
+      "name": "Octave of the Nativity of Mary",
+      "types": [
+        "Q60075825",
+        "Q375011",
+        "Q1445650",
+        "Q1896500"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Octave of the Nativity of Mary (Q134087676) for cells containing \"Nativitas Mariae,8\" in column feast"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "feast",
+          "from": 98,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "similarValue": "Dom. p. Nat. Mariae",
+    "judgment": "matched",
+    "match": {
+      "id": "Q133805717",
+      "name": "Sunday in the Octave of the Nativity of Mary",
+      "types": [
+        "Q14795564",
+        "Q375011",
+        "Q60075825"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Sunday in the Octave of the Nativity of Mary (Q133805717) for cells containing \"Dom. p. Nat. Mariae\" in column feast"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "feast",
+          "from": 98,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "similarValue": "Exaltatio Crucis",
+    "judgment": "matched",
+    "match": {
+      "id": "Q16834937",
+      "name": "Elevation of the Holy Cross",
+      "types": [
+        "Q60075825"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Elevation of the Holy Cross (Q16834937) for cells containing \"Exaltatio Crucis\" in column feast"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "feast",
+          "from": 98,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "baseColumnName": "feast",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "feast_original",
+    "columnInsertIndex": 9,
+    "description": "Create column feast_original at index 9 based on column feast using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q22687823",
+        "name": "Christian liturgical element"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column feast to type Q22687823"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "holding_institution",
+    "expression": "grel:cells[\"holding_institution\"].value + \", \" + cells[\"shelfmark\"].value",
+    "onError": "set-to-blank",
+    "newColumnName": "source_label",
+    "columnInsertIndex": 4,
+    "description": "Create column source_label at index 4 based on column holding_institution using expression grel:cells[\"holding_institution\"].value + \", \" + cells[\"shelfmark\"].value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q60075825",
+        "name": "Christian holy day"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column feast to type Q60075825"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "feast",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "description": "Match each cell to its best recon candidate in column feast"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q484692",
+        "name": "hymn"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column feast to type Q484692"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q3627146",
+        "name": "Christian prayer"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column feast to type Q3627146"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "feast",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column feast, one item for each group of similar cells"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "mode",
+          "columnName": "mode",
+          "query": "*",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        },
+        {
+          "type": "list",
+          "name": "mode",
+          "expression": "value",
+          "columnName": "mode",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "* ",
+                "l": "* "
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "mode",
+    "similarValue": "* ",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"* \" in column mode"
   }
 ]
