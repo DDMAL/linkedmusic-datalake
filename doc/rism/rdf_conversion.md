@@ -45,3 +45,9 @@ The list of types is:
 - The `convert_rdf_object` function is made to be a one-stop shop to convert fields from the CSV files to the relevant RDFlib objects, handling all the necessary edge cases for the script to function as intended.
 - The `old_graph` dictionary contains all triples for all non-basic entities (all entities that aren't people, institutions, or sources), to enable graph traversal during the RDF conversion process when it is necessary to access the data from a blank node or other entity. It is much more time- and space-efficient to store the temporary graph in a dictionary rather than an `rdflib.Graph` since the latter generates many more indices and has much more overhead, and provides no additional benefits.
 - All the work on a single file is done by a single worker instead of having a worker for RDF conversion and one for serialization. This is due to the fact that the script isn't using a disk store for the graphs, and thus transferring the graph objects between processes is quite slow, negating any benefits from having multiple worker types.
+
+## Future work
+
+Currently, the RDF conversion script is built on the assumption that if a blank node is referenced in a CSV file (e.g. a source has a material group blank node), when that blank node will also appear in the same CSV file. A possible improvement is to solve this problem, so that data split between CSV files is not lost. A potential way to do this is to effectively combine all CSV files together when processing, and to split the graph by number of triples/chunks instead of making a graph per file (see the MusicBrainz RDF conversion script).
+
+The [`reconciliation_todo.md`](/doc/rism/reconciliation_todo.md) file contains a list of future reconciliation work that was found when performing the RDF conversion process.
