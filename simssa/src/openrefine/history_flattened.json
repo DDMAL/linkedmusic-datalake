@@ -1,0 +1,364 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "genre_style",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "genre_style_@id",
+    "columnInsertIndex": 5,
+    "description": "Create column genre_style_@id at index 5 based on column genre_style using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "genre_style_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q968159",
+        "name": "art movement"
+      },
+      "autoMatch": true,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column genre_style_@id to type Q968159"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "genre_type",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "genre_type_@id",
+    "columnInsertIndex": 8,
+    "description": "Create column genre_type_@id at index 8 based on column genre_type using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "genre_type_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q188451",
+        "name": "music genre"
+      },
+      "autoMatch": true,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column genre_type_@id to type Q188451"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "genre_type_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "genre_type_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "genre_type_@id",
+    "similarValue": "Northern proto-villotta",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Northern proto-villotta\" in column genre_type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "genre_type_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "genre_type_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "genre_type_@id",
+    "similarValue": "Zibaldone",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Zibaldone\" in column genre_type_@id"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "genre_type_@id: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "genre_type_@id",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "genre_type_@id",
+    "similarValue": "Chanson",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1062328",
+      "name": "chanson",
+      "types": [
+        "Q188451"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item chanson (Q1062328) for cells containing \"Chanson\" in column genre_type_@id"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "author_given_name",
+    "expression": "grel:join ([coalesce(cells['author_given_name'].value,''),coalesce(cells['author_sur_name'].value,'')],' ')",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column author_given_name using expression grel:join ([coalesce(cells['author_given_name'].value,''),coalesce(cells['author_sur_name'].value,'')],' ')"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer_given_name",
+    "expression": "grel:join ([coalesce(cells['composer_given_name'].value,''),coalesce(cells['composer_sur_name'].value,'')],' ')",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column composer_given_name using expression grel:join ([coalesce(cells['composer_given_name'].value,''),coalesce(cells['composer_sur_name'].value,'')],' ')"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "author_given_name",
+    "newColumnName": "author_name",
+    "description": "Rename column author_given_name to author_name"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "composer_given_name",
+    "newColumnName": "composer_name",
+    "description": "Rename column composer_given_name to composer_name"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "author_name",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "author_name_@id",
+    "columnInsertIndex": 4,
+    "description": "Create column author_name_@id at index 4 based on column author_name using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "composer_name",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "composer_name_@id",
+    "columnInsertIndex": 11,
+    "description": "Create column composer_name_@id at index 11 based on column composer_name using expression grel:value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "author_auth_url",
+    "expression": "grel:value.split(\"/\")[-1]",
+    "onError": "set-to-blank",
+    "newColumnName": "author_viaf_id",
+    "columnInsertIndex": 8,
+    "description": "Create column author_viaf_id at index 8 based on column author_auth_url using expression grel:value.split(\"/\")[-1]"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "composer_auth_url",
+    "expression": "grel:value.split(\"/\")[-1]",
+    "onError": "set-to-blank",
+    "newColumnName": "composer_viaf_id",
+    "columnInsertIndex": 15,
+    "description": "Create column composer_viaf_id at index 15 based on column composer_auth_url using expression grel:value.split(\"/\")[-1]"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "author_name_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "author_viaf_id",
+          "propertyName": "VIAF cluster ID",
+          "propertyID": "P214"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column author_name_@id to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "author_name_@id",
+    "similarValue": "Anonymous ",
+    "judgment": "matched",
+    "match": {
+      "id": "Q85993015",
+      "name": "Anonymous",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Anonymous (Q85993015) for cells containing \"Anonymous \" in column author_name_@id"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer_name_@id",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "composer_viaf_id",
+          "propertyName": "VIAF cluster ID",
+          "propertyID": "P214"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column composer_name_@id to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer_name_@id",
+    "similarValue": "Anonymous ",
+    "judgment": "matched",
+    "match": {
+      "id": "Q85993015",
+      "name": "Anonymous",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Anonymous (Q85993015) for cells containing \"Anonymous \" in column composer_name_@id"
+  }
+]

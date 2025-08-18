@@ -5,7 +5,7 @@ import pandas as pd
 id_table = pd.read_csv('extracted_ids.csv')
 id_table['sameAs'] = "wd:"+id_table['sameAs'].str.extract(r'(Q\d+)$')
 
-with open('../../data/initial_compact.jsonld', 'r') as f:
+with open('../../code/initial_compact.jsonld', 'r') as f:
     data = json.load(f)
 
 def add_context(data):

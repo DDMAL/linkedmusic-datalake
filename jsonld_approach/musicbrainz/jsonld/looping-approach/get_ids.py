@@ -17,7 +17,7 @@ def extract_ids(data, valid_formats, ids=set()):
     return ids
 
 # Load the JSON-LD file
-with open("./../../data/initial_compact.jsonld", 'r') as json_file:
+with open("./../../code/initial_compact.jsonld", 'r') as json_file:
     data = json.load(json_file)
 
 valid_formats = [
