@@ -188,7 +188,7 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
                     (
                         s_rdf,
                         second_prop,
-                        convert_date(f"{convert_rdf_object(obj).value}-01-01"),
+                        convert_date(f"{convert_rdf_object(obj).value}-12-31"),
                     )
                 )
 
