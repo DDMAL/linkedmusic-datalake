@@ -41,7 +41,7 @@ The list of types is:
 
 ## General notes on the RDF conversion script
 
-- The script will process each file in its own process. The number of processes/workers is currently set to 6 and can be edit at the top of the script.
+- The script will process each file in its own process. The number of processes/workers is currently set to 6 and can be edited at the top of the script.
 - The `convert_rdf_object` function is made to be a one-stop shop to convert fields from the CSV files to the relevant RDFlib objects, handling all the necessary edge cases for the script to function as intended.
 - The `old_graph` dictionary contains all triples for all non-basic entities (all entities that aren't people, institutions, or sources), to enable graph traversal during the RDF conversion process when it is necessary to access the data from a blank node or other entity. It is much more time- and space-efficient to store the temporary graph in a dictionary rather than an `rdflib.Graph` since the latter generates many more indices and has much more overhead, and provides no additional benefits.
 - All the work on a single file is done by a single worker instead of having a worker for RDF conversion and one for serialization. This is due to the fact that the script isn't using a disk store for the graphs, and thus transferring the graph objects between processes is quite slow, negating any benefits from having multiple worker types.
