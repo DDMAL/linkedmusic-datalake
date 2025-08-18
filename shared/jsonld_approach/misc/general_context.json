@@ -1,0 +1,35 @@
+{
+    "@context": {
+
+        "P86": {
+            "@id": "wdt:P86",
+            "@type": "@id"
+        },
+        "P136": {
+            "@id": "wdt:P136",
+            "@type": "@id"
+        },
+        "database": {
+            "@id": "https://schema.org/Dataset",
+            "@type": "@id"
+        },
+        "P2701": {
+            "@id": "wdt:P2701",
+            "@type": "@id"
+        },
+        "P577": {
+            "@id": "wdt:P577",
+            "@type": "xsd:dateTime"
+        },
+        "P2699": "wdt:P2699",
+        "P50": "wdt:P50",
+        "P175": "wdt:P175",
+        "P2550": "wdt:P2550",
+        "P1545": "wdt:P1545",
+        "P1476": "wdt:P1476",
+        "P826": "wdt:P826",
+        "wd": "http://www.wikidata.org/entity/",
+        "wdt": "http://www.wikidata.org/prop/direct/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#"
+    }
+}

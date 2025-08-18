@@ -3,11 +3,11 @@
 > Summary:
 
 > 1. Upload SQL dump to local postgreSQL database
-> 2. With output run `jsonld_approach/simssadb/flattening/SQL_query.py`
+> 2. With output run `simssa/src/flattening/SQL_query.py`
 > 3. Reconcile `initial_flattened.csv` with OpenRefine
 > 4. Reconcile `files.csv` with OpenRefine
-> 5. With output run `jsonld_approach/simssadb/flattening/restructure.py`
-> 6. With output run `jsonld_approach/simssadb/jsonld/generate_jsonld.py` (which also takes `jsonld/context.jsonld` as the initial context)
+> 5. With output run `simssa/src/flattening/restructure.py`
+> 6. With output run `simssa/src/jsonld/generate_jsonld.py` (which also takes `simssa/src/jsonld/context.jsonld` as the initial context)
 
 ## 1. Extracting columns and feature flattening
 
@@ -21,7 +21,7 @@ This produces 2 CSV files, `final_flattened.csv`, a flattening of all the tables
 
 ## 2. Reconciliation with OpenRefine
 
-OpenRefine reconciliation was performed on `initial_flattened.csv` and on `files.csv`. You can see the reconciled files `reconciled_wikiID.csv` and `reconciled_files_WikiID.csv`. You can use `jsonld_approach/simssadb/openrefine/history_flattened.json` and `jsonld_approach/simssadb/openrefine/history_files.json` to facilitate reconciliation and `jsonld_approach/simssadb/openrefine/export_template_flattened.json` and `jsonld_approach/simssadb/openrefine/export_template_files.json` to export to the desired csv format.
+OpenRefine reconciliation was performed on `initial_flattened.csv` and on `files.csv`. You can see the reconciled files `reconciled_wikiID.csv` and `reconciled_files_WikiID.csv`. You can use `simssa/jsonld_approach/openrefine/history_flattened.json` and `simssa/jsonld_approach/openrefine/history_files.json` to facilitate reconciliation and `simssa/jsonld_approach/openrefine/export_template_flattened.json` and `simssa/jsonld_approach/openrefine/export_template_files.json` to export to the desired csv format.
 
 ## 3. Reconcile column names and generating json-ld
 

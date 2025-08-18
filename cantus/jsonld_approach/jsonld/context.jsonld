@@ -1,0 +1,29 @@
+{
+    "@context": {
+        "cantusdb": "https://cantusdatabase.org/",
+        "chant": "https://cantusdatabase.org/chant/",
+        "source": {
+            "@id": "https://cantusdatabase.org/sources",
+            "@type": "@id"
+        },
+        "absolute_url":"wdt:P1325",
+        "cantus_id": {
+            "@id": "https://cantusdatabase.org/about/id-numbers",
+            "@type": "@id"
+        },
+        "composer": "wdt:P86",
+        "genre": "wdt:P136",
+        "incipit": "wdt:P1922",
+        "mode": "wdt:P826",
+        "finalis": "wd:Q4484726",
+        "name": "wdt:P2561",
+        "database": {
+            "@id": "https://schema.org/Dataset",
+            "@type": "@id"
+        },
+        "source_description": "http://schema.org/description",
+        "indexing_notes":"https://cantusdatabase.org/description/#IndexingNotes",
+        "wd": "http://www.wikidata.org/entity/",
+        "wdt": "http://www.wikidata.org/prop/direct/"
+    }
+}

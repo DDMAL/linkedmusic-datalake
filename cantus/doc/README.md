@@ -26,7 +26,7 @@ The ```cantus.csv``` file should be imported into OpenRefine for further operati
 
 ### Reconciliation
 
-- The `jsonld_approach/cantusdb/openrefine/sources_history.json` can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the `sources_history.json` file is specific against a particular test, mistakes are likely to happen.
+- The `cantusdb/jsonld_approach/openrefine/sources_history.json` can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the `sources_history.json` file is specific against a particular test, mistakes are likely to happen.
 
 1. Create `service_@id`, `mode_@id` and `genre_@id` columns as copies of the respective columns.
 2. Reconcile the `service_@id` column against "Prayer in the Catholic Church" instance Q3406098.
@@ -53,12 +53,12 @@ These are currently used in the JSON-LD context file, and will be changed to Wik
 
 ## 4. Reconcile column names and generating json-ld
 
-Currently the json-ld is generated as follows in `jsonld_approach/cantusdb/jsonld/generate_jsonld.py`:
+Currently the json-ld is generated as follows in `cantusdb/jsonld_approach/jsonld/generate_jsonld.py`:
 
 - Load the reconciled csv as a dataframe in pandas and convert them to json documents (each corresponds to an entry/line in the csv)
-- Loop through each json document and edit each entry, creating the compact jsonld. More information can be found in `jsonld_approach/cantusdb/jsonld/generate_jsonld.py`
-- Generate the jsonld file at `jsonld_approach/cantusdb/jsonld/compact.jsonld`
-- The contexts used in the compact.jsonld file is imported from `jsonld_approach/cantusdb/jsonld/context.jsonld`
+- Loop through each json document and edit each entry, creating the compact jsonld. More information can be found in `cantusdb/jsonld_approach/jsonld/generate_jsonld.py`
+- Generate the jsonld file at `cantusdb/jsonld_approach/jsonld/compact.jsonld`
+- The contexts used in the compact.jsonld file is imported from `cantusdb/jsonld_approach/jsonld/context.jsonld`
 
 The `generate_jsonld.py` script should also be run from the repository root directory.
 

@@ -53,4 +53,4 @@ Some properties of interest:
 
 ### JSON-LD
 
-The JSON-LD approach was not followed for this database. However, the beginnings of a context file can be found in the `jsonld_approach/diamm/` folder.
+The JSON-LD approach was not followed for this database. However, the beginnings of a context file can be found in the `diamm/jsonld_approach/` folder.
