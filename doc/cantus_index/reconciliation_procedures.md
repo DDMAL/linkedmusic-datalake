@@ -1,10 +1,13 @@
 # Reconciliation for Cantus Index
 
-- Open the file `cantus_items.json` in OpenRefine
+- Open the file `cantus_items.json` in OpenRefine, before clicking `Create project >>`, click on the first curly bracket to specify a record path.
+- Go to column `_ - feast` and select `Edit column > Add column based on this column...` then name the new columnn `feast_original`, and leave the expression as "value".
 - First reconcile the column `_ - feast` against `Christian holy day` (Q60075825)
 - Set the judgment facet to `none`, and set the best candidate's score facet to 99-101, and go to the column `_ - feast` and go to `Reconcile > Actions > Match each cell to its best candidate`.
-- close all facets.
-- Use this transformation:
+- Keep the judgement facet to `none`, reset the best candidate's score facet to 0-101, and go to the column `_ - feast` and go to `Reconcile > Actions > Create one new item for similar cells...` .
+- Close all facets.
+- Go to column `_ - genre` and select `Edit column > Add column based on this column...` then name the new columnn `genre_original`, and leave the expression as "value".
+- In the column `_ - genre`, go to `Edit cells > Transform... `, and then use this GREL transformation:
 ```
 if(value == "[?]", "Unknowable / Ambiguous",
 if(value == "[G]", "Mass chant",
@@ -124,15 +127,23 @@ if(value == "VRS", "Versus (Hispanic rite...)",
 if(value == "W", "Versicle",
 value))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 ```
-then reconcile against type of musical form, christian liturgical element, and hymn, music genre, christian prayer, genre of piyut, prayer
+- Reconcile the `_ - genre` column against musical form (Q862597), then set the judgment facet to `none` and reconcile against christian liturgical element (Q22687823)
+- Do the same for hymn (Q484692), music genre (Q188451) (after this one, set best candidats score facet to 99-101 and select `reconcile > Actions > Match each cell to its best candidate`. Reset best candidates score facet and continue), christian prayer (Q3627146), genre of piyyut (Q106238462), prayer (Q40953).
+- Keep the judgement facet to `none`, reset the best candidate's score facet to 0-101, and go to the column `_ - genre` and go to `Reconcile > Actions > Create one new item for similar cells...` .
+- Close all facets.
 
 `benidacmus domino` ? what should it be reconciled to?
 `benedictiones` ?
 
-- then go to column `_ - cao_concordances`, use this transformation: `value.replace(" ", "")`, get rid of empty spaces
+- Go to column `_ - cao_concordances` and select `Edit column > Add column based on this column...` then name the new columnn `cao_concordances_original`, and leave the expression as "value".
+- Then go to column `_ - cao_concordances`, select `Edit cells > Transform...` and use this transformation: 
+```
+value.replace(" ", "")
+```
+to get rid of empty spaces.
 - Then go to `Edit cells > Split multi-valued cells...`, use this regular expression: `(?<=\w)(?=\w)`, and select regular expression. This splits into all them separately
 - open a text facet. Make sure you are in row view.
 - Facet by `C`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to `Antiphonaire de Compiègne - BNF Lat17436 ` (Q26833944).
 - Facet by `D`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136886).
 - Facet by `F`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136090).
-- The other entries in `_ - cao_concordances` are not reconcilied at this moment, unable currently to find their entries in wikidata if they exist.
+- The other entries in `_ - cao_concordances` are not reconcilied at this moment, we are unable currently to find their entries in wikidata if they exist.

@@ -10,7 +10,7 @@ Use the script `fetch.py` in `code/cantus_index/fetch.py`, this gets the data an
 1. Navigate to the home folder for linkedmusic-datalake/.
 2. ```python3 ./code/cantus_index/fetch.py``` -> download all data and merge into single file
 
-There may be some errors when fetching the data, but should only be a couple errors
+There may be some errors when fetching the data, but the code automatically retries them so no need to worry
 
 
 ## 2. Reconciliation
