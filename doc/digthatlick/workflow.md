@@ -70,7 +70,7 @@ In the raw dataset, instruments are stored as abbreviations. To help reconciliat
 
 - Instrument labels can be used to more precisely reconcile performers (you specify in OpenRefine that the instrument is `instrument (P1303)` of the performer).
 
-  - Note that "ts" is expanded to simply "saxophone" because it helps performer reconciliation. It should be changed to "tenor saxophone" once reconciliation is complete.
+  - Note that "ts" is expanded to simply "saxophone" because it helps performer reconciliation. It is changed to "tenor saxophone" once reconciliation is complete.
 
 - start_time and end_time: removed from CSV since they are not needed (already in the URI).
 
