@@ -5,38 +5,46 @@ This document explains the process for handling RISM (Répertoire International 
 ## Prerequisites
 
 ### OpenRefine Setup
+
 1. Install [OpenRefine](https://openrefine.org/), version 3.9 or later.
 2. Install [RDF-transform](https://github.com/AtesComp/rdf-transform) to convert OpenRefine project data to RDF-based formats using the RDF-extension.
+
 > Note: the RDF-transform extension does not work on browsers Firefox or Safari.
 
 ### Mapping Configuration
-- Review the mapping file at `/linkedmusic-datalake/rism/src/ontology/mapping.json`.
-- Detailed mapping decisions are documented in `/linkedmusic-datalake/rism/src/ontology/mappingWithLog.json5`.
+
+- Review the mapping file at `rism/src/ontology/mapping.json`.
+
+> This mapping file contains mappings for some properties used in the RISM dataset
+
+- Detailed mapping decisions are documented in `rism/src/ontology/mappingWithLog.json5`.
 
 ## Processing Workflow
 
 ### 1. Splitting the Graph
+
 1. Open a terminal in the `linkedmusic-datalake` directory.
-2. Navigate to `./rism/src`.
+2. Navigate to `rism/src`.
 3. Run the splitting script using:
     - `python3 force_split.py` to use the default 500MB chunk size, or
     - `python3 force_split.py [size]` to specify a custom chunk size (e.g., `python3 force_split.py 500` for 500MB).
-    > Note: ensure the path to input_file and output_dir are configured properly within the `__main__` function of `force_split.py`. The processed files with corrected predicates will by default be saved to `/linkedmusic-datalake/rism/data/split_output`. It is highly recommended to store the data files outside of this github repo.
+    > Note: ensure the path to input_file and output_dir are configured properly within the `__main__` function of `force_split.py`. The processed files with corrected predicates will by default be saved to `rism/data/split_output`. It is highly recommended to store the data files outside of this github repo.
 
 ### 2. Processing with OpenRefine
+
 > Note: Red circles or rectangles in the screenshots indicate the elements you need to click. Other annotations are for reference only.
 
 For each file in the `split_output` directory (e.g., `part_1.ttl`, where all blank nodes from the original RDF n-triples file have been converted to specific URIs):
 
 1. **Create a New OpenRefine Project**:
-    - Open the target file located within your `split_output` directory e.g., `/linkedmusic-datalake/rism/data/split_output/part_1.ttl`.
+    - Open the target file located within your `split_output` directory e.g., `rism/data/split_output/part_1.ttl`.
 
 2. **Apply the RDF Skeleton for RISM**:
     > Follow the instructions in sequential order:
     ![RDF Skeleton](./assets/01.png)
     ![RDF Skeleton](./assets/02.jpg)
 
-    > Note: The ontology file has been moved to `/linkedmusic-datalake/rism/src/ontology`.
+    > Note: The ontology file has been moved to `rism/src/ontology`.
 
     ![RDF Skeleton](./assets/03.jpg)
     ![RDF Skeleton](./assets/04.png)
@@ -64,24 +72,28 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
     ![RDF Skeleton](./assets/11.jpg)
     ![RDF Skeleton](./assets/12.jpg)
 
-6. **Reconcile Other Relevant Columns** using the other json files located in `rism/openrefine/history/`.
+6. **Reconcile Other Relevant Columns** using the other json files located in `rism/openrefine`. Detailed reconciliation procedures for the relevant columns are located in `rism/doc/reconciliation_procedures`.
 
-7. **Export the RDF Data**:
-    ![RDF Skeleton](./assets/13.jpg)
+7. **Export to CSV**:
+    Go to `Export > Comma-separated value`.
 
-8. **Repeat Steps 1-7** for all remaining files located in the designated split output folder, by default located at `/linkedmusic-datalake/rism/data/split_output/`.
+8. **Repeat Steps 1-7** for all remaining files located in the designated split output folder, by default located at `rism/data/split_output/`.
 
 9. **Store All Reconciled Files** (in `.nt` format) within a folder titled `split_input` (e.g. on your desktop).
 
 > In some cases, the output file might be empty due RDF-transform error.
 > Reapply the RDF transform (repeat step 2) if you encounter an output error.
 
-### 3. Joining the Processed Files
-1. Navigate to `/linkedmusic-datalake/rism/src/`.
-2. Run `python3 force_join.py`.
-> Note: ensure the path to input_file and output_dir are configured properly within the `__main__` function of `force_join.py`. The final output will by default be created at `/linkedmusic-datalake/rism/data/joined_output.ttl`. It is highly recommended to store the data files outside of this github repo.
+### 3. Converting the reconciled CSV to Turtle
 
-The joined file represents the complete processed RISM dataset.
+Ensure that the reconciled CSV files are in the `rism/data/reconciled/` folder.
 
-### Others
-mappingWithLog.json5 records the logs or comments for reconciliation of properties or types.
+Then, from the `linkedmusic-datalake` directory, run the following command to convert the CSV files to Turtle:
+
+```bash
+python convert_to_rdf.py --input_folder rism/data/reconciled/ --mappings_folder rism/src/mappings/ --output_folder rism/data/rdf/
+```
+
+Each CSV file will be converted into a Turtle file in the `rism/data/rdf/` folder.
+
+For more details on the RDF conversion process, read [`rdf_conversion.md`](./rdf_conversion.md)
