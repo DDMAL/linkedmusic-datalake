@@ -48,6 +48,6 @@ The list of types is:
 
 ## Future work
 
-Currently, the RDF conversion script is built on the assumption that if a blank node is referenced in a CSV file (e.g. a source has a material group blank node), when that blank node will also appear in the same CSV file. A possible improvement is to solve this problem, so that data split between CSV files is not lost. A potential way to do this is to effectively combine all CSV files together when processing, and to split the graph by number of triples/chunks instead of making a graph per file (see the MusicBrainz RDF conversion script).
+Currently, the RDF conversion script is built on the assumption that if a blank node is referenced in a CSV file (e.g. a source has a material group blank node), then that blank node will also appear in the same CSV file. A possible improvement is to solve this problem, so that data split between CSV files is not lost. A potential way to do this is to effectively combine all CSV files together when processing, and to split the graph by number of triples/chunks instead of making a graph per file (see the MusicBrainz RDF conversion script).
 
 The [`reconciliation_todo.md`](/doc/rism/reconciliation_todo.md) file contains a list of future reconciliation work that was found when performing the RDF conversion process.
