@@ -1,2 +1,0 @@
-In this folder, it introduces different ways of converting CSV to RDF in Open Link Virtuoso.
-Please carefully read Documentation_CSV2RDF_Virtuoso2024Nov.pdf, which mentions all the other (auxiliary) files in this folder.
