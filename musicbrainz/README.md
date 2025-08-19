@@ -87,7 +87,7 @@ Below are the steps you must execute from your console once you have cloned the 
   - `keys.csv` for `key` field of all `work` entities (`key` == tonality; `work` == composition).
   - `genders.csv` for `gender` field of all `artist` entities.
   - `languages.csv` for `language` field of all `work` entities. The CSV includes an additional column, `full_language`, containing the full language name resolved from the ISO 639-3 code, using the `pycountry` library.
-- Follow the steps in [miscellanous_reconciliation.md](./miscellanous_reconciliation.md) to reconcile the CSVs against Wikidata.
+- Follow the steps in [miscellanous_reconciliation.md](./doc/miscellanous_reconciliation.md) to reconcile the CSVs against Wikidata.
 - Put the reconciled CSVs in the `musicbrainz/data/raw/reconciled` folder. Name them according to the following conventions:
   `f"{entity_type}-types-csv.csv"`, `"keys-csv.csv"`, `"genders-csv.csv"`, or `"languages-csv.csv"`.
 
@@ -95,7 +95,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
 - In addition to the above mentionned fields, the field `relationships` is also unreconciled in the raw MusicBrainz data.
 
-- Please consult [relationships_reconciliation.md](./relationships_reconciliation.md) to learn how to reconcile relationships against Wikidata.
+- Please consult [relationships_reconciliation.md](./doc/relationships_reconciliation.md) to learn how to reconcile relationships against Wikidata.
 
 #### **6. Converting Data to RDF (Turtle Format)**
 
@@ -106,7 +106,7 @@ Below are the steps you must execute from your console once you have cloned the 
   ```
 
 - The generated RDF files are saved in the `data/musicbrainz/rdf/` directory.
-- Please consult [rdf_conversion.md](./rdf_conversion.md) to learn more about our RDF conversion for MusicBrainz.
+- Please consult [rdf_conversion.md](./doc/rdf_conversion.md) to learn more about our RDF conversion for MusicBrainz.
 
 #### **7. Retrieving Genre Information**
 

@@ -41,36 +41,36 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
 
 2. **Apply the RDF Skeleton for RISM**:
     > Follow the instructions in sequential order:
-    ![RDF Skeleton](./assets/01.png)
-    ![RDF Skeleton](./assets/02.jpg)
+    ![RDF Skeleton](./doc/assets/01.png)
+    ![RDF Skeleton](./doc/assets/02.jpg)
 
     > Note: The ontology file has been moved to `rism/src/ontology`.
 
-    ![RDF Skeleton](./assets/03.jpg)
-    ![RDF Skeleton](./assets/04.png)
+    ![RDF Skeleton](./doc/assets/03.jpg)
+    ![RDF Skeleton](./doc/assets/04.png)
 
 3. **Reconcile the Type Column**:
-    ![RDF Skeleton](./assets/05.jpg)
-    ![RDF Skeleton](./assets/06.png)
+    ![RDF Skeleton](./doc/assets/05.jpg)
+    ![RDF Skeleton](./doc/assets/06.png)
     
     Use the `instance_of.json` file located in `rism/openrefine/history/`.
 
     > Note: The OpenRefine step files used to be in `rism/data/reconciled`.
 
-    ![RDF Skeleton](./assets/07.jpg)
+    ![RDF Skeleton](./doc/assets/07.jpg)
 
     > Note: OpenRefine may prompt you to select the file multiple times due to a bug. Simply reselect the same file each time.
 
-    ![RDF Skeleton](./assets/08.jpg)
+    ![RDF Skeleton](./doc/assets/08.jpg)
 
 4. **Reconcile All Cells of the "Label" Predicates for Human/Person Subjects**:
-    ![RDF Skeleton](./assets/09.jpg)
-    ![RDF Skeleton](./assets/10.jpg)
+    ![RDF Skeleton](./doc/assets/09.jpg)
+    ![RDF Skeleton](./doc/assets/10.jpg)
 
 5. **Apply Judgments to Unreconciled Cells**:
     > **IMPORTANT**: Make informed decisions for unreconciled cells. This repository does not include predefined judgments, as this process is for testing purposes.
-    ![RDF Skeleton](./assets/11.jpg)
-    ![RDF Skeleton](./assets/12.jpg)
+    ![RDF Skeleton](./doc/assets/11.jpg)
+    ![RDF Skeleton](./doc/assets/12.jpg)
 
 6. **Reconcile Other Relevant Columns** using the other json files located in `rism/openrefine`. Detailed reconciliation procedures for the relevant columns are located in `rism/doc/reconciliation_procedures`.
 
@@ -96,4 +96,4 @@ python convert_to_rdf.py --input_folder rism/data/reconciled/ --mappings_folder 
 
 Each CSV file will be converted into a Turtle file in the `rism/data/rdf/` folder.
 
-For more details on the RDF conversion process, read [`rdf_conversion.md`](./rdf_conversion.md)
+For more details on the RDF conversion process, read [`rdf_conversion.md`](./doc/rdf_conversion.md)

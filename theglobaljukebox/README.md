@@ -14,13 +14,13 @@ Note that for each dataset in The Global Jukebox, the `codings.csv` file is skip
 
 Also note that since every section of The Global Jukebox contains a `societies.csv` file, it may be prudent to merge them into one, as they appear to overlap significantly.
 
-Refer to [reconcile_procedures.md](./reconcile_procedures.md) for a step by step guide on The Global Jukebox reconciliation and [general_reconciliation_notes.md](./general_reconciliation_notes.md) for notes on specific entities and properties.
+Refer to [reconcile_procedures.md](./doc/reconcile_procedures.md) for a step by step guide on The Global Jukebox reconciliation and [general_reconciliation_notes.md](./doc/general_reconciliation_notes.md) for notes on specific entities and properties.
 
 Refer to [Step 3](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset#3-reconcile-the-data-to-wikidata) of the general pipeline instructions for general reconciliation information.
 
 ## Converting to RDF
 
-The current TOML file with property matches can be found in [/shared/rdf_config/theglobaljukebox.toml](/shared/rdf_config/theglobaljukebox.toml).
+The current TOML file with property matches can be found in [shared/rdf_config/theglobaljukebox.toml](/shared/rdf_config/theglobaljukebox.toml).
 
 Refer to [Step 4](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset#4-convert-the-reconciled-data-to-rdf) of the general pipeline instructions for RDF conversion information.
 

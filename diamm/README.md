@@ -24,13 +24,13 @@ As per discussion in [#287](https://github.com/DDMAL/linkedmusic-datalake/issues
 
 ## 2. Processing Data
 
-See [`data_layout.md`](./data_layout.md) for a brief overview of the data downloaded by the scraper. The script [`diamm/src/to_csv.py`](/diamm/src/to_csv.py) parses the downloaded JSON data into CSVs, with columns described in [`csv_fields.md`](./csv_fields.md). Relations, like the list of sources contained in an archive, are stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. This includes both one-to-many and many-to-many relations. The CSV files are sent to the `diamm/data/csv/` folder.
+See [`data_layout.md`](./doc/data_layout.md) for a brief overview of the data downloaded by the scraper. The script [`diamm/src/to_csv.py`](/diamm/src/to_csv.py) parses the downloaded JSON data into CSVs, with columns described in [`csv_fields.md`](./doc/csv_fields.md). Relations, like the list of sources contained in an archive, are stored in the `relations.csv` file, to be reused when we turn the reconciled data into RDF. This includes both one-to-many and many-to-many relations. The CSV files are sent to the `diamm/data/csv/` folder.
 
 Additionally, a utility class for the `to_csv.py` script is located in the `diamm/src/utils.py` module.
 
 ## 3. Reconciling Data
 
-All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
+All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./doc/reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
 
 ## 4. Transforming to RDF (Turtle)
 
@@ -38,7 +38,7 @@ The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconc
 
 For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
 
-The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in [`relationships.md`](./relationships.md).
+The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in [`relationships.md`](./doc/relationships.md).
 
 Some properties of interest:
 
