@@ -1,6 +1,6 @@
 # Applying Histories:
 > Do this before reading further.
-- In the `reconciliation_history` folder, JSON files are generated in OpenRefine via `Undo/Redo > Extract... > Export`.
+- In the `thesession/openrefine/history/` folder, JSON files are generated in OpenRefine via `Undo/Redo > Extract... > Export`.
 - These files can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
 - This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
 

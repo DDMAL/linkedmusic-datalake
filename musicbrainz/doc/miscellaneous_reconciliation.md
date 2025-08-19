@@ -12,7 +12,7 @@ Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro co
 
 There is also the field `relationship` whose **properties**/**predicates** are unreconciled. This field is treated separately in [`relationships_reconciliation.md`](./relationships_reconciliation.md).
 
-For each reconciliation, both OpenRefine history and export settings JSON files are located in the `musicbrainz/doc/reconciliation_files/` folder
+For each reconciliation, both OpenRefine history and export settings JSON files are located in the `musicbrainz/openrefine/` folder
 
 ## Types
 

@@ -26,7 +26,7 @@ The ```cantus.csv``` file should be imported into OpenRefine for further operati
 
 ### Reconciliation
 
-- The `cantusdb/jsonld_approach/openrefine/sources_history.json` can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the `sources_history.json` file is specific against a particular test, mistakes are likely to happen.
+- The `cantus/openrefine/history/sources_history.json` can be imported directly into OpenRefine by Undo/Redo > Apply > choose the file to skip the following process. However, if the datasets are updated, since the `sources_history.json` file is specific against a particular test, mistakes are likely to happen.
 
 1. Create `service_@id`, `mode_@id` and `genre_@id` columns as copies of the respective columns.
 2. Reconcile the `service_@id` column against "Prayer in the Catholic Church" instance Q3406098.

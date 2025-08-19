@@ -45,7 +45,7 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
     ![RDF Skeleton](./assets/05.jpg)
     ![RDF Skeleton](./assets/06.png)
     
-    Use the `instance_of.json` file located in `/linkedmusic-datalake/rism/src/openrefine`.
+    Use the `instance_of.json` file located in `rism/openrefine/history/`.
 
     > Note: The OpenRefine step files used to be in `rism/data/reconciled`.
 
@@ -64,7 +64,7 @@ For each file in the `split_output` directory (e.g., `part_1.ttl`, where all bla
     ![RDF Skeleton](./assets/11.jpg)
     ![RDF Skeleton](./assets/12.jpg)
 
-6. **Reconcile Other Relevant Columns** using the other json files located in `/linkedmusic-datalake/rism/src/openrefine`.
+6. **Reconcile Other Relevant Columns** using the other json files located in `rism/openrefine/history/`.
 
 7. **Export the RDF Data**:
     ![RDF Skeleton](./assets/13.jpg)

@@ -30,7 +30,7 @@ Additionally, a utility class for the `to_csv.py` script is located in the `diam
 
 ## 3. Reconciling Data
 
-All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./reconciliation.md). The `diamm/doc/reconciliation_files` folder contains the history and export template files for the reconciliation of each CSV.
+All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
 
 ## 4. Transforming to RDF (Turtle)
 

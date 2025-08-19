@@ -1,6 +1,8 @@
 # DIAMM Database Reconciliation Details
 
-This file describes the reconciliation steps taken in OpenRefine for each data type. All these steps are also reflected in the history files located in the `diamm/doc/reconciliation_files` folder
+This file describes the reconciliation steps taken in OpenRefine for each data type. All these steps are also reflected in the history files located in the `diamm/openrefine/history/` folder.
+
+Export files for all data types are located in the `diamm/openrefine/export/` folder.
 
 During every reconciliation step, if OpenRefine gives an error, select the entries that gave error messages and re-run the same reconciliation. This seems to happen when we run too many reconciliations in parallel, and/or when the reconciliation API server is overwhelmed.
 

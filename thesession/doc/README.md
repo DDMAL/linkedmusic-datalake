@@ -37,7 +37,7 @@ This step assigns a unique URI to each artist, even though these URIs are not cu
 Data reconciliation involves cleaning and standardizing raw data. Two methods are available:
 
 - Use OpenRefine, following the instructions provided in the `/thesession/doc/reconcile_procedures.md` file.
-- Alternatively, import the steps from the `reconciliation_history` folder into OpenRefine for reference.
+- Alternatively, import the steps from the `thesession/openrefine/history/` folder into OpenRefine for reference.
 
 > Be cautious when using this step, as changes to OpenRefine and The Session may affect the process. Review the data afterward to ensure its accuracy.
 

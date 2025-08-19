@@ -21,7 +21,7 @@ This produces 2 CSV files, `final_flattened.csv`, a flattening of all the tables
 
 ## 2. Reconciliation with OpenRefine
 
-OpenRefine reconciliation was performed on `initial_flattened.csv` and on `files.csv`. You can see the reconciled files `reconciled_wikiID.csv` and `reconciled_files_WikiID.csv`. You can use `simssa/jsonld_approach/openrefine/history_flattened.json` and `simssa/jsonld_approach/openrefine/history_files.json` to facilitate reconciliation and `simssa/jsonld_approach/openrefine/export_template_flattened.json` and `simssa/jsonld_approach/openrefine/export_template_files.json` to export to the desired csv format.
+OpenRefine reconciliation was performed on `initial_flattened.csv` and on `files.csv`. You can see the reconciled files `reconciled_wikiID.csv` and `reconciled_files_WikiID.csv`. You can use `simssa/openrefine/history/history_flattened.json` and `simssa/openrefine/history/history_files.json` to facilitate reconciliation and `simssa/openrefine/export/export_template_flattened.json` and `simssa/openrefine/export/export_template_files.json` to export to the desired csv format.
 
 ## 3. Reconcile column names and generating json-ld
 
