@@ -102,6 +102,6 @@ python -m rdfconv.convert rdf_config/digthatlick.toml
 
 ## Note about Namespace
 
-The Dig That Lick project has [a page at OSF](https://osf.io/bwg42/files/osfstorage?view_only=), on which can be found DTL1000.ttl. In the official DTL1000.ttl, the namespace used for solos is `http://www.DTL.org`, a domain name that would bring to an unrelated website.
+The Dig That Lick project has [a page at OSF](https://osf.io/bwg42/files/osfstorage?view_only=) that has DTL1000.ttl on it. In the official DTL1000.ttl, the namespace used for solos is `http://www.DTL.org`, a domain name that would bring you to an unrelated website.
 
 Thus, we have temporarily adopted the namespace `http://www.DTL.org` to maintain compatibility with the official DTL1000.ttl file, despite its drawbacks. We may consider using a redirection service eventually (see [Issue 373](https://github.com/DDMAL/linkedmusic-datalake/issues/373)).
