@@ -187,19 +187,8 @@ def save_dataframes(
     )
 
 
-def main():
+def main(args: argparse.Namespace) -> None:
     """Main function to orchestrate the data processing pipeline."""
-    # Parse command-line arguments
-    parser = argparse.ArgumentParser(
-        description="Process and split the DTL1000 dataset."
-    )
-    parser.add_argument(
-        "--input",
-        type=str,
-        default=DEFAULT_INPUT_FILE,
-        help=f"Path to the input CSV file. Defaults to '{DEFAULT_INPUT_FILE}'.",
-    )
-    args = parser.parse_args()
 
     # Load the dataset
     df = pd.read_csv(args.input, sep=";")
@@ -220,4 +209,15 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description="Process and split the DTL1000 dataset."
+    )
+    parser.add_argument(
+        "--input",
+        type=str,
+        default=DEFAULT_INPUT_FILE,
+        help=f"Path to the input CSV file. Defaults to '{DEFAULT_INPUT_FILE}'.",
+    )
+    args = parser.parse_args()
+    main(args)
