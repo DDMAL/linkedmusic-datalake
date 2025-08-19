@@ -54,9 +54,9 @@ The below rules are to conform with RDF standards and with Wikidata standards
 
 MusicBrainz has a lot of identifiers to other databases, which significantly complicates the structure of the graph without really providing a benefit for prompting (see [#430](https://github.com/DDMAL/linkedmusic-datalake/issues/430)). As such, it was decided to not store any database IDs (other than QIDs).
 
-However, since work was already done to map database IDs to properties, removed mappings will be located in the [`musicbrainz/doc/removed_properties/attribute_mapping.json`](/musicbrainz/doc/removed_properties/attribute_mapping.json) file for attributes, and in the [`musicbrainz/doc/removed_properties/mappings.json`](/musicbrainz/doc/removed_properties/mappings.json) file for general mappings. These files follow the same dictionary structure as the files with the same name in the `musicbrainz/src/rdf_conversion_config` folder.
+However, since work was already done to map database IDs to properties, removed mappings will be located in the [`musicbrainz/removed_properties/attribute_mapping.json`](/musicbrainz/removed_properties/attribute_mapping.json) file for attributes, and in the [`musicbrainz/removed_properties/mappings.json`](/musicbrainz/removed_properties/mappings.json) file for general mappings. These files follow the same dictionary structure as the files with the same name in the `musicbrainz/src/rdf_conversion_config` folder.
 
-Additionally, all the regex patterns in the [`musicbrainz/doc/removed_properties/url_patterns.py`](/musicbrainz/doc/removed_properties/url_patterns.py) are now irrelevant because they all match external identifiers. As such, it was moved to the `removed_properties` folder.
+Additionally, all the regex patterns in the [`musicbrainz/removed_properties/url_patterns.py`](/musicbrainz/removed_properties/url_patterns.py) are now irrelevant because they all match external identifiers. As such, it was moved to the `removed_properties` folder.
 
 ## Attributes
 
@@ -75,7 +75,7 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 We store all URLs (except for Wikidata URIs) as string literals in the [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888) property, and Wikidata URIs are also stored in this property, but as URIs.
 
-As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, we no longer store IDs to external non-Wikidata databases, but the following section has been kept in the event that we choose to reintegrate those IDs, to not lose the work that was done. The file containing the URL patterns has been moved to the `doc/musicbrainz/removed_properties` folder.
+As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, we no longer store IDs to external non-Wikidata databases, but the following section has been kept in the event that we choose to reintegrate those IDs, to not lose the work that was done. The file containing the URL patterns has been moved to the `musicbrainz/removed_properties` folder.
 
 For some databases, MusicBrainz decides to store number IDs (e.g. Discogs Artist ID 1000 ). For other databases, MusicBrainz decide to store the full url (e.g. <https://www.discogs.com/artist/25058>).
 
