@@ -1,0 +1,57 @@
+[general]
+name = "cantusdb"
+csv_folder = "../../data/cantus/reconciled"
+rdf_output_folder = "../../data/cantus/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+cc = "https://cantusdatabase.org/chant/"
+cs = "https://cantusdatabase.org/source/"
+cii = "https://cantusindex.org/id/"
+lmcd = "https://linkedmusic.ca/graphs/cantusdb/"
+
+[cantus-reconciled]
+PRIMARY_KEY = "chant_id"
+source_id = { pred = "P361", type = "lmcd:Source" }  # part of (P361)
+shelfmark = ""
+marginalia = ""
+folio = ""
+sequence = ""
+incipit = "rdfs:label" 
+feast = "P837"  # day in year for periodic occurrence (P837)
+feast_original = ""
+service_original = ""
+service = "P366"  # has use (P366)
+genre_original = ""
+genre = "P136"  # genre (P136)
+position = ""
+cantus_id = {pred = "P2888", prefix = "cii"}  # exact match (P2888)
+mode_original = ""
+mode = { pred = "P826", if = "str(obj).startswith('http')"}  # tonality (P826)
+finalis = ""
+differentia = ""
+differentiae_database = ""
+fulltext_standardized = ""
+fulltext_ms = ""
+volpiano = ""
+image_link = "P18"  # image (P18)
+melody_id = ""
+addendum = ""
+extra = ""
+
+[cantus-reconciled.chant_id]
+prefix = "cc"
+type = "lmcd:Chant"
+
+[cantus-reconciled.source_label]
+subj = "source_id"
+pred = "rdfs:label"
+
+[cantus-reconciled.holding_institution]
+subj = "source_id"
+pred = "P276"  # location (P276)
