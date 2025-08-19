@@ -1,0 +1,1207 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "_ - feast",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "feast_original",
+    "columnInsertIndex": 3,
+    "description": "Create column feast_original at index 3 based on column _ - feast using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "_ - feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q60075825",
+        "name": "Christian holy day"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - feast to type Q60075825"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "_ - feast: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "_ - feast",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - feast",
+    "description": "Match each cell to its best recon candidate in column _ - feast"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q60075825",
+        "name": "Christian holy day"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - feast to type Q60075825"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q60075825",
+        "name": "Christian holy day"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - feast to type Q60075825"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - feast",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q60075825",
+        "name": "Christian holy day"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - feast to type Q60075825"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - feast: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - feast",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - feast",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column _ - feast, one item for each group of similar cells"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "_ - genre",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "genre_original",
+    "columnInsertIndex": 2,
+    "description": "Create column genre_original at index 2 based on column _ - genre using expression grel:value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "expression": "grel:if(value == \"[?]\", \"Unknowable / Ambiguous\",\nif(value == \"[G]\", \"Mass chant\",\nif(value == \"[GV]\", \"Verse of a Mass chant\",\nif(value == \"[M]\", \"Miscellaneous\",\nif(value == \"[MO]\", \"Mass Ordinary\",\nif(value == \"A\", \"Antiphon\",\nif(value == \"ACC\", \"Ad accedentes\",\nif(value == \"ACCV\", \"Ad accedentes verse\",\nif(value == \"Ag\", \"Agnus dei\",\nif(value == \"Al\", \"Alleluia\",\nif(value == \"ALL\", \"Alleluiaticus\",\nif(value == \"ALLV\", \"Alleluiaticus verse\",\nif(value == \"AlV\", \"Alleluia verse\",\nif(value == \"ANT\", \"Antiphon (Hispanic rite)\",\nif(value == \"ANTV\", \"Antiphon verse (Hispanic rite)\",\nif(value == \"AP\", \"Processional antiphon\",\nif(value == \"AV\", \"Antiphon verse\",\nif(value == \"BD\", \"Benedicamus domino\",\nif(value == \"BNMT\", \"Benedictiones (matutinum)\",\nif(value == \"BNMTV\", \"Benedictiones (matutinum) verse\",\nif(value == \"BNOF\", \"Benedictiones (office)\",\nif(value == \"BNOFV\", \"Benedictiones (office) verse\",\nif(value == \"BNS\", \"Benedictiones (mass)\",\nif(value == \"BNSV\", \"Benedictiones (mass) verse\",\nif(value == \"Ca\", \"Canticle\",\nif(value == \"CaH\", \"Canticle (Hispanic rite)\",\nif(value == \"Cap\", \"Capitulum\",\nif(value == \"CaV\", \"Canticle verse\",\nif(value == \"CaVH\", \"Canticle verse (Hispanic rite)\",\nif(value == \"CFP\", \"Ad confractionem panis\",\nif(value == \"CFPV\", \"Ad confractionem panis verse\",\nif(value == \"CLM\", \"Clamores (mass)\",\nif(value == \"CLMO\", \"Clamores (office)\",\nif(value == \"CLMOV\", \"Clamores (office) verse\",\nif(value == \"CLMV\", \"Clamores (mass) verse\",\nif(value == \"Cm\", \"Communion\",\nif(value == \"CmR\", \"Versus ad repetendum for the communion\",\nif(value == \"CmV\", \"Communion verse\",\nif(value == \"Cn\", \"Cantio, Cantiones\",\nif(value == \"CnV\", \"Cantio Verse\",\nif(value == \"Cr\", \"Credo\",\nif(value == \"D\", \"Dramatic element\",\nif(value == \"Gl\", \"Gloria\",\nif(value == \"Gr\", \"Gradual\",\nif(value == \"GRC\", \"Graecus\",\nif(value == \"GrV\", \"Gradual verse\",\nif(value == \"H\", \"Hymn\",\nif(value == \"HV\", \"Hymn verse\",\nif(value == \"HYMN\", \"Hymn\",\nif(value == \"I\", \"Invitatory antiphon\",\nif(value == \"Ig\", \"Ingressa\",\nif(value == \"In\", \"Introit\",\nif(value == \"InR\", \"Versus ad repetendum for the Introit\",\nif(value == \"InV\", \"Introit verse\",\nif(value == \"IP\", \"Invitatory psalm\",\nif(value == \"Ite\", \"Ite missa est\",\nif(value == \"Ky\", \"Kyrie\",\nif(value == \"L\", \"Lesson\",\nif(value == \"LDMT\", \"Laudes (matutinum)\",\nif(value == \"LDMTV\", \"Laudes (matutinum) verse\",\nif(value == \"LDOF\", \"Laudes (office)\",\nif(value == \"LDOFV\", \"Laudes (office) verse\",\nif(value == \"LDS\", \"Laudes (mass)\",\nif(value == \"LDSV\", \"Laudes (mass) verse\",\nif(value == \"Li\", \"Litany\",\nif(value == \"LiV\", \"Litany verse\",\nif(value == \"MSR\", \"Miserationes\",\nif(value == \"MSRV\", \"Miserationes verse\",\nif(value == \"MT\", \"Matutinarium\",\nif(value == \"MTV\", \"Matutinarium verse\",\nif(value == \"Of\", \"Offertory\",\nif(value == \"OfV\", \"Offertory verse\",\nif(value == \"Or\", \"Oratio / Prayer\",\nif(value == \"PAC\", \"Ad pacem\",\nif(value == \"PACV\", \"Ad pacem verse\",\nif(value == \"Pn\", \"Pater noster\",\nif(value == \"Pr\", \"Prefatio\",\nif(value == \"PRCS\", \"Preces\",\nif(value == \"PRCSV\", \"Preces verse\",\nif(value == \"PRLG\", \"Praelegendum\",\nif(value == \"PRLGV\", \"Praelegendum verse\",\nif(value == \"PS\", \"Psalm\",\nif(value == \"Psa\", \"Prosa\",\nif(value == \"Psl\", \"Prosula\",\nif(value == \"PSLD\", \"Psallendo\",\nif(value == \"PSLDV\", \"Psallendo verse\",\nif(value == \"PSLM\", \"Psalmo\",\nif(value == \"PSLMV\", \"Psalmo verse\",\nif(value == \"R\", \"Responsory\",\nif(value == \"RS\", \"Responsory (Hispanic rite)\",\nif(value == \"RSV\", \"Responsory verse (Hispanic rite)\",\nif(value == \"Sa\", \"Sanctus\",\nif(value == \"SCR\", \"Sacrificium\",\nif(value == \"SCRV\", \"Sacrificium verse\",\nif(value == \"SNCT\", \"Ad sanctus\",\nif(value == \"SNCTV\", \"Ad sanctus verse\",\nif(value == \"SNO\", \"Sono\",\nif(value == \"SNOV\", \"Sono verse\",\nif(value == \"Sq\", \"Sequence\",\nif(value == \"SqV\", \"Sequence verse\",\nif(value == \"Tc\", \"Tract\",\nif(value == \"TcV\", \"Tract verse\",\nif(value == \"Tp\", \"Trope\",\nif(value == \"TpBD\", \"Troped Benedicamus domino\",\nif(value == \"TpIte\", \"Troped Ite missa est\",\nif(value == \"TRN\", \"Threno\",\nif(value == \"TRNV\", \"Threno verse\",\nif(value == \"V\", \"Responsory verse\",\nif(value == \"Va\", \"Varia\",\nif(value == \"VaHW\", \"Varia within Holy Week\",\nif(value == \"VAR\", \"Varia (Hispanic rite)\",\nif(value == \"VARV\", \"Varia verse (Hispanic rite)\",\nif(value == \"VPR\", \"Vespertinus\",\nif(value == \"VPRV\", \"Vespertinus verse\",\nif(value == \"VRS\", \"Versus (Hispanic rite...)\",\nif(value == \"W\", \"Versicle\",\nvalue))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column _ - genre using expression grel:if(value == \"[?]\", \"Unknowable / Ambiguous\",\nif(value == \"[G]\", \"Mass chant\",\nif(value == \"[GV]\", \"Verse of a Mass chant\",\nif(value == \"[M]\", \"Miscellaneous\",\nif(value == \"[MO]\", \"Mass Ordinary\",\nif(value == \"A\", \"Antiphon\",\nif(value == \"ACC\", \"Ad accedentes\",\nif(value == \"ACCV\", \"Ad accedentes verse\",\nif(value == \"Ag\", \"Agnus dei\",\nif(value == \"Al\", \"Alleluia\",\nif(value == \"ALL\", \"Alleluiaticus\",\nif(value == \"ALLV\", \"Alleluiaticus verse\",\nif(value == \"AlV\", \"Alleluia verse\",\nif(value == \"ANT\", \"Antiphon (Hispanic rite)\",\nif(value == \"ANTV\", \"Antiphon verse (Hispanic rite)\",\nif(value == \"AP\", \"Processional antiphon\",\nif(value == \"AV\", \"Antiphon verse\",\nif(value == \"BD\", \"Benedicamus domino\",\nif(value == \"BNMT\", \"Benedictiones (matutinum)\",\nif(value == \"BNMTV\", \"Benedictiones (matutinum) verse\",\nif(value == \"BNOF\", \"Benedictiones (office)\",\nif(value == \"BNOFV\", \"Benedictiones (office) verse\",\nif(value == \"BNS\", \"Benedictiones (mass)\",\nif(value == \"BNSV\", \"Benedictiones (mass) verse\",\nif(value == \"Ca\", \"Canticle\",\nif(value == \"CaH\", \"Canticle (Hispanic rite)\",\nif(value == \"Cap\", \"Capitulum\",\nif(value == \"CaV\", \"Canticle verse\",\nif(value == \"CaVH\", \"Canticle verse (Hispanic rite)\",\nif(value == \"CFP\", \"Ad confractionem panis\",\nif(value == \"CFPV\", \"Ad confractionem panis verse\",\nif(value == \"CLM\", \"Clamores (mass)\",\nif(value == \"CLMO\", \"Clamores (office)\",\nif(value == \"CLMOV\", \"Clamores (office) verse\",\nif(value == \"CLMV\", \"Clamores (mass) verse\",\nif(value == \"Cm\", \"Communion\",\nif(value == \"CmR\", \"Versus ad repetendum for the communion\",\nif(value == \"CmV\", \"Communion verse\",\nif(value == \"Cn\", \"Cantio, Cantiones\",\nif(value == \"CnV\", \"Cantio Verse\",\nif(value == \"Cr\", \"Credo\",\nif(value == \"D\", \"Dramatic element\",\nif(value == \"Gl\", \"Gloria\",\nif(value == \"Gr\", \"Gradual\",\nif(value == \"GRC\", \"Graecus\",\nif(value == \"GrV\", \"Gradual verse\",\nif(value == \"H\", \"Hymn\",\nif(value == \"HV\", \"Hymn verse\",\nif(value == \"HYMN\", \"Hymn\",\nif(value == \"I\", \"Invitatory antiphon\",\nif(value == \"Ig\", \"Ingressa\",\nif(value == \"In\", \"Introit\",\nif(value == \"InR\", \"Versus ad repetendum for the Introit\",\nif(value == \"InV\", \"Introit verse\",\nif(value == \"IP\", \"Invitatory psalm\",\nif(value == \"Ite\", \"Ite missa est\",\nif(value == \"Ky\", \"Kyrie\",\nif(value == \"L\", \"Lesson\",\nif(value == \"LDMT\", \"Laudes (matutinum)\",\nif(value == \"LDMTV\", \"Laudes (matutinum) verse\",\nif(value == \"LDOF\", \"Laudes (office)\",\nif(value == \"LDOFV\", \"Laudes (office) verse\",\nif(value == \"LDS\", \"Laudes (mass)\",\nif(value == \"LDSV\", \"Laudes (mass) verse\",\nif(value == \"Li\", \"Litany\",\nif(value == \"LiV\", \"Litany verse\",\nif(value == \"MSR\", \"Miserationes\",\nif(value == \"MSRV\", \"Miserationes verse\",\nif(value == \"MT\", \"Matutinarium\",\nif(value == \"MTV\", \"Matutinarium verse\",\nif(value == \"Of\", \"Offertory\",\nif(value == \"OfV\", \"Offertory verse\",\nif(value == \"Or\", \"Oratio / Prayer\",\nif(value == \"PAC\", \"Ad pacem\",\nif(value == \"PACV\", \"Ad pacem verse\",\nif(value == \"Pn\", \"Pater noster\",\nif(value == \"Pr\", \"Prefatio\",\nif(value == \"PRCS\", \"Preces\",\nif(value == \"PRCSV\", \"Preces verse\",\nif(value == \"PRLG\", \"Praelegendum\",\nif(value == \"PRLGV\", \"Praelegendum verse\",\nif(value == \"PS\", \"Psalm\",\nif(value == \"Psa\", \"Prosa\",\nif(value == \"Psl\", \"Prosula\",\nif(value == \"PSLD\", \"Psallendo\",\nif(value == \"PSLDV\", \"Psallendo verse\",\nif(value == \"PSLM\", \"Psalmo\",\nif(value == \"PSLMV\", \"Psalmo verse\",\nif(value == \"R\", \"Responsory\",\nif(value == \"RS\", \"Responsory (Hispanic rite)\",\nif(value == \"RSV\", \"Responsory verse (Hispanic rite)\",\nif(value == \"Sa\", \"Sanctus\",\nif(value == \"SCR\", \"Sacrificium\",\nif(value == \"SCRV\", \"Sacrificium verse\",\nif(value == \"SNCT\", \"Ad sanctus\",\nif(value == \"SNCTV\", \"Ad sanctus verse\",\nif(value == \"SNO\", \"Sono\",\nif(value == \"SNOV\", \"Sono verse\",\nif(value == \"Sq\", \"Sequence\",\nif(value == \"SqV\", \"Sequence verse\",\nif(value == \"Tc\", \"Tract\",\nif(value == \"TcV\", \"Tract verse\",\nif(value == \"Tp\", \"Trope\",\nif(value == \"TpBD\", \"Troped Benedicamus domino\",\nif(value == \"TpIte\", \"Troped Ite missa est\",\nif(value == \"TRN\", \"Threno\",\nif(value == \"TRNV\", \"Threno verse\",\nif(value == \"V\", \"Responsory verse\",\nif(value == \"Va\", \"Varia\",\nif(value == \"VaHW\", \"Varia within Holy Week\",\nif(value == \"VAR\", \"Varia (Hispanic rite)\",\nif(value == \"VARV\", \"Varia verse (Hispanic rite)\",\nif(value == \"VPR\", \"Vespertinus\",\nif(value == \"VPRV\", \"Vespertinus verse\",\nif(value == \"VRS\", \"Versus (Hispanic rite...)\",\nif(value == \"W\", \"Versicle\",\nvalue))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q862597",
+        "name": "musical form"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - genre to type Q862597"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q22687823",
+        "name": "Christian liturgical element"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - genre to type Q22687823"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q484692",
+        "name": "hymn"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - genre to type Q484692"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q188451",
+        "name": "music genre"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - genre to type Q188451"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "_ - genre: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "_ - genre",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "description": "Match each cell to its best recon candidate in column _ - genre"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q3627146",
+        "name": "Christian prayer"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - genre to type Q3627146"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "_ - genre: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "_ - genre",
+          "from": 24,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q106238462",
+        "name": "genre of piyyut"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - genre to type Q106238462"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "_ - genre: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "_ - genre",
+          "from": 24,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q40953",
+        "name": "prayer"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - genre to type Q40953"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - genre: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column _ - genre, one item for each group of similar cells"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "_ - genre",
+          "columnName": "_ - genre",
+          "query": "bene",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "similarValue": "Benedicamus domino",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2895757",
+      "name": "Benedicamus Domino",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Benedicamus Domino (Q2895757) for cells containing \"Benedicamus domino\" in column _ - genre"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "_ - genre",
+          "columnName": "_ - genre",
+          "query": "bene",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - genre",
+    "similarValue": "Benedicamus domino",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Benedicamus domino\" in column _ - genre"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "_ - cao_concordances",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "cao_concordances_original",
+    "columnInsertIndex": 14,
+    "description": "Create column cao_concordances_original at index 14 based on column _ - cao_concordances using expression grel:value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "_ - cao_concordances",
+    "expression": "grel:value.replace(\" \", \"\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column _ - cao_concordances using expression grel:value.replace(\" \", \"\")"
+  },
+  {
+    "op": "core/multivalued-cell-split",
+    "columnName": "_ - cao_concordances",
+    "keyColumnName": "_ - cid",
+    "mode": "separator",
+    "separator": "(?<=\\w)(?=\\w)",
+    "regex": true,
+    "description": "Split multi-valued cells in column _ - cao_concordances"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - cao_concordances",
+          "expression": "value",
+          "columnName": "_ - cao_concordances",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "C",
+                "l": "C"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - cao_concordances",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": false,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column _ - cao_concordances to type null"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - cao_concordances",
+          "expression": "value",
+          "columnName": "_ - cao_concordances",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "C",
+                "l": "C"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - cao_concordances",
+    "similarValue": "C",
+    "judgment": "matched",
+    "match": {
+      "id": "Q26833944",
+      "name": "Antiphonaire de Compiègne - BNF Lat17436",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Antiphonaire de Compiègne - BNF Lat17436 (Q26833944) for cells containing \"C\" in column _ - cao_concordances"
+  },
+  {
+    "op": "core/recon-match-specific-topic-to-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - cao_concordances",
+          "expression": "value",
+          "columnName": "_ - cao_concordances",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "D",
+                "l": "D"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - cao_concordances",
+    "match": {
+      "id": "Q125136886",
+      "name": "Q125136886",
+      "types": [
+        ""
+      ]
+    },
+    "identifierSpace": "http://www.wikidata.org/entity/",
+    "schemaSpace": "http://www.wikidata.org/prop/direct/",
+    "description": "Match specific item Q125136886 (Q125136886) to cells in column _ - cao_concordances"
+  },
+  {
+    "op": "core/recon-match-specific-topic-to-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - cao_concordances",
+          "expression": "value",
+          "columnName": "_ - cao_concordances",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "F",
+                "l": "F"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - cao_concordances",
+    "match": {
+      "id": "Q125136090",
+      "name": "Q125136090",
+      "types": [
+        ""
+      ]
+    },
+    "identifierSpace": "http://www.wikidata.org/entity/",
+    "schemaSpace": "http://www.wikidata.org/prop/direct/",
+    "description": "Match specific item Q125136090 (Q125136090) to cells in column _ - cao_concordances"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "_ - cao_concordances: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "_ - cao_concordances",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "_ - cao_concordances",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column _ - cao_concordances, one item for each group of similar cells"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "_ - cao_concordances",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "cao_concordances original",
+    "columnInsertIndex": 14,
+    "description": "Create column cao_concordances original at index 14 based on column _ - cao_concordances using expression grel:value"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "cao_concordances_original",
+    "description": "Remove column cao_concordances_original"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "cao_concordances original",
+    "newColumnName": "cao_concordances_original",
+    "description": "Rename column cao_concordances original to cao_concordances_original"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - genre",
+    "newColumnName": "genre",
+    "description": "Rename column _ - genre to genre"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - cid",
+    "newColumnName": "cid",
+    "description": "Rename column _ - cid to cid"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - feast",
+    "newColumnName": "feast",
+    "description": "Rename column _ - feast to feast"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - text",
+    "newColumnName": "text",
+    "description": "Rename column _ - text to text"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - source",
+    "newColumnName": "source",
+    "description": "Rename column _ - source to source"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "source",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column source to type null"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - related",
+    "newColumnName": "related",
+    "description": "Rename column _ - related to related"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - similar",
+    "newColumnName": "similar",
+    "description": "Rename column _ - similar to similar"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - troped",
+    "newColumnName": "troped",
+    "description": "Rename column _ - troped to troped"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - language",
+    "newColumnName": "language",
+    "description": "Rename column _ - language to language"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "source: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "source: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "source",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "source",
+    "similarValue": "Analecta hymnica",
+    "judgment": "matched",
+    "match": {
+      "id": "Q18634879",
+      "name": "Analecta hymnica medii aevi",
+      "types": [
+        "Q732577"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Analecta hymnica medii aevi (Q18634879) for cells containing \"Analecta hymnica\" in column source"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "source: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "source: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "source",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "source",
+    "similarValue": "P-BRs Ms. 028",
+    "judgment": "matched",
+    "match": {
+      "id": "Q120501343",
+      "name": "P-BRs Ms. 028",
+      "types": [
+        "Q109274999"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item P-BRs Ms. 028 (Q120501343) for cells containing \"P-BRs Ms. 028\" in column source"
+  },
+  {
+    "op": "core/recon-discard-judgments",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "source: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "source",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "source",
+    "clearData": true,
+    "description": "Discard recon judgments and clear recon data for cells in column source"
+  },
+  {
+    "op": "core/recon-discard-judgments",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "source",
+    "clearData": true,
+    "description": "Discard recon judgments and clear recon data for cells in column source"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - tags",
+    "newColumnName": "tags",
+    "description": "Rename column _ - tags to tags"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - cao",
+    "newColumnName": "cao",
+    "description": "Rename column _ - cao to cao"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - cao_concordances",
+    "newColumnName": "cao_concordances",
+    "description": "Rename column _ - cao_concordances to cao_concordances"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - ah_volume",
+    "newColumnName": "ah_volume",
+    "description": "Rename column _ - ah_volume to ah_volume"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - ah_item",
+    "newColumnName": "ah_item",
+    "description": "Rename column _ - ah_item to ah_item"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - notes",
+    "newColumnName": "notes",
+    "description": "Rename column _ - notes to notes"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - author",
+    "newColumnName": "author",
+    "description": "Rename column _ - author to author"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - fulltext_submitted_by",
+    "newColumnName": "fulltext_submitted_by",
+    "description": "Rename column _ - fulltext_submitted_by to fulltext_submitted_by"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "_ - proofread_by",
+    "newColumnName": "proofread_by",
+    "description": "Rename column _ - proofread_by to proofread_by"
+  }
+]

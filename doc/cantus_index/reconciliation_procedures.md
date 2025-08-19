@@ -1,5 +1,14 @@
 # Reconciliation for Cantus Index
 
+## Applying Histories:
+> Do this before reading further.
+- In cantus_index/doc the JSON file history.json is generated in OpenRefine via `Undo/Redo > Extract... > Export`.
+- This file can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
+- This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
+
+
+## Reconciliation Procedures
+
 - Open the file `cantus_items.json` in OpenRefine, before clicking `Create project >>`, click on the first curly bracket to specify a record path.
 - Go to column `_ - feast` and select `Edit column > Add column based on this column...` then name the new columnn `feast_original`, and leave the expression as "value".
 - First reconcile the column `_ - feast` against `Christian holy day` (Q60075825)
@@ -135,15 +144,24 @@ value)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
 `benidacmus domino` ? what should it be reconciled to?
 `benedictiones` ?
 
-- Go to column `_ - cao_concordances` and select `Edit column > Add column based on this column...` then name the new columnn `cao_concordances_original`, and leave the expression as "value".
-- Then go to column `_ - cao_concordances`, select `Edit cells > Transform...` and use this transformation: 
+
+- Go to column `_ - cao_concordances`, select `Edit cells > Transform...` and use this transformation: 
 ```
 value.replace(" ", "")
 ```
 to get rid of empty spaces.
-- Then go to `Edit cells > Split multi-valued cells...`, use this regular expression: `(?<=\w)(?=\w)`, and select regular expression. This splits into all them separately
+- Then go to `Edit cells > Split multi-valued cells...`, use this regular expression: `(?<=\w)(?=\w)`, and select regular expression.
+- Go to column `_ - cao_concordances` and select `Edit column > Add column based on this column...` then name the new columnn `cao_concordances_original`, and leave the expression as "value".
 - open a text facet. Make sure you are in row view.
-- Facet by `C`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to `Antiphonaire de Compiègne - BNF Lat17436 ` (Q26833944).
+- Facet by `C`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to `Antiphonaire de Compiègne - BNF Lat17436` (Q26833944).
+> Note: If it says a problem occured pleae try again later when you try to match all filtered cells and no results appear, you can reconcile to no particular type, and then search for a match and then type `Antiphonaire de Compiègne - BNF Lat17436 `and it should show up.
 - Facet by `D`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136886).
 - Facet by `F`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136090).
-- The other entries in `_ - cao_concordances` are not reconcilied at this moment, we are unable currently to find their entries in wikidata if they exist.
+- The other entries in `_ - cao_concordances` are not reconcilied at this moment, we are unable currently to find their entries in wikidata if they exist. Create new items for the rest.
+
+- Rename the columns `_ - cid`, `_ - genre`, `_ - feast`, `_ - text`, `_ - related`, `_ - similar`, `_ - troped`, `_ - source`, `_ - language`, `_ - tags`, `_ - cao`, `_ - cao_concordances`, `_ - ah_volume`, `_ - ah_item`, `_ - notes`, `_ - author`, `_ - fulltext_submitted_by`, `_ - proofread_by` to be `cid`, `genre`, `feast`, `text`, `related`, `similar`, `troped`, `source`, `language`, `tags`, `cao`, `cao_concordances`, `ah_volume`, `ah_item`, `notes`, `author`, `fulltext_submitted_by`, `proofread_by`, resoectively. (i.e. remove the "_ - ")
+
+## Exporting
+
+- In `Export > Custom tabular... `, you can navigate to Opion Code and apply the file `export.json` to automatically apply the following changes, and then download as CSV.
+- If there are errors with the above step, go to `Export > Custom tabular...`, and for the columns `genre`, `feast`, and `cao_concordances`, select `Matched entity's ID` under "For reconciled cells, output". Then download as CSV.
