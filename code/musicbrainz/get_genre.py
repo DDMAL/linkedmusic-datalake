@@ -10,7 +10,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDFS
+from rdflib.namespace import RDFS, RDF
 
 # Constants
 URL = "https://musicbrainz.org/ws/2/genre/all"
@@ -24,6 +24,7 @@ RATE_LIMIT_DELAY = 1.375  # Default delay between requests (seconds)
 
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
+LMMB = Namespace("https://linkedmusic.ca/graphs/musicbrainz/")
 MB = Namespace("https://musicbrainz.org/")
 MBGE = Namespace(f"{MB}genre/")
 
@@ -124,13 +125,13 @@ def main(output_path="../../data/musicbrainz/rdf/"):
     g = Graph()
     g.bind("wdt", WDT)
     g.bind("wd", WD)
-    g.bind("mb", MB)
+    g.bind("mb", LMMB)
     g.bind("mbge", MBGE)
 
     for _, row in df.iterrows():
         genre_uri = URIRef(row["genre_id"])
+        g.add((genre_uri, RDF.type, LMMB["Genre"]))
         g.add((genre_uri, RDFS.label, Literal(row["name"])))
-        g.add((genre_uri, URIRef(f"{WDT}P8052"), Literal(row["genre_id"])))
         if row["relations_wiki"]:
             g.add((genre_uri, URIRef(f"{WDT}P2888"), URIRef(row["relations_wiki"])))
 

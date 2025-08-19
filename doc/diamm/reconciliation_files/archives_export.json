@@ -84,58 +84,6 @@
         "useLocalTimeZone": false,
         "omitTime": false
       }
-    },
-    {
-      "name": "city",
-      "reconSettings": {
-        "output": "entity-name",
-        "blankUnmatchedCells": false,
-        "linkToEntityPages": true
-      },
-      "dateSettings": {
-        "format": "iso-8601",
-        "useLocalTimeZone": false,
-        "omitTime": false
-      }
-    },
-    {
-      "name": "city_@id",
-      "reconSettings": {
-        "output": "entity-id",
-        "blankUnmatchedCells": false,
-        "linkToEntityPages": true
-      },
-      "dateSettings": {
-        "format": "iso-8601",
-        "useLocalTimeZone": false,
-        "omitTime": false
-      }
-    },
-    {
-      "name": "country",
-      "reconSettings": {
-        "output": "entity-name",
-        "blankUnmatchedCells": false,
-        "linkToEntityPages": true
-      },
-      "dateSettings": {
-        "format": "iso-8601",
-        "useLocalTimeZone": false,
-        "omitTime": false
-      }
-    },
-    {
-      "name": "country_@id",
-      "reconSettings": {
-        "output": "entity-id",
-        "blankUnmatchedCells": false,
-        "linkToEntityPages": true
-      },
-      "dateSettings": {
-        "format": "iso-8601",
-        "useLocalTimeZone": false,
-        "omitTime": false
-      }
     }
   ]
 }
