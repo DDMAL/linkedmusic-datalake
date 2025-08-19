@@ -51,7 +51,4 @@ Refer to the [Cantus DB manual](/cantus/doc/README.md) for details.
 The work is still in progress.
 Refer to the [Simssa DB manual](/simssa/doc/README.md) for further instructions.
 
-### ESEA (East-and-Southeast-Asian) & Chinese (Traditional) Music Instrument  
-Detailed information is provided within [the corresponding `.ttl` files](https://github.com/DDMAL/linkedmusic-datalake/tree/main/esea/data).
-
 <img src="images/wikidata_stamp_light.svg" alt="wikidata_stamp" width="400"/>
