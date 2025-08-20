@@ -12,6 +12,20 @@ This repository contains code, documentation, and sample data set files to:
 
 Refer to the wiki for a [general overview of our current pipeline for adding a new dataset](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset).
 
+## Repository Structure
+
+In this repository, you'll find a folder per database (listed below), with the following subdirectories:
+
+- `data/`: Contains all the data files. Almost all data files are not contained in the repository due to their size.
+- `doc/`: Contains documentation files.
+- `jsonld_approach/`: Contains files related to the now-discontinued JSON-LD approach.
+- `openrefine/`: Contains history and export files for OpenRefine.
+- `src/`: Contains scripts.
+
+There also is a `shared/` folder in the repository root, which contains shared resources and utilities used across different database scripts. Currently, the only shared resources are the general RDF conversion script and a Wikidata API client.
+
+Finally, the `poetry.lock` and `pyproject.toml` files manage the project's Python dependencies and packaging, and are located in the repository root.
+
 ## Database Introductions
 
 The following datasets are currently at least partially integrated into our data lake.
