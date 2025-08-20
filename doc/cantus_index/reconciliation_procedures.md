@@ -159,7 +159,7 @@ to get rid of empty spaces.
 - Facet by `F`, go to `Reconcile > Actions > Match all filtered cells to...` and reconcile to (Q125136090).
 - The other entries in `_ - cao_concordances` are not reconcilied at this moment, we are unable currently to find their entries in wikidata if they exist. Create new items for the rest.
 
-- Rename the columns `_ - cid`, `_ - genre`, `_ - feast`, `_ - text`, `_ - related`, `_ - similar`, `_ - troped`, `_ - source`, `_ - language`, `_ - tags`, `_ - cao`, `_ - cao_concordances`, `_ - ah_volume`, `_ - ah_item`, `_ - notes`, `_ - author`, `_ - fulltext_submitted_by`, `_ - proofread_by` to be `cid`, `genre`, `feast`, `text`, `related`, `similar`, `troped`, `source`, `language`, `tags`, `cao`, `cao_concordances`, `ah_volume`, `ah_item`, `notes`, `author`, `fulltext_submitted_by`, `proofread_by`, resoectively. (i.e. remove the "_ - ")
+- Rename the columns `_ - cid`, `_ - genre`, `_ - feast`, `_ - text`, `_ - related`, `_ - similar`, `_ - troped`, `_ - source`, `_ - language`, `_ - tags`, `_ - cao`, `_ - cao_concordances`, `_ - ah_volume`, `_ - ah_item`, `_ - notes`, `_ - author`, `_ - fulltext_submitted_by`, `_ - proofread_by` to be `cid`, `genre`, `feast`, `text`, `related`, `similar`, `troped`, `source`, `language`, `tags`, `cao`, `cao_concordances`, `ah_volume`, `ah_item`, `notes`, `author`, `fulltext_submitted_by`, `proofread_by`, respectively. (i.e. remove the "_ - ")
 
 ## Exporting
 
