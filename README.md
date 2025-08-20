@@ -24,7 +24,7 @@ The [Digital Image Archive of Medieval Music (DIAMM)](https://www.diamm.ac.uk/) 
 
 ### Dig That Lick (DTL1000)
 
-[Dig That Lick](https://dig-that-lick.eecs.qmul.ac.uk/) is a project the extracts and analyses solos from jazz performances. See the [Dig That Lick documentation](/dtl) for more information.
+[Dig That Lick](https://dig-that-lick.eecs.qmul.ac.uk/) is a project the extracts and analyses solos from jazz performances. See the [Dig That Lick documentation](/dtl/README.md) for more information.
 
 ### The Global Jukebox
 
