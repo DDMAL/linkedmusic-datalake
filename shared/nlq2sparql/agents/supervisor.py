@@ -6,7 +6,10 @@ from typing import Any, Dict, List, Optional
 import logging
 
 from .base import BaseAgent, AgentConfig
-from nlq2sparql.catalog.loader import load_capabilities, supports_concepts  # type: ignore
+try:
+    from ..catalog.loader import load_capabilities, supports_concepts  # type: ignore
+except Exception:  # support direct import in tests
+    from catalog.loader import load_capabilities, supports_concepts  # type: ignore
 
 
 @dataclass
