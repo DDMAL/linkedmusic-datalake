@@ -61,3 +61,13 @@ python extract.py
 ```
 
 The values for each field will be put in CSV files in the `acousticbrainz/data/unreconciled/` folder. Follow the instructions in [`reconciliation.md`](./doc/reconciliation.md) to reconcile the files and put the reconciled files in the `acousticbrainz/data/reconciled/` folder.
+
+## Things left to do
+
+### Finish the reconciliation process
+
+The remaining file types in [`reconciliation.md`](./doc/reconciliation.md) need to be reconciled. The extraction script already extracts them all as separate CSVs, so they just need to be run through openrefine, and have their history and export files put in the folder.
+
+### Convert the data to RDF
+
+Given the size of AcousticBrainz, a script similar to the [MusicBrainz one](/musicbrainz/src/convert_to_rdf.py) will need to be written to convert the data to RDF. The script will need to take the reconciled CSVs and the extracted JSONL files, and convert them to RDF using Wikidata properties.
