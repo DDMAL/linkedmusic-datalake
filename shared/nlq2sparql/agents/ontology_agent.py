@@ -11,7 +11,19 @@ from functools import lru_cache
 
 from .base import BaseAgent
 
-ONTOLOGY_FILE = Path(__file__).resolve().parents[1] / "ontology" / "11Aug2025_ontology.ttl"
+# Prefer the newest ontology file if present, fallback to the previous placeholder to keep tests stable
+ONTOLOGY_DIR = Path(__file__).resolve().parents[1] / "ontology"
+_candidates = [
+    "21Aug2025_ontology.ttl",
+    "11Aug2025_ontology.ttl",
+]
+_selected = None
+for _name in _candidates:
+    _path = ONTOLOGY_DIR / _name
+    if _path.exists():
+        _selected = _path
+        break
+ONTOLOGY_FILE = _selected or (ONTOLOGY_DIR / "11Aug2025_ontology.ttl")
 
 
 @dataclass
@@ -77,12 +89,17 @@ class UnifiedOntologyAgent(BaseAgent):
         if mode == "ttl":
             # Return raw TTL snippet(s) verbatim for each matched subject
             snippets: List[str] = []
+            # Deterministic subject ordering
+            subjects_sorted = sorted(matched_subjects)
             # Limit subjects to avoid runaway size
-            for subj in list(matched_subjects)[: max_neighbors]:
+            for subj in subjects_sorted[: max_neighbors]:
                 subj_ref = URIRef(subj)
                 lines: List[str] = []
                 # Collect triples for this subject
-                for _, pred, obj in g.triples((subj_ref, None, None)):
+                triples = list(g.triples((subj_ref, None, None)))
+                # Deterministic predicate/object ordering
+                triples.sort(key=lambda t: (str(t[1]), str(t[2])))
+                for _, pred, obj in triples:
                     if isinstance(obj, Literal):
                         o_txt = f'"{obj}"@en' if obj.language == 'en' else f'"{obj}"'
                     else:
@@ -93,7 +110,8 @@ class UnifiedOntologyAgent(BaseAgent):
                     # If dataset filtering is enabled, skip subjects not matching allowed prefixes
                     if allowed_prefixes and not any(header.startswith(p) for p in allowed_prefixes):
                         continue
-                    snippet = header + "\n\t" + "\n\t".join(lines)
+                    # Sort lines for deterministic snippet content
+                    snippet = header + "\n\t" + "\n\t".join(sorted(lines))
                     snippets.append(snippet)
             # Maintain backward-compatible empty structural fields so older tests / consumers don't break.
             result = {"tokens": tokens, "ttl_snippets": snippets, "nodes": [], "edges": [], "literals": [], "source": "unified_ontology_v1", "mode": "ttl"}
@@ -108,7 +126,9 @@ class UnifiedOntologyAgent(BaseAgent):
                 if len(edges) >= max_neighbors:
                     break
                 subj_ref = URIRef(subj)
-                for _, pred, obj in g.triples((subj_ref, None, None)):
+                triples = list(g.triples((subj_ref, None, None)))
+                triples.sort(key=lambda t: (str(t[1]), str(t[2])))
+                for _, pred, obj in triples:
                     if len(edges) >= max_neighbors:
                         break
                     if isinstance(obj, Literal):
@@ -124,7 +144,9 @@ class UnifiedOntologyAgent(BaseAgent):
                         labels_map[s] = str(o)
                         break
             nodes = [{"id": nid, "label": labels_map.get(nid)} for nid in sorted(added_nodes)]
-            result = {"tokens": tokens, "nodes": nodes, "edges": edges, "literals": literals, "source": "unified_ontology_v1", "mode": "structured"}
+            # Deterministic ordering of edges
+            edges_sorted = sorted(edges, key=lambda e: (e["subject"], e["predicate"], e["object"]))
+            result = {"tokens": tokens, "nodes": nodes, "edges": edges_sorted, "literals": literals, "source": "unified_ontology_v1", "mode": "structured"}
             self._set_cached_slice(cache_key, result)
             return result
 

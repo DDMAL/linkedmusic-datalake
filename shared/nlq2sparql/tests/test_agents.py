@@ -14,6 +14,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from shared.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, RouterAgent
+from shared.nlq2sparql.agents.ontology_agent import ONTOLOGY_FILE
 from shared.nlq2sparql import prompt_builder
 
 
@@ -28,7 +29,7 @@ async def test_ontology_agent_slice_deterministic():
     for key in ["tokens", "nodes", "edges", "literals", "source"]:
         assert key in slice1
     # No mutation of ontology file (hash stable via size+first bytes heuristic)
-    ontology_path = Path(__file__).parent.parent / "ontology" / "11Aug2025_ontology.ttl"
+    ontology_path = Path(ONTOLOGY_FILE)
     before = ontology_path.stat().st_size
     _ = await agent.run(question="Different query for slice")
     after = ontology_path.stat().st_size
