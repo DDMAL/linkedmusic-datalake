@@ -12,10 +12,24 @@ import logging
 from functools import lru_cache
 from typing import Dict, Optional, Sequence
 
-from ..integrations.wikidata_adapter import (
-    get_wikidata_client,
-    close_wikidata_client,
-)
+try:
+    # When running tests from shared/nlq2sparql (added to sys.path), sibling packages are top-level
+    from integrations.wikidata_adapter import (  # type: ignore
+        get_wikidata_client,
+        close_wikidata_client,
+    )
+except Exception:  # pragma: no cover - fallback for packaged usage
+    try:
+        from shared.nlq2sparql.integrations.wikidata_adapter import (  # type: ignore
+            get_wikidata_client,
+            close_wikidata_client,
+        )
+    except Exception:
+        # Final fallback if executed as a proper package module
+        from ..integrations.wikidata_adapter import (
+            get_wikidata_client,
+            close_wikidata_client,
+        )
 
 logger = logging.getLogger(__name__)
 
