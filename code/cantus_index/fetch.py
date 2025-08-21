@@ -1,9 +1,11 @@
 import requests
 import time
 import json
+import os
 
 CIDS_URL = "https://cantusindex.org/json-cids"
 CID_DATA_URL = "https://cantusindex.org/json-cid-data/{}"
+OUTPUT_FOLDER = "data/cantus_index/raw"
 OUTPUT_FILE = "cantus_items.json"
 DELAY = 0.05  # seconds between requests, if it breaks, increase the delay
 MAX_RETRIES = 5  # Maximum number of retries for a single CID
@@ -53,9 +55,10 @@ def main():
                 print(f"Error fetching CID {cid} (attempt {retries}/{MAX_RETRIES}): {e}")
                 if retries == MAX_RETRIES:
                     print(f"Failed to fetch CID {cid} after {MAX_RETRIES} attempts. Skipping.")
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+    with open(os.path.join(OUTPUT_FOLDER, OUTPUT_FILE), "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
-    print(f"Saved all results to {OUTPUT_FILE}")
+    print(f"Saved all results to {os.path.join(OUTPUT_FOLDER, OUTPUT_FILE)}")
 
 if __name__ == "__main__":
     main()
