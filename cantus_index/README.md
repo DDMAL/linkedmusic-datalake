@@ -16,3 +16,8 @@ There may be some errors when fetching the data, but the code automatically retr
 ## 2. Reconciliation
 
 - see `reconciliation_procedures.md` in the `cantus_index/doc/` folder
+
+## TODO
+
+- Refine property mappings
+- Upload to virtuoso
