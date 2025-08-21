@@ -27,7 +27,7 @@ Metrics reported:
 - upgraded (phrases whose PID was filled in this run)
 
 CLI:
-    poetry run python code/nlq2sparql/ontology/extract_property_mappings.py \
+    poetry run python shared/nlq2sparql/ontology/extract_property_mappings.py \
         --write            # (default) write updates back to JSON file
         --no-write         # dry run only
         --min-length 3     # minimum phrase length after normalization
