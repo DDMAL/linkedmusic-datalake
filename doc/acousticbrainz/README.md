@@ -53,3 +53,11 @@ python untar.py
 All objects in AcousticBrainz are recordings, and their ID is the same as their MusicBrainz Recording ID, and MusicBrainz is already reconciled with Wikidata, so there is no need to reconcile the recordings themselves against Wikidata. The only thing that will need reconciling is the values of the fields (e.g. the key/tonality).
 
 The values for the `genre_tzanetakis` and `genre_rosamerica` fields are acronyms. The acronyms are expanded according to the following documentation: [this paper](https://web.archive.org/web/20120530070141/http://marsyas.info/docs/manual/marsyas-user.pdf) (page 30) for `genre_tzanetakis` and [this page](https://acousticbrainz.org/datasets/accuracy#genre_rosamerica) for `genre_rosamerica`.
+
+Run the following command to extract the fields for reconciliation:
+
+```bash
+python extract.py
+```
+
+The values for each field will be put in CSV files in the `data/acousticbrainz/unreconciled/` folder. Follow the instructions in [`reconciliation.md`](/doc/acousticbrainz/reconciliation.md) to reconcile the files and put the reconciled files in the `data/acousticbrainz/reconciled/` folder.
