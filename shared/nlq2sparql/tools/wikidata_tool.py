@@ -12,17 +12,10 @@ import logging
 from functools import lru_cache
 from typing import Dict, Optional, Sequence
 
-try:
-    from ..integrations.wikidata_adapter import (
-        get_wikidata_client,
-        close_wikidata_client,
-    )
-except Exception:
-    # Fallback absolute import if package context differs (e.g., scripts)
-    from code.nlq2sparql.integrations.wikidata_adapter import (  # type: ignore
-        get_wikidata_client,
-        close_wikidata_client,
-    )
+from ..integrations.wikidata_adapter import (
+    get_wikidata_client,
+    close_wikidata_client,
+)
 
 logger = logging.getLogger(__name__)
 
