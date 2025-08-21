@@ -48,7 +48,7 @@ poetry install
 Wikidata resolution:
 ```bash
 poetry run python - <<'PY'
-from code.nlq2sparql.tools.wikidata_tool import find_entity_id, find_property_id
+from shared.nlq2sparql.tools.wikidata_tool import find_entity_id, find_property_id
 import asyncio
 async def main():
     print('Dufay ->', await find_entity_id('Guillaume Dufay'))
@@ -61,8 +61,8 @@ Supervisor dry run (no LLM call yet):
 ```bash
 poetry run python - <<'PY'
 import asyncio
-from code.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, WikidataAgent
-from code.nlq2sparql import prompt_builder
+from shared.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, WikidataAgent
+from shared.nlq2sparql import prompt_builder
 
 async def main():
     sup = SupervisorAgent(
@@ -92,10 +92,10 @@ async def run():
 
 You can have the main CLI execute the generated SPARQL against a SPARQL HTTP endpoint (read‑only):
 
-- Save JSON to `code/nlq2sparql/results/` (gitignored):
+- Save JSON to `shared/nlq2sparql/results/` (gitignored):
 
 ```bash
-poetry run python -m code.nlq2sparql.cli \
+poetry run python -m shared.nlq2sparql.cli \
     --provider gemini \
     --database session \
     --exec-sparql \
@@ -109,7 +109,7 @@ Guardrails: SELECT/ASK only, LIMIT capped (default 1000), HTTP timeout (default 
 For ad‑hoc queries without the LLM path, use the small SPARQL runner:
 
 ```bash
-poetry run python -m code.nlq2sparql.tools.sparql_cli \
+poetry run python -m shared.nlq2sparql.tools.sparql_cli \
     --endpoint https://virtuoso.staging.simssa.ca/sparql \
     --query "SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 1" \
     --format json
@@ -123,7 +123,7 @@ The `UnifiedOntologyAgent` automatically loads `ontology/11Aug2025_ontology.ttl`
 ### Toggle: Structured vs Delegate (Full Ontology)
 - Default strategy is structured slicing (router + UnifiedOntologyAgent with TTL snippets).
 - To compare against a simple "give the whole ontology to the LLM" approach, set one of:
-    - Config file `code/nlq2sparql/config.json`: `"ontology_strategy": "llm_delegate"`
+    - Config file `shared/nlq2sparql/config.json`: `"ontology_strategy": "llm_delegate"`
     - Or environment: `NLQ2SPARQL_ONTOLOGY_STRATEGY=llm_delegate`
 
 In delegate mode, the orchestrator uses `OntologyDelegateAgent` to provide the full ontology (verbatim). The prompt text includes a small header rather than dumping the entire TTL; provider wrappers should pass the TTL as a separate large-context input and instruct the model to extract the relevant parts.

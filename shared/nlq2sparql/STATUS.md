@@ -36,9 +36,9 @@ Recent Changes (this branch)
  - Data-driven routing improvements and ontology strategy toggle documented earlier remain in place; tests at 44 passing.
  - Added HTTP SPARQL executor and CLI:
     - `tools/sparql_http.py` (read-only guardrails, LIMIT cap, timeout, POST, content-type detection)
-    - `tools/sparql_cli.py` (ad-hoc runs; saves to `code/nlq2sparql/results/`, gitignored)
+   - `tools/sparql_cli.py` (ad-hoc runs; saves to `shared/nlq2sparql/results/`, gitignored)
     - Main CLI now supports optional post-generation execution flags (`--exec-sparql`, endpoint/format/timeout/limit/output-dir).
-    - Verified against staging endpoint; JSON results saved under `code/nlq2sparql/results/`.
+   - Verified against staging endpoint; JSON results saved under `shared/nlq2sparql/results/`.
 
 Completed (Phase 1 Skeleton Scope)
 ----------------------------------
@@ -364,13 +364,13 @@ Reference SHA / Date: Commit after RouterAgent integration & tests passing (2025
 
 Scope Guardrails & Adapter Plan (Added 2025-08-12)
 --------------------------------------------------
-Context: To avoid impacting other teams, keep functional changes within `code/nlq2sparql` and avoid edits to shared libs (e.g., `code/wikidata_utils`).
+Context: To avoid impacting other teams, keep functional changes within `shared/nlq2sparql` and avoid edits to shared libs (e.g., `shared/wikidata_utils`).
 
 Guardrails:
-- Scope: Only modify files under `code/nlq2sparql/` (docs/tests included). Shared modules remain untouched; if behavior is needed, use adapters.
-- Adapters: Introduce a thin wrapper `code/nlq2sparql/integrations/wikidata_adapter.py` that owns `WikidataAPIClient` creation, session/loop handling, and any local fallbacks. Tools/agents import this adapter instead of importing `wikidata_utils` directly.
+- Scope: Only modify files under `shared/nlq2sparql/` (docs/tests included). Other shared modules remain untouched; if behavior is needed, use adapters.
+- Adapters: Introduce a thin wrapper `shared/nlq2sparql/integrations/wikidata_adapter.py` that owns `WikidataAPIClient` creation, session/loop handling, and any local fallbacks. Tools/agents import this adapter instead of importing `wikidata_utils` directly.
 - Testing: Patch adapter functions/classes in tests, not shared libs, to keep test doubles isolated to nlq2sparql.
-- Config: If necessary, expose minimal flags in `code/nlq2sparql/config.py` for timeouts/rate limits without touching shared code.
+- Config: If necessary, expose minimal flags in `shared/nlq2sparql/config.py` for timeouts/rate limits without touching other shared code.
 - Dependencies: pyproject updates allowed if needed for nlq2sparql; use conservative pins.
 
 Status:

@@ -25,32 +25,32 @@ help:
 # Run all tests with pytest
 test:
 	@echo "🧪 Running all tests with pytest..."
-	@cd ../.. && poetry run pytest code/nlq2sparql/tests/ -v
+	@cd ../.. && poetry run pytest shared/nlq2sparql/tests/ -v
 
 # Run only unit tests
 test-unit:
 	@echo "🔬 Running unit tests..."
-	@cd ../.. && poetry run pytest code/nlq2sparql/tests/ -v -m "unit"
+	@cd ../.. && poetry run pytest shared/nlq2sparql/tests/ -v -m "unit"
 
 # Run integration tests  
 test-integration:
 	@echo "🔗 Running integration tests..."
-	@cd ../.. && poetry run pytest code/nlq2sparql/tests/ -v -m "integration"
+	@cd ../.. && poetry run pytest shared/nlq2sparql/tests/ -v -m "integration"
 
 # Run tests with coverage
 test-coverage:
 	@echo "📊 Running tests with coverage..."
-	@cd ../.. && poetry run pytest code/nlq2sparql/tests/ --cov=code/nlq2sparql --cov-report=html --cov-report=term
+	@cd ../.. && poetry run pytest shared/nlq2sparql/tests/ --cov=shared/nlq2sparql --cov-report=html --cov-report=term
 
 # Run tests with verbose Python output
 test-verbose:
 	@echo "🔍 Running tests with verbose output..."
-	@cd ../.. && poetry run pytest code/nlq2sparql/tests/ -v -s
+	@cd ../.. && poetry run pytest shared/nlq2sparql/tests/ -v -s
 
 # Quick test (excluding slow and API tests)
 quick-test:
 	@echo "⚡ Running quick tests..."
-	@cd ../.. && poetry run pytest code/nlq2sparql/tests/ -v -m "not slow and not requires_api_key"
+	@cd ../.. && poetry run pytest shared/nlq2sparql/tests/ -v -m "not slow and not requires_api_key"
 
 # Clean up generated files
 clean:
@@ -65,12 +65,12 @@ clean:
 # Code formatting with black
 format:
 	@echo "🎨 Formatting code..."
-	@cd ../.. && poetry run black code/nlq2sparql/
+	@cd ../.. && poetry run black shared/nlq2sparql/
 
 # Code linting with flake8  
 lint:
 	@echo "🔍 Linting code..."
-	@cd ../.. && poetry run flake8 code/nlq2sparql/
+	@cd ../.. && poetry run flake8 shared/nlq2sparql/
 	@find . -name "*.pyc" -delete 2>/dev/null || true
 	@rm -f debug_prompts/*.txt 2>/dev/null || true
 	@echo "✅ Cleanup complete!"

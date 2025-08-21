@@ -117,7 +117,7 @@ class ArgumentHandler:
             "--sparql-results-dir",
             type=Path,
             default=None,
-            help="Directory to save SPARQL results (default: code/nlq2sparql/results)",
+            help="Directory to save SPARQL results (default: shared/nlq2sparql/results)",
         )
         
         return parser

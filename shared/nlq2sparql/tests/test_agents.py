@@ -13,8 +13,8 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from code.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, RouterAgent
-from code.nlq2sparql import prompt_builder
+from shared.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, RouterAgent
+from shared.nlq2sparql import prompt_builder
 
 
 @pytest.mark.asyncio

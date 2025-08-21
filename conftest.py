@@ -1,12 +1,8 @@
-"""Root test configuration ensuring local 'code' package shadows stdlib 'code'.
+"""Root test configuration ensuring repository-root packages resolve first.
 
-Pytest imports test packages using their full package path. Because our source
-lives under a top-level directory named 'code', Python could otherwise resolve
-`import code` to the standard library interactive interpreter helper module.
-Placing the repository root at the front of sys.path guarantees that
-`code` refers to our package during test collection (allowing
-`code.nlq2sparql` to import successfully when pytest infers that name from the
-filesystem layout).
+Pytest imports test packages using their full package path. Placing the
+repository root at the front of ``sys.path`` guarantees package imports like
+``shared.nlq2sparql`` resolve to our local sources during test collection.
 """
 from __future__ import annotations
 

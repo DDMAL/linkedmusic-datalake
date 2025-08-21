@@ -41,7 +41,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         "--out-dir",
         type=Path,
         default=Path(__file__).resolve().parents[1] / "results",
-        help="Directory to save results (default: code/nlq2sparql/results)",
+        help="Directory to save results (default: shared/nlq2sparql/results)",
     )
     parser.add_argument("--timeout", type=int, default=15, help="HTTP timeout in seconds (default: 15)")
     parser.add_argument("--limit", type=int, default=1000, help="Max LIMIT enforced for SELECT (default: 1000)")

@@ -4,9 +4,8 @@ psqldump
 .DS_Store
 .history/*
 
-code/nlq2sparql/debug_prompts/*.txt
-nlq2sparql/debug_prompts/*.txt
-nlq2sparql/results/*
+shared/nlq2sparql/debug_prompts/*.txt
+shared/nlq2sparql/results/*
 
 *.sql*
 rdb2rdf/

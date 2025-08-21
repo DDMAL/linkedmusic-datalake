@@ -166,19 +166,19 @@ The tool functions are designed to be easily callable by manager agents that use
 ```bash
 # Test the tool directly
 cd /path/to/linkedmusic-datalake
-poetry run python code/nlq2sparql/tools/wikidata_tool.py
+poetry run python shared/nlq2sparql/tools/wikidata_tool.py
 
 # Test the agent directly  
-poetry run python code/nlq2sparql/agents/wikidata_agent.py
+poetry run python shared/nlq2sparql/agents/wikidata_agent.py
 
 # Run the manager agent example
-poetry run python code/nlq2sparql/examples/manager_agent_example.py
+poetry run python shared/nlq2sparql/examples/manager_agent_example.py
 ```
 
 ### Run the Test Suite
 
 ```bash
-cd /path/to/linkedmusic-datalake/code/nlq2sparql
+cd /path/to/linkedmusic-datalake/shared/nlq2sparql
 
 # Run all Wikidata tests
 poetry run pytest tests/test_wikidata_* -v
