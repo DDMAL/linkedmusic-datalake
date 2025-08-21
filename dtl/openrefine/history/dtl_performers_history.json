@@ -1,0 +1,665 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "performer_names",
+    "expression": "grel:\"musician\"",
+    "onError": "set-to-blank",
+    "newColumnName": "occupation musician",
+    "columnInsertIndex": 3,
+    "description": "Create column occupation musician at index 3 based on column performer_names using expression grel:\"musician\""
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "occupation musician",
+    "expression": "grel:\"jazz musician\"",
+    "onError": "set-to-blank",
+    "newColumnName": "occupation jazz musician",
+    "columnInsertIndex": 4,
+    "description": "Create column occupation jazz musician at index 4 based on column occupation musician using expression grel:\"jazz musician\""
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "occupation jazz musician",
+    "expression": "grel:\"jazz\"",
+    "onError": "set-to-blank",
+    "newColumnName": "genre jazz",
+    "columnInsertIndex": 5,
+    "description": "Create column genre jazz at index 5 based on column occupation jazz musician using expression grel:\"jazz\""
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "performer_names",
+    "expression": "grel:if(\n  cell.cross(\"dtl1000 tracks csv\", \"leader_name\").length() > 0,\n  cell.cross(\"dtl1000 tracks csv\", \"leader_name\")[0].cells[\"band_leader_reconciled\"].value,\n  if(\n    cell.cross(\"dtl1000 solos csv\", \"possible_solo_performer_names\").length() > 0,\n    cell.cross(\"dtl1000 solos csv\", \"possible_solo_performer_names\")[0].cells[\"possible_performer_reconciled\"].value,\n    if(\n      cell.cross(\"dtl1000 solos csv\", \"solo_performer_name\").length() > 0,\n      cell.cross(\"dtl1000 solos csv\", \"solo_performer_name\")[0].cells[\"solo_performer_reconciled\"].value,\n      \"\"\n    )\n  )\n)",
+    "onError": "set-to-blank",
+    "newColumnName": "already_reconciled",
+    "columnInsertIndex": 3,
+    "description": "Create column already_reconciled at index 3 based on column performer_names using expression grel:if(\n  cell.cross(\"dtl1000 tracks csv\", \"leader_name\").length() > 0,\n  cell.cross(\"dtl1000 tracks csv\", \"leader_name\")[0].cells[\"band_leader_reconciled\"].value,\n  if(\n    cell.cross(\"dtl1000 solos csv\", \"possible_solo_performer_names\").length() > 0,\n    cell.cross(\"dtl1000 solos csv\", \"possible_solo_performer_names\")[0].cells[\"possible_performer_reconciled\"].value,\n    if(\n      cell.cross(\"dtl1000 solos csv\", \"solo_performer_name\").length() > 0,\n      cell.cross(\"dtl1000 solos csv\", \"solo_performer_name\")[0].cells[\"solo_performer_reconciled\"].value,\n      \"\"\n    )\n  )\n)"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation jazz musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation jazz musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "genre jazz",
+          "propertyName": "genre",
+          "propertyID": "P136"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column performer_names to type Q5"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "genre jazz",
+          "propertyName": "genre",
+          "propertyID": "P136"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column performer_names to type Q5"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "performer_names: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "performer_names",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "description": "Match each cell to its best recon candidate in column performer_names"
+  },
+  {
+    "op": "core/recon-mark-new-topics",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "already_reconciled",
+          "expression": "isBlank(value)",
+          "columnName": "already_reconciled",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "performer_names: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "performer_names",
+    "shareNewTopics": true,
+    "description": "Mark to create new items for cells in column performer_names, one item for each group of similar cells"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "performer_names",
+    "expression": "cell.recon.match.id",
+    "onError": "set-to-blank",
+    "newColumnName": "reconciled_performer_names",
+    "columnInsertIndex": 3,
+    "description": "Create column reconciled_performer_names at index 3 based on column performer_names using expression cell.recon.match.id"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "reconciled_performer_names",
+    "expression": "join ([coalesce(cells['reconciled_performer_names'].value,''),coalesce(cells['already_reconciled'].value,'')],'')",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column reconciled_performer_names using expression join ([coalesce(cells['reconciled_performer_names'].value,''),coalesce(cells['already_reconciled'].value,'')],'')"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "reconciled_performer_names",
+          "columnName": "reconciled_performer_names",
+          "query": "new",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "reconciled_performer_names",
+    "expression": "grel:\"\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column reconciled_performer_names using expression grel:\"\""
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "reconciled_performer_names",
+          "expression": "isBlank(value)",
+          "columnName": "reconciled_performer_names",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": true,
+                "l": "true"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "reconciled_performer_names",
+    "expression": "grel:cells[\"performer_names\"].value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column reconciled_performer_names using expression grel:cells[\"performer_names\"].value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "performer_names",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "performer_names_original",
+    "columnInsertIndex": 3,
+    "description": "Create column performer_names_original at index 3 based on column performer_names using expression grel:value"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "performer_names",
+    "newColumnName": "old",
+    "description": "Rename column performer_names to old"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "reconciled_performer_names",
+    "newColumnName": "performer_names",
+    "description": "Rename column reconciled_performer_names to performer_names"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "already_reconciled",
+    "description": "Remove column already_reconciled"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "occupation musician",
+    "description": "Remove column occupation musician"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "occupation jazz musician",
+    "description": "Remove column occupation jazz musician"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "genre jazz",
+    "description": "Remove column genre jazz"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "old",
+    "description": "Remove column old"
+  }
+]

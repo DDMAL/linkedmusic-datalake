@@ -1,0 +1,167 @@
+{
+    "artist-id": {
+        "null": "http://www.wikidata.org/prop/direct/P434"
+    },
+    "release-group-id": {
+        "null": "http://www.wikidata.org/prop/direct/P436"
+    },
+    "release-id": {
+        "null": "http://www.wikidata.org/prop/direct/P5813"
+    },
+    "recording-id": {
+        "null": "http://www.wikidata.org/prop/direct/P4404"
+    },
+    "work-id": {
+        "null": "http://www.wikidata.org/prop/direct/P435"
+    },
+    "label-id": {
+        "null": "http://www.wikidata.org/prop/direct/P966"
+    },
+    "area-id": {
+        "null": "http://www.wikidata.org/prop/direct/P982"
+    },
+    "place-id": {
+        "null": "http://www.wikidata.org/prop/direct/P1004"
+    },
+    "event-id": {
+        "null": "http://www.wikidata.org/prop/direct/P6423"
+    },
+    "series-id": {
+        "null": "http://www.wikidata.org/prop/direct/P1407"
+    },
+    "instrument-id": {
+        "null": "http://www.wikidata.org/prop/direct/P1330"
+    },
+    "genre-id": {
+        "null": "http://www.wikidata.org/prop/direct/P8052"
+    },
+    "barcode": {
+        "null": "http://www.wikidata.org/prop/direct/P3962"
+    },
+    "asin": {
+        "null": "http://www.wikidata.org/prop/direct/P5749"
+    },
+    "isni": {
+        "null": "http://www.wikidata.org/prop/direct/P213"
+    },
+    "ipi": {
+        "null": "http://www.wikidata.org/prop/direct/P1828"
+    },
+    "labelcode": {
+        "label": "http://www.wikidata.org/prop/direct/P7320"
+    },
+    "iswc": {
+        "work": "http://www.wikidata.org/prop/direct/P1827"
+    },
+    "geonames": {
+        "null": "http://www.wikidata.org/prop/direct/P1566"
+    },
+    "soundcloud": {
+        "null": "http://www.wikidata.org/prop/direct/P3040"
+    },
+    "ytc": {
+        "null": "http://www.wikidata.org/prop/direct/P2397"
+    },
+    "ytv": {
+        "null": "http://www.wikidata.org/prop/direct/P1651"
+    },
+    "ytp": {
+        "null": "http://www.wikidata.org/prop/direct/P4300"
+    },
+    "discogsa": {
+        "null": "http://www.wikidata.org/prop/direct/P1953"
+    },
+    "discogsw": {
+        "null": "http://www.wikidata.org/prop/direct/P1954"
+    },
+    "discogsl": {
+        "null": "http://www.wikidata.org/prop/direct/P1955"
+    },
+    "vgmdbr": {
+        "null": "http://www.wikidata.org/prop/direct/P3483"
+    },
+    "vgmdbl": {
+        "null": "http://www.wikidata.org/prop/direct/P3511"
+    },
+    "bba": {
+        "null": "http://www.wikidata.org/prop/direct/P2607"
+    },
+    "bbl": {
+        "null": "http://www.wikidata.org/prop/direct/P8063"
+    },
+    "imslp": {
+        "null": "http://www.wikidata.org/prop/direct/P839"
+    },
+    "imdb": {
+        "null": "http://www.wikidata.org/prop/direct/P345"
+    },
+    "applea": {
+        "null": "http://www.wikidata.org/prop/direct/P2850"
+    },
+    "appler": {
+        "null": "http://www.wikidata.org/prop/direct/P2281"
+    },
+    "applel": {
+        "null": "http://www.wikidata.org/prop/direct/P9550"
+    },
+    "applet": {
+        "null": "http://www.wikidata.org/prop/direct/P10110"
+    },
+    "viaf": {
+        "null": "http://www.wikidata.org/prop/direct/P214"
+    },
+    "lastfm": {
+        "null": "http://www.wikidata.org/prop/direct/P3192"
+    },
+    "rymr": {
+        "null": "http://www.wikidata.org/prop/direct/P8392"
+    },
+    "ryml": {
+        "null": "http://www.wikidata.org/prop/direct/P7313"
+    },
+    "ryma": {
+        "null": "http://www.wikidata.org/prop/direct/P5404"
+    },
+    "rymc": {
+        "null": "http://www.wikidata.org/prop/direct/P11622"
+    },
+    "rymv": {
+        "null": "http://www.wikidata.org/prop/direct/P11600"
+    },
+    "rymw": {
+        "null": "http://www.wikidata.org/prop/direct/P11665"
+    },
+    "rymt": {
+        "null": "http://www.wikidata.org/prop/direct/P13056"
+    },
+    "metalb": {
+        "null": "http://www.wikidata.org/prop/direct/P1952"
+    },
+    "metalr": {
+        "null": "http://www.wikidata.org/prop/direct/P2721"
+    },
+    "metall": {
+        "null": "http://www.wikidata.org/prop/direct/P8166"
+    },
+    "metala": {
+        "null": "http://www.wikidata.org/prop/direct/P1989"
+    },
+    "sammler": {
+        "null": "http://www.wikidata.org/prop/direct/P9965"
+    },
+    "worldcat": {
+        "null": "http://www.wikidata.org/prop/direct/P10832"
+    },
+    "bnf": {
+        "null": "http://www.wikidata.org/prop/direct/P268"
+    },
+    "rism": {
+        "null": "http://www.wikidata.org/prop/direct/P5504"
+    },
+    "dnb": {
+        "null": "http://www.wikidata.org/prop/direct/P227"
+    },
+    "loc": {
+        "null": "http://www.wikidata.org/prop/direct/P244"
+    }
+}
