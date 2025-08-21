@@ -34,4 +34,12 @@ In `generate_jsonld.py`:
 3. Generate the jsonld file at `compact.jsonld`
 4. The contexts used in the `compact.jsonld` file is imported from `context.jsonld`
 
-### TODO: Make the RDF conversion convert to Turtle
+## Future Things to do
+
+### Re-run the reconciliation process on a newer database dump
+
+As per [#263](https://github.com/DDMAL/linkedmusic-datalake/issues/263), the reconciliation process was run on a dump from December 2023. A newer dump has been uploaded to the [Object Store](https://github.com/DDMAL/linkedmusic-datalake/wiki/backing-up-data) in the `misc/` folder. The reconciliation process should be re-run, paying attention to potential changes in the database structure, if any, that would require adjustments to the reconciliation workflow.
+
+### Convert to Turtle instead of JSON-LD
+
+See [#306](https://github.com/DDMAL/linkedmusic-datalake/issues/306). You should use the RDF conversion script detailed [in this file](/shared/rdf_conversion/using_rdfconv_script.md).
