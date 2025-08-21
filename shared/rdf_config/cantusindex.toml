@@ -1,0 +1,38 @@
+[general]
+name = "cantusindex"
+csv_folder = "../../cantus_index/data/reconciled"
+rdf_output_folder = "../../cantus_index/data/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+ci = "https://linkedmusic.ca/graphs/cantusindex/"
+cii = "https://cantusindex.org/id/"
+
+[cantusindex-reconciled]
+PRIMARY_KEY = "cid"
+cid = ""
+genre = "P136"  # genre (P136)
+genre_original = ""
+feast = "P837"  # day in year for periodic occurrence (P837)
+feast_original = ""
+text = ""
+related = ""
+similar = ""
+troped = ""
+source = "" #source ?
+language = ""
+tags = ""
+cao = ""
+cao_concordances = "" #source ?
+cao_concordances_original = "" 
+ah_volume = ""
+ah_item = ""
+notes = ""
+author = ""
+fulltext_submitted_by = ""
+proofread_by = ""
