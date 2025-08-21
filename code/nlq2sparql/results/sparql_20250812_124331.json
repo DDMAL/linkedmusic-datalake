@@ -1,4 +1,0 @@
-
-{ "head": { "link": [], "vars": ["s", "p", "o"] },
-  "results": { "distinct": false, "ordered": true, "bindings": [
-    { "s": { "type": "uri", "value": "http://www.openlinksw.com/schemas/virtrdf#DefaultQuadMap" }	, "p": { "type": "uri", "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" }	, "o": { "type": "uri", "value": "http://www.openlinksw.com/schemas/virtrdf#QuadMap" }} ] } }
