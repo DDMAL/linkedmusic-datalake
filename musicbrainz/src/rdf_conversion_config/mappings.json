@@ -1,0 +1,104 @@
+{
+    "title": {
+        "null": "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    "date": {
+        "null": "http://www.wikidata.org/prop/direct/P577"
+    },
+    "genre": {
+        "null": "http://www.wikidata.org/prop/direct/P136"
+    },
+    "name": {
+        "null": "http://www.w3.org/2000/01/rdf-schema#label"
+    },
+    "type": {
+        "null": "http://www.wikidata.org/prop/direct/P31"
+    },
+    "alias": {
+        "null": "http://www.w3.org/2004/02/skos/core#altLabel"
+    },
+    "begin-date": {
+        "null": "http://www.wikidata.org/prop/direct/P571",
+        "event": "http://www.wikidata.org/prop/direct/P580"
+    },
+    "end-date": {
+        "null": "http://www.wikidata.org/prop/direct/P576",
+        "event": "http://www.wikidata.org/prop/direct/P582"
+    },
+    "coordinates": {
+        "null": "http://www.wikidata.org/prop/direct/P625"
+    },
+    "area": {
+        "area": "http://www.wikidata.org/prop/direct/P131",
+        "artist": "http://www.wikidata.org/prop/direct/P27",
+        "label": "http://www.wikidata.org/prop/direct/P17",
+        "place": "http://www.wikidata.org/prop/direct/P131",
+        "release": "http://www.wikidata.org/prop/direct/P495"
+    },
+    "gender": {
+        "artist": "http://www.wikidata.org/prop/direct/P21"
+    },
+    "begin-area-person": {
+        "artist": "http://www.wikidata.org/prop/direct/P19"
+    },
+    "end-area-person": {
+        "artist": "http://www.wikidata.org/prop/direct/P20"
+    },
+    "begin-date-person": {
+        "artist": "http://www.wikidata.org/prop/direct/P569"
+    },
+    "end-date-person": {
+        "artist": "http://www.wikidata.org/prop/direct/P570"
+    },
+    "begin-area": {
+        "artist": "http://www.wikidata.org/prop/direct/P740"
+    },
+    "time": {
+        "event": "http://www.wikidata.org/prop/direct/P585"
+    },
+    "instrument": {
+        "instrument": "http://www.wikidata.org/prop/direct/P279",
+        "recording": "http://www.wikidata.org/prop/direct/P870"
+    },
+    "address": {
+        "place": "http://www.wikidata.org/prop/direct/P6375"
+    },
+    "artist": {
+        "recording": "http://www.wikidata.org/prop/direct/P175",
+        "release-group": "http://www.wikidata.org/prop/direct/P175",
+        "release": "http://www.wikidata.org/prop/direct/P175"
+    },
+    "length": {
+        "recording": "http://www.wikidata.org/prop/direct/P2047"
+    },
+    "first-release-date": {
+        "null": "http://www.wikidata.org/prop/direct/P577"
+    },
+    "cdtoc": {
+        "release": "http://www.wikidata.org/prop/direct/P527"
+    },
+    "recording": {
+        "release": "http://www.wikidata.org/prop/direct/P658"
+    },
+    "label": {
+        "release": "http://www.wikidata.org/prop/direct/P264"
+    },
+    "release-group": {
+        "release": "http://www.wikidata.org/prop/direct/P361"
+    },
+    "end-status": {
+        "release": "http://www.wikidata.org/prop/direct/P1534"
+    },
+    "status": {
+        "release": "http://www.wikidata.org/prop/direct/P31"
+    },
+    "packaging": {
+        "release": "http://www.wikidata.org/prop/direct/P9813"
+    },
+    "language": {
+        "work": "http://www.wikidata.org/prop/direct/P407"
+    },
+    "url": {
+        "null": "http://www.wikidata.org/prop/direct/P2888"
+    }
+}

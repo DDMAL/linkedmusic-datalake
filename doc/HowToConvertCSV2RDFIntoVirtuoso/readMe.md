@@ -1,1 +1,0 @@
-In this documentation, it introduces different ways of converting CSV to RDF in Open Link Virtuoso
