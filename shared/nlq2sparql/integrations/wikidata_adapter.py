@@ -10,10 +10,14 @@ from typing import Optional
 import aiohttp
 
 try:
-    # Import from shared lib without modifying it
-    from wikidata_utils import WikidataAPIClient  # type: ignore
+    # Import from shared lib without modifying it - correct path to shared directory
+    from shared.wikidata_utils import WikidataAPIClient  # type: ignore
 except Exception as _e:  # pragma: no cover - import error surfaced in tests
-    WikidataAPIClient = None  # type: ignore
+    try:
+        # Fallback for different import contexts
+        from ...wikidata_utils import WikidataAPIClient  # type: ignore
+    except Exception:
+        WikidataAPIClient = None  # type: ignore
 
 
 # Module-level cache, but tied to event loop
@@ -22,7 +26,7 @@ _client: Optional[WikidataAPIClient] = None  # type: ignore[valid-type]
 _loop: Optional[asyncio.AbstractEventLoop] = None
 
 
-async def get_wikidata_client() -> WikidataAPIClient:
+async def get_wikidata_client():  # type: ignore
     """Return a WikidataAPIClient with loop-aware caching.
 
     Recreates client/session whenever the running event loop changes to avoid
@@ -36,7 +40,11 @@ async def get_wikidata_client() -> WikidataAPIClient:
                 await _session.close()
             except Exception:
                 pass
-        _session = aiohttp.ClientSession()
+        _session = aiohttp.ClientSession(
+            headers={
+                "User-Agent": "linkedmusic-datalake/nlq2sparql (https://github.com/DDMAL/linkedmusic-datalake) aiohttp"
+            }
+        )
         if WikidataAPIClient is None:  # pragma: no cover
             raise RuntimeError("wikidata_utils.WikidataAPIClient not available")
         _client = WikidataAPIClient(_session)  # type: ignore[arg-type]

@@ -11,19 +11,26 @@ from functools import lru_cache
 
 from .base import BaseAgent
 
-# Prefer the newest ontology file if present, fallback to the previous placeholder to keep tests stable
+# Automatically find the latest ontology file based on filename sorting
 ONTOLOGY_DIR = Path(__file__).resolve().parents[1] / "ontology"
-_candidates = [
-    "21Aug2025_ontology.ttl",
-    "11Aug2025_ontology.ttl",
-]
-_selected = None
-for _name in _candidates:
-    _path = ONTOLOGY_DIR / _name
-    if _path.exists():
-        _selected = _path
-        break
-ONTOLOGY_FILE = _selected or (ONTOLOGY_DIR / "11Aug2025_ontology.ttl")
+
+def _find_latest_ontology_file():
+    """Find the latest ontology file by scanning directory and sorting by filename."""
+    if not ONTOLOGY_DIR.exists():
+        return ONTOLOGY_DIR / "4Sept2025_ontology.ttl"  # fallback for missing directory
+    
+    # Find all *ontology.ttl files
+    ontology_files = list(ONTOLOGY_DIR.glob("*ontology.ttl"))
+    
+    if not ontology_files:
+        return ONTOLOGY_DIR / "11Aug2025_ontology.ttl"  # fallback if no files found
+    
+    # Sort by filename (date strings sort chronologically: "11Aug2025" < "4Sept2025" etc.)
+    # Use reverse=True to get the latest (newest) file first
+    latest_file = sorted(ontology_files, key=lambda p: p.name, reverse=True)[0]
+    return latest_file
+
+ONTOLOGY_FILE = _find_latest_ontology_file()
 
 
 @dataclass
@@ -84,7 +91,7 @@ class UnifiedOntologyAgent(BaseAgent):
                 "dtl": "dtl:",
                 "gj": "gj:",
             }
-            allowed_prefixes = {ds_map.get(d) for d in datasets if ds_map.get(d)}
+            allowed_prefixes = {ds_map[d] for d in datasets if d in ds_map and ds_map[d]}
         g = self._graph
         if mode == "ttl":
             # Return raw TTL snippet(s) verbatim for each matched subject

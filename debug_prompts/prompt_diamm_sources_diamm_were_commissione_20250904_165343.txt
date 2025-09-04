@@ -1,0 +1,64 @@
+Database: diamm
+Query: Return a list of sources in DIAMM that were commissioned by King Henry VII of England
+Ontology context: Yes
+Timestamp (EDT): 2025-09-04 16:53:43
+================================================================================
+PROMPT SENT TO LLM:
+================================================================================
+You are a SPARQL query generator working with musical Linked Data.
+
+Task: Convert the following natural language query to a SPARQL query that retrieve all 
+relevant results from the diamm database. Do not guess Wikidata QIDs or PIDs, use the provided
+ontology context if available. Return only the SPARQL query, no explanations. Ensure the query is syntatically correct.
+
+Natural Language Query: Return a list of sources in DIAMM that were commissioned by King Henry VII of England
+
+Available Prefixes:
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX da: <https://www.diamm.ac.uk/archives/>
+PREFIX de: <https://www.diamm.ac.uk/sets/>
+PREFIX di: <https://www.diamm.ac.uk/cities/>
+PREFIX dm: <https://www.diamm.ac.uk/compositions/>
+PREFIX dn: <https://www.diamm.ac.uk/countries/>
+PREFIX do: <https://www.diamm.ac.uk/organizations/>
+PREFIX dp: <https://www.diamm.ac.uk/people/>
+PREFIX dr: <https://www.diamm.ac.uk/regions/>
+PREFIX ds: <https://www.diamm.ac.uk/sources/>
+
+Ontology Context:
+# Routing Plan
+
+Datasets: diamm
+Concepts: Artist, Manuscript, Work
+
+# Resolved IDs (labels → QID/PID)
+
+entity:commissioned = None
+entity:diamm = None
+entity:england = None
+entity:henry = None
+entity:king = None
+entity:list = None
+entity:return = None
+entity:sources = None
+entity:that = None
+entity:vii = None
+entity:were = None
+property:commissioned = None
+property:diamm = None
+property:england = None
+property:henry = None
+property:king = None
+property:list = None
+property:return = None
+property:sources = None
+property:that = None
+property:vii = None
+property:were = None
+
+SPARQL Query:
