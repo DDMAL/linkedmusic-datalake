@@ -13,23 +13,23 @@ wdt = "http://www.wikidata.org/prop/direct/"
 ci = "https://linkedmusic.ca/graphs/cantusindex/"
 cii = "https://cantusindex.org/id/"
 
-[cantusindex-reconciled]
+[cantus_index]
 PRIMARY_KEY = "cid"
-cid = ""
+cid = {prefix = "cii", type = "ci:Chant"}
 genre = "P136"  # genre (P136)
 genre_original = ""
 feast = "P837"  # day in year for periodic occurrence (P837)
 feast_original = ""
-text = ""
-related = ""
-similar = ""
-troped = ""
-source = "" #source ?
-language = ""
+text = "P6349"  # Lace Bugs Database ID (P6349)
+related =  {pred = "P1899", prefix = "cii"}  # LibriVox author ID (P1899)
+similar = {pred = "P629", prefix = "cii"}  # edition or translation of (P629)
+troped = {pred = "P144", prefix = "cii"}  # based on (P144)
+source = "P217"  # inventory number (P217)
+language = "P407"  # language of work or name (P407)
 tags = ""
 cao = ""
-cao_concordances = "" #source ?
-cao_concordances_original = "" 
+cao_concordances = ""
+cao_concordances_original = ""
 ah_volume = ""
 ah_item = ""
 notes = ""
