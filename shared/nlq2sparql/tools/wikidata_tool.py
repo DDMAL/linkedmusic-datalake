@@ -13,20 +13,20 @@ from functools import lru_cache
 from typing import Dict, Optional, Sequence
 
 try:
-    # When running tests from shared/nlq2sparql (added to sys.path), sibling packages are top-level
-    from integrations.wikidata_adapter import (  # type: ignore
+    # First try relative import for proper package usage
+    from ..integrations.wikidata_adapter import (
         get_wikidata_client,
         close_wikidata_client,
     )
-except Exception:  # pragma: no cover - fallback for packaged usage
+except (ImportError, ValueError):  # ValueError for relative import beyond top-level
     try:
-        from shared.nlq2sparql.integrations.wikidata_adapter import (  # type: ignore
+        # When running tests from shared/nlq2sparql (added to sys.path), sibling packages are top-level
+        from integrations.wikidata_adapter import (  # type: ignore
             get_wikidata_client,
             close_wikidata_client,
         )
-    except Exception:
-        # Final fallback if executed as a proper package module
-        from ..integrations.wikidata_adapter import (
+    except ImportError:  # pragma: no cover - fallback for packaged usage
+        from shared.nlq2sparql.integrations.wikidata_adapter import (  # type: ignore
             get_wikidata_client,
             close_wikidata_client,
         )
