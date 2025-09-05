@@ -11,6 +11,7 @@ a clean interface for natural language queries that need Wikidata lookups.
 import asyncio
 import logging
 import os
+import warnings
 from typing import Dict, List, Optional, Any
 from pathlib import Path
 import sys
@@ -175,7 +176,7 @@ class GeminiWikidataIntegration(BaseLLMIntegration):
             self.log_error(e, f"execute_function_call({function_name})")
             return {"error": str(e)}
     
-    async def send_message_with_tools(self, message: str, model: str = "gemini-2.5-flash") -> Dict[str, Any]:
+    async def send_message_with_tools(self, message: str, model: str = "gemini-2.5-flash") -> Dict[str, Any]:  # type: ignore[override]
         """
         Send a message to Gemini with Wikidata tools enabled.
         
@@ -198,9 +199,14 @@ class GeminiWikidataIntegration(BaseLLMIntegration):
         }
         
         try:
+            # Check if types module is available
+            if types is None:
+                result["text"] = "Google GenAI SDK not available. Install with: poetry add google-genai"
+                return result
+                
             # Create tools configuration
-            tools = types.Tool(function_declarations=self.get_function_declarations())
-            config = types.GenerateContentConfig(tools=[tools])
+            tools = types.Tool(function_declarations=self.get_function_declarations())  # type: ignore
+            config = types.GenerateContentConfig(tools=[tools])  # type: ignore
             
             # Send initial request
             response = self.client.models.generate_content(
@@ -212,8 +218,8 @@ class GeminiWikidataIntegration(BaseLLMIntegration):
             # Extract thought signatures and reasoning from the response
             if hasattr(response, 'candidates') and response.candidates:
                 candidate = response.candidates[0]
-                if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts'):
-                    for part in candidate.content.parts:
+                if hasattr(candidate, 'content') and candidate.content and hasattr(candidate.content, 'parts'):
+                    for part in candidate.content.parts:  # type: ignore
                         # Capture thought signatures for reasoning
                         if hasattr(part, 'thought_signature') and part.thought_signature:
                             result["thought_signatures"].append(part.thought_signature)
@@ -225,30 +231,30 @@ class GeminiWikidataIntegration(BaseLLMIntegration):
                             # Log the function call attempt
                             call_info = {
                                 "function": func_call.name,
-                                "arguments": dict(func_call.args),
+                                "arguments": dict(func_call.args) if func_call.args else {},  # type: ignore
                                 "result": None,
                                 "error": None
                             }
                             
                             # Execute the function call
                             func_result = await self.execute_function_call(
-                                func_call.name, 
-                                dict(func_call.args)
+                                func_call.name or "",  # type: ignore
+                                dict(func_call.args) if func_call.args else {}  # type: ignore
                             )
                             call_info["result"] = func_result
                             result["function_calls"].append(call_info)
                             
                             # Send function result back to Gemini
-                            function_response_part = types.Part.from_function_response(
-                                name=func_call.name,
+                            function_response_part = types.Part.from_function_response(  # type: ignore
+                                name=func_call.name or "",  # type: ignore
                                 response={"result": func_result},
                             )
                             
                             # Continue the conversation with function result
                             contents = [
-                                types.Content(role="user", parts=[types.Part(text=message)]),
+                                types.Content(role="user", parts=[types.Part(text=message)]),  # type: ignore
                                 candidate.content,  # Gemini's function call
-                                types.Content(role="user", parts=[function_response_part])
+                                types.Content(role="user", parts=[function_response_part])  # type: ignore
                             ]
                             
                             final_response = self.client.models.generate_content(
@@ -260,8 +266,8 @@ class GeminiWikidataIntegration(BaseLLMIntegration):
                             # Extract final reasoning and response
                             if hasattr(final_response, 'candidates') and final_response.candidates:
                                 final_candidate = final_response.candidates[0]
-                                if hasattr(final_candidate, 'content') and hasattr(final_candidate.content, 'parts'):
-                                    for final_part in final_candidate.content.parts:
+                                if hasattr(final_candidate, 'content') and final_candidate.content and hasattr(final_candidate.content, 'parts'):
+                                    for final_part in final_candidate.content.parts:  # type: ignore
                                         if hasattr(final_part, 'thought_signature') and final_part.thought_signature:
                                             result["thought_signatures"].append(final_part.thought_signature)
                             
@@ -273,8 +279,8 @@ class GeminiWikidataIntegration(BaseLLMIntegration):
             direct_text = ""
             if hasattr(response, 'candidates') and response.candidates:
                 candidate = response.candidates[0]
-                if hasattr(candidate, 'content') and hasattr(candidate.content, 'parts'):
-                    for part in candidate.content.parts:
+                if hasattr(candidate, 'content') and candidate.content and hasattr(candidate.content, 'parts'):
+                    for part in candidate.content.parts:  # type: ignore
                         if hasattr(part, 'thought_signature') and part.thought_signature:
                             result["thought_signatures"].append(part.thought_signature)
                         if hasattr(part, 'text') and part.text:

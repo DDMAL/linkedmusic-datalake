@@ -148,7 +148,7 @@ async def run_comprehensive_test():
         
         # Monkey patch the router to use our mock for LLM agents
         if hasattr(router, '_llm_client'):
-            router._llm_client = mock_provider
+            router._llm_client = mock_provider  # type: ignore
         
         # Test queries to demonstrate different routing scenarios
         test_queries = [

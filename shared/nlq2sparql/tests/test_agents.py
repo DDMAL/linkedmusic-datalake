@@ -91,9 +91,24 @@ class _FakeWikidataAgent:
         return out
 
 
-class _NoOpExampleAgent:
+# Try to import BaseAgent and inherit from it if available
+try:
+    from ..agents.base import BaseAgent
+    BaseAgentClass = BaseAgent
+except ImportError:
+    # Create a minimal base class if BaseAgent is not available
+    BaseAgentClass = object  # type: ignore
+
+
+class _NoOpExampleAgent(BaseAgentClass):  # type: ignore
     name = "examples"
-    async def run(self, question: str, k: int | None = None):  # pragma: no cover
+    
+    def __init__(self, *args, **kwargs):
+        # Only call super().__init__ if we're actually inheriting from BaseAgent
+        if hasattr(super(), '__init__') and BaseAgentClass is not object:
+            super().__init__(*args, **kwargs)
+    
+    async def run(self, **kwargs):  # pragma: no cover
         return [{"question": "sample", "sparql": "SELECT * WHERE { ?s ?p ?o }", "overlap": 1.0}]
 
 
@@ -103,7 +118,7 @@ async def test_supervisor_end_to_end_minimal():
     wikidata = _FakeWikidataAgent()
     examples = _NoOpExampleAgent()
     router = RouterAgent()
-    sup = SupervisorAgent(ontology_agent=ont, wikidata_agent=wikidata, example_agent=examples, prompt_builder=prompt_builder, router_agent=router)
+    sup = SupervisorAgent(ontology_agent=ont, wikidata_agent=wikidata, example_agent=examples, prompt_builder=prompt_builder, router_agent=router)  # type: ignore
     result = await sup.run("List works by Guillaume Dufay in manuscripts")
     assert result.question.startswith("List works")
     assert isinstance(result.ontology_slice, dict)
@@ -125,7 +140,7 @@ async def test_supervisor_dataset_filtering_plan_present():
     wikidata = _FakeWikidataAgent()
     examples = _NoOpExampleAgent()
     router = RouterAgent()
-    sup = SupervisorAgent(ontology_agent=ont, wikidata_agent=wikidata, example_agent=examples, prompt_builder=prompt_builder, router_agent=router)
+    sup = SupervisorAgent(ontology_agent=ont, wikidata_agent=wikidata, example_agent=examples, prompt_builder=prompt_builder, router_agent=router)  # type: ignore
     # Query with tokens likely to trigger 'musicbrainz' rule
     result = await sup.run("list recordings and releases by label")
     meta = result.prompt.get("config_meta", {})

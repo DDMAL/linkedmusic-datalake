@@ -59,9 +59,9 @@ class TestWikidataToolFunctions:
     async def test_empty_input(self):
         """Test empty input handling."""
         assert await find_entity_id("") is None
-        assert await find_entity_id(None) is None
+        assert await find_entity_id(None) is None  # type: ignore
         assert await find_property_id("") is None
-        assert await find_property_id(None) is None
+        assert await find_property_id(None) is None  # type: ignore
 
 
 class TestWikidataToolClass:

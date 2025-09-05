@@ -35,8 +35,8 @@ class TestProviderBase:
     def test_base_client_is_abstract(self):
         """BaseLLMClient cannot be instantiated directly"""
         config = Config()
-        with pytest.raises(TypeError):
-            BaseLLMClient(config)
+        with pytest.raises(TypeError, match="Can't instantiate abstract class"):
+            BaseLLMClient(config)  # type: ignore
     
     def test_base_client_has_required_methods(self):
         """BaseLLMClient defines required interface"""

@@ -42,7 +42,7 @@ async def _get_client():
 async def _search_entities_precise(term: str, entity_type: str, limit: int = 1):
     client = await _get_client()
     try:
-        return await client.wbsearchentities(term, entity_type=entity_type, limit=limit)
+        return await client.wbsearchentities(term, entity_type=entity_type, limit=limit)  # type: ignore
     except Exception as e:
         logger.error("wbsearchentities failed for '%s': %s", term, e)
         return []
@@ -53,7 +53,7 @@ async def _search_entities_fuzzy(term: str, entity_type: str, limit: int = 5):
         return []
     client = await _get_client()
     try:
-        return await client.search(term, limit=limit, entity_type="items")
+        return await client.search(term, limit=limit, entity_type="items")  # type: ignore
     except Exception as e:
         logger.error("Elastic search failed for '%s': %s", term, e)
         return []
