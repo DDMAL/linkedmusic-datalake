@@ -7,8 +7,17 @@ import asyncio
 import sys
 from pathlib import Path
 
-# Add the parent directory to the path for imports
-sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+# Import from the nlq2sparql package using relative imports
+try:
+    from ..agents.llm_router_agent import LLMRouterAgent, LLMRoutingResult
+    from ..config import Config
+    from ..llm.client import LLMClient
+except ImportError:
+    # Fallback for repository-level debugging - add repository root to path
+    sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+    from shared.nlq2sparql.agents.llm_router_agent import LLMRouterAgent, LLMRoutingResult
+    from shared.nlq2sparql.config import Config
+    from shared.nlq2sparql.llm.client import LLMClient
 
 # Mock the LLM client with debugging
 class MockLLMResponse:

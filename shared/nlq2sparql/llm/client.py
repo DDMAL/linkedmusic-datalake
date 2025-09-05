@@ -13,11 +13,11 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Union
 from pathlib import Path
-import sys
 
-# Add parent directory to path for imports
-if str(Path(__file__).parent.parent) not in sys.path:
-    sys.path.append(str(Path(__file__).parent.parent))
+try:
+    from ..providers.base import BaseLLMClient
+except ImportError:
+    from providers.base import BaseLLMClient
 
 
 @dataclass

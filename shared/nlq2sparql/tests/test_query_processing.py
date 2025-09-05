@@ -7,15 +7,18 @@ Focuses on the main workflow users interact with.
 
 import pytest
 from unittest.mock import Mock, patch
-import sys
 from pathlib import Path
 
-# Add parent directory to path for imports
-if str(Path(__file__).parent.parent) not in sys.path:
+# Import router and config using relative imports
+try:
+    from ..router import QueryRouter, RouterError
+    from ..config import Config
+except ImportError:
+    # Fallback for when running tests directly
+    import sys
     sys.path.append(str(Path(__file__).parent.parent))
-
-from router import QueryRouter, RouterError
-from config import Config
+    from router import QueryRouter, RouterError
+    from config import Config
 
 
 class TestQueryProcessing:

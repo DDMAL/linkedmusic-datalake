@@ -7,13 +7,16 @@ could import and use the Wikidata tool functions.
 
 import asyncio
 import logging
-import sys
 from pathlib import Path
 
-# Add the parent directory to path for imports
-sys.path.append(str(Path(__file__).parent.parent))
-
-from tools.wikidata_tool import find_entity_id, find_property_id, WikidataTool
+# Import tools using relative imports
+try:
+    from ..tools.wikidata_tool import find_entity_id, find_property_id, WikidataTool
+except ImportError:
+    # Fallback for when running directly
+    import sys
+    sys.path.append(str(Path(__file__).parent.parent))
+    from tools.wikidata_tool import find_entity_id, find_property_id, WikidataTool
 
 
 async def manager_agent_example():

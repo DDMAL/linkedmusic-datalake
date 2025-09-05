@@ -8,14 +8,19 @@ from pathlib import Path
 import sys
 import pytest
 
-# Ensure repository root added so 'nlq2sparql' resolves when running from project root
-ROOT = Path(__file__).resolve().parents[3]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
-
-from shared.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, RouterAgent
-from shared.nlq2sparql.agents.ontology_agent import ONTOLOGY_FILE
-from shared.nlq2sparql import prompt_builder
+# Import agents using relative imports, with fallback for repository-level testing
+try:
+    from ..agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, RouterAgent
+    from ..agents.ontology_agent import ONTOLOGY_FILE
+    from .. import prompt_builder
+except ImportError:
+    # Fallback for repository-level testing - add repository root to path
+    ROOT = Path(__file__).resolve().parents[3]
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    from shared.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, RouterAgent
+    from shared.nlq2sparql.agents.ontology_agent import ONTOLOGY_FILE
+    from shared.nlq2sparql import prompt_builder
 
 
 @pytest.mark.asyncio

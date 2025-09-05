@@ -6,14 +6,16 @@ Focuses on the main config functionality users rely on.
 """
 
 import pytest
-import sys
 from pathlib import Path
 
-# Add parent directory to path for imports
-if str(Path(__file__).parent.parent) not in sys.path:
+# Import config from parent directory using relative import
+try:
+    from ..config import Config, ConfigError
+except ImportError:
+    # Fallback for when running tests directly
+    import sys
     sys.path.append(str(Path(__file__).parent.parent))
-
-from config import Config, ConfigError
+    from config import Config, ConfigError
 
 
 class TestConfigLoading:

@@ -5,13 +5,16 @@ Tests for Wikidata tool functions.
 import asyncio
 import pytest
 from unittest.mock import AsyncMock, patch
-import sys
 from pathlib import Path
 
-# Add parent directory to path
-sys.path.append(str(Path(__file__).parent.parent))
-
-from tools.wikidata_tool import find_entity_id, find_property_id, WikidataTool
+# Import wikidata tool using relative import
+try:
+    from ..tools.wikidata_tool import find_entity_id, find_property_id, WikidataTool
+except ImportError:
+    # Fallback for when running tests directly
+    import sys
+    sys.path.append(str(Path(__file__).parent.parent))
+    from tools.wikidata_tool import find_entity_id, find_property_id, WikidataTool
 
 
 class TestWikidataToolFunctions:

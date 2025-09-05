@@ -23,9 +23,15 @@ except ImportError:
     # dotenv not available, that's okay
     pass
 
-# Ensure the parent directory is in the path to allow sibling imports
-if str(Path(__file__).parent.parent) not in sys.path:
+# Import parent modules using relative imports  
+try:
+    from ..config import Config
+    from ..providers.base import BaseLLMClient, APIError, ConfigurationError
+except ImportError:
+    # Fallback for when running directly
     sys.path.append(str(Path(__file__).parent.parent))
+    from config import Config
+    from providers.base import BaseLLMClient, APIError, ConfigurationError
 
 try:
     from google import genai

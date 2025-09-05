@@ -6,21 +6,27 @@ Tests the essential provider functionality without unnecessary complexity.
 
 import pytest
 from unittest.mock import Mock, patch
-import sys
 from pathlib import Path
 
-# Add parent directory to path for imports
-if str(Path(__file__).parent.parent) not in sys.path:
-    sys.path.append(str(Path(__file__).parent.parent))
-
+# Import providers and config using relative imports
 try:
-    from providers.base import BaseLLMClient, ConfigurationError, APIError
-    from providers.gemini_client import GeminiClient
-    from providers.chatgpt_client import ChatGPTClient  
-    from providers.claude_client import ClaudeClient
-    from config import Config
-except ImportError as e:
-    pytest.skip(f"Import error: {e}", allow_module_level=True)
+    from ..providers.base import BaseLLMClient, ConfigurationError, APIError
+    from ..providers.gemini_client import GeminiClient
+    from ..providers.chatgpt_client import ChatGPTClient  
+    from ..providers.claude_client import ClaudeClient
+    from ..config import Config
+except ImportError:
+    # Fallback for when running tests directly
+    import sys
+    sys.path.append(str(Path(__file__).parent.parent))
+    try:
+        from providers.base import BaseLLMClient, ConfigurationError, APIError
+        from providers.gemini_client import GeminiClient
+        from providers.chatgpt_client import ChatGPTClient  
+        from providers.claude_client import ClaudeClient
+        from config import Config
+    except ImportError as e:
+        pytest.skip(f"Import error: {e}", allow_module_level=True)
 
 
 class TestProviderBase:
