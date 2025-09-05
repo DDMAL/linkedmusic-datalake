@@ -11,6 +11,12 @@ from .example_agent import ExampleRetrievalAgent
 from .supervisor import SupervisorAgent
 from .router_agent import RouterAgent
 
+# LLM-powered agents
+from .llm_router_agent import LLMRouterAgent
+from .llm_ontology_agent import LLMOntologyAgent
+from .llm_example_agent import LLMExampleAgent
+from .llm_supervisor import LLMSupervisorAgent
+
 __all__ = [
 	"WikidataAgent",
 	"BaseAgent",
@@ -19,5 +25,10 @@ __all__ = [
 	"ExampleRetrievalAgent",
 	"SupervisorAgent",
 	"RouterAgent",
+	# LLM-powered variants
+	"LLMRouterAgent",
+	"LLMOntologyAgent", 
+	"LLMExampleAgent",
+	"LLMSupervisorAgent",
 ]
 

@@ -72,6 +72,18 @@ class ArgumentHandler:
         )
         
         parser.add_argument(
+            "--debug-logging",
+            action="store_true",
+            help="Enable comprehensive debug logging (shows all LLM interactions)"
+        )
+        
+        parser.add_argument(
+            "--log-file",
+            type=Path,
+            help="File to write debug logs to (in addition to console)"
+        )
+        
+        parser.add_argument(
             "--list-databases",
             action="store_true",
             help="List available databases and exit"
@@ -118,6 +130,12 @@ class ArgumentHandler:
             type=Path,
             default=None,
             help="Directory to save SPARQL results (default: shared/nlq2sparql/results)",
+        )
+        
+        parser.add_argument(
+            "--llm-agents",
+            action="store_true",
+            help="Use LLM-powered agents instead of rule-based agents (requires GEMINI_API_KEY)",
         )
         
         return parser

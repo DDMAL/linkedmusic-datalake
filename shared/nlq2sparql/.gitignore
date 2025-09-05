@@ -14,3 +14,9 @@ env/
 
 # SPARQL results outputs
 results/
+
+# Debug outputs - ignore generated files but keep the scripts
+debug/debug_prompts/*.txt
+debug/debug_prompts/*.log
+tests/*.log
+*.log

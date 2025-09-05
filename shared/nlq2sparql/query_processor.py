@@ -29,7 +29,8 @@ class QueryProcessor:
         database: str,
         ontology_file: Optional[Path] = None,
         debug_mode: bool = False,
-        verbose: bool = False
+        verbose: bool = False,
+        use_llm_agents: bool = False
     ) -> str:
         """
         Process a query request in either normal or debug mode
@@ -41,6 +42,7 @@ class QueryProcessor:
             ontology_file: Optional ontology file path
             debug_mode: Whether to capture prompt instead of generating SPARQL
             verbose: Enable verbose output
+            use_llm_agents: Whether to use LLM-powered agents instead of rule-based ones
             
         Returns:
             Generated SPARQL query or debug response
@@ -49,11 +51,11 @@ class QueryProcessor:
         
         if debug_mode:
             return self._process_debug_mode(
-                router, query, provider, database, ontology_file, verbose
+                router, query, provider, database, ontology_file, verbose, use_llm_agents
             )
         else:
             return self._process_normal_mode(
-                router, query, provider, database, ontology_file, verbose
+                router, query, provider, database, ontology_file, verbose, use_llm_agents
             )
     
     def _process_debug_mode(
@@ -63,7 +65,8 @@ class QueryProcessor:
         provider: str,
         database: str,
         ontology_file: Optional[Path],
-        verbose: bool
+        verbose: bool,
+        use_llm_agents: bool
     ) -> str:
         """Process query in debug mode (capture prompt)"""
         # Replace the provider client with our debug client
@@ -75,7 +78,8 @@ class QueryProcessor:
             provider=provider,
             database=database,
             ontology_file=ontology_file,
-            verbose=verbose
+            verbose=verbose,
+            use_llm_agents=use_llm_agents
         )
         
         # The debug client automatically saves the prompt during the process
@@ -92,7 +96,8 @@ class QueryProcessor:
         provider: str,
         database: str,
         ontology_file: Optional[Path],
-        verbose: bool
+        verbose: bool,
+        use_llm_agents: bool
     ) -> str:
         """Process query in normal mode (generate SPARQL)"""
         sparql_query = router.process_query(
@@ -100,7 +105,8 @@ class QueryProcessor:
             provider=provider,
             database=database,
             ontology_file=ontology_file,
-            verbose=verbose
+            verbose=verbose,
+            use_llm_agents=use_llm_agents
         )
         
         print("Generated SPARQL Query:")

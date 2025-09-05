@@ -10,10 +10,12 @@ try:
     from .config import Config
     from .arguments import ArgumentHandler
     from .query_processor import QueryProcessor
+    from .logging_config import setup_end_to_end_logging
 except ImportError:
     from config import Config
     from arguments import ArgumentHandler
     from query_processor import QueryProcessor
+    from logging_config import setup_end_to_end_logging
 
 
 def main():
@@ -29,6 +31,11 @@ def main():
         
         # Validate arguments (may exit if --list-databases or validation fails)
         cli_parser.validate_args(args)
+        
+        # Set up logging if requested
+        if args.debug_logging or args.verbose:
+            log_file = str(args.log_file) if args.log_file else None
+            setup_end_to_end_logging(verbose=args.debug_logging or args.verbose, log_file=log_file)
         
         # Update configuration with custom config file if provided
         if args.config:
@@ -59,7 +66,8 @@ def main():
             database=args.database,
             ontology_file=args.ontology_file,
             debug_mode=args.debug_prompt,
-            verbose=args.verbose
+            verbose=args.verbose,
+            use_llm_agents=args.llm_agents
         )
         
     except Exception as e:

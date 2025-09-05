@@ -122,13 +122,108 @@ class QueryRouter:
             print("Built ontology context via multi-agent pipeline")
         return context
     
+    def _process_with_llm_agents(self, nlq: str, ontology_file: Optional[Path], verbose: bool = False) -> str:
+        """Process query using LLM-powered multi-agent system and return ontology context."""
+        try:
+            # Import LLM agents
+            from .agents import (
+                LLMRouterAgent,
+                LLMOntologyAgent, 
+                LLMExampleAgent,
+                LLMSupervisorAgent,
+                WikidataAgent
+            )
+            from .prompt_builder import build_prompt
+            
+            if verbose:
+                print("Using LLM-powered multi-agent system...")
+                
+            # Create LLM-powered agents
+            router_agent = LLMRouterAgent()
+            ontology_agent = LLMOntologyAgent()
+            example_agent = LLMExampleAgent()
+            wikidata_agent = WikidataAgent()
+            
+            # Create a simple prompt builder wrapper
+            class PromptBuilderWrapper:
+                def build_prompt(self, **kwargs):
+                    return build_prompt(**kwargs)
+            
+            prompt_builder = PromptBuilderWrapper()
+            
+            # Create supervisor agent
+            supervisor = LLMSupervisorAgent(
+                router_agent=router_agent,
+                ontology_agent=ontology_agent,
+                example_agent=example_agent,
+                wikidata_agent=wikidata_agent,
+                prompt_builder=prompt_builder
+            )
+            
+            # Run the supervisor to get results
+            import asyncio
+            
+            async def run_supervisor():
+                return await supervisor.run(nlq)
+            
+            # Run the async supervisor
+            if verbose:
+                print("Running LLM supervisor...")
+            result = asyncio.run(run_supervisor())
+            
+            # Extract ontology context from the result
+            ontology_slice = result.ontology_slice
+            
+            # Convert ontology slice to string format for traditional pipeline
+            # This is a simplified conversion - in a full implementation you might want 
+            # to serialize the RDF properly
+            context_parts = []
+            
+            if isinstance(ontology_slice, dict):
+                nodes = ontology_slice.get('nodes', [])
+                edges = ontology_slice.get('edges', [])
+                literals = ontology_slice.get('literals', [])
+                
+                context_parts.append(f"# LLM-extracted ontology context")
+                context_parts.append(f"# Found {len(nodes)} nodes, {len(edges)} edges, {len(literals)} literals")
+                
+                # Add some basic RDF representation
+                for edge in edges[:10]:  # Limit to avoid overwhelming output
+                    subject = edge.get('subject', '')
+                    predicate = edge.get('predicate', '')
+                    obj = edge.get('object', '')
+                    context_parts.append(f"<{subject}> <{predicate}> <{obj}> .")
+                
+                for literal in literals[:10]:  # Limit to avoid overwhelming output
+                    subject = literal.get('subject', '')
+                    predicate = literal.get('predicate', '')
+                    obj = literal.get('object', '')
+                    context_parts.append(f"<{subject}> <{predicate}> \"{obj}\" .")
+            
+            context = "\n".join(context_parts)
+            
+            if verbose:
+                print(f"LLM agents processed query. Generated context length: {len(context)} chars")
+                if hasattr(result, 'orchestration_reasoning'):
+                    print(f"Orchestration reasoning: {result.orchestration_reasoning}")
+                    
+            return context
+            
+        except Exception as e:
+            if verbose:
+                print(f"LLM agents failed: {e}")
+                print("Falling back to traditional ontology loading...")
+            # Fallback to traditional method
+            return self._load_ontology_context(nlq, ontology_file, verbose)
+    
     def process_query(
         self,
         nlq: str,
         provider: str,
         database: str,
         ontology_file: Optional[Path] = None,
-        verbose: bool = False
+        verbose: bool = False,
+        use_llm_agents: bool = False
     ) -> str:
         """
         Process a natural language query and return SPARQL
@@ -139,6 +234,7 @@ class QueryRouter:
             database: Target database name
             ontology_file: Optional path to ontology file
             verbose: Enable verbose output
+            use_llm_agents: Whether to use LLM-powered agents instead of rule-based ones
             
         Returns:
             Generated SPARQL query as string
@@ -168,7 +264,12 @@ class QueryRouter:
             print(f"Query: {nlq}")
 
         # Load ontology context with file override or multi-agent pipeline
-        ontology_context = self._load_ontology_context(nlq, ontology_file, verbose)
+        if use_llm_agents:
+            # Use LLM-powered multi-agent system
+            ontology_context = self._process_with_llm_agents(nlq, ontology_file, verbose)
+        else:
+            # Use traditional ontology loading
+            ontology_context = self._load_ontology_context(nlq, ontology_file, verbose)
         
         try:
             # Get the appropriate client

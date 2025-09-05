@@ -1,139 +1,112 @@
 # NLQ2SPARQL Module
 
-Natural Language → SPARQL generation for LinkedMusic graphs (DIAMM, The Session) using LLM function calling, ontology grounding, and Wikidata resolution tools.
+This module provides Natural Language Query to SPARQL translation capabilities for music datasets.
 
-This README reflects the CURRENT implemented scope (ontology summarization + Wikidata ID resolution + Gemini integration scaffold). For roadmap and detailed status see `STATUS.md`.
+## Structure
 
-## Implemented (Current)
-- UnifiedOntologyAgent (`agents/ontology_agent.py`) – read‑only unified TTL slice heuristic.
-- ExampleRetrievalAgent (`agents/example_agent.py`) – token overlap baseline retrieval.
-- Wikidata tool functions (`tools/wikidata_tool.py`) – async entity & property ID resolution.
-- SupervisorAgent skeleton (`agents/supervisor.py`).
-- Prompt builder (`prompt_builder.py`).
-- Gemini integration scaffold (`integrations/gemini_integration.py`) – function calling support.
-- Evaluation dataset (`query_database_10july2025.csv`).
-
-## Planned Multi‑Agent Flow
 ```
-User NL Query
-    ↓
-Supervisor / Router Agent
-    ├─ Entity/Property Agent -> resolve QIDs/PIDs (tool calls)
-    ├─ Ontology Agent -> extract filtered schema slice (relevant classes/properties)
-    ├─ Example Retrieval Agent -> fetch k similar NLQ↔SPARQL pairs
-    ├─ (Future) Verification Agent -> validate / repair draft SPARQL
-    ↓
-Prompt Builder -> unified structured prompt + tool call results
-    ↓
-LLM Provider(s) (Gemini / OpenAI / Anthropic)
-    ↓
-Draft SPARQL → Verification → Final SPARQL
-```
-
-## Not Yet Implemented (See STATUS.md for detail)
-- Supervisor orchestrator & message schema.
-- Prompt builder module.
-- Example retrieval agent & similarity index.
-- Property phrase → PID mapping population.
-- Test suite & CI.
-- Multi‑provider integrations (OpenAI, Anthropic).
-- Query verification / self‑repair loop.
-
-## Quick Smoke Tests
-Install (if not already):
-```bash
-poetry install
+nlq2sparql/
+├── agents/              # LLM-powered and traditional agents
+│   ├── base.py         # Base agent interfaces
+│   ├── llm_*.py        # LLM-powered agents (Router, Ontology, Example, Supervisor)
+│   ├── supervisor.py   # Traditional supervisor agent
+│   └── wikidata_agent.py # Wikidata integration
+├── llm/                # LLM provider infrastructure
+│   ├── client.py       # Provider-agnostic LLM client
+│   └── providers/      # LLM provider implementations
+├── debug/              # Debug utilities and test outputs
+│   ├── debug_router.py # Router debugging script
+│   └── debug_prompts/  # Captured prompts for analysis
+├── tests/              # Test suite
+│   ├── test_*.py       # Integration and unit tests
+│   └── __init__.py     # Test package initialization
+├── tools/              # Utility tools
+├── catalog/            # Dataset catalog and capabilities
+├── integrations/       # External service integrations
+├── cli.py              # Command-line interface
+├── router.py           # Main query router
+├── config.py           # Configuration management
+├── logging_config.py   # Comprehensive logging setup
+└── README.md           # This file
 ```
 
-Wikidata resolution:
-```bash
-poetry run python - <<'PY'
-from shared.nlq2sparql.tools.wikidata_tool import find_entity_id, find_property_id
-import asyncio
-async def main():
-    print('Dufay ->', await find_entity_id('Guillaume Dufay'))
-    print('composer ->', await find_property_id('composer'))
-asyncio.run(main())
-PY
-```
+## Usage
 
-Supervisor dry run (no LLM call yet):
-```bash
-poetry run python - <<'PY'
-import asyncio
-from shared.nlq2sparql.agents import UnifiedOntologyAgent, ExampleRetrievalAgent, SupervisorAgent, WikidataAgent
-from shared.nlq2sparql import prompt_builder
-
-async def main():
-    sup = SupervisorAgent(
-        ontology_agent=UnifiedOntologyAgent(),
-        wikidata_agent=WikidataAgent(),
-        example_agent=ExampleRetrievalAgent(),
-        prompt_builder=prompt_builder,
-    )
-    result = await sup.run("List compositions by Guillaume Dufay with incipit information")
-    print('Prompt keys:', list(result.prompt.keys()))
-    print('Resolved sample:', list(result.resolved_entities.items())[:5])
-asyncio.run(main())
-PY
-```
-
-## Usage (Gemini Integration Example)
-```
-# Pseudocode sketch
-from nlq2sparql.integrations.gemini_integration import GeminiWikidataIntegration
-import asyncio
-async def run():
-    integ = GeminiWikidataIntegration()  # needs GEMINI_API_KEY in env
-    resp = await integ.send_message_with_tools('Find the property ID for composer and QID for Guillaume Dufay')
-    print(resp)
-
-### Execute generated SPARQL (optional)
-
-You can have the main CLI execute the generated SPARQL against a SPARQL HTTP endpoint (read‑only):
-
-- Save JSON to `shared/nlq2sparql/results/` (gitignored):
+### Basic CLI Usage
 
 ```bash
-poetry run python -m shared.nlq2sparql.cli \
-    --provider gemini \
-    --database session \
-    --exec-sparql \
-    --sparql-endpoint https://virtuoso.staging.simssa.ca/sparql \
-    --sparql-format json \
-    "Return all entries in The Session that took place in Montreal"
+# Process a query with traditional agents
+poetry run python shared/nlq2sparql/cli.py --database diamm "Find compositions by Palestrina"
+
+# Use LLM-powered agents (requires API key)
+poetry run python shared/nlq2sparql/cli.py --llm-agents --database diamm "Find compositions by Palestrina"
+
+# Enable comprehensive logging
+poetry run python shared/nlq2sparql/cli.py --debug-logging --llm-agents "Find Irish traditional music"
+
+# Debug mode (capture prompts without API calls)
+poetry run python shared/nlq2sparql/cli.py --debug-prompt --database diamm "Find manuscripts"
 ```
 
-Guardrails: SELECT/ASK only, LIMIT capped (default 1000), HTTP timeout (default 15s), dangerous tokens rejected (INSERT/DELETE/LOAD/...)
+### Available Databases
 
-For ad‑hoc queries without the LLM path, use the small SPARQL runner:
+- **diamm**: Medieval and Renaissance manuscripts
+- **session**: Irish traditional music 
+- **dlt1000**: Jazz improvisation analysis
+- **global-jukebox**: World music ethnography
+
+### Agent Types
+
+#### Traditional Agents
+- **SupervisorAgent**: Coordinates query processing
+- **WikidataAgent**: Entity linking and enrichment
+
+#### LLM-Powered Agents (require API key)
+- **LLMRouterAgent**: Multi-database routing with semantic understanding
+- **LLMOntologyAgent**: Ontology mapping and semantic enrichment  
+- **LLMExampleAgent**: Example-based query pattern matching
+- **LLMSupervisor**: Orchestrates the full LLM agent pipeline
+
+## Development
+
+### Running Tests
 
 ```bash
-poetry run python -m shared.nlq2sparql.tools.sparql_cli \
-    --endpoint https://virtuoso.staging.simssa.ca/sparql \
-    --query "SELECT ?s ?p ?o WHERE { ?s ?p ?o } LIMIT 1" \
-    --format json
+# Run the full test suite
+poetry run pytest shared/nlq2sparql/tests/
+
+# Run integration tests with debugging
+python shared/nlq2sparql/tests/test_full_pipeline.py
+
+# Debug router behavior
+python shared/nlq2sparql/debug/debug_router.py
 ```
-asyncio.run(run())
-```
 
-## Ontology Slices
-The `UnifiedOntologyAgent` automatically loads `ontology/11Aug2025_ontology.ttl` (read‑only). The heuristic will improve; current output structure is stable for prompt building.
+### Adding New Providers
 
-### Toggle: Structured vs Delegate (Full Ontology)
-- Default strategy is structured slicing (router + UnifiedOntologyAgent with TTL snippets).
-- To compare against a simple "give the whole ontology to the LLM" approach, set one of:
-    - Config file `shared/nlq2sparql/config.json`: `"ontology_strategy": "llm_delegate"`
-    - Or environment: `NLQ2SPARQL_ONTOLOGY_STRATEGY=llm_delegate`
+1. Create a provider class in `llm/providers/`
+2. Implement the `BaseLLMProvider` interface
+3. Add configuration support in `config.py`
+4. Update the provider factory in `llm/client.py`
 
-In delegate mode, the orchestrator uses `OntologyDelegateAgent` to provide the full ontology (verbatim). The prompt text includes a small header rather than dumping the entire TTL; provider wrappers should pass the TTL as a separate large-context input and instruct the model to extract the relevant parts.
+### Logging
 
-## Contributing
-- Keep changes off `main`; use `nlq2sparql-api` (current working branch) or feature branches.
-- Update `STATUS.md` with decisions & milestones.
-- Keep ontology prompt footprint minimal (strip unrelated classes/properties).
+The module includes comprehensive logging capabilities:
 
-## License
-Part of the LinkedMusic Data Lake repository. See root LICENSE (if present) or repository terms.
+- **Basic logging**: Use `--verbose` flag
+- **Debug logging**: Use `--debug-logging` flag for full LLM interaction logs
+- **Log files**: Use `--log-file path.log` to save logs to file
 
-Last Updated: 2025-08-11 (skeleton multi‑agent components added)
+## Configuration
+
+Configuration is managed through:
+- `config.json`: Main configuration file
+- Environment variables: API keys and runtime settings
+- CLI arguments: Override defaults for specific runs
+
+## API Keys
+
+Set environment variables for LLM providers:
+- `GEMINI_API_KEY`: For Google Gemini
+- `OPENAI_API_KEY`: For ChatGPT (when implemented)
+- `ANTHROPIC_API_KEY`: For Claude (when implemented)
