@@ -1,31 +1,57 @@
-# NLQ2SPARQL Examples
+# NLQ2SPARQL Examples and Demos
 
-This directory contains example scripts and demonstrations of the NLQ2SPARQL system.
+This directory contains example scripts and demonstrations of the NLQ2SPARQL system capabilities.
 
-## Prerequisites
+## Tracing Examples
 
-1. **API Key**: Set your Gemini API key in the environment:
-   ```bash
-   export GEMINI_API_KEY=your_api_key_here
-   ```
+The `tracing/` directory contains scripts that demonstrate the system's tracing and execution flow capabilities:
 
-2. **Dependencies**: Ensure all dependencies are installed:
-   ```bash
-   poetry install
-   ```
+### Running Examples
 
-## Running Examples
+From the `shared/` directory, run any example using:
 
-### Tracing Examples
-
-The tracing examples demonstrate the comprehensive logging and monitoring capabilities:
-
-#### 1. Enhanced Demo
-Comprehensive tracing demonstration with multiple test cases:
 ```bash
-cd shared
+# Set your API key
+export GEMINI_API_KEY=your_api_key_here
+
+# Run a specific example
 poetry run python -m nlq2sparql.examples.tracing.enhanced_demo
+poetry run python -m nlq2sparql.examples.tracing.complete_flow_demo
+poetry run python -m nlq2sparql.examples.tracing.palestrina_demo
+poetry run python -m nlq2sparql.examples.tracing.test_multi_function_fix
 ```
+
+### Available Examples
+
+#### `enhanced_demo.py`
+Comprehensive demonstration of the tracing system with multiple musical queries.
+
+#### `complete_flow_demo.py`
+Shows complete end-to-end workflow from natural language to SPARQL execution.
+
+#### `palestrina_demo.py`
+Focused demo on Renaissance composer Giovanni Pierluigi da Palestrina.
+
+#### `test_multi_function_fix.py`
+**Test script for multi-function call processing** - verifies that the system can handle queries requiring multiple entity lookups (like "find madrigals in Florence").
+
+## Key Features Demonstrated
+
+- ✅ **Multi-function call processing** - Complex queries with multiple entity lookups
+- ✅ **Real-time tracing** - Complete execution flow monitoring  
+- ✅ **SPARQL generation** - From natural language to production-ready queries
+- ✅ **Error handling** - Graceful handling of API issues and edge cases
+- ✅ **Performance monitoring** - Timing and efficiency analysis
+
+## Requirements
+
+- Valid Gemini API key set in environment
+- Poetry environment activated
+- Run from the `shared/` directory
+
+## Latest Enhancement
+
+The system now supports **multi-function call processing**, enabling complex musical research queries that require multiple Wikidata entity lookups. This was a critical enhancement that transforms simple single-entity queries into sophisticated multi-entity musical research capabilities.
 
 #### 2. Complete Flow Demo
 Shows complete execution flow with detailed breakdown:
