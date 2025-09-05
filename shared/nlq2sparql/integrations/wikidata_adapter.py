@@ -10,14 +10,16 @@ from typing import Optional
 import aiohttp
 
 try:
-    # Import from shared lib without modifying it - correct path to shared directory
-    from shared.wikidata_utils import WikidataAPIClient  # type: ignore
-except Exception as _e:  # pragma: no cover - import error surfaced in tests
+    # Import from shared lib - try multiple paths for different execution contexts
     try:
-        # Fallback for different import contexts
-        from ...wikidata_utils import WikidataAPIClient  # type: ignore
-    except Exception:
-        WikidataAPIClient = None  # type: ignore
+        from wikidata_utils import WikidataAPIClient  # type: ignore
+    except ImportError:
+        try:
+            from shared.wikidata_utils import WikidataAPIClient  # type: ignore
+        except ImportError:
+            from ...wikidata_utils import WikidataAPIClient  # type: ignore
+except Exception:
+    WikidataAPIClient = None  # type: ignore
 
 
 # Module-level cache, but tied to event loop

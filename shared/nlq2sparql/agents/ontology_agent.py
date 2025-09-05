@@ -23,7 +23,7 @@ def _find_latest_ontology_file():
     ontology_files = list(ONTOLOGY_DIR.glob("*ontology.ttl"))
     
     if not ontology_files:
-        return ONTOLOGY_DIR / "11Aug2025_ontology.ttl"  # fallback if no files found
+        return ONTOLOGY_DIR / "4Sept2025_ontology.ttl"  # fallback if no files found
     
     # Sort by filename (date strings sort chronologically: "11Aug2025" < "4Sept2025" etc.)
     # Use reverse=True to get the latest (newest) file first

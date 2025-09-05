@@ -7,6 +7,12 @@ psqldump
 shared/nlq2sparql/debug_prompts/*.txt
 shared/nlq2sparql/results/*
 
+# Tracing and logging
+logs/*.json
+logs/*.log
+*_trace_*.json
+*_execution_trace.json
+
 *.sql*
 rdb2rdf/
 *.nt
