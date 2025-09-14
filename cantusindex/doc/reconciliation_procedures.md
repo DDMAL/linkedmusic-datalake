@@ -2,7 +2,7 @@
 
 ## Applying Histories:
 > Do this before reading further.
-- In `cantus_index/openrefine/history/` the JSON file `history.json` is generated in OpenRefine via `Undo/Redo > Extract... > Export`.
+- In `cantusindex/openrefine/history/` the JSON file `history.json` is generated in OpenRefine via `Undo/Redo > Extract... > Export`.
 - This file can be applied to a specific CSV in OpenRefine by using `Undo/Redo > Apply...` and selecting the corresponding JSON.
 - This process might cause errors during reconciliation. If this happens, please check below for detailed reconciliation instructions.
 
@@ -163,5 +163,5 @@ to get rid of empty spaces.
 
 ## Exporting
 
-- In `Export > Custom tabular... `, you can navigate to Option Code and apply the file `export.json` from `cantus_index/openrefine/export/` to automatically apply the following changes, and then download as CSV.
+- In `Export > Custom tabular... `, you can navigate to Option Code and apply the file `export.json` from `cantusindex/openrefine/export/` to automatically apply the following changes, and then download as CSV.
 - If there are errors with the above step, go to `Export > Custom tabular...`, and for the columns `genre`, `feast`, and `cao_concordances`, select `Matched entity's ID` under "For reconciled cells, output". Then download as CSV.

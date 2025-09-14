@@ -1,7 +1,7 @@
 [general]
 name = "cantusindex"
-csv_folder = "../../cantus_index/data/reconciled"
-rdf_output_folder = "../../cantus_index/data/rdf"
+csv_folder = "../../cantusindex/data/reconciled"
+rdf_output_folder = "../../cantusindex/data/rdf"
 test_mode = false
 
 [namespaces]
@@ -13,7 +13,7 @@ wdt = "http://www.wikidata.org/prop/direct/"
 ci = "https://linkedmusic.ca/graphs/cantusindex/"
 cii = "https://cantusindex.org/id/"
 
-[cantus_index]
+[cantusindex]
 PRIMARY_KEY = "cid"
 cid = {prefix = "cii", type = "ci:Chant"}
 genre = "P136"  # genre (P136)

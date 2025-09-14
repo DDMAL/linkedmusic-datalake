@@ -16,7 +16,7 @@ from tqdm import tqdm
 # Configuration
 CIDS_URL = "https://cantusindex.org/json-cids"
 CID_DATA_URL = "https://cantusindex.org/json-cid-data/{}"
-OUTPUT_FOLDER = Path("cantus_index/data/raw")
+OUTPUT_FOLDER = Path("cantusindex/data/raw")
 MAX_RETRIES = 5  # Maximum number of retries for a single CID
 TIMEOUT = aiohttp.ClientTimeout(total=10)  # Timeout for network requests in seconds
 RATE_LIMIT = 6  # Requests per second

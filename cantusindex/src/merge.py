@@ -13,8 +13,8 @@ from typing import Dict, List, Any, Optional
 from tqdm import tqdm
 
 # Configuration
-INPUT_DIR = Path("cantus_index/data/raw/")
-OUTPUT_FILE = Path("cantus_index/data/merged/cantus_index.csv")
+INPUT_DIR = Path("cantusindex/data/raw/")
+OUTPUT_FILE = Path("cantusindex/data/merged/cantusindex.csv")
 
 # Setup logging
 logging.basicConfig(
