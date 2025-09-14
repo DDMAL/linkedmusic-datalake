@@ -1,5 +1,6 @@
 """
-Fetch and process Cantus Index data using async requests.
+Fetch Cantus Index data using async requests.
+The JSON data of each Cantus Index chant is saved as an individual file in cantusindex/data/raw.
 """
 
 import asyncio
@@ -8,13 +9,14 @@ import logging
 import os
 from pathlib import Path
 from typing import Dict, List, Optional, Any
-
 import aiohttp
 from aiolimiter import AsyncLimiter
 from tqdm import tqdm
 
 # Configuration
+# The CIDS_URL provides a list of all Cantus Index IDs
 CIDS_URL = "https://cantusindex.org/json-cids"
+# The CID_DATA_URL is a template URL to fetch JSON data for a specific Cantus Index chant
 CID_DATA_URL = "https://cantusindex.org/json-cid-data/{}"
 OUTPUT_FOLDER = Path("cantusindex/data/raw")
 MAX_RETRIES = 5  # Maximum number of retries for a single CID
@@ -43,7 +45,7 @@ async def fetch_cids_list(session: aiohttp.ClientSession) -> List[Dict[str, Any]
         return []
 
 
-async def fetch_cid_json(
+async def fetch_indiv_cid(
     session: aiohttp.ClientSession, 
     limiter: AsyncLimiter,
     cid: str, 
@@ -100,8 +102,9 @@ async def fetch_cid_json(
     return None
 
 
-async def process_cids(cids_list: List[Dict[str, Any]], output_dir: Path):
-    """Process all Cantus Index IDs concurrently with rate limiting."""
+async def fetch_all_cids(cids_list: List[Dict[str, Any]], output_dir: Path):
+    """Fetch all Cantus Index chants concurrently with rate limiting.
+    Each chant's JSON data is saved as an individual file in output_dir."""
     limiter = AsyncLimiter(RATE_LIMIT, 1)  # Allow N requests per second
     
     # Use a semaphore to limit the number of concurrent tasks
@@ -110,7 +113,7 @@ async def process_cids(cids_list: List[Dict[str, Any]], output_dir: Path):
     async def fetch_with_semaphore(cid, pbar):
         """Fetch a single CID with semaphore-based concurrency control."""
         async with semaphore:
-            return await fetch_cid_json(session, limiter, cid, pbar, output_dir)
+            return await fetch_indiv_cid(session, limiter, cid, pbar, output_dir)
     
     async with aiohttp.ClientSession() as session:
         with tqdm(total=len(cids_list), desc="Fetching Cantus Index data") as pbar:
@@ -156,11 +159,11 @@ async def main_async():
         logger.info(f"Found {len(filtered_cids)} valid Cantus Index IDs to process.")
         
         # Process all CIDs and save individual JSON files
-        await process_cids(cids, OUTPUT_FOLDER)
+        await fetch_all_cids(filtered_cids, OUTPUT_FOLDER)
         
         # Count the number of successfully downloaded files
         successful_files = list(OUTPUT_FOLDER.glob("*.json"))
-        logger.info(f"Successfully downloaded {len(successful_files)} out of {len(cids)} Cantus Index IDs.")
+        logger.info(f"Successfully downloaded {len(successful_files)} out of {len(filtered_cids)} valid Cantus Index IDs.")
         logger.info(f"Saved individual JSON files to {OUTPUT_FOLDER}")
 
 
