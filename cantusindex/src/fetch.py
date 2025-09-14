@@ -126,6 +126,17 @@ async def process_cids(cids_list: List[Dict[str, Any]], output_dir: Path):
             await asyncio.gather(*tasks)
 
 
+def filter_valid_cids(cids: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Filter out chants whose 'cid' starts with 'Error:'.
+    Args:
+        cids: List of chant dictionaries, each containing a 'cid' key.
+    Returns:
+        List of chant dictionaries with valid 'cid' values.
+    """
+    return [chant for chant in cids if not chant.get('cid', '').startswith('Error:')]
+
+
 async def main_async():
     """Main async function to orchestrate the fetching process."""
     # Create output directory
@@ -135,11 +146,14 @@ async def main_async():
         # Fetch list of Cantus Index IDs
         cids = await fetch_cids_list(session)
         
-        if not cids:
-            logger.error("Unable to find the list of Cantus Index IDs to retrieve. Exiting.")
+        # Filter out chants whose cid starts with "Error:"
+        filtered_cids = filter_valid_cids(cids)
+        
+        if not filtered_cids:
+            logger.error("Unable to find valid Cantus Index IDs to retrieve. Exiting.")
             return
         
-        logger.info(f"Found {len(cids)} Cantus Index IDs to process.")
+        logger.info(f"Found {len(filtered_cids)} valid Cantus Index IDs to process.")
         
         # Process all CIDs and save individual JSON files
         await process_cids(cids, OUTPUT_FOLDER)
