@@ -9,7 +9,7 @@
 
 ## Reconciliation Procedures
 
-- Open the file `cantus_items.json` in OpenRefine, before clicking `Create project >>`, click on the first curly bracket to specify a record path.
+- After running `cantusindex/src/merge.py`, open `cantusindex/data/merged/cantusindex.csv` in OpenRefine, before clicking `Create project >>`, click on the first curly bracket to specify a record path.
 - Go to column `_ - feast` and select `Edit column > Add column based on this column...` then name the new columnn `feast_original`, and leave the expression as "value".
 - First reconcile the column `_ - feast` against `Christian holy day` (Q60075825)
 - Set the judgment facet to `none`, and set the best candidate's score facet to 99-101, and go to the column `_ - feast` and go to `Reconcile > Actions > Match each cell to its best candidate`.
