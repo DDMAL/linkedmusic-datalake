@@ -64,9 +64,10 @@ async def fetch_cids_list(session: aiohttp.ClientSession) -> List[Dict[str, Any]
 async def fetch_indiv_cid(
     session: aiohttp.ClientSession,
     limiter: AsyncLimiter,
+    semaphore: asyncio.Semaphore,
     cid: str,
     pbar: tqdm,
-    output_dir: Path
+    output_dir: Path,
 ) -> None:
     """Fetch data from Cantus Index for a single CID and save as JSON file.
 
@@ -93,60 +94,54 @@ async def fetch_indiv_cid(
     """
 
     output_file = output_dir / f"{cid}.json"
-
-    # Check if file already exists and is valid
-    if output_file.exists():
-        try:
-            # Just verify the file contains valid JSON
-            with open(output_file, "r", encoding="utf-8") as f:
-                json.load(f)
-            logger.debug("File already exists for CID %s", cid)
-            pbar.update(1)
-            return  # Early return, no need to fetch again
-        except (json.JSONDecodeError, IOError) as e:
-            # If file exists but is corrupt or unreadable, log and continue to fetch
-            logger.warning(
-                "Existing file for CID %s is corrupt or unreadable: %s. Re-fetching.", cid, e
-            )
-
     url = CID_DATA_URL.format(cid)
     retries = 0
     had_error = False
 
-    while retries < MAX_RETRIES:
-        try:
-            async with limiter:
-                async with session.get(url, timeout=TIMEOUT) as response:
-                    response.raise_for_status()
-                    content = await response.text(encoding="utf-8-sig")
-                    data = json.loads(content)
+    async with semaphore:
+        while retries < MAX_RETRIES:
+            try:
+                async with limiter:
+                    async with session.get(url, timeout=TIMEOUT) as response:
+                        response.raise_for_status()
+                        content = await response.text(encoding="utf-8-sig")
+                        data = json.loads(content)
 
-                    # Save individual JSON file
-                    with open(output_file, "w", encoding="utf-8") as f:
-                        json.dump(data, f, ensure_ascii=False, indent=2)
+                        # Save individual JSON file
+                        with open(output_file, "w", encoding="utf-8") as f:
+                            json.dump(data, f, ensure_ascii=False, indent=2)
 
-                    pbar.update(1)
-                    if had_error:
-                        logger.info(
-                            "Recovered after error, successfully fetched CID %s", cid
-                        )
+                        pbar.update(1)
+                        if had_error:
+                            logger.info(
+                                "Recovered after error, successfully fetched CID %s",
+                                cid,
+                            )
 
-                    return  # No need to return data
+                        return  # No need to return data
 
-        except (aiohttp.ClientError, asyncio.TimeoutError, json.JSONDecodeError) as e:
-            had_error = True
-            retries += 1
-            wait_time = 2 ** retries  # Exponential backoff
-            logger.warning(
-                "Error fetching CID %s (attempt %d/%d): %s", cid, retries, MAX_RETRIES, e
-            )
-            logger.info("Waiting %d seconds before retrying...", wait_time)
-            await asyncio.sleep(wait_time)
+            except (
+                aiohttp.ClientError,
+                asyncio.TimeoutError,
+                json.JSONDecodeError,
+            ) as e:
+                had_error = True
+                retries += 1
+                wait_time = 2**retries  # Exponential backoff
+                logger.warning(
+                    "Error fetching CID %s (attempt %d/%d): %s",
+                    cid,
+                    retries,
+                    MAX_RETRIES,
+                    e,
+                )
+                logger.info("Waiting %d seconds before retrying...", wait_time)
+                await asyncio.sleep(wait_time)
 
-    logger.error(
-        "Failed to fetch CID %s after %d attempts. Skipping.", cid, MAX_RETRIES
-    )
-    return None
+        logger.error(
+            "Failed to fetch CID %s after %d attempts. Skipping.", cid, MAX_RETRIES
+        )
+        return None
 
 
 async def fetch_all_cids(cids_list: List[Dict[str, Any]], output_dir: Path):
@@ -171,21 +166,53 @@ async def fetch_all_cids(cids_list: List[Dict[str, Any]], output_dir: Path):
     """
     limiter = AsyncLimiter(RATE_LIMIT, 1)  # Limits number of requests per second
 
-    # Use a semaphore to limit the number of concurrent tasks
+    # Limit the number of concurrent requests
     semaphore = asyncio.Semaphore(CONCURRENT_REQUESTS)
 
-    async def fetch_with_semaphore(cid, pbar):
-        """Fetch a single CID with semaphore-based concurrency control."""
-        async with semaphore:
-            return await fetch_indiv_cid(session, limiter, cid, pbar, output_dir)
+    # Filter out CIDs that already have valid files
+    cids_to_fetch = []
+    for chant in cids_list:
+        cid = chant["cid"]
+        output_file = output_dir / f"{cid}.json"
+
+        # Check if file already exists and is valid
+        if output_file.exists():
+            try:
+                # Just verify the file contains valid JSON
+                with open(output_file, "r", encoding="utf-8") as f:
+                    json.load(f)
+                logger.debug("File already exists for CID %s", cid)
+                continue  # Skip this CID, file already exists
+            except (json.JSONDecodeError, IOError) as e:
+                # If file exists but is corrupt or unreadable, log and continue to fetch
+                logger.warning(
+                    "Existing file for CID %s is corrupt or unreadable: %s. Re-fetching.",
+                    cid,
+                    e,
+                )
+
+        cids_to_fetch.append(chant)
+
+    logger.info(
+        "Need to fetch %d out of %d CIDs (skipping %d existing valid files)",
+        len(cids_to_fetch),
+        len(cids_list),
+        len(cids_list) - len(cids_to_fetch),
+    )
+
+    if not cids_to_fetch:
+        logger.info("All files already exist and are valid. Nothing to fetch.")
+        return
 
     async with aiohttp.ClientSession() as session:
-        with tqdm(total=len(cids_list), desc="Fetching Cantus Index data") as pbar:
-            # Create all tasks but control concurrency with semaphore
+        with tqdm(total=len(cids_to_fetch), desc="Fetching Cantus Index data") as pbar:
+            # Create all tasks
             tasks = []
-            for chant in cids_list:
-                cid = chant['cid']
-                tasks.append(fetch_with_semaphore(cid, pbar))
+            for chant in cids_to_fetch:
+                cid = chant["cid"]
+                tasks.append(
+                    fetch_indiv_cid(session, limiter, semaphore, cid, pbar, output_dir)
+                )
 
             # Run all tasks and wait for completion
             # This will start up to CONCURRENT_REQUESTS tasks at once
@@ -201,7 +228,7 @@ def filter_valid_cids(cids: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     Returns:
         List of chant dictionaries with valid 'cid' values.
     """
-    return [chant for chant in cids if not chant.get('cid', '').startswith('Error:')]
+    return [chant for chant in cids if not chant.get("cid", "").startswith("Error:")]
 
 
 async def main_async(output_folder: Path):
