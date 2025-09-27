@@ -3,6 +3,7 @@ Fetch Cantus Index data using async requests.
 The JSON data of each Cantus Index chant is saved as an individual file in cantusindex/data/raw.
 """
 
+import argparse
 import asyncio
 import json
 import logging
@@ -17,7 +18,7 @@ from tqdm import tqdm
 CIDS_URL = "https://cantusindex.org/json-cids"
 # The CID_DATA_URL is a template URL to fetch JSON data for a specific Cantus Index chant
 CID_DATA_URL = "https://cantusindex.org/json-cid-data/{}"
-OUTPUT_FOLDER = Path("cantusindex/data/raw")
+DEFAULT_OUTPUT_FOLDER = Path("cantusindex/data/raw")
 MAX_RETRIES = 5  # Maximum number of retries for a single CID
 TIMEOUT = aiohttp.ClientTimeout(total=10)  # Timeout for network requests in seconds
 RATE_LIMIT = 6  # Requests per second
@@ -27,7 +28,7 @@ CONCURRENT_REQUESTS = 3  # Number of concurrent requests
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S"
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
 
@@ -147,10 +148,10 @@ def filter_valid_cids(cids: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return [chant for chant in cids if not chant.get('cid', '').startswith('Error:')]
 
 
-async def main_async():
+async def main_async(output_folder: Path):
     """Main async function to orchestrate the fetching process."""
     # Create output directory
-    OUTPUT_FOLDER.mkdir(parents=True, exist_ok=True)
+    output_folder.mkdir(parents=True, exist_ok=True)
 
     async with aiohttp.ClientSession() as session:
         # Fetch list of Cantus Index IDs
@@ -163,26 +164,36 @@ async def main_async():
             logger.error("Unable to find valid Cantus Index IDs to retrieve. Exiting.")
             return
 
-        logger.info(
-            "Found %d valid Cantus Index IDs to process.", len(filtered_cids)
-        )
+        logger.info("Found %d valid Cantus Index IDs to process.", len(filtered_cids))
 
         # Process all CIDs and save individual JSON files
-        await fetch_all_cids(filtered_cids, OUTPUT_FOLDER)
+        await fetch_all_cids(filtered_cids, output_folder)
 
         # Count the number of successfully downloaded files
-        successful_files = list(OUTPUT_FOLDER.glob("*.json"))
+        successful_files = list(output_folder.glob("*.json"))
         logger.info(
             "Successfully downloaded %d out of %d valid Cantus Index IDs.",
-            len(successful_files), len(filtered_cids)
+            len(successful_files),
+            len(filtered_cids),
         )
-        logger.info("Saved individual JSON files to %s", OUTPUT_FOLDER)
+        logger.info("Saved individual JSON files to %s", output_folder)
 
 
 def main():
     """Entry point for the script."""
+    parser = argparse.ArgumentParser(
+        description="Fetch Cantus Index data and save as individual JSON files."
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT_FOLDER,
+        help=f"Output directory for JSON files (default: {DEFAULT_OUTPUT_FOLDER})",
+    )
+    args = parser.parse_args()
     try:
-        asyncio.run(main_async())
+        asyncio.run(main_async(args.output))
     except KeyboardInterrupt:
         logger.warning("Process interrupted by user.")
     except Exception as e:
