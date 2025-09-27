@@ -1,6 +1,22 @@
 """
-Fetch Cantus Index data using async requests.
-The JSON data of each Cantus Index chant is saved as an individual file in cantusindex/data/raw.
+Fetch Cantus Index data using async requests with rate limiting and error recovery.
+
+This script downloads chant data from the Cantus Index API (format: https://cantusindex.org/json-cid-data/{cid})
+Each chant's JSON data is saved as an individual file.
+
+The script implements:
+- Asynchronous HTTP requests with rate limiting and semaphore.
+- Automatic retry logic with exponential backoff for failed requests
+- Resume capability by skipping already downloaded valid JSON files
+
+Usage:
+    python fetch.py [--output OUTPUT_DIR]
+
+Configuration:
+    - RATE_LIMIT: Maximum number of requests per second
+    - CONCURRENT_REQUESTS: Maximum concurrent requests
+    - MAX_RETRIES: Maximum retry attempts per request
+    - TIMEOUT: HTTP request timeout in seconds
 """
 
 import argparse
@@ -52,7 +68,30 @@ async def fetch_indiv_cid(
     pbar: tqdm,
     output_dir: Path
 ) -> None:
-    """Fetch data for a single Cantus Index ID with rate limiting and retries."""
+    """Fetch data from Cantus Index for a single CID and save as JSON file.
+
+    Args:
+        session: Shared aiohttp ClientSession for making HTTP requests.
+        limiter: AsyncLimiter instance to control requests rate
+        semaphore: Asyncio Semaphore to limit concurrent requests.
+        cid: Cantus Index ID string identifying the specific chant to fetch.
+        pbar: tqdm progress bar instance for tracking download progress.
+        output_dir: Path object specifying directory where JSON file will be saved.
+
+    Returns:
+        None. The function saves data directly to a file named '{cid}.json'
+        in the output directory.
+
+    Raises:
+        Logs errors but does not raise exceptions. Failed requests are retried
+        up to MAX_RETRIES times with exponential backoff before giving up.
+
+    Note:
+        - Respects rate limiting and concurrency constraints
+        - Automatically retries failed requests with exponential backoff
+        - Logs recovery messages when requests succeed after initial failures
+    """
+
     output_file = output_dir / f"{cid}.json"
 
     # Check if file already exists and is valid
@@ -112,8 +151,25 @@ async def fetch_indiv_cid(
 
 async def fetch_all_cids(cids_list: List[Dict[str, Any]], output_dir: Path):
     """Fetch all Cantus Index chants concurrently with rate limiting.
-    Each chant's JSON data is saved as an individual file in output_dir."""
-    limiter = AsyncLimiter(RATE_LIMIT, 1)  # Allow N requests per second
+
+    Each chant's data is saved as an individual JSON
+    file in the output directory. The function implements rate limiting
+    and concurrency control
+
+    Args:
+        cids_list: List of dictionaries containing chant metadata. Each dictionary
+            must have a 'cid' key with the Cantus Index ID as its value.
+        output_dir: Path object specifying the directory where individual JSON
+            files will be saved. Each file will be named '{cid}.json'.
+
+    Returns:
+        None. Files are written directly to disk.
+
+    Note:
+        - Allows resuming downloads by skipping already existing files.
+        - Handles errors with exponential backoff retry logic.
+    """
+    limiter = AsyncLimiter(RATE_LIMIT, 1)  # Limits number of requests per second
 
     # Use a semaphore to limit the number of concurrent tasks
     semaphore = asyncio.Semaphore(CONCURRENT_REQUESTS)
