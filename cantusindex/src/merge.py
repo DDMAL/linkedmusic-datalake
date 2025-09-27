@@ -10,10 +10,11 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from tqdm import tqdm
+import argparse
 
 # Configuration
-INPUT_DIR = Path("cantusindex/data/raw/")
-OUTPUT_FILE = Path("cantusindex/data/merged/cantusindex.csv")
+DEFAULT_INPUT_DIR = Path("cantusindex/data/raw/")
+DEFAULT_OUTPUT_FILE = Path("cantusindex/data/merged/cantusindex.csv")
 
 # Setup logging
 logging.basicConfig(
@@ -46,18 +47,38 @@ def extract_fields(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 def main():
     """Main function to process JSON files and create CSV."""
+    parser = argparse.ArgumentParser(
+        description="Convert Cantus Index JSON files to a single CSV file."
+    )
+    parser.add_argument(
+        "-i", "--input-dir",
+        type=Path,
+        default=DEFAULT_INPUT_DIR,
+        help="Directory containing JSON files (default: cantusindex/data/raw/)"
+    )
+    parser.add_argument(
+        "-o", "--output-file",
+        type=Path,
+        default=DEFAULT_OUTPUT_FILE,
+        help="Output CSV file path (default: cantusindex/data/merged/cantusindex.csv)"
+    )
+    args = parser.parse_args()
+
+    input_dir = args.input_dir
+    output_file = args.output_file
+
     # Check if input directory exists
-    if not INPUT_DIR.exists() or not INPUT_DIR.is_dir():
+    if not input_dir.exists() or not input_dir.is_dir():
         logger.error(
-            "Input directory %s does not exist or is not a directory.", INPUT_DIR
+            "Input directory %s does not exist or is not a directory.", input_dir
         )
         return
 
     # Create output directory if it doesn't exist
-    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    output_file.parent.mkdir(parents=True, exist_ok=True)
 
     # Get all JSON files
-    json_files = list(INPUT_DIR.glob("*.json"))
+    json_files = list(input_dir.glob("*.json"))
     logger.info("Found %d JSON files to process.", len(json_files))
 
     if not json_files:
@@ -78,7 +99,7 @@ def main():
                 fieldnames.append(key)
 
     # Write to CSV
-    with open(OUTPUT_FILE, "w", newline="", encoding="utf-8") as csvfile:
+    with open(output_file, "w", newline="", encoding="utf-8") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -98,7 +119,7 @@ def main():
     logger.info(
         "Successfully processed %d out of %d JSON files.", processed_count, len(json_files)
     )
-    logger.info("CSV file created at %s", OUTPUT_FILE)
+    logger.info("CSV file created at %s", output_file)
 
 
 if __name__ == "__main__":
