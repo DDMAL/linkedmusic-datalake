@@ -5,12 +5,11 @@ and combines them into a single CSV file for easier RDF conversion.
 """
 
 import json
-import csv
 import logging
 from pathlib import Path
-from typing import Dict, List, Any, Optional
 from tqdm import tqdm
 import argparse
+import pandas as pd
 
 # Configuration
 DEFAULT_INPUT_DIR = Path("cantusindex/data/raw/")
@@ -25,48 +24,10 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def read_json_file(file_path: Path) -> Optional[List[Dict[str, Any]]]:
-    """Read a JSON file and return its contents."""
-    try:
-        with open(file_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except (json.JSONDecodeError, IOError) as e:
-        logger.error("Error reading %s: %s", file_path, e)
-        return None
+def json_files_to_csv(input_dir, output_file):
+    """Process JSON files and write to a CSV file using pandas.
 
-
-def extract_fields(data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Extract relevant fields from JSON data."""
-    # For cantus index data, each file contains a list with one item
-    if not data or not isinstance(data, list):
-        return []
-
-    # Return the data as is, we'll handle field extraction during CSV writing
-    return data
-
-
-def main():
-    """Main function to process JSON files and create CSV."""
-    parser = argparse.ArgumentParser(
-        description="Convert Cantus Index JSON files to a single CSV file."
-    )
-    parser.add_argument(
-        "-i", "--input-dir",
-        type=Path,
-        default=DEFAULT_INPUT_DIR,
-        help="Directory containing JSON files (default: cantusindex/data/raw/)"
-    )
-    parser.add_argument(
-        "-o", "--output-file",
-        type=Path,
-        default=DEFAULT_OUTPUT_FILE,
-        help="Output CSV file path (default: cantusindex/data/merged/cantusindex.csv)"
-    )
-    args = parser.parse_args()
-
-    input_dir = args.input_dir
-    output_file = args.output_file
-
+    Assumes that each JSON file contains a list of records (dictionaries)."""
     # Check if input directory exists
     if not input_dir.exists() or not input_dir.is_dir():
         logger.error(
@@ -85,41 +46,72 @@ def main():
         logger.error("No JSON files found in the input directory.")
         return
 
-    # Read a single file to determine the fields. All Json files should have the same structure.
-    sample_json = read_json_file(json_files[0])
-    if not sample_json:
-        logger.error("Could not read sample file to determine fields.")
+    # Initialize list to hold DataFrames
+    dataframes = []
+    processed_count = 0
+
+    # Process each JSON file
+    with tqdm(total=len(json_files), desc="Processing JSON files") as pbar:
+        for json_file in json_files:
+            try:
+                with open(json_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except (json.JSONDecodeError, IOError) as e:
+                logger.error("Error reading %s: %s", json_file, e)
+                pbar.update(1)
+                continue
+
+            if not data:
+                pbar.update(1)
+                continue
+
+            # Convert JSON data to DataFrame
+            df = pd.DataFrame(data)
+            dataframes.append(df)
+            processed_count += 1
+            pbar.update(1)
+
+    # Concatenate all DataFrames
+    if dataframes:
+        combined_df = pd.concat(dataframes, ignore_index=True, sort=False)
+
+        # Write to CSV
+        combined_df.to_csv(output_file, index=False, encoding="utf-8")
+
+    else:
+        logger.error("No valid data found to process.")
         return
 
-    # Extract all field names from the sample data
-    fieldnames = []
-    for item in sample_json:
-        for key in item.keys():
-            if key not in fieldnames:
-                fieldnames.append(key)
-
-    # Write to CSV
-    with open(output_file, "w", newline="", encoding="utf-8") as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-
-        # Process each JSON file
-        processed_count = 0
-        with tqdm(total=len(json_files), desc="Processing JSON files") as pbar:
-            for json_file in json_files:
-                data = read_json_file(json_file)
-                if data:
-                    # Extract fields and write to CSV
-                    records = extract_fields(data)
-                    for record in records:
-                        writer.writerow(record)
-                    processed_count += 1
-                pbar.update(1)
-
     logger.info(
-        "Successfully processed %d out of %d JSON files.", processed_count, len(json_files)
+        "Successfully processed %d out of %d JSON files.",
+        processed_count,
+        len(json_files),
     )
     logger.info("CSV file created at %s", output_file)
+
+
+def main():
+    """Main function to parse arguments and call processing logic."""
+    parser = argparse.ArgumentParser(
+        description="Convert Cantus Index JSON files to a single CSV file."
+    )
+    parser.add_argument(
+        "-i",
+        "--input-dir",
+        type=Path,
+        default=DEFAULT_INPUT_DIR,
+        help="Directory containing JSON files (default: cantusindex/data/raw/)",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT_FILE,
+        help="Output CSV file path (default: cantusindex/data/merged/cantusindex.csv)",
+    )
+    args = parser.parse_args()
+
+    json_files_to_csv(args.input_dir, args.output)
 
 
 if __name__ == "__main__":
