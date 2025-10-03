@@ -1,0 +1,38 @@
+[general]
+name = "cantusindex"
+csv_folder = "../../cantusindex/data/reconciled"
+rdf_output_folder = "../../cantusindex/data/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+ci = "https://linkedmusic.ca/graphs/cantusindex/"
+cii = "https://cantusindex.org/id/"
+
+[cantusindex]
+PRIMARY_KEY = "cid"
+cid = {prefix = "cii", type = "ci:Chant"}
+genre = "P136"  # genre (P136)
+genre_original = ""
+feast = "P837"  # day in year for periodic occurrence (P837)
+feast_original = ""
+text = "P6349"  # Lace Bugs Database ID (P6349)
+related =  {pred = "P1899", prefix = "cii"}  # LibriVox author ID (P1899)
+similar = {pred = "P629", prefix = "cii"}  # edition or translation of (P629)
+troped = {pred = "P144", prefix = "cii"}  # based on (P144)
+source = "P217"  # inventory number (P217)
+language = "P407"  # language of work or name (P407)
+tags = ""
+cao = ""
+cao_concordances = ""
+cao_concordances_original = ""
+ah_volume = ""
+ah_item = ""
+notes = ""
+author = ""
+fulltext_submitted_by = ""
+proofread_by = ""

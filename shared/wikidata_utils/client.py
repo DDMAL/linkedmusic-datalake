@@ -98,11 +98,13 @@ class _WikidataAPIClientRaw:
         Internal helper method to perform HTTP GET requests with consistent error handling.
         Returns either the JSON response or None on error.
         """
+        headers = headers or {}
+        headers["User-Agent"] = "LinkedMusicDataLake/1.0 (+https://linkedmusic.ca/)"
         try:
             async with self.session.get(
                 url,
                 params=params or {},
-                headers=headers or {},
+                headers=headers,
                 timeout=aiohttp.ClientTimeout(total=timeout),
             ) as response:
                 response.raise_for_status()
