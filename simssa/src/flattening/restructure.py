@@ -31,6 +31,4 @@ df2 = df[cols]
 # df2 = df2.reset_index()
 
 
-
-
-df2.to_csv('./final_flattened.csv', index=False)
+df2.to_csv("./final_flattened.csv", index=False)

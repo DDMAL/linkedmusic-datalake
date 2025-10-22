@@ -13,10 +13,10 @@ import re
 
 # Query main info from the database
 db_params = {
-    'dbname': 'simssadb',
-    'user': 'postgres',
-    'password': 'postgres',
-    'host': 'localhost'
+    "dbname": "simssadb",
+    "user": "postgres",
+    "password": "postgres",
+    "host": "localhost",
 }
 
 author_query = """
@@ -177,7 +177,6 @@ cur.execute(flattened_view_query)
 cur.execute(compact_files_query)
 
 
-
 # # START FEATURE FLATTENING
 # # get distinct feature names:
 # cur.execute("SELECT DISTINCT feature FROM flattened_view")
@@ -210,7 +209,7 @@ cur.execute(final_query_flattened_view)
 results = cur.fetchall()
 
 # Export data to CSV
-with open('initial_flattened.csv', 'w') as f:
+with open("initial_flattened.csv", "w") as f:
     writer = csv.writer(f)
     writer.writerow([col[0] for col in cur.description])
     writer.writerows(results)
@@ -225,7 +224,7 @@ cur.execute(final_query_compact_files)
 results = cur.fetchall()
 
 # Export data to CSV
-with open('files.csv', 'w') as f:
+with open("files.csv", "w") as f:
     writer = csv.writer(f)
     writer.writerow([col[0] for col in cur.description])
     writer.writerows(results)
