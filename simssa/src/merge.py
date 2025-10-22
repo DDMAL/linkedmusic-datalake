@@ -60,7 +60,7 @@ def merge_instance_data(input_dir):
         },
     )
 
-    
+
     merged_df = pd.merge(
         source_inst_df, source_inst_section_df, on="instance_id", how="left"
     )
@@ -212,6 +212,7 @@ def merge_person_data(input_dir):
 
 
 def main():
+    """Main function to parse arguments and run merging functions."""
     parser = argparse.ArgumentParser(description="SIMSSA CSV merge utilities")
     parser.add_argument(
         "-i",

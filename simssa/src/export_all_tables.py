@@ -127,7 +127,9 @@ def main(base_output_dir):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Export all tables from the SimssaDB PostgreSQL database to CSV files.")
+    parser = argparse.ArgumentParser(
+        description="Export all tables from the SimssaDB PostgreSQL database to CSV files."
+        )
     parser.add_argument(
         "--output",
         type=str,
