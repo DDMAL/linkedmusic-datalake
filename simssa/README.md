@@ -35,3 +35,24 @@ In `generate_jsonld.py`:
 4. The contexts used in the `compact.jsonld` file is imported from `context.jsonld`
 
 ### TODO: Make the RDF conversion convert to Turtle
+
+## Database Export Scripts
+
+### export_structured_tables.py
+
+A new script that exports all tables from the SimssaDB database to CSV files organized by category:
+
+- **Usage**: `python src/export_structured_tables.py`
+- **Output**: Structured CSV files in `data/raw/` subdirectories
+- **Categories**:
+  - `feature/`: extracted_feature, feature, feature_file
+  - `genre/`: genre_as_in_style, genre_as_in_type, musical_work_genres_*
+  - `instance/`: files, source_instantiation, source_instantiation_sections
+  - `musical_work/`: musical_work, part, section
+  - `person/`: contribution_musical_work, person
+  - `source/`: source
+  - `other/`: geographic_area, instrument, software, and any unknown tables
+
+This script automatically maps tables to appropriate directories based on their content type and puts unknown tables in the `other/` directory.
+
+```
