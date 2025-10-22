@@ -41,10 +41,13 @@ def merge_instance_data(input_dir):
     )
 
     # Each instance may have multiple files
-    merged_df = pd.merge(source_inst_df, files_df, on="instance_id", how="left")
+    merged_df = pd.merge(source_inst_df, source_inst_section_df, on="instance_id", how="left")
     full_merged_df = pd.merge(
-        merged_df, source_inst_section_df, on="instance_id", how="left"
+        merged_df, files_df, on="instance_id", how="left"
     )
+
+    # Drop the instance_id column
+    full_merged_df = full_merged_df.drop(columns=["instance_id"])
 
     return full_merged_df
 
