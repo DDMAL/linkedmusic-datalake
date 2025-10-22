@@ -10,6 +10,7 @@ Empty tables are skipped during the export process.
 import csv
 import os
 import logging
+import argparse
 import psycopg2
 
 # Database connection parameters
@@ -20,7 +21,7 @@ DB_PARAMS = {
     "host": "localhost",
 }
 
-BASE_OUTPUT_DIR = os.path.abspath("./simssa/data/raw")
+DEFAULT_OUTPUT_DIR = os.path.abspath("./simssa/data/raw")
 
 # Table to subdirectory mapping based on existing structure
 # Example: "extracted_feature" CSV goes to "data/raw/feature" subdirectory
@@ -57,7 +58,7 @@ logging.basicConfig(
 )
 
 
-def main():
+def main(base_output_dir):
     """
     Export all tables from the database to CSV files.
 
@@ -66,12 +67,12 @@ def main():
     """
 
     # Ensure base output directory exists
-    os.makedirs(BASE_OUTPUT_DIR, exist_ok=True)
+    os.makedirs(base_output_dir, exist_ok=True)
 
     # Create all subdirectories
     subdirs = set(TABLE_MAPPINGS.values()) | {"other"}
     for subdir in subdirs:
-        os.makedirs(os.path.join(BASE_OUTPUT_DIR, subdir), exist_ok=True)
+        os.makedirs(os.path.join(base_output_dir, subdir), exist_ok=True)
 
     # Connect to database
     conn = psycopg2.connect(**DB_PARAMS)
@@ -92,7 +93,7 @@ def main():
             try:
                 # Get table subdirectory (default to 'other' if unknown)
                 table_subdir = TABLE_MAPPINGS.get(table_name, "other")
-                output_dir = os.path.join(BASE_OUTPUT_DIR, table_subdir)
+                output_dir = os.path.join(base_output_dir, table_subdir)
 
                 # Execute query
                 cur.execute(f'SELECT * FROM "{table_name}"')
@@ -126,4 +127,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Export all tables from the SimssaDB PostgreSQL database to CSV files.")
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=DEFAULT_OUTPUT_DIR,
+        help="Base directory for output CSV files (default: ./simssa/data/raw)"
+    )
+    args = parser.parse_args()
+    main(args.output)
