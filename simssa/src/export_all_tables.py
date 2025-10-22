@@ -1,15 +1,16 @@
 """
-Script to export all tables from a PostgreSQL database to structured CSV files.
+Script to export all tables from the SimssaDB PostgreSQL database to CSV files.
 
-Tables are categorized into subdirectories based on predefined mappings.
+Make sure to set up the database following the guidelines in the README.
+
+CSV filesare categorized into subdirectories based on predefined mappings.
 Empty tables are skipped during the export process.
 """
 
-import psycopg2
 import csv
-import re
 import os
 import logging
+import psycopg2
 
 # Database connection parameters
 DB_PARAMS = {
@@ -21,7 +22,8 @@ DB_PARAMS = {
 
 BASE_OUTPUT_DIR = os.path.abspath("./simssa/data/raw")
 
-# Table to directory mapping based on existing structure
+# Table to subdirectory mapping based on existing structure
+# Example: "extracted_feature" CSV goes to "data/raw/feature" subdirectory
 TABLE_MAPPINGS = {
     # Feature-related tables
     "extracted_feature": "feature",
@@ -59,8 +61,8 @@ def main():
     """
     Export all tables from the database to CSV files.
 
-    Tables are placed in subdirectories based on their category.
-    Skips empty tables and logs the export process.
+    Tables are placed in subdirectories based on existing mapping.
+    Skips empty tables.
     """
 
     # Ensure base output directory exists
@@ -88,9 +90,9 @@ def main():
 
         for table_name in table_names:
             try:
-                # Get table directory (default to 'other' if unknown)
-                table_dir = TABLE_MAPPINGS.get(table_name, "other")
-                output_dir = os.path.join(BASE_OUTPUT_DIR, table_dir)
+                # Get table subdirectory (default to 'other' if unknown)
+                table_subdir = TABLE_MAPPINGS.get(table_name, "other")
+                output_dir = os.path.join(BASE_OUTPUT_DIR, table_subdir)
 
                 # Execute query
                 cur.execute(f'SELECT * FROM "{table_name}"')
