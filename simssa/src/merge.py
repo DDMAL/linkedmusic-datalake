@@ -1,3 +1,14 @@
+"""
+Merge and process raw SimssaDB CSV files. 
+
+This script should be run before reconciliation.
+Generates the following merged CSV files:
+- instance.csv
+- work.csv
+- source.csv
+- person.csv
+"""
+
 import argparse
 import logging
 from pathlib import Path
@@ -12,25 +23,34 @@ if not logger.hasHandlers():
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 
-def load_and_select(csv_path, usecols, rename_dict):
+def load_csv(csv_path, usecols, rename_dict):
+    """
+    Load a CSV file, select specific columns, and rename them if needed.
+
+    Args:
+        csv_path (Path): Path to the CSV file.
+        usecols (list): List of columns to select.
+        rename_dict (dict): Dictionary for renaming columns.
+    """
     df = pd.read_csv(csv_path, usecols=usecols, dtype=str)
     return df.rename(columns=rename_dict)
 
 
 def merge_instance_data(input_dir):
-    source_inst_df = load_and_select(
+    """Merge instance-related CSV files into a single DataFrame."""
+    source_inst_df = load_csv(
         input_dir / "instance" / "source_instantiation.csv",
         usecols=["id", "source_id", "work_id"],
         rename_dict={"id": "instance_id"},
     )
 
-    source_inst_section_df = load_and_select(
+    source_inst_section_df = load_csv(
         input_dir / "instance" / "source_instantiation_sections.csv",
         usecols=["sourceinstantiation_id", "section_id"],
         rename_dict={"sourceinstantiation_id": "instance_id"},
     )
 
-    files_df = load_and_select(
+    files_df = load_csv(
         input_dir / "instance" / "files.csv",
         usecols=["id", "file_format", "file", "instantiates_id"],
         rename_dict={
@@ -40,21 +60,24 @@ def merge_instance_data(input_dir):
         },
     )
 
-    # Each instance may have multiple files
-    merged_df = pd.merge(source_inst_df, source_inst_section_df, on="instance_id", how="left")
-    full_merged_df = pd.merge(
-        merged_df, files_df, on="instance_id", how="left"
+    
+    merged_df = pd.merge(
+        source_inst_df, source_inst_section_df, on="instance_id", how="left"
     )
+    # Each instance may have multiple files
+    full_merged_df = pd.merge(merged_df, files_df, on="instance_id", how="left")
 
-    # Drop the instance_id column
+    # There is no webpage for instances. It is not necessary to keep the instance_id
+    # This CSV is mainly to link files to works, sections and sources
     full_merged_df = full_merged_df.drop(columns=["instance_id"])
 
     return full_merged_df
 
 
 def merge_work_data(input_dir):
+    """Merge work-related CSV files into a single DataFrame."""
     # Load and process musical_work.csv
-    work_df = load_and_select(
+    work_df = load_csv(
         input_dir / "musical_work" / "musical_work.csv",
         usecols=["id", "variant_titles", "sacred_or_secular"],
         rename_dict={"id": "work_id", "variant_titles": "work_title"},
@@ -63,12 +86,13 @@ def merge_work_data(input_dir):
     work_df["work_title"] = work_df["work_title"].str.replace(
         r"[\[\]'\"']", "", regex=True
     )
+    # Map sacred_or_secular boolean to descriptive strings
     work_df["sacred_or_secular"] = work_df["sacred_or_secular"].replace(
         {"False": "Secular", "True": "Sacred"}
     )
 
     # Load and process section.csv
-    section_df = load_and_select(
+    section_df = load_csv(
         input_dir / "musical_work" / "section.csv",
         usecols=["id", "title", "musical_work_id"],
         rename_dict={
@@ -78,18 +102,15 @@ def merge_work_data(input_dir):
         },
     )
 
-    # Left join work_df with section_df on work_id
-    merged_with_sections_df = pd.merge(work_df, section_df, on="work_id", how="left")
-
     # Load and process contribution_musical_works.csv
-    contribution_df = load_and_select(
+    contribution_df = load_csv(
         input_dir / "person" / "contribution_musical_work.csv",
         usecols=["role", "person_id", "contributed_to_work_id"],
         rename_dict={"contributed_to_work_id": "work_id"},
     )
 
     # The original table store the role of the contributor as either AUTHOR or COMPOSER
-    contribution_pivot = (
+    contribution_pivoted = (
         contribution_df.pivot_table(
             index="work_id", columns="role", values="person_id", aggfunc="first"
         )
@@ -97,21 +118,24 @@ def merge_work_data(input_dir):
         .reset_index()
     )
 
+    # Left join work_df with section_df on work_id
+    merged_with_sections_df = pd.merge(work_df, section_df, on="work_id", how="left")
+
     # Merge the pivoted contribution data with the work-section DataFrame
     merged_with_creator_df = pd.merge(
-        merged_with_sections_df, contribution_pivot, on="work_id", how="left"
+        merged_with_sections_df, contribution_pivoted, on="work_id", how="left"
     )
 
     # Processing genre data
     # Load and process genre-work match table
-    genre_of_work_df = load_and_select(
+    genre_of_work_df = load_csv(
         input_dir / "genre" / "musical_work_genres_as_in_type.csv",
         usecols=["musicalwork_id", "genreasintype_id"],
         rename_dict={"musicalwork_id": "work_id", "genreasintype_id": "genre_id"},
     )
 
     # Load and process genre id-name match table
-    genres_df = load_and_select(
+    genres_df = load_csv(
         input_dir / "genre" / "genre_as_in_type.csv",
         usecols=["id", "name"],
         rename_dict={"id": "genre_id", "name": "genre_name"},
@@ -131,9 +155,10 @@ def merge_work_data(input_dir):
     return final_merged_df
 
 
-def process_source_data(input_dir):
+def merge_source_data(input_dir):
+    """Merge source-related CSV files into a single DataFrame."""
     # Load and process source/source.csv
-    source_df = load_and_select(
+    source_df = load_csv(
         input_dir / "source" / "source.csv",
         usecols=["id", "title"],
         rename_dict={"id": "source_id", "title": "source_title"},
@@ -146,9 +171,10 @@ def process_source_data(input_dir):
     return source_df
 
 
-def process_person_data(input_dir):
+def merge_person_data(input_dir):
+    """Merge person-related CSV files into a single DataFrame."""
     # Load and process person/person.csv
-    person_df = load_and_select(
+    person_df = load_csv(
         input_dir / "person" / "person.csv",
         usecols=[
             "id",
@@ -189,34 +215,34 @@ def main():
     parser = argparse.ArgumentParser(description="SIMSSA CSV merge utilities")
     parser.add_argument(
         "-i",
-        "--input-dir",
+        "--input",
         default=DEFAULT_INPUT_DIR,
         type=Path,
         help="Input raw data directory (default: simssa/data/raw)",
     )
     parser.add_argument(
         "-o",
-        "--output-dir",
+        "--output",
         default=DEFAULT_OUTPUT_DIR,
         type=Path,
         help="Output directory for merged CSVs (default: simssa/data/merged)",
     )
     args = parser.parse_args()
-    args.output_dir.mkdir(parents=True, exist_ok=True)
+    args.output.mkdir(parents=True, exist_ok=True)
 
-    merge_instance_data(args.input_dir).to_csv(
-        args.output_dir / "instance.csv", index=False
+    merge_instance_data(args.input).to_csv(
+        args.output / "instance.csv", index=False
     )
-    merge_work_data(args.input_dir).to_csv(args.output_dir / "work.csv", index=False)
-    process_source_data(args.input_dir).to_csv(
-        args.output_dir / "source.csv", index=False
+    merge_work_data(args.input).to_csv(args.output / "work.csv", index=False)
+    merge_source_data(args.input).to_csv(
+        args.output / "source.csv", index=False
     )
-    process_person_data(args.input_dir).to_csv(
-        args.output_dir / "person.csv", index=False
+    merge_person_data(args.input).to_csv(
+        args.output / "person.csv", index=False
     )
 
     logger.info(
-        "All CSVs have been successfully processed and saved to %s", args.output_dir
+        "All CSVs have been successfully processed and saved to %s", args.output
     )
 
 
