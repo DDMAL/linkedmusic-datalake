@@ -1,0 +1,59 @@
+[general]
+name = "simssadb"
+csv_folder = "../../simssa/data/reconciled"
+rdf_output_folder = "../../simssa/data/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+sp = "https://db.simssa.ca/persons/"
+sw = "https://db.simssa.ca/musicalworks/"
+sse = "https://db.simssa.ca/sections/"
+st = "https://db.simssa.ca/types/"
+ss = "https://db.simssa.ca/sources/"
+lms = "https://linkedmusic.ca/graphs/simssadb/"
+
+[instance]
+PRIMARY_KEY = "instance_id"
+instance_id = ""
+source_id = {prefix = "ss"}
+work_id = ""
+file_id = ""
+file_format = ""
+file_name = ""
+section_id = ""
+
+[person]
+PRIMARY_KEY = "person_id"
+person_name = "P2888"
+person_name_original = "rdfs:label"
+birth_year = "P569"
+death_year = "P570"
+viaf_id = "P214"
+
+[person.person_id]
+type = "lms:Person"
+prefix = "sp"
+
+[source]
+PRIMARY_KEY = "source_id"
+source_id = {prefix = "ss", type = "ls:Source"}
+source_title = "rdfs:label"
+
+[work]
+PRIMARY_KEY = "work_id"
+work_id = ""
+work_title = ""
+work_title_original = ""
+sacred_or_secular = ""
+section_id = ""
+section_title = ""
+author_id = ""
+composer_id = ""
+genre_id = ""
+genre_name = ""
+style = ""
