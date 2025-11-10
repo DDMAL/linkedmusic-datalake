@@ -4,9 +4,9 @@ This guide details all the steps required to translate raw data from MusicBrainz
 
 ## Characteristics of the MusicBrainz Dataset
 
-- Given that MusicBrainz data is based on a Relational Database (RDB) model, most entities (e.g. artists and recordings) are already carefully linked with one another. In fact, there are over 800 defined relationship types connecting these entities!
-- Luckily, most Musicbrainz entities are already reconciled with Wikidata (i.e. they have a field containing the matching Wikidata QID). This removes the need for us to reconcile the data with OpenRefine (Ichiro confimed).
-- Please take a look the [official documentation on basic MusicBrainz entities](https://musicbrainz.org/doc/Terminology) and the [official table of MusicBrainz relationships](https://musicbrainz.org/relationships) before you continue.
+- Given that MusicBrainz data is based on a Relational Database (RDB) model, most entities (e.g., artists and recordings) are already carefully linked with one another. In fact, there are over 800 defined relationship types connecting these entities!
+- Luckily, most Musicbrainz entities are already reconciled with Wikidata (i.e., they have a field containing the matching Wikidata QID). This removes the need for us to reconcile the data with OpenRefine (Ichiro confirmed).
+- Please take a look at the [official documentation on basic MusicBrainz entities](https://musicbrainz.org/doc/Terminology) and the [official table of MusicBrainz relationships](https://musicbrainz.org/relationships) before you continue.
 
 ## Data Processing Pipeline
 
@@ -18,7 +18,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
 - Change your working directory to `linkedmusic-datalake/`.
 - All the commands written in this guide expect the working directory to be the project root directory.
-- If you want the scripts' default arguments to be pointing to the correct folders, you can run the scripts directly from the directory they are in: `musicbrainz/src/`. This can be especially useful when using VSCode's run script feature.
+- If you want the scripts' default arguments to be pointing to the correct folders, you can run the scripts directly from the directory they are in: `musicbrainz/src/`. This can be especially useful when using VS Code's run script feature.
 
 #### 2. **Fetch the Latest Data**
 
@@ -44,7 +44,7 @@ Below are the steps you must execute from your console once you have cloned the 
   10. series.tar.xz
   11. work.tar.xz
 
-- The fetching script will pause fo a second between files. This is a magic number added by Yueqiao, most likely to rate limit our downloads. This value can also be adjusted in the future.
+- The fetching script will pause for a second between files. This is a magic number added by Yueqiao, most likely to rate-limit our downloads. This value can also be adjusted in the future.
 
 #### 3. **Untar the dump**
 
@@ -54,8 +54,8 @@ Below are the steps you must execute from your console once you have cloned the 
   python musicbrainz/src/untar.py --input_folder musicbrainz/data/raw/archived/ --output_folder musicbrainz/data/raw/extracted_jsonl/
   ```
 
-- Each downloaded `.tar.xz` files contain a `mbdump` folder, in which is a single JSON Lines file
-- JSON Lines (JSONL) is a format in which each line is a JSON object. Each of the MusicBrainz JSONL files contain all MusicBrainz entities of that particular `entity-type`. For example, `artist.jsonl` contains all MusicBrainz artist entities; each entity is a JSON object who occupies a entire line.
+- Each downloaded `.tar.xz` file contains a `mbdump` folder, in which is a single JSON Lines file
+- JSON Lines (JSONL) is a format in which each line is a JSON object. Each of the MusicBrainz JSONL files contains all MusicBrainz entities of that particular `entity-type`. For example, `artist.jsonl` contains all MusicBrainz artist entities; each entity is a JSON object that occupies an entire line.
 
 - The extracted JSONL files are located at:
   `musicbrainz/data/raw/extracted_jsonl/mbdump/`
@@ -66,12 +66,12 @@ Below are the steps you must execute from your console once you have cloned the 
 
 - Note that you can consult [`musicbrainz/doc/layout.json`](/musicbrainz/doc/layout.json) to see a list of fields that exist for each entity type.
 
-- Each entity in MusicBrainz has an additional `type` field on top of their basic entity-type. You can understand `type` as a subclass of `entity-type`. For example, Berlin Philharmoniker has `"artist"` as its `entity-type` (general), and `"orchestra"` as its `type` (specific).
+- Each entity in MusicBrainz has an additional `type` field on top of their basic entity type. You can understand `type` as a subclass of `entity-type`. For example, Berlin Philharmoniker has `"artist"` as its `entity-type` (general), and `"orchestra"` as its `type` (specific).
 
   - EXCEPTION 1: `release-group` entities do not have just a `type` field. Instead, they have both a `primary-type` and a `secondary-types`field.
   - EXCEPTION 2: `recording` and `release` entities do not have a `type` field.
 
-- `types` are not yet reconciled with Wikidata. We must therefore extract a list of all available types and reconcile them ourselves (e.g. match the type `orchestra` to [`Q42998`](https://www.wikidata.org/wiki/Q42998)).
+- `types` are not yet reconciled with Wikidata. We must therefore extract a list of all available types and reconcile them ourselves (e.g., match the type `orchestra` to [`Q42998`](https://www.wikidata.org/wiki/Q42998)).
 
 - Execute the following command to extract `type` and other unreconciled fields.
 
@@ -93,7 +93,7 @@ Below are the steps you must execute from your console once you have cloned the 
 
 #### **5. Reconcile Relationships**
 
-- In addition to the above mentionned fields, the field `relationships` is also unreconciled in the raw MusicBrainz data.
+- In addition to the fields mentioned above, the field `relationships` is also unreconciled in the raw MusicBrainz data.
 
 - Please consult [relationships_reconciliation.md](./doc/relationships_reconciliation.md) to learn how to reconcile relationships against Wikidata.
 
@@ -116,24 +116,24 @@ Below are the steps you must execute from your console once you have cloned the 
   python musicbrainz/src/get_genre.py --output musicbrainz/data/rdf/
   ```
 
-- The script outputs an RDF file, which is stored in `data/musicbrainz/rdf/`, along the other RDF files.
-- The script is rate-limited to 1 request every 1.375 seconds following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works). It was increased from 1 second to 1.375 second because we were still getting rate limited even with a 1 second delay.
+- The script outputs an RDF file, which is stored in `data/musicbrainz/rdf/`, along with the other RDF files.
+- The script is rate-limited to 1 request every 1.375 seconds following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works). It was increased from 1 second to 1.375 seconds because we were still getting rate-limited even with a 1-second delay.
 - The script also provides a user-agent header, following the same guidelines.
-- The [MusicBrainz API Documentation](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works) states that they will respond to requests with a 503 when they rate limit you. However, I've never seen this happen, it seems like they simply timeout the request instead.
+- The [MusicBrainz API Documentation](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works) states that they will respond to requests with a 503 when they rate limit you. However, I've never seen this happen; it seems like they simply timeout the request instead.
 
-- The genres are handled this way because they are stored and treated differently by MusicBrainz compared to the other core entity types, and they are not available in the [main database dumps](https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/). This is why we use the [API](https://musicbrainz.org/doc/MusicBrainz_API/#Introduction) to fetch the list of genres, and scrape the webpages to get the wikidata links.
+- The genres are handled this way because they are stored and treated differently by MusicBrainz compared to the other core entity types, and they are not available in the [main database dumps](https://data.metabrainz.org/pub/musicbrainz/data/json-dumps/). This is why we use the [API](https://musicbrainz.org/doc/MusicBrainz_API/#Introduction) to fetch the list of genres and scrape the webpages to get the Wikidata links.
 
 ### Recommendation: Script Testing
 
-- If you're experimenting on the scripts, we recommend you to test on a small subset of the data.
+- If you're experimenting with the scripts, we recommend that you test on a small subset of the data.
 
-- For example, you can get the first 100000 lines of the `area.jsonl` file, by running the following command:
+- For example, you can get the first 100000 lines of the `area.jsonl` file by running the following command:
 
 ```bash
 head -n 100000 area.jsonl > small_area.jsonl
 ```
 
-- This greatly speeds up the processing. Some files have up to 5 million lines: it is unnecessary to test them all for minor changes.
+- This greatly speeds up the processing. Some files have up to 5 million lines; it is unnecessary to test them all for minor changes.
 
 ## Data Upload
 
