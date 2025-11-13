@@ -1,0 +1,78 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "ismir04_rhythm",
+    "expression": "grel:value",
+    "onError": "keep-original",
+    "newColumnName": "ismir04_rhythm_original",
+    "columnInsertIndex": 1,
+    "description": "Create column ismir04_rhythm_original at index 1 based on column ismir04_rhythm using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "ismir04_rhythm",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q107357104",
+        "name": "type of dance"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column ismir04_rhythm to type Q107357104"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "ismir04_rhythm",
+    "similarValue": "Rumba-American",
+    "judgment": "matched",
+    "match": {
+      "id": "Q221438",
+      "name": "rhumba",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item rhumba (Q221438) for cells containing \"Rumba-American\" in column ismir04_rhythm"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "ismir04_rhythm",
+    "similarValue": "Rumba-Misc",
+    "judgment": "matched",
+    "match": {
+      "id": "Q221438",
+      "name": "rhumba",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item rhumba (Q221438) for cells containing \"Rumba-Misc\" in column ismir04_rhythm"
+  }
+]

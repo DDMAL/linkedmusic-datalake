@@ -1,0 +1,78 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "tonality",
+    "expression": "grel:value",
+    "onError": "keep-original",
+    "newColumnName": "tonality_original",
+    "columnInsertIndex": 1,
+    "description": "Create column tonality_original at index 1 based on column tonality using expression grel:value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "tonality",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q192822",
+        "name": "tonality"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column tonality to type Q192822"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "tonality",
+    "similarValue": "A# major",
+    "judgment": "matched",
+    "match": {
+      "id": "Q20890932",
+      "name": "A-sharp major",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item A-sharp major (Q20890932) for cells containing \"A# major\" in column tonality"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "tonality",
+    "similarValue": "A# minor",
+    "judgment": "matched",
+    "match": {
+      "id": "Q287469",
+      "name": "A-sharp minor",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item A-sharp minor (Q287469) for cells containing \"A# minor\" in column tonality"
+  }
+]

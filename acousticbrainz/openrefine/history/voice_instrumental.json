@@ -5,12 +5,12 @@
       "facets": [],
       "mode": "row-based"
     },
-    "baseColumnName": "gender",
+    "baseColumnName": "voice_instrumental",
     "expression": "grel:value",
-    "onError": "set-to-blank",
-    "newColumnName": "gender_original",
+    "onError": "keep-original",
+    "newColumnName": "voice_instrumental_original",
     "columnInsertIndex": 1,
-    "description": "Create column gender_original at index 1 based on column gender using expression grel:value"
+    "description": "Create column voice_instrumental_original at index 1 based on column voice_instrumental using expression grel:value"
   },
   {
     "op": "core/recon",
@@ -18,22 +18,22 @@
       "facets": [],
       "mode": "row-based"
     },
-    "columnName": "gender",
+    "columnName": "voice_instrumental",
     "config": {
       "mode": "standard-service",
       "service": "https://wikidata.reconci.link/en/api",
       "identifierSpace": "http://www.wikidata.org/entity/",
       "schemaSpace": "http://www.wikidata.org/prop/direct/",
       "type": {
-        "id": "Q48277",
-        "name": "gender"
+        "id": "Q862597",
+        "name": "musical form"
       },
       "autoMatch": true,
       "batchSize": 10,
       "columnDetails": [],
       "limit": 0
     },
-    "description": "Reconcile cells in column gender to type Q48277"
+    "description": "Reconcile cells in column voice_instrumental to type Q862597"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -41,18 +41,18 @@
       "facets": [],
       "mode": "row-based"
     },
-    "columnName": "gender",
-    "similarValue": "male",
+    "columnName": "voice_instrumental",
+    "similarValue": "voice",
     "judgment": "matched",
     "match": {
-      "id": "Q6581097",
-      "name": "male",
+      "id": "Q685884",
+      "name": "vocal music",
       "types": [
         ""
       ],
       "score": 100
     },
     "shareNewTopics": false,
-    "description": "Match item male (Q6581097) for cells containing \"male\" in column gender"
+    "description": "Match item vocal music (Q685884) for cells containing \"voice\" in column voice_instrumental"
   }
 ]

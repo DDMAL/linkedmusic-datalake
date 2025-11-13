@@ -5,12 +5,12 @@
       "facets": [],
       "mode": "row-based"
     },
-    "baseColumnName": "gender",
+    "baseColumnName": "genre_rosamerica",
     "expression": "grel:value",
-    "onError": "set-to-blank",
-    "newColumnName": "gender_original",
+    "onError": "keep-original",
+    "newColumnName": "genre_rosamerica_original",
     "columnInsertIndex": 1,
-    "description": "Create column gender_original at index 1 based on column gender using expression grel:value"
+    "description": "Create column genre_rosamerica_original at index 1 based on column genre_rosamerica using expression grel:value"
   },
   {
     "op": "core/recon",
@@ -18,22 +18,22 @@
       "facets": [],
       "mode": "row-based"
     },
-    "columnName": "gender",
+    "columnName": "genre_rosamerica",
     "config": {
       "mode": "standard-service",
       "service": "https://wikidata.reconci.link/en/api",
       "identifierSpace": "http://www.wikidata.org/entity/",
       "schemaSpace": "http://www.wikidata.org/prop/direct/",
       "type": {
-        "id": "Q48277",
-        "name": "gender"
+        "id": "Q188451",
+        "name": "music genre"
       },
       "autoMatch": true,
       "batchSize": 10,
       "columnDetails": [],
       "limit": 0
     },
-    "description": "Reconcile cells in column gender to type Q48277"
+    "description": "Reconcile cells in column genre_rosamerica to type Q188451"
   },
   {
     "op": "core/recon-judge-similar-cells",
@@ -41,18 +41,18 @@
       "facets": [],
       "mode": "row-based"
     },
-    "columnName": "gender",
-    "similarValue": "male",
+    "columnName": "genre_rosamerica",
+    "similarValue": "speech",
     "judgment": "matched",
     "match": {
-      "id": "Q6581097",
-      "name": "male",
+      "id": "Q52946",
+      "name": "speech",
       "types": [
         ""
       ],
       "score": 100
     },
     "shareNewTopics": false,
-    "description": "Match item male (Q6581097) for cells containing \"male\" in column gender"
+    "description": "Match item speech (Q52946) for cells containing \"speech\" in column genre_rosamerica"
   }
 ]

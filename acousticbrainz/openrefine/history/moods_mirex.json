@@ -1,0 +1,15 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "moods",
+    "expression": "grel:value",
+    "onError": "set-to-blank",
+    "newColumnName": "moods_original",
+    "columnInsertIndex": 1,
+    "description": "Create column moods_original at index 1 based on column moods using expression grel:value"
+  }
+]
