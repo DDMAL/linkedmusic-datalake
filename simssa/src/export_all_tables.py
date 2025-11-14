@@ -3,7 +3,7 @@ Script to export all tables from the SimssaDB PostgreSQL database to CSV files.
 
 Make sure to set up the database following the guidelines in the README.
 
-CSV filesare categorized into subdirectories based on predefined mappings.
+CSV files are categorized into subdirectories based on predefined mappings.
 Empty tables are skipped during the export process.
 """
 
