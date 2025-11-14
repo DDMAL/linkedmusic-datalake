@@ -12,6 +12,7 @@ import os
 import logging
 import argparse
 import psycopg2
+from psycopg2 import sql
 
 # Database connection parameters
 DB_PARAMS = {
@@ -95,8 +96,9 @@ def main(base_output_dir):
                 table_subdir = TABLE_MAPPINGS.get(table_name, "other")
                 output_dir = os.path.join(base_output_dir, table_subdir)
 
-                # Execute query
-                cur.execute(f'SELECT * FROM "{table_name}"')
+                # Use psycopg2.sql.Identifier for safe table name quoting
+                query = sql.SQL("SELECT * FROM {}").format(sql.Identifier(table_name))
+                cur.execute(query)
 
                 # Skip empty tables
                 rows = cur.fetchall()
