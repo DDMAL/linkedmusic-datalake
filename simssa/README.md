@@ -1,58 +1,186 @@
-# SimssaDB flattening and json-ld structures
+# Ingestion of SIMSSA DB
 
-> Summary:
+# 1. General Description
 
-> 1. Upload SQL dump to local postgreSQL database
-> 2. With output run `simssa/src/flattening/SQL_query.py`
-> 3. Reconcile `initial_flattened.csv` with OpenRefine
-> 4. Reconcile `files.csv` with OpenRefine
-> 5. With output run `simssa/src/flattening/restructure.py`
-> 6. With output run `simssa/src/jsonld/generate_jsonld.py` (which also takes `simssa/src/jsonld/context.jsonld` as the initial context)
+You can read more about SIMSSA DB on the [official webpage](https://db.simssa.ca/about/). A graphic of the SIMSSA DB database model can be found [on Cory McKay's SourceForge page](https://jmir.sourceforge.net/cmckay/papers/mckay17database.pdf)
 
-## 1. Extracting columns and feature flattening
+The project is mainly maintained by [Cory McKay](https://jmir.sourceforge.net/cmckay/). According to Ich, it is unlikely for SIMSSA DB to see any future update.
 
-After uploading the database dump to the local PostgreSQL database, we first select relevant columns and perform initial feature flattening with `psycopg` in `SQL_query.py`
+# 2. Obtaining The Database Dump
 
-When extracting the files, I found that since there often was more than one file per work, the SQL query would create rows where each data field was duplicated, except for the fields relating to the files, due to the behaviour of the `FULL OUTER JOIN` SQL command.
-As such, I decided to instead create a second CSV file that would only contain the files, and there would be a field indicating the musical work that the file corresponded to, allowing us to merge that CSV file with the main CSV file during RDF conversion.
-Furthermore, some files aren't linked to any musical works. I chose to simply ignore them when exporting the list of files because files without musical works aren't useful at all for the datalake. These files seem to be linked to musical works that aren't in the data dump currently being used. This will hopefully be fixed by [#263](https://github.com/DDMAL/linkedmusic-datalake/issues/263).
+Dylan has obtained a PostgreSQL dump of SIMSSA DB, the dump can be found on [Arbutus Object Storage](https://arbutus.cloud.computecanada.ca/auth/login/?next=/project/containers/container/virtuoso/misc). Please refer to the Internal SIMSSA Wiki on how to set up your Arbutus account.
 
-This produces 2 CSV files, `final_flattened.csv`, a flattening of all the tables into one CSV with `musical_work_id` as the primary key, and `files.csv`, containing the data about all files and the works they are linked to.
+# 3. Export SQL Dump to CSV files
+1. Install PostgreSQL, if it is not installed already.
 
-## 2. Reconciliation with OpenRefine
-
-OpenRefine reconciliation was performed on `initial_flattened.csv` and on `files.csv`. You can see the reconciled files `reconciled_wikiID.csv` and `reconciled_files_WikiID.csv`. You can use `simssa/openrefine/history/history_flattened.json` and `simssa/openrefine/history/history_files.json` to facilitate reconciliation and `simssa/openrefine/export/export_template_flattened.json` and `simssa/openrefine/export/export_template_files.json` to export to the desired csv format.
-
-## 3. Reconcile column names and generating json-ld
-
-Currently the json-ld is generated as follows:
-
-In `generate_jsonld.py`:
-
-1. Convert csv to json documents
-2. Loop through each json document and edit each entry, creating the compact jsonld. Also parse the files csv to extract and files associated with each entry.
-3. Generate the jsonld file at `compact.jsonld`
-4. The contexts used in the `compact.jsonld` file is imported from `context.jsonld`
-
-### TODO: Make the RDF conversion convert to Turtle
-
-## Database Export Scripts
-
-### export_structured_tables.py
-
-A new script that exports all tables from the SimssaDB database to CSV files organized by category:
-
-- **Usage**: `python src/export_structured_tables.py`
-- **Output**: Structured CSV files in `data/raw/` subdirectories
-- **Categories**:
-  - `feature/`: extracted_feature, feature, feature_file
-  - `genre/`: genre_as_in_style, genre_as_in_type, musical_work_genres_*
-  - `instance/`: files, source_instantiation, source_instantiation_sections
-  - `musical_work/`: musical_work, part, section
-  - `person/`: contribution_musical_work, person
-  - `source/`: source
-  - `other/`: geographic_area, instrument, software, and any unknown tables
-
-This script automatically maps tables to appropriate directories based on their content type and puts unknown tables in the `other/` directory.
-
+2. Make sure that postgres is running using the following command:
+```bash
+sudo service postgresql status
 ```
+Start postgresql if it is not running:
+
+```bash
+sudo service postgresql start
+```
+
+3. Start the postgres shell
+
+```bash
+sudo -u postgres psql
+```
+
+4. Inside the shell, create a new user and database, and exit the shell:
+
+```bash
+CREATE USER myuser WITH PASSWORD 'mypassword';
+CREATE DATABASE simssadb OWNER myuser;
+GRANT ALL PRIVILEGES ON DATABASE simssadb TO myuser;
+\q
+```
+
+5. Load the SQL dump into your new database through the following command:
+
+```bash
+sudo -u postgres sh -c "gunzip -c <path/to/sql_gz/dump> | psql -d simssadb"
+```
+
+When prompted, enter "mypassword" as the password.
+
+6. Grant read access of all loaded tables to "myuser"
+
+First, start the shell again:
+```bash
+sudo -u postgres psql -d simssadb
+```
+
+Then, run the following commands:
+```bash
+-- Grant SELECT on all existing tables
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO myuser;
+
+-- Grant SELECT on tables created in the future
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO myuser;
+
+\q
+```
+
+7. Run `export_all_tables.py`
+
+Run the following command from the repository root directory:
+```bash
+python simssa/src/export_all_tables.py 
+```
+
+All nonempty tables should be outputted as CSV files in the subdirectories of `simssa/data/raw`
+
+
+# 4. Overview of The Raw Dataset 
+
+After running `simssa/src/export_all_tables.py `, each nonempty table should be outputted as a CSV file in a subdirectory of `simssa/data/raw`
+
+`export_all_tables.py` groups the CSV files into the following subdirectories:
+1. `feature`: CSV related to audio/musical features (e.g. most frequent pitch, rhythmic variability).
+2. `genre`: CSV files related to musical genres, including both "genre-as-in-style" (e.g., Renaissance) and "genre-as-in-type" (e.g., Madrigal).
+3. `instance`: CSV files related to instances of musical works, which serve as intermediate links between works, sources, and files.
+4. `musical_work`: CSV files related to musical works, including their titles, sections, and associated metadata. Musical works (i.e. compositions) are the central entities of SIMSSA DB.
+5. `person`: CSV files containing data about authors and composers, including their roles and contributions.
+6. `source`: CSV files describing the origins of scores and their relationships to musical works and sections.
+
+Every other CSV file is placed in the `other` subdirectory: these do not seem to pertinent to the datalake.
+
+
+## 4.1 Feature Subdirectory
+Contains CSV related to audio/musical features (e.g. most frequent pitch, rythmic variability). These features were extracted from MIDI files. You can find an example of features list at `https://db.simssa.ca/files/2018`
+
+Contains the following CSVs:
+- extracted_features.csv: list of musical/audio features
+- feature_file.csv: location of files containing extracted features
+- feature.csv: another list of musical/audio features
+
+Musical features are currently omitted from the RDF since it is very difficult/impractical to store them Linked Data form. Anyone interested in these data should be redirected to the SIMSSA DB website.
+
+## 4.2 Genre Subdirectory
+Contains CSV files related to musical genres, including both "genre-as-in-style" and "genre-as-in-type."
+
+Contains the following CSVs:
+- genre_as_in_style.csv: "Renaissance" is the only genre_as_in_style in SIMSSA DB.
+- genre_as_in_type.csv: Lists twelve different genre_as_in_type (e.g., Zibaldone, Madrigal).
+- musical_work_genres_as_in_style.csv: Maps every musical work in SIMSSA DB to the genre "Renaissance."
+- musical_work_genres_as_in_type.csv: Maps musical works to their genre_as_in_type.
+
+Musical genres are an important aspect of SIMSSA DB, particularly "genre-as-in-type," which provides more detailed classifications. These data are suitable for Linked Data representation.
+
+## 4.3 Instance Subdirectory
+Contains CSV files related to instances of musical works, which serve as intermediate links between works, sources, and files.
+
+Contains the following CSVs:
+- files.csv: Points to files containing sheet music or MIDI scores.
+- source_instantiation.csv: Links instances to a musical work and to a source.
+- source_instantiation_sections.csv: Links instances to a section of a musical work. An instance is either linked to the entire musical work or to a section of it.
+
+Instances are not stored as distinct entities in the datalake but are crucial for linking works, sources, and files in the raw dataset.
+
+## 4.4 Musical Work Subdirectory
+Contains CSV files related to musical works, including their titles, sections, and associated metadata.
+
+Contains the following CSVs:
+- geographic_area.csv: Only contains "Vienna."
+- instruments.csv: Only contains "Voice."
+- musical_works.csv: Links a musical work to its title and indicates whether it is sacred or secular.
+- part.csv: Lists whenever a work has a part for voice.
+- section.csv: Lists sections of the musical works (e.g., work 117 may have a "Sanctus (In nomine)" section).
+
+Among these, only `musical_works.csv` and `section.csv` are ingested into the datalake. The other files were not part of the final RDF since they contained so little data.
+
+## 4.5 Person Subdirectory
+Contains CSV files related to authors and composers, including their roles and contributions.
+
+Contains the following CSVs:
+- person.csv: Lists all composers/authors, with their birth and death years.
+- contribution_musical_work.csv: Links people to compositions. The "role" column describes whether the person was an "AUTHOR" or a "COMPOSER."
+
+These files provide essential metadata about the creators of musical works and their contributions, making them suitable for Linked Data representation.
+
+# 5. Type of Entities in the RDF
+
+## 5.1 Persons
+Prefix: `https://db.simssa.ca/persons/`
+
+Identifies people who are either author or composers of musical work. Each person is linked to a VIAF ID in the raw dataset.
+
+## 5.2 Musical Works  
+Prefix: `https://db.simssa.ca/musicalworks/`
+
+Identifies individual musical works (i.e. compositions). Each composition is linked to:
+1. An author and a composer
+2. A genre
+3. Symbolic music files (MIDI & PDF score)
+4. Sections (e.g. a mass may have an Introit section)
+
+## 5.3 Sections  
+Prefix: `https://db.simssa.ca/sections/`
+
+This namespace refers to *sections* of musical works. A “section” may correspond to a movement, chant segment, or logical division within a work.
+
+There can a symbolic music file for a particular section instead of the whole composition.
+
+
+## 5.4 Types  
+Prefix: `https://db.simssa.ca/types/`
+
+
+This namespace contains controlled vocabulary terms and classification types used throughout the database—such as genre categories, musical form types, chant classifications, and descriptive typologies. These are reference entities used to annotate works, sections, or sources with normalized terms.
+
+
+## 5.5 Sources  
+Prefix: `https://db.simssa.ca/sources/`
+
+Identifies the genre (i.e. genre-as-in-type, see discussion under [4.2 Genre Subdirectory](./database_content.md#42-genre-subdirectory)) of a musical work. For example, a musical work can have the genre "madrigal".
+
+
+## 5.6 Files  
+Prefix: `https://db.simssa.ca/files/`
+
+Identifies the symbolic music file (PDF or MIDI) attached to a work or a section. 
+
+
