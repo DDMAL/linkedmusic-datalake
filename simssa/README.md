@@ -193,7 +193,7 @@ This namespace contains controlled vocabulary terms and classification types use
 
 Prefix: `https://db.simssa.ca/sources/`
 
-Identifies the genre (i.e. genre-as-in-type, see discussion under [4.2 Genre Subdirectory](./database_content.md#42-genre-subdirectory)) of a musical work. For example, a musical work can have the genre "madrigal".
+Identifies the genre (i.e. genre-as-in-type, see discussion under [4.2 Genre Subdirectory](#42-genre-subdirectory)) of a musical work. For example, a musical work can have the genre "madrigal".
 
 ## 5.6 Files
 
