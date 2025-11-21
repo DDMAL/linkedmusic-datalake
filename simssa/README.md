@@ -96,7 +96,7 @@ Every other CSV file is placed in the `other` subdirectory: these do not seem to
 
 ## 4.1 Feature Subdirectory
 
-Contains CSV related to audio/musical features (e.g. most frequent pitch, rythmic variability). These features were extracted from MIDI files. You can find an example of features list at `https://db.simssa.ca/files/2018`
+Contains CSV related to audio/musical features (e.g. most frequent pitch, rhythmic variability). These features were extracted from MIDI files. You can find an example of features list at `https://db.simssa.ca/files/2018`
 
 Contains the following CSVs:
 
