@@ -12,7 +12,7 @@ The database can be downloaded at the [official download page](https://jazzomat.
 
 # Ingestion Workflow
 - Change Directory to Repository Root
-- Obtain a copy of the Weimar Jazz Database SQLite file and store it at the path `/wjazzd/data//sql/wjazzd.db`
+- Obtain a copy of the Weimar Jazz Database SQLite file and store it at the path `/wjazzd/data/sql/wjazzd.db`
 - Install `sqlite3` if not done already
 ```bash
 sudo apt install sqlite3  # Or 'brew install sqlite' on macOS
