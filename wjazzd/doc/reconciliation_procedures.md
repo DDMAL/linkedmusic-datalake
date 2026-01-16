@@ -11,7 +11,7 @@ The JSON files located in `wjazzd/openrefine` can be used to automatically apply
 
 ## solo_info.csv
 
-- The performer column must be reconciled to the type `human (Q5)`. Some musician need to be manually selected amongst matching people with similar names
+- The performer column must be reconciled to the type `human (Q5)`. Some musicians need to be manually selected amongst matching people with similar names
 - The `instrument` column must be expanded using the dictionary below, before being reconciled:
 
 ```json
