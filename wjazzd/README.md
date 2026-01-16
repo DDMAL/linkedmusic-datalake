@@ -38,7 +38,7 @@ python -m rdfconv.convert rdf_config/wjazzd.toml
 ```
 
 # Content of the Database
-The [official database homepage](https://jazzomat.hfm-weimar.de/dbformat/dboverview.html) provides a provides a comprehensive overview of each table and field in the database. Below will be provided a quick overview of the entities that are ingested into the LinkedMusic Datalake
+The [official database homepage](https://jazzomat.hfm-weimar.de/dbformat/dboverview.html) provides a comprehensive overview of each table and field in the database. Below will be provided a quick overview of the entities that are ingested into the LinkedMusic Datalake
 
 ## Ingested Entity Types
 - solo: a section in a recorded song where a musician is soloing. A solo is part of a song
