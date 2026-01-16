@@ -8,7 +8,7 @@ The official abbreviation of `Weimar Jazz Database` is `WjazzD` (occasionally re
 [Jazztube](http://mir.audiolabs.uni-erlangen.de/jazztube/) is a related project by the team behind the Weimar Jazz Database, aiming to help visualize `WjazzD`. Since [Jazztube](http://mir.audiolabs.uni-erlangen.de/jazztube/) webpages are more informative, our URI will point to `http://mir.audiolabs.uni-erlangen.de/jazztube/` instead of `https://jazzomat.hfm-weimar.de/`. 
 
 # How to Obtain The Database
-The database can be downloaded at the [official download page](https://jazzomat.hfm-weimar.de/download/download.html), in the form of a SQLite3 database.
+The database can be downloaded at the [official download page](https://jazzomat.hfm-weimar.de/download/download.html) in the form of a SQLite3 database.
 
 # Ingestion Workflow
 - Change Directory to Repository Root
