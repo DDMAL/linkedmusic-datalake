@@ -34,7 +34,7 @@ language_1 = "P407"  # language of work or name (P407)
 language_2 = "P407"  # language of work or name (P407)
 language_3 = "P407"  # language of work or name (P407)
 language_4 = "P407"  # language of work or name (P407)
-call_number = "P217"  # inventory number (P217)
+call_number = {pred = "P217", subj = "anthology_uri"}  # inventory number (P217)
 anthology_uri = {pred = "P361", prefix = "uta", type = "lmut:Anthology"}  # part of (P361)
 anthology_title = {pred = "rdfs:label", subj = "anthology_uri"}
 anthology_status = {pred = "P31", subj = "anthology_uri"}  # instance of (P31)
