@@ -2,7 +2,7 @@
 
 The UT Song Database is a curated collection of song metadata maintained by the University of Tennessee Libraries. Its main website is `https://databases.lib.utk.edu/songdb/songdb.php`.
 
-We have used the lowercase string `ut_songdb` as the naming convention for this dataset. In the future, you may consider changing it to `utk_songdb`, since "UTK" is a commonly used abbreviation for the University of Tennessee, Knoxville.
+We have used the lowercase string `utsi` as the naming convention for this dataset. In the future, you may consider changing it to `utksi`, since "UTK" is a commonly used abbreviation for the University of Tennessee, Knoxville.
 
 ## How to Obtain the Database
 
@@ -13,15 +13,15 @@ The database is not publicly downloadable. A complete copy of the dataset was ob
 1. Change the directory to the repository root.
 2. Obtain a copy of the database CSV.
 3. Reconcile and clean using OpenRefine (see [reconciliation procedures](./doc/reconciliation_procedures.md)).
-4. Store the reconciled CSV under `/ut_songdb/data/reconciled`.
-5. Review `shared/rdf_config/ut_songdb.toml` to ensure it matches the reconciled CSV structure.
+4. Store the reconciled CSV under `/utsi/data/reconciled`.
+5. Review `shared/rdf_config/utsi.toml` to ensure it matches the reconciled CSV structure.
 6. After reviewing the TOML file, run the general RDF conversion script using the following command from the `/shared` directory:
 
 ```bash
-python -m rdfconv.convert rdf_config/ut_songdb.toml
+python -m rdfconv.convert rdf_config/utsi.toml
 ```
 
-7. The converted TTL file should be output to `/ut_songdb/data/rdf`.
+7. The converted TTL file should be output to `/utsi/data/rdf`.
 
 ## Content of the Database
 
