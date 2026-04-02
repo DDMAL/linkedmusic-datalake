@@ -187,6 +187,18 @@ def merge_person_data(input_dir):
         rename_dict={"id": "person_id", "authority_control_url": "viaf_id"},
     )
 
+    # Normalize VIAF identifiers: extract numeric ID from VIAF URLs
+    # e.g., "https://viaf.org/viaf/123456/" -> "123456"
+    person_df["viaf_id"] = (
+        person_df["viaf_id"]
+        .astype("string")
+        .str.strip()
+        .str.replace(
+            r"^https?://viaf\.org/viaf/(\d+)/?.*$",
+            r"\1",
+            regex=True,
+        )
+    )
     # Combine given_name and surname into person_name
     person_df["person_name"] = person_df["given_name"] + " " + person_df["surname"]
 
