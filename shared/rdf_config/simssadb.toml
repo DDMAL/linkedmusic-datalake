@@ -34,8 +34,8 @@ pred = "P144"  # based on (P144)
 PRIMARY_KEY = "person_id"
 person_name = "P2888"  # exact match (P2888)
 person_name_original = "rdfs:label"
-birth_year = "P569"  # date of birth (P569)
-death_year = "P570"  # date of death (P570)
+birth_year = { pred = "P569", datatype = "xsd:date" }  # date of birth (P569)
+death_year = { pred = "P570", datatype = "xsd:date" }  # date of death (P570)
 viaf_id = "P214"  # VIAF cluster ID (P214)
 
 [person.person_id]
