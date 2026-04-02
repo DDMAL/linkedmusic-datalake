@@ -156,6 +156,10 @@ Contains the following CSVs:
 
 These files provide essential metadata about the creators of musical works and their contributions, making them suitable for Linked Data representation.
 
+## 4.6 Source subdirectory
+
+Contains the CSV file `source.csv, which specifies information on a source (i.e. a book/anthology from which a musical work is taken).
+
 # 5. Type of Entities in the RDF
 
 ## 5.1 Persons
@@ -174,6 +178,7 @@ Identifies individual musical works (i.e., compositions). Each composition is li
 2. A genre
 3. Symbolic music files (MIDI & PDF score)
 4. Sections (e.g., a mass may have an Introit section)
+5. A source (a book or an anthology in which the work was found).
 
 ## 5.3 Sections
 
@@ -187,13 +192,13 @@ There can be a symbolic music file for a particular section instead of the whole
 
 Prefix: `https://db.simssa.ca/types/`
 
-This namespace contains controlled vocabulary terms and classification types used throughout the database—such as genre categories, musical form types, chant classifications, and descriptive typologies. These are reference entities used to annotate works, sections, or sources with normalized terms.
+This namespace identifies the genre of the musical work ("genre-as-in-type"). 
 
 ## 5.5 Sources
 
 Prefix: `https://db.simssa.ca/sources/`
 
-Identifies the genre (i.e., genre-as-in-type, see discussion under [4.2 Genre Subdirectory](#42-genre-subdirectory)) of a musical work. For example, a musical work can have the genre "madrigal".
+Identifies the book/anthology from which the chant was taken.
 
 ## 5.6 Files
 
