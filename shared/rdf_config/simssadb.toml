@@ -60,6 +60,6 @@ section_id = {prefix = "sse", pred = "P527", type = "lms:Section"}  # has part(s
 section_title = {subj = "section_id", pred = "rdfs:label"}
 author_id = {prefix = "sp", pred = "P50"}  # author (P50)
 composer_id = {prefix = "sp", pred = "P86"}  # composer (P86)
-genre_id = {prefix = "st", type = "lms:GenreAsInType"}
+genre_id = {prefix = "st", pred = "P136", type = "lms:GenreAsInType"}  # genre (P136)
 genre_name = {subj = "genre_id", pred = "rdfs:label"}
 style = ""
