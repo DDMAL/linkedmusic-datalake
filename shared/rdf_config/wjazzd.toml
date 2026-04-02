@@ -16,7 +16,7 @@ jc = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/compositions/"
 js = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/solos/solo/"
 jt = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/tracks/"
 jtr = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/transcriptions/"
-lmwj = "https://linkedmusic.ca/graphs/wjazzd"
+lmwj = "https://linkedmusic.ca/graphs/wjazzd/"
 
 [composition_info]
 PRIMARY_KEY = "compid"
