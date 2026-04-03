@@ -20,8 +20,8 @@ genre = "P136"  # genre (P136)
 genre_original = ""
 feast = "P837"  # day in year for periodic occurrence (P837)
 feast_original = ""
-text = "P6349"  # Lace Bugs Database ID (P6349)
-related =  {pred = "P1899", prefix = "cii"}  # LibriVox author ID (P1899)
+text = "P6439"  # has lyrics (P6439)
+related =  {pred = "ci:relatedChant", prefix = "cii"}
 similar = {pred = "P629", prefix = "cii"}  # edition or translation of (P629)
 troped = {pred = "P144", prefix = "cii"}  # based on (P144)
 source = "P217"  # inventory number (P217)
