@@ -1,0 +1,40 @@
+[general]
+name = "utsi"
+csv_folder = "../../utsi/data/reconciled"
+rdf_output_folder = "../../utsi/data/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+uts = "https://databases.lib.utk.edu/songdb/songdb.php?word=0&title="
+uta = "https://databases.lib.utk.edu/songdb/songdb.php?list=1&antitle="
+lmut = "https://linkedmusic.ca/graphs/utsi/"
+
+[utdb_songs]
+PRIMARY_KEY = "uri"
+"uri" = {type = "lmut:Song", prefix = "uts"}
+sequence = ""
+title = "rdfs:label"
+composer = "P86"  # composer (P86)
+composer_qid = "P86"  # composer (P86)
+large_work = "P1433"  # published in (P1433)
+author = "P676"  # lyricist (P676)
+author_qid = "P676"  # lyricist (P676)
+first_line = "P1922"  # first line (P1922)
+chorus_first_line = "lmut:chorusFirstLine"
+song_status = ""
+song_type = "P136"  # genre (P136)
+accompaniment = "P870"  # instrumentation (P870)
+geography = "P1071"  # location of creation (P1071)
+language_1 = "P407"  # language of work or name (P407)
+language_2 = "P407"  # language of work or name (P407)
+language_3 = "P407"  # language of work or name (P407)
+language_4 = "P407"  # language of work or name (P407)
+call_number = {pred = "P217", subj = "anthology_uri"}  # inventory number (P217)
+anthology_uri = {pred = "P361", prefix = "uta", type = "lmut:Anthology"}  # part of (P361)
+anthology_title = {pred = "rdfs:label", subj = "anthology_uri"}
+anthology_status = {pred = "P31", subj = "anthology_uri"}  # instance of (P31)

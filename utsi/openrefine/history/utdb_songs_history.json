@@ -1,0 +1,6541 @@
+[
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q1288568",
+        "name": "modern language"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column language_1 to type Q1288568"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "ENGLISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1860",
+      "name": "English",
+      "types": [
+        "Q33742",
+        "Q1288568",
+        "Q34770",
+        "Q152559",
+        "Q399495",
+        "Q1097949",
+        "Q20162172"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item English (Q1860) for cells containing \"ENGLISH\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "LATIN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q397",
+      "name": "Latin",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Latin (Q397) for cells containing \"LATIN\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "MALAYO-POLYNESIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q143158",
+      "name": "Malayo-Polynesian",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Malayo-Polynesian (Q143158) for cells containing \"MALAYO-POLYNESIAN\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "ENGLISH, MIDDLE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q36395",
+      "name": "Middle English",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Middle English (Q36395) for cells containing \"ENGLISH, MIDDLE\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SLAVIC",
+                "l": "SLAVIC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "SLAVIC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q23526",
+      "name": "Slavic",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Slavic (Q23526) for cells containing \"SLAVIC\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SERBO-CROATIAN (ROMAN)",
+                "l": "SERBO-CROATIAN (ROMAN)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "SERBO-CROATIAN (ROMAN)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9301",
+      "name": "Serbo-Croatian",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Serbo-Croatian (Q9301) for cells containing \"SERBO-CROATIAN (ROMAN)\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "NORTH AMERICAN INDIAN",
+                "l": "NORTH AMERICAN INDIAN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "NORTH AMERICAN INDIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4200688",
+      "name": "indigenous language of North America",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item indigenous language of North America (Q4200688) for cells containing \"NORTH AMERICAN INDIAN\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "IROQUOIS",
+                "l": "IROQUOIS"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "IROQUOIS",
+    "judgment": "matched",
+    "match": {
+      "id": "Q68518",
+      "name": "Iroquois",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Iroquois (Q68518) for cells containing \"IROQUOIS\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "GERMAN, MIDDLE HIGH",
+                "l": "GERMAN, MIDDLE HIGH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "GERMAN, MIDDLE HIGH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q837985",
+      "name": "Middle High German",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Middle High German (Q837985) for cells containing \"GERMAN, MIDDLE HIGH\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ETHIOPIC",
+                "l": "ETHIOPIC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "ETHIOPIC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q163629",
+      "name": "Ethiopian Semitic",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ethiopian Semitic (Q163629) for cells containing \"ETHIOPIC\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ALASKAN NATIVE",
+                "l": "ALASKAN NATIVE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "ALASKAN NATIVE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4708575",
+      "name": "Alaska Native languages",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Alaska Native languages (Q4708575) for cells containing \"ALASKAN NATIVE\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ANGLO-SAXON",
+                "l": "ANGLO-SAXON"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "ANGLO-SAXON",
+    "judgment": "matched",
+    "match": {
+      "id": "Q42365",
+      "name": "Old English",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Old English (Q42365) for cells containing \"ANGLO-SAXON\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ARAMAIC",
+                "l": "ARAMAIC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "ARAMAIC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q28602",
+      "name": "Aramaic",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Aramaic (Q28602) for cells containing \"ARAMAIC\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CAMBODIAN",
+                "l": "CAMBODIAN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "CAMBODIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9205",
+      "name": "Khmer",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Khmer (Q9205) for cells containing \"CAMBODIAN\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CELTIC GROUP",
+                "l": "CELTIC GROUP"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "CELTIC GROUP",
+    "judgment": "matched",
+    "match": {
+      "id": "Q25293",
+      "name": "Celtic languages",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Celtic languages (Q25293) for cells containing \"CELTIC GROUP\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CHINESE",
+                "l": "CHINESE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "CHINESE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7850",
+      "name": "Chinese",
+      "types": [
+        "Q152559",
+        "Q1288568",
+        "Q941501",
+        "Q25295"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Chinese (Q7850) for cells containing \"CHINESE\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SUB-SAHARAN AFRICAN",
+                "l": "SUB-SAHARAN AFRICAN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "SUB-SAHARAN AFRICAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q207930",
+      "name": "languages of Africa",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item languages of Africa (Q207930) for cells containing \"SUB-SAHARAN AFRICAN\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SWAHILI",
+                "l": "SWAHILI"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "SWAHILI",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7838",
+      "name": "Swahili",
+      "types": [
+        "Q152559",
+        "Q33742",
+        "Q1288568",
+        "Q20162172",
+        "Q1097949"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Swahili (Q7838) for cells containing \"SWAHILI\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SYRIAC",
+                "l": "SYRIAC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "SYRIAC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33538",
+      "name": "Syriac",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Syriac (Q33538) for cells containing \"SYRIAC\" in column language_1"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "TAGALOG",
+                "l": "TAGALOG"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "similarValue": "TAGALOG",
+    "judgment": "matched",
+    "match": {
+      "id": "Q34057",
+      "name": "Tagalog",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tagalog (Q34057) for cells containing \"TAGALOG\" in column language_1"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_1: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "language_1",
+          "expression": "value",
+          "columnName": "language_1",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "NONE",
+                "l": "NONE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_1",
+    "expression": "grel:\"\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column language_1 using expression grel:\"\""
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q6256",
+        "name": "country"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column geography to type Q6256"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "accompaniment",
+    "expression": "jython:if value == \"UNACCOMPANIED\":\n  return \"\"\nelse:\n  return value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column accompaniment using expression jython:if value == \"UNACCOMPANIED\":\n  return \"\"\nelse:\n  return value"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "song_status",
+    "description": "Remove column song_status"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "GERMANY",
+    "judgment": "matched",
+    "match": {
+      "id": "Q183",
+      "name": "Germany",
+      "types": [
+        "Q3624078",
+        "Q6256",
+        "Q619610",
+        "Q4209223",
+        "Q63791824"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Germany (Q183) for cells containing \"GERMANY\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "AMERINDIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q828",
+      "name": "Americas",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Americas (Q828) for cells containing \"AMERINDIAN\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "NEW ENGLAND",
+    "judgment": "matched",
+    "match": {
+      "id": "Q18389",
+      "name": "New England",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item New England (Q18389) for cells containing \"NEW ENGLAND\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "ENGLAND",
+    "judgment": "matched",
+    "match": {
+      "id": "Q21",
+      "name": "England",
+      "types": [
+        "Q3336843",
+        "Q518261",
+        "Q6266",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item England (Q21) for cells containing \"ENGLAND\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "SERBIA, YUGOSLAVIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q403",
+      "name": "Serbia",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Serbia (Q403) for cells containing \"SERBIA, YUGOSLAVIA\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "SPAIN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q29",
+      "name": "Spain",
+      "types": [
+        "Q3624078",
+        "Q1250464",
+        "Q6256",
+        "Q51576574",
+        "Q179671"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Spain (Q29) for cells containing \"SPAIN\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "SCOTLAND",
+    "judgment": "matched",
+    "match": {
+      "id": "Q22",
+      "name": "Scotland",
+      "types": [
+        "Q3336843",
+        "Q6266",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Scotland (Q22) for cells containing \"SCOTLAND\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "LATIN AMERICA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q12585",
+      "name": "Latin America",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Latin America (Q12585) for cells containing \"LATIN AMERICA\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "GREAT BRITAIN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q23666",
+      "name": "Great Britain",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Great Britain (Q23666) for cells containing \"GREAT BRITAIN\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "APPALACHIAN MOUNTAINS",
+    "judgment": "matched",
+    "match": {
+      "id": "Q93332",
+      "name": "Appalachian Mountains",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Appalachian Mountains (Q93332) for cells containing \"APPALACHIAN MOUNTAINS\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "AUSTRIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q40",
+      "name": "Austria",
+      "types": [
+        "Q3624078",
+        "Q7270",
+        "Q4209223",
+        "Q123480",
+        "Q127693126",
+        "Q6256"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Austria (Q40) for cells containing \"AUSTRIA\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "AFRO-AMERICAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q30",
+      "name": "United States",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item United States (Q30) for cells containing \"AFRO-AMERICAN\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "VIRGINIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1370",
+      "name": "Virginia",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Virginia (Q1370) for cells containing \"VIRGINIA\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "KENTUCKY",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1603",
+      "name": "Kentucky",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Kentucky (Q1603) for cells containing \"KENTUCKY\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "QUEBEC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q176",
+      "name": "Quebec",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Quebec (Q176) for cells containing \"QUEBEC\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "FRANCE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q142",
+      "name": "France",
+      "types": [
+        "Q3624078",
+        "Q7270",
+        "Q6256",
+        "Q20181813",
+        "Q51576574"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item France (Q142) for cells containing \"FRANCE\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "DENMARK",
+    "judgment": "matched",
+    "match": {
+      "id": "Q35",
+      "name": "Denmark",
+      "types": [
+        "Q7275",
+        "Q20181813",
+        "Q63791824",
+        "Q6256",
+        "Q66724388"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Denmark (Q35) for cells containing \"DENMARK\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "RUSSIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q159",
+      "name": "Russia",
+      "types": [
+        "Q3624078",
+        "Q859563",
+        "Q6256",
+        "Q1323642",
+        "Q43702",
+        "Q127693126"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Russia (Q159) for cells containing \"RUSSIA\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "ITALY",
+    "judgment": "matched",
+    "match": {
+      "id": "Q38",
+      "name": "Italy",
+      "types": [
+        "Q6256",
+        "Q3624078",
+        "Q619610",
+        "Q179164",
+        "Q7270",
+        "Q51576574"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Italy (Q38) for cells containing \"ITALY\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "HUNGARY",
+    "judgment": "matched",
+    "match": {
+      "id": "Q28",
+      "name": "Hungary",
+      "types": [
+        "Q3624078",
+        "Q123480",
+        "Q6256",
+        "Q127693126"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hungary (Q28) for cells containing \"HUNGARY\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "similarValue": "IRELAND",
+    "judgment": "matched",
+    "match": {
+      "id": "Q27",
+      "name": "Ireland",
+      "types": [
+        "Q3624078",
+        "Q112099",
+        "Q6256",
+        "Q127693126"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ireland (Q27) for cells containing \"IRELAND\" in column geography"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "geography: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "geography",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "description": "Match each cell to its best recon candidate in column geography"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "geography: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "geography",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column geography to type null"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "geography: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "geography",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "description": "Match each cell to its best recon candidate in column geography"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "geography: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "geography",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column geography to type null"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "geography: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "geography",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        },
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "geography",
+    "description": "Match each cell to its best recon candidate in column geography"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "title",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "song_qid",
+    "columnInsertIndex": 5,
+    "description": "Create column song_qid at index 5 based on column title using expression jython:return value"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column language_2 to type null"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column language_3 to type null"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "language_4",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column language_4 to type null"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q188451",
+        "name": "music genre"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column song_type to type Q188451"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "accompaniment",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q110295396",
+        "name": "type of musical instrument"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column accompaniment to type Q110295396"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "LATIN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q397",
+      "name": "Latin",
+      "types": [
+        "Q45762",
+        "Q436240",
+        "Q34770",
+        "Q839470"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Latin (Q397) for cells containing \"LATIN\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ARABIC",
+                "l": "ARABIC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "ARABIC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q13955",
+      "name": "Arabic",
+      "types": [
+        "Q34770",
+        "Q152559",
+        "Q1288568",
+        "Q20162172",
+        "Q1097949",
+        "Q399495",
+        "Q33742"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Arabic (Q13955) for cells containing \"ARABIC\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "BRETON",
+                "l": "BRETON"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "BRETON",
+    "judgment": "matched",
+    "match": {
+      "id": "Q12107",
+      "name": "Breton",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Breton (Q12107) for cells containing \"BRETON\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CELTIC GROUP",
+                "l": "CELTIC GROUP"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "CELTIC GROUP",
+    "judgment": "matched",
+    "match": {
+      "id": "Q25293",
+      "name": "Celtic languages",
+      "types": [
+        "Q25295"
+      ],
+      "score": 74
+    },
+    "shareNewTopics": false,
+    "description": "Match item Celtic languages (Q25293) for cells containing \"CELTIC GROUP\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CHINESE",
+                "l": "CHINESE"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "CHINESE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7850",
+      "name": "Chinese",
+      "types": [
+        "Q152559",
+        "Q1288568",
+        "Q941501",
+        "Q25295"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Chinese (Q7850) for cells containing \"CHINESE\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CZECH",
+                "l": "CZECH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "CZECH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9056",
+      "name": "Czech",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Czech (Q9056) for cells containing \"CZECH\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "DANISH",
+                "l": "DANISH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "DANISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9035",
+      "name": "Danish",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Danish (Q9035) for cells containing \"DANISH\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "DUTCH",
+                "l": "DUTCH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "DUTCH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7411",
+      "name": "Dutch",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Dutch (Q7411) for cells containing \"DUTCH\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ENGLISH",
+                "l": "ENGLISH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "ENGLISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1860",
+      "name": "English",
+      "types": [
+        "Q33742",
+        "Q1288568",
+        "Q34770",
+        "Q152559",
+        "Q399495",
+        "Q1097949",
+        "Q20162172"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item English (Q1860) for cells containing \"ENGLISH\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ESTONIAN",
+                "l": "ESTONIAN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "ESTONIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9072",
+      "name": "Estonian",
+      "types": [
+        "Q33742",
+        "Q152559",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Estonian (Q9072) for cells containing \"ESTONIAN\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FINNISH",
+                "l": "FINNISH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "FINNISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1412",
+      "name": "Finnish",
+      "types": [
+        "Q1288568",
+        "Q33742"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Finnish (Q1412) for cells containing \"FINNISH\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FRENCH",
+                "l": "FRENCH"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "FRENCH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q150",
+      "name": "French",
+      "types": [
+        "Q1288568",
+        "Q33742",
+        "Q34770"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item French (Q150) for cells containing \"FRENCH\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "GERMAN",
+                "l": "GERMAN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "GERMAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q188",
+      "name": "German",
+      "types": [
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item German (Q188) for cells containing \"GERMAN\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "GREEK",
+                "l": "GREEK"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "GREEK",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9129",
+      "name": "Greek",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Greek (Q9129) for cells containing \"GREEK\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_2",
+          "expression": "value",
+          "columnName": "language_2",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "HAWAIIAN",
+                "l": "HAWAIIAN"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_2",
+    "similarValue": "HAWAIIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q33569",
+      "name": "Hawaiian",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hawaiian (Q33569) for cells containing \"HAWAIIAN\" in column language_2"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "FRENCH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q150",
+      "name": "French",
+      "types": [
+        "Q1288568",
+        "Q33742",
+        "Q34770"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item French (Q150) for cells containing \"FRENCH\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "ENGLISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1860",
+      "name": "English",
+      "types": [
+        "Q33742",
+        "Q1288568",
+        "Q34770",
+        "Q152559",
+        "Q399495",
+        "Q1097949",
+        "Q20162172"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item English (Q1860) for cells containing \"ENGLISH\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "GERMAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q188",
+      "name": "German",
+      "types": [
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item German (Q188) for cells containing \"GERMAN\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "SPANISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1321",
+      "name": "Spanish",
+      "types": [
+        "Q33742",
+        "Q34770",
+        "Q1288568",
+        "Q20162172"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Spanish (Q1321) for cells containing \"SPANISH\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "ITALIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q652",
+      "name": "Italian",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Italian (Q652) for cells containing \"ITALIAN\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "YIDDISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q8641",
+      "name": "Yiddish",
+      "types": [
+        "Q152559",
+        "Q1288568",
+        "Q33742"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Yiddish (Q8641) for cells containing \"YIDDISH\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "LATIN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q397",
+      "name": "Latin",
+      "types": [
+        "Q45762",
+        "Q436240",
+        "Q34770",
+        "Q839470"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Latin (Q397) for cells containing \"LATIN\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "CZECH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9056",
+      "name": "Czech",
+      "types": [
+        "Q33742",
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Czech (Q9056) for cells containing \"CZECH\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "HEBREW",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9288",
+      "name": "Hebrew",
+      "types": [
+        "Q33742",
+        "Q1288568",
+        "Q34770"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hebrew (Q9288) for cells containing \"HEBREW\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_3: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_3",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_3",
+    "similarValue": "RUSSIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7737",
+      "name": "Russian",
+      "types": [
+        "Q34770",
+        "Q1288568",
+        "Q33742"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Russian (Q7737) for cells containing \"RUSSIAN\" in column language_3"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_4: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_4",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_4",
+    "similarValue": "GERMAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q188",
+      "name": "German",
+      "types": [
+        "Q1288568"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item German (Q188) for cells containing \"GERMAN\" in column language_4"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_4: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_4",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_4",
+    "similarValue": "ENGLISH",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1860",
+      "name": "English",
+      "types": [
+        "Q33742",
+        "Q1288568",
+        "Q34770",
+        "Q152559",
+        "Q399495",
+        "Q1097949",
+        "Q20162172"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item English (Q1860) for cells containing \"ENGLISH\" in column language_4"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_4: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_4",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_4",
+    "similarValue": "RUSSIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7737",
+      "name": "Russian",
+      "types": [
+        "Q34770",
+        "Q1288568",
+        "Q33742"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Russian (Q7737) for cells containing \"RUSSIAN\" in column language_4"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "language_4: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "language_4",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "language_4",
+    "expression": "jython:return \"\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column language_4 using expression jython:return \"\""
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "accompaniment",
+          "expression": "value",
+          "columnName": "accompaniment",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "INSTRUMENTAL",
+                "l": "INSTRUMENTAL"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "accompaniment",
+    "similarValue": "INSTRUMENTAL",
+    "judgment": "matched",
+    "match": {
+      "id": "Q34379",
+      "name": "musical instrument",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item musical instrument (Q34379) for cells containing \"INSTRUMENTAL\" in column accompaniment"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "accompaniment",
+          "expression": "value",
+          "columnName": "accompaniment",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ORCHESTRA",
+                "l": "ORCHESTRA"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "accompaniment",
+    "similarValue": "ORCHESTRA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q42998",
+      "name": "orchestra",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item orchestra (Q42998) for cells containing \"ORCHESTRA\" in column accompaniment"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "accompaniment",
+          "expression": "value",
+          "columnName": "accompaniment",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "KEYBOARD",
+                "l": "KEYBOARD"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "accompaniment",
+    "similarValue": "KEYBOARD",
+    "judgment": "matched",
+    "match": {
+      "id": "Q52954",
+      "name": "keyboard instrument",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item keyboard instrument (Q52954) for cells containing \"KEYBOARD\" in column accompaniment"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "accompaniment",
+          "expression": "value",
+          "columnName": "accompaniment",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "KEYBOARD",
+                "l": "KEYBOARD"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "CAROL",
+    "judgment": "matched",
+    "match": {
+      "id": "Q21653344",
+      "name": "carol",
+      "types": [
+        "Q188451",
+        "Q862597",
+        "Q107356781"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item carol (Q21653344) for cells containing \"CAROL\" in column song_type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "accompaniment",
+          "expression": "value",
+          "columnName": "accompaniment",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "KEYBOARD",
+                "l": "KEYBOARD"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "SACRED",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1065742",
+      "name": "religious music",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item religious music (Q1065742) for cells containing \"SACRED\" in column song_type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "song_type",
+          "expression": "value",
+          "columnName": "song_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "ARIA",
+                "l": "ARIA"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "ARIA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q178122",
+      "name": "aria",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item aria (Q178122) for cells containing \"ARIA\" in column song_type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "song_type",
+          "expression": "value",
+          "columnName": "song_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "CHILDREN'S",
+                "l": "CHILDREN'S"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "CHILDREN'S",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2389651",
+      "name": "children's music",
+      "types": [
+        "Q188451"
+      ],
+      "score": 77
+    },
+    "shareNewTopics": false,
+    "description": "Match item children's music (Q2389651) for cells containing \"CHILDREN'S\" in column song_type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "song_type",
+          "expression": "value",
+          "columnName": "song_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "FOLK",
+                "l": "FOLK"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "FOLK",
+    "judgment": "matched",
+    "match": {
+      "id": "Q43343",
+      "name": "folk music",
+      "types": [
+        "Q188451"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item folk music (Q43343) for cells containing \"FOLK\" in column song_type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "song_type",
+          "expression": "value",
+          "columnName": "song_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "PATRIOTIC",
+                "l": "PATRIOTIC"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "PATRIOTIC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q9300624",
+      "name": "patriotic music",
+      "types": [
+        "Q188451"
+      ],
+      "score": 75
+    },
+    "shareNewTopics": false,
+    "description": "Match item patriotic music (Q9300624) for cells containing \"PATRIOTIC\" in column song_type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "song_type",
+          "expression": "value",
+          "columnName": "song_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "POPULAR",
+                "l": "POPULAR"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "POPULAR",
+    "judgment": "matched",
+    "match": {
+      "id": "Q373342",
+      "name": "popular music",
+      "types": [
+        "Q188451"
+      ],
+      "score": 74
+    },
+    "shareNewTopics": false,
+    "description": "Match item popular music (Q373342) for cells containing \"POPULAR\" in column song_type"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "song_type",
+          "expression": "value",
+          "columnName": "song_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "SPIRITUAL",
+                "l": "SPIRITUAL"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "song_type",
+    "similarValue": "SPIRITUAL",
+    "judgment": "matched",
+    "match": {
+      "id": "Q212024",
+      "name": "spirituals",
+      "types": [
+        "Q188451"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item spirituals (Q212024) for cells containing \"SPIRITUAL\" in column song_type"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "composer",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "composer_qid",
+    "columnInsertIndex": 7,
+    "description": "Create column composer_qid at index 7 based on column composer using expression jython:return value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "author",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "author_qid",
+    "columnInsertIndex": 10,
+    "description": "Create column author_qid at index 10 based on column author using expression jython:return value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer_qid",
+    "expression": "jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column composer_qid using expression jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "expression": "jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column author_qid using expression jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column composer to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status",
+          "expression": "value",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MSG04",
+                "l": "MSG04"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "RAMEAU, J",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1145",
+      "name": "Jean-Philippe Rameau",
+      "types": [
+        "Q5"
+      ],
+      "score": 57
+    },
+    "shareNewTopics": false,
+    "description": "Match item Jean-Philippe Rameau (Q1145) for cells containing \"RAMEAU, J\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status",
+          "expression": "value",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MSG04",
+                "l": "MSG04"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "HANDEL, G",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7302",
+      "name": "George Frideric Handel",
+      "types": [
+        "Q5"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item George Frideric Handel (Q7302) for cells containing \"HANDEL, G\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status",
+          "expression": "value",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MSG04",
+                "l": "MSG04"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "VERDI, G",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7317",
+      "name": "Giuseppe Verdi",
+      "types": [
+        "Q5"
+      ],
+      "score": 83
+    },
+    "shareNewTopics": false,
+    "description": "Match item Giuseppe Verdi (Q7317) for cells containing \"VERDI, G\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status",
+          "expression": "value",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MSG04",
+                "l": "MSG04"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "MASSENET, J",
+    "judgment": "matched",
+    "match": {
+      "id": "Q194436",
+      "name": "Jules Massenet",
+      "types": [
+        "Q5"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Jules Massenet (Q194436) for cells containing \"MASSENET, J\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status",
+          "expression": "value",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MSG04",
+                "l": "MSG04"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "MOZART, W",
+    "judgment": "matched",
+    "match": {
+      "id": "Q254",
+      "name": "Wolfgang Amadeus Mozart",
+      "types": [
+        "Q5"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Wolfgang Amadeus Mozart (Q254) for cells containing \"MOZART, W\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status",
+          "expression": "value",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MSG04",
+                "l": "MSG04"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "BEETHOVEN, L",
+    "judgment": "matched",
+    "match": {
+      "id": "Q255",
+      "name": "Ludwig van Beethoven",
+      "types": [
+        "Q5"
+      ],
+      "score": 92
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ludwig van Beethoven (Q255) for cells containing \"BEETHOVEN, L\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status",
+          "expression": "value",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "MSG04",
+                "l": "MSG04"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "WAGNER, R",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1511",
+      "name": "Richard Wagner",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Richard Wagner (Q1511) for cells containing \"WAGNER, R\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "COWELL, HENRY",
+    "judgment": "matched",
+    "match": {
+      "id": "Q434610",
+      "name": "Henry Cowell",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Henry Cowell (Q434610) for cells containing \"COWELL, HENRY\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "ANONYMOUS",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4233718",
+      "name": "anonymous",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item anonymous (Q4233718) for cells containing \"ANONYMOUS\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "CANTIONES, PIAE",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2557109",
+      "name": "Piae Cantiones",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Piae Cantiones (Q2557109) for cells containing \"CANTIONES, PIAE\" in column composer"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "composer",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "new_composer",
+    "columnInsertIndex": 7,
+    "description": "Create column new_composer at index 7 based on column composer using expression jython:return value"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "new_composer",
+    "description": "Remove column new_composer"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "composer",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "new_composers",
+    "columnInsertIndex": 7,
+    "description": "Create column new_composers at index 7 based on column composer using expression jython:return value"
+  },
+  {
+    "op": "core/recon-copy-across-columns",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "fromColumnName": "composer",
+    "toColumnNames": [
+      "new_composers"
+    ],
+    "judgments": [
+      "new",
+      "matched"
+    ],
+    "applyToJudgedCells": true,
+    "description": "Copy recon judgments from column composer to new_composers"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "new_composers",
+    "expression": "jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column new_composers using expression jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "new_composers: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "new_composers",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "new_composers",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column new_composers to type Q5"
+  },
+  {
+    "op": "core/recon-discard-judgments",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "new_composers: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "new_composers",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "clearData": false,
+    "description": "Discard recon judgments for cells in column composer"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "new_composers: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "new_composers",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "title",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q105543609",
+        "name": "musical work/composition"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column title to type Q105543609"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "new_composers: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "new_composers",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "new_composers",
+    "description": "Match each cell to its best recon candidate in column new_composers"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "new_composers: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "new_composers",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "new_composers",
+    "similarValue": "Traditional",
+    "judgment": "matched",
+    "match": {
+      "id": "Q56260622",
+      "name": "traditional",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item traditional (Q56260622) for cells containing \"Traditional\" in column new_composers"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "composer_qid",
+    "description": "Remove column composer_qid"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "new_composers",
+    "newColumnName": "composer_qid",
+    "description": "Rename column new_composers to composer_qid"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "author_qid",
+    "expression": "jython:return \"writer\"",
+    "onError": "set-to-blank",
+    "newColumnName": "occupation",
+    "columnInsertIndex": 11,
+    "description": "Create column occupation at index 11 based on column author_qid using expression jython:return \"writer\""
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column author_qid to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "Anonymous",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4233718",
+      "name": "anonymous",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item anonymous (Q4233718) for cells containing \"Anonymous\" in column author_qid"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 98,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "Maxwell Anderson",
+    "judgment": "matched",
+    "match": {
+      "id": "Q432919",
+      "name": "Maxwell Anderson",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Maxwell Anderson (Q432919) for cells containing \"Maxwell Anderson\" in column author_qid"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 98,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "description": "Match each cell to its best recon candidate in column author_qid"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 85,
+          "to": 95,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "Voss",
+    "judgment": "new",
+    "shareNewTopics": true,
+    "description": "Mark to create one single new item for all cells containing \"Voss\" in column author_qid"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 85,
+          "to": 95,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "Unknown",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4233718",
+      "name": "anonymous",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item anonymous (Q4233718) for cells containing \"Unknown\" in column author_qid"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "Friederich Holderlin",
+    "judgment": "matched",
+    "match": {
+      "id": "Q75889",
+      "name": "Friedrich Hölderlin",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Friedrich Hölderlin (Q75889) for cells containing \"Friederich Holderlin\" in column author_qid"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 81,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "description": "Match each cell to its best recon candidate in column author_qid"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "errors",
+                "l": "errors"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column author_qid to type Q5"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 88,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "description": "Match each cell to its best recon candidate in column author_qid"
+  },
+  {
+    "op": "core/multivalued-cell-split",
+    "columnName": "author_qid",
+    "keyColumnName": "Column",
+    "mode": "separator",
+    "separator": "&",
+    "regex": false,
+    "description": "Split multi-valued cells in column author_qid"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "expression": "jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column author_qid using expression jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "P Ochs",
+    "judgment": "matched",
+    "match": {
+      "id": "Q379802",
+      "name": "Phil Ochs",
+      "types": [
+        "Q5"
+      ],
+      "score": 78.57142857142857
+    },
+    "shareNewTopics": false,
+    "description": "Match item Phil Ochs (Q379802) for cells containing \"P Ochs\" in column author_qid"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "occupation",
+    "expression": "jython:return \"poet\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column occupation using expression jython:return \"poet\""
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column author_qid to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "C. Klingemann",
+    "judgment": "matched",
+    "match": {
+      "id": "Q19960122",
+      "name": "Karl Klingemann",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Karl Klingemann (Q19960122) for cells containing \"C. Klingemann\" in column author_qid"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 80,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "description": "Match each cell to its best recon candidate in column author_qid"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 80,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column author_qid using expression value.trim()"
+  },
+  {
+    "op": "core/fill-down",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 80,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "occupation",
+    "description": "Fill down cells in column occupation"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "song_qid",
+    "newColumnName": "uri",
+    "description": "Rename column song_qid to uri"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 80,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "uri",
+    "expression": "jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column uri using expression jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 80,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "uri",
+    "expression": "jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column uri using expression jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 80,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "baseColumnName": "anthology_title",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "anthology_uri",
+    "columnInsertIndex": 23,
+    "description": "Create column anthology_uri at index 23 based on column anthology_title using expression jython:return value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 80,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "anthology_uri",
+    "expression": "jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_uri using expression jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "author_qid",
+    "expression": "jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column author_qid using expression jython:parts = [p.strip() for p in value.split(\",\")]\nif len(parts) == 2:\n        return parts[1].title() + \" \" + parts[0].title()\nreturn value.title()"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer_qid",
+    "expression": "jython:if cell.recon.judgment != \"matched\":\n  return \"\"\nelse:\n  return value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column composer_qid using expression jython:if cell.recon.judgment != \"matched\":\n  return \"\"\nelse:\n  return value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "expression": "jython:if cells[\"composer_qid\"].value == \"\":\n  return value\n\nelse:\n return \"\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column composer using expression jython:if cells[\"composer_qid\"].value == \"\":\n  return value\n\nelse:\n return \"\""
+  },
+  {
+    "op": "core/recon-discard-judgments",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "clearData": true,
+    "description": "Discard recon judgments and clear recon data for cells in column composer"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "author_qid",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "occupation",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column author_qid to type Q5"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "author_qid: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "author_qid",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "author_qid: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "author_qid",
+          "from": 87,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "author_qid",
+    "description": "Match each cell to its best recon candidate in column author_qid"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "author_qid",
+    "similarValue": "Anonymous",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4233718",
+      "name": "anonymous",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item anonymous (Q4233718) for cells containing \"Anonymous\" in column author_qid"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "author_qid",
+    "expression": "jython:if cell.recon.judgment != \"matched\": \n  return \"\" \nelse: return value",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column author_qid using expression jython:if cell.recon.judgment != \"matched\": \n  return \"\" \nelse: return value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "author",
+    "expression": "jython:if cells[\"author_qid\"].value == \"\": \n  return value \nelse: return \"\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column author using expression jython:if cells[\"author_qid\"].value == \"\": \n  return value \nelse: return \"\""
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "occupation",
+    "description": "Remove column occupation"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column geography to type null"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment action type",
+          "expression": "cell.recon.judgmentAction",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "unknown",
+                "l": "unknown"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_status",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column anthology_status to type null"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "similarValue": "JEWISH (NOT ISRAEL)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1412733",
+      "name": "Jewish diaspora",
+      "types": [
+        "Q117430963"
+      ],
+      "score": 69
+    },
+    "shareNewTopics": false,
+    "description": "Match item Jewish diaspora (Q1412733) for cells containing \"JEWISH (NOT ISRAEL)\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "similarValue": "FORMER SOVIET REPUBLIC",
+    "judgment": "matched",
+    "match": {
+      "id": "Q302045",
+      "name": "Post-Soviet states",
+      "types": [
+        "Q3502482",
+        "Q52110228"
+      ],
+      "score": 79
+    },
+    "shareNewTopics": false,
+    "description": "Match item Post-Soviet states (Q302045) for cells containing \"FORMER SOVIET REPUBLIC\" in column geography"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "geography: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "geography",
+          "from": 92,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "description": "Match each cell to its best recon candidate in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "similarValue": "CARIBBEAN AREA",
+    "judgment": "matched",
+    "match": {
+      "id": "Q664609",
+      "name": "Caribbean",
+      "types": [
+        "Q137186904",
+        "Q33837"
+      ],
+      "score": 78
+    },
+    "shareNewTopics": false,
+    "description": "Match item Caribbean (Q664609) for cells containing \"CARIBBEAN AREA\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "similarValue": "PHILLIPPINES",
+    "judgment": "matched",
+    "match": {
+      "id": "Q26539297",
+      "name": "The Phillippines",
+      "types": [
+        "Q811979"
+      ],
+      "score": 86
+    },
+    "shareNewTopics": false,
+    "description": "Match item The Phillippines (Q26539297) for cells containing \"PHILLIPPINES\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "geography: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "geography",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "similarValue": "GREAT BRITAIN DEPENDANCY",
+    "judgment": "matched",
+    "match": {
+      "id": "Q15379753",
+      "name": "British Dependent Territory",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item British Dependent Territory (Q15379753) for cells containing \"GREAT BRITAIN DEPENDANCY\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "geography",
+          "columnName": "geography",
+          "query": "Amerin",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "similarValue": "AMERINDIAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q36747",
+      "name": "Indigenous peoples of the Americas",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Indigenous peoples of the Americas (Q36747) for cells containing \"AMERINDIAN\" in column geography"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "geography",
+          "columnName": "geography",
+          "query": "afro",
+          "mode": "text",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "geography",
+    "similarValue": "AFRO-AMERICAN",
+    "judgment": "matched",
+    "match": {
+      "id": "Q49085",
+      "name": "African Americans",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item African Americans (Q49085) for cells containing \"AFRO-AMERICAN\" in column geography"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_status",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "LOST"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "Q63154570"
+      }
+    ],
+    "description": "Mass edit cells in column anthology_status"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer_qid",
+    "similarValue": "",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7351",
+      "name": "Robert Schumann",
+      "types": [
+        "Q5"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Robert Schumann (Q7351) for cells containing \"\" in column composer_qid"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer_qid",
+    "similarValue": "",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7351",
+      "name": "Robert Schumann",
+      "types": [
+        "Q5"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Robert Schumann (Q7351) for cells containing \"\" in column composer_qid"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "anthology_status: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "anthology_status",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "(unreconciled)",
+                "l": "(unreconciled)"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer_qid",
+    "similarValue": "",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7351",
+      "name": "Robert Schumann",
+      "types": [
+        "Q5"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item Robert Schumann (Q7351) for cells containing \"\" in column composer_qid"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "uri",
+    "expression": "jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column uri using expression jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_uri",
+    "expression": "jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_uri using expression jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_uri",
+    "expression": "jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_uri using expression jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "anthology_uri",
+          "columnName": "anthology_uri",
+          "query": "[^\\p{L}\\p{N}\\-._~:/?#\\[\\]@!$&'()*+,;=%]",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_title",
+    "expression": "jython:return value.encode(\"latin1\").decode(\"utf8\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_title using expression jython:return value.encode(\"latin1\").decode(\"utf8\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "anthology_uri",
+          "columnName": "anthology_uri",
+          "query": "[^\\p{L}\\p{N}\\-._~:/?#\\[\\]@!$&'()*+,;=%]",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_uri",
+    "expression": "jython:return value.encode(\"latin1\").decode(\"utf8\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_uri using expression jython:return value.encode(\"latin1\").decode(\"utf8\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_uri",
+    "expression": "jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_uri using expression jython:import urllib\nencoded = urllib.quote(value)\nreturn encoded"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "text",
+          "name": "anthology_uri",
+          "columnName": "anthology_uri",
+          "query": "[^A-Za-z0-9\\-._~/%]",
+          "mode": "regex",
+          "caseSensitive": false,
+          "invert": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_uri",
+    "expression": "jython:import re\n\n\n\n# Regex for characters you *really want to encode*:\n# Control chars, space, and other forbidden URL characters\nillegal = re.compile(u'[ \\x00-\\x1f<>#%\"{}|\\\\^`]')\n\ndef safe_url(value):\n    # Replace only illegal characters with %XX\n    return illegal.sub(lambda m: '%%%02X' % ord(m.group(0)), value)\n\nreturn safe_url(value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_uri using expression jython:import re\n\n\n\n# Regex for characters you *really want to encode*:\n# Control chars, space, and other forbidden URL characters\nillegal = re.compile(u'[ \\x00-\\x1f<>#%\"{}|\\\\^`]')\n\ndef safe_url(value):\n    # Replace only illegal characters with %XX\n    return illegal.sub(lambda m: '%%%02X' % ord(m.group(0)), value)\n\nreturn safe_url(value)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "anthology_uri",
+    "description": "Remove column anthology_uri"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "anthology_title",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "anthology_uri",
+    "columnInsertIndex": 22,
+    "description": "Create column anthology_uri at index 22 based on column anthology_title using expression jython:return value"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "anthology_uri",
+    "expression": "jython:import re\n\n\n\n# Regex for characters you *really want to encode*:\n# Control chars, space, and other forbidden URL characters\nillegal = re.compile(u'[ \\x00-\\x1f<>#%\"{}|\\\\^`]')\n\ndef safe_url(value):\n    # Replace only illegal characters with %XX\n    return illegal.sub(lambda m: '%%%02X' % ord(m.group(0)), value)\n\nreturn safe_url(value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column anthology_uri using expression jython:import re\n\n\n\n# Regex for characters you *really want to encode*:\n# Control chars, space, and other forbidden URL characters\nillegal = re.compile(u'[ \\x00-\\x1f<>#%\"{}|\\\\^`]')\n\ndef safe_url(value):\n    # Replace only illegal characters with %XX\n    return illegal.sub(lambda m: '%%%02X' % ord(m.group(0)), value)\n\nreturn safe_url(value)"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "uri",
+    "description": "Remove column uri"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "title",
+    "expression": "jython:return value.encode(\"latin1\").decode(\"utf8\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column title using expression jython:return value.encode(\"latin1\").decode(\"utf8\")"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "title",
+    "expression": "jython:import re\n\n\n\n# Regex for characters you *really want to encode*:\n# Control chars, space, and other forbidden URL characters\nillegal = re.compile(u'[ \\x00-\\x1f<>#%\"{}|\\\\^`]')\n\ndef safe_url(value):\n    # Replace only illegal characters with %XX\n    return illegal.sub(lambda m: '%%%02X' % ord(m.group(0)), value)\n\nreturn safe_url(value)",
+    "onError": "set-to-blank",
+    "newColumnName": "uri",
+    "columnInsertIndex": 5,
+    "description": "Create column uri at index 5 based on column title using expression jython:import re\n\n\n\n# Regex for characters you *really want to encode*:\n# Control chars, space, and other forbidden URL characters\nillegal = re.compile(u'[ \\x00-\\x1f<>#%\"{}|\\\\^`]')\n\ndef safe_url(value):\n    # Replace only illegal characters with %XX\n    return illegal.sub(lambda m: '%%%02X' % ord(m.group(0)), value)\n\nreturn safe_url(value)"
+  }
+]
