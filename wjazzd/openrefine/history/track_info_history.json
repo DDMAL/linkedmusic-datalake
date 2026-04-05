@@ -1,0 +1,704 @@
+[
+  {
+    "op": "core/multivalued-cell-split",
+    "columnName": "lineup",
+    "keyColumnName": "trackid",
+    "mode": "separator",
+    "separator": ";",
+    "regex": false,
+    "description": "Split multi-valued cells in column lineup"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "lineup",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column lineup using expression value.trim()"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "lineup",
+    "expression": "grel:value.match(/.*\\(([^)]+)\\).*/)[0]",
+    "onError": "set-to-blank",
+    "newColumnName": "instrument",
+    "columnInsertIndex": 4,
+    "description": "Create column instrument at index 4 based on column lineup using expression grel:value.match(/.*\\(([^)]+)\\).*/)[0]"
+  },
+  {
+    "op": "core/multivalued-cell-split",
+    "columnName": "instrument",
+    "keyColumnName": "trackid",
+    "mode": "separator",
+    "separator": ",",
+    "regex": false,
+    "description": "Split multi-valued cells in column instrument"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "instrument",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column instrument using expression value.trim()"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "instrument",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "b",
+          "B"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "b"
+      }
+    ],
+    "description": "Mass edit cells in column instrument"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "expression": "jython:d = {\n    \"arr\": \"\",\n    \"as\": \"Alto Saxophone\",\n    \"b\": \"Bass\",\n    \"B\": \"Bass\",\n    \"bc\": \"Bass Clarinet\",\n    \"bcl\": \"Bass Clarinet\",\n    \"bgo\": \"Baritone Guitar\",\n    \"bjo\": \"Banjo\",\n    \"bs\": \"Baritone Saxophone\",\n    \"cga\": \"Congas\",\n    \"cl\": \"Clarinet\",\n    \"cn\": \"Conga\",\n    \"cor\": \"Cornet\",\n    \"dr\": \"Drums\",\n    \"eb\": \"Electric Bass\",\n    \"electric p\": \"Electric Piano\",\n    \"fl\": \"Flute\",\n    \"flgn\": \" Flugelhorn\",\n    \"g\": \"Guitar\",\n    \"git\": \"Guitar\",\n    \"hca\": \"Harmonica\",\n    \"key\": \"Keyboard\",\n    \"p\": \"Piano\",\n    \"p-tp\": \"Piccolo Trumpet\",\n    \"perc\": \"Percussion\",\n    \"rhodes\": \"Rhodes Piano (Electric Piano)\",\n    \"ss\": \"Soprano Saxophone\",\n    \"synth\": \"Synthesizer\",\n    \"tb\": \"Trombone\",\n    \"tp\": \"Trumpet\",\n    \"trp\": \"Trumpet\",\n    \"ts\": \"Tenor Saxophone\",\n    \"ts-c\": \"Tenor Saxophone C-melody\",\n    \"Vc\": \"Cello\",\n    \"vcl\": \"Vocals\",\n    \"vib\": \"Vibraphone\",\n    \"voc\": \"Vocals\"\n    }\n\nreturn d[value]",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column instrument using expression jython:d = {\n    \"arr\": \"\",\n    \"as\": \"Alto Saxophone\",\n    \"b\": \"Bass\",\n    \"B\": \"Bass\",\n    \"bc\": \"Bass Clarinet\",\n    \"bcl\": \"Bass Clarinet\",\n    \"bgo\": \"Baritone Guitar\",\n    \"bjo\": \"Banjo\",\n    \"bs\": \"Baritone Saxophone\",\n    \"cga\": \"Congas\",\n    \"cl\": \"Clarinet\",\n    \"cn\": \"Conga\",\n    \"cor\": \"Cornet\",\n    \"dr\": \"Drums\",\n    \"eb\": \"Electric Bass\",\n    \"electric p\": \"Electric Piano\",\n    \"fl\": \"Flute\",\n    \"flgn\": \" Flugelhorn\",\n    \"g\": \"Guitar\",\n    \"git\": \"Guitar\",\n    \"hca\": \"Harmonica\",\n    \"key\": \"Keyboard\",\n    \"p\": \"Piano\",\n    \"p-tp\": \"Piccolo Trumpet\",\n    \"perc\": \"Percussion\",\n    \"rhodes\": \"Rhodes Piano (Electric Piano)\",\n    \"ss\": \"Soprano Saxophone\",\n    \"synth\": \"Synthesizer\",\n    \"tb\": \"Trombone\",\n    \"tp\": \"Trumpet\",\n    \"trp\": \"Trumpet\",\n    \"ts\": \"Tenor Saxophone\",\n    \"ts-c\": \"Tenor Saxophone C-melody\",\n    \"Vc\": \"Cello\",\n    \"vcl\": \"Vocals\",\n    \"vib\": \"Vibraphone\",\n    \"voc\": \"Vocals\"\n    }\n\nreturn d[value]"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q110295396",
+        "name": "type of musical instrument"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column instrument to type Q110295396"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Clarinet",
+    "judgment": "matched",
+    "match": {
+      "id": "Q8343",
+      "name": "clarinet",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item clarinet (Q8343) for cells containing \"Clarinet\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Drums",
+    "judgment": "matched",
+    "match": {
+      "id": "Q11404",
+      "name": "drum",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 89
+    },
+    "shareNewTopics": false,
+    "description": "Match item drum (Q11404) for cells containing \"Drums\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Drums",
+    "judgment": "matched",
+    "match": {
+      "id": "Q128309",
+      "name": "drum kit",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item drum kit (Q128309) for cells containing \"Drums\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Cornet",
+    "judgment": "matched",
+    "match": {
+      "id": "Q202027",
+      "name": "cornet",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item cornet (Q202027) for cells containing \"Cornet\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Tenor Saxophone C-melody",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1022301",
+      "name": "C melody saxophone",
+      "types": [
+        ""
+      ],
+      "score": 43
+    },
+    "shareNewTopics": false,
+    "description": "Match item C melody saxophone (Q1022301) for cells containing \"Tenor Saxophone C-melody\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Rhodes Piano (Electric Piano)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q743659",
+      "name": "Rhodes piano",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Rhodes piano (Q743659) for cells containing \"Rhodes Piano (Electric Piano)\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Baritone Guitar",
+    "judgment": "matched",
+    "match": {
+      "id": "Q64038",
+      "name": "baritone guitar",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item baritone guitar (Q64038) for cells containing \"Baritone Guitar\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Electric Piano",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1136507",
+      "name": "electric piano",
+      "types": [
+        ""
+      ],
+      "score": 50
+    },
+    "shareNewTopics": false,
+    "description": "Match item electric piano (Q1136507) for cells containing \"Electric Piano\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Electric Bass",
+    "judgment": "matched",
+    "match": {
+      "id": "Q64166304",
+      "name": "electric bass guitar",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 86
+    },
+    "shareNewTopics": false,
+    "description": "Match item electric bass guitar (Q64166304) for cells containing \"Electric Bass\" in column instrument"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "instrument: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "instrument",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "instrument",
+    "similarValue": "Flute",
+    "judgment": "matched",
+    "match": {
+      "id": "Q11405",
+      "name": "flute",
+      "types": [
+        "Q110295396"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item flute (Q11405) for cells containing \"Flute\" in column instrument"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "lineup",
+    "expression": "grel:value.replace(/\\s*\\(.*\\)\\s*/, \"\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column lineup using expression grel:value.replace(/\\s*\\(.*\\)\\s*/, \"\")"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "lineup",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column lineup using expression value.trim()"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "lineup",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column lineup to type Q5"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "lineup: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "lineup",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "lineup: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "lineup",
+          "from": 94,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "lineup",
+    "description": "Match each cell to its best recon candidate in column lineup"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "recordingdate",
+    "expression": "jython:import re\n\ndef extract_date(value):\n    g = re.search(r\"(\\d{1,2})\\s*\\.\\s*(\\d{1,2})\\s*\\.\\s*(\\d{4})$\", value)\n\n    if g:\n        day = g.group(1).zfill(2)\n        month = g.group(2).zfill(2)\n        year = g.group(3)\n        return year + \"-\" + month + \"-\" + day\n    else:\n        return value\n    \nreturn extract_date(value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column recordingdate using expression jython:import re\n\ndef extract_date(value):\n    g = re.search(r\"(\\d{1,2})\\s*\\.\\s*(\\d{1,2})\\s*\\.\\s*(\\d{4})$\", value)\n\n    if g:\n        day = g.group(1).zfill(2)\n        month = g.group(2).zfill(2)\n        year = g.group(3)\n        return year + \"-\" + month + \"-\" + day\n    else:\n        return value\n    \nreturn extract_date(value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "recordingdate",
+    "expression": "jython:import re\n\ndef extract_date(value):\n    month_dict = {\n    \"january\":   \"01\",\n    \"february\":  \"02\",\n    \"march\":     \"03\",\n    \"april\":     \"04\",\n    \"may\":       \"05\",\n    \"june\":      \"06\",\n    \"july\":      \"07\",\n    \"august\":    \"08\",\n    \"september\": \"09\",\n    \"october\":   \"10\",\n    \"november\":  \"11\",\n    \"december\":  \"12\"\n    }\n\n    g = re.search(r\"([A-Za-z]+)\\s*(\\d{4})$\", value)\n\n    if g:\n        day = \"01\"\n        month = month_dict[g.group(1).lower()]\n        year = g.group(2)\n        return year + \"-\" + month + \"-\" + day\n    else:\n        return value\n    \nreturn extract_date(value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column recordingdate using expression jython:import re\n\ndef extract_date(value):\n    month_dict = {\n    \"january\":   \"01\",\n    \"february\":  \"02\",\n    \"march\":     \"03\",\n    \"april\":     \"04\",\n    \"may\":       \"05\",\n    \"june\":      \"06\",\n    \"july\":      \"07\",\n    \"august\":    \"08\",\n    \"september\": \"09\",\n    \"october\":   \"10\",\n    \"november\":  \"11\",\n    \"december\":  \"12\"\n    }\n\n    g = re.search(r\"([A-Za-z]+)\\s*(\\d{4})$\", value)\n\n    if g:\n        day = \"01\"\n        month = month_dict[g.group(1).lower()]\n        year = g.group(2)\n        return year + \"-\" + month + \"-\" + day\n    else:\n        return value\n    \nreturn extract_date(value)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "recordingdate",
+    "expression": "jython:import re\n\ndef extract_date(value):\n    g = re.match(r\"^\\d{4}$\", value)\n\n    if g:\n        return g.group(0)+\"-01-01\"\n    else:\n        return value\n\nreturn extract_date(value)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column recordingdate using expression jython:import re\n\ndef extract_date(value):\n    g = re.match(r\"^\\d{4}$\", value)\n\n    if g:\n        return g.group(0)+\"-01-01\"\n    else:\n        return value\n\nreturn extract_date(value)"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "recordingdate",
+          "expression": "value",
+          "columnName": "recordingdate",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "25, 26 & 30.09 1983",
+                "l": "25, 26 & 30.09 1983"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "recordingdate",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "25, 26 & 30.09 1983"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "1983-09-30"
+      }
+    ],
+    "description": "Mass edit cells in column recordingdate"
+  },
+  {
+    "op": "core/mass-edit",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "recordingdate",
+          "expression": "value",
+          "columnName": "recordingdate",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "September 1964?",
+                "l": "September 1964?"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "recordingdate",
+    "expression": "value",
+    "edits": [
+      {
+        "from": [
+          "September 1964?"
+        ],
+        "fromBlank": false,
+        "fromError": false,
+        "to": "1964-09-01"
+      }
+    ],
+    "description": "Mass edit cells in column recordingdate"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "compid",
+    "expression": "jython:if int(value) < 156:\n return value\nelse:\n return str(int(value) + 1)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column compid using expression jython:if int(value) < 156:\n return value\nelse:\n return str(int(value) + 1)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "compid",
+    "expression": "jython:if int(value) < 276: \n return value \nelse: return str(int(value) + 1)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column compid using expression jython:if int(value) < 276: \n return value \nelse: return str(int(value) + 1)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "compid",
+    "expression": "jython:if int(value) < 281: \n return value \nelse: return str(int(value) + 1)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column compid using expression jython:if int(value) < 281: \n return value \nelse: return str(int(value) + 1)"
+  }
+]

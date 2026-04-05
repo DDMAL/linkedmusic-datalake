@@ -1,0 +1,1758 @@
+[
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "genre",
+          "expression": "value",
+          "columnName": "genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "GREAT AMERICAN SONGBOOK",
+                "l": "GREAT AMERICAN SONGBOOK"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "genre",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column genre to type null"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "genre",
+          "expression": "value",
+          "columnName": "genre",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "GREAT AMERICAN SONGBOOK",
+                "l": "GREAT AMERICAN SONGBOOK"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "genre",
+    "similarValue": "GREAT AMERICAN SONGBOOK",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1151397",
+      "name": "Great American Songbook",
+      "types": [
+        "Q34684312",
+        "Q60733114"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Great American Songbook (Q1151397) for cells containing \"GREAT AMERICAN SONGBOOK\" in column genre"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "template",
+          "expression": "value",
+          "columnName": "template",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Blues",
+                "l": "Blues"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "expression": "grel:\"twelve bar blues\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column template using expression grel:\"twelve bar blues\""
+  },
+  {
+    "op": "core/multivalued-cell-split",
+    "columnName": "composer",
+    "keyColumnName": "compid",
+    "mode": "separator",
+    "separator": ",",
+    "regex": false,
+    "description": "Split multi-valued cells in column composer"
+  },
+  {
+    "op": "core/multivalued-cell-split",
+    "columnName": "composer",
+    "keyColumnName": "compid",
+    "mode": "separator",
+    "separator": "/",
+    "regex": false,
+    "description": "Split multi-valued cells in column composer"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "expression": "value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column composer using expression value.trim()"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "baseColumnName": "composer",
+    "expression": "grel:\"jazz musician\"",
+    "onError": "set-to-blank",
+    "newColumnName": "jazz musician",
+    "columnInsertIndex": 3,
+    "description": "Create column jazz musician at index 3 based on column composer using expression grel:\"jazz musician\""
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "jazz musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column composer to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Gillespie",
+    "judgment": "matched",
+    "match": {
+      "id": "Q49575",
+      "name": "Dizzy Gillespie",
+      "types": [
+        "Q5"
+      ],
+      "score": 82.14285714285715
+    },
+    "shareNewTopics": false,
+    "description": "Match item Dizzy Gillespie (Q49575) for cells containing \"Gillespie\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Parker",
+    "judgment": "matched",
+    "match": {
+      "id": "Q103767",
+      "name": "Charlie Parker",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Charlie Parker (Q103767) for cells containing \"Parker\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Parish",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1379565",
+      "name": "Mitchell Parish",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mitchell Parish (Q1379565) for cells containing \"Parish\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Ellington",
+    "judgment": "matched",
+    "match": {
+      "id": "Q4030",
+      "name": "ديوك إلينغتون",
+      "types": [
+        "Q5"
+      ],
+      "score": 87.14285714285715
+    },
+    "shareNewTopics": false,
+    "description": "Match item ديوك إلينغتون (Q4030) for cells containing \"Ellington\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Oscar Peterson",
+    "judgment": "matched",
+    "match": {
+      "id": "Q105349",
+      "name": "Oscar Peterson",
+      "types": [
+        "Q5"
+      ],
+      "score": 89.71428571428572
+    },
+    "shareNewTopics": false,
+    "description": "Match item Oscar Peterson (Q105349) for cells containing \"Oscar Peterson\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Kern",
+    "judgment": "matched",
+    "match": {
+      "id": "Q313270",
+      "name": "Jerome Kern",
+      "types": [
+        "Q5"
+      ],
+      "score": 87.71428571428572
+    },
+    "shareNewTopics": false,
+    "description": "Match item Jerome Kern (Q313270) for cells containing \"Kern\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Gershwin",
+    "judgment": "matched",
+    "match": {
+      "id": "Q123829",
+      "name": "George Gershwin",
+      "types": [
+        "Q5"
+      ],
+      "score": 89.71428571428572
+    },
+    "shareNewTopics": false,
+    "description": "Match item George Gershwin (Q123829) for cells containing \"Gershwin\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Mitchel Parish",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1379565",
+      "name": "Mitchell Parish",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Mitchell Parish (Q1379565) for cells containing \"Mitchel Parish\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Erdman",
+    "judgment": "matched",
+    "match": {
+      "id": "Q59524608",
+      "name": "Ernie Erdman",
+      "types": [
+        "Q5"
+      ],
+      "score": 76.42857142857143
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ernie Erdman (Q59524608) for cells containing \"Erdman\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 50,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Klenner",
+    "judgment": "matched",
+    "match": {
+      "id": "Q15093760",
+      "name": "John Klenner",
+      "types": [
+        "Q5"
+      ],
+      "score": 69.14285714285714
+    },
+    "shareNewTopics": false,
+    "description": "Match item John Klenner (Q15093760) for cells containing \"Klenner\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 93,
+          "to": 96,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Cliff Burwell",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5132560",
+      "name": "Cliff Burwell",
+      "types": [
+        "Q5"
+      ],
+      "score": 87.71428571428572
+    },
+    "shareNewTopics": false,
+    "description": "Match item Cliff Burwell (Q5132560) for cells containing \"Cliff Burwell\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 93,
+          "to": 96,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Kahn",
+    "judgment": "matched",
+    "match": {
+      "id": "Q520751",
+      "name": "Gus Kahn",
+      "types": [
+        "Q5"
+      ],
+      "score": 87.71428571428572
+    },
+    "shareNewTopics": false,
+    "description": "Match item Gus Kahn (Q520751) for cells containing \"Kahn\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 93,
+          "to": 96,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "La Rocca",
+    "judgment": "matched",
+    "match": {
+      "id": "Q737521",
+      "name": "Nick LaRocca",
+      "types": [
+        "Q5"
+      ],
+      "score": 82.85714285714286
+    },
+    "shareNewTopics": false,
+    "description": "Match item Nick LaRocca (Q737521) for cells containing \"La Rocca\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 93,
+          "to": 96,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Rodgers",
+    "judgment": "matched",
+    "match": {
+      "id": "Q269094",
+      "name": "Richard Rodgers",
+      "types": [
+        "Q5"
+      ],
+      "score": 87.71428571428572
+    },
+    "shareNewTopics": false,
+    "description": "Match item Richard Rodgers (Q269094) for cells containing \"Rodgers\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 93,
+          "to": 96,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "record-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Harry Warren",
+    "judgment": "matched",
+    "match": {
+      "id": "Q938810",
+      "name": "Harry Warren",
+      "types": [
+        "Q5"
+      ],
+      "score": 87.71428571428572
+    },
+    "shareNewTopics": false,
+    "description": "Match item Harry Warren (Q938810) for cells containing \"Harry Warren\" in column composer"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "jazz musician",
+    "expression": "grel:\"composer\"",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column jazz musician using expression grel:\"composer\""
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "jazz musician",
+          "propertyName": "occupation",
+          "propertyID": "P106"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column composer to type Q5"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "C. Porter",
+    "judgment": "matched",
+    "match": {
+      "id": "Q215120",
+      "name": "Cole Porter",
+      "types": [
+        "Q5"
+      ],
+      "score": 90
+    },
+    "shareNewTopics": false,
+    "description": "Match item Cole Porter (Q215120) for cells containing \"C. Porter\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "B.Marsalis",
+    "judgment": "matched",
+    "match": {
+      "id": "Q454819",
+      "name": "Branford Marsalis",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Branford Marsalis (Q454819) for cells containing \"B.Marsalis\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Nat Adderley",
+    "judgment": "matched",
+    "match": {
+      "id": "Q499649",
+      "name": "Nat Adderley",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Nat Adderley (Q499649) for cells containing \"Nat Adderley\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Thelonious Monk",
+    "judgment": "matched",
+    "match": {
+      "id": "Q109612",
+      "name": "Thelonious Monk",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Thelonious Monk (Q109612) for cells containing \"Thelonious Monk\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Hart",
+    "judgment": "matched",
+    "match": {
+      "id": "Q725828",
+      "name": "Lorenz Hart",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Lorenz Hart (Q725828) for cells containing \"Hart\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Evans",
+    "judgment": "matched",
+    "match": {
+      "id": "Q208205",
+      "name": "Bill Evans",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Bill Evans (Q208205) for cells containing \"Evans\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Coltrane",
+    "judgment": "matched",
+    "match": {
+      "id": "Q7346",
+      "name": "John Coltrane",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item John Coltrane (Q7346) for cells containing \"Coltrane\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Monk",
+    "judgment": "matched",
+    "match": {
+      "id": "Q109612",
+      "name": "Thelonious Monk",
+      "types": [
+        "Q5"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Thelonious Monk (Q109612) for cells containing \"Monk\" in column composer"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "composer: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "composer",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "composer: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "composer",
+          "from": 97,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "composer",
+    "similarValue": "Miles Daivs",
+    "judgment": "matched",
+    "match": {
+      "id": "Q93341",
+      "name": "Miles Davis",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Miles Davis (Q93341) for cells containing \"Miles Daivs\" in column composer"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "jazz musician",
+    "description": "Remove column jazz musician"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q105543609",
+        "name": "musical work/composition"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column template to type Q105543609"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "genre",
+    "expression": "grel:if(value != \"ORIGINAL\", value, \"\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column genre using expression grel:if(value != \"ORIGINAL\", value, \"\")"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "similarValue": "twelve bar blues",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2089987",
+      "name": "twelve-bar blues",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item twelve-bar blues (Q2089987) for cells containing \"twelve bar blues\" in column template"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "template: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "template",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "similarValue": "So What",
+    "judgment": "matched",
+    "match": {
+      "id": "Q919291",
+      "name": "So What",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item So What (Q919291) for cells containing \"So What\" in column template"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "template: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "template",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "similarValue": "What Is this Thing Called Love",
+    "judgment": "matched",
+    "match": {
+      "id": "Q860211",
+      "name": "What Is This Thing Called Love?",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item What Is This Thing Called Love? (Q860211) for cells containing \"What Is this Thing Called Love\" in column template"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "template: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "template",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "similarValue": "Confirmation",
+    "judgment": "matched",
+    "match": {
+      "id": "Q5160128",
+      "name": "Confirmation",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Confirmation (Q5160128) for cells containing \"Confirmation\" in column template"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "template: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "template",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "similarValue": "Tune Up",
+    "judgment": "matched",
+    "match": {
+      "id": "Q97480277",
+      "name": "Tune Up",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Tune Up (Q97480277) for cells containing \"Tune Up\" in column template"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "template: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "template",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "similarValue": "So what",
+    "judgment": "matched",
+    "match": {
+      "id": "Q919291",
+      "name": "So What",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item So What (Q919291) for cells containing \"So what\" in column template"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "template: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "template",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "template",
+    "similarValue": "All the things you are",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1410072",
+      "name": "All the Things You Are",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item All the Things You Are (Q1410072) for cells containing \"All the things you are\" in column template"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "compid",
+    "expression": "jython:if int(value) < 156:\n return value\nelse:\n return str(int(value) + 1)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column compid using expression jython:if int(value) < 156:\n return value\nelse:\n return str(int(value) + 1)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "compid",
+    "expression": "jython:if int(value) < 276: \n return value \nelse: return str(int(value) + 1)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column compid using expression jython:if int(value) < 276: \n return value \nelse: return str(int(value) + 1)"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "compid",
+    "expression": "jython:if int(value) < 281: \n return value \nelse: return str(int(value) + 1)",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column compid using expression jython:if int(value) < 281: \n return value \nelse: return str(int(value) + 1)"
+  }
+]
