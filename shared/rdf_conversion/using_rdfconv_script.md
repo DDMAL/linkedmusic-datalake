@@ -60,13 +60,13 @@ The steps below must be completed before running the general RDF conversion scri
 - Run the following command to create a configuration file
 
 ```bash
-python -m rdfconv.tomlgen <path to csv folder> --output <config output path>
+python -m rdfconv.tomlgen --input <path to csv folder> --output <config output path>
 ```
 
 In the case of The Session, the command looks like:
 
 ```bash
-python -m rdfconv.tomlgen ../thesession/data/reconciled --output rdf_config/thesession.toml
+python -m rdfconv.tomlgen --input ../thesession/data/reconciled --output rdf_config/thesession.toml
 ```
 
 - A new TOML configuration will be created at your select output path.

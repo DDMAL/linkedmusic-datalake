@@ -1,0 +1,73 @@
+[general]
+name = "wjazzd"
+csv_folder = "../../wjazzd/data/reconciled"
+rdf_output_folder = "../../wjazzd/data/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+mb = "https://musicbrainz.org/recording/"
+jr = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/records/"
+jc = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/compositions/"
+js = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/solos/solo/"
+jt = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/tracks/"
+jtr = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/transcriptions/"
+lmwj = "https://linkedmusic.ca/graphs/wjazzd/"
+
+[composition_info]
+PRIMARY_KEY = "compid"
+compid = {type = "lmwj:Composition", prefix = "jc"}
+title = "rdfs:label"
+composer = "P86"  # composer (P86)
+form = ""
+template = "P144"  # based on (P144)
+tonalitytype = ""
+genre = "P136"  # genre (P136)
+
+[record_info]
+PRIMARY_KEY = "recordid"
+recordid = {type = "lmwj:Record", prefix = "jr"}
+artist = "P175"  # performer (P175)
+recordtitle = "rdfs:label"
+label = "P264"  # record label (P264)
+recordbib = ""
+mbzid = ""
+
+[record_info.releasedate]
+pred = "P577"  # publication date (P577)
+datatype = "xsd:gYear"
+
+[solo_info]
+PRIMARY_KEY = "melid"
+melid = {type = "lmwj:Solo",prefix = "js"}
+trackid = {pred = "P361", prefix = "jt"}  # part of (P361)
+compid = {pred = "P2550", prefix = "jc"}  # recording or performance of (P2550)
+recordid = {prefix = "jr"}
+performer = "P175"  # performer (P175)
+title = "rdfs:label"
+titleaddon = ""
+solopart = ""
+instrument = "P870"  # instrumentation (P870)
+style = "P176"  # manufacturer (P176)
+avgtempo = "P1725"  # beats per minute (P1725)
+tempoclass = ""
+rhythmfeel = ""
+key = "P826"  # tonality (P826)
+signature = "P3440"  # time signature (P3440)
+chorus_count = ""
+
+[track_info]
+PRIMARY_KEY = "trackid"
+trackid = {type = "lmwj:Track", prefix = "jt"}
+filename_track = "rdfs:label"
+recordid = {pred = "P361", prefix = "jr"}  # part of (P361)
+lineup = "P175"  # performer (P175)
+instrument = "P870"  # instrumentation (P870)
+mbzid = "P4404"  # MusicBrainz recording ID (P4404)
+trackno = ""
+recordingdate = {pred = "P10135", datatype = "xsd:date"}  # recording date (P10135)
+compid = {pred = "P2550", prefix = "jc"}  # recording or performance of (P2550)
