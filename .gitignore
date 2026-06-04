@@ -8,12 +8,15 @@ psqldump
 rdb2rdf/
 *.nt
 *.xz
+*.tar*
+*.zst
 *.jsonl
 *.csv
 *.ttl
 store/
 store-*/
 raw_data/
+acousticbrainz/data/
 *.log
 .python-version
 .claude/
