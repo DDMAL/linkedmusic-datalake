@@ -13,6 +13,7 @@ rdb2rdf/
 *.ttl
 store/
 store-*/
+raw_data/
 *.log
 .python-version
 .claude/
