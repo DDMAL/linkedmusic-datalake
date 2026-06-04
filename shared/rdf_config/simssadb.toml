@@ -1,0 +1,65 @@
+[general]
+name = "simssadb"
+csv_folder = "../../simssa/data/reconciled"
+rdf_output_folder = "../../simssa/data/rdf"
+test_mode = false
+
+[namespaces]
+rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+rdfs = "http://www.w3.org/2000/01/rdf-schema#"
+xsd = "http://www.w3.org/2001/XMLSchema#"
+wd = "http://www.wikidata.org/entity/"
+wdt = "http://www.wikidata.org/prop/direct/"
+sp = "https://db.simssa.ca/persons/"
+sw = "https://db.simssa.ca/musicalworks/"
+sse = "https://db.simssa.ca/sections/"
+st = "https://db.simssa.ca/types/"
+ss = "https://db.simssa.ca/sources/"
+sf = "https://db.simssa.ca/files/"
+lms = "https://linkedmusic.ca/graphs/simssadb/"
+
+[instance]
+PRIMARY_KEY = "file_id"
+work_id = {prefix = "sw", pred = "P6243"}  # digital representation of (P6243)
+section_id = {prefix = "sse", pred = "P6243"}  # digital representation of (P6243)
+file_id = {prefix = "sf", type = "lms:File"}
+file_format = ""
+file_name = "rdfs:label"
+
+[instance.source_id]
+prefix = "ss"
+pred = "P144"  # based on (P144)
+
+[person]
+PRIMARY_KEY = "person_id"
+person_name = "P2888"  # exact match (P2888)
+person_name_original = "rdfs:label"
+birth_year = { pred = "P569", datatype = "xsd:date" }  # date of birth (P569)
+death_year = { pred = "P570", datatype = "xsd:date" }  # date of death (P570)
+viaf_id = "P214"  # VIAF cluster ID (P214)
+
+[person.person_id]
+type = "lms:Person"
+prefix = "sp"
+
+[source]
+PRIMARY_KEY = "source_id"
+source_title = "rdfs:label"
+
+[source.source_id]
+prefix = "ss"
+type = "lms:Source"
+
+[work]
+PRIMARY_KEY = "work_id"
+work_id = {prefix = "sw", type = "lms:Work"}
+work_title = {if = "isinstance(obj, URIRef)", pred = "P2888"}  # exact match (P2888)
+work_title_original = "rdfs:label"
+sacred_or_secular = "P136"  # genre (P136)
+section_id = {prefix = "sse", pred = "P527", type = "lms:Section"}  # has part(s) (P527)
+section_title = {subj = "section_id", pred = "rdfs:label"}
+author_id = {prefix = "sp", pred = "P50"}  # author (P50)
+composer_id = {prefix = "sp", pred = "P86"}  # composer (P86)
+genre_id = {prefix = "st", pred = "P136", type = "lms:GenreAsInType"}  # genre (P136)
+genre_name = {subj = "genre_id", pred = "rdfs:label"}
+style = ""
