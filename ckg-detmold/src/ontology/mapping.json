@@ -1,0 +1,37 @@
+{
+  "_doc": "CKG runtime predicate map (Stage E). Authoritative reasoning log = ../../doc/predicate-evidence.md s4. Each source IRI -> {action, ...}. Actions: type (record rdf:type lmckg:* via record_kind); label (keep rdfs:label); remap (-> wdt:target); remap_date (-> wdt:target, coerce xsd:date/gYear); remap_relation (-> wdt:target, rewrite/collapse object, type residue via entity_class); keep_relation (keep CTO IRI verbatim, rewrite/collapse object, type residue via entity_class); classifier_aat (P31 from record_types + keep AAT URI); classifier_media (P31 only); content_url; url_permalink (emit wdt:target only for Detmold -- currently UNUSED: NFDI_0001008 is self-referential in every feed so it is dropped, see its _note); is_about (type record, drop relation); drop. Absent predicate => drop (logged).",
+
+  "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": {"action": "type"},
+  "http://www.w3.org/2000/01/rdf-schema#label": {"action": "label"},
+
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000191": {"action": "remap", "target": "P123"},
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000142": {"action": "remap", "target": "P275"},
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001008": {"action": "drop", "_note": "has url. Self-referential in EVERY observed feed (the object literal is byte-identical to the record's own subject IRI), incl. Detmold -- contradicting the original plan's expectation that Detmold's was an external permalink. So no P973 is emitted anywhere; the subject IRI already is the source permalink. The url_permalink action is retained in convert_to_rdf.py for a hypothetical future feed with a genuine external permalink."},
+
+  "https://nfdi4culture.de/ontology/CTO_0001070": {"action": "remap_date", "target": "P585"},
+  "https://nfdi4culture.de/ontology/CTO_0001073": {"action": "remap_date", "target": "P571"},
+  "https://nfdi4culture.de/ontology/CTO_0001021": {"action": "remap", "target": "P953", "_note": "has content url. In APSearch this literal sits on the schema:associatedMedia BLANK NODE, not the record, so the converter never reaches it via this remap (bnode subjects are skipped). preprocess.py joins record -> associatedMedia bnode -> CTO_0001021 and the converter emits <record> wdt:P953 <url> (URI node) post-loop. This remap is retained for a hypothetical feed with a record-level content URL; currently dead (musiconn/Detmold have 0)."},
+
+  "https://nfdi4culture.de/ontology/CTO_0001026": {"action": "classifier_aat"},
+  "https://nfdi4culture.de/ontology/CTO_0001049": {"action": "classifier_media"},
+  "https://nfdi4culture.de/ontology/CTO_0001007": {"action": "drop"},
+
+  "https://nfdi4culture.de/ontology/CTO_0001009": {"action": "keep_relation", "entity_class": "Person"},
+  "https://nfdi4culture.de/ontology/CTO_0001010": {"action": "keep_relation", "entity_class": "Organization"},
+  "https://nfdi4culture.de/ontology/CTO_0001011": {"action": "keep_relation", "entity_class": "Place"},
+  "https://nfdi4culture.de/ontology/CTO_0001019": {"action": "keep_relation"},
+  "https://nfdi4culture.de/ontology/CTO_0001006": {"action": "keep_relation"},
+  "https://nfdi4culture.de/ontology/CTO_0001025": {"action": "is_about"},
+  "http://purl.obolibrary.org/obo/BFO_0000050": {"action": "remap_relation", "target": "P361", "entity_class": "Collection"},
+
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001006": {"action": "drop"},
+  "http://schema.org/dateModified": {"action": "drop", "_note": "metadata mod-date. In APSearch a single constant ('2025-11-21') across all records = CKG's harvest/processing date, not a per-record ELAR edit date -> CKG provenance, not source data -> drop."},
+  "https://nfdi4culture.de/ontology/CTO_0001080": {"action": "drop"},
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000207": {"action": "drop", "_note": "has metadata standard. Constant CKG-ETL values (RDF / Schema.org) describing how CKG serialized its metadata, not ELAR content -> drop."},
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000146": {"action": "drop", "_note": "has metadata MEDIA TYPE = E3087 (application/json), constant on every record. Describes CKG's metadata serialization (the export is JSON), NOT the audio/image content type (there is no content-MIME field in the dump) -> CKG provenance -> drop."},
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000125": {"action": "drop", "_note": "dataset-level link (E6081 -> E6304, 1 triple); subject is the NFDI4Culture dataset entity, not a record. APSearch only -> drop."},
+  "http://schema.org/item": {"action": "drop"},
+  "http://schema.org/dataFeedElement": {"action": "drop"},
+  "http://schema.org/associatedMedia": {"action": "drop", "_note": "record -> media bnode. The bnode itself is never emitted; preprocess.py uses this edge to join the bnode's CTO_0001021 content URL back to the record (-> wdt:P953). The associatedMedia triple is dropped here."},
+  "http://schema.org/sameAs": {"action": "drop"}
+}

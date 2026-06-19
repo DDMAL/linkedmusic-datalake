@@ -7,6 +7,7 @@ psqldump
 *.sql*
 rdb2rdf/
 *.nt
+*.zip
 *.xz
 *.tar*
 *.zst
@@ -17,6 +18,8 @@ store/
 store-*/
 raw_data/
 acousticbrainz/data/
+# superseded by ckg-musiconn/ ckg-detmold/ ckg-apsearch/; old folder kept on disk (regenerable intermediates), out of git
+/ckg/
 *.log
 .python-version
 .claude/
