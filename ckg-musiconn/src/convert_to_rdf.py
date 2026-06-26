@@ -22,7 +22,7 @@ Output is streamed as prefixed Turtle (controlled terms are emitted pre-compacte
 data URIs and source literals are written verbatim, which is valid Turtle), so
 memory is bounded by a dedupe set rather than an in-memory graph.
 
-Run from ``ckg/src/``::
+Run from ``src/``::
 
     python convert_to_rdf.py musiconn
 """

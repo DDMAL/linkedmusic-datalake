@@ -15,11 +15,11 @@ fold-in of the OpenRefine name matches. Two complementary sources:
     items that exist but never recorded their authority ID (e.g. Zürich Q72) -
     the one set ID lookup structurally cannot find. ID lookup wins on conflict.
 
-Output : ckg/openrefine/export/names_reconciled.csv   (authority_uri, qid)
-Cache  : ckg/data/openrefine/id_lookup_cache.json      ("<P>=<id>" -> "Q.." | "")
+Output : ../openrefine/export/names_reconciled.csv   (authority_uri, qid)
+Cache  : ../data/openrefine/id_lookup_cache.json      ("<P>=<id>" -> "Q.." | "")
          (resumable: cached lookups are skipped on re-run)
 
-CWD must be ckg/src/.  Usage:
+CWD must be src/.  Usage:
     poetry run python wikidata_id_lookup.py --test   # 5-ID sanity check, no writes
     poetry run python wikidata_id_lookup.py          # full run + OpenRefine fold-in
 """

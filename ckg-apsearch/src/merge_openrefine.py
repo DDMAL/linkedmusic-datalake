@@ -1,13 +1,13 @@
 """
 Merge OpenRefine reconciliation results into crosswalk.json.
 
-Reads ckg/openrefine/export/names_reconciled.csv (columns: authority_uri, qid)
-and adds/updates each entry in ckg/data/mappings/crosswalk.json.
+Reads ../openrefine/export/names_reconciled.csv (columns: authority_uri, qid)
+and adds/updates each entry in ../data/mappings/crosswalk.json.
 
 QIDs must be plain Q-numbers (no wd: prefix).  This script adds the wd: prefix
 when storing in the crosswalk, same as build_crosswalk.py.
 
-Usage (from ckg/src/):
+Usage (from src/):
     poetry run python merge_openrefine.py [--dry-run]
 
 Flags:

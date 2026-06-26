@@ -1,18 +1,17 @@
 # CKG — APSearch (`E6304`) → LinkedMusic
 
 Ingestion of the **APSearch** feed of the NFDI4Culture **Culture Knowledge Graph (CKG)** into
-the LinkedMusic data lake as RDF Turtle, for the Hermes "From Notes to Nodes" challenge.
-APSearch is **ELAR (Endangered Languages Archive)** data — audio/image/video/text field
-recordings of endangered languages (host `elararchive.org`; publisher BBAW). It is ~98.9%
-ELAR plus ~1.1% (72 records) Staatliche Museen zu Berlin objects.
+the LinkedMusic data lake as RDF Turtle. APSearch is **ELAR (Endangered Languages Archive)**
+data — audio/image/video/text field recordings of endangered languages (host
+`elararchive.org`; publisher BBAW). It is ~98.9% ELAR plus ~1.1% (72 records) Staatliche
+Museen zu Berlin objects.
 
-APSearch is a **media/content feed and a different track from musiconn/Detmold**: it has
-**no persons, no relational backbone, and ~0% authority IDs**. Titles are free-text
-descriptions, not entities. So there is **no label-based OpenRefine surface in the dump** —
-its reconciliation is small and **fully deterministic** (licenses, publisher, media classes,
-AAT codes). The genuine reconciliation opportunity (languages, countries, depositors) lives
-in the ELAR *source*, which is access-walled → a **post-deadline track** scoped in
-[`doc/elar-enrichment.md`](doc/elar-enrichment.md).
+APSearch is a **media/content feed and differs from musiconn/Detmold**: it has **no persons,
+no relational backbone, and ~0% authority IDs**. Titles are free-text descriptions, not
+entities. So there is **no label-based OpenRefine surface in the dump** — its reconciliation
+is small and **fully deterministic** (licenses, publisher, media classes, AAT codes). The
+reconcilable content (languages, countries, depositors) lives in the ELAR *source*, which is
+access-walled, so it is not represented in this dataset.
 
 This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-musiconn`](../ckg-musiconn), [`ckg-detmold`](../ckg-detmold),
@@ -37,7 +36,7 @@ under `data/` is **gitignored**.
 > APSearch runs the **same machinery** as musiconn/Detmold (same `src/`, same `mapping.json`),
 > exercising the media-feed paths: `CTO_0001049` media classes, `associatedMedia` content-URL
 > join, license/publisher `P2888` pivots, and an APSearch-specific date coercion. There is no
-> Stage D (OpenRefine) and no relational backbone.
+> OpenRefine pass and no relational backbone.
 
 ---
 
@@ -51,7 +50,7 @@ raw_data/ckg/mnt/data/culture-kg-kitchen/data/production/E6304/nt/E6304.nt
 
 `preprocess.py` reads it via `--raw-root` (default above).
 
-## 2. Preprocess + crosswalk (Stages B–C)
+## 2. Preprocess + crosswalk
 
 **`preprocess.py`** — one streaming pass that builds the **record-kind index** (every record
 is `schema:CreativeWork` → Work), the **classifier index** (record → `CTO_0001049` media
@@ -81,15 +80,13 @@ all of it is wired into the mapping files rather than reconciled by hand:
 - **Licenses / publisher** → `wdt:P2888` pivots in `crosswalk.json` (resolved via the NFDI
   `owl:sameAs` on the `nfdi4culture.de/id/E####` pages).
 
-All QIDs were verified against primary sources and signed off (2026-06-18) — see
-[`doc/data-model.md`](doc/data-model.md) §6 and
-[`doc/_archive/apsearch-pid-qid-verification.md`](doc/_archive/apsearch-pid-qid-verification.md).
+All QIDs were verified against primary sources — see [`doc/data-model.md`](doc/data-model.md).
 
-The high-value label-based reconciliation (languages → ISO 639-3/Glottolog, countries,
-depositors) is **not in the CKG dump** — it requires the ELAR source, which is access-walled.
-That is the post-deadline enrichment track: [`doc/elar-enrichment.md`](doc/elar-enrichment.md).
+The label-based reconciliation (languages → ISO 639-3/Glottolog, countries, depositors) is
+**not in the CKG dump** — it requires the ELAR source, which is access-walled, so it is not
+represented in this dataset.
 
-## 4. Convert to RDF (Stage E)
+## 4. Convert to RDF
 
 **`convert_to_rdf.py`** — the shared two-pass converter (see
 [`doc/data-model.md`](doc/data-model.md)): types every record `lmckg:Work` + `wdt:P31` (media
@@ -104,7 +101,7 @@ python convert_to_rdf.py apsearch          # -> data/rdf/apsearch.ttl
 Verify: `grep -c '_:' data/rdf/apsearch.ttl` == 0, an `rdflib` parse, and ~46,203 triples /
 6,271 records each with ≥1 `wdt:P31` / 3,783 `wdt:P953`.
 
-## 5. Load (Stage G)
+## 5. Load
 
 Bulk-load `apsearch.ttl` as its own named graph with the Virtuoso loader (`ld_dir` +
 `rdf_loader_run`), per the wiki's `Virtuoso-Setup-Guide.md`:
@@ -123,16 +120,14 @@ After loading, the dataset's schema must be documented for **SESEMMI**;
 ```
 ckg-apsearch/
 ├── src/                           # shared CKG pipeline (copied verbatim; takes a feed arg)
-│   ├── preprocess.py              # Stage B — normalize + index + content-URL join
-│   ├── build_crosswalk.py         # Stage C — AAT classifier → QID
-│   ├── convert_to_rdf.py          # Stage E — NT → TTL
+│   ├── preprocess.py              # normalize + index + content-URL join
+│   ├── build_crosswalk.py         # AAT classifier → QID
+│   ├── convert_to_rdf.py          # NT → TTL
 │   └── ontology/mapping.json      # runtime predicate map
 │   # (the GND/VIAF name-fetch + OpenRefine-merge scripts are copied too but unused here)
 ├── data/                          # gitignored (extracted / mappings / rdf)
 └── doc/
-    ├── data-model.md              # schema + mapping decisions + verified IDs (the "why")
-    ├── elar-enrichment.md         # post-deadline ELAR enrichment track
-    └── _archive/                  # superseded handoff/planning docs
+    └── data-model.md              # schema + mapping decisions + verified IDs (the "why")
 ```
 
 > The `src/` scripts are **shared across all three CKG feeds** and copied verbatim; the

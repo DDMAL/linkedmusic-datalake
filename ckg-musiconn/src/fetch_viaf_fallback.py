@@ -11,7 +11,7 @@ is down. Re-run this script later if VIAF's backend is restored.
 Outputs: appends to names_for_reconciliation.csv, updates authority_name_cache.json
          and fetch_404s.txt (removes recovered entries).
 
-CWD must be ckg/src/
+CWD must be src/
 """
 
 import csv

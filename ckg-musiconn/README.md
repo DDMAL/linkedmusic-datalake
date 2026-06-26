@@ -1,10 +1,10 @@
 # CKG — musiconn (`E5320`) → LinkedMusic
 
 Ingestion of the **musiconn.performance** feed of the NFDI4Culture **Culture Knowledge
-Graph (CKG)** into the LinkedMusic data lake as RDF Turtle, reconciled to Wikidata, for
-the Hermes "From Notes to Nodes" challenge. musiconn.performance (SLUB Dresden) is a
-German concert-performance database: events (concerts/opera performances) and the works
-performed at them, linked to the persons, organizations and venues involved.
+Graph (CKG)** into the LinkedMusic data lake as RDF Turtle, reconciled to Wikidata.
+musiconn.performance (SLUB Dresden) is a German concert-performance database: events
+(concerts/opera performances) and the works performed at them, linked to the persons,
+organizations and venues involved.
 
 Unlike most LinkedMusic subprojects, CKG is delivered **RDF-native** (per-feed N-Triples
 dumps), so there is **no fetch/scrape step**, and reconciliation is a **deterministic
@@ -27,9 +27,9 @@ LinkedMusic ingests RISM separately.
 
 Why each mapping decision was made — the source CTO model, the predicate table, record
 typing, reconciliation rates, and the emitted schema (for SESEMMI) — is in
-[`doc/data-model.md`](doc/data-model.md). musiconn flattens performer/composer **roles**
-(every person↔event link is role-agnostic); recovering them is a planned native-API
-supplement, scoped in [`doc/track2-roles.md`](doc/track2-roles.md).
+[`doc/data-model.md`](doc/data-model.md). musiconn flattens performer/composer **roles**:
+every person↔event link is role-agnostic, so performer, composer and conductor roles are not
+represented in this dataset.
 
 All scripts assume **CWD = `ckg-musiconn/src/`** and use the repo-root Poetry env
 (`poetry run python …`). Everything under `data/` is **gitignored**.
@@ -46,9 +46,9 @@ raw_data/ckg/mnt/data/culture-kg-kitchen/data/production/E5320/nt/E5320.nt
 
 `preprocess.py` reads it via `--raw-root` (default above); no copy into `data/archived/`
 is required. The dump is **not subject-sorted**, so the converter builds an entity index
-in a first pass (Stage B) before rewriting.
+in a first pass before rewriting.
 
-## 2. Preprocess + crosswalk (Stages B–C)
+## 2. Preprocess + crosswalk
 
 **`preprocess.py`** — one streaming pass that (a) repairs the missing-underscore
 `NFDI0001006` typo (1,704 triples — otherwise those authority links are lost), (b) builds
@@ -85,19 +85,17 @@ is handled in two ways:
   convention).
 - **Residue reconciliation.** Two passes attach `P2888` to residue that *is* in Wikidata
   but wasn't caught by the bulk crosswalk: `wikidata_id_lookup.py` (precise
-  `haswbstatement:P227/P214` lookup — the **current, correct** ID matcher) and an OpenRefine
-  name-reconciliation pass (RDF-transform, **Chrome only**; project in [`openrefine/`](openrefine)).
-  `merge_openrefine.py` folds the vetted matches into `crosswalk.json` (ID-lookup wins
+  `haswbstatement:P227/P214` ID lookup) and an OpenRefine name-reconciliation pass
+  (RDF-transform, **Chrome only**; project in [`openrefine/`](openrefine)).
+  `merge_openrefine.py` folds the vetted matches into `crosswalk.json` (ID lookup wins
   conflicts; name matching is namesake-prone for this niche German data, so prefer IDs).
-  > `wikidata_authority_lookup.py` is the **superseded** first attempt (its SPARQL returned
-  > 0 for everything — a bug, not low coverage); use `wikidata_id_lookup.py`.
 
 Whatever still doesn't resolve stays as an un-reconciled node (a GND/VIAF authority URI, or
 a bare `performance.musiconn.de/…` source URI) with **no `P2888`** — preserved intact, never
 dropped. The residue is genuinely absent from Wikidata (~0.5% ID-hit rate on what's left);
 see [`doc/data-model.md`](doc/data-model.md) for the rates.
 
-## 4. Convert to RDF (Stage E)
+## 4. Convert to RDF
 
 **`convert_to_rdf.py`** — two-pass streaming NT→TTL converter applying
 [`src/ontology/mapping.json`](src/ontology/mapping.json): drops the DataFeed envelope and
@@ -113,15 +111,14 @@ python convert_to_rdf.py musiconn          # -> data/rdf/musiconn.ttl
 Verify: `grep -c '_:' data/rdf/musiconn.ttl` == 0, and an `rdflib` parse. Expect ~1.59M
 triples, 106,169 `wdt:P31`, 14,165 `wdt:P2888` pivots.
 
-## 5. Load (Stage G)
+## 5. Load
 
 Bulk-load `musiconn.ttl` as its own named graph with the Virtuoso loader (`ld_dir` +
 `rdf_loader_run`), per the wiki's `Virtuoso-Setup-Guide.md`:
 
 | graph IRI | contents |
 |---|---|
-| `https://linkedmusic.ca/graphs/ckg-musiconn/` | the Track-1 spine (this README) |
-| `https://linkedmusic.ca/graphs/musiconn/` | the Track-2 native role supplement (planned — see [`doc/track2-roles.md`](doc/track2-roles.md)) |
+| `https://linkedmusic.ca/graphs/ckg-musiconn/` | the musiconn dataset (this README) |
 
 After loading, the dataset's schema must be documented for **SESEMMI** (LinkedMusic's
 NL→SPARQL tool); [`doc/data-model.md`](doc/data-model.md) is that schema reference.
@@ -133,22 +130,19 @@ NL→SPARQL tool); [`doc/data-model.md`](doc/data-model.md) is that schema refer
 ```
 ckg-musiconn/
 ├── src/
-│   ├── profile_predicate.py       # Stage A — predicate profiler
-│   ├── preprocess.py              # Stage B — normalize + index
-│   ├── build_crosswalk.py         # Stage C — authority-id → QID
-│   ├── fetch_authority_names.py   # Stage D — GND/VIAF name fetch (for residue + labels)
-│   ├── fetch_viaf_fallback.py     # Stage D — VIAF fallback names
-│   ├── wikidata_id_lookup.py      # Stage D — precise ID→QID residue match (current)
-│   ├── wikidata_authority_lookup.py  # superseded (buggy) — kept for provenance
-│   ├── merge_openrefine.py        # Stage D — fold OpenRefine matches into crosswalk
-│   ├── convert_to_rdf.py          # Stage E — NT → TTL
+│   ├── profile_predicate.py       # predicate profiler
+│   ├── preprocess.py              # normalize + index
+│   ├── build_crosswalk.py         # authority-id → QID
+│   ├── fetch_authority_names.py   # GND/VIAF name fetch (for residue + labels)
+│   ├── fetch_viaf_fallback.py     # VIAF fallback names
+│   ├── wikidata_id_lookup.py      # precise ID→QID residue match
+│   ├── merge_openrefine.py        # fold OpenRefine matches into crosswalk
+│   ├── convert_to_rdf.py          # NT → TTL
 │   └── ontology/mapping.json      # runtime predicate map
 ├── data/                          # gitignored (extracted / mappings / openrefine / rdf)
 ├── openrefine/                    # residue name reconciliation (history + export)
 └── doc/
-    ├── data-model.md              # schema + mapping decisions + verified IDs (the "why")
-    ├── track2-roles.md            # planned native-API role supplement (Track 2)
-    └── _archive/                  # superseded handoff/planning docs
+    └── data-model.md              # schema + mapping decisions + verified IDs (the "why")
 ```
 
 > The `src/` scripts are **shared across all three CKG feeds** (each takes a feed argument)

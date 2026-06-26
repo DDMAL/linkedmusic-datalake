@@ -39,7 +39,7 @@ Outputs (to ``../data/extracted/`` by default):
     <feed>.entities.json    entity index + record kind/classifier maps
     <feed>.authorities.json deduped {gnd:[...], viaf:[...]} id lists (-> Stage C)
 
-Run from ``ckg/src/`` (CWD convention)::
+Run from ``src/`` (CWD convention)::
 
     python preprocess.py musiconn
     python preprocess.py detmold --raw-root /some/other/path

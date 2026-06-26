@@ -18,8 +18,16 @@ store/
 store-*/
 raw_data/
 acousticbrainz/data/
-# superseded by ckg-musiconn/ ckg-detmold/ ckg-apsearch/; old folder kept on disk (regenerable intermediates), out of git
-/ckg/
+diamm/data/
+ckg/
+
+# CKG per-feed subprojects: data/ is all generated output; _archive holds local-only provenance docs
+ckg-musiconn/data/
+ckg-detmold/data/
+ckg-apsearch/data/
+ckg-musiconn/doc/_archive/
+ckg-detmold/doc/_archive/
+ckg-apsearch/doc/_archive/
 *.log
 .python-version
 .claude/

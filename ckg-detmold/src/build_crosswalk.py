@@ -22,7 +22,7 @@ Outputs: ../data/mappings/crosswalk.json     {authority_URI -> QID}  (merged, sh
 
 The coverage % is the real reconciliation rate - it is printed, not hidden.
 
-Run from ``ckg/src/``::
+Run from ``src/``::
 
     python build_crosswalk.py musiconn
 """

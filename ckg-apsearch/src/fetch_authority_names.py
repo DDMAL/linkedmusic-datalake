@@ -16,7 +16,7 @@ Outputs (all under ../data/openrefine/):
   viaf_via_gnd_resolved.json        — {viaf_uri: qid} resolved via VIAF→GND→QID chain
   fetch_404s.txt                    — URIs where no name could be found
 
-CWD must be ckg/src/ (standard for this pipeline).
+CWD must be src/ (standard for this pipeline).
 """
 
 import csv
@@ -27,7 +27,7 @@ from pathlib import Path
 import requests
 
 # ---------------------------------------------------------------------------
-# Paths (relative to ckg/src/)
+# Paths (relative to src/)
 # ---------------------------------------------------------------------------
 DATA = Path("../data")
 EXTRACTED = DATA / "extracted"

@@ -3,8 +3,7 @@
 The authoritative reasoning behind the Detmold conversion. Detmold uses the **same converter
 and `mapping.json`** as musiconn ([`../../ckg-musiconn/doc/data-model.md`](../../ckg-musiconn/doc/data-model.md)
 has the full predicate map); this doc records what is **Detmold-specific**. Counts are from
-the staged `detmold.ttl`. Historical handoffs and the predicate evidence sheet are in
-[`_archive/`](_archive).
+`detmold.ttl`.
 
 ## 1. What the source looks like
 
@@ -32,9 +31,8 @@ backbone, drop provenance). Detmold exercises: `rdfs:label` (work title) kept; `
 `wdt:P2888` pivot.
 
 **`NFDI_0001008` "has url" is dropped** — like every feed, its object literal is
-byte-identical to the record's own subject IRI (self-referential), *correcting* the earlier
-plan's guess that Detmold's was a distinct external permalink. The subject IRI already *is*
-the source permalink, so no triple is emitted.
+byte-identical to the record's own subject IRI (self-referential). The subject IRI already
+*is* the source permalink, so no triple is emitted.
 
 ## 3. Record typing — the classifier-less path (`P31` fallback)
 
@@ -74,12 +72,9 @@ Examples: `geonames/2761369` → `Q1741` Vienna, `→ Q64` Berlin, `→ Q1085` P
 **Two manual same-as additions** (in `crosswalk.json`): Zürich `Q72` and Hannover `Q1715`.
 Wikidata stores the *admin-level* GeoNames ID on these city items, not the *populated-place*
 ID the Detmold source uses, so `haswbstatement:P1566=<source id>` returned nothing. The QIDs
-were confirmed manually and added as `wdt:P2888` links — see
-[`_archive/pid-qid-verification.md`](_archive/pid-qid-verification.md). (A fix was also made to
-`GEONAMES_HARDCODED` in `fetch_authority_names.py`, which had mis-entered names that didn't
-match their IDs.)
+were confirmed manually and added as `wdt:P2888` links.
 
-Staged: **588 `wdt:P2888` pivots**, 2,225 `rdfs:label`. The remaining residue (a few persons,
+Output: **588 `wdt:P2888` pivots**, 2,225 `rdfs:label`. The remaining residue (a few persons,
 4 places) is kept as typed `lmckg:*` nodes with no `P2888`.
 
 ## 5. Dates — `schema:DateTime` intervals
@@ -119,6 +114,6 @@ Namespaces as in the musiconn data-model (`lmckg:` local classes, `cto:` kept re
 
 ## 7. Manually verified IDs
 
-Record type **Q838948** (work of art) and the two manual place QIDs (Zürich `Q72`, Hannover
-`Q1715`) are in [`_archive/pid-qid-verification.md`](_archive/pid-qid-verification.md). The
-GND/VIAF/GeoNames → QID crosswalk is deterministic and needs no manual verification.
+The record type **Q838948** (work of art) and the two manual place QIDs (Zürich `Q72`,
+Hannover `Q1715`) were confirmed against Wikidata. The GND/VIAF/GeoNames → QID crosswalk is
+deterministic and needs no manual verification.

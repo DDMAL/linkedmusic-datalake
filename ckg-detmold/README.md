@@ -1,10 +1,9 @@
 # CKG — Detmold (`E5305`) → LinkedMusic
 
 Ingestion of the **Hoftheater Detmold** feed of the NFDI4Culture **Culture Knowledge Graph
-(CKG)** into the LinkedMusic data lake as RDF Turtle, reconciled to Wikidata, for the Hermes
-"From Notes to Nodes" challenge. The feed is the **repertoire of the court theatre at
-Detmold** — a heterogeneous mix of operas, spoken plays and Singspiele — with the persons
-(composers, librettists, authors) and places involved.
+(CKG)** into the LinkedMusic data lake as RDF Turtle, reconciled to Wikidata. The feed is the
+**repertoire of the court theatre at Detmold** — a heterogeneous mix of operas, spoken plays
+and Singspiele — with the persons (composers, librettists, authors) and places involved.
 
 Like the other CKG feeds, Detmold is delivered **RDF-native** (a per-feed N-Triples dump),
 so there is **no fetch/scrape step**, and reconciliation is a **deterministic authority-ID
@@ -47,7 +46,7 @@ raw_data/ckg/mnt/data/culture-kg-kitchen/data/production/E5305/nt/E5305.nt
 
 `preprocess.py` reads it via `--raw-root` (default above).
 
-## 2. Preprocess + crosswalk (Stages B–C)
+## 2. Preprocess + crosswalk
 
 **`preprocess.py`** — one streaming pass that builds the **entity index** (authority blank
 node → `{local class, GND/VIAF/GeoNames URI}`), the **record-kind index** (record →
@@ -74,18 +73,16 @@ python build_crosswalk.py detmold
   82/83), places GeoNames 34/38 (89.5%).
 - **Two places needed manual same-as** — Zürich (`Q72`) and Hannover (`Q1715`) — because
   Wikidata records the *admin-level* GeoNames ID, not the *populated-place* ID the source uses,
-  so the deterministic match missed them. Added to `crosswalk.json` as `wdt:P2888` links;
-  recorded in [`doc/_archive/pid-qid-verification.md`](doc/_archive/pid-qid-verification.md).
+  so the deterministic match missed them. Added to `crosswalk.json` as `wdt:P2888` links.
 - **Residue name fetch + OpenRefine.** Entity nodes carry no labels, so names are fetched from
   the authority services (`fetch_authority_names.py`, `fetch_viaf_fallback.py`) → emitted as
   `rdfs:label` and used for an OpenRefine name-reconciliation pass (RDF-transform, **Chrome
   only**; shared musiconn+Detmold project in [`openrefine/`](openrefine)). `merge_openrefine.py`
-  folds vetted matches into the crosswalk. The precise ID matcher is `wikidata_id_lookup.py`
-  (use it, not the superseded `wikidata_authority_lookup.py`).
+  folds vetted matches into the crosswalk; the precise ID matcher is `wikidata_id_lookup.py`.
 
 Unreconciled entities are kept intact (local `lmckg:*` class, no `P2888`), never dropped.
 
-## 4. Convert to RDF (Stage E)
+## 4. Convert to RDF
 
 **`convert_to_rdf.py`** — the shared two-pass converter (see
 [`doc/data-model.md`](doc/data-model.md)): drops the envelope, collapses entity bnodes to
@@ -100,7 +97,7 @@ python convert_to_rdf.py detmold          # -> data/rdf/detmold.ttl
 Verify: `grep -c '_:' data/rdf/detmold.ttl` == 0, an `rdflib` parse, and ~14,835 triples /
 1,694 `wdt:P31` / 588 `wdt:P2888`.
 
-## 5. Load (Stage G)
+## 5. Load
 
 Bulk-load `detmold.ttl` as its own named graph with the Virtuoso loader (`ld_dir` +
 `rdf_loader_run`), per the wiki's `Virtuoso-Setup-Guide.md`:
@@ -119,18 +116,17 @@ After loading, the dataset's schema must be documented for **SESEMMI**;
 ```
 ckg-detmold/
 ├── src/                           # shared CKG pipeline (copied verbatim; takes a feed arg)
-│   ├── preprocess.py              # Stage B — normalize + index
-│   ├── build_crosswalk.py         # Stage C — authority-id → QID (incl. GeoNames P1566)
-│   ├── fetch_authority_names.py   # Stage D — GND/VIAF/GeoNames name fetch
-│   ├── wikidata_id_lookup.py      # Stage D — precise ID→QID residue match (current)
-│   ├── merge_openrefine.py        # Stage D — fold OpenRefine matches into crosswalk
-│   ├── convert_to_rdf.py          # Stage E — NT → TTL
+│   ├── preprocess.py              # normalize + index
+│   ├── build_crosswalk.py         # authority-id → QID (incl. GeoNames P1566)
+│   ├── fetch_authority_names.py   # GND/VIAF/GeoNames name fetch
+│   ├── wikidata_id_lookup.py      # precise ID→QID residue match
+│   ├── merge_openrefine.py        # fold OpenRefine matches into crosswalk
+│   ├── convert_to_rdf.py          # NT → TTL
 │   └── ontology/mapping.json      # runtime predicate map
 ├── data/                          # gitignored (extracted / mappings / openrefine / rdf)
 ├── openrefine/                    # residue name reconciliation (history + export)
 └── doc/
-    ├── data-model.md              # schema + mapping decisions + verified IDs (the "why")
-    └── _archive/                  # superseded handoff/planning docs
+    └── data-model.md              # schema + mapping decisions + verified IDs (the "why")
 ```
 
 > The `src/` scripts are **shared across all three CKG feeds** and copied verbatim; `data/`

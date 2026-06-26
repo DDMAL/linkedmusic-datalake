@@ -74,4 +74,14 @@ Refer to the [Cantus DB manual](/cantus/README.md) for details.
 The work is still in progress.
 Refer to the [Simssa DB manual](/simssa/README.md) for further instructions.
 
+### NFDI4Culture Culture Knowledge Graph (CKG)
+
+The [NFDI4Culture Culture Knowledge Graph](https://nfdi4culture.de/) (CKG) aggregates cultural-heritage metadata from German research-data feeds. We ingest three of its music-relevant feeds as **separate sibling subprojects**, because each loads as its own named graph in Virtuoso:
+
+- **musiconn.performance** — German concert and opera performances and the works performed at them. See the [ckg-musiconn manual](/ckg-musiconn/README.md).
+- **Hoftheater Detmold** — the repertoire of the Detmold court theatre (operas, plays, Singspiele). See the [ckg-detmold manual](/ckg-detmold/README.md).
+- **APSearch** — ELAR (Endangered Languages Archive) audio/image/video/text field recordings. See the [ckg-apsearch manual](/ckg-apsearch/README.md).
+
+Unlike most subprojects, the CKG is delivered RDF-native (per-feed N-Triples dumps, no fetch step) and reconciled with a deterministic authority-ID → Wikidata crosswalk (GND/VIAF/GeoNames) rather than column-by-column OpenRefine. The CKG's RISM feed is excluded by design, since LinkedMusic ingests RISM separately.
+
 <img src="images/wikidata_stamp_light.svg" alt="wikidata_stamp" width="400"/>

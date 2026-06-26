@@ -3,8 +3,7 @@
 The authoritative reasoning behind the APSearch conversion. APSearch uses the **same converter
 and `mapping.json`** as the other feeds ([`../../ckg-musiconn/doc/data-model.md`](../../ckg-musiconn/doc/data-model.md)
 has the full predicate map); this doc records what is **APSearch-specific** — it exercises the
-media-feed paths, not the relational backbone. Counts are from the staged `apsearch.ttl`. The
-full per-ID verification is [`_archive/apsearch-pid-qid-verification.md`](_archive/apsearch-pid-qid-verification.md).
+media-feed paths, not the relational backbone. Counts are from `apsearch.ttl`.
 
 ## 1. What the source is
 
@@ -14,10 +13,10 @@ recordings of endangered languages — remodeled into **nfdicore / CTO**. 6,271 
 Staatliche Museen zu Berlin objects (those 72 are exactly the records carrying the CC BY-NC-SA
 license and `id.smb.museum` URLs).
 
-**It is a different track from musiconn/Detmold:** no persons, no `has related person/org/
-location` backbone, **0 authority IDs** (~0.4% Wikidata-crosswalkable). The reconcilable
-content (languages, countries, depositors) is **not in the CKG dump** — it is in the ELAR
-source, behind an access wall. See [`elar-enrichment.md`](elar-enrichment.md).
+**It differs from musiconn/Detmold:** no persons, no `has related person/org/location`
+backbone, **0 authority IDs** (~0.4% Wikidata-crosswalkable). The reconcilable content
+(languages, countries, depositors) is **not in the CKG dump** — it lives in the ELAR source,
+behind an access wall — so it is not represented in this dataset.
 
 ## 2. Predicate map (APSearch-exercised rows)
 
@@ -30,7 +29,7 @@ source, behind an access wall. See [`elar-enrichment.md`](elar-enrichment.md).
 | `CTO_0001073` has creation period | remap_date | `wdt:P571` → `xsd:gYear` (§4) |
 | `NFDI_0000142` has license | remap (+ pivot) | `wdt:P275` → license URI; the URI carries `wdt:P2888` → QID (§5) |
 | `NFDI_0000191` published by | remap (+ pivot) | `wdt:P123` → publisher URI; carries `wdt:P2888` → QID (§5) |
-| `CTO_0001021` has content url *(via `associatedMedia` bnode)* | (joined in Stage B) | `wdt:P953` content URL (§6) |
+| `CTO_0001021` has content url *(via `associatedMedia` bnode)* | join + remap | `wdt:P953` content URL (§6) |
 
 ### Dropped — confirmed CKG provenance, not ELAR content
 
@@ -41,8 +40,8 @@ source, behind an access wall. See [`elar-enrichment.md`](elar-enrichment.md).
   is no content-MIME field in the dump).
 - `NFDI_0000207` "metadata standard" (RDF/Schema.org) — constant CKG-ETL values.
 - `NFDI_0000125` — one dataset-level link (subject is the dataset entity, not a record).
-- `schema:associatedMedia` — the record→media-bnode edge; used in Stage B to join the content
-  URL back to the record (§6), then dropped (the bnode is never emitted).
+- `schema:associatedMedia` — the record→media-bnode edge; used to join the content URL back to
+  the record (§6), then dropped (the bnode is never emitted).
 - `schema:dateModified`, `schema:item`, `schema:dataFeedElement`, `schema:sameAs` — envelope.
 
 ## 3. Record typing (`P31`)
@@ -74,9 +73,9 @@ musiconn/Detmold reconverting byte-identically.
 is a Jan-01 full-day placeholder — 4,086 single-year (`"2015-01-01/2015-01-01"`) and 128
 multi-*year* ranges (`"1909-01-01/1950-01-01"`, mostly 1909–1950). A naïve `xsd:date` would
 assert false day precision, so APSearch coerces **every interval → `xsd:gYear` of the start
-year** (`coerce_date(o, "apsearch")`). All `wdt:P571` values are `xsd:gYear`. (The only loss is
-the end-year of the 128 ranges; flag if it should be kept as `P582`.) This branch is
-APSearch-only — Detmold has no Jan-01 same-day spans and musiconn has no intervals.
+year** (`coerce_date(o, "apsearch")`). All `wdt:P571` values are `xsd:gYear`; the end-year of
+the 128 multi-year ranges is not retained. This branch is APSearch-only — Detmold has no
+Jan-01 same-day spans and musiconn has no intervals.
 
 > **Lake-wide date note for SESEMMI:** dates are mixed-precision across feeds (`xsd:date` /
 > `gYearMonth` / `gYear`). The robust, datatype-agnostic year filter to teach the query layer
@@ -130,9 +129,7 @@ licenses/publisher reach Wikidata via `wdt:P2888`. Namespaces as in the musiconn
 
 ## 8. Manually verified IDs
 
-All signed off 2026-06-18; full per-ID provenance (verification method per row) in
-[`_archive/apsearch-pid-qid-verification.md`](_archive/apsearch-pid-qid-verification.md). In
-short — media: `Q3302947` audio, `Q478798` image, `Q30070675` video, `Q234460` text,
-`Q691783` phonograph cylinder, `Q17537576` creative-work fallback (`aat:300234108`
-ethnographic deliberately left unmapped); licenses/publisher: `Q20007257`, `Q18199165`,
-`Q219989`.
+All record-type and license/publisher QIDs were confirmed against Wikidata — media:
+`Q3302947` audio, `Q478798` image, `Q30070675` video, `Q234460` text, `Q691783` phonograph
+cylinder, `Q17537576` creative-work fallback (`aat:300234108` ethnographic deliberately left
+unmapped); licenses/publisher: `Q20007257`, `Q18199165`, `Q219989`.
