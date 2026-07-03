@@ -16,7 +16,11 @@ access-walled, so it is not represented in this dataset.
 This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-musiconn`](../ckg-musiconn), [`ckg-detmold`](../ckg-detmold),
 [`ckg-apsearch`](../ckg-apsearch) — each loading as its **own Virtuoso named graph**. The
-CKG's RISM feed (`E5313`) is **excluded by design**.
+CKG's RISM feed (`E5313`) is **excluded by design** (LinkedMusic ingests RISM separately).
+
+Codes like `E6304` are **NFDI4Culture resource identifiers**: every CKG feed — and every
+license and publisher it references — is a registered `E…` entity in the NFDI4Culture
+knowledge graph.
 
 | | |
 |---|---|
@@ -27,8 +31,8 @@ CKG's RISM feed (`E5313`) is **excluded by design**.
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-apsearch/` |
 
 Why each mapping decision was made — the media-class typing, license/publisher pivots, date
-handling, content-URL join, and the emitted schema (for SESEMMI) — is in
-[`doc/data-model.md`](doc/data-model.md).
+handling, content-URL join, and the emitted schema (for **SESEMMI**, LinkedMusic's
+natural-language→SPARQL query tool) — is in [`doc/data-model.md`](doc/data-model.md).
 
 All scripts assume **CWD = `ckg-apsearch/src/`** and use the repo-root Poetry env. Everything
 under `data/` is **gitignored**.

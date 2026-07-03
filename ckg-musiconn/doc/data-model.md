@@ -3,7 +3,8 @@
 The authoritative reasoning behind the musiconn conversion: the source CTO shape, the
 predicate map ([`../src/ontology/mapping.json`](../src/ontology/mapping.json) is its runtime
 distillation), record typing, dates, reconciliation, the residue policy, and the emitted
-schema (the SESEMMI reference). Counts are from `musiconn.ttl`.
+schema (the reference for **SESEMMI**, LinkedMusic's natural-language→SPARQL query tool).
+Counts are from `musiconn.ttl`.
 
 ## 1. What the source looks like
 
@@ -103,7 +104,7 @@ filter by kind.
 
 ## 4. Dates
 
-`CTO_0001070` (performance date) is a uniform `YYYY-MM-DD` literal across all 65,348 event
+`CTO_0001070` (performance date) is a uniform `YYYY-MM-DD` literal across all 65,359 event
 records → coerced to `xsd:date` (`coerce_date`, with a `xsd:gYear` fallback for `YYYY` /
 `YYYY-00-00`). musiconn carries **no** `schema:DateTime` interval dates, so the interval branch
 (used by Detmold/APSearch) never fires — musiconn dates stay byte-identical regardless of the

@@ -15,6 +15,10 @@ This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-apsearch`](../ckg-apsearch) — because each loads as its **own Virtuoso named graph**.
 The CKG's RISM feed (`E5313`) is **excluded by design** (LinkedMusic ingests RISM separately).
 
+Codes like `E5305` are **NFDI4Culture resource identifiers**: every CKG feed — and every
+license and publisher it references — is a registered `E…` entity in the NFDI4Culture
+knowledge graph.
+
 | | |
 |---|---|
 | CKG dump | `E5305` (5 MB, ~31k triples, 1,694 records) |
@@ -25,7 +29,8 @@ The CKG's RISM feed (`E5313`) is **excluded by design** (LinkedMusic ingests RIS
 
 Why each mapping decision was made — the source CTO model, the predicate table, the
 classifier-less typing, the interval-date handling, reconciliation rates, and the emitted
-schema (for SESEMMI) — is in [`doc/data-model.md`](doc/data-model.md).
+schema (for **SESEMMI**, LinkedMusic's natural-language→SPARQL query tool) — is in
+[`doc/data-model.md`](doc/data-model.md).
 
 All scripts assume **CWD = `ckg-detmold/src/`** and use the repo-root Poetry env
 (`poetry run python …`). Everything under `data/` is **gitignored**.

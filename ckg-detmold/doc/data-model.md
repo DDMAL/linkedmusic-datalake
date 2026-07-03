@@ -64,7 +64,7 @@ Deterministic crosswalk: persons `P227`/`P214`, **places `P1566`** (GeoNames).
 |---|---|---|
 | persons (GND 464/487 + VIAF 82/83) | ~546/570 | ~95.8% |
 | places (GeoNames) | 34/38 | 89.5% |
-| **total** | **580/608** | ~95% |
+| **total** | **580/608** | 95.4% |
 
 Examples: `geonames/2761369` → `Q1741` Vienna, `→ Q64` Berlin, `→ Q1085` Prague; Minden
 (`Q3846`) and Aachen (`Q1017`) ID-matched directly.
@@ -94,6 +94,8 @@ are all Jan-01 placeholders coerced straight to `gYear` (see the APSearch data-m
 three feeds reconvert correctly from the one shared `coerce_date`.
 
 ## 6. Emitted schema (SESEMMI reference)
+
+The schema the query layer sees (SESEMMI is LinkedMusic's natural-language→SPARQL query tool):
 
 ```turtle
 <work-iri> rdf:type lmckg:Work ;

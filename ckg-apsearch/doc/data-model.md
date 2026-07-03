@@ -5,18 +5,20 @@ and `mapping.json`** as the other feeds ([`../../ckg-musiconn/doc/data-model.md`
 has the full predicate map); this doc records what is **APSearch-specific** — it exercises the
 media-feed paths, not the relational backbone. Counts are from `apsearch.ttl`.
 
-## 1. What the source is
+## 1. What the source looks like
 
 APSearch is **ELAR (Endangered Languages Archive)** documentation — audio/image/video/text
-recordings of endangered languages — remodeled into **nfdicore / CTO**. 6,271 records, each a
-`CTO_0001005` "source item" and `schema:CreativeWork`. It is **~98.9% ELAR + ~1.1%** (72)
-Staatliche Museen zu Berlin objects (those 72 are exactly the records carrying the CC BY-NC-SA
-license and `id.smb.museum` URLs).
+recordings of endangered languages — remodeled into the **nfdicore / CTO** ontology. 6,271
+records, each a `CTO_0001005` "source item" and `schema:CreativeWork`. It is **~98.9% ELAR +
+~1.1%** (72) Staatliche Museen zu Berlin objects (those 72 are exactly the records carrying the
+CC BY-NC-SA license and `id.smb.museum` URLs).
 
-**It differs from musiconn/Detmold:** no persons, no `has related person/org/location`
-backbone, **0 authority IDs** (~0.4% Wikidata-crosswalkable). The reconcilable content
+**It differs from musiconn/Detmold:** no persons, no `has related person/organization/location`
+backbone, and **0 authority IDs** (~0.4% Wikidata-crosswalkable). The reconcilable content
 (languages, countries, depositors) is **not in the CKG dump** — it lives in the ELAR source,
-behind an access wall — so it is not represented in this dataset.
+behind an access wall — so it is not represented in this dataset. What *is* reconcilable is
+small and fully deterministic: media-class typing, AAT classifiers, and the license/publisher
+pivots. There is no relational backbone to collapse and no OpenRefine pass.
 
 ## 2. Predicate map (APSearch-exercised rows)
 
@@ -80,7 +82,7 @@ Jan-01 same-day spans and musiconn has no intervals.
 > **Lake-wide date note for SESEMMI:** dates are mixed-precision across feeds (`xsd:date` /
 > `gYearMonth` / `gYear`). The robust, datatype-agnostic year filter to teach the query layer
 > is `FILTER(STRSTARTS(STR(?d), "2015"))` — `YEAR(?d)` only works on `xsd:date`/`dateTime` and
-> breaks on `gYear`.
+> breaks on `gYear`. (SESEMMI is LinkedMusic's natural-language→SPARQL query tool.)
 
 ## 5. Licenses & publisher (`P2888` pivots)
 
@@ -111,6 +113,9 @@ cantusdb `P18` for direct image files — neither fits these access/landing page
 
 ## 7. Emitted schema (SESEMMI reference)
 
+Namespaces: `lmckg:` = `https://linkedmusic.ca/graphs/ckg/` (local classes), `wdt:`/`wd:`
+Wikidata, `cto:` = `https://nfdi4culture.de/ontology/`.
+
 ```turtle
 <record-iri> rdf:type lmckg:Work ;
              wdt:P31  wd:Q3302947 ;                 # audio recording (media class)
@@ -133,3 +138,5 @@ All record-type and license/publisher QIDs were confirmed against Wikidata — m
 `Q3302947` audio, `Q478798` image, `Q30070675` video, `Q234460` text, `Q691783` phonograph
 cylinder, `Q17537576` creative-work fallback (`aat:300234108` ethnographic deliberately left
 unmapped); licenses/publisher: `Q20007257`, `Q18199165`, `Q219989`.
+</content>
+</invoke>

@@ -17,6 +17,10 @@ This is one of three CKG feeds ingested as **separate sibling subprojects** —
 Virtuoso named graph**. The CKG's RISM feed (`E5313`) is **excluded by design**:
 LinkedMusic ingests RISM separately.
 
+Codes like `E5320` are **NFDI4Culture resource identifiers**: every CKG feed — and every
+license and publisher it references — is a registered `E…` entity in the NFDI4Culture
+knowledge graph.
+
 | | |
 |---|---|
 | CKG dump | `E5320` (537 MB, ~3.0M triples, 106,169 records) |
@@ -26,8 +30,8 @@ LinkedMusic ingests RISM separately.
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-musiconn/` |
 
 Why each mapping decision was made — the source CTO model, the predicate table, record
-typing, reconciliation rates, and the emitted schema (for SESEMMI) — is in
-[`doc/data-model.md`](doc/data-model.md). musiconn flattens performer/composer **roles**:
+typing, reconciliation rates, and the emitted schema (for **SESEMMI**, LinkedMusic's
+natural-language→SPARQL query tool) — is in [`doc/data-model.md`](doc/data-model.md). musiconn flattens performer/composer **roles**:
 every person↔event link is role-agnostic, so performer, composer and conductor roles are not
 represented in this dataset.
 
@@ -120,8 +124,8 @@ Bulk-load `musiconn.ttl` as its own named graph with the Virtuoso loader (`ld_di
 |---|---|
 | `https://linkedmusic.ca/graphs/ckg-musiconn/` | the musiconn dataset (this README) |
 
-After loading, the dataset's schema must be documented for **SESEMMI** (LinkedMusic's
-NL→SPARQL tool); [`doc/data-model.md`](doc/data-model.md) is that schema reference.
+After loading, the dataset's schema must be documented for **SESEMMI**;
+[`doc/data-model.md`](doc/data-model.md) is that schema reference.
 
 ---
 

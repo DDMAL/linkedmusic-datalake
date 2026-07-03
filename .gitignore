@@ -28,6 +28,10 @@ ckg-apsearch/data/
 ckg-musiconn/doc/_archive/
 ckg-detmold/doc/_archive/
 ckg-apsearch/doc/_archive/
+
+# CKG working docs: local-only master narrative + its handoff (never commit)
+CKG-INGESTION_CLAUDE.md
+CKG-DOCS-HANDOFF.md
 *.log
 .python-version
 .claude/
