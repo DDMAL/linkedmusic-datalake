@@ -138,5 +138,3 @@ All record-type and license/publisher QIDs were confirmed against Wikidata — m
 `Q3302947` audio, `Q478798` image, `Q30070675` video, `Q234460` text, `Q691783` phonograph
 cylinder, `Q17537576` creative-work fallback (`aat:300234108` ethnographic deliberately left
 unmapped); licenses/publisher: `Q20007257`, `Q18199165`, `Q219989`.
-</content>
-</invoke>

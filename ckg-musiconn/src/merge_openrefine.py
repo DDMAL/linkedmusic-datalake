@@ -4,8 +4,8 @@ Merge OpenRefine reconciliation results into crosswalk.json.
 Reads ../openrefine/export/names_reconciled.csv (columns: authority_uri, qid)
 and adds/updates each entry in ../data/mappings/crosswalk.json.
 
-QIDs must be plain Q-numbers (no wd: prefix).  This script adds the wd: prefix
-when storing in the crosswalk, same as build_crosswalk.py.
+QIDs are stored as plain Q-numbers (no wd: prefix), matching build_crosswalk.py.
+Input may be plain or wd:-prefixed; either is normalized to plain before storing.
 
 Usage (from src/):
     poetry run python merge_openrefine.py [--dry-run]
