@@ -4,7 +4,7 @@ Context for Claude Code working in the `linkedmusic-datalake` monorepo. Per-subp
 
 ## What this repo is
 
-A data-ingestion monorepo. Each top-level folder (`acousticbrainz/`, `cantus/`, `diamm/`, `dtl/`, `musicbrainz/`, `rism/`, `simssa/`, `theglobaljukebox/`, `thesession/`) is an independent pipeline that produces RDF Turtle reconciled against Wikidata. The nominal pipeline is **fetch → extract → reconcile (OpenRefine + Wikidata) → convert to RDF**, but subprojects diverge — see "Subproject quirks" below.
+A data-ingestion monorepo. Each top-level folder (`acousticbrainz/`, `cantus/`, `ckg-musiconn/`, `ckg-detmold/`, `ckg-apsearch/`, `diamm/`, `dtl/`, `musicbrainz/`, `rism/`, `simssa/`, `theglobaljukebox/`, `thesession/`) is an independent pipeline that produces RDF Turtle reconciled against Wikidata. The nominal pipeline is **fetch → extract → reconcile (OpenRefine + Wikidata) → convert to RDF**, but subprojects diverge — see "Subproject quirks" below.
 
 ## Environment
 
@@ -32,6 +32,7 @@ Reusable code lives here, but it is **not a package** — there's no install ste
 - **MusicBrainz** skips OpenRefine. Source data already carries Wikidata QIDs; only auxiliary fields (types, keys, genres, languages) are reconciled separately.
 - **SIMSSA** outputs **JSON-LD**, not Turtle. There's a standing TODO to convert it to Turtle.
 - **AcousticBrainz** is mid-pipeline: `convert_to_rdf.py` exists but has never been run end-to-end (no `data/rdf/` folder exists yet).
+- **CKG** (NFDI4Culture Culture Knowledge Graph) is **RDF-native** (per-feed N-Triples dumps, no fetch step) and is split into **three sibling subprojects** — `ckg-musiconn/`, `ckg-detmold/`, `ckg-apsearch/` — one per feed, because each loads as its own Virtuoso named graph. They **share one pipeline, copied verbatim** into each `src/` (the scripts take a feed argument, so the copies are identical and overlap is intentional). Reconciliation is a **deterministic authority-ID→Wikidata crosswalk** (GND `P227` / VIAF `P214` / GeoNames `P1566`), with OpenRefine only for the residue (musiconn/Detmold; APSearch needs none). The CKG's RISM feed (`E5313`) is excluded — LinkedMusic ingests RISM separately. Each feed's `doc/data-model.md` is the authoritative mapping/schema doc.
 - **DTL, Global Jukebox, Cantus, DIAMM, TheSession** follow the standard pipeline.
 
 ## OpenRefine state

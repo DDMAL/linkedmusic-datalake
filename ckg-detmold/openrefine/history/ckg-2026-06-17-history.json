@@ -1,0 +1,1197 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "name",
+    "expression": "grel:value",
+    "onError": "keep-original",
+    "newColumnName": "column name_original",
+    "columnInsertIndex": 2,
+    "description": "Create column column name_original at index 2 based on column name using expression grel:value"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "column name_original",
+    "newColumnName": "name_original",
+    "description": "Rename column column name_original to name_original"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "authority_uri",
+    "expression": "grel:if(value.contains('geonames.org/'), value.replace(/.*geonames.org\\//, '').replace(/\\//, ''), null)",
+    "onError": "set-to-blank",
+    "newColumnName": "geonames_id",
+    "columnInsertIndex": 1,
+    "description": "Create column geonames_id at index 1 based on column authority_uri using expression grel:if(value.contains('geonames.org/'), value.replace(/.*geonames.org\\//, '').replace(/\\//, ''), null)"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "authority_uri",
+    "expression": "grel:if(value.contains('d-nb.info/gnd/'), value.replace(/.*\\/gnd\\//, ''), null)",
+    "onError": "set-to-blank",
+    "newColumnName": "gnd_id",
+    "columnInsertIndex": 1,
+    "description": "Create column gnd_id at index 1 based on column authority_uri using expression grel:if(value.contains('d-nb.info/gnd/'), value.replace(/.*\\/gnd\\//, ''), null)"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "authority_uri",
+    "expression": "grel:if(value.contains('viaf.org/viaf/'), value.replace(/.*\\/viaf\\//, ''), null)",
+    "onError": "set-to-blank",
+    "newColumnName": "viaf_id",
+    "columnInsertIndex": 1,
+    "description": "Create column viaf_id at index 1 based on column authority_uri using expression grel:if(value.contains('viaf.org/viaf/'), value.replace(/.*\\/viaf\\//, ''), null)"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Organization",
+                "l": "Organization"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q1549591",
+        "name": "big city"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "viaf_id",
+          "propertyName": "VIAF cluster ID",
+          "propertyID": "P214"
+        },
+        {
+          "column": "gnd_id",
+          "propertyName": "GND ID",
+          "propertyID": "P227"
+        },
+        {
+          "column": "geonames_id",
+          "propertyName": "GeoNames ID",
+          "propertyID": "P1566"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column name to type Q1549591"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Place",
+                "l": "Place"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q618123",
+        "name": "geographical feature"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "viaf_id",
+          "propertyName": "VIAF cluster ID",
+          "propertyID": "P214"
+        },
+        {
+          "column": "gnd_id",
+          "propertyName": "GND ID",
+          "propertyID": "P227"
+        },
+        {
+          "column": "geonames_id",
+          "propertyName": "GeoNames ID",
+          "propertyID": "P1566"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column name to type Q618123"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Person",
+                "l": "Person"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q5",
+        "name": "human"
+      },
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "viaf_id",
+          "propertyName": "VIAF cluster ID",
+          "propertyID": "P214"
+        },
+        {
+          "column": "gnd_id",
+          "propertyName": "GND ID",
+          "propertyID": "P227"
+        },
+        {
+          "column": "geonames_id",
+          "propertyName": "GeoNames ID",
+          "propertyID": "P1566"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column name to type Q5"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Person",
+                "l": "Person"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "description": "Match each cell to its best recon candidate in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Zürich",
+    "judgment": "matched",
+    "match": {
+      "id": "Q72",
+      "name": "Zurich",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Zurich (Q72) for cells containing \"Zürich\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Minden",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3846",
+      "name": "Minden",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Minden (Q3846) for cells containing \"Minden\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Hannover",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1715",
+      "name": "Hanover",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hanover (Q1715) for cells containing \"Hannover\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Heinrich-Schütz-Konservatorium (Dresden)",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1596465",
+      "name": "Heinrich-Schütz-Konservatorium Dresden",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Heinrich-Schütz-Konservatorium Dresden (Q1596465) for cells containing \"Heinrich-Schütz-Konservatorium (Dresden)\" in column name"
+  },
+  {
+    "op": "core/recon-clear-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Damen-Gesangverein (Mainz)",
+    "description": "Clear recon data for cells containing \"Damen-Gesangverein (Mainz)\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Klitten",
+    "judgment": "matched",
+    "match": {
+      "id": "Q703135",
+      "name": "Klitten",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Klitten (Q703135) for cells containing \"Klitten\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Sint-Michiels",
+    "judgment": "matched",
+    "match": {
+      "id": "Q430812",
+      "name": "Sint-Michiels",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Sint-Michiels (Q430812) for cells containing \"Sint-Michiels\" in column name"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Collection",
+                "l": "Collection"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "autoMatch": true,
+      "batchSize": 10,
+      "columnDetails": [
+        {
+          "column": "viaf_id",
+          "propertyName": "VIAF cluster ID",
+          "propertyID": "P214"
+        },
+        {
+          "column": "gnd_id",
+          "propertyName": "GND ID",
+          "propertyID": "P227"
+        },
+        {
+          "column": "geonames_id",
+          "propertyName": "GeoNames ID",
+          "propertyID": "P1566"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column name to type null"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Studie",
+    "judgment": "matched",
+    "match": {
+      "id": "Q2647254",
+      "name": "study",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item study (Q2647254) for cells containing \"Studie\" in column name"
+  },
+  {
+    "op": "core/recon-clear-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Veni sancte spiritus",
+    "description": "Clear recon data for cells containing \"Veni sancte spiritus\" in column name"
+  },
+  {
+    "op": "core/recon-clear-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Impulses",
+    "description": "Clear recon data for cells containing \"Impulses\" in column name"
+  },
+  {
+    "op": "core/recon-clear-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Cantate Domino",
+    "description": "Clear recon data for cells containing \"Cantate Domino\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Collection",
+                "l": "Collection"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Don Giovanni. Là ci darem la mano",
+    "judgment": "matched",
+    "match": {
+      "id": "Q6710600",
+      "name": "Là ci darem la mano",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 75
+    },
+    "shareNewTopics": false,
+    "description": "Match item Là ci darem la mano (Q6710600) for cells containing \"Don Giovanni. Là ci darem la mano\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Collection",
+                "l": "Collection"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Aida. Ritorna vincitor",
+    "judgment": "matched",
+    "match": {
+      "id": "Q54988317",
+      "name": "Ritorna vincitor!",
+      "types": [
+        "Q105543609"
+      ],
+      "score": 86
+    },
+    "shareNewTopics": false,
+    "description": "Match item Ritorna vincitor! (Q54988317) for cells containing \"Aida. Ritorna vincitor\" in column name"
+  },
+  {
+    "op": "core/recon-discard-judgments",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Person",
+                "l": "Person"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 100,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "clearData": false,
+    "description": "Discard recon judgments for cells in column name"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Place",
+                "l": "Place"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "none",
+                "l": "none"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 95,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "description": "Match each cell to its best recon candidate in column name"
+  },
+  {
+    "op": "core/recon-match-best-candidates",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Place",
+                "l": "Place"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "description": "Match each cell to its best recon candidate in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Place",
+                "l": "Place"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Zürich",
+    "judgment": "matched",
+    "match": {
+      "id": "Q72",
+      "name": "Zurich",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Zurich (Q72) for cells containing \"Zürich\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Place",
+                "l": "Place"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Minden",
+    "judgment": "matched",
+    "match": {
+      "id": "Q3846",
+      "name": "Minden",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Minden (Q3846) for cells containing \"Minden\" in column name"
+  },
+  {
+    "op": "core/recon-judge-similar-cells",
+    "engineConfig": {
+      "facets": [
+        {
+          "type": "list",
+          "name": "entity_type",
+          "expression": "value",
+          "columnName": "entity_type",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "Place",
+                "l": "Place"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "list",
+          "name": "name: judgment",
+          "expression": "forNonBlank(cell.recon.judgment, v, v, if(isNonBlank(value), \"(unreconciled)\", \"(blank)\"))",
+          "columnName": "name",
+          "invert": false,
+          "omitBlank": false,
+          "omitError": false,
+          "selection": [
+            {
+              "v": {
+                "v": "matched",
+                "l": "matched"
+              }
+            }
+          ],
+          "selectBlank": false,
+          "selectError": false
+        },
+        {
+          "type": "range",
+          "name": "name: best candidate's score",
+          "expression": "cell.recon.best.score",
+          "columnName": "name",
+          "from": 99,
+          "to": 101,
+          "selectNumeric": true,
+          "selectNonNumeric": true,
+          "selectBlank": true,
+          "selectError": true
+        }
+      ],
+      "mode": "row-based"
+    },
+    "columnName": "name",
+    "similarValue": "Hannover",
+    "judgment": "matched",
+    "match": {
+      "id": "Q1715",
+      "name": "Hanover",
+      "types": [
+        ""
+      ],
+      "score": 100
+    },
+    "shareNewTopics": false,
+    "description": "Match item Hanover (Q1715) for cells containing \"Hannover\" in column name"
+  }
+]
