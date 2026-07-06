@@ -1,87 +1,75 @@
 # LinkedMusic Data Lake
 
-This repository contains code, documentation, and sample data set files to:
+[LinkedMusic](https://linkedmusic.ca/) is an open-source project that combines detailed music metadata from many independent databases into one searchable RDF graph. It brings together information about musical works, performances, recordings, composers, and performers, spanning repertoires from Irish traditional music to jazz solos to medieval chant, and links them through a common vocabulary so they can be explored together through a single endpoint.
 
-- Fetch data dumps from various databases in various file formats.
-- Reconcile entries in these databases against entities and properties in WikiData.
-- Transform reconciled databases into RDF turtle format
-- Upload the RDF files to Virtuoso
-- Generate visuals of the data lake ontology
-- Test and validate the data lake through benchmark SPARQL queries
-- Use LLMs to generate SPARQL through NLQ2SPARQL with the aid of a custom prompt engineering context
+Music metadata today is scattered across hundreds of databases, each with its own fields, identifiers, and access methods. Studying a single composer or work means juggling many interfaces and reconciling inconsistent naming by hand ("Mozart, W.A." vs. "Wolfgang Amadeus Mozart"?). LinkedMusic addresses this by reconciling every dataset's entities to [Wikidata](https://www.wikidata.org/), giving them shared, stable identifiers, and converting the result to [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework), loaded into a [Virtuoso](https://virtuoso.openlinksw.com/) triplestore that can be queried with SPARQL.
 
-Refer to the wiki for a [general overview of our current pipeline for adding a new dataset](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset).
+For the full project background, see the [wiki](https://github.com/DDMAL/linkedmusic-datalake/wiki).
 
-## Repository Structure
+## This repository
 
-In this repository, you'll find a folder per database (listed below), with the following subdirectories:
+This repo is the **ingestion codebase** behind the data lake. For each source database it follows a common pipeline: fetch → reconcile against Wikidata (via OpenRefine) → convert to RDF → upload to Virtuoso (though the details vary by source). It also holds the supporting tooling around the graph: ontology visualizations, benchmark SPARQL queries, and the natural-language-to-SPARQL context used by SESEMMI (see [Querying the data](#querying-the-data)).
 
-- `data/`: Contains all the data files. Almost all data files are not contained in the repository due to their size.
-- `doc/`: Contains documentation files.
-- `jsonld_approach/`: Contains files related to the now-discontinued JSON-LD approach.
-- `openrefine/`: Contains history and export files for OpenRefine.
-- `src/`: Contains scripts.
+The generated data itself is **not** committed — most datasets are far too large, so the per-subproject `data/` folders only exist locally. See the [pipeline overview](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset) to learn about the ingestion process.
 
-There also is a `shared/` folder in the repository root, which contains shared resources and utilities used across different database scripts. Currently, the only shared resources are the general RDF conversion script and a Wikidata API client.
+## Querying the data
 
-Finally, the `poetry.lock` and `pyproject.toml` files manage the project's Python dependencies and packaging, and are located in the repository root.
+The recommended way to explore the graph is [SESEMMI](https://sesemmi.linkedmusic.ca/) (Search Engine System for Enhancing Music Metadata Interoperability), our web front end for the data lake.
 
-## Database Introductions
 
-The following datasets are currently at least partially integrated into our data lake.
+SESEMMI translates plain-language questions into SPARQL for you, and also provides a SPARQL input field if you'd rather write queries by hand. For developers, our Virtuoso SPARQL endpoint is available at [https://virtuoso.simssa.ca/sparql/](https://virtuoso.simssa.ca/sparql/).
 
-Refer to the wiki for [more details on the project status](https://github.com/DDMAL/linkedmusic-datalake/wiki/Project-Status), including completed work, work in progress, and future directions.
+## Repository structure
 
-### DIAMM
+There is one folder per source database (listed under [Datasets](#datasets)). Most follow the same layout, though not every subproject uses every subdirectory:
 
-The [Digital Image Archive of Medieval Music (DIAMM)](https://www.diamm.ac.uk/) is an archive of digital images of European medieval manuscripts. We use a web crawler to fetch metadata from the DIAMM site and use custom scripts to convert the JSON data to CSV, and then to RDF. See the [DIAMM manual](/diamm/README.md) for more information.
+- `data/` — data files, typically split into `archived/`, `extracted/`, `unreconciled/`, `reconciled/`, and `rdf/` stages. Almost none of these are committed, due to their size.
+- `doc/` — documentation.
+- `openrefine/` — OpenRefine history and export files.
+- `src/` — scripts. Most scripts assume the current working directory is the subproject's `src/`.
 
-### Dig That Lick (DTL1000)
+The repository root also holds:
 
-[Dig That Lick](https://dig-that-lick.eecs.qmul.ac.uk/) is a project the extracts and analyses solos from jazz performances. See the [Dig That Lick documentation](/dtl/README.md) for more information.
+- `shared/` — code reused across subprojects: a config-driven RDF conversion tool (`rdfconv/`, with per-subproject configs in `rdf_config/`), a Wikidata API client (`wikidata_utils/`), and standalone utilities.
+- `pyproject.toml` / `poetry.lock` — Python dependencies, managed with Poetry (one environment for the whole repo).
 
-### The Global Jukebox
+A few of the older subprojects also contain a `jsonld_approach/` folder, holding files from the now-discontinued JSON-LD approach.
 
-[The Global Jukebox](theglobaljukebox.org/) focuses on traditional folk, indigenous, and popular songs from around the world. Its data can be found on [The Global Jukebox Github](https://github.com/theglobaljukebox). See [The Global Jukebox manual](/theglobaljukebox/README.md) for more information.
+## Datasets
 
-### MusicBrainz
+The following databases are at least partially integrated into the data lake. Each links to its source and to its subproject documentation. See the wiki [Project Status](https://github.com/DDMAL/linkedmusic-datalake/wiki/Project-Status) page for what's complete, in progress, and planned.
 
-[MusicBrainz](https://musicbrainz.org/) is an open music encyclopedia that provides extensive music metadata and serves as a universal reference for music identification.  
-MusicBrainz has a public Data Set downloading site. We retrieve those Data Sets in JSON Lines format and process them using RDFLib package from python.
-See the [MusicBrainz manual](/musicbrainz/README.md) for more information.
+| Dataset | Description |
+| --- | --- |
+| **[DIAMM](https://www.diamm.ac.uk/)** · [docs](/diamm/README.md) | Digital Image Archive of Medieval Music: digital images of European medieval music manuscripts. |
+| **[Dig That Lick (DTL1000)](https://dig-that-lick.eecs.qmul.ac.uk/)** · [docs](/dtl/README.md) | Solos extracted and analyzed from jazz recordings. |
+| **[Weimar Jazz Database](https://jazzomat.hfm-weimar.de/)** · [docs](/wjazzd/README.md) | Detailed transcriptions and annotations of jazz solos (Jazzomat project, HfM Weimar). |
+| **[The Global Jukebox](https://theglobaljukebox.org/)** · [docs](/theglobaljukebox/README.md) | Traditional folk, Indigenous, and popular songs from around the world. |
+| **[UT Song Index](https://databases.lib.utk.edu/songdb/)** · [docs](/utsi/README.md) | Songs indexed from anthologies held at the University of Tennessee's DeVine Music Library. |
+| **[MusicBrainz](https://musicbrainz.org/)** · [docs](/musicbrainz/README.md) | Open music encyclopedia and universal reference for music identification. |
+| **[The Session](https://thesession.org/)** · [docs](/thesession/README.md) | Community database dedicated to Irish traditional music. |
+| **[RISM](https://rism.info/)** · [docs](/rism/README.md) | Répertoire International des Sources Musicales: historical musical sources (manuscripts, prints). |
+| **[Cantus DB](https://cantusdatabase.org/)** · [docs](/cantus/README.md) | Latin chants found in medieval manuscripts and early printed books. |
+| **[Cantus Index](https://cantusindex.org/)** · [docs](/cantusindex/README.md) | Cross-database catalogue of Latin chant, keyed by Cantus ID. |
+| **[SIMSSA DB](https://db.simssa.ca/)** · [docs](/simssa/README.md) | Discovery tool for symbolic music files (MEI, Kern, MusicXML, MIDI). |
+| **[CKG · musiconn.performance](https://nfdi4culture.de/)** · [docs](/ckg-musiconn/README.md) | German concert and opera performances, and the works performed at them. |
+| **[CKG · Hoftheater Detmold](https://nfdi4culture.de/)** · [docs](/ckg-detmold/README.md) | Repertoire of the Detmold court theatre (operas, plays, Singspiele). |
+| **[CKG · APSearch](https://nfdi4culture.de/)** · [docs](/ckg-apsearch/README.md) | ELAR (Endangered Languages Archive) field recordings — audio, image, video, text. |
 
-### The Session
+The three CKG feeds come from the [NFDI4Culture](https://nfdi4culture.de/) Culture Knowledge Graph. Unlike most sources, they are delivered RDF-native and reconciled via a deterministic authority-ID → Wikidata crosswalk (GND / VIAF / GeoNames) rather than column-by-column in OpenRefine. Each loads as its own named graph in Virtuoso, which is why they are kept as separate sibling subprojects. (The CKG's RISM feed is excluded by design, since LinkedMusic ingests RISM separately.)
 
-[The Session](https://thesession.org/) is a community website dedicated to Irish traditional music.
-The Session has a public GitHub repo that contains public Data Sets. We retrieve these in CSV format and reconcile them using OpenRefine.
-Find the [Session manual](/thesession/README.md) for additional guidance.
+## Getting started
 
-### RISM
+Setup and the full ingestion workflow are documented in the wiki. In brief: the repo uses Python 3.12 with Poetry (`poetry install` at the root creates one environment for everything), and most scripts run from a subproject's `src/` folder.
 
-[RISM Database](https://www.rism.info/) is the Répertoire International des Sources Musicales, an international collaborative database that catalogues historical musical sources. It provides detailed information on manuscripts, prints, and other music-related documents, serving as a crucial resource for researchers, librarians, and musicologists seeking to study and reference historical musical materials.
-RISM provides us their complete Data Sets in RDF format. We use OpenRefine to reconcile the database against WikiData.
-Refer to the [RISM manual](/rism/README.md) for more details.
+- [Current pipeline for adding a new dataset](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset)
+- [Working with Virtuoso](https://github.com/DDMAL/linkedmusic-datalake/wiki/Working-with-Virtuoso) · [Accessing the SPARQL endpoint](https://github.com/DDMAL/linkedmusic-datalake/wiki/Accessing-the-Virtuoso-SPARQL-Endpoint)
+- [Project status](https://github.com/DDMAL/linkedmusic-datalake/wiki/Project-Status)
 
-### Cantus DB
+## Team & contact
 
-[Cantus Database](https://cantusdatabase.org/) is a repository of Latin chants found in medieval manuscripts and early printed books.  
-Cantus DB provides us their sample Data Sets in CSV format.
-Refer to the [Cantus DB manual](/cantus/README.md) for details.
+LinkedMusic is developed at the [Distributed Digital Music Archives and Libraries Lab (DDMAL)](https://ddmal.ca/) at McGill University.
 
-### Simssa DB
+Questions, corrections, and dataset suggestions are welcome! Feel free to [open an issue](https://github.com/DDMAL/linkedmusic-datalake/issues) or contact Liam Pond at [liam.pond@mail.mcgill.ca](mailto:liam.pond@mail.mcgill.ca).
 
-[SIMSSA Database](https://db.simssa.ca/) is a discovery tool for symbolic music files (MEI, Kern, MusicXML, MIDI). It evolved from a previous database developed under Julie Cumming’s Digging into Data grant, offering improved functionality.
-The work is still in progress.
-Refer to the [Simssa DB manual](/simssa/README.md) for further instructions.
-
-### NFDI4Culture Culture Knowledge Graph (CKG)
-
-The [NFDI4Culture Culture Knowledge Graph](https://nfdi4culture.de/) (CKG) aggregates cultural-heritage metadata from German research-data feeds. We ingest three of its music-relevant feeds as **separate sibling subprojects**, because each loads as its own named graph in Virtuoso:
-
-- **musiconn.performance** — German concert and opera performances and the works performed at them. See the [ckg-musiconn manual](/ckg-musiconn/README.md).
-- **Hoftheater Detmold** — the repertoire of the Detmold court theatre (operas, plays, Singspiele). See the [ckg-detmold manual](/ckg-detmold/README.md).
-- **APSearch** — ELAR (Endangered Languages Archive) audio/image/video/text field recordings. See the [ckg-apsearch manual](/ckg-apsearch/README.md).
-
-Unlike most subprojects, the CKG is delivered RDF-native (per-feed N-Triples dumps, no fetch step) and reconciled with a deterministic authority-ID → Wikidata crosswalk (GND/VIAF/GeoNames) rather than column-by-column OpenRefine. The CKG's RISM feed is excluded by design, since LinkedMusic ingests RISM separately.
-
-<img src="images/wikidata_stamp_light.svg" alt="wikidata_stamp" width="400"/>
+<img src="images/wikidata_stamp_light.svg" alt="Reconciled against Wikidata" width="400"/>
