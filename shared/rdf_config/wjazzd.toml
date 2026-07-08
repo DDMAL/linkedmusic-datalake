@@ -1,6 +1,6 @@
 [general]
 name = "wjazzd"
-csv_folder = "../../wjazzd/csv_reconciled/wjazzd"
+csv_folder = "../../wjazzd/data/reconciled"
 rdf_output_folder = "../../wjazzd/data/rdf"
 test_mode = false
 
