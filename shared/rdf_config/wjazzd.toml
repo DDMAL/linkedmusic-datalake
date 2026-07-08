@@ -11,11 +11,11 @@ xsd = "http://www.w3.org/2001/XMLSchema#"
 wd = "http://www.wikidata.org/entity/"
 wdt = "http://www.wikidata.org/prop/direct/"
 mb = "https://musicbrainz.org/recording/"
-jr = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/records/"
-jc = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/compositions/"
-js = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/solos/solo/"
-jt = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/tracks/"
-jtr = "http://mir.audiolabs.uni-erlangen.de/jazztube/wjazzd/transcriptions/"
+jr = "http://mir.audiolabs.uni-erlangen.de/jazztube/records/"
+jc = "http://mir.audiolabs.uni-erlangen.de/jazztube/compositions/"
+js = "http://mir.audiolabs.uni-erlangen.de/jazztube/solos/solo/"
+jt = "http://mir.audiolabs.uni-erlangen.de/jazztube/tracks/"
+jtr = "http://mir.audiolabs.uni-erlangen.de/jazztube/transcriptions/"
 lmwj = "https://linkedmusic.ca/graphs/wjazzd/"
 
 [composition_info]
@@ -52,7 +52,7 @@ title = "rdfs:label"
 titleaddon = ""
 solopart = ""
 instrument = "P870"  # instrumentation (P870)
-style = "P176"  # manufacturer (P176)
+style = "P136"  # genre (P136)
 avgtempo = "P1725"  # beats per minute (P1725)
 tempoclass = ""
 rhythmfeel = ""
