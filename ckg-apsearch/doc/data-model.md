@@ -7,16 +7,18 @@ media-feed paths, not the relational backbone. Counts are from `apsearch.ttl`.
 
 ## 1. What the source looks like
 
-APSearch is **ELAR (Endangered Languages Archive)** documentation — audio/image/video/text
-recordings of endangered languages — remodeled into the **nfdicore / CTO** ontology. 6,271
-records, each a `CTO_0001005` "source item" and `schema:CreativeWork`. It is **~98.9% ELAR +
-~1.1%** (72) Staatliche Museen zu Berlin objects (those 72 are exactly the records carrying the
-CC BY-NC-SA license and `id.smb.museum` URLs).
+APSearch (**Arab Phonogram Search**) is an aggregator/search portal for **Arabic phonogram
+recordings** — sound recordings of music and verbal expressions from Arab countries
+(NFDI4Culture `E6304` "Metadata on audio objects from APSearch"; publisher BBAW) — remodeled
+into the **nfdicore / CTO** ontology. 6,271 audio/image/video/text records, each a
+`CTO_0001005` "source item" and `schema:CreativeWork`. Licenses split **ELAR (Endangered
+Languages Archive) access-terms** (5,617), **CC BY 4.0** (562), and **CC BY-SA 4.0** (92); of
+these, 72 are Staatliche Museen zu Berlin objects (the records with `id.smb.museum` URLs).
 
 **It differs from musiconn/Detmold:** no persons, no `has related person/organization/location`
 backbone, and **0 authority IDs** (~0.4% Wikidata-crosswalkable). The reconcilable content
-(languages, countries, depositors) is **not in the CKG dump** — it lives in the ELAR source,
-behind an access wall — so it is not represented in this dataset. What *is* reconcilable is
+(languages, countries, depositors) is **not in the CKG dump** — it lives in the access-walled
+upstream source archives — so it is not represented in this dataset. What *is* reconcilable is
 small and fully deterministic: media-class typing, AAT classifiers, and the license/publisher
 pivots. There is no relational backbone to collapse and no OpenRefine pass.
 
@@ -33,10 +35,10 @@ pivots. There is no relational backbone to collapse and no OpenRefine pass.
 | `NFDI_0000191` published by | remap (+ pivot) | `wdt:P123` → publisher URI; carries `wdt:P2888` → QID (§5) |
 | `CTO_0001021` has content url *(via `associatedMedia` bnode)* | join + remap | `wdt:P953` content URL (§6) |
 
-### Dropped — confirmed CKG provenance, not ELAR content
+### Dropped — confirmed CKG provenance, not source content
 
 - `dateModified` — a single constant (`2025-11-21`) across all records = CKG's harvest date,
-  not a per-record ELAR edit date.
+  not a per-record source edit date.
 - `NFDI_0000146` "metadata media type" = E3087 (application/json) — describes how CKG
   *serialized* its metadata (the export is JSON), **not** the audio/image content type (there
   is no content-MIME field in the dump).
@@ -51,8 +53,8 @@ pivots. There is no relational backbone to collapse and no OpenRefine pass.
 Every record is `lmckg:Work` and gets `wdt:P31` from its media class (`CTO_0001049`), with an
 AAT classifier (`CTO_0001026`) adding a second `wdt:P31` on the few records that carry one. A
 record with no resolving classifier falls back to **`Q17537576` "creative work"** — chosen
-over Detmold's `Q838948` "work of art" because ELAR records are **linguistic documentation,
-not art**. (6,271 records, 6,590 `wdt:P31` total → ~319 records carry a 2nd, AAT-derived type.)
+over Detmold's `Q838948` "work of art" because APSearch records are **sound recordings,
+not visual art**. (6,271 records, 6,590 `wdt:P31` total → ~319 records carry a 2nd, AAT-derived type.)
 
 | Source class / code | `wdt:P31` QID | count | note |
 |---|---|---|---|
@@ -106,7 +108,7 @@ license is E6429/CC BY-SA); we emit the uniform record-level license per record.
 The content URL (`CTO_0001021`) sits on the `schema:associatedMedia` **blank node**, not the
 record. `preprocess.py` joins record → `associatedMedia` bnode → `CTO_0001021` and the
 converter emits `<record> wdt:P953 <url>` (a URI node, post-loop) — **3,783** of them. The
-URLs split two ways: 3,711 `hdl.loc.gov/hdl:2196/…` ELAR handles + 72 `id.smb.museum/…` SMB
+URLs split two ways: 3,711 `hdl.loc.gov/hdl:2196/…` handles + 72 `id.smb.museum/…` SMB
 assets (the rest have no content URL). `P953` "work available at URL" was chosen because the
 repo has no competing convention for access pages (diamm uses `P856` for institution sites,
 cantusdb `P18` for direct image files — neither fits these access/landing pages).
