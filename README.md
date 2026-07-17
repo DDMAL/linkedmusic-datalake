@@ -54,7 +54,7 @@ The following databases are at least partially integrated into the data lake. Ea
 | **[SIMSSA DB](https://db.simssa.ca/)** · [docs](/simssa/README.md) | Discovery tool for symbolic music files (MEI, Kern, MusicXML, MIDI). |
 | **[CKG · musiconn.performance](https://nfdi4culture.de/)** · [docs](/ckg-musiconn/README.md) | German concert and opera performances, and the works performed at them. |
 | **[CKG · Hoftheater Detmold](https://nfdi4culture.de/)** · [docs](/ckg-detmold/README.md) | Repertoire of the Detmold court theatre (operas, plays, Singspiele). |
-| **[CKG · APSearch](https://nfdi4culture.de/)** · [docs](/ckg-apsearch/README.md) | ELAR (Endangered Languages Archive) field recordings — audio, image, video, text. |
+| **[CKG · APSearch](https://nfdi4culture.de/)** · [docs](/ckg-apsearch/README.md) | Arab Phonogram Search — Arabic music and verbal-expression recordings (audio, image, video, text). |
 
 The three CKG feeds come from the [NFDI4Culture](https://nfdi4culture.de/) Culture Knowledge Graph. Unlike most sources, they are delivered RDF-native and reconciled via a deterministic authority-ID → Wikidata crosswalk (GND / VIAF / GeoNames) rather than column-by-column in OpenRefine. Each loads as its own named graph in Virtuoso, which is why they are kept as separate sibling subprojects. (The CKG's RISM feed is excluded by design, since LinkedMusic ingests RISM separately.)
 

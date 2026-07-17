@@ -1,17 +1,19 @@
 # CKG — APSearch (`E6304`) → LinkedMusic
 
 Ingestion of the **APSearch** feed of the NFDI4Culture **Culture Knowledge Graph (CKG)** into
-the LinkedMusic data lake as RDF Turtle. APSearch is **ELAR (Endangered Languages Archive)**
-data — audio/image/video/text field recordings of endangered languages (host
-`elararchive.org`; publisher BBAW). It is ~98.9% ELAR plus ~1.1% (72 records) Staatliche
-Museen zu Berlin objects.
+the LinkedMusic data lake as RDF Turtle. APSearch (**Arab Phonogram Search**) is an aggregator
+and search portal for **Arabic phonogram recordings** — sound recordings of music and verbal
+expressions from Arab countries (NFDI4Culture `E6304` "Metadata on audio objects from
+APSearch"; publisher BBAW). The audio/image/video/text records link out to their source
+repositories: ~90% (5,617) carry ELAR (Endangered Languages Archive) access-terms licenses and
+resolve via `hdl.loc.gov/hdl:2196/…` handles, alongside 72 Staatliche Museen zu Berlin objects.
 
 APSearch is a **media/content feed and differs from musiconn/Detmold**: it has **no persons,
 no relational backbone, and ~0% authority IDs**. Titles are free-text descriptions, not
 entities. So there is **no label-based OpenRefine surface in the dump** — its reconciliation
 is small and **fully deterministic** (licenses, publisher, media classes, AAT codes). The
-reconcilable content (languages, countries, depositors) lives in the ELAR *source*, which is
-access-walled, so it is not represented in this dataset.
+label-based reconcilable content (languages, countries, depositors) is **not in the CKG dump**
+— it lives in the access-walled upstream source archives, so it is not represented in this dataset.
 
 This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-musiconn`](../ckg-musiconn), [`ckg-detmold`](../ckg-detmold),
@@ -87,8 +89,8 @@ all of it is wired into the mapping files rather than reconciled by hand:
 All QIDs were verified against primary sources — see [`doc/data-model.md`](doc/data-model.md).
 
 The label-based reconciliation (languages → ISO 639-3/Glottolog, countries, depositors) is
-**not in the CKG dump** — it requires the ELAR source, which is access-walled, so it is not
-represented in this dataset.
+**not in the CKG dump** — it requires the upstream source archives, which are access-walled, so
+it is not represented in this dataset.
 
 ## 4. Convert to RDF
 

@@ -25,9 +25,9 @@
   "http://purl.obolibrary.org/obo/BFO_0000050": {"action": "remap_relation", "target": "P361", "entity_class": "Collection"},
 
   "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0001006": {"action": "drop"},
-  "http://schema.org/dateModified": {"action": "drop", "_note": "metadata mod-date. In APSearch a single constant ('2025-11-21') across all records = CKG's harvest/processing date, not a per-record ELAR edit date -> CKG provenance, not source data -> drop."},
+  "http://schema.org/dateModified": {"action": "drop", "_note": "metadata mod-date. In APSearch a single constant ('2025-11-21') across all records = CKG's harvest/processing date, not a per-record source edit date -> CKG provenance, not source data -> drop."},
   "https://nfdi4culture.de/ontology/CTO_0001080": {"action": "drop"},
-  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000207": {"action": "drop", "_note": "has metadata standard. Constant CKG-ETL values (RDF / Schema.org) describing how CKG serialized its metadata, not ELAR content -> drop."},
+  "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000207": {"action": "drop", "_note": "has metadata standard. Constant CKG-ETL values (RDF / Schema.org) describing how CKG serialized its metadata, not source content -> drop."},
   "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000146": {"action": "drop", "_note": "has metadata MEDIA TYPE = E3087 (application/json), constant on every record. Describes CKG's metadata serialization (the export is JSON), NOT the audio/image content type (there is no content-MIME field in the dump) -> CKG provenance -> drop."},
   "https://nfdi.fiz-karlsruhe.de/ontology/NFDI_0000125": {"action": "drop", "_note": "dataset-level link (E6081 -> E6304, 1 triple); subject is the NFDI4Culture dataset entity, not a record. APSearch only -> drop."},
   "http://schema.org/item": {"action": "drop"},
