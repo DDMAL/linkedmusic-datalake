@@ -3,6 +3,11 @@
 Prepared 20 October 2026. Updated after the first implementation session and
 tracked with the staged implementation commits.
 
+Liam confirmed on 20 October 2026 that he is the sole developer and does not
+require PRs for this work. Keep topic-sized commits and merge directly into
+`main`. This supersedes the older PR workflow in local guidance. Publishing
+commits and deploying RDF to Virtuoso remain separate actions.
+
 ## Pending deployment — Liam must update Virtuoso
 
 **The changes are to conversion code, mappings, tests, and documentation. The
@@ -37,10 +42,10 @@ Committing or merging this code will not update the live data.
 
 Issue closure recommendation:
 
-- **#462:** the converter defect is fixed locally. Keep the issue open until
-  the fix is merged and the live-data disposition is recorded (migration and
+- **#462:** the converter defect is fixed on local `main`. Keep the issue open until
+  the fix is published and the live-data disposition is recorded (migration and
   verification, or evidence that no migration is required). Alternatively, close
-  the code issue after merge only if deployment is tracked explicitly elsewhere.
+  the code issue after publishing only if deployment is tracked explicitly elsewhere.
 - **#450:** keep open. The MusicBrainz contributor pilot addresses one concrete
   part of the broader source-meaning and cross-collection discussion; full-dump
   validation, deployment, and broader evaluation remain.
@@ -49,20 +54,23 @@ Issue closure recommendation:
 
 ## Local commit stages
 
-Implementation commits are on branch `data-preservation-pilot`; the wiki has a
-separate commit on its `master` branch. None of these commits has been pushed,
-and none deploys data to Virtuoso.
+The four implementation/documentation commits from `data-preservation-pilot`
+were merged into local `main` by fast-forward on 20 October 2026, preserving
+their separate history. The wiki has a separate commit on its `master` branch.
+None of these commits has been pushed, and none deploys data to Virtuoso.
 
 | Stage | Repository | Commit |
 | --- | --- | --- |
 | RISM identifier conversion, tests, audit and migration procedure | linkedmusic-datalake | `4d58cdfd` |
 | MusicBrainz role preservation, inventory, tests and sample conversion | linkedmusic-datalake | `412c3d66` |
 | CKG role and date interpretation | linkedmusic-datalake | `60937e27` |
+| Initial handoff and pending Virtuoso deployment checklist | linkedmusic-datalake | `38f9ef18` |
 | Source-preserving RDF conversion policy | linkedmusic-datalake.wiki | `49ad0ad` |
 
-The handoff and deployment checklist are committed as a final documentation
-stage after these changes. Issues #462 and #450 were both confirmed open on
+Issues #462 and #450 were both confirmed open on
 20 October 2026; neither was closed or commented on during this work.
+The [three follow-up issue drafts](#draft-follow-up-issues) below are local
+drafts, ready to publish separately; no new GitHub issues have been created.
 
 ## Implementation status — 20 October 2026
 
@@ -271,3 +279,169 @@ Use one reviewable change per topic. Write the resource description and evaluati
 The RISM fixture/fix and MusicBrainz pilot are now implemented as described in the
 status section above. The remaining roadmap starts with representation review
 and stored-snapshot validation; do not repeat the completed conversion work.
+
+## Draft follow-up issues
+
+Drafted 20 October 2026. These bodies are ready to copy into GitHub issues; they
+have not been published. RISM deployment continues under existing issue #462,
+so no duplicate RISM issue is proposed. Suggested work order: start the APSearch
+repair with offline fixtures; prepare the evaluation protocol next; validate
+and deploy MusicBrainz once its stored snapshot is available. Code changes can
+go directly to `main`; the deployment checklist remains separate.
+
+### Draft 1 — Validate and deploy the MusicBrainz relationship-preservation pilot
+
+Suggested label: `musicbrainz`
+
+Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450),
+[#401](https://github.com/DDMAL/linkedmusic-datalake/issues/401);
+implementation commit `412c3d66`.
+
+#### Problem
+
+The converter now preserves 33 recording/release-to-artist relationship types
+that previously collapsed to P767. It emits specific predicates and named
+observations retaining source direction, dates, attributes, and relationship
+JSON. The implementation has passed 12 offline tests and preserved all 10 pilot
+relationships in six current API example records.
+
+Those checks do not validate the historical dump or update the live graph.
+Newly converted data also requires the documented schema route for broad
+contributor queries. The stored source snapshots are in Arbutus object storage
+and on the Montreal machine.
+
+#### Work and acceptance criteria
+
+- [ ] Identify the input snapshot, timestamp, checksums, licence references, and
+  converter/configuration revision.
+- [ ] Inspect a bounded sample spanning available pilot type IDs, recording and
+  release records, recordings embedded in releases, and inverse artist records.
+  Report which of the 33 mappings are exercised and which remain unobserved.
+- [ ] Compare source relationships with generated RDF. Report input occurrences,
+  distinct observations/assertions, unresolved mappings, and duplicate collapse
+  with explicit denominators. Preserve and flag missing IDs or unexpected
+  directions rather than guessing roles.
+- [ ] Measure conversion time and RDF size on a fixed sample, including the
+  overhead of observation nodes and retained JSON.
+- [ ] Generate base RDF and its matching schema separately. In staging, verify
+  exact-role queries, the broader P767 query route, relationship dates and
+  attributes, source direction, and graph scoping. Include negative checks:
+  photography does not imply engineering, and generic contribution does not
+  imply a specific role.
+- [ ] Back up the existing MusicBrainz graph, regenerate from the source JSON,
+  and replace the affected data in Virtuoso after staging checks pass. Load the
+  schema into a separate named graph; do not append the new model to old data.
+- [ ] Repeat the queries against production and record graph IRIs, deployment
+  date, source/conversion versions, results, and the rollback snapshot.
+
+This issue is complete only when the validated representation is deployed and
+the results are recorded. If deployment must be split out, create an explicit
+linked follow-up before closing it. Do not infer population accuracy from the
+purposive sample or reconstruct missing source roles. Global inference and
+SESEMMI changes are outside this issue.
+
+Implementation/model:
+[relationship preservation](https://github.com/DDMAL/linkedmusic-datalake/blob/main/musicbrainz/doc/relationship_preservation.md).
+Source type definitions:
+[mapping inventory](https://github.com/DDMAL/linkedmusic-datalake/blob/main/musicbrainz/doc/relationship_inventory.md).
+
+### Draft 2 — Preserve both endpoints of APSearch creation intervals
+
+Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450).
+
+#### Problem
+
+The APSearch branch of `coerce_date` converts every creation interval to the
+start year. For example, `1909-01-01/1950-01-01` becomes only
+`"1909"^^xsd:gYear`; the supplied end year is lost.
+
+The documented `apsearch.ttl` snapshot contains 4,214 creation intervals,
+including 128 spanning multiple years. These are existing snapshot observations,
+not freshly measured production counts. Dropping their endpoints is conversion
+loss. The Jan-01 placeholders also do not justify asserting precise calendar
+days.
+
+#### Work and acceptance criteria
+
+- [ ] Document an RDF representation that preserves both year bounds and the
+  original interval evidence, explicitly as a source creation period. Do not
+  reinterpret it as a performance or field-recording date.
+- [ ] Implement the APSearch conversion change. If the current P571 start-year
+  assertion remains for compatibility, document it as a projection of the
+  preserved period and provide a query for the complete interval.
+- [ ] Add source-to-RDF fixtures covering single-year and multi-year intervals,
+  unknown precision, and malformed or reversed values. Preserve and flag
+  questionable source values; do not guess corrections or repair `9009`.
+- [ ] Verify that the three intentionally shared CKG converter copies stay
+  consistent and that musiconn and Detmold date behavior is unchanged.
+- [ ] Run an overlap query against a fixture: an interval from 1909 through
+  1950 should match a query for coverage during 1940 and should not match 1960.
+- [ ] When the stored dump is available, report the number of source intervals,
+  preserved bounds, and unresolved values with a dated denominator. Keep this
+  measurement separate from the historical count of 128.
+- [ ] Update the data-model documentation and regeneration/reload instructions.
+  Record whether Virtuoso has been updated; if deployment remains pending,
+  retain it explicitly in the deployment checklist or a linked follow-up.
+
+The converter and offline query checks can be developed before the full dump
+is available. Production migration is a separate operation. This issue does
+not add information absent from the supplied data or redesign every CKG date.
+
+Evidence:
+[APSearch date model](https://github.com/DDMAL/linkedmusic-datalake/blob/main/ckg-apsearch/doc/data-model.md#4-dates--all-placeholder-gyear).
+Implementation:
+[`coerce_date`](https://github.com/DDMAL/linkedmusic-datalake/blob/main/ckg-apsearch/src/convert_to_rdf.py).
+
+### Draft 3 — Build an independent LinkedMusic graph evaluation pilot
+
+Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450),
+[#419](https://github.com/DDMAL/linkedmusic-datalake/issues/419),
+[#432](https://github.com/DDMAL/linkedmusic-datalake/issues/432).
+
+#### Problem
+
+Converter tests and successful queries demonstrate bounded behavior, but they
+do not establish the integrated graph's source fidelity, reconciliation quality,
+or usefulness across collections. LinkedMusic needs reproducible evaluation
+that runs independently of SESEMMI and paid model calls.
+
+Start with two or three cross-collection tasks and a bounded set of sources.
+Keep the evaluation protocol separate from measured results and paper claims.
+
+#### Work and acceptance criteria
+
+- [ ] Create a per-dataset manifest recording source snapshot/date and checksum
+  when available, graph IRI, conversion/configuration revision, dated counts,
+  licence references, selected field availability, and known exclusions. Mark
+  unknown provenance explicitly rather than substituting an API retrieval date
+  for the historical source snapshot.
+- [ ] Trace selected roles, identifiers, links, and date intervals from source
+  to RDF. Report preserved, deliberately generalized, omitted, and incorrectly
+  transformed information with explicit denominators. Classify each finding as
+  a source limitation, conversion loss, conversion error, or reconciliation
+  error.
+- [ ] Define and execute 10–15 competency questions using manually written
+  SPARQL. Record source-backed expected answers or why the imported data cannot
+  answer a question. Include direct-QID and local-node/P2888 paths, a meaningful
+  cross-source join, and a negative test showing that a generic CKG related-person
+  link does not establish composition.
+- [ ] Review an initial 50–100 reconciliation cases across stated source,
+  entity-type, and matching-method strata, including unlinked records. Use
+  probability-based selection when estimating rates and keep purposively
+  selected problem cases separate. Report identifier agreement separately from
+  verified identity; do not estimate population recall from accepted links alone.
+- [ ] Provide a reusable query/audit runner with query text, dated result
+  snapshots, relevant external responses, and code/configuration hashes.
+  Preserve timeout, partial-result, and endpoint-error status; a failed lookup
+  is not proof that an entity or fact is absent.
+- [ ] Produce a bounded findings report containing denominators, sampling
+  limits, uncertainty where appropriate, unsupported questions, and the
+  concrete conversion/reconciliation follow-ups supported by the evidence.
+
+Protocol design and current-API/live-graph probes can begin now. Historical
+source fidelity measurements require the corresponding stored snapshots.
+Do not silently mix current API evidence with the imported snapshot.
+
+Out of scope: a new NLQ benchmark, paid model calls, user studies, source-database
+cleanup, new ingestion campaigns, and global identity inference. Review the
+final DLfM manuscript before presenting this pilot as a new paper contribution.
