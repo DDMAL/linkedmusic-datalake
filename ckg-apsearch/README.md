@@ -25,7 +25,7 @@ knowledge graph.
 | | |
 |---|---|
 | CKG dump | `E6304` (23 MB, ~129k triples, 6,271 records) |
-| Output | `data/rdf/apsearch.ttl` — **~46,203 triples**, 0 blank nodes |
+| Historical output | `data/rdf/apsearch.ttl` — **~46,203 triples**, 0 blank nodes, before creation-period preservation |
 | Records | 6,271 works (`lmckg:Work`), each typed `lmckg:Work` + ≥1 `wdt:P31` |
 | Media | 3,783 `wdt:P953` content URLs; 3 `wdt:P2888` pivots (2 licenses + publisher) |
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-apsearch/` |
@@ -95,15 +95,21 @@ represented in this dataset.
 **`convert_to_rdf.py`** — the shared two-pass converter (see
 [`doc/data-model.md`](doc/data-model.md)): types every record `lmckg:Work` + `wdt:P31` (media
 class, or the `Q17537576` "creative work" fallback for classifier-less records), emits the
-license/publisher `P2888` pivots, coerces dates to `xsd:gYear`, and emits the joined
+license/publisher `P2888` pivots, preserves original creation periods and both
+`xsd:gYear` bounds (with a P571 start-year projection for parsed periods), and emits the joined
 `wdt:P953` content URLs post-loop. No blank nodes survive.
 
 ```bash
 python convert_to_rdf.py apsearch          # -> data/rdf/apsearch.ttl
 ```
 
-Verify: `grep -c '_:' data/rdf/apsearch.ttl` == 0, an `rdflib` parse, and ~46,203 triples /
-6,271 records each with ≥1 `wdt:P31` / 3,783 `wdt:P953`.
+The converter also writes `apsearch.creation-period-audit.json` with counts,
+review flags and input/code/output checksums. Verify an `rdflib` parse, zero
+blank nodes, retained creation-period evidence and the counts for the chosen
+snapshot. The historical 6,271 records / 3,783 content URLs have not been
+remeasured, and the old ~46,203 total excludes the new preservation triples.
+See [the model, offline tests, overlap query and regeneration procedure](doc/creation-period-preservation.md).
+Production Virtuoso has not been updated by this code change.
 
 ## 5. Load
 

@@ -31,20 +31,26 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import re
 import sys
 from collections import Counter
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from isodate import parse_date
 from isodate.isoerror import ISO8601Error
+from rdflib import Literal
+from rdflib.util import from_n3
 from tqdm import tqdm
 
 RDF_TYPE = "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"
 RDFS_LABEL = "<http://www.w3.org/2000/01/rdf-schema#label>"
 RECORD_TYPE = "<https://nfdi4culture.de/ontology/CTO_0001005>"  # "source item"
 CTO_NS = "https://nfdi4culture.de/ontology/"
+CREATION_PERIOD = f"<{CTO_NS}CTO_0001073>"
+PERIOD_MODEL_VERSION = "apsearch-creation-period-v1"
 
 # Fallback P31 for records whose classifiers produced NO P31 (no AAT/media class,
 # or a classifier we deliberately leave unmapped such as the ethnographic-objects
@@ -83,6 +89,83 @@ _YEAR = re.compile(r"^\d{4}$")
 _DT_INTERVAL = re.compile(
     r"^(\d{4})-(\d{2})-(\d{2})T[\d:]+/(\d{4})-(\d{2})-(\d{2})T[\d:]+$"
 )
+_PERIOD_ENDPOINT = re.compile(
+    r"([0-9]{4})(?:-([0-9]{2})-([0-9]{2})(?:T([0-9]{2}:[0-9]{2}:[0-9]{2}))?)?"
+)
+
+
+def period_endpoint(value: str, side: str) -> tuple[str | None, list[str]]:
+    """Extract a year without guessing missing years or repairing invalid dates.
+
+    Recognized APSearch precision: bare year, Jan-01 placeholder, or zero
+    month/day components. Other valid calendar dates retain their year but
+    require review before the period is used as a year-only projection.
+    """
+    match = _PERIOD_ENDPOINT.fullmatch(value)
+    if not match:
+        return None, [f"unrecognized-{side}"]
+    year, month, day, time = match.groups()
+    if year == "0000":
+        return None, [f"invalid-{side}"]
+    flags = []
+    if month is not None:
+        try:
+            if month == "00":
+                if day != "00" or time is not None:
+                    raise ValueError("Unknown month cannot have a day or time")
+            elif day == "00":
+                if not 1 <= int(month) <= 12 or time is not None:
+                    raise ValueError("Invalid unknown-day date")
+            else:
+                date(int(year), int(month), int(day))
+                if time is not None:
+                    datetime.strptime(time, "%H:%M:%S")
+                if (month, day) != ("01", "01") or time not in (
+                    None,
+                    "00:00:00" if side == "start" else "23:59:59",
+                ):
+                    flags.append(f"unexpected-precision-{side}")
+        except ValueError:
+            return None, [f"invalid-{side}"]
+    return year, flags
+
+
+def creation_period(obj_token: str) -> tuple[str | None, str | None, str, list[str]]:
+    """Return supplied year bounds, parse status and review flags.
+
+    The original RDF term is emitted separately, including its datatype or
+    language. 'parsed' means supported syntax and ordered bounds, not verified
+    historical accuracy. In particular, 9009 is preserved and flagged.
+    """
+    value = from_n3(obj_token) if obj_token.startswith('"') else None
+    if not isinstance(value, Literal):
+        return None, None, "unresolved", ["non-literal"]
+    if value.language:
+        return None, None, "unresolved", ["language-tagged"]
+    endpoints = str(value).split("/")
+    if len(endpoints) == 1:
+        endpoints *= 2
+    if len(endpoints) != 2:
+        return None, None, "unresolved", ["unrecognized-interval"]
+    start, start_flags = period_endpoint(endpoints[0], "start")
+    end, end_flags = period_endpoint(endpoints[1], "end")
+    flags = start_flags + end_flags
+    if start is not None and end is not None:
+        # Compare only mutually known components; 1950-12-00/1950-02-00 is
+        # reversed even though both year projections are 1950.
+        left = _PERIOD_ENDPOINT.fullmatch(endpoints[0]).groups()
+        right = _PERIOD_ENDPOINT.fullmatch(endpoints[1]).groups()
+        for first, last in zip(left, right):
+            if first in (None, "00") or last in (None, "00"):
+                break
+            if first != last:
+                if first > last:
+                    flags.append("reversed-interval")
+                break
+    status = "unresolved" if flags else "parsed"
+    if "9009" in (start, end):
+        flags.append("year-9009")
+    return start, end, status, flags
 
 
 def coerce_date(obj_token: str, feed: str = "") -> str:
@@ -94,13 +177,14 @@ def coerce_date(obj_token: str, feed: str = "") -> str:
     reduced to the precision its span implies (day/month/year). Falls back to a
     plain literal if nothing parses.
 
-    For ``feed == "apsearch"`` every interval reduces to ``xsd:gYear`` of the start
-    year: APSearch's ``CTO_0001073`` values are *all* Jan-01 full-day placeholders
-    (``YYYY-01-01T00:00:00/YYYY-01-01T23:59:59``), single-year or a multi-year range
-    (e.g. 1909/1950) -- none is genuine day precision, so a day-level ``xsd:date``
-    would assert false precision. This branch is APSearch-only: musiconn has no
-    intervals and Detmold has zero Jan-01 same-day spans, so both stay byte-identical.
+    For APSearch this helper returns only the compatibility start-year projection
+    of a supported, ordered period; unresolved values remain unchanged here.
+    The converter's creation-period branch preserves the source and both bounds
+    separately and withholds P571 for unresolved values.
     """
+    if feed == "apsearch":
+        start, _, status, _ = creation_period(obj_token)
+        return f'"{start}"^^xsd:gYear' if status == "parsed" else obj_token
     if not obj_token.startswith('"'):
         return obj_token
     val = obj_token[1 : obj_token.rfind('"')]
@@ -119,8 +203,6 @@ def coerce_date(obj_token: str, feed: str = "") -> str:
         return f'"{val}"^^xsd:gYear'
     if m := _DT_INTERVAL.match(val):
         y1, mo1, d1, y2, mo2, d2 = m.groups()
-        if feed == "apsearch":  # all-placeholder year intervals -> gYear(start)
-            return f'"{y1}"^^xsd:gYear'
         if (y1, mo1, d1) == (y2, mo2, d2):  # single day
             try:
                 parse_date(f"{y1}-{mo1}-{d1}")
@@ -138,7 +220,7 @@ def coerce_date(obj_token: str, feed: str = "") -> str:
 def cto_pname(pred_token: str) -> str:
     """Compact a kept CTO predicate ``<.../CTO_0001009>`` -> ``cto:CTO_0001009``."""
     iri = pred_token[1:-1]
-    return "cto:" + iri[len(CTO_NS):]
+    return "cto:" + iri[len(CTO_NS) :]
 
 
 def ttl_string(value: str) -> str:
@@ -172,10 +254,16 @@ def load_authority_names(path: Path) -> dict[str, str]:
     return names
 
 
-def convert(feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: Path) -> None:
-    index = json.loads((extracted / f"{feed}.entities.json").read_text(encoding="utf-8"))
+def convert(
+    feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: Path
+) -> None:
+    index = json.loads(
+        (extracted / f"{feed}.entities.json").read_text(encoding="utf-8")
+    )
     crosswalk = json.loads((mappings / "crosswalk.json").read_text(encoding="utf-8"))
-    record_types = json.loads((mappings / "record_types.json").read_text(encoding="utf-8"))
+    record_types = json.loads(
+        (mappings / "record_types.json").read_text(encoding="utf-8")
+    )
     mapping = json.loads((ontology / "mapping.json").read_text(encoding="utf-8"))
     mapping.pop("_doc", None)
     # GND/VIAF/GeoNames preferred names (authority_uri -> name) for rdfs:label.
@@ -203,7 +291,11 @@ def convert(feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: 
     out = open(out_path, "w", encoding="utf-8")
     for prefix, ns in PREFIXES.items():
         out.write(f"@prefix {prefix}: <{ns}> .\n")
+    if feed == "apsearch":
+        out.write("@prefix ckgterm: <https://linkedmusic.ca/terms/ckg/> .\n")
     out.write("\n")
+    period_counts: Counter[str] = Counter()
+    period_flags: Counter[str] = Counter()
 
     def emit(subj: str, pred: str, obj: str) -> bool:
         """Write one triple line (deduped). subj/obj are final Turtle terms."""
@@ -230,6 +322,37 @@ def convert(feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: 
         if name and emit(term, "rdfs:label", ttl_string(name)):
             stats["authority_labels"] += 1
         return term
+
+    def emit_creation_period(subj: str, obj: str) -> None:
+        """Retain the source assertion and one named observation per NT payload."""
+        if obj.startswith("_:"):
+            raise ValueError("APSearch creation period is a blank node; inspect source")
+        period_counts["input_occurrences"] += 1
+        digest = hashlib.sha256(
+            json.dumps([subj, CREATION_PERIOD, obj], ensure_ascii=False).encode("utf-8")
+        ).hexdigest()
+        node = f"<https://linkedmusic.ca/graphs/ckg-apsearch/creation-period/{digest}>"
+        emit(subj, "cto:CTO_0001073", obj)
+        if not emit(subj, "ckgterm:creationPeriod", node):
+            period_counts["duplicate_occurrences"] += 1
+            return
+        start, end, status, flags = creation_period(obj)
+        period_counts["distinct_periods"] += 1
+        period_counts[status] += 1
+        emit(node, "rdf:type", "ckgterm:CreationPeriod")
+        emit(node, "rdf:value", obj)
+        emit(node, "ckgterm:parseStatus", ttl_string(status))
+        for predicate, year in (("startYear", start), ("endYear", end)):
+            if year is not None:
+                emit(node, f"ckgterm:{predicate}", f'"{year}"^^xsd:gYear')
+                period_counts[predicate] += 1
+        if flags:
+            period_counts["flagged_periods"] += 1
+        for flag in flags:
+            emit(node, "ckgterm:reviewFlag", ttl_string(flag))
+            period_flags[flag] += 1
+        if status == "parsed":
+            emit(subj, "wdt:P571", f'"{start}"^^xsd:gYear')
 
     def resolve_object(obj_token: str, entity_class: str | None) -> str | None:
         """Collapse a relation object to its final term, emitting node metadata.
@@ -311,7 +434,10 @@ def convert(feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: 
                 continue
 
             if action == "remap_date":
-                emit(s, f"wdt:{spec['target']}", coerce_date(o, feed))
+                if feed == "apsearch" and p == CREATION_PERIOD:
+                    emit_creation_period(s, o)
+                else:
+                    emit(s, f"wdt:{spec['target']}", coerce_date(o, feed))
                 continue
 
             if action == "url_permalink":
@@ -345,7 +471,11 @@ def convert(feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: 
                 term = resolve_object(o, spec.get("entity_class"))
                 if term is None:
                     continue
-                pred = cto_pname(p) if action == "keep_relation" else f"wdt:{spec['target']}"
+                pred = (
+                    cto_pname(p)
+                    if action == "keep_relation"
+                    else f"wdt:{spec['target']}"
+                )
                 emit(s, pred, term)
                 continue
 
@@ -365,6 +495,39 @@ def convert(feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: 
 
     out.close()
 
+    if feed == "apsearch":
+
+        def sha256(path: Path) -> str:
+            with path.open("rb") as stream:
+                return hashlib.file_digest(stream, "sha256").hexdigest()
+
+        audit_path = outdir / "apsearch.creation-period-audit.json"
+        audit = {
+            "model_version": PERIOD_MODEL_VERSION,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "source_snapshot_date": None,
+            "input": {"path": str(norm_path.resolve()), "sha256": sha256(norm_path)},
+            "converter_sha256": sha256(Path(__file__)),
+            "mapping_sha256": sha256(ontology / "mapping.json"),
+            "output_sha256": sha256(out_path),
+            "counts": {
+                key: period_counts[key]
+                for key in (
+                    "input_occurrences",
+                    "distinct_periods",
+                    "duplicate_occurrences",
+                    "parsed",
+                    "unresolved",
+                    "startYear",
+                    "endYear",
+                    "flagged_periods",
+                )
+            },
+            "review_flags": dict(sorted(period_flags.items())),
+        }
+        audit_path.write_text(json.dumps(audit, indent=2) + "\n", encoding="utf-8")
+        print(f"  creation-period audit: {audit_path}")
+
     print(f"\n[{feed}] convert summary -> {out_path}")
     print(f"  triples emitted          : {stats['triples']:,}")
     print(f"  distinct P2888 pivots    : {stats['pivots']:,}")
@@ -382,8 +545,12 @@ def convert(feed: str, extracted: Path, mappings: Path, ontology: Path, outdir: 
 def main() -> None:
     parser = argparse.ArgumentParser(description="CKG Stage E: NT -> TTL converter.")
     parser.add_argument("feed", help="feed name (e.g. musiconn)")
-    parser.add_argument("--extracted", default="../data/extracted", help="Stage B output dir")
-    parser.add_argument("--mappings", default="../data/mappings", help="Stage C crosswalk dir")
+    parser.add_argument(
+        "--extracted", default="../data/extracted", help="Stage B output dir"
+    )
+    parser.add_argument(
+        "--mappings", default="../data/mappings", help="Stage C crosswalk dir"
+    )
     parser.add_argument("--ontology", default="./ontology", help="mapping.json dir")
     parser.add_argument("--outdir", default="../data/rdf", help="output .ttl dir")
     args = parser.parse_args()

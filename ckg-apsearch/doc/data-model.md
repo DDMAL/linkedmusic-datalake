@@ -3,7 +3,8 @@
 The authoritative reasoning behind the APSearch conversion. APSearch uses the **same converter
 and `mapping.json`** as the other feeds ([`../../ckg-musiconn/doc/data-model.md`](../../ckg-musiconn/doc/data-model.md)
 has the full predicate map); this doc records what is **APSearch-specific** — it exercises the
-media-feed paths, not the relational backbone. Counts are from `apsearch.ttl`.
+media-feed paths, not the relational backbone. Counts below describe the historical
+`apsearch.ttl` snapshot, before the creation-period repair; they have not been remeasured.
 
 ## 1. What the source looks like
 
@@ -28,7 +29,7 @@ pivots. There is no relational backbone to collapse and no OpenRefine pass.
 | `rdfs:label` | label | keep `rdfs:label` (free-text description/title) |
 | `CTO_0001049` has data concept | classifier_media | `wdt:P31` from the media class (§3) |
 | `CTO_0001026` has external classifier | classifier_aat | `wdt:P31` from AAT (deterministic) + keep the AAT URI (§3) |
-| `CTO_0001073` has creation period | remap_date | `wdt:P571` → `xsd:gYear` (§4) |
+| `CTO_0001073` has creation period | remap_date (APSearch preservation branch) | original assertion + named period with both year bounds; parsed periods also project start year to `wdt:P571` (§4) |
 | `NFDI_0000142` has license | remap (+ pivot) | `wdt:P275` → license URI; the URI carries `wdt:P2888` → QID (§5) |
 | `NFDI_0000191` published by | remap (+ pivot) | `wdt:P123` → publisher URI; carries `wdt:P2888` → QID (§5) |
 | `CTO_0001021` has content url *(via `associatedMedia` bnode)* | join + remap | `wdt:P953` content URL (§6) |
@@ -71,18 +72,24 @@ musiconn/Detmold reconverting byte-identically.
 
 ## 4. Dates — all-placeholder `gYear`
 
-`CTO_0001073` "creation period" (4,214 values) has **zero day-precision dates**: *every* value
-is a Jan-01 full-day placeholder — 4,086 single-year (`"2015-01-01/2015-01-01"`) and 128
-multi-*year* ranges (`"1909-01-01/1950-01-01"`, mostly 1909–1950). A naïve `xsd:date` would
-assert false day precision, so APSearch coerces **every interval → `xsd:gYear` of the start
-year** (`coerce_date(o, "apsearch")`). All `wdt:P571` values are `xsd:gYear`; the end-year of
-the 128 multi-year ranges is not retained. This branch is APSearch-only — Detmold has no
-Jan-01 same-day spans and musiconn has no intervals.
+The historical `CTO_0001073` profile counted 4,214 values with **zero day-precision
+dates**: Jan-01 full-day placeholders, comprising 4,086 single-year values and
+128 multi-year ranges (e.g. 1909–1950). The old converter kept only the start
+year, losing the supplied end years. These are historical observations, not
+new production measurements.
 
-Dropping those 128 end years is **conversion loss**, not missing source evidence,
-and remains a fidelity repair item. These are source-supplied creation periods;
-they do not independently establish performance or field-recording dates.
-Preserve anomalous values while tracing their origin; do not guess corrections.
+The repair implemented on 20 October 2026 preserves the source assertion and a
+named `ckgterm:CreationPeriod` observation with `startYear` and `endYear`, both
+`xsd:gYear`. Parsed, ordered periods also emit the compatibility
+`wdt:P571` start-year projection. Malformed, reversed and unsupported values
+retain raw evidence and review flags; `9009` is retained and flagged without
+guessing a correction. These are source-supplied creation periods; they do not
+independently establish performance or field-recording dates.
+
+See [the complete model, flags, audit denominators and reload procedure](creation-period-preservation.md)
+and [the interval-overlap query](queries/creation_period_overlap.rq).
+The stored snapshot and production Virtuoso graph have **not** been regenerated.
+musiconn and Detmold retain their existing date behavior.
 
 > **Lake-wide date note for SESEMMI:** dates are mixed-precision across feeds (`xsd:date` /
 > `gYearMonth` / `gYear`). The robust, datatype-agnostic year filter to teach the query layer
@@ -125,17 +132,27 @@ Wikidata, `cto:` = `https://nfdi4culture.de/ontology/`.
 <record-iri> rdf:type lmckg:Work ;
              wdt:P31  wd:Q3302947 ;                 # audio recording (media class)
              rdfs:label "…description…" ;
-             wdt:P571 "2010"^^xsd:gYear ;            # inception
+             wdt:P571 "2010"^^xsd:gYear ;            # start-year projection
+             cto:CTO_0001073 "2010-01-01/2010-01-01" ;
+             ckgterm:creationPeriod <period-iri> ;   # both bounds + source evidence
              wdt:P275 <nfdi…/E6404> ;                # license (URI node, pivoted)
              wdt:P123 <nfdi…/E2431> ;                # publisher (URI node, pivoted)
              wdt:P953 <https://hdl.loc.gov/hdl:2196/…> .   # content URL
 
 <nfdi…/E6404> wdt:P2888 wd:Q20007257 .               # → CC BY 4.0
 <nfdi…/E2431> wdt:P2888 wd:Q219989 .                 # → BBAW
+
+<period-iri> a ckgterm:CreationPeriod ;
+             rdf:value "2010-01-01/2010-01-01" ;
+             ckgterm:startYear "2010"^^xsd:gYear ;
+             ckgterm:endYear "2010"^^xsd:gYear ;
+             ckgterm:parseStatus "parsed" .
 ```
 
-Every record is `lmckg:Work`; there are **no entity nodes** (no persons/places). Reconciled
-licenses/publisher reach Wikidata via `wdt:P2888`. Namespaces as in the musiconn data-model.
+Every record is `lmckg:Work`; there are **no person/place nodes**. Creation-period
+observations are named evidence nodes. Reconciled licenses/publisher reach
+Wikidata via `wdt:P2888`. Namespaces as in the musiconn data-model, plus
+`ckgterm:` = `https://linkedmusic.ca/terms/ckg/`.
 
 ## 8. Manually verified IDs
 

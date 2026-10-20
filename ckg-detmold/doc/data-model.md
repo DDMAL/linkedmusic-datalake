@@ -95,9 +95,11 @@ values is a `schema:DateTime` `START/END` interval whose span encodes the intend
 | a full calendar month | `xsd:gYearMonth` (≈5) |
 | a full calendar year (Jan 1 – Dec 31) | `xsd:gYear` (≈56) |
 
-This branch is Detmold-specific: musiconn carries no interval dates, and APSearch's intervals
-are all Jan-01 placeholders coerced straight to `gYear` (see the APSearch data-model). So all
-three feeds reconvert correctly from the one shared `coerce_date`.
+This behavior is unchanged by the APSearch creation-period repair. APSearch now
+preserves both year bounds and the source interval in a separate branch, with
+a `gYear` start-year projection for supported, ordered values
+(see [its model](../../ckg-apsearch/doc/creation-period-preservation.md)).
+musiconn carries no interval dates. The three converter copies remain identical.
 
 ## 6. Emitted schema (SESEMMI reference)
 
