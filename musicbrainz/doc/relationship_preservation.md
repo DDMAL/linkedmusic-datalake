@@ -10,6 +10,10 @@ attributes, source definitions, and the limits of the evidence inspected.
 Other mappings retain their existing behavior; this is not a complete
 MusicBrainz remodel.
 
+The [20 October representation review](representation_review.md) retains this
+model and the explicit, separately scoped schema query below. It records the
+33-type definition checks, offline query results and remaining snapshot limits.
+
 Each role uses a local predicate:
 
 ```text
@@ -51,6 +55,11 @@ serialized with sorted object keys. Repeated identical input produces the same
 IRI; different qualifiers produce distinct observations. The node identifies
 an observed source payload, **not** a MusicBrainz relationship instance.
 Inverse observations may produce different nodes and the same direct triple.
+Embedded target metadata and array order participate in the digest; a change
+to an embedded artist name can therefore create a new observation without
+changing the role assertion. Parent-record metadata, snapshot identity and
+mapping version do not participate. Keep snapshot/conversion provenance in the
+run manifest and graph scope; the node is not a globally unique occurrence ID.
 Count direct role triples for distinct role assertions; count observation nodes
 for source occurrences with distinct payloads. Identical duplicate JSON entries
 on one source record intentionally coalesce.
@@ -75,15 +84,27 @@ that the artist was the lead engineer. A liner-note translator is a liner-note
 contributor, not necessarily its original author. Use the observation when the
 question depends on such distinctions.
 
-Missing/unknown type IDs, unexpected endpoints/direction, and missing targets
-retain source evidence as unresolved observations. They do not acquire a role
-from a coincident label. The sample command exits unsuccessfully after writing
-its audit if any observation is unresolved. Full-batch users must inspect
-`mbterm:mappingStatus` before publishing data.
+Within the recognized pilot, missing/unknown type IDs, unexpected
+endpoints/direction, and missing targets retain source evidence as unresolved
+observations. Recognition requires a known pilot UUID, or a pilot label in the
+expected endpoint pair (including its inverse). If neither identifies a pilot
+candidate, existing nonpilot conversion applies; this is not an audit of every
+unknown relationship. A coincident label can trigger evidence retention but
+cannot assign a specific role. The sample command exits unsuccessfully after
+writing its audit if any retained observation is unresolved. Full-batch users
+must inspect `mbterm:mappingStatus` and separately account for unrecognized
+relationships before publishing data.
+
+The retained JSON is the complete relationship object supplied to the converter,
+not the complete parent entity, response envelope or dump line. A source entity
+without an ID is skipped by the existing converter. This pilot assumes the
+usual JSON field shapes (for example, an attribute list); preservation of null
+values inside the payload is not a promise to accept arbitrary malformed
+shapes. Validate those shapes against the stored dump before regeneration.
 
 This pilot does not preserve qualifiers on nonpilot mappings. It does not move
-deprecated recording mastering credits onto releases, infer unsupplied roles,
-or reconcile new people.
+deprecated recording mastering or photography credits onto releases, infer
+unsupplied roles, or reconcile new people.
 
 ## Configuration and query compatibility
 
@@ -120,6 +141,14 @@ SELECT DISTINCT ?record ?artist WHERE {
 
 The checked query is also available as
 [`pilot_contributors.rq`](queries/pilot_contributors.rq).
+
+This returns distinct record/artist pairs and deliberately omits evidence
+columns. For qualifier-sensitive answers, use the observation pattern in
+[CQ09](../../evaluation/queries/cq09.rq), retaining the observation IRI, source
+record, direction and payload. Multiple attributes can create several result
+rows for one observation. Count distinct observation IRIs for observations,
+and distinct record/artist pairs for contributors. CQ07–CQ09 are bounded to
+25 rows in the evaluation runner; they do not certify complete live results.
 
 This route covers the reviewed pilot roles and explicit P767 assertions, not
 every conceivable contribution in all MusicBrainz mappings. For exact-role

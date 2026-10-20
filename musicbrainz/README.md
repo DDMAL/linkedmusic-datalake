@@ -4,6 +4,8 @@ The [relationship-preservation pilot](doc/relationship_preservation.md) adds
 specific source roles and qualifier observations for 33 mappings previously
 collapsed to P767. Review its query compatibility and
 [inventory](doc/relationship_inventory.md) before regenerating a full dump.
+The [representation decision](doc/representation_review.md) retains the
+specific roles and separately scoped schema query for broad contributors.
 The offline sample command and regression tests require no external services:
 
 ```bash

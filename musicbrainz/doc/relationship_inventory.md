@@ -61,12 +61,23 @@ These links identify the official attribute definitions. The converter preserves
 
 ## Interpretation and alignment
 
-Each retained role describes a contribution from the artist to the recording/release, so its work-to-artist predicate is aligned with `wdt:P767` using `rdfs:subPropertyOf`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. Deprecated recording mastering remains on the supplied recording.
+Each retained role describes a contribution from the artist to the recording/release, so its record-to-artist predicate is aligned with `wdt:P767` using `rdfs:subPropertyOf`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. Both recording mastering and recording photography are deprecated in the archived definitions; historical credits remain on the supplied recording.
+
+The [representation review](representation_review.md) rechecked all 33 archived
+definitions, including UUIDs, endpoint pairs, attributes and date support, and
+retained these mappings. An `Artist` endpoint may represent a person, group or
+organization; the broader contributor answer does not establish that it is an
+individual person.
 
 Existing release photography uses a different Wikidata mapping and is outside this P767 pilot. Existing inverse `null` mappings outside the pilot remain unchanged. The pilot recognizes inverse records by UUID and emits the same work-to-artist role.
 
 ## Evidence and next snapshot check
 
-The official definitions and six API responses used during this session are local artifacts under `/tmp/linkedmusic-preservation-2026-10-20/`; `definition-manifest.json` and `api-manifest.json` record URLs/checksums. Preserve those artifacts with the next audit snapshot if needed. They are not committed data.
+The official definitions and six API responses are retained locally in
+`evaluation/audits/handoff-2026-10-20/preservation/`, copied from
+`/tmp/linkedmusic-preservation-2026-10-20/`; `definition-manifest.json` and
+`api-manifest.json` record URLs/checksums. The review verified the retained
+copies against the handoff manifest. These ignored artifacts are not committed
+or transferred with Git.
 
 When the stored dump is available, sample its recording, release (including embedded recordings), and inverse artist records. Compare UUIDs, directions, qualifier keys, and date precision with this inventory. Report missing IDs and unexpected directions as unresolved conversion evidence, not guessed roles. Measure each outcome with an explicit relationship denominator. See [the pilot model and commands](relationship_preservation.md).

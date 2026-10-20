@@ -1,12 +1,13 @@
 import copy
 import json
 import pickle
+import re
 import sys
 import unittest
 from pathlib import Path
 
 from rdflib import Dataset, Graph, Literal, URIRef
-from rdflib.namespace import RDF, RDFS
+from rdflib.namespace import DCTERMS, RDF, RDFS
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -113,11 +114,182 @@ class RelationshipPreservationTests(unittest.TestCase):
         dataset.graph(URIRef("urn:unrelated:data")).add(
             (URIRef("urn:other:record"), ENGINEER, URIRef("urn:other:artist"))
         )
+        # Several roles and an explicit generic assertion for one pair must
+        # still produce one contributor pair, without broadening exact roles.
+        engineer = MB["artist/00000000-0000-4000-8000-000000000002"]
+        generic = URIRef("urn:generic:artist")
+        data.add((self.subject, PHOTOGRAPHER, engineer))
+        data.add((self.subject, WDT.P767, engineer))
+        data.add((self.subject, WDT.P767, generic))
+        for context in (data, dataset.graph(URIRef("urn:unrelated:schema"))):
+            decoy = URIRef(f"{context.identifier}:unreviewed-role")
+            data.add((URIRef("urn:decoy:record"), decoy, URIRef("urn:decoy:artist")))
+            context.add((decoy, RDFS.subPropertyOf, WDT.P767))
         query = (ROOT / "doc/queries/pilot_contributors.rq").read_text()
-        rows = set(tuple(row) for row in dataset.query(query))
-        self.assertEqual(len(rows), 4)
+        results = list(dataset.query(query))
+        rows = set(tuple(row) for row in results)
+        self.assertEqual(len(results), 5)
+        self.assertEqual(len(rows), 5)
         self.assertIn((URIRef("urn:legacy:record"), URIRef("urn:legacy:artist")), rows)
         self.assertNotIn((URIRef("urn:other:record"), URIRef("urn:other:artist")), rows)
+        self.assertNotIn((URIRef("urn:decoy:record"), URIRef("urn:decoy:artist")), rows)
+        exact = list(
+            data.query(
+                f"SELECT ?artist WHERE {{ <{self.subject}> <{ENGINEER}> ?artist }}"
+            )
+        )
+        self.assertEqual(exact, [(engineer,)])
+        plain = set(data.subject_objects(WDT.P767))
+        self.assertEqual(len(plain), 3)
+        self.assertTrue(plain < rows)
+
+    def test_every_inventoried_role_accepts_both_source_endpoints(self):
+        inventory = (ROOT / "doc/relationship_inventory.md").read_text()
+        entries = re.findall(
+            r"\| (recording|release) → artist \| \[([^]]+)\].*?`([0-9a-f-]{36})`",
+            inventory,
+        )
+        self.assertEqual(len(entries), 33)
+        self.assertEqual({entry[2] for entry in entries}, set(self.mapping.by_id))
+        graph = Graph()
+        for kind, label, type_id in entries:
+            with self.subTest(kind=kind, label=label):
+                record_id, artist_id = f"synthetic-{type_id}", "synthetic-artist"
+                relation = {
+                    "type": label,
+                    "type-id": type_id,
+                    "target-type": "artist",
+                    "direction": "backward",
+                    "artist": {"id": artist_id},
+                }
+                self.convert({"id": record_id, "relations": [relation]}, kind, graph)
+                inverse = {
+                    key: value for key, value in relation.items() if key != "artist"
+                }
+                inverse.update(
+                    {
+                        "target-type": kind,
+                        "direction": "forward",
+                        kind: {"id": record_id},
+                    }
+                )
+                self.convert({"id": artist_id, "relations": [inverse]}, "artist", graph)
+                self.assertEqual(
+                    list(graph.triples((None, ROLE[type_id], None))),
+                    [
+                        (
+                            MB[f"{kind}/{record_id}"],
+                            ROLE[type_id],
+                            MB[f"artist/{artist_id}"],
+                        )
+                    ],
+                )
+                self.assertEqual(
+                    len(list(graph.subjects(RDF.predicate, ROLE[type_id]))), 2
+                )
+        self.assertEqual(
+            len(list(graph.subjects(TERMS.mappingStatus, Literal("mapped")))), 66
+        )
+        self.assertFalse(list(graph.triples((None, WDT.P767, None))))
+
+    def test_observation_query_keeps_duplicate_inverse_and_qualifier_units_distinct(
+        self,
+    ):
+        relation = copy.deepcopy(self.record["relations"][0])
+        relation["attributes"] = ["assistant", "additional"]
+        later = relation | {"begin": "2005"}
+        record = {
+            "id": self.record["id"],
+            "relations": [relation, copy.deepcopy(relation), later],
+        }
+        inverse = {key: value for key, value in relation.items() if key != "artist"}
+        inverse.update(
+            {
+                "target-type": "recording",
+                "direction": "forward",
+                "recording": {"id": self.record["id"]},
+            }
+        )
+        artist_id = relation["artist"]["id"]
+        dataset = Dataset()
+        graph = dataset.graph(URIRef("urn:linkedmusic:pilot:data"))
+        self.convert(record, graph=graph)
+        self.convert({"id": artist_id, "relations": [inverse]}, "artist", graph)
+        self.assertEqual(len(list(graph.triples((None, ENGINEER, None)))), 1)
+        self.assertEqual(len(list(graph.subjects(RDF.type, RDF.Statement))), 3)
+        query = (
+            (ROOT.parent / "evaluation/queries/cq09.rq")
+            .read_text()
+            .replace("{{musicbrainz}}", "<urn:linkedmusic:pilot:data>")
+        )
+        rows = list(
+            dataset.query(
+                query,
+                initNs={"rdf": RDF, "dcterms": DCTERMS, "mbrel": ROLE, "mbterm": TERMS},
+            )
+        )
+        self.assertEqual(len(rows), 6)  # Two attribute bindings per observation.
+        self.assertEqual(len({row.observation for row in rows}), 3)
+        self.assertEqual(
+            {str(row.attribute) for row in rows}, {"assistant", "additional"}
+        )
+        for row in rows:
+            payload = json.loads(str(row.payload))
+            self.assertIn(payload, [relation, later, inverse])
+            self.assertEqual(str(row.begin), payload["begin"])
+            self.assertEqual(str(row.end), payload["end"])
+            self.assertEqual(str(row.direction), payload["direction"])
+            self.assertEqual(
+                row.source,
+                MB[f"artist/{artist_id}"] if payload == inverse else self.subject,
+            )
+            self.assertEqual(
+                (row.recording, row.artist), (self.subject, MB[f"artist/{artist_id}"])
+            )
+
+    def test_observation_identity_covers_payload_but_not_record_metadata(self):
+        record = copy.deepcopy(self.record)
+        relation = record["relations"][0]
+        record["relations"] = [relation]
+        relation["unknown-qualifier"] = {"nested": [None, "café"], "empty": {}}
+        graph = self.convert(record)
+        node = next(graph.subjects(RDF.type, RDF.Statement))
+        # Object key ordering is immaterial, including nested objects.
+        record["relations"] = [json.loads(json.dumps(relation, sort_keys=True))]
+        record["title"] = "Changed parent metadata outside the relationship payload"
+        self.convert(record, graph=graph)
+        self.assertEqual(list(graph.subjects(RDF.type, RDF.Statement)), [node])
+        roundtrip = Graph().parse(
+            data=graph.serialize(format="turtle"), format="turtle"
+        )
+        self.assertEqual(
+            json.loads(str(roundtrip.value(node, TERMS.sourcePayload))), relation
+        )
+        record["relations"][0]["artist"]["name"] = "Changed embedded target name"
+        self.convert(record, graph=graph)
+        self.assertEqual(len(list(graph.subjects(RDF.type, RDF.Statement))), 2)
+        self.assertEqual(len(list(graph.triples((None, ENGINEER, None)))), 1)
+
+    def test_unresolved_candidate_detection_has_a_bounded_scope(self):
+        # An unknown UUID plus a pilot label is retained, not assigned that role.
+        # When neither UUID nor endpoint-specific label identifies the pilot,
+        # ordinary nonpilot conversion applies and no observation is promised.
+        record = copy.deepcopy(self.record)
+        record["relations"] = [record["relations"][0]]
+        record["relations"][0]["type-id"] = "00000000-0000-4000-8000-000000000099"
+        graph = self.convert(record)
+        self.assertEqual(
+            len(
+                list(
+                    graph.subjects(TERMS.mappingStatus, Literal("unrecognized-type-id"))
+                )
+            ),
+            1,
+        )
+        self.assertFalse(list(graph.subjects(RDF.type, RDF.Statement)))
+        record["relations"][0]["type"] = "unknown role outside this pilot"
+        graph = self.convert(record)
+        self.assertFalse(list(graph.subjects(RDF.type, TERMS.RelationshipObservation)))
 
     def test_inverse_source_has_the_same_rdf_direction(self):
         original = self.record["relations"][0]
