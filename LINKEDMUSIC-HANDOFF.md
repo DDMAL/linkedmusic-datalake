@@ -1,7 +1,73 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated after the first implementation session and
-tracked with the staged implementation commits.
+Prepared 20 October 2026. Updated after the APSearch interval-preservation,
+independent-evaluation and MusicBrainz representation-review continuations.
+The APSearch repair, evaluation package and representation review/tests are now
+committed locally in separate topic commits. This handoff records the completed
+commit sequence; publishing and deployment remain separate (see below).
+
+## Start here — next agent
+
+**Liam deferred the stored-snapshot work for a couple of weeks on 20 October
+2026. Resume that work when he confirms access is available, not automatically
+on an estimated date.** This defers historical fidelity measurements, the real
+50–100-case reconciliation review, full-dump validation/regeneration and the
+associated deployment work. Do not request the dumps as a prerequisite for the
+task below or repeat live probes to substitute for the unavailable snapshots.
+
+**The MusicBrainz representation review is complete.** Read the
+[decision record](musicbrainz/doc/representation_review.md), after root
+`CLAUDE.md` and `musicbrainz/README.md`. It retains all 33 specific predicates,
+named source observations, and the
+[explicit schema query](musicbrainz/doc/queries/pilot_contributors.rq) for broad
+contributors. Ordinary P767-only queries omit the new roles. Exact-role and
+qualifier-sensitive queries retain their distinct purposes; CQ09 preserves
+observation IDs and source evidence.
+
+All 33 archived definitions were reviewed. The six saved API examples reproduce
+ten mapped observations and ten role assertions spanning seven type UUIDs.
+No converter or mapping defect was established. Documentation now states the
+bounded recognition of unresolved relationships, the scope of retained JSON,
+observation-ID/counting limits, and recording photography's deprecation. Four
+new regression tests and a stronger graph-scope test cover the previously
+unchecked cases. The current baseline is **48 passing tests and 14 passing
+fixture queries**, measured on 20 October; it is not a population-quality result.
+Do not repeat this review or restart the implementation/evaluation tooling.
+
+**Next available task: scope the optional isolated Virtuoso comparison.**
+The explicit schema-query route remains the default. Begin with read-only
+inspection of the local operations guidance and any available local/test
+instance, establishing its version, registered rule sets, inference settings
+and suitability for isolated fixtures. The comparison should address a concrete
+legacy-query compatibility or measured performance need. Do not assume the
+public production endpoint is a test instance.
+
+Before running an experiment, make its graph/rule-set names, fixture inputs,
+queries, provenance expectations and cleanup concrete. Compare the chosen
+schema query with per-query inference and, if justified, separately generated
+P767 assertions. Retain negative-role, graph-scope, duplicate and qualifier
+checks. If no isolated environment is available, record the limitation;
+production changes or fresh live probes are not a substitute. See **Fourth
+task** below and the decision record for the tradeoffs and deferred questions.
+
+Keep production source/schema graphs, inference settings and SESEMMI unchanged.
+Do not close #470 or #472 on the strength of fixtures. Historical validation,
+reconciliation review and deployment remain deferred until Liam confirms
+snapshot access; this local design decision does not remove those requirements.
+
+**Evidence retained for the wait:** both former `/tmp` evidence directories were
+copied and checksum-verified into the ignored workspace directory
+`evaluation/audits/handoff-2026-10-20/` (340 files, about 3.1 MB). Its
+`manifest.json` records original paths, copy paths and SHA-256 values.
+`preservation/` holds converter/API evidence; `evaluation/` holds query runs,
+current-source responses and source snapshots. Prefer these copies if `/tmp`
+has been cleared. This is local retention, not a remote backup, and Git does
+not transfer it to another checkout. The code, docs and synthetic fixtures
+remain sufficient for offline checks if these optional artifacts are absent;
+record missing evidence rather than claiming it was inspected. The representation
+review reverified all 340 checksums. Its new local evidence is under
+`evaluation/audits/representation-review-2026-10-20/` (review metadata, archived-API
+conversion and 14 fixture-query outputs), also ignored by Git.
 
 Liam confirmed on 20 October 2026 that he is the sole developer and does not
 require PRs for this work. Keep topic-sized commits and merge directly into
@@ -10,9 +76,13 @@ commits and deploying RDF to Virtuoso remain separate actions.
 
 ## Pending deployment — Liam must update Virtuoso
 
+Deferred with the stored-snapshot work as described in **Start here** above.
+This checklist records later deployment requirements, not the next agent's task.
+
 **The changes are to conversion code, mappings, tests, and documentation. The
 stored dataset Turtle files and production Virtuoso graphs have not been
-modified.** Only small test/sample Turtle files were generated under `/tmp`.
+modified.** Only small test/sample Turtle files were generated under `/tmp`
+and the ignored `evaluation/audits/` workspace directory.
 Committing or merging this code will not update the live data.
 
 - [ ] Make the reviewed converter/configuration revisions available on the
@@ -24,11 +94,19 @@ Committing or merging this code will not update the live data.
   [the RISM procedure](rism/doc/identifier_normalization.md). The small live
   sample was already canonical, so establish whether a live migration is needed.
 - [ ] **MusicBrainz:** validate the pilot against the stored JSON dump and
-  regenerate RDF from that source after reviewing the representation. Specific
+  regenerate RDF from that source using the reviewed representation. Specific
   roles and qualifiers cannot be reconstructed from the old P767-only Turtle.
   Export the matching schema/alignment RDF separately; use
   [the documented broad-contributor query](musicbrainz/doc/queries/pilot_contributors.rq)
   when querying the newly converted data.
+- [ ] **APSearch:** review the
+  [creation-period representation and regeneration procedure](ckg-apsearch/doc/creation-period-preservation.md),
+  regenerate from the stored E6304 snapshot into a new directory, and inspect
+  the generated audit of both bounds, unresolved values and source anomalies.
+  Verify original CTO values and interval-overlap answers in staging before
+  replacing the APSearch production graph. Do not append to old data and leave
+  obsolete P571 projections in place. Record actual snapshot counts separately
+  from the historical 4,214 intervals / 128 multi-year ranges.
 - [ ] Back up the current named graphs and load candidate data/schema into
   separate staging graphs in Virtuoso. Check counts, canonical-ID joins,
   engineering-versus-photography answers, direction, qualifiers, and broad
@@ -49,6 +127,14 @@ Issue closure recommendation:
 - **#450:** keep open. The MusicBrainz contributor pilot addresses one concrete
   part of the broader source-meaning and cross-collection discussion; full-dump
   validation, deployment, and broader evaluation remain.
+- **#471:** keep open. The APSearch converter repair and offline validation are
+  committed locally but unpublished. Stored-snapshot validation and
+  the deployment disposition remain pending.
+- **#472:** keep open. The six-dataset manifest inventory, audit protocol,
+  14 competency queries, query runner and stratified sampler are implemented.
+  Synthetic checks and bounded live probes are recorded; matched-snapshot
+  fidelity, real reconciliation reviews and independent live expected answers
+  remain pending. See [the evaluation findings](evaluation/findings-2026-10-20.md).
 - **#419 / #432:** keep open; this work does not settle their identity/P2888
   modeling questions. No existing GitHub issue has been closed.
 
@@ -66,6 +152,28 @@ None of these commits has been pushed, and none deploys data to Virtuoso.
 | CKG role and date interpretation | linkedmusic-datalake | `60937e27` |
 | Initial handoff and pending Virtuoso deployment checklist | linkedmusic-datalake | `38f9ef18` |
 | Source-preserving RDF conversion policy | linkedmusic-datalake.wiki | `49ad0ad` |
+| APSearch creation-period preservation, shared CKG copies, tests and procedure | linkedmusic-datalake | `89b9e768` |
+| Independent evaluation manifests, protocol, query/sampling tools and fixtures | linkedmusic-datalake | `4d82f03b` |
+| MusicBrainz representation decision, documentation and regression coverage | linkedmusic-datalake | `bf3491fa` |
+
+The earlier continuation implemented the APSearch repair directly in the working
+tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
+automatic approval review because that conversation did not explicitly
+authorize committing. Liam subsequently requested topic-sized commits on
+20 October 2026; that workflow blocker is resolved by the three commits above.
+
+The APSearch commit keeps all three shared CKG converter/configuration copies
+together with its tests, overlap query and regeneration procedure. The evaluation
+commit adds `evaluation/`, its root README link and the ignore rule for local
+audit outputs. The MusicBrainz review commit adds the decision record, clarified
+documentation and four tests plus stronger graph-scope checks; its converter,
+configuration and query files are unchanged. The consolidated handoff is a
+separate documentation commit after those topics.
+
+The 48-test / 14-fixture-query validation still applies to the committed code;
+all eight changed Python files passed Black's check, and each staged change
+passed `git diff --cached --check`. Generated audit/source evidence remains
+ignored. No push, deployment or GitHub issue update was performed.
 
 Issues #462 and #450 were both confirmed open on
 20 October 2026; neither was closed or commented on during this work.
@@ -81,33 +189,87 @@ independent graph evaluation
 Completed locally, with no production writes or full-dump regeneration:
 
 - **RISM normalization:** reproduced the failed canonical-ID join, fixed full-match item-IRI normalization, and handled P2888 predicate aliases separately. Five offline tests pass. Added a read-only identifier audit and [separate migration procedure](rism/doc/identifier_normalization.md).
-- **MusicBrainz pilot:** inventoried all 33 P767 role mappings against official definitions, retained specific roles using stable source UUIDs, and added named observations for direction, dates, attributes, and full source relationship JSON. Twelve offline tests pass, including inverse direction, negative role checks, named-graph scoping, and legacy mapping behavior. The normal multiprocessing JSONL converter also completed a two-record smoke test.
+- **MusicBrainz pilot:** inventoried all 33 P767 role mappings against official definitions, retained specific roles using stable source UUIDs, and added named observations for direction, dates, attributes, and full source relationship JSON. Sixteen offline tests now pass, including inverse direction, negative role checks, named-graph scoping, and legacy mapping behavior. The earlier normal multiprocessing JSONL converter smoke test also completed on two records.
+- **MusicBrainz representation decision:** completed the
+  [bounded review](musicbrainz/doc/representation_review.md), retaining all 33
+  role predicates and the separate-schema query. Six archived API records
+  reproduced all ten pilot observations/payloads; all 33 roles passed synthetic
+  checks from both source endpoints. Documentation and regression coverage were
+  improved without changing the converter/configuration. The combined baseline
+  is now 48 passing tests plus 14 fixture queries; dump validation remains pending.
 - **Current API validation:** six purposively selected official example records contained 18 artist relationships, including 10 pilot relationships. All 10 pilot roles and source payloads were checked against generated RDF. This is current API evidence, not a validation of the historical imported dump. See the [inventory](musicbrainz/doc/relationship_inventory.md) and [model, query compatibility, commands, and results](musicbrainz/doc/relationship_preservation.md).
 - **Policy and descriptions:** updated the sibling wiki's RDF Conversion Guidelines and clarified CKG role-unspecified links and date meanings. SESEMMI remains unchanged.
+- **APSearch interval repair:** preserves the original `CTO_0001073` assertion
+  and named observations with paired `xsd:gYear` bounds. Parsed, ordered periods
+  retain a P571 start-year projection; unresolved values retain evidence and
+  review flags without a projection. `9009` is preserved and flagged, not
+  corrected. All three CKG converter/configuration copies remain identical.
+  Eleven offline tests pass, including named-graph overlap (1909–1950 matches
+  1940, excludes 1960), malformed/reversed/unknown values, duplicate collapse
+  and legacy feed behavior. The normal CLI smoke test also passed.
+  See [the model, audit and reload procedure](ckg-apsearch/doc/creation-period-preservation.md).
+- **Independent evaluation foundation (#472):** added six dataset manifests
+  with explicit unknown provenance/counts, a fidelity/reconciliation protocol,
+  a 60-case review design and reproducible stratified sampler, and 14 manually
+  written competency queries with hand-authored synthetic expected answers.
+  All 14 fixture queries and 16 evaluation tests pass; the 32 current converter
+  tests also pass. The read-only runner records exact queries, raw responses,
+  timestamps, file hashes and failure/partial status. The initial live batch
+  returned 11 valid responses, one timeout and one HTTP error; one case required
+  an unconfigured schema graph and sent no request. One Weimar/MusicBrainz
+  identifier join was observed, with current source corroboration only on the
+  MusicBrainz side. This is not a population-quality measurement. See
+  [the evaluation package](evaluation/README.md) and
+  [the bounded findings](evaluation/findings-2026-10-20.md).
+
+The APSearch CLI fixture contained **9 input occurrences / 8 distinct
+observations**, including 1 duplicate: 4 parsed, 4 unresolved, 6 retained start
+bounds, 6 retained end bounds and 5 flagged observations, producing 78 RDF
+triples. These are deliberately selected synthetic cases, not accuracy estimates
+or snapshot measurements. Five musiconn and six Detmold synthetic records
+produced byte-identical Turtle under the previous converter at `c468e947`.
+Formatting, diff whitespace and local documentation-link checks passed.
+Inputs, output, CLI logs, checksums and the comparison report are under
+`/tmp/linkedmusic-preservation-2026-10-20/apsearch/`.
 
 The stored dumps are in Arbutus object storage and on the Montreal machine, not
 in this checkout (confirmed by Liam). Current API examples were authorized as a
 bounded alternative. Raw responses, manifests/checksums, and generated RDF/audits
-are local under `/tmp/linkedmusic-preservation-2026-10-20/`; preserve that directory
-outside Git if the session evidence needs long-term retention.
+were initially saved under `/tmp/linkedmusic-preservation-2026-10-20/` and are now
+also retained in `evaluation/audits/handoff-2026-10-20/preservation/` outside Git.
+
+Evaluation query runs and current-source responses are separately archived under
+`/tmp/linkedmusic-evaluation-2026-10-20/`, with a verified local copy in
+`evaluation/audits/handoff-2026-10-20/evaluation/` outside Git. The historical
+snapshots were not substituted with current API
+retrievals. No real 50–100-case reconciliation review has been performed.
 
 The live RISM check found 200/200 sampled P2888 objects already canonical and no
 rows in a separate noncanonical-P2888 query. No affected live triples were
 established by that bounded sample. This does not invalidate the reproduced
 converter bug or establish that every stored file/predicate is canonical.
 
-Next steps:
+Current queue (the **Start here** section is the next-agent brief):
 
-1. Review the pilot's predicate/observation representation and broad-query route.
-   Newly converted pilot data requires the schema path query (or a later reviewed
-   inference/materialization option) to recover broad contributor answers.
-2. Validate actual dump field shapes and quantify unresolved observations, RDF
-   expansion, and conversion cost when the stored snapshot is available.
-3. Continue the independent manifest, fidelity/reconciliation audit and 10–15
-   competency questions below; population-level evaluation has not been run.
-4. Run the optional Virtuoso reasoning comparison only after the representation
-   is settled. Installed rule sets and inference settings remain uninspected.
-5. Compare the eventual paper scope with the final DLfM manuscript, still pending.
+1. **Ready now, optional:** scope an isolated Virtuoso comparison, beginning
+   with read-only local/test environment inspection as described in **Start
+   here**. The completed MusicBrainz review retains the schema path query;
+   investigate alternatives only for an identified compatibility/performance need.
+2. **Deferred until snapshot access resumes:** populate the prepared
+   [evaluation manifests](evaluation/manifests.json) from
+   the actual snapshots and conversion/deployment records. Use the
+   [protocol](evaluation/protocol.md) to trace source occurrences, freeze complete
+   reconciliation frames and select the planned 60-case review. Independently
+   establish expected live answers; the 14 synthetic query controls and bounded
+   endpoint probes do not replace these measurements.
+3. **Deferred with those snapshots:** validate MusicBrainz and APSearch dump
+   field shapes, unresolved observations,
+   RDF expansion and conversion cost when their stored snapshots are available.
+   The APSearch converter now emits an audit with explicit denominators and
+   normalized-input/converter/mapping/output hashes; the historical source
+   snapshot date remains unknown until supplied in a run manifest.
+4. **When the final DLfM manuscript is available:** compare the eventual paper
+   scope with it. Slides alone do not settle the new contribution.
 
 This phase focuses on LinkedMusic as an integrated data resource. Preserve source meanings during conversion, repair identifier inconsistencies, and evaluate the resulting graph using source comparisons and manually verified SPARQL. The original sequence below began with RISM issue #462 and the bounded MusicBrainz pilot; the status and deployment checklist above record what is now done and what remains.
 
@@ -221,7 +383,13 @@ Use probability-based sampling within stated strata if estimating error rates; r
 
 Select two or three useful cross-collection tasks, such as jazz recordings across Weimar and MusicBrainz, and a source-supported person/source lookup across historical collections. Include a negative role test proving that generic CKG associations do not establish composition. Avoid choosing every case solely because it already succeeds.
 
-Preserve and flag source anomalies without guessing corrections. The APSearch year `9009` is a source-tracing case; investigate where it first appears, then classify it. By contrast, dropping the end years of the 128 APSearch intervals is documented conversion loss and belongs in our fidelity backlog. The suspicious Detmold Person/opera cases likewise require tracing before attributing responsibility.
+Preserve and flag source anomalies without guessing corrections. The APSearch
+year `9009` remains a source-tracing case; investigate where it first appears,
+then classify it. Dropping the end years of the historical 128 APSearch
+multi-year intervals was documented conversion loss: the local converter repair
+now preserves both bounds, but stored/live data remains unchanged pending
+validation and reload. The suspicious Detmold Person/opera cases likewise
+require tracing before attributing responsibility.
 
 No universal source-database cleanup, new ingestion campaign, or new NLQ benchmark is required for this phase.
 
@@ -272,6 +440,9 @@ Primary references:
 
 ## Suggested implementation sequence
 
+The numbered sequence below records the original roadmap. For current priority
+and the snapshot-work deferral, follow **Start here** and **Current queue** above.
+
 1. RISM normalization and focused regression tests.
 2. MusicBrainz pilot mapping design and source-preserving conversion.
 3. Consistent ontology policy and descriptions, including the outdated wiki guidance.
@@ -280,9 +451,13 @@ Primary references:
 
 Use one reviewable change per topic. Write the resource description and evaluation protocol alongside this work; results and conclusions follow the measurements. Keep small synthetic test fixtures in source control where appropriate, and generated audit reports/data outside it.
 
-The RISM fixture/fix and MusicBrainz pilot are now implemented as described in the
-status section above. The remaining roadmap starts with representation review
-and stored-snapshot validation; do not repeat the completed conversion work.
+The RISM fixture/fix, MusicBrainz pilot, APSearch interval repair and independent
+evaluation foundation are now implemented, and the MusicBrainz representation
+review is complete. The optional isolated reasoning comparison can be scoped
+next. Resume #472's matched-source measurements and
+actual reconciliation review when Liam confirms snapshot access is available.
+Stored-snapshot validation remains necessary before deployment. Do not repeat
+completed conversion or protocol work.
 
 ## Follow-up issues
 
@@ -291,10 +466,12 @@ acceptance criteria are retained below; use the linked GitHub issues for ongoing
 tracking. The MusicBrainz and APSearch issues explicitly note that the associated
 implementation/documentation commits remain local and Virtuoso is unchanged.
 RISM deployment continues under existing issue #462, so no duplicate RISM issue
-was created. Suggested work order: start the APSearch repair with offline
-fixtures; prepare the evaluation protocol next; validate and deploy MusicBrainz
-once its stored snapshot is available. Code changes can go directly to `main`;
-the deployment checklist remains separate.
+was created. The APSearch repair/offline fixtures and MusicBrainz representation
+review are complete locally. Resume source-based evaluation and converter
+validation/deployment when snapshot access is available. The local
+#471 checklist below reflects
+this continuation; the GitHub issue has not been edited, commented on or closed.
+The deployment checklist remains separate.
 
 ### [#470](https://github.com/DDMAL/linkedmusic-datalake/issues/470) — Validate and deploy the MusicBrainz relationship-preservation pilot
 
@@ -358,9 +535,14 @@ Label: `bug`
 
 Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450).
 
+Local status, 20 October 2026: implementation and offline validation complete,
+committed locally as `89b9e768`; stored-snapshot checks and deployment remain
+pending. Details:
+[creation-period preservation](ckg-apsearch/doc/creation-period-preservation.md).
+
 #### Problem
 
-The APSearch branch of `coerce_date` converts every creation interval to the
+The previous APSearch branch of `coerce_date` converted every creation interval to the
 start year. For example, `1909-01-01/1950-01-01` becomes only
 `"1909"^^xsd:gYear`; the supplied end year is lost.
 
@@ -372,23 +554,23 @@ days.
 
 #### Work and acceptance criteria
 
-- [ ] Document an RDF representation that preserves both year bounds and the
+- [x] Document an RDF representation that preserves both year bounds and the
   original interval evidence, explicitly as a source creation period. Do not
   reinterpret it as a performance or field-recording date.
-- [ ] Implement the APSearch conversion change. If the current P571 start-year
+- [x] Implement the APSearch conversion change. If the current P571 start-year
   assertion remains for compatibility, document it as a projection of the
   preserved period and provide a query for the complete interval.
-- [ ] Add source-to-RDF fixtures covering single-year and multi-year intervals,
+- [x] Add source-to-RDF fixtures covering single-year and multi-year intervals,
   unknown precision, and malformed or reversed values. Preserve and flag
   questionable source values; do not guess corrections or repair `9009`.
-- [ ] Verify that the three intentionally shared CKG converter copies stay
+- [x] Verify that the three intentionally shared CKG converter copies stay
   consistent and that musiconn and Detmold date behavior is unchanged.
-- [ ] Run an overlap query against a fixture: an interval from 1909 through
+- [x] Run an overlap query against a fixture: an interval from 1909 through
   1950 should match a query for coverage during 1940 and should not match 1960.
 - [ ] When the stored dump is available, report the number of source intervals,
   preserved bounds, and unresolved values with a dated denominator. Keep this
   measurement separate from the historical count of 128.
-- [ ] Update the data-model documentation and regeneration/reload instructions.
+- [x] Update the data-model documentation and regeneration/reload instructions.
   Record whether Virtuoso has been updated; if deployment remains pending,
   retain it explicitly in the deployment checklist or a linked follow-up.
 
@@ -404,6 +586,18 @@ Implementation:
 ### [#472](https://github.com/DDMAL/linkedmusic-datalake/issues/472) — Build an independent LinkedMusic graph evaluation pilot
 
 Label: `enhancement`
+
+Local status, 20 October 2026: the [evaluation foundation](evaluation/README.md)
+is committed locally as `4d82f03b`. Six manifests and the query/audit tools are
+ready; 14 fixture questions pass and bounded live probes are documented in the
+[preliminary findings](evaluation/findings-2026-10-20.md). The source-based
+acceptance criteria remain pending where noted below. The GitHub issue itself
+has not been edited, commented on or closed in this continuation.
+
+Liam has deferred the historical-source measurements and real reconciliation
+review for a couple of weeks. Resume them when he confirms snapshot access;
+the MusicBrainz representation review is complete, and the optional next task
+is isolated reasoning-comparison preparation as described above.
 
 Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450),
 [#419](https://github.com/DDMAL/linkedmusic-datalake/issues/419),
@@ -421,7 +615,7 @@ Keep the evaluation protocol separate from measured results and paper claims.
 
 #### Work and acceptance criteria
 
-- [ ] Create a per-dataset manifest recording source snapshot/date and checksum
+- [x] Create a per-dataset manifest recording source snapshot/date and checksum
   when available, graph IRI, conversion/configuration revision, dated counts,
   licence references, selected field availability, and known exclusions. Mark
   unknown provenance explicitly rather than substituting an API retrieval date
@@ -441,13 +635,20 @@ Keep the evaluation protocol separate from measured results and paper claims.
   probability-based selection when estimating rates and keep purposively
   selected problem cases separate. Report identifier agreement separately from
   verified identity; do not estimate population recall from accepted links alone.
-- [ ] Provide a reusable query/audit runner with query text, dated result
+- [x] Provide a reusable query/audit runner with query text, dated result
   snapshots, relevant external responses, and code/configuration hashes.
   Preserve timeout, partial-result, and endpoint-error status; a failed lookup
   is not proof that an entity or fact is absent.
 - [ ] Produce a bounded findings report containing denominators, sampling
   limits, uncertainty where appropriate, unsupported questions, and the
   concrete conversion/reconciliation follow-ups supported by the evidence.
+
+The manifests explicitly mark unavailable snapshot/deployment provenance and
+population counts unknown. The question criterion is partly implemented:
+14 manual queries, synthetic expected bindings and initial live execution are
+complete, but independent source-backed live expectations remain pending.
+A preliminary report exists for those checks; the final source-based report
+and real 50–100-case reconciliation review are not complete.
 
 Protocol design and current-API/live-graph probes can begin now. Historical
 source fidelity measurements require the corresponding stored snapshots.
