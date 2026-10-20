@@ -50,7 +50,7 @@ Issue closure recommendation:
   part of the broader source-meaning and cross-collection discussion; full-dump
   validation, deployment, and broader evaluation remain.
 - **#419 / #432:** keep open; this work does not settle their identity/P2888
-  modeling questions. No GitHub issue status has been changed.
+  modeling questions. No existing GitHub issue has been closed.
 
 ## Local commit stages
 
@@ -69,8 +69,12 @@ None of these commits has been pushed, and none deploys data to Virtuoso.
 
 Issues #462 and #450 were both confirmed open on
 20 October 2026; neither was closed or commented on during this work.
-The [three follow-up issue drafts](#draft-follow-up-issues) below are local
-drafts, ready to publish separately; no new GitHub issues have been created.
+The [three follow-up issues](#follow-up-issues) below were published on
+20 October 2026: MusicBrainz validation/deployment
+[#470](https://github.com/DDMAL/linkedmusic-datalake/issues/470), APSearch interval
+preservation [#471](https://github.com/DDMAL/linkedmusic-datalake/issues/471), and
+independent graph evaluation
+[#472](https://github.com/DDMAL/linkedmusic-datalake/issues/472).
 
 ## Implementation status — 20 October 2026
 
@@ -280,18 +284,21 @@ The RISM fixture/fix and MusicBrainz pilot are now implemented as described in t
 status section above. The remaining roadmap starts with representation review
 and stored-snapshot validation; do not repeat the completed conversion work.
 
-## Draft follow-up issues
+## Follow-up issues
 
-Drafted 20 October 2026. These bodies are ready to copy into GitHub issues; they
-have not been published. RISM deployment continues under existing issue #462,
-so no duplicate RISM issue is proposed. Suggested work order: start the APSearch
-repair with offline fixtures; prepare the evaluation protocol next; validate
-and deploy MusicBrainz once its stored snapshot is available. Code changes can
-go directly to `main`; the deployment checklist remains separate.
+Drafted and published 20 October 2026 at Liam's request. The initial scopes and
+acceptance criteria are retained below; use the linked GitHub issues for ongoing
+tracking. The MusicBrainz and APSearch issues explicitly note that the associated
+implementation/documentation commits remain local and Virtuoso is unchanged.
+RISM deployment continues under existing issue #462, so no duplicate RISM issue
+was created. Suggested work order: start the APSearch repair with offline
+fixtures; prepare the evaluation protocol next; validate and deploy MusicBrainz
+once its stored snapshot is available. Code changes can go directly to `main`;
+the deployment checklist remains separate.
 
-### Draft 1 — Validate and deploy the MusicBrainz relationship-preservation pilot
+### [#470](https://github.com/DDMAL/linkedmusic-datalake/issues/470) — Validate and deploy the MusicBrainz relationship-preservation pilot
 
-Suggested label: `musicbrainz`
+Labels: `musicbrainz`, `virtuoso`
 
 Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450),
 [#401](https://github.com/DDMAL/linkedmusic-datalake/issues/401);
@@ -345,7 +352,9 @@ Implementation/model:
 Source type definitions:
 [mapping inventory](https://github.com/DDMAL/linkedmusic-datalake/blob/main/musicbrainz/doc/relationship_inventory.md).
 
-### Draft 2 — Preserve both endpoints of APSearch creation intervals
+### [#471](https://github.com/DDMAL/linkedmusic-datalake/issues/471) — Preserve both endpoints of APSearch creation intervals
+
+Label: `bug`
 
 Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450).
 
@@ -392,7 +401,9 @@ Evidence:
 Implementation:
 [`coerce_date`](https://github.com/DDMAL/linkedmusic-datalake/blob/main/ckg-apsearch/src/convert_to_rdf.py).
 
-### Draft 3 — Build an independent LinkedMusic graph evaluation pilot
+### [#472](https://github.com/DDMAL/linkedmusic-datalake/issues/472) — Build an independent LinkedMusic graph evaluation pilot
+
+Label: `enhancement`
 
 Related: [#450](https://github.com/DDMAL/linkedmusic-datalake/issues/450),
 [#419](https://github.com/DDMAL/linkedmusic-datalake/issues/419),
