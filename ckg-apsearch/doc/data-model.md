@@ -79,6 +79,11 @@ year** (`coerce_date(o, "apsearch")`). All `wdt:P571` values are `xsd:gYear`; th
 the 128 multi-year ranges is not retained. This branch is APSearch-only — Detmold has no
 Jan-01 same-day spans and musiconn has no intervals.
 
+Dropping those 128 end years is **conversion loss**, not missing source evidence,
+and remains a fidelity repair item. These are source-supplied creation periods;
+they do not independently establish performance or field-recording dates.
+Preserve anomalous values while tracing their origin; do not guess corrections.
+
 > **Lake-wide date note for SESEMMI:** dates are mixed-precision across feeds (`xsd:date` /
 > `gYearMonth` / `gYear`). The robust, datatype-agnostic year filter to teach the query layer
 > is `FILTER(STRSTARTS(STR(?d), "2015"))` — `YEAR(?d)` only works on `xsd:date`/`dateTime` and

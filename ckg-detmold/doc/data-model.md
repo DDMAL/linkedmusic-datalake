@@ -30,6 +30,12 @@ backbone, drop provenance). Detmold exercises: `rdfs:label` (work title) kept; `
 `CTO_0001011` related location → `cto:CTO_0001011` → `lmckg:Place`; `NFDI_0001006` → the
 `wdt:P2888` pivot.
 
+`CTO_0001009` records an association with a person whose role is unspecified.
+It does not establish composition, authorship, or performance. A person's
+occupation in Wikidata cannot supply the missing role for this particular
+record. Likewise, the creation period on the source item should not be
+reinterpreted as a performance date.
+
 **`NFDI_0001008` "has url" is dropped** — like every feed, its object literal is
 byte-identical to the record's own subject IRI (self-referential). The subject IRI already
 *is* the source permalink, so no triple is emitted.
@@ -102,7 +108,7 @@ The schema the query layer sees (SESEMMI is LinkedMusic's natural-language→SPA
            wdt:P31 wd:Q838948 ;                 # work of art (fallback)
            rdfs:label "…title…" ;
            wdt:P571 "1853"^^xsd:gYear ;          # inception (from the interval)
-           cto:CTO_0001009 <gnd-or-viaf-uri> ;   # related person (composer/author — role-agnostic)
+           cto:CTO_0001009 <gnd-or-viaf-uri> ;   # related person; role unspecified
            cto:CTO_0001011 <geonames-uri> .      # related location
 
 <geonames-uri> rdf:type lmckg:Place ;

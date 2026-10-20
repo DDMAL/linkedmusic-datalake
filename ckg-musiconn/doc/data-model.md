@@ -104,6 +104,11 @@ filter by kind.
 
 ## 4. Dates
 
+`CTO_0001009` links a related person without specifying their role. It does not
+by itself establish that the person composed or performed the associated
+material. The performance date below is distinct from a work's creation date
+or an archive/catalogue record's creation or modification date.
+
 `CTO_0001070` (performance date) is a uniform `YYYY-MM-DD` literal across all 65,359 event
 records → coerced to `xsd:date` (`coerce_date`, with a `xsd:gYear` fallback for `YYYY` /
 `YYYY-00-00`). musiconn carries **no** `schema:DateTime` interval dates, so the interval branch
