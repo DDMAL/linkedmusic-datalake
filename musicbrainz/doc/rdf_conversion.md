@@ -72,6 +72,11 @@ Additionally, all the regex patterns in the [`musicbrainz/removed_properties/url
 
 ## Attributes
 
+The contributor-role pilot preserves relationship attributes and dates on named
+observations, separately from the entity-level attributes described below. See
+[relationship preservation](relationship_preservation.md) for the 33 specific
+role predicates, schema generation, and query compatibility.
+
 The `work` entity type has an additional field `attributes` that contains a list of various attributes for that work:
 
 - The vast majority of attribute types are IDs to other databases, but they can also contain a few other thing. For example:
@@ -141,7 +146,7 @@ For other properties in other fields:
 - To indicate that a release is a part of a release group, I use P361 "part of", because release groups are just groups of releases
 - To attribute a release, release group or recording to an artist, I use P175 "performer"
 - To indicate that a release was released in a country (this is what release events are), I use P495 "country of origin" as it is used to indicate where a work is from
-- For other people related to a release (engineers, art directors, etc), I use P767 "contributor to the creative work or subject" as it's a catch-all for people that contributed in some way to the work
+- The 33 recording/release-to-artist roles formerly mapped to P767 now use source-type-specific LinkedMusic predicates with named qualifier observations and reviewed broader alignments. See [the pilot model](relationship_preservation.md); existing nonpilot mappings retain their previous behavior.
 - To indicate musical genres, I use P136 "genre", as it is an exact match for what we want
 - To indicate types, I use P31 "instance of" instead of RDF:type because our goal is to mach against wikidata, so we should use its properties as much as possible
 - To indicate the area for artists, I use P27 "country of citizenship", as it is already used for this purpose on wikidata

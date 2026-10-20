@@ -1,5 +1,16 @@
 # MusicBrainz Data Pipeline Documentation
 
+The [relationship-preservation pilot](doc/relationship_preservation.md) adds
+specific source roles and qualifier observations for 33 mappings previously
+collapsed to P767. Review its query compatibility and
+[inventory](doc/relationship_inventory.md) before regenerating a full dump.
+The offline sample command and regression tests require no external services:
+
+```bash
+poetry run python -m unittest discover -s musicbrainz/tests -v
+poetry run python musicbrainz/src/convert_relationship_sample.py --output-dir /tmp/musicbrainz-role-pilot
+```
+
 This guide details all the steps required to translate raw data from MusicBrainz into an RDF graph reconciled with Wikidata.
 
 ## Characteristics of the MusicBrainz Dataset

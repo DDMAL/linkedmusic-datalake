@@ -57,6 +57,7 @@ from rdflib.namespace import XSD, RDF
 import pandas as pd
 import aiofiles
 from mapping_schema import MappingSchema
+from relationship_mapping import RelationshipMappings
 
 # Define namespaces
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
@@ -501,6 +502,15 @@ def process_entity(
 
     # Process relationships
     for relation in data.get("relations", []):
+        # Pilot roles are identified by stable source UUID, including when the
+        # source supplies the inverse artist -> recording/release representation.
+        target_type = (relation.get("target-type") or "").replace("_", "-")
+        if isinstance(relationship_mapping, RelationshipMappings) and (
+            relationship_mapping.preserve_role(
+                g, subject_uri, entity_type, target_type, relation
+            )
+        ):
+            continue
         if not (target_type := relation.get("target-type")) or not (
             rel_type := relation.get("type")
         ):
@@ -1107,21 +1117,10 @@ if __name__ == "__main__":
         ATTRIBUTE_MAPPING[k] = URIRef(f"{WDT}{v}") if v else None
 
     with open(config_folder / "relations.json", "r", encoding="utf-8") as fi:
-        RELATIONSHIP_MAPPING = json.load(fi)
+        RELATIONSHIP_MAPPING = RelationshipMappings(json.load(fi))
     if not RELATIONSHIP_MAPPING:
         print("No relationship mapping found in the configuration file.")
         sys.exit(1)
-
-    # Convert the property ID strings into URIRefs
-    for mapping in RELATIONSHIP_MAPPING.values():
-        if not mapping:
-            continue
-        for values in mapping.values():
-            if not values:
-                continue
-            for k, v in values.items():
-                if v is not None:
-                    values[k] = WDT[v]
 
     keys_file_path = Path(args.reconciled_folder) / "keys-csv.csv"
     if keys_file_path.is_file():

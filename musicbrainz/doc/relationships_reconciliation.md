@@ -1,5 +1,11 @@
 # MusicBrainz: Reconciling Relationships between Entities
 
+The [contributor-role pilot](relationship_preservation.md) supersedes the older
+P767 generalization for 33 recording/release-to-artist roles. It preserves stable
+source type IDs, specific roles, direction, and relationship qualifiers. Consult
+the [mapping inventory](relationship_inventory.md) before changing those entries.
+The remaining sections describe legacy mappings outside that bounded pilot.
+
 ## Understanding MusicBrainz Relationships
 
 It is important to read this section before you attempt reconciling MusicBrainz relationships against Wikidata.
@@ -129,7 +135,7 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
   - A generic property for contributors whose role is too specific to exist in Wikidata (e.g. "field recordist", "mix-DJ", "remixer").
 
-  - Must have a release, recording, or work (i.e. composition) as object. In the case of the object being an event or a place, use `employer(P108)` instead.
+  - The release, recording, or work is the **subject**; its contributor is the **object**. Do not reverse this direction. Employer relationships have different semantics and must be checked independently.
 
   - Despite that we commonly say "this artist is the illustrator of this album", `"performer(P175)"`, `"illustrator(P110)"`, or any similar Wikidata property for contributors needs the person as the object. It is better to understand them as "has performer" and "has illustrator".
 
