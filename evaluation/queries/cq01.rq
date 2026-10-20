@@ -1,0 +1,7 @@
+# Direct-QID performer path. A Solo is not a complete recording.
+SELECT DISTINCT ?solo WHERE {
+  GRAPH {{wjazzd}} {
+    ?solo a <https://linkedmusic.ca/graphs/wjazzd/Solo> ;
+          wdt:P175 {{jazz_person}} .
+  }
+} ORDER BY ?solo LIMIT 25

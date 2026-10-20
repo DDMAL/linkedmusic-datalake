@@ -31,6 +31,7 @@ There is one folder per source database (listed under [Datasets](#datasets)). Mo
 The repository root also holds:
 
 - `shared/` — code reused across subprojects: a config-driven RDF conversion tool (`rdfconv/`, with per-subproject configs in `rdf_config/`), a Wikidata API client (`wikidata_utils/`), and standalone utilities.
+- [`evaluation/`](evaluation/README.md) — independent graph-evaluation manifests, fidelity/reconciliation protocol, competency SPARQL queries, offline controls and read-only audit tooling.
 - `pyproject.toml` / `poetry.lock` — Python dependencies, managed with Poetry (one environment for the whole repo).
 
 A few of the older subprojects also contain a `jsonld_approach/` folder, holding files from the now-discontinued JSON-LD approach.

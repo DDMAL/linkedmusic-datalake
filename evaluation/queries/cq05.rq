@@ -1,0 +1,11 @@
+# The common QID links people. It does not identify the two source records.
+SELECT DISTINCT ?source ?work ?person WHERE {
+  GRAPH {{rism}} {
+    ?source wdt:P86/wdt:P2888? {{historical_person}} .
+  }
+  GRAPH {{musiconn}} {
+    ?work a <https://linkedmusic.ca/graphs/ckg-musiconn/Work> ;
+          cto:CTO_0001009 ?person .
+    ?person wdt:P2888 {{historical_person}} .
+  }
+} ORDER BY ?source ?work ?person LIMIT 25
