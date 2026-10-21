@@ -1,11 +1,13 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated 21 October after offline validation/CI and
-cross-dataset identifier review, following the APSearch interval-preservation,
+Prepared 20 October 2026. Updated 21 October after the shared CSV identifier
+preservation repair, offline validation/CI and cross-dataset identifier review,
+following the APSearch interval-preservation,
 independent-evaluation and MusicBrainz representation-review continuations.
-The APSearch repair, evaluation package, representation review, offline CI and
-identifier review are committed locally in separate topic commits. This handoff
-records the completed sequence; publishing and deployment remain separate.
+The APSearch repair, evaluation package, representation review, offline CI,
+identifier review and shared CSV repair are committed locally in separate topic
+commits. This handoff records the completed sequence; publishing and deployment
+remain separate.
 
 ## Start here — next agent
 
@@ -32,7 +34,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The additions below bring the current baseline to **54 passing
+20 October. The additions below bring the current baseline to **64 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -50,15 +52,25 @@ and explicit, scoped QID/P2888 joins, with three query examples and six new
 synthetic tests. It records differences in normalization and match handling
 across converters. No global node replacement or identity inference was added.
 
-**No further task is required to finish these local improvements.** The main
-remaining work resumes when Liam confirms snapshot access. If he wants another
-local task first, the highest-priority bounded follow-up is the shared CSV
-converter's identifier extraction: it can turn unrelated URLs or text containing
-QIDs into Wikidata IRIs and select the last ID from ambiguous text. Review
-tracked export contracts, then design a focused preservation fix and regression
-checks. The identifier review also records narrower MusicBrainz URL, DIAMM
-validation and P2888-literal follow-ups. These are identified code behaviors,
-not measured historical-data defects; do not claim source occurrence counts.
+**The next requested local repair is also complete (21 October).** The
+[shared CSV identifier contract](shared/rdf_conversion/identifier_preservation.md)
+records the export review and fix. Conversion now recognizes complete Wikidata
+IDs/URLs, preserves external URLs and prose, honors literal declarations and
+local prefixes, and stops extracting PIDs from unrelated predicate URLs/text.
+The general-purpose search helper and dataset mappings are unchanged. Ten new
+tests bring the total to **64 tests and 14 competency fixture queries**; they
+include actual DTL mapping conversion and Turtle round-trip checks.
+
+**No further task is required to finish this repair.** Remaining bounded local
+follow-ups are Global Jukebox's invalid TOML (duplicate `alternative_names 1`–`13`
+mappings under the social-factors society table), MusicBrainz URL recognition,
+DIAMM ID validation and SIMSSA P2888 literal handling. Global Jukebox needs a
+mapping review to choose between the competing `P4970`/`skos:altLabel` declarations;
+it was already invalid at baseline and is explicitly excluded from the eight
+loadable-config compatibility checks. Do not silently choose one mapping just
+to make TOML parse. The other findings are described in the identifier review.
+These are code/configuration findings, not measured historical-data defects.
+Snapshot validation and regeneration remain deferred until Liam confirms access.
 
 The Virtuoso comparison remains optional and lower priority until a concrete
 compatibility/performance need arises. Inspect an isolated local/test environment
@@ -110,6 +122,13 @@ Committing or merging this code will not update the live data.
 - [ ] Make the reviewed converter/configuration revisions available on the
   machine with the Arbutus/Montreal source snapshots; record snapshot and
   conversion versions.
+- [ ] **Shared CSV converter:** review source cells affected by stricter identifier
+  recognition and explicit literal/local-prefix precedence. Regenerate into a
+  separate directory and check source keys, labels and canonical joins, including
+  triples excluded by existing conditional mappings. Follow the
+  [shared identifier procedure](shared/rdf_conversion/identifier_preservation.md).
+  Resolve Global Jukebox's conflicting TOML mappings separately before attempting
+  that route; never repair collapsed old QIDs without their source values.
 - [ ] **RISM:** inspect the actual stored/live data for affected identifiers,
   then regenerate RDF from the reconciled CSVs into a new output directory or
   prepare the scoped identifier migration described in
@@ -183,6 +202,8 @@ None of these commits has been pushed, and none deploys data to Virtuoso.
 | Consolidated preservation handoff and commit status | linkedmusic-datalake | `9bbb4c7d` |
 | Offline validation command and GitHub Actions workflow | linkedmusic-datalake | `df9f785f` |
 | Identifier design review, scoped queries and synthetic controls | linkedmusic-datalake | `6c680314` |
+| Offline CI and identifier-review handoff | linkedmusic-datalake | `93642c26` |
+| Shared CSV identifier preservation, tests and export contract | linkedmusic-datalake | `a928a19d` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -200,7 +221,8 @@ configuration and query files are unchanged. The consolidated handoff is a
 separate documentation commit after those topics.
 
 The 20 October code passed 48 tests and 14 fixture queries. The 21 October
-additions bring the total to 54 tests and the same 14 competency queries.
+CI/review additions brought the total to 54 tests and the same 14 competency
+queries. The subsequent shared CSV repair adds ten tests for a total of 64.
 The unified command passed both in the working checkout and from a clean
 `git archive` of committed code, invoked outside that checkout using the existing
 Python environment. This confirms independence from ignored evidence and source
@@ -230,7 +252,7 @@ Completed locally, with no production writes or full-dump regeneration:
 - **Identifier design review (21 October):** reviewed converter/configuration
   paths for direct QIDs, source nodes and P2888. Added three query examples and
   six synthetic controls, preserving source/graph evidence and exposing
-  competing targets. The combined suite passes **54 tests and 14 competency
+  competing targets. That review baseline passed **54 tests and 14 competency
   fixture queries**. Converter/configuration behavior remains unchanged;
   source-impact measurements and focused repair follow-ups are separate.
 
@@ -297,11 +319,11 @@ converter bug or establish that every stored file/predicate is canonical.
 
 Current queue (the **Start here** section is the next-agent brief):
 
-1. **Local requested work complete:** offline CI and the identifier review are
-   implemented. Optional follow-up: inspect export contracts and fix the shared
-   converter's overbroad identifier extraction as scoped in the review. The
-   Virtuoso comparison remains optional; neither is a prerequisite to waiting
-   for snapshots.
+1. **Local requested work complete:** offline CI, the identifier review and
+   shared CSV identifier preservation are implemented and tested. Optional local
+   follow-ups are the Global Jukebox TOML mapping conflict and narrower
+   MusicBrainz/DIAMM/SIMSSA findings described in **Start here**. The Virtuoso
+   comparison remains optional; none is a prerequisite to waiting for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
    [evaluation manifests](evaluation/manifests.json) from
    the actual snapshots and conversion/deployment records. Use the
@@ -501,7 +523,8 @@ Use one reviewable change per topic. Write the resource description and evaluati
 The RISM fixture/fix, MusicBrainz pilot, APSearch interval repair and independent
 evaluation foundation are now implemented, and the MusicBrainz representation
 review is complete. Offline CI and the separate identifier review are now
-complete too; optional code follow-ups are recorded in **Start here**.
+complete too, as is the shared CSV identifier repair; remaining local follow-ups
+are recorded in **Start here**.
 Resume #472's matched-source measurements and
 actual reconciliation review when Liam confirms snapshot access is available.
 Stored-snapshot validation remains necessary before deployment. Do not repeat
