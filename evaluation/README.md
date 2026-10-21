@@ -14,6 +14,9 @@ remain unknown; this directory does not establish population accuracy.
   evidence needed to check each answer independently.
 - [Findings](findings-2026-10-20.md): measurements and outstanding work, separate
   from protocol design.
+- [Identifier review and query patterns](identifier_review.md): direct QIDs,
+  source-node/P2888 joins, graph provenance and concrete conversion follow-ups
+  for #419/#432. Six additional synthetic tests protect the three query examples.
 
 The three task families are jazz discovery across Weimar/MusicBrainz, historical
 person/source lookup across RISM/CKG, and preservation of roles and dates. Cases

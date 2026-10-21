@@ -19,6 +19,11 @@ The recommended way to explore the graph is [SESEMMI](https://sesemmi.linkedmusi
 
 SESEMMI translates plain-language questions into SPARQL for you, and also provides a SPARQL input field if you'd rather write queries by hand. For developers, our Virtuoso SPARQL endpoint is available at [https://virtuoso.simssa.ca/sparql/](https://virtuoso.simssa.ca/sparql/).
 
+For queries across datasets, see the [identifier review and tested query
+patterns](evaluation/identifier_review.md). They cover both direct Wikidata
+identifiers and source entities linked through P2888 while retaining graph and
+source-node evidence.
+
 ## Repository structure
 
 There is one folder per source database (listed under [Datasets](#datasets)). Most follow the same layout, though not every subproject uses every subdirectory:
