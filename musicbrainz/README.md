@@ -13,6 +13,9 @@ poetry run python -m unittest discover -s musicbrainz/tests -v
 poetry run python musicbrainz/src/convert_relationship_sample.py --output-dir /tmp/musicbrainz-role-pilot
 ```
 
+The [Wikidata URL contract](doc/url_recognition.md) records the supported item
+URL forms, literal preservation, offline tests and deferred snapshot validation.
+
 This guide details all the steps required to translate raw data from MusicBrainz into an RDF graph reconciled with Wikidata.
 
 ## Characteristics of the MusicBrainz Dataset

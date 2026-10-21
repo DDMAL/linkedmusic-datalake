@@ -11,7 +11,10 @@ accuracy, completeness or query latency.
 A subsequent [shared-converter repair](../shared/rdf_conversion/identifier_preservation.md)
 now addresses the first conversion finding below, with ten additional tests.
 The findings and probe commands here describe the pre-repair baseline; the
-remaining findings are still open.
+MusicBrainz URL finding is now addressed by the
+[URL recognition repair](../musicbrainz/doc/url_recognition.md). DIAMM and SIMSSA
+findings remain open. Global Jukebox’s separate mapping conflict is also
+[repaired](../theglobaljukebox/doc/alternative_names_mapping.md).
 
 ## Scope and versions
 
@@ -28,7 +31,7 @@ does not establish which converter revision produced any existing live graph.
 
 | Dataset / route | Observed representation in code/configuration | Query implication |
 | --- | --- | --- |
-| [MusicBrainz](../musicbrainz/src/convert_to_rdf.py), [field mappings](../musicbrainz/src/rdf_conversion_config/mappings.json) | Entities retain MusicBrainz URLs. Recognized Wikidata page links become canonical QID objects of P2888. Artist/area and other entity relationships generally retain the MusicBrainz target. | Traverse the relationship and the target's explicit P2888 link. The URL recognition boundary is narrower than RISM's; see findings. |
+| [MusicBrainz](../musicbrainz/src/convert_to_rdf.py), [field mappings](../musicbrainz/src/rdf_conversion_config/mappings.json) | Entities retain MusicBrainz URLs. Recognized Wikidata page links become canonical QID objects of P2888. Artist/area and other entity relationships generally retain the MusicBrainz target. | Traverse the relationship and the target's explicit P2888 link. The URL boundary at review time was narrower than RISM’s; the subsequent repair accepts complete item-URL variants (see findings). |
 | [RISM](../rism/src/convert_to_rdf.py) | Source IRIs remain subjects. Exact item-URL variants are normalized in RDF objects. Relationship targets follow the reconciled input; some topic nodes are deliberately projected through a match/value lookup. | Handle direct QIDs and local targets. Do not assume all intermediate source nodes survive every mapping. |
 | [CKG musiconn/Detmold](../ckg-musiconn/src/convert_to_rdf.py) | Authority blank nodes become GND/VIAF/GeoNames IRIs; a successful crosswalk adds P2888. Source residue IRIs remain local/authority nodes. | Authority IRIs are source entities for this query purpose. A person link remains role-unspecified unless the source supplied a role. |
 | [CKG APSearch](../ckg-apsearch/src/convert_to_rdf.py) | Explicit publisher/license links may receive P2888 crosswalks. The feed has no comparable person-reconciliation backbone. | Do not treat all P2888 subjects as people or the generic CKG person query as applicable to this feed. |
@@ -128,7 +131,7 @@ reconciliation tools, so replacing it globally would change their contract.
 | Finding | Local evidence | Consequence and next repair scope |
 | --- | --- | --- |
 | Shared CSV conversion guesses identifiers inside text and unrelated URLs | [`to_rdf_node`](../shared/rdfconv/convert.py) calls [`extract_wd_id`](../shared/wikidata_utils/helpers.py) before URI/literal handling. `https://example.org/Q42` and `Study Q42 (draft)` both become `wd:Q42`; `Q42 / Q43` becomes `wd:Q43`. Even `datatype="xsd:string"` with `Q42` yields an IRI. | This can change source meaning. A focused converter repair should distinguish structured reconciled values from ordinary text, preserve explicit literal declarations and external IRIs, and reject ambiguity rather than selecting a match. Check tracked export contracts first; do not change the general-purpose extraction helper indiscriminately. |
-| MusicBrainz's URL branch recognizes fewer valid item-URL forms than RISM | A synthetic artist `wikidata` URL relationship using `https://www.wikidata.org/wiki/Q42` produces canonical P2888; using `https://www.wikidata.org/entity/Q42` produces a literal target. RISM normalizes both complete URLs. | A narrowly scoped normalization change can be evaluated with fixtures. Which forms occur in the historical dump remains unknown; current query examples intentionally exclude the literal target and the audit exposes it. |
+| MusicBrainz's URL branch recognizes fewer valid item-URL forms than RISM | A synthetic artist `wikidata` URL relationship using `https://www.wikidata.org/wiki/Q42` produces canonical P2888; using `https://www.wikidata.org/entity/Q42` produces a literal target. RISM normalizes both complete URLs. | Fixed locally on 21 October: complete HTTP/HTTPS item URLs on the two accepted hosts and paths now normalize; malformed IDs and unrelated values stay literal. Four regression tests cover conversion and canonical joins. Historical prevalence remains unknown; query audit fixtures intentionally retain literal-target controls. |
 | DIAMM's bare-QID check accepts suffixes | The actual `matched_wikidata` helper uses a prefix match: both `Q42suffix` and `Q42 / Q43` are accepted. Full item URLs are not accepted by that helper. | The code later concatenates the field onto `WD`, so an invalid accepted value can create a malformed/noncanonical identifier. Tighten this helper only with tests reflecting the export columns; this review did not run the full data-dependent DIAMM script. |
 | P2888 object constraints differ between configurations | A one-row synthetic CSV using the SIMSSA `person` table produces `<https://db.simssa.ca/persons/1> wdt:P2888 "Unmatched name"`. Its work-title mapping, and several DTL/Global Jukebox mappings, have IRI guards. | Preserve the unmatched name as a label and separately represent lack of a match. Confirm field/export contracts before standardizing P2888 guards across tables. |
 | A source-record link is not necessarily an entity-identity link | Cantus DB explicitly maps `cantus_id` to P2888 pointing at Cantus Index. The local documentation describes manuscript chants and index entries as different source structures. | This needs source-model review before any identity rule or flattening proposal. No error rate or universal replacement predicate is asserted here. |
@@ -186,7 +189,9 @@ additional controls, not new measured user questions.
 
 The review baseline was **54 tests and 14 competency fixture queries**; the
 subsequent shared-converter repair brings the total to **64 tests** and the same
-14 competency fixture queries.
+14 competency fixture queries. The later Global Jukebox mapping test raises
+the count to 65; the MusicBrainz URL repair adds four tests for **69 tests and
+14 competency fixture queries**.
 Python 3.12.11 / RDFLib 7.6.0 were used locally. Linux GitHub Actions execution
 will be established after the workflow is published and run; local success is
 not a claim that a hosted run has occurred.

@@ -90,6 +90,11 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 ## URLS
 
+The [Wikidata URL recognition contract](url_recognition.md) specifies complete
+item-URL normalization and preservation of all other values. The 21 October
+2026 repair adds `/entity/` and non-`www` variants and rejects malformed IDs.
+
+
 We store all URLs (except for Wikidata URIs) as string literals in the [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888) property, and Wikidata URIs are also stored in this property, but as URIs.
 
 As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, we no longer store IDs to external non-Wikidata databases, but the following section has been kept in the event that we choose to reintegrate those IDs, to not lose the work that was done. The file containing the URL patterns has been moved to the `musicbrainz/removed_properties` folder.

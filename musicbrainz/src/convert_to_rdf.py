@@ -126,8 +126,11 @@ ENTITIES_WITHOUT_TYPES = [
     "release",
 ]
 
-# This one is separated because I need to convert from /wiki/... to /entity/...
-WIKIDATA_REGEX = re.compile(r"^https?:\/\/www\.wikidata\.org\/wiki\/Q\d+$")
+# Only complete item URLs qualify for canonical entity IRIs. Keep URL parsing
+# separate from the bare-QID contract used by auxiliary reconciliation files.
+WIKIDATA_REGEX = re.compile(
+    r"https?://(?:www\.)?wikidata\.org/(?:wiki|entity)/(Q[1-9][0-9]*)"
+)
 
 
 def matched_wikidata(field: str) -> bool:
@@ -520,15 +523,8 @@ def process_entity(
         pred_uri = None
         if target_type == "url" and (url := relation.get("url", {}).get("resource")):
             pred_uri = entity_mb_schema["url"]
-            if WIKIDATA_REGEX.match(url):
-                # Convert Wikidata URL to URIRef
-                target = URIRef(
-                    re.sub(
-                        r"^https?:\/\/www\.wikidata\.org\/wiki\/(Q\d+)",
-                        f"{WD}\\g<1>",
-                        url,
-                    )
-                )
+            if match := WIKIDATA_REGEX.fullmatch(url):
+                target = WD[match[1]]
             else:
                 # Treat it as a generic URL
                 target = Literal(url)
