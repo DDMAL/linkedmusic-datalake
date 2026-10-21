@@ -205,3 +205,14 @@ Identifies the book/anthology from which the chant was taken.
 Prefix: `https://db.simssa.ca/files/`
 
 Identifies the symbolic music file (PDF or MIDI) attached to a work or a section.
+
+# 6. Shared CSV-to-RDF Route
+
+The checked-in [SIMSSA TOML configuration](../shared/rdf_config/simssadb.toml)
+uses the shared converter for reconciled CSVs. The
+[person identifier mapping contract](doc/person_identifier_mapping.md) records
+Wikidata match validation, original-name preservation, required export settings
+and offline tests. Historical use of this route is not established by these
+checks; the separate `jsonld_approach/` files are unchanged.
+
+Run `poetry run python scripts/check_offline.py` from the repository root.
