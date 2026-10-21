@@ -1,13 +1,52 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated 21 October after the shared CSV identifier
-preservation repair, offline validation/CI and cross-dataset identifier review,
+Prepared 20 October 2026. Updated 21 October after the MusicBrainz URL and
+Global Jukebox mapping repairs, shared CSV identifier preservation, offline
+validation/CI and cross-dataset identifier review,
 following the APSearch interval-preservation,
 independent-evaluation and MusicBrainz representation-review continuations.
 The APSearch repair, evaluation package, representation review, offline CI,
 identifier review and shared CSV repair are committed locally in separate topic
 commits. This handoff records the completed sequence; publishing and deployment
 remain separate.
+
+## Completed task — MusicBrainz URL recognition
+
+Completed 21 October 2026 in local commit `5d5e18ae`. The
+[URL contract](musicbrainz/doc/url_recognition.md) records the input boundary,
+evidence, test scope and deferred validation. Complete HTTP/HTTPS Wikidata item
+URLs on `www.wikidata.org` or `wikidata.org`, using `/wiki/` or `/entity/`, now
+normalize to canonical HTTP entity IRIs. Full matching requires positive ASCII
+QID digits without leading zeros. Malformed URLs and unrelated values remain
+original literals. MusicBrainz source nodes, ordinary name literals, multiple
+supplied matches and the existing URL-to-P2888 policy are preserved.
+
+Four new tests use the actual entity converter and tracked mappings. They cover
+all eight URL variants, idempotence, malformed/external values, name literals,
+multiple targets, exact triples, a Turtle round trip and a canonical-QID SPARQL
+join. They reported 13 failing subtests before the repair and now pass.
+`poetry run python scripts/check_offline.py` passes **69 tests and 14 competency
+fixture queries**; Black and diff checks pass. No historical inputs or production
+graphs were inspected or changed, and nothing was pushed or deployed.
+
+## Next task — DIAMM identifier validation
+
+Review the DIAMM export contract and repair the permissive `matched_wikidata`
+prefix check described in [the identifier review](evaluation/identifier_review.md).
+Read root `CLAUDE.md`, `diamm/README.md`, relevant reconciliation/export artifacts
+and `diamm/src/convert_rdf.py` before editing. The existing helper accepts
+`Q42suffix` and `Q42 / Q43`; the converter then concatenates the whole value
+onto the Wikidata namespace. Establish the supported input shape before choosing
+whether to accept full URLs. Preserve unmatched names and source nodes.
+
+Add offline tests without importing a script that starts data-dependent work
+at module import. Refactor only as needed to test the real behavior safely.
+Run the unified offline command, Black on changed Python and diff checks;
+update the identifier review and this handoff. Commit reviewable local chunks
+on `main`; do not push, deploy, change SESEMMI or request snapshots as a prerequisite.
+SIMSSA P2888 literal handling follows separately. The MusicBrainz auxiliary CSV
+bare-QID helper also retains a permissive prefix check; its export-contract
+review is a separate later follow-up, not part of the completed URL repair.
 
 ## Completed task — Global Jukebox mapping repair
 
@@ -38,10 +77,6 @@ Historical exports, affected counts, full-dump fidelity and stored/live RDF
 remain unverified and unchanged. Snapshot work is deferred until Liam confirms
 access; no production probes, push, deployment or issue updates were performed.
 
-**Next bounded local task:** review MusicBrainz URL recognition as described in
-[evaluation/identifier_review.md](evaluation/identifier_review.md). DIAMM ID
-validation and SIMSSA P2888 literal handling remain separate later follow-ups.
-Do not restart this completed mapping repair or resume snapshots automatically.
 
 ## Start here — next agent
 
@@ -68,7 +103,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **65 passing
+20 October. The completed additions below bring the current baseline to **69 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -96,12 +131,13 @@ tests bring the total to **64 tests and 14 competency fixture queries**; they
 include actual DTL mapping conversion and Turtle round-trip checks.
 
 **The Global Jukebox mapping repair is also complete (21 October).** See the
-completed-task section above and commit `93f23953`. Current validation is
-**65 tests and 14 competency fixture queries**, including all nine configs.
-Remaining bounded local follow-ups are MusicBrainz URL recognition (next),
-DIAMM ID validation and SIMSSA P2888 literal handling. These are code/config
-findings, not measured historical-data defects. Snapshot validation and
-regeneration remain deferred until Liam confirms access.
+completed-task section above and commit `93f23953`. It added the 65th test and
+restored validation of all nine configs. The subsequent MusicBrainz URL repair
+(`5d5e18ae`) brings current validation to **69 tests and 14 competency fixture
+queries**. Next is DIAMM ID validation, then SIMSSA P2888 literal handling.
+MusicBrainz's auxiliary CSV bare-QID helper remains a separate later review.
+These are code/config findings, not measured historical-data defects. Snapshot
+validation and regeneration remain deferred until Liam confirms access.
 
 The Virtuoso comparison remains optional and lower priority until a concrete
 compatibility/performance need arises. Inspect an isolated local/test environment
@@ -171,7 +207,9 @@ Committing or merging this code will not update the live data.
   roles and qualifiers cannot be reconstructed from the old P767-only Turtle.
   Export the matching schema/alignment RDF separately; use
   [the documented broad-contributor query](musicbrainz/doc/queries/pilot_contributors.rq)
-  when querying the newly converted data.
+  when querying the newly converted data. Also audit source URL forms under the
+  [URL contract](musicbrainz/doc/url_recognition.md), comparing canonical joins
+  and preserved literal targets before staging/replacement.
 - [ ] **APSearch:** review the
   [creation-period representation and regeneration procedure](ckg-apsearch/doc/creation-period-preservation.md),
   regenerate from the stored E6304 snapshot into a new directory, and inspect
@@ -237,6 +275,7 @@ None of these commits has been pushed, and none deploys data to Virtuoso.
 | Offline CI and identifier-review handoff | linkedmusic-datalake | `93642c26` |
 | Shared CSV identifier preservation, tests and export contract | linkedmusic-datalake | `a928a19d` |
 | Global Jukebox alternative-name mapping, regression and decision record | linkedmusic-datalake | `93f23953` |
+| MusicBrainz complete item-URL normalization, tests and contract | linkedmusic-datalake | `5d5e18ae` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -257,6 +296,7 @@ The 20 October code passed 48 tests and 14 fixture queries. The 21 October
 CI/review additions brought the total to 54 tests and the same 14 competency
 queries. The subsequent shared CSV repair adds ten tests for a total of 64.
 The Global Jukebox mapping regression adds one more, bringing the total to 65.
+The MusicBrainz URL repair adds four tests for the current total of 69.
 The unified command passed both in the working checkout and from a clean
 `git archive` of committed code, invoked outside that checkout using the existing
 Python environment. This confirms independence from ignored evidence and source
@@ -355,8 +395,9 @@ Current queue (the **Start here** section is the next-agent brief):
 
 1. **Local requested work complete:** offline CI, the identifier review and
    shared CSV identifier preservation and Global Jukebox mapping repair are
-   implemented and tested. Next is the narrower MusicBrainz URL-recognition
-   review; DIAMM/SIMSSA findings remain later follow-ups in **Start here**. The Virtuoso
+   implemented and tested, as is MusicBrainz URL recognition. Next is DIAMM
+   identifier validation, followed by SIMSSA P2888 handling. MusicBrainz auxiliary
+   CSV ID validation remains a later follow-up. The Virtuoso
    comparison remains optional; none is a prerequisite to waiting for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
    [evaluation manifests](evaluation/manifests.json) from
