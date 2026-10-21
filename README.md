@@ -67,6 +67,27 @@ Setup and the full ingestion workflow are documented in the wiki. In brief: the 
 - [Working with Virtuoso](https://github.com/DDMAL/linkedmusic-datalake/wiki/Working-with-Virtuoso) · [Accessing the SPARQL endpoint](https://github.com/DDMAL/linkedmusic-datalake/wiki/Accessing-the-Virtuoso-SPARQL-Endpoint)
 - [Project status](https://github.com/DDMAL/linkedmusic-datalake/wiki/Project-Status)
 
+### Offline validation
+
+After `poetry install`, run the preservation tests and synthetic query controls:
+
+```bash
+poetry run python scripts/check_offline.py
+```
+
+This runs the RISM, MusicBrainz, APSearch and evaluation suites in separate
+processes, then checks all 14 competency queries against their expected fixture
+answers. It needs no source dumps, running triplestore, credentials or model/API
+calls. A failed suite or query returns a nonzero exit status. Query reports use
+temporary files by default; retain them with `--output-dir` pointing to a new
+directory, such as `evaluation/audits/local-check`.
+
+The [GitHub Actions workflow](.github/workflows/offline-checks.yml) runs the same
+command on pushes to `main`, pull requests and manual dispatches using Python
+3.12 and the Poetry lockfile. Dependency installation requires network access;
+the checks themselves use only local fixtures. These checks cover the bounded
+preservation/evaluation work, not every ingestion pipeline or production data.
+
 ## Team & contact
 
 LinkedMusic is developed at the [Distributed Digital Music Archives and Libraries Lab (DDMAL)](https://ddmal.ca/) at McGill University.

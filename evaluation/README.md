@@ -22,6 +22,11 @@ They are not a random sample of user questions or a held-out NLQ benchmark.
 
 ## Reproduce the offline checks
 
+To run all preservation suites and these query controls together, use
+`poetry run python scripts/check_offline.py` from the repository root. This is
+also the GitHub Actions entry point. Its optional `--output-dir` retains query
+reports in a new directory; otherwise they are temporary.
+
 Run from the repository root in the Python 3.12 Poetry environment:
 
 ```bash
