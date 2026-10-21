@@ -9,102 +9,39 @@ identifier review and shared CSV repair are committed locally in separate topic
 commits. This handoff records the completed sequence; publishing and deployment
 remain separate.
 
-## Next task — Global Jukebox mapping repair
+## Completed task — Global Jukebox mapping repair
 
-This is the focused continuation brief prepared at Liam's request on
-21 October 2026. **The task here is documented, not yet implemented.**
-The last completed code change is `a928a19d`; its handoff is `2e3a4ca9`.
-Check the current branch, working tree and instructions before editing.
+Completed 21 October 2026 in local commit `93f23953`. The
+[decision record](theglobaljukebox/doc/alternative_names_mapping.md) documents
+source/export contracts, authoritative definitions and the Git history.
+Commit `781beaf5` introduced duplicate declarations while partially applying
+the earlier SKOS mapping change. All 19 social-factors society alternative-name
+columns now use `skos:altLabel` with explicit `xsd:string`, preserving whole
+`Q42` values and URLs as names attached to the local society resource.
+The converter and other table mappings are unchanged.
 
-Copy this instruction into a new agent conversation:
+The complete Global Jukebox configuration parses and passes
+`rdf_process_predicates` for all 17 tables; no further configuration errors
+were exposed. The compatibility test now covers all nine tracked configs.
+A new synthetic CSV-to-RDF test uses the actual table and independently
+specified expected triples. It exercises every repaired column, multiple
+names, blanks, sparse records, ID-like strings, Unicode, punctuation and
+whitespace, plus local subjects and a Turtle round trip. A whole `Q42` is
+also tested in every name column to enforce literal handling throughout.
 
-> Continue with the **Next task — Global Jukebox mapping repair** section of
-> `LINKEDMUSIC-HANDOFF.md`. Review the evidence, fix the conflicting alternative-name
-> mappings, add offline regression coverage, and update the handoff. Commit in
-> appropriate chunks and explain the result. Keep snapshot-dependent work deferred;
-> do not push or deploy.
+`poetry run python scripts/check_offline.py` passes **65 tests and 14 competency
+fixture queries** (previous baseline: 64 and 14). Black and `git diff --check`
+pass. Shared identifier documentation and the dataset README now link the
+mapping decision and remove the obsolete config exclusion.
 
-### Goal and known failure
+Historical exports, affected counts, full-dump fidelity and stored/live RDF
+remain unverified and unchanged. Snapshot work is deferred until Liam confirms
+access; no production probes, push, deployment or issue updates were performed.
 
-Make the checked-in Global Jukebox configuration load successfully and preserve
-alternative names with a justified RDF mapping. Do not merely delete whichever
-line makes the parser complain.
-
-In [the configuration](shared/rdf_config/theglobaljukebox.toml), table
-`the-global-jukebox-social-factors-societies-csv` declares `alternative_names 1`
-through `alternative_names 13` twice, once as `P4970` and once as `skos:altLabel`.
-TOML rejects duplicate keys before conversion can start. Column 14 uses
-`skos:altLabel`, while 15–19 use `P4970`; review the whole 1–19 group. Other
-society tables provide comparison evidence, not automatic proof of intent.
-
-Reconfirmed at `2e3a4ca9`: `Cannot overwrite a value (at line 1407, column 40)`.
-Reproduce from the repository root; this should fail until repaired:
-
-```bash
-poetry run python -c 'import tomllib; from pathlib import Path; tomllib.loads(Path("shared/rdf_config/theglobaljukebox.toml").read_text())'
-```
-
-### Read and investigate
-
-- Root [CLAUDE.md](CLAUDE.md), [Global Jukebox README](theglobaljukebox/README.md)
-  and [shared README](shared/README.md).
-- [Reconciliation procedures](theglobaljukebox/doc/reconcile_procedures.md),
-  [reconciliation notes](theglobaljukebox/doc/general_reconciliation_notes.md),
-  tracked `theglobaljukebox/openrefine/export/` templates and histories relevant
-  to society alternative names. Inspect `git log -p --
-  shared/rdf_config/theglobaljukebox.toml` to trace the conflicting declarations.
-- [Configuration syntax](shared/rdf_conversion/rdf_config_syntax.md),
-  [identifier preservation contract](shared/rdf_conversion/identifier_preservation.md),
-  [converter](shared/rdfconv/convert.py), and
-  [existing tests](shared/tests/test_identifier_conversion.py).
-
-Establish what these fields represent and how export settings preserve their
-text. Check authoritative property definitions before choosing between the two
-predicates; record the evidence and any uncertainty in the dataset documentation.
-Prefer the smallest supported mapping repair. Do not broaden the converter to
-support multiple predicates unless the evidence establishes that both are needed.
-If a material semantic decision cannot be resolved from available evidence,
-finish independent investigation and ask one focused question rather than guess.
-Stored snapshots are not a prerequisite for this code/configuration task.
-
-### Acceptance criteria
-
-1. The complete Global Jukebox TOML parses and passes `rdf_process_predicates`.
-   Remove its explicit exclusion from `test_loadable_tracked_configs_still_validate`
-   so all nine tracked configs are covered. Address further configuration errors
-   exposed by parsing, with evidence and a bounded scope.
-2. Add synthetic CSV-to-RDF coverage using the actual repaired table mapping
-   and `build_rdf_graph`, with independently specified expected triples. Cover
-   names from the duplicate group and columns 14–19, multiple distinct names,
-   blanks, and names containing ID-like text (including a whole `Q42`). Verify
-   the intended literal handling, original text and local society subject;
-   do not silently turn a name into a Wikidata entity. Use temporary CSVs and
-   source-controlled test code, not historical data files.
-3. Run `poetry run python scripts/check_offline.py`. The pre-task baseline is
-   **64 tests and 14 competency fixture queries**, with Global Jukebox explicitly
-   excluded from config validation. Report the actual new count; passing the
-   current suite alone does not demonstrate that this mapping is fixed.
-4. Run Black on changed Python files and `git diff --check`. Document the
-   mapping choice, test scope and any still-unverified historical implications.
-   Update the exclusions/status in the shared identifier documentation and this
-   handoff when the repair is complete.
-5. Commit reviewable local chunks on `main` (Liam authorized this; no PR is
-   required). Report commits, checks, remaining limitations and the next task.
-
-### Boundaries and completed work
-
-The shared identifier parser, cross-dataset identifier review, offline CI,
-MusicBrainz role review and preservation/evaluation foundation are already done;
-do not restart them. The parser now honors explicit literal declarations; use
-that contract when configuring name fields. The cross-dataset decision retains
-source entities and explicit scoped links, without global identity inference.
-
-Do not fetch historical dumps, regenerate full datasets, query or modify
-production as a substitute for snapshots, change SESEMMI, push commits, deploy
-RDF, or close GitHub issues as part of this task. Snapshot access resumes only
-when Liam confirms it. A local mapping fix will not update stored/live RDF.
-Narrower MusicBrainz URL, DIAMM identifier and SIMSSA P2888 findings remain later
-follow-ups, described below and in the identifier review.
+**Next bounded local task:** review MusicBrainz URL recognition as described in
+[evaluation/identifier_review.md](evaluation/identifier_review.md). DIAMM ID
+validation and SIMSSA P2888 literal handling remain separate later follow-ups.
+Do not restart this completed mapping repair or resume snapshots automatically.
 
 ## Start here — next agent
 
@@ -131,7 +68,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The additions below bring the current baseline to **64 passing
+20 October. The completed additions below bring the current baseline to **65 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -158,16 +95,13 @@ The general-purpose search helper and dataset mappings are unchanged. Ten new
 tests bring the total to **64 tests and 14 competency fixture queries**; they
 include actual DTL mapping conversion and Turtle round-trip checks.
 
-**No further task is required to finish this repair.** Remaining bounded local
-follow-ups are Global Jukebox's invalid TOML (duplicate `alternative_names 1`–`13`
-mappings under the social-factors society table), MusicBrainz URL recognition,
-DIAMM ID validation and SIMSSA P2888 literal handling. Global Jukebox needs a
-mapping review to choose between the competing `P4970`/`skos:altLabel` declarations;
-it was already invalid at baseline and is explicitly excluded from the eight
-loadable-config compatibility checks. Do not silently choose one mapping just
-to make TOML parse. The other findings are described in the identifier review.
-These are code/configuration findings, not measured historical-data defects.
-Snapshot validation and regeneration remain deferred until Liam confirms access.
+**The Global Jukebox mapping repair is also complete (21 October).** See the
+completed-task section above and commit `93f23953`. Current validation is
+**65 tests and 14 competency fixture queries**, including all nine configs.
+Remaining bounded local follow-ups are MusicBrainz URL recognition (next),
+DIAMM ID validation and SIMSSA P2888 literal handling. These are code/config
+findings, not measured historical-data defects. Snapshot validation and
+regeneration remain deferred until Liam confirms access.
 
 The Virtuoso comparison remains optional and lower priority until a concrete
 compatibility/performance need arises. Inspect an isolated local/test environment
@@ -224,8 +158,9 @@ Committing or merging this code will not update the live data.
   separate directory and check source keys, labels and canonical joins, including
   triples excluded by existing conditional mappings. Follow the
   [shared identifier procedure](shared/rdf_conversion/identifier_preservation.md).
-  Resolve Global Jukebox's conflicting TOML mappings separately before attempting
-  that route; never repair collapsed old QIDs without their source values.
+  Global Jukebox's TOML mapping conflict is repaired locally; validate its
+  alternative-name exports against the documented contract before regeneration.
+  Never repair collapsed old QIDs without their source values.
 - [ ] **RISM:** inspect the actual stored/live data for affected identifiers,
   then regenerate RDF from the reconciled CSVs into a new output directory or
   prepare the scoped identifier migration described in
@@ -301,6 +236,7 @@ None of these commits has been pushed, and none deploys data to Virtuoso.
 | Identifier design review, scoped queries and synthetic controls | linkedmusic-datalake | `6c680314` |
 | Offline CI and identifier-review handoff | linkedmusic-datalake | `93642c26` |
 | Shared CSV identifier preservation, tests and export contract | linkedmusic-datalake | `a928a19d` |
+| Global Jukebox alternative-name mapping, regression and decision record | linkedmusic-datalake | `93f23953` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -320,6 +256,7 @@ separate documentation commit after those topics.
 The 20 October code passed 48 tests and 14 fixture queries. The 21 October
 CI/review additions brought the total to 54 tests and the same 14 competency
 queries. The subsequent shared CSV repair adds ten tests for a total of 64.
+The Global Jukebox mapping regression adds one more, bringing the total to 65.
 The unified command passed both in the working checkout and from a clean
 `git archive` of committed code, invoked outside that checkout using the existing
 Python environment. This confirms independence from ignored evidence and source
@@ -417,9 +354,9 @@ converter bug or establish that every stored file/predicate is canonical.
 Current queue (the **Start here** section is the next-agent brief):
 
 1. **Local requested work complete:** offline CI, the identifier review and
-   shared CSV identifier preservation are implemented and tested. Optional local
-   follow-ups are the Global Jukebox TOML mapping conflict and narrower
-   MusicBrainz/DIAMM/SIMSSA findings described in **Start here**. The Virtuoso
+   shared CSV identifier preservation and Global Jukebox mapping repair are
+   implemented and tested. Next is the narrower MusicBrainz URL-recognition
+   review; DIAMM/SIMSSA findings remain later follow-ups in **Start here**. The Virtuoso
    comparison remains optional; none is a prerequisite to waiting for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
    [evaluation manifests](evaluation/manifests.json) from
