@@ -8,6 +8,11 @@ reporting evidence. This decision is supported by local code/configuration
 inspection and synthetic controls; it makes no claim about deployed link
 accuracy, completeness or query latency.
 
+A subsequent [shared-converter repair](../shared/rdf_conversion/identifier_preservation.md)
+now addresses the first conversion finding below, with ten additional tests.
+The findings and probe commands here describe the pre-repair baseline; the
+remaining findings are still open.
+
 ## Scope and versions
 
 The converters/configurations reviewed are those at
@@ -143,8 +148,9 @@ functions; the SIMSSA probe runs the real shared graph builder with a temporary
 CSV and the existing person-table configuration. These artifacts are ignored
 and not transferred with Git.
 
-The highest-priority shared-converter behavior is reproducible without those
-artifacts, from the repository root:
+The following command probes the shared-converter behavior without those
+artifacts, from the repository root. At the review baseline it returns QID IRIs;
+after the repair it preserves the external IRI and the two literal strings:
 
 ```bash
 poetry run python - <<'PY'
@@ -178,7 +184,9 @@ They run automatically through the evaluation suite and
 and their expected answers remain unchanged; these three query examples are
 additional controls, not new measured user questions.
 
-The current offline total is **54 tests and 14 competency fixture queries**.
+The review baseline was **54 tests and 14 competency fixture queries**; the
+subsequent shared-converter repair brings the total to **64 tests** and the same
+14 competency fixture queries.
 Python 3.12.11 / RDFLib 7.6.0 were used locally. Linux GitHub Actions execution
 will be established after the workflow is published and run; local success is
 not a claim that a hosted run has occurred.

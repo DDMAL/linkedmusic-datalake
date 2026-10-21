@@ -276,7 +276,7 @@ Below is a list of keywords that can be used in a inline dictionary:
   country = {pred = "P17"}
   ```
 
-- `datatype`: the datatype of the object. Only Literals can have a datatype: adding it to URIRefs has no effect. As per RDF rule, you can't specify both `datatype` and `lang` at the same time.
+- `datatype`: the datatype of the object. Specifying it selects literal handling, including for values that look like Wikidata IDs or URLs. As per RDF rule, you can't specify both `datatype` and `lang` at the same time.
 
   - You can use prefixes instead of full URI as long as the prefixes are defined in `[namespaces]`
   - Common datatypes are: `xsd:date`, `xsd:dateTime`, and `geo:wktLiteral`
@@ -285,7 +285,7 @@ Below is a list of keywords that can be used in a inline dictionary:
   coordinates = {pred = "P625", datatype = "geo:wktLiteral"}
   ```
 
-- `lang`: the language label (using two letter language code) of the object. Only Literals can have a language label: adding it to URIRefs has no effect. As per RDF rule, you can't specify both `datatype` and `lang` at the same time.
+- `lang`: the language label (using two letter language code) of the object. Specifying it selects literal handling, including for values that look like Wikidata IDs or URLs. As per RDF rule, you can't specify both `datatype` and `lang` at the same time.
 
   ```toml
   event_name = {pred = "rdfs:label", lang = "en"}
@@ -304,7 +304,7 @@ Below is a list of keywords that can be used in a inline dictionary:
     - `obj` — the object value from the current column
     - `row` — a dictionary representing the entire CSV row (column names as keys)
   - Since values are transformed into either `URIRef` or `Literal` (both are `rdflib` classes) before triples are created, `instanceof()` can be used to conveniently evaluate whether value is one or the other.
-    - The general RDF conversion script assumes all values starting with "http" to be `URIRef`. Specify the datatype to be `xsd:anyURI` if you wish for values in a column to remain `Literal` URLs.
+    - The general RDF conversion script treats HTTP(S) URLs as `URIRef` unless `datatype` or `lang` selects a literal. Specify the datatype to be `xsd:anyURI` if you wish for values in a column to remain `Literal` URLs.
 
   ```toml
   # Only create triple if the object is a Literal
@@ -321,7 +321,7 @@ Note that all keywords above would all be useless if `pred` is not defined withi
 
 However, the dictionary keywords below are still effective even when `pred` is not present
 
-- `prefix`: prefix of the namespace to prepend to every value in this column
+- `prefix`: namespace to prepend to non-HTTP(S) values in this column when neither `datatype` nor `lang` is set. This takes precedence over automatic Wikidata-ID recognition for local keys.
 
   - Allows replacing partial URI (e.g. "1") with full URI (e.g. "https://thesession.org/tunes/1"). Prefix expansion is performed prior to creating RDF triples, guaranteeing that only full URIs are stored within the graph.
 
@@ -392,3 +392,10 @@ In each CSV table:
 - When applicable, add `lang` for Literals
 
 Congratulations, the configuration file is now functionally complete. Return to [General RDF Conversion Script: User Guide](./using_rdfconv_script.md) and continue from [3. Verifying the Config File](./using_rdfconv_script.md#3-verifying-the-config-file)
+
+## Identifier recognition
+
+Only whole Wikidata IDs and recognized full Wikidata URLs are normalized. Text
+containing an ID and ambiguous lists remain literals; external URLs retain their
+own identity. See [the input contract and examples](identifier_preservation.md)
+for precedence, supported forms, compatibility checks and regeneration limits.

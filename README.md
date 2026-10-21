@@ -80,7 +80,7 @@ After `poetry install`, run the preservation tests and synthetic query controls:
 poetry run python scripts/check_offline.py
 ```
 
-This runs the RISM, MusicBrainz, APSearch and evaluation suites in separate
+This runs the shared converter, RISM, MusicBrainz, APSearch and evaluation suites in separate
 processes, then checks all 14 competency queries against their expected fixture
 answers. It needs no source dumps, running triplestore, credentials or model/API
 calls. A failed suite or query returns a nonzero exit status. Query reports use
