@@ -38,6 +38,11 @@ The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconc
 
 For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
 
+The [identifier validation contract](doc/identifier_validation.md) documents
+complete bare-QID matching, preserved unmatched names, import-safe conversion
+and offline regression coverage. Run `poetry run python scripts/check_offline.py`
+from the repository root to include the DIAMM tests.
+
 The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in [`relationships.md`](./doc/relationships.md).
 
 Some properties of interest:

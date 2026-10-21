@@ -11,6 +11,7 @@ SUITES = (
     "shared/tests",
     "rism/tests",
     "musicbrainz/tests",
+    "diamm/tests",
     "ckg-apsearch/tests",
     "evaluation/tests",
 )
