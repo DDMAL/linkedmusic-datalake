@@ -24,6 +24,10 @@ The current TOML file with property matches can be found in [shared/rdf_config/t
 
 Refer to [Step 4](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset#4-convert-the-reconciled-data-to-rdf) of the general pipeline instructions for RDF conversion information.
 
+The [social-factors alternative-name decision](doc/alternative_names_mapping.md)
+records the mapping repair, export evidence, offline coverage and deferred
+historical validation.
+
 ## Uploading to Virtuoso
 
 Refer to [Step 5](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset#5-import-the-rdf-files-to-virtuoso) of the general pipeline instructions for how to upload the RDF files to Virtuoso.

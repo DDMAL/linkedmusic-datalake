@@ -8,7 +8,8 @@ entity, including when the configuration explicitly requested a literal.
 
 The repair is confined to `rdfconv/convert.py`. The permissive
 `wikidata_utils.extract_wd_id` search helper and its interactive/labeling callers
-retain their existing behavior. Dataset mappings and source exports are unchanged.
+retain their existing behavior. That parser repair left dataset mappings and source exports unchanged. The later
+Global Jukebox mapping repair is recorded below.
 
 ## Input contract and precedence
 
@@ -71,7 +72,7 @@ and URL inputs; they do not justify searching arbitrary text for an ID:
   unmatched cells. Accepting both complete IDs and complete Wikidata URLs
   accommodates those settings without guessing IDs from entity names.
 - Existing shared mappings use local prefixes for source keys and explicit
-  datatypes for date/coordinate values. The eight loadable configurations have no mapping that combines
+  datatypes for date/coordinate values. All nine configurations have no mapping that combines
   `prefix` with `datatype`/`lang`.
 
 This is an inspection of checked-in contracts, not a fresh OpenRefine export
@@ -80,23 +81,24 @@ not an accepted export contract; they now remain literals.
 
 ## Validation and limits
 
-Ten [offline tests](../tests/test_identifier_conversion.py) exercise identifiers,
+Eleven [offline tests](../tests/test_identifier_conversion.py) exercise identifiers,
 negative controls, explicit literals, local keys, predicates, and dates. A
 five-row synthetic CSV runs through the **existing DTL performer mapping** and
 the real graph builder; exact triples and a Turtle serialization round trip
-are checked. Eight loadable shared TOML configurations still validate.
+are checked. All nine tracked shared TOML configurations now validate.
 The tests run in the common offline command and CI:
 
 ```bash
 poetry run python scripts/check_offline.py
 ```
 
-The ninth configuration, Global Jukebox, already fails TOML parsing at baseline:
-`the-global-jukebox-social-factors-societies-csv` repeats `alternative_names 1`
-through `alternative_names 13` with both `P4970` and `skos:altLabel`. Its mapping
-intent needs a separate review; this repair neither chooses one nor claims to
-validate that file end to end. This known exclusion is explicit in the config
-compatibility test.
+The subsequent [Global Jukebox mapping repair](../../theglobaljukebox/doc/alternative_names_mapping.md)
+resolves the duplicate social-factors alternative-name declarations. All 19
+columns now use `skos:altLabel` with explicit `xsd:string` handling. Its synthetic
+CSV test covers all 19 columns, blank and sparse records, ID-like names and a
+Turtle round trip through the actual mapping. The configuration compatibility
+test no longer excludes Global Jukebox. The complete offline command now passes
+65 tests and 14 competency fixture queries.
 
 Before replacing stored RDF, obtain the corresponding snapshots, record input
 checksums and conversion revisions, regenerate into a separate directory, and
