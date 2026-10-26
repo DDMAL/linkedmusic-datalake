@@ -80,6 +80,10 @@ namespaces = {
 }
 
 PERSON_YEAR_FIELDS = ("earliest_year", "latest_year")
+PERSON_SOURCE_TEXT = {
+    "source_full_name": LMDIAMM.sourceFullName,
+    "floruit": LMDIAMM.floruit,
+}
 
 
 def matched_wikidata(field: str) -> bool:
@@ -177,12 +181,15 @@ def build_rdf_graph(
     organizations = pd.read_csv(os.path.join(base_path, "organizations-csv.csv"))
     people = pd.read_csv(
         os.path.join(base_path, "people-csv.csv"),
-        # Preserve the six year-related cells verbatim, including blank/NA text,
-        # decimal spelling and flag case. Other columns retain their old loading.
+        # Preserve year evidence and person-name text, including NA-like strings
+        # and leading zeros. Other columns retain their old loading.
         converters={
-            column: str
-            for field in PERSON_YEAR_FIELDS
-            for column in (field, f"{field}_@id", f"{field}_approximate")
+            **{field: str for field in ("full_name", *PERSON_SOURCE_TEXT)},
+            **{
+                column: str
+                for field in PERSON_YEAR_FIELDS
+                for column in (field, f"{field}_@id", f"{field}_approximate")
+            },
         },
     )
     regions = pd.read_csv(os.path.join(base_path, "regions-csv.csv"))
@@ -415,6 +422,13 @@ def build_rdf_graph(
                 Literal(work["full_name"]),
             )
         )
+
+        for field, predicate in PERSON_SOURCE_TEXT.items():
+            # Legacy exports lack these optional columns. Never reconstruct the
+            # original display name or activity dates from a cleaned label.
+            value = work.get(field)
+            if isinstance(value, str) and value != "":
+                g.add((subject_uri, predicate, Literal(value, datatype=XSD.string)))
 
         if work["variant_names"] is not None:
             for name in work["variant_names"].split(", "):

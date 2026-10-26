@@ -78,6 +78,18 @@ During every reconciliation step, if OpenRefine gives an error, select the entri
 
 ## People
 
+For new extractions, keep `source_full_name` and `floruit` as untouched text
+columns. Import without automatic numeric/date parsing or whitespace trimming,
+and use the updated people export template to retain both. Reconciliation uses
+the cleaned `full_name` copy below. Existing projects without those columns
+need matching raw-source values before adding them; see the
+[preservation and compatibility contract](person_name_preservation.md).
+
+Import trimming is a project-wide setting: disabling it can also retain leading
+spaces in the cleaned `full_name` compared with older projects. If normalization
+is needed for matching, apply it to the copied `full_name_@id` column, keeping
+the evidence columns unchanged.
+
 1. Create a column `earliest_year_@id` as a copy of `earliest_year`
 2. Reconcile `earliest_year_@id` against Q577
 3. Set the best candidate score window to 99-101 and match each entry to its best candidate

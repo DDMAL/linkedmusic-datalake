@@ -34,9 +34,11 @@ unmatched year can reappear in its ID column. It is not an entity identifier.
 
 ## Conversion contract
 
-Only the six year-related CSV columns use string converters. Their parsed cell
+The six year-related CSV columns use string converters. Their parsed cell
 text survives pandas, including empty cells, `NA`, `nan`, leading zeros, flag
-case and decimal spelling. Other columns retain their existing loading behavior.
+case and decimal spelling. The later [person-name repair](person_name_preservation.md)
+also protects `full_name`, `source_full_name` and `floruit` as text. Other columns
+retain their existing loading behavior.
 Preservation here means decoded CSV cell values, not CSV quoting or JSON bytes.
 
 - A year accepts one to four ASCII digits, optionally followed by a decimal
@@ -150,14 +152,14 @@ Turtle round trips, the real CLI and direct/approximate SPARQL query results.
 Before the change they reported 65 failing assertions/subtests; all now pass.
 The follow-up review added near-miss year cases and a short-year Turtle check
 within the existing tests; the 65 failures describe the original regression run.
-The existing five DIAMM tests also pass. The unified offline check passes
+The existing five DIAMM tests also passed. At this repair, the unified offline
+check passed
 **95 tests and 14 competency fixture queries**; the two date-query assertions
 are additional regression controls, not new competency questions.
 
 Historical exports and API snapshots were not inspected. A source year/ID
-disagreement is retained, not resolved. Other CSV columns retain their existing
-pandas behavior. Upstream `floruit` can appear in `full_name`, while the local
-extractor strips a parenthesized date suffix and has no dedicated floruit
-column. Review that JSON → CSV path next; this date repair cannot recover
-information already lost before reconciliation and does not establish complete
-DIAMM source fidelity.
+disagreement is retained, not resolved. The later person-name repair preserves
+the original display name (including floruit) and optional separate floruit
+text across JSON → CSV → RDF. It adds four tests for a current total of **99
+tests and 14 competency fixture queries**. Neither change can recover source
+text already lost from historical exports or establish complete DIAMM fidelity.

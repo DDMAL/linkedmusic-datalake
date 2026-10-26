@@ -28,13 +28,19 @@ See [`data_layout.md`](./doc/data_layout.md) for a brief overview of the data do
 
 Additionally, a utility class for the `to_csv.py` script is located in the `diamm/src/utils.py` module.
 
+Person extraction keeps `source_full_name` alongside the cleaned `full_name`,
+so parenthesized lifespan/floruit text survives. An optional separate source
+`floruit` field is also retained. Follow the
+[person-name preservation contract](doc/person_name_preservation.md) when
+importing and exporting these columns through OpenRefine.
+
 ## 3. Reconciling Data
 
 All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./doc/reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
 
 ## 4. Transforming to RDF (Turtle)
 
-The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
+The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. Main field mappings are in `DIAMM_SCHEMA`; the preservation contracts below describe additional source-evidence properties.
 
 For reconciled descriptive fields such as genre and type, a successful match supplies a Wikidata URI; otherwise the original literal text remains. When the items themselves were reconciled against Wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
 
@@ -45,6 +51,11 @@ marks the year as non-approximate; approximate or unknown values remain
 queryable through observations. Year-item IRIs are retained only as validated
 reconciliation evidence on those observations. See the contract for query
 examples and the change from the older date-object representation.
+
+Original person display names and separate floruit text are string values on
+`diamm:sourceFullName` and `diamm:floruit`. They do not supply birth/death dates.
+Older CSVs without those optional columns still load; their lost text requires
+the matching raw snapshot to recover.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion

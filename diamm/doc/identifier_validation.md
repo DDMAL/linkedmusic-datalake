@@ -66,7 +66,8 @@ After the import refactor but before the validator change, these tests reported
 nine failures and four errors. They now pass. At that repair, the unified offline
 command included `diamm/tests` and passed **74 tests and 14 competency fixture
 queries**, up from 69 and 14. Black and diff checks passed. The later person-year
-repair brings the current total to **95 tests and 14 competency fixture queries**.
+repair brought the total to 95 tests; the person-name preservation follow-up
+brings the current total to **99 tests and 14 competency fixture queries**.
 No historical files are needed by the tests.
 
 Snapshot validation, affected-population counts and regeneration remain deferred.

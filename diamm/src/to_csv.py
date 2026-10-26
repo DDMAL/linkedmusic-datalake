@@ -299,6 +299,10 @@ for file in (Path(BASE_PATH) / "people").glob("*.json"):
                 line["rism_id"] = identifier["identifier"]
             elif re.search("VIAF", identifier["label"], re.IGNORECASE):
                 line["viaf_id"] = identifier["identifier"]
+        # Keep the display name (including floruit/date text) alongside the
+        # cleaned reconciliation name. Append columns to preserve old positions.
+        line["source_full_name"] = data["full_name"]
+        line["floruit"] = data.get("floruit", "")
         for composition in data["compositions"]:
             composition_id = int(composition["url"].split("/")[-2])
             composition_dict = HashableDict(
