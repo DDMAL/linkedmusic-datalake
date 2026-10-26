@@ -1,6 +1,7 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated 26 October after DIAMM person-year preservation,
+Prepared 20 October 2026. Updated 26 October after DIAMM original-name/floruit
+preservation and person-year preservation,
 MusicBrainz auxiliary CSV identifier validation and the review follow-up on CSV
 parsing and lookup isolation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
 of the prior commits through draft PR #473, and the MusicBrainz URL and
@@ -193,25 +194,62 @@ No stored data was regenerated, no production graph changed, and this repair
 has not been pushed or deployed. Historical affected counts, real export shapes
 and source-version confirmation still await snapshot access. QID syntax alone
 does not verify that a reconciliation is correct. Other CSV columns retain
-their existing pandas behavior; floruit extraction is a separate open issue.
+their existing pandas behavior at that stage. Original-name/floruit preservation
+was addressed in the subsequent task below.
 
-## Next task — DIAMM floruit and original person-name extraction
+## Completed task — DIAMM original person names and floruit text
 
-The year review identified an earlier boundary to examine:
-[`to_csv.py`](diamm/src/to_csv.py) strips parenthesized date text from person
-`full_name`, including `fl.` text, and exports no dedicated floruit cell.
-The upstream Person model can supply floruit through that display name. This
-is a concrete code-path finding, not an affected-record count.
+Completed 26 October 2026 in local commit `becc8734` on
+`preservation-repairs-2026-10-21`. The
+[preservation contract](diamm/doc/person_name_preservation.md) records the pinned
+upstream model/serializer, input boundary, RDF properties, query example and
+compatibility limits. The reviewed detail serializer exposes floruit through
+`full_name`, with no separate floruit field. This explains why removing the
+parenthesized suffix discarded source information.
 
-1. Trace the person API/JSON → CSV → OpenRefine → RDF contract, including the
-   original display name and floruit. Keep a cleaned reconciliation name
-   separate from original source evidence if cleaning is still useful.
-2. Reproduce any loss with synthetic JSON and repair preservation across the
-   affected stages without treating activity dates as birth/death dates or
-   guessing year bounds from prose. Retain compatibility with existing exports.
-3. Cover names with and without date suffixes, floruit text, missing fields and
-   existing source relationships. Run the unified offline checks and update
-   the contract and this handoff with the result and remaining limits.
+Extraction now retains the exact original `source_full_name` alongside the
+existing cleaned `full_name`, plus optional separate source `floruit` text when
+supplied. Both columns are appended to the tracked export and left untouched
+by the existing history. Import instructions require text preservation.
+The RDF loader protects all three name/text columns from pandas type inference;
+nonempty original values become `diamm:sourceFullName`/`diamm:floruit` strings.
+Floruit within a display name remains in that full string; no independent
+field, date bounds or birth/death statements are inferred from it. Legacy
+exports without the new fields still load, without claiming to recover lost
+text. Source nodes, cleaned labels and relationships retain their roles.
+
+Four tests reproduced seven failed assertions/subtests before the change and
+now pass. They run the actual extraction and RDF CLIs around a synthetic export
+projection using the tracked columns; expected full graphs and text-query
+results are independently specified. Cases cover suffixes, ordinary parentheses,
+NA-like/numeric text, optional missing/null cells, Unicode/quotes/newlines,
+legacy exports and composition/copyist/owner relationships. The complete offline
+command passes **99 tests and 14 competency fixture queries**; Black and diff
+checks pass. Claude's read-only review found no introduced correctness defects;
+it did not rerun tests or independently fetch the upstream evidence. Its three
+optional suggestions were addressed: test/document an empty cleaned name,
+guard against future history removal/reordering, and explain project-wide
+import trimming. These strengthen the same four tests; all 16 DIAMM tests
+passed again after those additions.
+
+No OpenRefine GUI/service replay or historical snapshot validation was performed.
+No source data was regenerated or deployed, and this work has not been pushed.
+Old outputs still need their matching raw snapshots to recover lost text.
+Other source fields and external-ID parsing remain outside this repair.
+
+## Next task — DIAMM RISM/VIAF identifier text
+
+Claude's earlier review identified a separate loader issue: numeric-looking
+`rism_id`/`viaf_id` cells still use default pandas inference, so missing cells
+can turn IDs into floating-point values and lose leading zeros or precision.
+
+1. Trace these identifiers through JSON extraction, CSV export and RDF for the
+   DIAMM tables that carry them; establish their source text contracts.
+2. Reproduce the coercion with synthetic CSVs, then preserve identifier text
+   without inventing matches or changing source relationships. Cover blanks,
+   leading zeros, long digits and punctuation using the actual converter.
+3. Run the offline checks, document compatibility and unresolved source shapes,
+   and update this handoff. Historical affected counts still require snapshots.
 
 Do not restart completed MusicBrainz URL, role or auxiliary work, or SIMSSA
 mapping work. Publishing remains separate; respect protected remote `main`.
@@ -272,7 +310,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **95 passing
+20 October. The completed additions below bring the current baseline to **99 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -307,8 +345,9 @@ restored validation of all nine configs. The subsequent MusicBrainz URL repair
 brought the total to 74 tests. SIMSSA person mapping (`ea716132`) brought the
 total to 77. MusicBrainz auxiliary CSV validation on 26 October brought it to 84;
 the loader follow-up brought it to 88. DIAMM person-year preservation brings
-the current total to **95 tests and 14 competency fixture queries**. DIAMM
-floruit/original-name extraction remains the next bounded review.
+the total to 95. DIAMM original-name/floruit preservation brings the current
+total to **99 tests and 14 competency fixture queries**. DIAMM RISM/VIAF
+identifier text remains the next bounded review.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
 
@@ -388,8 +427,9 @@ Committing or merging this code will not update the live data.
   [contract](diamm/doc/identifier_validation.md), verify preserved names and
   source relationships, and regenerate separately. Apply the
   [person-year contract](diamm/doc/person_years.md) to actual date/flag cells and
-  query compatibility. Review floruit/original-name extraction before asserting
-  full source fidelity.
+  query compatibility, plus the [original-name/floruit contract](diamm/doc/person_name_preservation.md)
+  across extraction and OpenRefine. Review remaining identifier text coercion
+  before asserting full source fidelity.
 - [ ] **SIMSSA TOML route:** verify actual person exports and completeness of
   original names under the [contract](simssa/doc/person_identifier_mapping.md),
   record which conversion route produced stored RDF, and regenerate separately.
@@ -467,6 +507,7 @@ None deploys data to Virtuoso.
 | MusicBrainz auxiliary CSV item validation, source fallbacks and tests | linkedmusic-datalake | `fe196861` |
 | MusicBrainz CSV text preservation, field/type lookup isolation and CLI regressions | linkedmusic-datalake | `60ebf3b9` |
 | DIAMM person-year evidence, approximation-aware dates, ID validation and regressions | linkedmusic-datalake | `fe53b415` |
+| DIAMM original person names/floruit text, export compatibility and CLI regressions | linkedmusic-datalake | `becc8734` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -490,10 +531,11 @@ The Global Jukebox mapping regression adds one more, bringing the total to 65.
 The MusicBrainz URL repair adds four tests for 69. DIAMM adds five for the
 total of 74. SIMSSA adds three for 77, and MusicBrainz auxiliary CSV validation
 adds seven to reach 84. The CSV loader/lookup follow-up adds four to reach 88;
-DIAMM person-year preservation adds seven for the current total of 95.
+DIAMM person-year preservation adds seven to reach 95. Original-name/floruit
+preservation adds four for the current total of 99.
 Earlier validation also passed from a clean `git archive` of committed code,
 invoked outside that checkout using the existing Python environment. The
-26 October auxiliary and DIAMM person-year results were verified in the working checkout.
+26 October auxiliary and DIAMM year/name results were verified in the working checkout.
 The earlier archive check confirms independence from ignored evidence and source
 dumps, not a fresh Linux dependency installation or hosted Actions run.
 Changed Python files passed Black's check, and each staged change passed
@@ -593,8 +635,8 @@ Current queue (the **Start here** section is the next-agent brief):
    implemented and tested, as are MusicBrainz URL recognition and DIAMM ID
    validation and SIMSSA person P2888 handling. MusicBrainz auxiliary CSV ID
    validation, its CSV loader/lookup follow-up and DIAMM person-year preservation
-   are also complete (26 October). DIAMM floruit/original-name extraction
-   remains the next bounded review. The Virtuoso
+   are also complete (26 October), as is DIAMM original-name/floruit preservation.
+   DIAMM RISM/VIAF identifier text remains the next bounded review. The Virtuoso
    comparison remains optional; none is a prerequisite to waiting for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
    [evaluation manifests](evaluation/manifests.json) from
