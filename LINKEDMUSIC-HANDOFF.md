@@ -1,7 +1,8 @@
 # LinkedMusic data preservation and evaluation handoff
 
 Prepared 20 October 2026. Updated 26 October after MusicBrainz auxiliary CSV
-identifier validation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
+identifier validation and the review follow-up on CSV parsing and lookup
+isolation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
 of the prior commits through draft PR #473, and the MusicBrainz URL and
 Global Jukebox mapping repairs, shared CSV identifier preservation, offline
 validation/CI and cross-dataset identifier review,
@@ -115,6 +116,34 @@ The common offline command passes **84 tests and 14 competency fixture queries**
 Black and diff checks pass. No snapshots were read or regenerated. This work
 has local validation only; no push, merge or deployment was performed for it.
 
+## Completed task — MusicBrainz CSV loading and lookup isolation
+
+Completed locally in `60ebf3b9` on 26 October 2026 following Claude's review of
+`fe196861`/`1a089373`. The review found no introduced defects, but identified
+two older loader problems; both were reproduced before this follow-up.
+The [updated contract](musicbrainz/doc/auxiliary_identifier_validation.md)
+records the evidence, internal mapping format and remaining limits.
+
+All auxiliary/type CSVs now preserve text with `dtype=str` and
+`keep_default_na=False`: `nan`, `None`, `NA`, `null` and numeric-looking strings
+remain available as lookup keys and candidate text. Empty candidates retain
+source fallbacks; empty lookup keys are ignored. Each of the five auxiliary
+fields has its own dictionary, and type matches are scoped by entity kind.
+Missing tables cannot borrow another field's match for a label such as `Other`.
+
+Four new tests exercise real CSV loaders and per-file `main`, missing tables,
+and the complete asynchronous CLI with worker processes and Turtle output.
+The CLI regression reproduced cross-field QIDs and lost text keys against the
+old code, then passed after the fix. The original 14-layout test now uses the
+production loader and includes packaging `None` in CSV input.
+The common offline command passes **88 tests and 14 competency fixture queries**;
+Black and diff checks pass. All new input files are synthetic and temporary.
+Claude's follow-up static review found no actionable bugs in either fix or its
+CLI/worker wiring. Its documentation suggestion about recursive lookups was
+addressed in the RDF conversion guide; the reviewer did not rerun tests.
+Historical affected counts, snapshot validation and deployment remain deferred.
+This follow-up has not been pushed or deployed.
+
 ## Next task — DIAMM people year-ID/date review
 
 Review the separate people earliest/latest year-ID branches, which do not use
@@ -180,7 +209,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **84 passing
+20 October. The completed additions below bring the current baseline to **88 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -213,8 +242,9 @@ completed-task section above and commit `93f23953`. It added the 65th test and
 restored validation of all nine configs. The subsequent MusicBrainz URL repair
 (`5d5e18ae`) brought validation to 69 tests. DIAMM validation (`db00b71d`)
 brought the total to 74 tests. SIMSSA person mapping (`ea716132`) brought the
-total to 77. MusicBrainz auxiliary CSV validation on 26 October brings the
-current total to **84 tests and 14 competency fixture queries**. DIAMM people
+total to 77. MusicBrainz auxiliary CSV validation on 26 October brought it to 84;
+the loader follow-up brings the current total to **88 tests and 14 competency
+fixture queries**. DIAMM people
 year-ID/date branches remain the next bounded review.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
@@ -369,6 +399,7 @@ wiki commit and subsequent DIAMM/SIMSSA work remain local. None deploys data to 
 | DIAMM complete bare-ID validation, import-safe conversion and tests | linkedmusic-datalake | `db00b71d` |
 | SIMSSA person exact-match guard, original labels and regression tests | linkedmusic-datalake | `ea716132` |
 | MusicBrainz auxiliary CSV item validation, source fallbacks and tests | linkedmusic-datalake | `fe196861` |
+| MusicBrainz CSV text preservation, field/type lookup isolation and CLI regressions | linkedmusic-datalake | `60ebf3b9` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -391,7 +422,8 @@ queries. The subsequent shared CSV repair adds ten tests for a total of 64.
 The Global Jukebox mapping regression adds one more, bringing the total to 65.
 The MusicBrainz URL repair adds four tests for 69. DIAMM adds five for the
 total of 74. SIMSSA adds three for 77, and MusicBrainz auxiliary CSV validation
-adds seven for the current total of 84.
+adds seven to reach 84. The CSV loader/lookup follow-up adds four for the current
+total of 88.
 Earlier validation also passed from a clean `git archive` of committed code,
 invoked outside that checkout using the existing Python environment. The
 26 October auxiliary-repair result was verified in the working checkout.
@@ -493,7 +525,8 @@ Current queue (the **Start here** section is the next-agent brief):
    shared CSV identifier preservation and Global Jukebox mapping repair are
    implemented and tested, as are MusicBrainz URL recognition and DIAMM ID
    validation and SIMSSA person P2888 handling. MusicBrainz auxiliary CSV ID
-   validation is also complete (26 October); DIAMM people year-ID/date semantics
+   validation and its CSV loader/lookup follow-up are also complete (26 October);
+   DIAMM people year-ID/date semantics
    remain the next bounded review. The Virtuoso
    comparison remains optional; none is a prerequisite to waiting for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
