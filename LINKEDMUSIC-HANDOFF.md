@@ -1,8 +1,8 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated 26 October after MusicBrainz auxiliary CSV
-identifier validation and the review follow-up on CSV parsing and lookup
-isolation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
+Prepared 20 October 2026. Updated 26 October after DIAMM person-year preservation,
+MusicBrainz auxiliary CSV identifier validation and the review follow-up on CSV
+parsing and lookup isolation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
 of the prior commits through draft PR #473, and the MusicBrainz URL and
 Global Jukebox mapping repairs, shared CSV identifier preservation, offline
 validation/CI and cross-dataset identifier review,
@@ -58,9 +58,9 @@ safe imports and the real script entry point. The common offline command now
 includes DIAMM and passes **74 tests and 14 competency fixture queries**. Black
 and diff checks pass. No historical CSVs or production graphs were touched.
 
-The separate people earliest/latest year-ID branches do not call this helper;
-their validation and date interpretation remain a later bounded review. Do not
-claim complete DIAMM identifier or source-fidelity coverage from this repair.
+At that repair, the separate people earliest/latest year-ID branches remained
+uncovered. They were repaired on 26 October as recorded below. Neither change
+establishes complete DIAMM source fidelity.
 
 ## Publication status — 21 October 2026
 
@@ -153,25 +153,65 @@ addressed in the RDF conversion guide; the reviewer did not rerun tests.
 Historical affected counts, snapshot validation and deployment remain deferred.
 This follow-up has not been pushed or deployed.
 
-## Next task — DIAMM people year-ID/date review
+## Completed task — DIAMM person years and approximation
 
-Review the separate people earliest/latest year-ID branches, which do not use
-the repaired DIAMM helper. The current converter accepts any non-None value in
-`earliest_year_@id`/`latest_year_@id` and constructs a Wikidata IRI; its schema
-maps the two fields to P569/P570. These observations define the next review,
-not a conclusion about historical data or the correct source interpretation.
+Completed 26 October 2026 in local commit `fe53b415` on
+`preservation-repairs-2026-10-21`. The
+[person-year contract](diamm/doc/person_years.md) records the upstream model
+evidence pinned to `diamm/diamm` revision
+`052004f86960a5dc4d1e7446be8d5a6ac8594bd1`, the tracked export/history boundary,
+RDF vocabulary, query compatibility and regeneration procedure. The upstream
+model distinguishes lifespan years from a separate floruit field, supporting
+retention of the birth/death interpretation. No historical API snapshot was read.
 
-1. Read the DIAMM README, reconciliation documentation, people export/history
-   and [existing identifier contract](diamm/doc/identifier_validation.md).
-   Trace original year text, reconciled IDs and the two approximate-year flags.
-2. Establish whether earliest/latest describe birth/death, activity bounds or
-   another source concept before retaining or changing the date predicates.
-   Preserve stated precision and uncertainty; do not infer missing dates.
-3. Repair any demonstrated identifier/fallback defects with source-preserving
-   behavior. Cover valid IDs, malformed/ambiguous IDs, blank cells and unmatched
-   year text using the real converter and independently specified RDF triples.
-4. Run the unified offline checks and relevant formatting checks; update the
-   DIAMM contract and this handoff with the result and any unresolved semantics.
+Both year-ID branches now use complete bare-QID validation. The six related CSV
+cells preserve text during parsing. Each source year, ID and approximation flag
+stays together in a deterministic observation, including rejected/missing cells.
+Supported years use `xsd:gYear`; direct P569/P570 triples require an explicit
+false approximation flag. Approximate/unknown values remain queryable evidence.
+Year IDs never replace source year values, and conflicting rows retain their
+own qualifiers. Date objects therefore change from year-item IRIs to literals;
+validated year-item links are on observations. Existing queries must account
+for this change. Names and source relationships retain their existing behavior.
+
+Seven new tests failed against the old converter (65 failed assertions/subtests)
+and now pass, alongside the five existing DIAMM tests. They exercise actual CSV
+loading and CLI output, independently specified triples, raw text, both year
+fields, malformed/ambiguous IDs, missing/invalid flags, exact/approximate values,
+stable observation identity, duplicate/conflicting rows, Turtle and SPARQL.
+`poetry run python scripts/check_offline.py` passes **95 tests and 14 competency
+fixture queries**. Black and diff checks pass. Claude's read-only review found
+no converter correctness defects and did not independently rerun tests. Its
+stale-handoff finding was addressed by the concurrent handoff update. Optional
+short-year Turtle and near-miss year controls were added within the seven tests;
+the contract now notes datatype-sensitive literal matching, cross-graph date
+comparison and unmeasured observation volume. Its pre-existing extraction and
+other-column parsing findings remain outside this repair, as documented below.
+All 12 DIAMM tests passed again after the review additions.
+
+No stored data was regenerated, no production graph changed, and this repair
+has not been pushed or deployed. Historical affected counts, real export shapes
+and source-version confirmation still await snapshot access. QID syntax alone
+does not verify that a reconciliation is correct. Other CSV columns retain
+their existing pandas behavior; floruit extraction is a separate open issue.
+
+## Next task — DIAMM floruit and original person-name extraction
+
+The year review identified an earlier boundary to examine:
+[`to_csv.py`](diamm/src/to_csv.py) strips parenthesized date text from person
+`full_name`, including `fl.` text, and exports no dedicated floruit cell.
+The upstream Person model can supply floruit through that display name. This
+is a concrete code-path finding, not an affected-record count.
+
+1. Trace the person API/JSON → CSV → OpenRefine → RDF contract, including the
+   original display name and floruit. Keep a cleaned reconciliation name
+   separate from original source evidence if cleaning is still useful.
+2. Reproduce any loss with synthetic JSON and repair preservation across the
+   affected stages without treating activity dates as birth/death dates or
+   guessing year bounds from prose. Retain compatibility with existing exports.
+3. Cover names with and without date suffixes, floruit text, missing fields and
+   existing source relationships. Run the unified offline checks and update
+   the contract and this handoff with the result and remaining limits.
 
 Do not restart completed MusicBrainz URL, role or auxiliary work, or SIMSSA
 mapping work. Publishing remains separate; respect protected remote `main`.
@@ -232,7 +272,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **88 passing
+20 October. The completed additions below bring the current baseline to **95 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -266,9 +306,9 @@ restored validation of all nine configs. The subsequent MusicBrainz URL repair
 (`5d5e18ae`) brought validation to 69 tests. DIAMM validation (`db00b71d`)
 brought the total to 74 tests. SIMSSA person mapping (`ea716132`) brought the
 total to 77. MusicBrainz auxiliary CSV validation on 26 October brought it to 84;
-the loader follow-up brings the current total to **88 tests and 14 competency
-fixture queries**. DIAMM people
-year-ID/date branches remain the next bounded review.
+the loader follow-up brought it to 88. DIAMM person-year preservation brings
+the current total to **95 tests and 14 competency fixture queries**. DIAMM
+floruit/original-name extraction remains the next bounded review.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
 
@@ -346,8 +386,10 @@ Committing or merging this code will not update the live data.
   and preserved literal targets before staging/replacement.
 - [ ] **DIAMM:** review actual exported identifier cells under the
   [contract](diamm/doc/identifier_validation.md), verify preserved names and
-  source relationships, and regenerate separately. Review the uncovered people
-  year-ID/date branches before asserting full conversion fidelity.
+  source relationships, and regenerate separately. Apply the
+  [person-year contract](diamm/doc/person_years.md) to actual date/flag cells and
+  query compatibility. Review floruit/original-name extraction before asserting
+  full source fidelity.
 - [ ] **SIMSSA TOML route:** verify actual person exports and completeness of
   original names under the [contract](simssa/doc/person_identifier_mapping.md),
   record which conversion route produced stored RDF, and regenerate separately.
@@ -400,7 +442,8 @@ The four implementation/documentation commits from `data-preservation-pilot`
 were merged into local `main` by fast-forward on 20 October 2026, preserving
 their separate history. The wiki has a separate commit on its `master` branch.
 The datalake commits through `0b508a76` are published in draft PR #473; the
-wiki commit and subsequent DIAMM/SIMSSA work remain local. None deploys data to Virtuoso.
+wiki commit and subsequent DIAMM, SIMSSA and MusicBrainz work remain local.
+None deploys data to Virtuoso.
 
 | Stage | Repository | Commit |
 | --- | --- | --- |
@@ -423,6 +466,7 @@ wiki commit and subsequent DIAMM/SIMSSA work remain local. None deploys data to 
 | SIMSSA person exact-match guard, original labels and regression tests | linkedmusic-datalake | `ea716132` |
 | MusicBrainz auxiliary CSV item validation, source fallbacks and tests | linkedmusic-datalake | `fe196861` |
 | MusicBrainz CSV text preservation, field/type lookup isolation and CLI regressions | linkedmusic-datalake | `60ebf3b9` |
+| DIAMM person-year evidence, approximation-aware dates, ID validation and regressions | linkedmusic-datalake | `fe53b415` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -445,11 +489,11 @@ queries. The subsequent shared CSV repair adds ten tests for a total of 64.
 The Global Jukebox mapping regression adds one more, bringing the total to 65.
 The MusicBrainz URL repair adds four tests for 69. DIAMM adds five for the
 total of 74. SIMSSA adds three for 77, and MusicBrainz auxiliary CSV validation
-adds seven to reach 84. The CSV loader/lookup follow-up adds four for the current
-total of 88.
+adds seven to reach 84. The CSV loader/lookup follow-up adds four to reach 88;
+DIAMM person-year preservation adds seven for the current total of 95.
 Earlier validation also passed from a clean `git archive` of committed code,
 invoked outside that checkout using the existing Python environment. The
-26 October auxiliary-repair result was verified in the working checkout.
+26 October auxiliary and DIAMM person-year results were verified in the working checkout.
 The earlier archive check confirms independence from ignored evidence and source
 dumps, not a fresh Linux dependency installation or hosted Actions run.
 Changed Python files passed Black's check, and each staged change passed
@@ -548,9 +592,9 @@ Current queue (the **Start here** section is the next-agent brief):
    shared CSV identifier preservation and Global Jukebox mapping repair are
    implemented and tested, as are MusicBrainz URL recognition and DIAMM ID
    validation and SIMSSA person P2888 handling. MusicBrainz auxiliary CSV ID
-   validation and its CSV loader/lookup follow-up are also complete (26 October);
-   DIAMM people year-ID/date semantics
-   remain the next bounded review. The Virtuoso
+   validation, its CSV loader/lookup follow-up and DIAMM person-year preservation
+   are also complete (26 October). DIAMM floruit/original-name extraction
+   remains the next bounded review. The Virtuoso
    comparison remains optional; none is a prerequisite to waiting for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
    [evaluation manifests](evaluation/manifests.json) from
