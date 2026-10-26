@@ -13,6 +13,15 @@ identifier review and shared CSV repair are committed locally in separate topic
 commits. This handoff records the completed sequence; publishing and deployment
 remain separate.
 
+## Working agreement — update the handoff after every task
+
+Liam explicitly requested this on 26 October 2026. Before reporting a task
+finished, update this handoff with the changes, validation actually performed,
+review findings and their disposition, relevant commits, publication/deployment
+status, remaining limitations and the next concrete task. Keep historical test
+results distinct from the current baseline. Updating the handoff is part of
+finishing the work.
+
 ## Completed task — MusicBrainz URL recognition
 
 Completed 21 October 2026 in local commit `5d5e18ae`. The
@@ -147,9 +156,23 @@ This follow-up has not been pushed or deployed.
 ## Next task — DIAMM people year-ID/date review
 
 Review the separate people earliest/latest year-ID branches, which do not use
-the repaired DIAMM helper. Establish their export contract and source date
-meaning before changing identifier validation or interpreting dates. Keep the
-review bounded and use offline fixtures with independently specified triples.
+the repaired DIAMM helper. The current converter accepts any non-None value in
+`earliest_year_@id`/`latest_year_@id` and constructs a Wikidata IRI; its schema
+maps the two fields to P569/P570. These observations define the next review,
+not a conclusion about historical data or the correct source interpretation.
+
+1. Read the DIAMM README, reconciliation documentation, people export/history
+   and [existing identifier contract](diamm/doc/identifier_validation.md).
+   Trace original year text, reconciled IDs and the two approximate-year flags.
+2. Establish whether earliest/latest describe birth/death, activity bounds or
+   another source concept before retaining or changing the date predicates.
+   Preserve stated precision and uncertainty; do not infer missing dates.
+3. Repair any demonstrated identifier/fallback defects with source-preserving
+   behavior. Cover valid IDs, malformed/ambiguous IDs, blank cells and unmatched
+   year text using the real converter and independently specified RDF triples.
+4. Run the unified offline checks and relevant formatting checks; update the
+   DIAMM contract and this handoff with the result and any unresolved semantics.
+
 Do not restart completed MusicBrainz URL, role or auxiliary work, or SIMSSA
 mapping work. Publishing remains separate; respect protected remote `main`.
 Historical validation and deployment still await confirmed snapshot access.
