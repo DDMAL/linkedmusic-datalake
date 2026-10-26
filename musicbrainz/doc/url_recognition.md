@@ -60,8 +60,8 @@ count accepted/rejected forms against source cells, regenerate into a separate
 directory, and verify canonical joins and preserved literal targets in staging.
 Do not rewrite stored literal values globally or infer names from old IDs.
 
-The auxiliary CSV `matched_wikidata` helper still uses a permissive bare-QID
-prefix check. It serves reconciled types, keys, genders, languages, packaging and
-status values, not URL relationships. Tightening it requires a separate export
-contract review and fixtures. Other URL-to-P2888 semantics, relationship roles,
-SESEMMI and production inference settings remain unchanged.
+The auxiliary CSV `matched_wikidata` helper was subsequently repaired on
+26 October under its separate [bare-ID export contract](auxiliary_identifier_validation.md).
+It serves reconciled types, keys, genders, languages, packaging and statuses;
+full URLs remain outside that contract. Other URL-to-P2888 semantics,
+relationship roles, SESEMMI and production inference settings remain unchanged.

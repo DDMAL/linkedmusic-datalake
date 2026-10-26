@@ -15,6 +15,9 @@ poetry run python musicbrainz/src/convert_relationship_sample.py --output-dir /t
 
 The [Wikidata URL contract](doc/url_recognition.md) records the supported item
 URL forms, literal preservation, offline tests and deferred snapshot validation.
+The [auxiliary CSV identifier contract](doc/auxiliary_identifier_validation.md)
+covers strict bare-QID validation, missing-cell handling and preservation of
+unmatched values in types, keys, genders, languages, packaging and statuses.
 
 This guide details all the steps required to translate raw data from MusicBrainz into an RDF graph reconciled with Wikidata.
 
@@ -103,7 +106,7 @@ Below are the steps you must execute from your console once you have cloned the 
   - `keys.csv` for `key` field of all `work` entities (`key` == tonality; `work` == composition).
   - `genders.csv` for `gender` field of all `artist` entities.
   - `languages.csv` for `language` field of all `work` entities. The CSV includes an additional column, `full_language`, containing the full language name resolved from the ISO 639-3 code, using the `pycountry` library.
-- Follow the steps in [miscellanous_reconciliation.md](./doc/miscellanous_reconciliation.md) to reconcile the CSVs against Wikidata.
+- Follow the steps in [miscellaneous_reconciliation.md](./doc/miscellaneous_reconciliation.md) to reconcile the CSVs against Wikidata.
 - Put the reconciled CSVs in the `musicbrainz/data/raw/reconciled` folder. Name them according to the following conventions:
   `f"{entity_type}-types-csv.csv"`, `"keys-csv.csv"`, `"genders-csv.csv"`, or `"languages-csv.csv"`.
 

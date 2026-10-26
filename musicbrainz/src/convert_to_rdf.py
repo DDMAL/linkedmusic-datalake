@@ -133,9 +133,9 @@ WIKIDATA_REGEX = re.compile(
 )
 
 
-def matched_wikidata(field: str) -> bool:
-    """Check if the field is a matched Wikidata ID."""
-    return re.match(r"^Q\d+", field) is not None
+def matched_wikidata(field: object) -> bool:
+    """Recognize a complete bare item ID from an auxiliary CSV export."""
+    return isinstance(field, str) and re.fullmatch(r"Q[1-9][0-9]*", field) is not None
 
 
 def convert_date(date_str: str) -> Literal:
@@ -204,7 +204,8 @@ def process_entity(
         data.get("primary-type"),
         data.get("type"),
     ]:
-        if t and (converted_type := reconciled_mapping.get(t)):
+        if t:
+            converted_type = reconciled_mapping.get(t)
             # If the type is a Wikidata ID, use it directly
             if matched_wikidata(converted_type):
                 g.add(
@@ -278,10 +279,8 @@ def process_entity(
             attribute_value := attribute.get("value")
         ):
             if pred := attribute_mapping.get(attribute_type):
-                if (
-                    attribute_type == "Key"
-                    and (key_map := reconciled_mapping.get(attribute_value))
-                    and matched_wikidata(key_map)
+                if attribute_type == "Key" and matched_wikidata(
+                    key_map := reconciled_mapping.get(attribute_value)
                 ):
                     # If the attribute is the key and it is a Wikidata ID, use it directly
                     attribute_value = URIRef(f"{WD}{key_map}")
@@ -351,9 +350,7 @@ def process_entity(
 
     # Process gender
     if gender := data.get("gender"):
-        if (gender_map := reconciled_mapping.get(gender)) and matched_wikidata(
-            gender_map
-        ):
+        if matched_wikidata(gender_map := reconciled_mapping.get(gender)):
             gender = URIRef(f"{WD}{gender_map}")
         else:
             gender = Literal(gender)
@@ -391,11 +388,12 @@ def process_entity(
 
     # Process languages
     for lang in data.get("languages", []):
-        if lang_map := reconciled_mapping.get(lang):
-            if matched_wikidata(lang_map):
-                lang = URIRef(f"{WD}{lang_map}")
-            else:
-                lang = Literal(lang_map)
+        lang_map = reconciled_mapping.get(lang)
+        if matched_wikidata(lang_map):
+            lang = URIRef(f"{WD}{lang_map}")
+        elif isinstance(lang_map, str) and lang_map:
+            # Unmatched exports retain the full language name in this column.
+            lang = Literal(lang_map)
         else:
             lang = Literal(lang)
         g.add(
@@ -489,9 +487,7 @@ def process_entity(
 
     # Process packaging
     if packaging := data.get("packaging"):
-        if (packaging_map := reconciled_mapping.get(packaging)) and matched_wikidata(
-            packaging_map
-        ):
+        if matched_wikidata(packaging_map := reconciled_mapping.get(packaging)):
             packaging = URIRef(f"{WD}{packaging_map}")
         else:
             packaging = Literal(packaging)
@@ -590,9 +586,7 @@ def process_entity(
 
     # Process status
     if status := data.get("status"):
-        if (status_map := reconciled_mapping.get(status)) and matched_wikidata(
-            status_map
-        ):
+        if matched_wikidata(status_map := reconciled_mapping.get(status)):
             status_rdf = URIRef(f"{WD}{status_map}")
         else:
             status_rdf = Literal(status)
