@@ -5,12 +5,13 @@ The script will also load a relations mapping file to handle the relationships
 between organizations/people and sources.
 """
 
+import hashlib
 import json
 import re
 import os
 import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import RDFS, RDF, SKOS
+from rdflib.namespace import DCTERMS, RDFS, RDF, SKOS, XSD
 
 BASE_PATH = "../data/reconciled/"
 RELATIONS_PATH = "../data/csv/relations.csv"
@@ -74,12 +75,90 @@ namespaces = {
     "dr": DR,
     "ds": DS,
     "de": DE,
+    "dcterms": DCTERMS,
+    "xsd": XSD,
 }
+
+PERSON_YEAR_FIELDS = ("earliest_year", "latest_year")
 
 
 def matched_wikidata(field: str) -> bool:
     """Accept only complete bare item IDs from reconciled entity-ID columns."""
     return isinstance(field, str) and re.fullmatch(r"Q[1-9][0-9]*", field) is not None
+
+
+def add_person_year(graph, person, row, field):
+    """Keep each exported year/ID/approximation together; see doc/person_years.md."""
+    raw_year = row.get(field) or ""
+    raw_identifier = row.get(f"{field}_@id") or ""
+    raw_approximate = row.get(f"{field}_approximate") or ""
+    if not any((raw_year, raw_identifier, raw_approximate)):
+        return
+
+    # Include all evidence in the identity: duplicate rows collapse, while
+    # conflicting rows cannot combine one row's year with another's qualifier.
+    identity = json.dumps(
+        [str(person), field, raw_year, raw_identifier, raw_approximate],
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    digest = hashlib.sha256(identity.encode("utf-8")).hexdigest()
+    observation = LMDIAMM[f"person-year/{digest}"]
+    graph.add((person, LMDIAMM.personYear, observation))
+    graph.add((observation, RDF.type, LMDIAMM.PersonYearObservation))
+    graph.add((observation, DCTERMS.source, person))
+    graph.add((observation, LMDIAMM.dateProperty, DIAMM_SCHEMA[field]))
+    for predicate, value in (
+        (LMDIAMM.sourceField, field),
+        (LMDIAMM.sourceValue, raw_year),
+        (LMDIAMM.sourceIdentifier, raw_identifier),
+        (LMDIAMM.sourceApproximate, raw_approximate),
+    ):
+        graph.add((observation, predicate, Literal(value, datatype=XSD.string)))
+
+    year = None
+    match = re.fullmatch(r"([0-9]{1,4})(?:\.0+)?", raw_year)
+    if match and 1 <= int(match[1]) <= 9999:
+        year = Literal(f"{int(match[1]):04d}", datatype=XSD.gYear, normalize=False)
+        graph.add((observation, LMDIAMM.year, year))
+    else:
+        graph.add(
+            (
+                observation,
+                LMDIAMM.validationFlag,
+                Literal("invalid-year" if raw_year else "missing-year"),
+            )
+        )
+
+    approximate = {"true": True, "1": True, "false": False, "0": False}.get(
+        raw_approximate.lower()
+    )
+    if approximate is not None:
+        graph.add((observation, LMDIAMM.approximate, Literal(approximate)))
+    else:
+        graph.add(
+            (
+                observation,
+                LMDIAMM.validationFlag,
+                Literal(
+                    "invalid-approximation"
+                    if raw_approximate
+                    else "missing-approximation"
+                ),
+            )
+        )
+
+    if matched_wikidata(raw_identifier):
+        graph.add((observation, LMDIAMM.reconciledYear, WD[raw_identifier]))
+    elif raw_identifier:
+        graph.add(
+            (observation, LMDIAMM.validationFlag, Literal("invalid-year-identifier"))
+        )
+
+    # Never turn approximate or unqualified evidence into an exact date, nor
+    # infer a calendar year from a reconciled entity ID.
+    if year is not None and approximate is False:
+        graph.add((person, DIAMM_SCHEMA[field], year))
 
 
 def build_rdf_graph(
@@ -96,7 +175,16 @@ def build_rdf_graph(
     compositions = pd.read_csv(os.path.join(base_path, "compositions-csv.csv"))
     countres = pd.read_csv(os.path.join(base_path, "countries-csv.csv"))
     organizations = pd.read_csv(os.path.join(base_path, "organizations-csv.csv"))
-    people = pd.read_csv(os.path.join(base_path, "people-csv.csv"))
+    people = pd.read_csv(
+        os.path.join(base_path, "people-csv.csv"),
+        # Preserve the six year-related cells verbatim, including blank/NA text,
+        # decimal spelling and flag case. Other columns retain their old loading.
+        converters={
+            column: str
+            for field in PERSON_YEAR_FIELDS
+            for column in (field, f"{field}_@id", f"{field}_approximate")
+        },
+    )
     regions = pd.read_csv(os.path.join(base_path, "regions-csv.csv"))
     sets = pd.read_csv(os.path.join(base_path, "sets-csv.csv"))
     sources = pd.read_csv(os.path.join(base_path, "sources-csv.csv"))
@@ -338,22 +426,8 @@ def build_rdf_graph(
                     )
                 )
 
-        if work["earliest_year_@id"] is not None:
-            g.add(
-                (
-                    subject_uri,
-                    DIAMM_SCHEMA["earliest_year"],
-                    URIRef(f"{WD}{work['earliest_year_@id']}"),
-                )
-            )
-        if work["latest_year_@id"] is not None:
-            g.add(
-                (
-                    subject_uri,
-                    DIAMM_SCHEMA["latest_year"],
-                    URIRef(f"{WD}{work['latest_year_@id']}"),
-                )
-            )
+        for field in PERSON_YEAR_FIELDS:
+            add_person_year(g, subject_uri, work, field)
 
         if work["rism_id"] is not None:
             g.add(

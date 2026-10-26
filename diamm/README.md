@@ -36,7 +36,15 @@ All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), 
 
 The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
 
-For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
+For reconciled descriptive fields such as genre and type, a successful match supplies a Wikidata URI; otherwise the original literal text remains. When the items themselves were reconciled against Wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
+
+Person years follow the [year and approximation contract](doc/person_years.md).
+Original year, candidate ID and approximation flag stay together in a source
+observation. P569/P570 contain year literals only when the source explicitly
+marks the year as non-approximate; approximate or unknown values remain
+queryable through observations. Year-item IRIs are retained only as validated
+reconciliation evidence on those observations. See the contract for query
+examples and the change from the older date-object representation.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion

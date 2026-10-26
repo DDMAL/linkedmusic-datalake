@@ -50,12 +50,18 @@ Data in `compositions`, `related_sources`, and `copied_sources` will be put in t
 
 - `full_name`
 - `variant_names`: this is a list of variant names separated by `", "`
-- `earliest_year`
-- `latest_year`
-- `earliest_year_approximate`
-- `latest_year_approximate`
+- `earliest_year`: person birth year, under the [source-model interpretation](person_years.md)
+- `latest_year`: person death year under the same interpretation
+- `earliest_year_approximate`: source uncertainty flag for the birth year
+- `latest_year_approximate`: source uncertainty flag for the death year
 - `rism_id`
 - `viaf_id`
+
+These person years are distinct from role dates and the upstream floruit field.
+OpenRefine adds `earliest_year_@id` and `latest_year_@id` while retaining the
+original year and flag cells. RDF conversion preserves all six cells and emits
+direct birth/death years only when explicitly non-approximate. The current
+extractor does not preserve floruit separately; see the linked contract's limits.
 
 ## Regions
 

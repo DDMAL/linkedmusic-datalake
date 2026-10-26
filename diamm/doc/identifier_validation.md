@@ -31,12 +31,14 @@ labels. Genre and organization/set/source type mappings fall back to their
 original text columns, not the rejected `*_@id` value. A value that looks like
 an ID does not independently establish reconciliation correctness.
 
-This change applies to the existing helper's ten call sites. It does not
-redesign DIAMM dates or predicates. The separate people `earliest_year_@id` and
-`latest_year_@id` branches still concatenate non-null values without calling
-this helper; their validation and date interpretation require a separate review.
-They must not be mistaken for covered fields. No lossless audit of rejected
-identifier-cell text is added; the original label remains the documented fallback.
+The 21 October change applied to the existing helper's ten call sites and did
+not redesign dates. The separate people `earliest_year_@id` and `latest_year_@id`
+branches were repaired on 26 October under the
+[person-year contract](person_years.md): they now use this validator and retain
+original year/ID/approximation evidence. Direct date objects now use year
+literals; validated year-item links belong to observations. Outside those year
+observations, no lossless audit of rejected identifier-cell text is added;
+the original label remains the documented fallback.
 
 ## Import-safe conversion and tests
 
@@ -61,13 +63,16 @@ Five [offline tests](../tests/test_identifier_conversion.py) cover:
   resulting Turtle from a temporary directory.
 
 After the import refactor but before the validator change, these tests reported
-nine failures and four errors. They now pass. The unified offline command includes
-`diamm/tests` and passes **74 tests and 14 competency fixture queries**, up from
-69 and 14. Black and diff checks pass. No historical files are needed by the tests.
+nine failures and four errors. They now pass. At that repair, the unified offline
+command included `diamm/tests` and passed **74 tests and 14 competency fixture
+queries**, up from 69 and 14. Black and diff checks passed. The later person-year
+repair brings the current total to **95 tests and 14 competency fixture queries**.
+No historical files are needed by the tests.
 
 Snapshot validation, affected-population counts and regeneration remain deferred.
 Before any production replacement, obtain matching reconciled CSVs, record their
 checksums and conversion version, classify actual ID-cell values, verify label
 fallbacks and source relationships, and regenerate into a separate directory.
-Review date-ID branches separately. Do not rewrite existing malformed IRIs
-without their source cells. This local repair changes no stored or live RDF.
+Apply the person-year contract's additional date/flag checks. Do not rewrite
+existing malformed IRIs without their source cells. This local repair changes
+no stored or live RDF.
