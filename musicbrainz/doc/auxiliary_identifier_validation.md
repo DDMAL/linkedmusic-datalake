@@ -1,6 +1,7 @@
 # Auxiliary CSV identifier validation
 
-Implemented locally on 26 October 2026. This repair covers the six
+Implemented locally on 26 October 2026, with a subsequent same-day loader repair
+following Claude's review. This repair covers the six
 `matched_wikidata` call sites in
 [`convert_to_rdf.py`](../src/convert_to_rdf.py): types, keys, genders, languages,
 packaging and statuses. It is separate from the completed
@@ -35,8 +36,48 @@ Suffixes, multiple IDs, whitespace/newlines, Unicode digits, `Q0`, `Q042`,
 property IDs, prefixed IDs and full URLs are not matches. No trimming,
 substring extraction or URL normalization is applied here. The separately
 documented URL-relationship branch continues to accept its item-URL forms.
-Missing/non-string candidates, including pandas `NaN` from empty CSV cells,
+Missing/non-string candidates, including pandas `NaN` supplied by older loaders,
 are rejected without evaluating their truth value or passing them to a regex.
+
+## CSV text and field-specific lookups
+
+Claude's review of `fe196861`/`1a089373` found two pre-existing loader defects.
+Both were reproduced with synthetic inputs and are now repaired:
+
+- Default pandas NA detection erased textual keys such as `nan` and `None`,
+  and unmatched candidate text such as `NA`. A supplied language match under
+  `nan` could therefore disappear. The tracked packaging history explicitly
+  contains `None`; it is source text, not a missing cell.
+- All auxiliary fields shared one dictionary, subsequently merged into the
+  entity's type dictionary. A shared label such as `Other` could thus acquire
+  a different field's match. The tracked artist-type and packaging histories
+  both contain `Other`, and the reconciliation guide describes the gender
+  `other` match. Packaging could overwrite the gender entry; without packaging,
+  the gender entry could overwrite a type. Historical exports are still needed
+  to measure which collisions actually occurred.
+
+Every auxiliary and type CSV now uses `load_reconciliation_csv`, with
+`dtype=str` and `keep_default_na=False`. This retains textual values such as
+`nan`, `None`, `NA`, `null` and `001` without missing-value or numeric inference.
+Empty candidate cells remain empty strings and use the documented source
+fallback. Rows with an empty lookup key are ignored. Whitespace is preserved;
+whitespace-only language text remains a literal, as before. This deliberately
+does not introduce source-text cleanup.
+
+`load_auxiliary_reconciliations` builds separate `key`, `gender`, `language`,
+`packaging` and `status` dictionaries. Type lookups are scoped under `type` and
+then the entity kind, so an artist type cannot acquire a work-type match or
+pass its type map to a recursively converted entity of another kind. A missing
+file or entry uses the source fallback for that field, never another field's
+candidate. Each entity conversion reads only its own lookup table.
+
+The command-line arguments and CSV filenames/columns are unchanged. Internal
+Python callers of `process_entity`/`process_chunk` must now supply field-scoped
+mappings, for example `{"gender": {"Other": "Q42"}}` or
+`{"type": {"artist": {"Other": "Q43"}}}` (synthetic IDs). Empty `{}` still
+means no auxiliary matches. This is a lookup change, not a new RDF predicate or
+identity rule; existing source nodes, language fallbacks and status predicates
+remain as documented below.
 
 ## Preserving unmatched source values
 
@@ -74,22 +115,34 @@ mappings. Expected RDF triples are specified independently. Coverage includes:
   three end-status values, and an identifier-like ordinary name.
 - Absent mappings, blank strings, pandas missing values and other non-string
   candidates, plus partially reconciled primary/secondary types.
-- Synthetic CSVs with all 14 tracked export layouts, parsed using the same
-  pandas settings as the loaders, with exact triples and Turtle round trips.
+- Synthetic CSVs with all 14 tracked export layouts, parsed by the production
+  CSV loader, with exact triples and Turtle round trips, including packaging
+  `None` as an actual CSV lookup key.
 - Source artist/release-group links and the existing URL branch in a record
   with invalid and missing auxiliary matches, checking that conversion proceeds.
 
-The regression cases failed against the previous converter and pass after the
-repair. The unified command, `poetry run python scripts/check_offline.py`, now
-passes **84 tests and 14 competency fixture queries**. Black and diff checks
-also pass. The CSV tests exercise parsing and entity conversion; they do not
-run the full asynchronous CLI or a historical dump.
+The original regression cases failed against the previous converter and passed
+after the ID repair, bringing the total to 84 tests. Four additional
+[loader regressions](../tests/test_reconciliation_loading.py) cover textual
+NA/numeric values and empty cells, same-label collisions across all fields and
+three entity kinds, and each absent auxiliary/type file. They exercise the
+production loaders and per-file `main`, then run the actual asynchronous CLI
+from a temporary working directory through worker processes and Turtle output.
+The CLI test failed against `1a089373` with wrong cross-field QIDs and lost
+textual keys, and passes after the loader repair. Its independently specified
+graph also retains artist/release-group links and an embedded recording.
+
+The unified command, `poetry run python scripts/check_offline.py`, now passes
+**88 tests and 14 competency fixture queries**. Black and diff checks also pass.
+All CSV/JSONL inputs in these tests are synthetic temporary files; no historical
+dump or stored export is required.
 
 Snapshot access, affected-record counts, full-dump conversion and production
 regeneration remain deferred. Once access resumes, record the source/export
 versions and checksums, count accepted/rejected/missing candidates by field,
 verify the language fallback against the original cells, and compare generated
-RDF in staging before any reload. The merged lookup dictionary can still have
-colliding keys across auxiliary tables; this repair does not redesign it or
-establish whether collisions occur in stored data. SESEMMI, inference settings
-and live graphs are outside this change.
+RDF in staging before any reload. Duplicate keys within a single CSV still use
+the last row, as before; this repair isolates fields without redesigning
+within-table conflict resolution. SESEMMI, inference settings and live graphs
+are outside this change. Queries consuming regenerated data must still allow
+literal fallbacks, including the previously documented P31 fallback for types.

@@ -13,7 +13,7 @@ from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from convert_to_rdf import matched_wikidata, process_entity
+from convert_to_rdf import load_reconciliation_csv, matched_wikidata, process_entity
 from mapping_schema import MappingSchema
 from relationship_mapping import RelationshipMappings
 
@@ -23,24 +23,25 @@ LM = Namespace("https://linkedmusic.ca/graphs/musicbrainz/")
 MB = Namespace("https://musicbrainz.org/")
 ENTITY_ID = "00000000-0000-4000-8000-000000000001"
 
-# Entity type, source fields, lookup key, predicate, unmatched source value.
+# Entity type, source fields, lookup key, predicate, unmatched value, lookup field.
 # Expectations are independent of the production schema lookup and ID helper.
 CASES = (
-    ("artist", {"type": "Person"}, "Person", WDT.P31, "Person"),
+    ("artist", {"type": "Person"}, "Person", WDT.P31, "Person", "type"),
     (
         "work",
         {"attributes": [{"type": "Key", "value": "C major"}]},
         "C major",
         WDT.P826,
         "C major",
+        "key",
     ),
-    ("artist", {"gender": "Other"}, "Other", WDT.P21, "Other"),
-    ("work", {"languages": ["syr"]}, "syr", WDT.P407, "syr"),
-    ("release", {"packaging": "None"}, "None", WDT.P9813, "None"),
-    ("release", {"status": "Official"}, "Official", WDT.P31, "Official"),
-    ("release", {"status": "Cancelled"}, "Cancelled", WDT.P1534, "Cancelled"),
-    ("release", {"status": "Withdrawn"}, "Withdrawn", WDT.P1534, "Withdrawn"),
-    ("release", {"status": "Expunged"}, "Expunged", WDT.P1534, "Expunged"),
+    ("artist", {"gender": "Other"}, "Other", WDT.P21, "Other", "gender"),
+    ("work", {"languages": ["syr"]}, "syr", WDT.P407, "syr", "language"),
+    ("release", {"packaging": "None"}, "None", WDT.P9813, "None", "packaging"),
+    ("release", {"status": "Official"}, "Official", WDT.P31, "Official", "status"),
+    ("release", {"status": "Cancelled"}, "Cancelled", WDT.P1534, "Cancelled", "status"),
+    ("release", {"status": "Withdrawn"}, "Withdrawn", WDT.P1534, "Withdrawn", "status"),
+    ("release", {"status": "Expunged"}, "Expunged", WDT.P1534, "Expunged", "status"),
 )
 INVALID_IDS = (
     "Q42suffix",
@@ -96,6 +97,9 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
         )
         return graph
 
+    def scoped_mapping(self, entity_type, field, cells):
+        return {field: {entity_type: cells} if field == "type" else cells}
+
     def expected(self, entity_type, *properties):
         kinds = {
             "area": LM.Area,
@@ -125,19 +129,27 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
                 self.assertFalse(matched_wikidata(value))
 
     def test_valid_ids_use_canonical_iris_at_every_call_site(self):
-        for entity_type, fields, key, predicate, _ in CASES:
+        for entity_type, fields, key, predicate, _, field in CASES:
             for value, target in (("Q1", WD.Q1), ("Q42", WD.Q42)):
                 with self.subTest(fields=fields, value=value):
-                    graph = self.convert(entity_type, fields, {key: value})
+                    graph = self.convert(
+                        entity_type,
+                        fields,
+                        self.scoped_mapping(entity_type, field, {key: value}),
+                    )
                     self.assertEqual(
                         set(graph), self.expected(entity_type, (predicate, target))
                     )
 
     def test_rejected_ids_preserve_unmatched_text_at_every_call_site(self):
-        for entity_type, fields, key, predicate, original in CASES:
+        for entity_type, fields, key, predicate, original, field in CASES:
             for value in INVALID_IDS:
                 with self.subTest(fields=fields, value=value):
-                    graph = self.convert(entity_type, fields, {key: value})
+                    graph = self.convert(
+                        entity_type,
+                        fields,
+                        self.scoped_mapping(entity_type, field, {key: value}),
+                    )
                     # Language exports retain an unmatched full name in the
                     # ID column; other fields use their original JSON text.
                     text = value if predicate == WDT.P407 else original
@@ -147,7 +159,7 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
                     )
 
     def test_missing_blank_and_non_string_matches_preserve_source_values(self):
-        for entity_type, fields, key, predicate, original in CASES:
+        for entity_type, fields, key, predicate, original, field in CASES:
             mappings = [{}] + [
                 {key: value}
                 for value in ("", None, float("nan"), pd.NA, 42, True, [], {})
@@ -155,7 +167,13 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
             for mapping in mappings:
                 with self.subTest(fields=fields, mapping=mapping):
                     self.assertEqual(
-                        set(self.convert(entity_type, fields, mapping)),
+                        set(
+                            self.convert(
+                                entity_type,
+                                fields,
+                                self.scoped_mapping(entity_type, field, mapping),
+                            )
+                        ),
                         self.expected(entity_type, (predicate, Literal(original))),
                     )
 
@@ -163,7 +181,7 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
         graph = self.convert(
             "release-group",
             {"primary-type": "Album", "secondary-types": ["Live", "Compilation"]},
-            {"Album": "Q482994", "Live": "Q42suffix"},
+            {"type": {"release-group": {"Album": "Q482994", "Live": "Q42suffix"}}},
         )
         self.assertEqual(
             set(graph),
@@ -181,7 +199,7 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
                 f"{entity}-types",
                 "type",
                 "type_@id",
-                (entity, {"type": "Type"}, "Type", WDT.P31, "Type"),
+                (entity, {"type": "Type"}, "Type", WDT.P31, "Type", "type"),
             )
             for entity in (
                 "area",
@@ -198,22 +216,11 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
             ("keys", "key", "key_@id", CASES[1]),
             ("genders", "gender", "gender_@id", CASES[2]),
             ("languages", "language", "full_language_@id", CASES[3]),
-            (
-                "packagings",
-                "packaging",
-                "packaging_@id",
-                (
-                    "release",
-                    {"packaging": "Paper sleeve"},
-                    "Paper sleeve",
-                    WDT.P9813,
-                    "Paper sleeve",
-                ),
-            ),
+            ("packagings", "packaging", "packaging_@id", CASES[4]),
             ("statuses", "status", "status_@id", CASES[5]),
         ]
         for export, key_column, id_column, case in exports:
-            entity_type, fields, key, predicate, original = case
+            entity_type, fields, key, predicate, original, field = case
             template = json.loads(
                 (ROOT / f"openrefine/export/{export}_export.json").read_text()
             )
@@ -229,11 +236,12 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
                         row["full_language"] = "Syriac"
                     writer.writerow(row)
                     csv_text.seek(0)
-                    # Same parser/settings as the production CSV loaders;
-                    # empty cells become pandas NaN.
-                    cells = pd.read_csv(csv_text, encoding="utf-8")
-                    mapping = dict(zip(cells[key_column], cells[id_column]))
-                    graph = self.convert(entity_type, fields, mapping)
+                    mapping = load_reconciliation_csv(csv_text, key_column, id_column)
+                    graph = self.convert(
+                        entity_type,
+                        fields,
+                        self.scoped_mapping(entity_type, field, mapping),
+                    )
                     if value == "Q42":
                         target = WD.Q42
                     elif export == "languages" and value:
@@ -265,7 +273,10 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
                     }
                 ],
             },
-            {"Paper sleeve": "Q42suffix", "Cancelled": float("nan")},
+            {
+                "packaging": {"Paper sleeve": "Q42suffix"},
+                "status": {"Cancelled": float("nan")},
+            },
         )
         self.assertEqual(
             set(graph),

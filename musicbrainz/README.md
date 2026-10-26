@@ -18,6 +18,8 @@ URL forms, literal preservation, offline tests and deferred snapshot validation.
 The [auxiliary CSV identifier contract](doc/auxiliary_identifier_validation.md)
 covers strict bare-QID validation, missing-cell handling and preservation of
 unmatched values in types, keys, genders, languages, packaging and statuses.
+CSV values remain text, and each field has its own reconciliation lookup so
+shared labels such as `Other` cannot overwrite another field's match.
 
 This guide details all the steps required to translate raw data from MusicBrainz into an RDF graph reconciled with Wikidata.
 

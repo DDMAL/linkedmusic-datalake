@@ -138,6 +138,32 @@ def matched_wikidata(field: object) -> bool:
     return isinstance(field, str) and re.fullmatch(r"Q[1-9][0-9]*", field) is not None
 
 
+def load_reconciliation_csv(source, key_column, id_column):
+    """Read exported text verbatim, retaining empty candidates for fallback."""
+    cells = pd.read_csv(source, encoding="utf-8", dtype=str, keep_default_na=False)
+    return {
+        key: candidate
+        for key, candidate in zip(cells[key_column], cells[id_column])
+        if key != ""
+    }
+
+
+def load_auxiliary_reconciliations(directory):
+    """Keep each field's matches separate, even when source labels coincide."""
+    mappings = {}
+    for field, filename, id_column in (
+        ("key", "keys-csv.csv", "key_@id"),
+        ("gender", "genders-csv.csv", "gender_@id"),
+        ("language", "languages-csv.csv", "full_language_@id"),
+        ("packaging", "packagings-csv.csv", "packaging_@id"),
+        ("status", "statuses-csv.csv", "status_@id"),
+    ):
+        path = Path(directory) / filename
+        if path.is_file():
+            mappings[field] = load_reconciliation_csv(path, field, id_column)
+    return mappings
+
+
 def convert_date(date_str: str) -> Literal:
     """
     Convert a date string to an RDF Literal with XSD date datatype.
@@ -181,7 +207,7 @@ def process_entity(
     attribute_mapping,
     g,
 ):
-    """Process a single line of JSON data and add it to the RDF graph."""
+    """Convert an entity using field-scoped matches (types also by entity kind)."""
     entity_id = data.get("id")
     if not entity_id:
         return
@@ -205,7 +231,9 @@ def process_entity(
         data.get("type"),
     ]:
         if t:
-            converted_type = reconciled_mapping.get(t)
+            converted_type = (
+                reconciled_mapping.get("type", {}).get(entity_type, {}).get(t)
+            )
             # If the type is a Wikidata ID, use it directly
             if matched_wikidata(converted_type):
                 g.add(
@@ -280,7 +308,7 @@ def process_entity(
         ):
             if pred := attribute_mapping.get(attribute_type):
                 if attribute_type == "Key" and matched_wikidata(
-                    key_map := reconciled_mapping.get(attribute_value)
+                    key_map := reconciled_mapping.get("key", {}).get(attribute_value)
                 ):
                     # If the attribute is the key and it is a Wikidata ID, use it directly
                     attribute_value = URIRef(f"{WD}{key_map}")
@@ -350,7 +378,9 @@ def process_entity(
 
     # Process gender
     if gender := data.get("gender"):
-        if matched_wikidata(gender_map := reconciled_mapping.get(gender)):
+        if matched_wikidata(
+            gender_map := reconciled_mapping.get("gender", {}).get(gender)
+        ):
             gender = URIRef(f"{WD}{gender_map}")
         else:
             gender = Literal(gender)
@@ -388,7 +418,7 @@ def process_entity(
 
     # Process languages
     for lang in data.get("languages", []):
-        lang_map = reconciled_mapping.get(lang)
+        lang_map = reconciled_mapping.get("language", {}).get(lang)
         if matched_wikidata(lang_map):
             lang = URIRef(f"{WD}{lang_map}")
         elif isinstance(lang_map, str) and lang_map:
@@ -487,7 +517,9 @@ def process_entity(
 
     # Process packaging
     if packaging := data.get("packaging"):
-        if matched_wikidata(packaging_map := reconciled_mapping.get(packaging)):
+        if matched_wikidata(
+            packaging_map := reconciled_mapping.get("packaging", {}).get(packaging)
+        ):
             packaging = URIRef(f"{WD}{packaging_map}")
         else:
             packaging = Literal(packaging)
@@ -586,7 +618,9 @@ def process_entity(
 
     # Process status
     if status := data.get("status"):
-        if matched_wikidata(status_map := reconciled_mapping.get(status)):
+        if matched_wikidata(
+            status_map := reconciled_mapping.get("status", {}).get(status)
+        ):
             status_rdf = URIRef(f"{WD}{status_map}")
         else:
             status_rdf = Literal(status)
@@ -1011,13 +1045,18 @@ def main(args):
     input_file = args.input_file
     entity_type = Path(input_file).stem  # Get entity type from filename
     type_file = Path(args.type_file) if args.type_file else None
-    if type_file:
-        # Read the types from the type file
-        types = pd.read_csv(type_file, encoding="utf-8")
-        reconciled_mapping = dict(zip(types["type"], types["type_@id"]))
-    else:
-        reconciled_mapping = {}
-    reconciled_mapping.update(RECONCILIATION_MAPPING)
+    # Types belong to this entity kind; global auxiliary labels cannot replace
+    # them, and recursively converted entities cannot inherit the wrong type map.
+    reconciled_mapping = {
+        **RECONCILIATION_MAPPING,
+        "type": {
+            entity_type: (
+                load_reconciliation_csv(type_file, "type", "type_@id")
+                if type_file
+                else {}
+            )
+        },
+    }
 
     # Configure output directory
     output_folder = Path(args.output_folder)
@@ -1112,43 +1151,7 @@ if __name__ == "__main__":
         print("No relationship mapping found in the configuration file.")
         sys.exit(1)
 
-    keys_file_path = Path(args.reconciled_folder) / "keys-csv.csv"
-    if keys_file_path.is_file():
-        with open(keys_file_path, "r", encoding="utf-8") as fi:
-            keys = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(dict(zip(keys["key"], keys["key_@id"])))
-
-    genders_file_path = Path(args.reconciled_folder) / "genders-csv.csv"
-    if genders_file_path.is_file():
-        with open(genders_file_path, "r", encoding="utf-8") as fi:
-            genders = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(genders["gender"], genders["gender_@id"]))
-            )
-
-    languages_file_path = Path(args.reconciled_folder) / "languages-csv.csv"
-    if languages_file_path.is_file():
-        with open(languages_file_path, "r", encoding="utf-8") as fi:
-            languages = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(languages["language"], languages["full_language_@id"]))
-            )
-
-    packagings_file_path = Path(args.reconciled_folder) / "packagings-csv.csv"
-    if packagings_file_path.is_file():
-        with open(packagings_file_path, "r", encoding="utf-8") as fi:
-            packagings = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(packagings["packaging"], packagings["packaging_@id"]))
-            )
-
-    statuses_file_path = Path(args.reconciled_folder) / "statuses-csv.csv"
-    if statuses_file_path.is_file():
-        with open(statuses_file_path, "r", encoding="utf-8") as fi:
-            statuses = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(statuses["status"], statuses["status_@id"]))
-            )
+    RECONCILIATION_MAPPING = load_auxiliary_reconciliations(args.reconciled_folder)
 
     bad_files = set()
     if Path(args.output_folder).exists() and not REPROCESSING:

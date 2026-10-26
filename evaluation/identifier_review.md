@@ -19,6 +19,8 @@ P2888 mapping is repaired under its
 [repaired](../theglobaljukebox/doc/alternative_names_mapping.md).
 MusicBrainz's auxiliary CSV helper and missing-value fallbacks were subsequently
 [repaired on 26 October](../musicbrainz/doc/auxiliary_identifier_validation.md).
+The same-day follow-up also preserves CSV text during parsing and isolates
+reconciliation tables after Claude's review identified loader defects.
 
 ## Scope and versions
 
@@ -137,6 +139,7 @@ reconciliation tools, so replacing it globally would change their contract.
 | Shared CSV conversion guesses identifiers inside text and unrelated URLs | [`to_rdf_node`](../shared/rdfconv/convert.py) calls [`extract_wd_id`](../shared/wikidata_utils/helpers.py) before URI/literal handling. `https://example.org/Q42` and `Study Q42 (draft)` both become `wd:Q42`; `Q42 / Q43` becomes `wd:Q43`. Even `datatype="xsd:string"` with `Q42` yields an IRI. | This can change source meaning. A focused converter repair should distinguish structured reconciled values from ordinary text, preserve explicit literal declarations and external IRIs, and reject ambiguity rather than selecting a match. Check tracked export contracts first; do not change the general-purpose extraction helper indiscriminately. |
 | MusicBrainz's URL branch recognizes fewer valid item-URL forms than RISM | A synthetic artist `wikidata` URL relationship using `https://www.wikidata.org/wiki/Q42` produces canonical P2888; using `https://www.wikidata.org/entity/Q42` produces a literal target. RISM normalizes both complete URLs. | Fixed locally on 21 October: complete HTTP/HTTPS item URLs on the two accepted hosts and paths now normalize; malformed IDs and unrelated values stay literal. Four regression tests cover conversion and canonical joins. Historical prevalence remains unknown; query audit fixtures intentionally retain literal-target controls. |
 | MusicBrainz's auxiliary CSV helper accepts partial IDs and fails on missing cells | At `5f23d0a4`, `matched_wikidata` uses a prefix match; `Q42suffix` becomes an invalid item IRI and pandas `NaN` raises an exception. Missing type mappings omit the source type. | Fixed locally on 26 October after reviewing all 14 export/history pairs: complete bare-QID validation, safe missing-value handling, original type/field fallbacks and retained unmatched language names. Seven regression tests cover every helper call site, export-shaped CSV parsing and Turtle round trips. Full URLs remain outside the auxiliary contract; historical impact is unmeasured. |
+| MusicBrainz CSV parsing drops textual keys and merged lookups mix field meanings | At `1a089373`, a synthetic `nan` language key is parsed as missing; shared `Other` entries let later auxiliary tables overwrite earlier matches and entity types. The actual CLI reproduces both failures. | Fixed locally on 26 October: read CSV cells as text with default NA detection disabled, isolate all five auxiliary fields and scope type matches by entity kind. Four added tests cover loader/main wiring, missing files and a complete CLI-to-Turtle run. Historical affected counts remain unknown. |
 | DIAMM's bare-QID check accepts suffixes | The actual `matched_wikidata` helper uses a prefix match: both `Q42suffix` and `Q42 / Q43` are accepted. Full item URLs are not accepted by that helper. | Fixed locally on 21 October: full bare-QID validation and safe rejection of missing/non-string values, with all nine CSV tables exercised synthetically. Full URLs remain outside this export contract. The separate people year-ID branches do not use this helper and still need review. |
 | P2888 object constraints differ between configurations | A one-row synthetic CSV using the SIMSSA `person` table produces `<https://db.simssa.ca/persons/1> wdt:P2888 "Unmatched name"`. Its work-title mapping, and several DTL/Global Jukebox mappings, have IRI guards. | Fixed locally on 21 October for SIMSSA persons: retain explicit original-name literals and accept only canonical Wikidata item IRIs for P2888. Three actual-mapping CSV regressions cover matched/unmatched cases and local work links. Other tables and historical export/deployment verification remain separate. |
 | A source-record link is not necessarily an entity-identity link | Cantus DB explicitly maps `cantus_id` to P2888 pointing at Cantus Index. The local documentation describes manuscript chants and index entries as different source structures. | This needs source-model review before any identity rule or flattening proposal. No error rate or universal replacement predicate is asserted here. |
@@ -197,8 +200,9 @@ subsequent shared-converter repair brings the total to **64 tests** and the same
 14 competency fixture queries. The later Global Jukebox mapping test raises
 the count to 65; the MusicBrainz URL repair adds four tests for **69 tests and
 14 competency fixture queries**. DIAMM adds five tests to reach 74, and SIMSSA
-adds three to reach 77. MusicBrainz auxiliary validation adds seven for the current
-total of **84 tests and 14 competency fixture queries**.
+adds three to reach 77. MusicBrainz auxiliary validation adds seven to reach 84;
+the loader follow-up adds four for the current total of **88 tests and
+14 competency fixture queries**.
 Python 3.12.11 / RDFLib 7.6.0 were used locally. These counts describe local
 validation; hosted CI for the auxiliary CSV repair has not run.
 

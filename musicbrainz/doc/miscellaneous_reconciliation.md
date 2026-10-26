@@ -19,6 +19,9 @@ Unmatched source values are retained as literals, including full language names
 where supplied by the language export. Missing/blank matches fall back to the
 source field. See the [auxiliary identifier contract](auxiliary_identifier_validation.md)
 for the accepted format, per-field fallbacks and offline validation.
+The CSV loader preserves text such as `nan`, `None` and `NA`; only an empty
+cell is treated as empty. Field-specific lookups keep identical labels in
+different tables separate, and type matches are also scoped by entity kind.
 
 ## Types
 
