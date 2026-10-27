@@ -7,6 +7,11 @@ in the same column could turn `9007199254740993` into `9007199254740992.0`.
 NA-like strings could disappear. This repair preserves the supplied cells;
 it does not validate external identifiers or infer new matches.
 
+The subsequent [identifier-list repair](external_identifier_selection.md) on
+27 October preserves all archive/person entries and replaces the first/last
+selection described below for new extractions. This document records the
+earlier scalar repair and remains the contract for legacy CSV fallback.
+
 ## Source and export boundary
 
 The upstream [archive identifier model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/archive_identifier.py)
@@ -23,7 +28,7 @@ historical snapshot or running API version.
 [`to_csv.py`](../src/to_csv.py) copies selected `identifiers[].identifier`
 strings into three columns. No extraction change was needed for this boundary.
 
-| Table | CSV column | Selection currently made during extraction | RDF property |
+| Table | CSV column | Selection before the identifier-list repair | RDF property |
 | --- | --- | --- | --- |
 | Archives | `rism_id` | First label containing RISM, case-insensitive | `wdt:P5504` |
 | People | `rism_id` | Last label containing RISM, case-insensitive | `wdt:P5504` |
@@ -97,14 +102,14 @@ and an exact-string SPARQL lookup. The export/history checks guard the original
 columns. Before the fix the five tests reported six failures (including
 subtests); all pass after the fix.
 The complete offline command passes **104 tests and 14 competency fixture
-queries**, including all 21 DIAMM tests. Black and diff checks pass.
+queries**, including all 21 DIAMM tests, at that repair. Black and diff checks passed.
 
 The export projection is synthetic; no OpenRefine GUI or reconciliation-service
 replay was performed. Historical affected counts, source/version compatibility
 and actual identifier shapes remain unmeasured. Other CSV columns keep their
-existing parsing. Extraction still selects one identifier per scheme, so this
-repair does not preserve every entry when a source supplies multiple matches;
-that first/last selection and its label classification need a separate review.
+existing parsing. This scalar repair did not preserve every list entry; the
+subsequent [selection repair](external_identifier_selection.md) addresses that
+boundary for new extractions. Historical old outputs still require regeneration.
 
 When snapshot access is confirmed, compare raw identifiers, extracted CSVs,
 OpenRefine project cells and reconciled exports by DIAMM row ID. Record checksums

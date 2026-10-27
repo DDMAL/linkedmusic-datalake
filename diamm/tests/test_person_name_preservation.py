@@ -182,9 +182,9 @@ class PersonNamePreservationTests(unittest.TestCase):
         )
         self.assertEqual(
             [c["name"] for c in template["columns"]],
-            LEGACY_COLUMNS + ["source_full_name", "floruit"],
+            LEGACY_COLUMNS + ["source_full_name", "floruit", "source_identifiers"],
         )
-        for column in template["columns"][-2:]:
+        for column in template["columns"][-3:]:
             self.assertEqual(column["reconSettings"]["output"], "entity-name")
             self.assertFalse(column["reconSettings"]["blankUnmatchedCells"])
         history = json.loads(
@@ -228,6 +228,9 @@ class PersonNamePreservationTests(unittest.TestCase):
         expected.add((DIAMM["people/7"], WDT.P2888, WD.Q42))
         for index, (record, _) in enumerate(cases, 1):
             person = DIAMM[f"people/{index}"]
+            expected.add(
+                (person, LM.sourceIdentifiersJson, Literal("[]", datatype=XSD.string))
+            )
             expected.add(
                 (
                     person,

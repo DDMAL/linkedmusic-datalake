@@ -34,6 +34,12 @@ so parenthesized lifespan/floruit text survives. An optional separate source
 [person-name preservation contract](doc/person_name_preservation.md) when
 importing and exporting these columns through OpenRefine.
 
+Archive and person extraction also retains the complete identifier list in
+`source_identifiers`. RISM/VIAF scalar columns provide reconciliation hints only
+when one distinct nonblank string is available. The
+[identifier-list contract](doc/external_identifier_selection.md) describes
+classification, multiple values, evidence retention and legacy compatibility.
+
 ## 3. Reconciling Data
 
 All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./doc/reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
@@ -62,6 +68,11 @@ Archive RISM and person RISM/VIAF identifiers follow the
 cells remain string literals, preserving leading zeros and long digits. Import
 them as text in OpenRefine too. Previously numeric RDF objects now become strings;
 the converter cannot recover text already lost from old exports.
+
+New exports use the complete `source_identifiers` JSON cell to emit all supported
+RISM/VIAF strings and retain the list on `diamm:sourceIdentifiersJson`. This cell
+takes precedence over scalar hints; absent/empty cells use the legacy behavior.
+Other schemes remain JSON evidence only. See the identifier-list contract above.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion

@@ -12,6 +12,7 @@ import os
 import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import DCTERMS, RDFS, RDF, SKOS, XSD
+from external_identifiers import identifier_values
 
 BASE_PATH = "../data/reconciled/"
 RELATIONS_PATH = "../data/csv/relations.csv"
@@ -165,6 +166,30 @@ def add_person_year(graph, person, row, field):
         graph.add((person, DIAMM_SCHEMA[field], year))
 
 
+def add_external_identifiers(graph, subject, row, fields):
+    """Project the complete source list, falling back only for legacy CSV cells."""
+    evidence = row.get("source_identifiers")
+    if evidence:
+        try:
+            values = identifier_values(json.loads(evidence), fields)
+        except (ValueError, TypeError) as error:
+            raise ValueError(
+                f"Invalid source_identifiers for {subject}: {error}"
+            ) from error
+        graph.add(
+            (
+                subject,
+                LMDIAMM.sourceIdentifiersJson,
+                Literal(evidence, datatype=XSD.string),
+            )
+        )
+    else:
+        values = {field: {row[field]} if row.get(field) else set() for field in fields}
+    for field, identifiers in values.items():
+        for identifier in identifiers:
+            graph.add((subject, DIAMM_SCHEMA[field], Literal(identifier)))
+
+
 def build_rdf_graph(
     base_path=BASE_PATH,
     relations_path=RELATIONS_PATH,
@@ -178,7 +203,7 @@ def build_rdf_graph(
         os.path.join(base_path, "archives-csv.csv"),
         # External identifiers are source text, including leading zeros and
         # NA-like strings. See doc/external_identifier_text.md.
-        converters={"rism_id": str},
+        converters={"rism_id": str, "source_identifiers": str},
     )
     cities = pd.read_csv(os.path.join(base_path, "cities-csv.csv"))
     compositions = pd.read_csv(os.path.join(base_path, "compositions-csv.csv"))
@@ -191,7 +216,13 @@ def build_rdf_graph(
         converters={
             **{
                 field: str
-                for field in ("full_name", *PERSON_SOURCE_TEXT, "rism_id", "viaf_id")
+                for field in (
+                    "full_name",
+                    *PERSON_SOURCE_TEXT,
+                    "rism_id",
+                    "viaf_id",
+                    "source_identifiers",
+                )
             },
             **{
                 column: str
@@ -253,14 +284,7 @@ def build_rdf_graph(
                     URIRef(work["website"]),
                 )
             )
-        if work["rism_id"]:
-            g.add(
-                (
-                    subject_uri,
-                    DIAMM_SCHEMA["rism_id"],
-                    Literal(work["rism_id"]),
-                )
-            )
+        add_external_identifiers(g, subject_uri, work, ("rism_id",))
 
     print("Processing cities...")
     json_data = json.loads(cities.to_json(orient="records"))
@@ -451,22 +475,7 @@ def build_rdf_graph(
         for field in PERSON_YEAR_FIELDS:
             add_person_year(g, subject_uri, work, field)
 
-        if work["rism_id"]:
-            g.add(
-                (
-                    subject_uri,
-                    DIAMM_SCHEMA["rism_id"],
-                    Literal(work["rism_id"]),
-                )
-            )
-        if work["viaf_id"]:
-            g.add(
-                (
-                    subject_uri,
-                    DIAMM_SCHEMA["viaf_id"],
-                    Literal(work["viaf_id"]),
-                )
-            )
+        add_external_identifiers(g, subject_uri, work, ("rism_id", "viaf_id"))
 
     print("Processing regions...")
     json_data = json.loads(regions.to_json(orient="records"))

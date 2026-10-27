@@ -188,6 +188,19 @@
         "useLocalTimeZone": false,
         "omitTime": false
       }
+    },
+    {
+      "name": "source_identifiers",
+      "reconSettings": {
+        "output": "entity-name",
+        "blankUnmatchedCells": false,
+        "linkToEntityPages": true
+      },
+      "dateSettings": {
+        "format": "iso-8601",
+        "useLocalTimeZone": false,
+        "omitTime": false
+      }
     }
   ]
 }

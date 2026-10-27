@@ -10,7 +10,11 @@ During every reconciliation step, if OpenRefine gives an error, select the entri
 
 Keep `rism_id` as text, with automatic numeric/date parsing and whitespace
 trimming disabled during import. Reconciliation uses it as a hint without
-changing its value. See the [external identifier contract](external_identifier_text.md).
+changing its value. New extractions provide it only for one distinct nonblank
+RISM string. Keep the appended `source_identifiers` JSON column untouched and
+use the updated archive export. Multiple IDs remain in that evidence column;
+do not concatenate them into a single hint. See the
+[identifier-list contract](external_identifier_selection.md).
 
 1. Create a column `name_@id` as a copy of `name`
 2. Reconcile `name_@id` against Q43229 using the `siglum` column as P11550 and the `rism_id` column as P5504
@@ -90,6 +94,13 @@ need matching raw-source values before adding them; see the
 [preservation and compatibility contract](person_name_preservation.md).
 Keep `rism_id` and `viaf_id` as untouched text too, following the
 [external identifier contract](external_identifier_text.md).
+New extractions supply each hint only for one distinct nonblank identifier;
+multiple different values leave that hint empty. Keep `source_identifiers`
+untouched as text, and include it with the updated people export. It retains
+the complete list for RDF conversion under the
+[identifier-list contract](external_identifier_selection.md). Review matches
+whose hints changed; the history still reconciles the copied name, and empty
+hints do not establish that the source had no identifiers.
 
 Import trimming is a project-wide setting: disabling it can also retain leading
 spaces in the cleaned `full_name` compared with older projects. If normalization

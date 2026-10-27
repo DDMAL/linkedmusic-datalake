@@ -224,6 +224,15 @@ class ExternalIdentifierTextTests(unittest.TestCase):
                     Literal(f"Person {i}", datatype=XSD.string),
                 )
             )
+        for table in FIELDS:
+            for row in rows[table]:
+                expected.add(
+                    (
+                        DIAMM[f"{table}/{row['id']}"],
+                        LM.sourceIdentifiersJson,
+                        Literal(row["source_identifiers"], datatype=XSD.string),
+                    )
+                )
         self.assertEqual(set(graph), expected)
         matches = graph.query(f"""
             SELECT ?person WHERE {{
