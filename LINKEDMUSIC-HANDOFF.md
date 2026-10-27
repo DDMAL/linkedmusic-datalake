@@ -1,6 +1,7 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated 26 October after DIAMM original-name/floruit
+Prepared 20 October 2026. Updated 27 October after DIAMM RISM/VIAF identifier
+text preservation, following DIAMM original-name/floruit
 preservation and person-year preservation,
 MusicBrainz auxiliary CSV identifier validation and the review follow-up on CSV
 parsing and lookup isolation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
@@ -237,19 +238,55 @@ No source data was regenerated or deployed, and this work has not been pushed.
 Old outputs still need their matching raw snapshots to recover lost text.
 Other source fields and external-ID parsing remain outside this repair.
 
-## Next task — DIAMM RISM/VIAF identifier text
+## Completed task — DIAMM RISM/VIAF identifier text
 
-Claude's earlier review identified a separate loader issue: numeric-looking
-`rism_id`/`viaf_id` cells still use default pandas inference, so missing cells
-can turn IDs into floating-point values and lose leading zeros or precision.
+Completed 27 October 2026 in local commit `406c868e` on
+`preservation-repairs-2026-10-21`. The
+[external identifier contract](diamm/doc/external_identifier_text.md) traces the
+three columns through extraction, the tracked export/history pairs and RDF.
+Pinned upstream archive/person models and serializers at
+`052004f86960a5dc4d1e7446be8d5a6ac8594bd1` define string identifiers. No historical
+snapshot or live DIAMM API was inspected.
 
-1. Trace these identifiers through JSON extraction, CSV export and RDF for the
-   DIAMM tables that carry them; establish their source text contracts.
-2. Reproduce the coercion with synthetic CSVs, then preserve identifier text
-   without inventing matches or changing source relationships. Cover blanks,
-   leading zeros, long digits and punctuation using the actual converter.
-3. Run the offline checks, document compatibility and unresolved source shapes,
-   and update this handoff. Historical affected counts still require snapshots.
+Archive `rism_id` and person `rism_id`/`viaf_id` now load as text. Nonempty cells
+remain literals under P5504/P214; empty cells emit no identifier statement.
+Leading zeros, long digits, NA-like strings, punctuation and whitespace survive.
+ID-like strings and URLs do not create matches. Local subjects, labels, supplied
+name matches and source relationships retain their existing behavior. Previously
+numeric RDF objects now become strings; already-coerced exports need their
+matching source evidence for recovery. Reconciliation instructions now explicitly
+require text-preserving import for all three columns.
+
+Five new tests reported six failures, including subtests, against the old
+converter: zeros were stripped, `9007199254740993` rounded to
+`9007199254740992.0`, and NA-like strings disappeared. All pass after the repair.
+They cover actual CSV parsing, extraction/RDF CLIs, tracked export selection,
+full expected graphs, Turtle round trips, an exact-string SPARQL query,
+duplicate/conflicting rows, blanks/nulls and source relationships. The complete
+offline command passes **104 tests and 14 competency fixture queries**, including
+all 21 DIAMM tests. Black and diff checks pass.
+
+Self-review found no introduced correctness defects. It identified the existing
+one-value extraction boundary: archives choose the first RISM-labelled entry,
+while people choose the last RISM/VIAF-labelled entries. That remains documented
+and is the next bounded follow-up below; this repair claims preservation only of
+the selected cells. No independent agent review or OpenRefine GUI/service replay
+was performed. All test data is synthetic. Other CSV columns retain their prior
+parsing. Historical affected counts, actual source shapes and source-version
+confirmation await snapshot access. No stored data was regenerated, and this
+repair has not been pushed or deployed.
+
+## Next task — DIAMM external identifier selection
+
+1. Review the archive/person identifier-list selection in `to_csv.py`, including
+   repeated RISM/VIAF entries, label classification and blank entries that can
+   replace a nonempty value. Reproduce any loss with synthetic source records.
+2. Specify a source-preserving extraction/export/RDF representation for multiple
+   supplied identifiers without guessing which is correct or inventing matches.
+   Review legacy CSV compatibility and reconciliation hints before implementation.
+3. If the evidence supports a bounded repair, implement it with actual extraction
+   and converter regressions, run offline checks and update this handoff. Keep
+   historical prevalence and other source identifier schemes explicitly separate.
 
 Do not restart completed MusicBrainz URL, role or auxiliary work, or SIMSSA
 mapping work. Publishing remains separate; respect protected remote `main`.
@@ -310,7 +347,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **99 passing
+20 October. The completed additions below bring the current baseline to **104 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -344,10 +381,11 @@ restored validation of all nine configs. The subsequent MusicBrainz URL repair
 (`5d5e18ae`) brought validation to 69 tests. DIAMM validation (`db00b71d`)
 brought the total to 74 tests. SIMSSA person mapping (`ea716132`) brought the
 total to 77. MusicBrainz auxiliary CSV validation on 26 October brought it to 84;
-the loader follow-up brought it to 88. DIAMM person-year preservation brings
-the total to 95. DIAMM original-name/floruit preservation brings the current
-total to **99 tests and 14 competency fixture queries**. DIAMM RISM/VIAF
-identifier text remains the next bounded review.
+the loader follow-up brought it to 88. DIAMM person-year preservation brought
+the total to 95. DIAMM original-name/floruit preservation brought the
+total to 99 tests. DIAMM RISM/VIAF identifier text preservation brings the current
+total to **104 tests and 14 competency fixture queries**. DIAMM external
+identifier-list selection remains the next bounded review.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
 
@@ -428,8 +466,10 @@ Committing or merging this code will not update the live data.
   source relationships, and regenerate separately. Apply the
   [person-year contract](diamm/doc/person_years.md) to actual date/flag cells and
   query compatibility, plus the [original-name/floruit contract](diamm/doc/person_name_preservation.md)
-  across extraction and OpenRefine. Review remaining identifier text coercion
-  before asserting full source fidelity.
+  across extraction and OpenRefine. Follow the
+  [external identifier text contract](diamm/doc/external_identifier_text.md) for
+  RISM/VIAF strings and query datatypes. Review identifier-list selection and
+  remaining column parsing before asserting full source fidelity.
 - [ ] **SIMSSA TOML route:** verify actual person exports and completeness of
   original names under the [contract](simssa/doc/person_identifier_mapping.md),
   record which conversion route produced stored RDF, and regenerate separately.
@@ -508,6 +548,7 @@ None deploys data to Virtuoso.
 | MusicBrainz CSV text preservation, field/type lookup isolation and CLI regressions | linkedmusic-datalake | `60ebf3b9` |
 | DIAMM person-year evidence, approximation-aware dates, ID validation and regressions | linkedmusic-datalake | `fe53b415` |
 | DIAMM original person names/floruit text, export compatibility and CLI regressions | linkedmusic-datalake | `becc8734` |
+| DIAMM RISM/VIAF identifier text, export contract and extraction/CSV/RDF regressions | linkedmusic-datalake | `406c868e` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -532,10 +573,12 @@ The MusicBrainz URL repair adds four tests for 69. DIAMM adds five for the
 total of 74. SIMSSA adds three for 77, and MusicBrainz auxiliary CSV validation
 adds seven to reach 84. The CSV loader/lookup follow-up adds four to reach 88;
 DIAMM person-year preservation adds seven to reach 95. Original-name/floruit
-preservation adds four for the current total of 99.
+preservation adds four to reach 99. RISM/VIAF identifier text preservation adds
+five for the current total of 104.
 Earlier validation also passed from a clean `git archive` of committed code,
 invoked outside that checkout using the existing Python environment. The
-26 October auxiliary and DIAMM year/name results were verified in the working checkout.
+26 October auxiliary and DIAMM year/name results and the 27 October external-ID
+results were verified in the working checkout.
 The earlier archive check confirms independence from ignored evidence and source
 dumps, not a fresh Linux dependency installation or hosted Actions run.
 Changed Python files passed Black's check, and each staged change passed
@@ -636,8 +679,10 @@ Current queue (the **Start here** section is the next-agent brief):
    validation and SIMSSA person P2888 handling. MusicBrainz auxiliary CSV ID
    validation, its CSV loader/lookup follow-up and DIAMM person-year preservation
    are also complete (26 October), as is DIAMM original-name/floruit preservation.
-   DIAMM RISM/VIAF identifier text remains the next bounded review. The Virtuoso
-   comparison remains optional; none is a prerequisite to waiting for snapshots.
+   DIAMM RISM/VIAF identifier text preservation is complete (27 October).
+   DIAMM external identifier-list selection remains the next bounded review.
+   The Virtuoso comparison remains optional; none is a prerequisite to waiting
+   for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
    [evaluation manifests](evaluation/manifests.json) from
    the actual snapshots and conversion/deployment records. Use the
