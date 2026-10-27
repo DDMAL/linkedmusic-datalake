@@ -57,6 +57,12 @@ Original person display names and separate floruit text are string values on
 Older CSVs without those optional columns still load; their lost text requires
 the matching raw snapshot to recover.
 
+Archive RISM and person RISM/VIAF identifiers follow the
+[external identifier text contract](doc/external_identifier_text.md): nonempty
+cells remain string literals, preserving leading zeros and long digits. Import
+them as text in OpenRefine too. Previously numeric RDF objects now become strings;
+the converter cannot recover text already lost from old exports.
+
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion
 and offline regression coverage. Run `poetry run python scripts/check_offline.py`

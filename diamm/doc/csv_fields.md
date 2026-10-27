@@ -13,7 +13,8 @@ Data in `sources` and `city` will be in the relations CSV
 - `name`
 - `siglum`
 - `website`
-- `rism_id`
+- `rism_id`: selected source identifier text, preserved as a string under the
+  [external identifier contract](external_identifier_text.md)
 
 ## Cities
 
@@ -54,8 +55,8 @@ Data in `compositions`, `related_sources`, and `copied_sources` will be put in t
 - `latest_year`: person death year under the same interpretation
 - `earliest_year_approximate`: source uncertainty flag for the birth year
 - `latest_year_approximate`: source uncertainty flag for the death year
-- `rism_id`
-- `viaf_id`
+- `rism_id`: selected source RISM identifier text, not a number
+- `viaf_id`: selected source VIAF identifier text, not a number
 - `source_full_name`: exact original JSON display name, including date/floruit text
 - `floruit`: optional separate JSON floruit text; not inferred from the display name
 
@@ -65,6 +66,8 @@ original year and flag cells. RDF conversion preserves all six cells and emits
 direct birth/death years only when explicitly non-approximate. The two appended
 text columns follow the [person-name preservation contract](person_name_preservation.md)
 and must pass through reconciliation unchanged.
+The two external identifier columns also require text-preserving import/export;
+see the [external identifier contract](external_identifier_text.md).
 
 ## Regions
 

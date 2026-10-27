@@ -174,17 +174,25 @@ def build_rdf_graph(
     with open(relations_mapping_path, "r", encoding="utf-8") as file:
         relations_mapping = json.load(file)
 
-    archives = pd.read_csv(os.path.join(base_path, "archives-csv.csv"))
+    archives = pd.read_csv(
+        os.path.join(base_path, "archives-csv.csv"),
+        # External identifiers are source text, including leading zeros and
+        # NA-like strings. See doc/external_identifier_text.md.
+        converters={"rism_id": str},
+    )
     cities = pd.read_csv(os.path.join(base_path, "cities-csv.csv"))
     compositions = pd.read_csv(os.path.join(base_path, "compositions-csv.csv"))
     countres = pd.read_csv(os.path.join(base_path, "countries-csv.csv"))
     organizations = pd.read_csv(os.path.join(base_path, "organizations-csv.csv"))
     people = pd.read_csv(
         os.path.join(base_path, "people-csv.csv"),
-        # Preserve year evidence and person-name text, including NA-like strings
-        # and leading zeros. Other columns retain their old loading.
+        # Preserve year evidence, person names and external identifier text.
+        # Other columns retain their old loading.
         converters={
-            **{field: str for field in ("full_name", *PERSON_SOURCE_TEXT)},
+            **{
+                field: str
+                for field in ("full_name", *PERSON_SOURCE_TEXT, "rism_id", "viaf_id")
+            },
             **{
                 column: str
                 for field in PERSON_YEAR_FIELDS
@@ -245,7 +253,7 @@ def build_rdf_graph(
                     URIRef(work["website"]),
                 )
             )
-        if work["rism_id"] is not None:
+        if work["rism_id"]:
             g.add(
                 (
                     subject_uri,
@@ -443,7 +451,7 @@ def build_rdf_graph(
         for field in PERSON_YEAR_FIELDS:
             add_person_year(g, subject_uri, work, field)
 
-        if work["rism_id"] is not None:
+        if work["rism_id"]:
             g.add(
                 (
                     subject_uri,
@@ -451,7 +459,7 @@ def build_rdf_graph(
                     Literal(work["rism_id"]),
                 )
             )
-        if work["viaf_id"] is not None:
+        if work["viaf_id"]:
             g.add(
                 (
                     subject_uri,
