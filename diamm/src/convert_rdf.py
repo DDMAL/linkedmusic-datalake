@@ -201,9 +201,12 @@ def build_rdf_graph(
 
     archives = pd.read_csv(
         os.path.join(base_path, "archives-csv.csv"),
-        # External identifiers are source text, including leading zeros and
-        # NA-like strings. See doc/external_identifier_text.md.
-        converters={"rism_id": str, "source_identifiers": str},
+        # Names, sigla and external identifiers are source text, including
+        # leading zeros and NA-like strings. See doc/archive_text.md and
+        # doc/external_identifier_text.md. Other columns retain their loading.
+        converters={
+            field: str for field in ("name", "siglum", "rism_id", "source_identifiers")
+        },
     )
     cities = pd.read_csv(os.path.join(base_path, "cities-csv.csv"))
     compositions = pd.read_csv(os.path.join(base_path, "compositions-csv.csv"))
@@ -266,9 +269,10 @@ def build_rdf_graph(
                     URIRef(f"{WD}{work['name_@id']}"),
                 )
             )
-        g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
+        if work["name"]:
+            g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
 
-        if work["siglum"] is not None:
+        if work["siglum"]:
             g.add(
                 (
                     subject_uri,

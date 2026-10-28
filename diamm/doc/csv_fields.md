@@ -10,12 +10,17 @@ In addition to the fields described below, each table, except for `relations`, w
 
 Data in `sources` and `city` will be in the relations CSV
 
-- `name`
-- `siglum`
+- `name`: original archive name, kept as text
+- `siglum`: original archive siglum, kept as text
 - `website`
 - `rism_id`: exact string hint when one distinct nonblank RISM value is supplied
 - `source_identifiers`: complete source identifier list serialized as JSON text;
   see the [identifier-list contract](external_identifier_selection.md)
+
+Keep names and sigla unchanged through reconciliation under the
+[archive text contract](archive_text.md). Nonempty cells become string literals;
+empty cells emit no name/siglum statement. Extraction writes JSON null and empty
+strings as empty CSV cells without retaining their distinction.
 
 ## Cities
 

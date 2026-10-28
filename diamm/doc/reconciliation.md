@@ -8,9 +8,15 @@ During every reconciliation step, if OpenRefine gives an error, select the entri
 
 ## Archives
 
-Keep `rism_id` as text, with automatic numeric/date parsing and whitespace
-trimming disabled during import. Reconciliation uses it as a hint without
-changing its value. New extractions provide it only for one distinct nonblank
+Keep `name`, `siglum` and `rism_id` as text, with automatic numeric/date parsing
+and whitespace trimming disabled during import. These are project-wide import
+settings. Reconcile the copied `name_@id` below while preserving the original
+name and siglum, including leading zeros and NA-like strings. If additional
+name normalization is needed for matching, apply it only to that copy. See the
+[archive text contract](archive_text.md) for blank behavior and compatibility.
+
+Reconciliation uses `rism_id` as a hint without changing its value.
+New extractions provide it only for one distinct nonblank
 RISM string. Keep the appended `source_identifiers` JSON column untouched and
 use the updated archive export. Multiple IDs remain in that evidence column;
 do not concatenate them into a single hint. See the

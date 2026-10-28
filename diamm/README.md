@@ -74,6 +74,12 @@ RISM/VIAF strings and retain the list on `diamm:sourceIdentifiersJson`. This cel
 takes precedence over scalar hints; absent/empty cells use the legacy behavior.
 Other schemes remain JSON evidence only. See the identifier-list contract above.
 
+Archive names and sigla follow the [archive text contract](doc/archive_text.md):
+nonempty strings retain their exact text under `rdfs:label` and P11550, including
+leading zeros and NA-like values. Empty cells emit no corresponding statement;
+empty names no longer become `"None"` labels. Import both columns as text in
+OpenRefine. Existing name matches and source/location links remain independent.
+
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion
 and offline regression coverage. Run `poetry run python scripts/check_offline.py`
