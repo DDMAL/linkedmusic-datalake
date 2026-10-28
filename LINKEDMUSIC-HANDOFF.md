@@ -1,7 +1,8 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated 27 October after DIAMM external identifier-list
-preservation, following RISM/VIAF identifier text preservation and original-name/floruit
+Prepared 20 October 2026. Updated 28 October after DIAMM archive name/siglum text
+preservation, following external identifier-list preservation,
+RISM/VIAF identifier text preservation and original-name/floruit
 preservation and person-year preservation,
 MusicBrainz auxiliary CSV identifier validation and the review follow-up on CSV
 parsing and lookup isolation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
@@ -321,17 +322,57 @@ unmeasured. Old scalar exports cannot recover omitted entries. Other entity
 identifier lists, mappings for other schemes and other CSV parsing remain
 outside this repair. Nothing was pushed, merged, regenerated or deployed.
 
-## Next task — DIAMM archive names and sigla
+## Completed task — DIAMM archive names and sigla
 
-1. Review archive `name` and `siglum` from extraction through OpenRefine to RDF,
-   including default pandas inference, NA-like text, numeric-looking text and
-   empty cells. Reproduce any conversion loss with synthetic source records.
+Completed 28 October 2026 in local commit `5460e18a` on
+`preservation-repairs-2026-10-21`.
+The [archive text contract](diamm/doc/archive_text.md) traces the fields through
+extraction, the tracked history/export and RDF. The upstream archive model and
+detail serializer were inspected at pinned revision
+`052004f86960a5dc4d1e7446be8d5a6ac8594bd1`; both define name/siglum text.
+No live DIAMM records or historical snapshots were read.
+
+The RDF loader now protects archive `name` and `siglum` from pandas inference.
+Nonempty cells remain strings under `rdfs:label` and P11550, preserving leading
+zeros, long digits, NA-like values, Unicode and whitespace. Empty cells emit no
+corresponding statement; empty names no longer fabricate `"None"` labels.
+Literal `"None"` and whitespace-only text survive. No defaults are inferred from
+matches or identifiers. Source subjects, supplied name matches and archive
+location/source links retain their behavior. Extraction/history/export changes
+were unnecessary; import instructions now explicitly protect both text columns.
+
+Six new tests reported nine failures, including subtests, against the old
+converter and now pass. They cover numeric-only CSVs, full extraction/export
+projection/RDF CLIs, independently specified graphs, Turtle round trips,
+exact-string SPARQL joins, blanks/nulls, invalid match candidates and conflicting
+rows. The complete offline command passes **117 tests and 14 competency fixture
+queries**, including all 34 DIAMM tests. Black and diff checks pass. Self-review
+found no introduced correctness defects and added an extraction row-count check;
+all six archive tests passed again. No independent agent review or OpenRefine
+GUI/service replay was performed.
+
+The existing export retains unmatched text in `name_@id`: an unmatched whole
+`Q42` there still passes the existing syntax-only match check. That ambiguity
+is documented and tested, not repaired by this task. JSON null/empty strings
+share an empty CSV cell; conflicting direct triples do not preserve row pairing.
+Other tables/fields and historical prevalence remain unverified. Previously
+numeric RDF objects now become strings; old damaged exports require matching
+source evidence for recovery. Nothing was pushed, merged, regenerated or deployed.
+
+## Next task — DIAMM geographic names
+
+1. Review `name` in cities, countries and regions from extraction through their
+   tracked histories/exports to RDF. These tables still use default pandas
+   parsing and unconditional name literals. Reproduce any loss with synthetic
+   records, including numeric-looking, NA-like and empty names.
 2. If supported, make a bounded text-preservation repair while retaining supplied
-   name matches, source nodes and location/source links. Review blank behavior
-   before changing it; do not infer names or sigla from other identifiers.
+   matches, local subjects and geographic/source links. Keep country matching
+   hints distinct from source relationships, and review blank behavior before
+   changing it. Do not infer missing names or alter reconciliation semantics.
 3. Run actual extraction/CSV/RDF regressions and offline checks, document evidence
-   and compatibility, and update this handoff. Other tables and historical
-   prevalence remain separate. Do not repeat the completed identifier-list work.
+   and compatibility, and update this handoff. Other tables, the existing
+   unmatched-QID export ambiguity and historical prevalence remain separate.
+   Do not repeat completed archive or identifier-list work.
 
 Do not restart completed MusicBrainz URL, role or auxiliary work, or SIMSSA
 mapping work. Publishing remains separate; respect protected remote `main`.
@@ -392,7 +433,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **111 passing
+20 October. The completed additions below bring the current baseline to **117 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -429,8 +470,9 @@ total to 77. MusicBrainz auxiliary CSV validation on 26 October brought it to 84
 the loader follow-up brought it to 88. DIAMM person-year preservation brought
 the total to 95. DIAMM original-name/floruit preservation brought the
 total to 99 tests. DIAMM RISM/VIAF identifier text preservation brought it to 104.
-DIAMM external identifier-list preservation brings the current total to
-**111 tests and 14 competency fixture queries**. Archive name/siglum text parsing
+DIAMM external identifier-list preservation brought the total to 111.
+Archive name/siglum text preservation brings the current total to
+**117 tests and 14 competency fixture queries**. Geographic name text parsing
 is the next bounded review.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
@@ -517,7 +559,9 @@ Committing or merging this code will not update the live data.
   RISM/VIAF strings and query datatypes. Apply the
   [identifier-list contract](diamm/doc/external_identifier_selection.md) to
   complete archive/person lists, supported labels, ambiguous hints and changed
-  reconciliation results. Review remaining column parsing before asserting full
+  reconciliation results. Apply the [archive text contract](diamm/doc/archive_text.md)
+  to names and sigla, including empty-cell behavior, string query compatibility
+  and matching hints. Review remaining column parsing before asserting full
   source fidelity.
 - [ ] **SIMSSA TOML route:** verify actual person exports and completeness of
   original names under the [contract](simssa/doc/person_identifier_mapping.md),
@@ -599,6 +643,7 @@ None deploys data to Virtuoso.
 | DIAMM original person names/floruit text, export compatibility and CLI regressions | linkedmusic-datalake | `becc8734` |
 | DIAMM RISM/VIAF identifier text, export contract and extraction/CSV/RDF regressions | linkedmusic-datalake | `406c868e` |
 | DIAMM complete identifier lists, conservative hints, RDF projection and regressions | linkedmusic-datalake | `ae26d383` |
+| DIAMM archive name/siglum text, empty-cell behavior and extraction/CSV/RDF regressions | linkedmusic-datalake | `5460e18a` |
 
 The earlier continuation implemented the APSearch repair directly in the working
 tree on `main`, based on `c468e947`. An earlier commit attempt was rejected by
@@ -625,11 +670,13 @@ adds seven to reach 84. The CSV loader/lookup follow-up adds four to reach 88;
 DIAMM person-year preservation adds seven to reach 95. Original-name/floruit
 preservation adds four to reach 99. RISM/VIAF identifier text preservation adds
 five to reach 104. Complete archive/person identifier-list preservation adds
-seven for the current total of 111.
+seven to reach 111. Archive name/siglum text preservation adds six for the
+current total of 117.
 Earlier validation also passed from a clean `git archive` of committed code,
 invoked outside that checkout using the existing Python environment. The
 26 October auxiliary and DIAMM year/name results and the 27 October external-ID
-results were verified in the working checkout.
+results and the 28 October archive-text results were verified in the working
+checkout.
 The earlier archive check confirms independence from ignored evidence and source
 dumps, not a fresh Linux dependency installation or hosted Actions run.
 Changed Python files passed Black's check, and each staged change passed
@@ -732,7 +779,8 @@ Current queue (the **Start here** section is the next-agent brief):
    are also complete (26 October), as is DIAMM original-name/floruit preservation.
    DIAMM RISM/VIAF identifier text preservation is complete (27 October).
    DIAMM external identifier-list preservation is also complete (27 October).
-   Archive name/siglum text parsing is the next bounded review.
+   Archive name/siglum text preservation is complete (28 October).
+   Geographic name text parsing is the next bounded review.
    The Virtuoso comparison remains optional; none is a prerequisite to waiting
    for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
