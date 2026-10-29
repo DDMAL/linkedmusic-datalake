@@ -29,10 +29,11 @@ the original person display name and optional separate floruit text through
 extraction/export/conversion, without inferring dates from that text.
 Later DIAMM repairs preserve [external identifier text](../diamm/doc/external_identifier_text.md),
 [complete archive/person identifier lists](../diamm/doc/external_identifier_selection.md)
-and [archive names/sigla](../diamm/doc/archive_text.md). The subsequent local
+and [archive names/sigla](../diamm/doc/archive_text.md). The subsequent
 [geographic-name repair](../diamm/doc/geographic_names.md) preserves city,
-country and region labels. Geographic relationships remain the next bounded
-review; the unmatched whole-QID export ambiguity and
+country and region labels. The [geographic relationship review](../diamm/doc/geographic_relationships.md)
+also preserves organization/region locations. Qualified source provenance is
+the next bounded task; the unmatched whole-QID export ambiguity and
 historical prevalence remain unresolved.
 
 ## Scope and versions
@@ -212,16 +213,18 @@ additional controls, not new measured user questions.
 The review baseline on 21 October was **54 tests and 14 competency fixture
 queries**, using Python 3.12.11 / RDFLib 7.6.0 locally. Later repair counts are
 recorded by task in the [handoff](../LINKEDMUSIC-HANDOFF.md). The complete command
-was rerun after the geographic-name repair on 29 October and passed
-**124 tests and 14 competency fixture queries**;
+was rerun after the organization/region repair on 29 October and passed
+**128 tests and 14 competency fixture queries**;
 see the [current baseline](../README.md#preservation-and-evaluation-status).
 The later repairs and documentation were pushed to draft PR #473 on 29 October,
 including documentation commit `de1b8379`.
 [Hosted offline CI](https://github.com/DDMAL/linkedmusic-datalake/actions/runs/40862669774)
 passed for that revision. Check a run's revision when citing hosted validation;
 the earlier 69-test CI pass does not cover these later changes.
-The subsequent geographic-name repair is local and uncommitted; that hosted run
-does not validate it.
+The subsequent geographic-name (`df7854fe`) and organization/region (`6df2c7a6`)
+repairs were pushed on 29 October; that earlier hosted run does not validate them.
+[Hosted offline CI for `6df2c7a6`](https://github.com/DDMAL/linkedmusic-datalake/actions/runs/40869754616)
+subsequently passed for both geographic repairs.
 
 This local identifier design review is complete. It does not settle live
 reconciliation accuracy, the proportion of affected identifiers, source-record

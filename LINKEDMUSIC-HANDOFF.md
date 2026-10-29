@@ -2,21 +2,20 @@
 
 Prepared 20 October 2026. Updated **29 October 2026** after reconciling the
 repository documentation and sibling wiki with the completed preservation work,
-and subsequently implementing DIAMM geographic name preservation. The
+and subsequently implementing DIAMM geographic names and organization/region
+location preservation. The
 [root status and contract index](README.md#preservation-and-evaluation-status)
 provides a shorter entry point. This handoff retains the dated task evidence;
 historical test counts are not the current baseline.
 
-Local validation is **124 tests and 14 competency fixture queries**, rerun on
-29 October after the geographic-name repair. That repair and its repository/wiki
-documentation remain local and uncommitted, based on datalake `4465eaa8`.
-The preceding repairs and documentation were committed and pushed to draft
-PR #473 at Liam's request, and the preceding wiki updates were published.
-The last recorded PR status is open, draft and unmerged; it was not rechecked
-in this task. Publishing code does not deploy RDF. Publication statements in
-dated task sections describe those tasks; the 29 October publication section
-supersedes earlier local-only status, but does not include the subsequent
-geographic-name repair. Historical validation retains its original scope.
+Local validation is **128 tests and 14 competency fixture queries**, rerun on
+29 October after the organization/region repair. Liam requested committing,
+pushing and continuing: geographic-name commit `df7854fe` and organization/region
+commit `6df2c7a6` are pushed to `preservation-repairs-2026-10-21`. Wiki commits
+`01d5717` and `6ed5b35` are published on `master`. Draft PR #473 remains open
+and unmerged. Publishing code does not deploy RDF. The additional publication
+section below supersedes the earlier local-only statements for these repairs;
+historical validation retains its original scope.
 
 ## Working agreement — update the handoff after every task
 
@@ -26,6 +25,67 @@ review findings and their disposition, relevant commits, publication/deployment
 status, remaining limitations and the next concrete task. Keep historical test
 results distinct from the current baseline. Updating the handoff is part of
 finishing the work.
+
+## Completed task — geographic relationship review and organization locations
+
+Completed 29 October 2026 in `6df2c7a6`. The
+[geographic relationship contract](diamm/doc/geographic_relationships.md)
+records the pinned source definitions, preserved route, query compatibility
+and remaining parent/provenance limits. The Organization model, organization
+and region serializers, geographic-area model, city/country serializers and
+SourceProvenance model were inspected at
+`052004f86960a5dc4d1e7446be8d5a6ac8594bd1`. P131/P276 definitions were also checked.
+No historical snapshots, live DIAMM records or production graphs were read.
+
+The bounded repair preserves existing `organization:{id},region:{id}` relation
+rows as `diamm:organizationLocation`, directed from local organization to local
+region. Region `organizations` is the inverse of the model's `location` foreign
+key; the organization's own serializer can omit a region location URL. The
+new source predicate does not assert that every region is administrative.
+No extraction/history/export changes, Wikidata alignments or inferred manuscript
+locations were added. Existing city/country/source mappings retain their behavior.
+
+Four new regressions cover legacy relation CSVs, actual extraction/export/RDF
+CLIs, null organization location URLs, duplicate/conflicting locations, local
+endpoints with identical numeric IDs, names/matches, hint isolation, full expected
+graphs, Turtle and SPARQL. Three failed before the repair and all four now pass.
+The complete offline command passes **128 tests and 14 competency fixture
+queries** (shared 14, RISM 5, MusicBrainz 31, DIAMM 45, APSearch 11, evaluation 22).
+Black and diff checks pass; both geographic contract queries parse offline.
+Self-review found no introduced correctness defects. No independent agent review
+or OpenRefine replay was performed. Source files and before/after test logs are
+retained under `evaluation/audits/diamm-geographic-relationships-2026-10-29/`,
+ignored by Git and unnecessary for the tests.
+
+The review narrowed the remaining parent problem: the inspected city serializer
+itself can generate a country URL for a general geographic parent, so URL-path
+parsing alone cannot establish the true type. The source-provenance model also
+distinguishes geographic uncertainty and year bounds. Extraction drops these;
+city/source rows become unqualified P131, while region/source rows have no RDF
+branch. A simple missing-branch patch would lose these distinctions. The next
+bounded task is qualified city/region source provenance below. Parent routing
+needs explicit source type evidence; no type or location is guessed from names
+or reconciliation hints. Historical prevalence and source-version compatibility
+remain unmeasured. No stored RDF was regenerated or deployed.
+
+## Additional publication — 29 October 2026
+
+At Liam's request, `df7854fe` publishes the preceding geographic-name repair
+and its documentation to the existing PR branch; wiki `01d5717` publishes its
+status pages. The subsequent bounded organization/region repair is committed
+and pushed as `6df2c7a6`; wiki `6ed5b35` publishes the updated 128-test baseline,
+query behavior and next task. Normal pushes succeeded in both repositories.
+Follow-up repository documentation records those commits and publication.
+No protected-branch changes, merge, issue closure, source regeneration or RDF
+deployment occurred. Hosted checks must be cited by their tested revision.
+[Hosted offline run 40869754616](https://github.com/DDMAL/linkedmusic-datalake/actions/runs/40869754616)
+completed successfully for `6df2c7a6`. Later status-only commits have their own
+GitHub runs; the local 128-test result covers the same implementation.
+The final documentation check verified 174 local file links across 12 changed
+Markdown files and parsed both geographic SPARQL examples; repository/wiki diff
+checks passed. The PR description was synchronized with the published scope and
+validation. The connector lacked PR-edit permission, so the local GitHub CLI
+performed that metadata update; the PR remains draft and unmerged.
 
 ## Completed task — DIAMM geographic names
 
@@ -494,22 +554,23 @@ Other tables/fields and historical prevalence remain unverified. Previously
 numeric RDF objects now become strings; old damaged exports require matching
 source evidence for recovery. Nothing was pushed, merged, regenerated or deployed.
 
-## Next task — DIAMM geographic relationships
+## Next task — DIAMM qualified city/region source provenance
 
-1. Trace geographic parent URLs and region/source/organization relationships
-   through upstream definitions, `to_csv.py`, `relations.csv` and `convert_rdf.py`.
-   The city serializer obtains `country` from a general geographic parent, but
-   extraction unconditionally records `country:{id}`. Region/source and
-   organization/region rows are extracted but have no RDF branch. Establish
-   meanings and reproduce these boundaries synthetically before changing them.
-2. Choose a bounded repair supported by those definitions. Preserve typed local
-   endpoints and distinguish geographic containment from provenance. Review
-   supplied uncertainty/date qualifiers before adding assertions; country
-   reconciliation hints are not source relationships. Do not infer absent links.
-3. Run extraction/CSV/RDF regressions and offline checks, document compatibility
-   and remaining omissions, and update this handoff. Region-history replay,
-   other text columns, the unmatched-QID export ambiguity and historical counts
-   remain separate. Do not repeat completed name or identifier-list work.
+1. Trace city/region `provenance` entries and the SourceProvenance model through
+   extraction and RDF. The serializers expose `city_uncertain` or
+   `region_uncertain` plus `earliest_year`/`latest_year`; the existing relation
+   CSV loses these qualifiers. Reproduce that loss with synthetic records.
+2. Define source observations retaining raw qualifier evidence together with
+   source/place endpoints. Specify exact, uncertain, missing, invalid and
+   conflicting inputs and legacy relation-CSV behavior. Distinguish provenance
+   from administrative containment, creation, performance and current storage;
+   do not infer absent dates or certainty. Review compatibility with the existing
+   unqualified city/source P131 route before implementing a bounded repair.
+3. Run extraction/CSV/RDF regressions and offline queries, document regeneration
+   and limitations, then update this handoff. Parent endpoint types require
+   explicit source evidence and remain separate, as do region-history replay,
+   other text columns and unmatched-QID ambiguity. Do not repeat completed
+   organization/region location, name or identifier-list work.
 
 Do not restart completed MusicBrainz URL, role or auxiliary work, or SIMSSA
 mapping work. Publishing remains separate; respect protected remote `main`.
@@ -570,7 +631,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **124 passing
+20 October. The completed additions below bring the current baseline to **128 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -610,9 +671,10 @@ the total to 95. DIAMM original-name/floruit preservation brought the
 total to 99 tests. DIAMM RISM/VIAF identifier text preservation brought it to 104.
 DIAMM external identifier-list preservation brought the total to 111.
 Archive name/siglum text preservation brought the total to 117.
-Geographic name preservation brings the current total to
-**124 tests and 14 competency fixture queries**. Geographic relationships
-are the next bounded review.
+Geographic name preservation brought the total to 124. The organization/region
+repair brings the current total to **128 tests and 14 competency fixture queries**.
+Qualified city/region source provenance is the next bounded task; parent endpoint
+types still require source evidence.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
 
@@ -703,8 +765,11 @@ Committing or merging this code will not update the live data.
   to names and sigla, including empty-cell behavior, string query compatibility
   and matching hints. Apply the [geographic name contract](diamm/doc/geographic_names.md)
   to city/country/region names, empty cells, string-query compatibility and the
-  region history's copy-step facet. Review geographic relationships and remaining
-  column parsing before asserting full source fidelity.
+  region history's copy-step facet. Apply the
+  [geographic relationship contract](diamm/doc/geographic_relationships.md) to
+  organization/region rows and `diamm:organizationLocation` queries. Review
+  qualified source provenance, parent types and remaining column parsing before
+  asserting full source fidelity.
 - [ ] **SIMSSA TOML route:** verify actual person exports and completeness of
   original names under the [contract](simssa/doc/person_identifier_mapping.md),
   record which conversion route produced stored RDF, and regenerate separately.
@@ -927,7 +992,9 @@ Current queue (the **Start here** section is the next-agent brief):
    DIAMM external identifier-list preservation is also complete (27 October).
    Archive name/siglum text preservation is complete (28 October).
    Geographic name preservation is complete locally (29 October).
-   Geographic relationships are the next bounded review.
+   The geographic relationship review and organization/region location repair
+   are complete and published (29 October). Qualified city/region provenance is
+   the next bounded task; parent routing still needs source evidence.
    The Virtuoso comparison remains optional; none is a prerequisite to waiting
    for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared
