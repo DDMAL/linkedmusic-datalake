@@ -50,7 +50,7 @@ accepted URL combinations, idempotence, malformed/external values, unchanged
 name literals, multiple targets and source-node retention. Exact expected
 triples, a Turtle round trip and a SPARQL join to canonical Q42 are independently
 specified. Before the repair these four tests reported 13 failing subtests;
-afterward all pass. The full offline command passes **69 tests and 14 competency
+afterward all pass. At the 21 October repair, the full offline command passed **69 tests and 14 competency
 fixture queries**, up from 65 and 14. Black and diff checks also pass.
 
 No historical dump or production graph was queried, regenerated or deployed.

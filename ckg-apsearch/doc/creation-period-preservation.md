@@ -118,9 +118,11 @@ A separate normal-CLI smoke test on 20 October 2026 emitted 78 triples for
 bounds, and 5 flagged observations. Five musiconn and six Detmold synthetic
 records produced byte-identical Turtle with the previous converter at
 `c468e947`. This is bounded fixture evidence, not full-dump validation.
-The smoke-test inputs, output, audit and comparison report are local under
-`/tmp/linkedmusic-preservation-2026-10-20/apsearch/`; copy them outside temporary
-storage if long-term retention is needed.
+The smoke-test inputs, output, audit and comparison report were first saved to
+`/tmp/linkedmusic-preservation-2026-10-20/apsearch/`, then copied and
+checksum-verified under `evaluation/audits/handoff-2026-10-20/preservation/apsearch/`.
+The handoff manifest records the copies. These ignored files are local evidence,
+not a remote backup or a prerequisite for the synthetic tests.
 
 ## Audit denominators
 

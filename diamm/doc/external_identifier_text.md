@@ -101,7 +101,7 @@ and null cases, a supplied name match, archive/location/composition relationship
 and an exact-string SPARQL lookup. The export/history checks guard the original
 columns. Before the fix the five tests reported six failures (including
 subtests); all pass after the fix.
-The complete offline command passes **104 tests and 14 competency fixture
+At the 27 October text repair, the complete offline command passed **104 tests and 14 competency fixture
 queries**, including all 21 DIAMM tests, at that repair. Black and diff checks passed.
 
 The export projection is synthetic; no OpenRefine GUI or reconciliation-service

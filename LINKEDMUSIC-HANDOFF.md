@@ -1,20 +1,16 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated 28 October after DIAMM archive name/siglum text
-preservation, following external identifier-list preservation,
-RISM/VIAF identifier text preservation and original-name/floruit
-preservation and person-year preservation,
-MusicBrainz auxiliary CSV identifier validation and the review follow-up on CSV
-parsing and lookup isolation, following the 21 October SIMSSA person mapping repair, DIAMM validation, publication
-of the prior commits through draft PR #473, and the MusicBrainz URL and
-Global Jukebox mapping repairs, shared CSV identifier preservation, offline
-validation/CI and cross-dataset identifier review,
-following the APSearch interval-preservation,
-independent-evaluation and MusicBrainz representation-review continuations.
-The APSearch repair, evaluation package, representation review, offline CI,
-identifier review and shared CSV repair are committed locally in separate topic
-commits. This handoff records the completed sequence; publishing and deployment
-remain separate.
+Prepared 20 October 2026. Updated **29 October 2026** after reconciling the
+repository documentation and sibling wiki with the completed preservation work,
+most recently DIAMM archive name/siglum text preservation. The
+[root status and contract index](README.md#preservation-and-evaluation-status)
+provides a shorter entry point. This handoff retains the dated task evidence;
+historical test counts are not the current baseline.
+
+Local validation remains **117 tests and 14 competency fixture queries**, rerun
+on 29 October. Draft PR #473 was rechecked that day and remains open/unmerged
+at `0b508a76`; later repairs and this documentation refresh remain local.
+Publishing, merging and deploying RDF are separate actions.
 
 ## Working agreement — update the handoff after every task
 
@@ -24,6 +20,53 @@ review findings and their disposition, relevant commits, publication/deployment
 status, remaining limitations and the next concrete task. Keep historical test
 results distinct from the current baseline. Updating the handoff is part of
 finishing the work.
+
+## Completed task — documentation reconciliation
+
+Completed 29 October 2026 against datalake code through `319cdcb7` and the
+sibling wiki based on `49ad0ad`. The repository README now indexes every
+preservation contract and states the validation/publication/deployment boundary.
+Contributor notes describe the actual SIMSSA Turtle route, MusicBrainz auxiliary
+lookups, DIAMM contracts, CKG intervals and the common offline command.
+
+Shared conversion and property-mapping guides now reflect whole-ID handling,
+literal/local-prefix precedence, existing CSV missing-value limits and
+definition-based source preservation. The identifier review includes the later
+DIAMM repairs; old test counts are dated. MusicBrainz runtime/path guidance and
+obsolete external-ID sections were corrected, broken local links repaired, and
+evidence references point to the retained ignored audit copies as well as their
+original temporary locations. Historical findings keep their measured results.
+
+The sibling wiki has a new **Preservation and Evaluation** entry point linked
+from Home, Project Status and the sidebar. CKG interval/role/date descriptions,
+reconciliation policy, source-preserving query guidance, ingestion and loading
+steps are synchronized. Ontology diagrams and counts are explicitly historical
+pending validated deployment. Unresolved authority lookups no longer claim
+proven absence from Wikidata or independently verified identity. The ignored
+`CLAUDE.local.md` mirror was synchronized, and the two older local CKG working
+documents were marked historical rather than treated as current instructions.
+
+Validation: `poetry run python scripts/check_offline.py` passed **117 tests and
+14 competency fixture queries** (shared 14, RISM 5, MusicBrainz 31, DIAMM 34,
+APSearch 11, evaluation 22). This was a documentation-only refresh; no converter,
+mapping, fixture or source data changed. The documentation check covered 77
+repository Markdown files and 32 wiki pages: 655 local/repository links,
+anchors and wiki-navigation references passed after repairing stale targets.
+Four wiki SPARQL examples parsed with RDFLib without remote execution.
+Diff whitespace checks passed in both repositories. Self-review also corrected
+the wiki's claim that the CKG converter stops on unknown predicates: the code
+reports and drops them, so output review must inspect those omissions. musiconn
+residue claims and historical MusicBrainz coverage/qualifier notes were aligned
+with the documented evidence limits. The PR metadata check confirmed that
+draft PR #473 still has 20 commits through `0b508a76`; its prior hosted CI
+result does not validate later repairs.
+
+No independent agent review, OpenRefine replay, snapshot inspection, new source
+API retrieval or production SPARQL probe was performed. Changes are uncommitted
+in the two local repositories, with the three local context files still ignored.
+No push, merge, issue update, data regeneration or deployment occurred.
+The next bounded implementation task remains **DIAMM geographic names** below;
+historical validation and deployment still await confirmed snapshot access.
 
 ## Completed task — MusicBrainz URL recognition
 
@@ -509,9 +552,10 @@ Offline-run evidence, including the clean committed-tree check, is under
 ignored artifacts; the tests do not depend on their presence.
 
 Liam confirmed on 20 October 2026 that he is the sole developer and does not
-require PRs for local work. Keep topic-sized commits on local `main`. The
-21 October push established that remote `main` requires PRs regardless of that
-local preference; use the protected workflow for publication. Publishing,
+require PRs for local work; the original work used topic-sized commits on local
+`main`. The 21 October publication established that remote `main` requires PRs.
+The active local branch is now `preservation-repairs-2026-10-21`; keep the later
+work there and respect the protected workflow for publication. Publishing,
 merging and deploying RDF to Virtuoso remain separate actions.
 
 ## Pending deployment — Liam must update Virtuoso
@@ -699,8 +743,9 @@ Completed locally, with no production writes or full-dump regeneration:
 - **Offline validation and CI (21 October):** one command runs isolated test
   processes and all competency fixture queries. The workflow uses Python 3.12,
   Poetry 2.1.4 and the lockfile. Output-directory protection, nonzero failure
-  propagation, YAML settings and formatting were checked locally; no hosted
-  Actions run has yet occurred.
+  propagation, YAML settings and formatting were checked locally. Hosted CI
+  subsequently passed for the published `0b508a76` revision, as recorded in
+  the 21 October publication section; later repairs have local validation only.
 - **Identifier design review (21 October):** reviewed converter/configuration
   paths for direct QIDs, source nodes and P2888. Added three query examples and
   six synthetic controls, preserving source/graph evidence and exposing
@@ -715,8 +760,8 @@ Completed locally, with no production writes or full-dump regeneration:
   role predicates and the separate-schema query. Six archived API records
   reproduced all ten pilot observations/payloads; all 33 roles passed synthetic
   checks from both source endpoints. Documentation and regression coverage were
-  improved without changing the converter/configuration. The combined baseline
-  is now 48 passing tests plus 14 fixture queries; dump validation remains pending.
+  improved without changing the converter/configuration. That review's combined
+  baseline was 48 passing tests plus 14 fixture queries; dump validation remains pending.
 - **Current API validation:** six purposively selected official example records contained 18 artist relationships, including 10 pilot relationships. All 10 pilot roles and source payloads were checked against generated RDF. This is current API evidence, not a validation of the historical imported dump. See the [inventory](musicbrainz/doc/relationship_inventory.md) and [model, query compatibility, commands, and results](musicbrainz/doc/relationship_preservation.md).
 - **Policy and descriptions:** updated the sibling wiki's RDF Conversion Guidelines and clarified CKG role-unspecified links and date meanings. SESEMMI remains unchanged.
 - **APSearch interval repair:** preserves the original `CTO_0001073` assertion

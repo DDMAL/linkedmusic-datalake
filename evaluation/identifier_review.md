@@ -27,6 +27,11 @@ years to values explicitly marked non-approximate.
 Its [name/floruit follow-up](../diamm/doc/person_name_preservation.md) also keeps
 the original person display name and optional separate floruit text through
 extraction/export/conversion, without inferring dates from that text.
+Later DIAMM repairs preserve [external identifier text](../diamm/doc/external_identifier_text.md),
+[complete archive/person identifier lists](../diamm/doc/external_identifier_selection.md)
+and [archive names/sigla](../diamm/doc/archive_text.md). Geographic name parsing
+remains the next bounded review; the unmatched whole-QID export ambiguity and
+historical prevalence remain unresolved.
 
 ## Scope and versions
 
@@ -142,7 +147,7 @@ reconciliation tools, so replacing it globally would change their contract.
 
 | Finding | Local evidence | Consequence and next repair scope |
 | --- | --- | --- |
-| Shared CSV conversion guesses identifiers inside text and unrelated URLs | [`to_rdf_node`](../shared/rdfconv/convert.py) calls [`extract_wd_id`](../shared/wikidata_utils/helpers.py) before URI/literal handling. `https://example.org/Q42` and `Study Q42 (draft)` both become `wd:Q42`; `Q42 / Q43` becomes `wd:Q43`. Even `datatype="xsd:string"` with `Q42` yields an IRI. | This can change source meaning. A focused converter repair should distinguish structured reconciled values from ordinary text, preserve explicit literal declarations and external IRIs, and reject ambiguity rather than selecting a match. Check tracked export contracts first; do not change the general-purpose extraction helper indiscriminately. |
+| Shared CSV conversion guessed identifiers inside text and unrelated URLs | At the review baseline, `to_rdf_node` called `extract_wd_id` before URI/literal handling. `https://example.org/Q42` and `Study Q42 (draft)` became `wd:Q42`; `Q42 / Q43` became `wd:Q43`. Even `datatype="xsd:string"` with `Q42` yielded an IRI. | Fixed locally on 21 October: whole-identifier recognition, literal declarations and local prefixes take their documented precedence, and external IRIs retain their identity. Ten new tests cover the input contract; the general-purpose search helper and existing CSV missing-value parsing are unchanged. |
 | MusicBrainz's URL branch recognizes fewer valid item-URL forms than RISM | A synthetic artist `wikidata` URL relationship using `https://www.wikidata.org/wiki/Q42` produces canonical P2888; using `https://www.wikidata.org/entity/Q42` produces a literal target. RISM normalizes both complete URLs. | Fixed locally on 21 October: complete HTTP/HTTPS item URLs on the two accepted hosts and paths now normalize; malformed IDs and unrelated values stay literal. Four regression tests cover conversion and canonical joins. Historical prevalence remains unknown; query audit fixtures intentionally retain literal-target controls. |
 | MusicBrainz's auxiliary CSV helper accepts partial IDs and fails on missing cells | At `5f23d0a4`, `matched_wikidata` uses a prefix match; `Q42suffix` becomes an invalid item IRI and pandas `NaN` raises an exception. Missing type mappings omit the source type. | Fixed locally on 26 October after reviewing all 14 export/history pairs: complete bare-QID validation, safe missing-value handling, original type/field fallbacks and retained unmatched language names. Seven regression tests cover every helper call site, export-shaped CSV parsing and Turtle round trips. Full URLs remain outside the auxiliary contract; historical impact is unmeasured. |
 | MusicBrainz CSV parsing drops textual keys and merged lookups mix field meanings | At `1a089373`, a synthetic `nan` language key is parsed as missing; shared `Other` entries let later auxiliary tables overwrite earlier matches and entity types. The actual CLI reproduces both failures. | Fixed locally on 26 October: read CSV cells as text with default NA detection disabled, isolate all five auxiliary fields and scope type matches by entity kind. Four added tests cover loader/main wiring, missing files and a complete CLI-to-Turtle run. Historical affected counts remain unknown. |
@@ -167,7 +172,7 @@ CSV and the existing person-table configuration. These artifacts are ignored
 and not transferred with Git.
 
 The following command probes the shared-converter behavior without those
-artifacts, from the repository root. At the review baseline it returns QID IRIs;
+artifacts, from the repository root. At the review baseline it returned QID IRIs;
 after the repair it preserves the external IRI and the two literal strings:
 
 ```bash
@@ -181,8 +186,8 @@ for value in ("https://example.org/Q42", "Study Q42 (draft)", "Q42 / Q43"):
 PY
 ```
 
-This documents a defect candidate, not the desired behavior to freeze in a
-regression test. Future fixes should test preservation of the original meaning.
+The old output was the defect. The shared-converter regression tests now
+require preservation of the external IRI and original literal meanings.
 
 ## Query verification and completion
 
@@ -202,17 +207,13 @@ They run automatically through the evaluation suite and
 and their expected answers remain unchanged; these three query examples are
 additional controls, not new measured user questions.
 
-The review baseline was **54 tests and 14 competency fixture queries**; the
-subsequent shared-converter repair brings the total to **64 tests** and the same
-14 competency fixture queries. The later Global Jukebox mapping test raises
-the count to 65; the MusicBrainz URL repair adds four tests for **69 tests and
-14 competency fixture queries**. DIAMM adds five tests to reach 74, and SIMSSA
-adds three to reach 77. MusicBrainz auxiliary validation adds seven to reach 84;
-the loader follow-up adds four to reach 88. DIAMM person years add seven for
-95 tests. Person-name/floruit preservation adds four for the current total of
-**99 tests and 14 competency fixture queries**.
-Python 3.12.11 / RDFLib 7.6.0 were used locally. These counts describe local
-validation; hosted CI for the 26 October repairs has not run.
+The review baseline on 21 October was **54 tests and 14 competency fixture
+queries**, using Python 3.12.11 / RDFLib 7.6.0 locally. Later repair counts are
+recorded by task in the [handoff](../LINKEDMUSIC-HANDOFF.md). The complete command
+was rerun on 29 October and passed **117 tests and 14 competency fixture queries**;
+see the [current baseline](../README.md#preservation-and-evaluation-status).
+The hosted CI result recorded for draft PR #473 covers only the earlier
+69-test revision, not the subsequent local repairs.
 
 This local identifier design review is complete. It does not settle live
 reconciliation accuracy, the proportion of affected identifiers, source-record

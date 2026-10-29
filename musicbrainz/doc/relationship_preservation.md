@@ -215,8 +215,11 @@ photographers, and 10 distinct record/artist contributor pairs. Photography's
 positive and negative checks use the synthetic fixture. The current API sample
 does not exercise every one of the 33 mappings and cannot establish population
 accuracy or fidelity of the historical dump. Raw responses, their retrieval
-URLs/timestamps/checksums, and generated results are local artifacts under
-`/tmp/linkedmusic-preservation-2026-10-20/`.
+URLs/timestamps/checksums, and generated results were first saved under
+`/tmp/linkedmusic-preservation-2026-10-20/`, then copied and checksum-verified
+under `evaluation/audits/handoff-2026-10-20/preservation/`. See the parent
+manifest and [representation review](representation_review.md) for retained
+evidence; ignored artifacts are not transferred with Git.
 
 Before full regeneration, inspect the Arbutus/Montreal snapshot, validate its
 field shapes (including embedded recordings and inverse artist records), and

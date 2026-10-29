@@ -93,8 +93,8 @@ with independently specified full graphs and a floruit-text query. They cover
 floruit and lifespan suffixes, ordinary parentheses, Unicode, quotes/newlines,
 NA-like strings, leading zeros, missing/null optional fields, legacy exports,
 and composition, copyist and ownership relationships. The new tests reported
-seven failing assertions/subtests before the repair; all now pass. The common
-offline check passes **99 tests and 14 competency fixture queries**.
+seven failing assertions/subtests before the repair; all now pass. At the
+26 October repair, the common offline check passed **99 tests and 14 competency fixture queries**.
 Claude's static review found no introduced correctness defects. Follow-up
 controls cover an empty cleaned name and guard against future history operations
 that might drop appended columns; these extend the same four tests.

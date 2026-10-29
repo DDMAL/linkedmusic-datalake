@@ -132,7 +132,7 @@ The CLI test failed against `1a089373` with wrong cross-field QIDs and lost
 textual keys, and passes after the loader repair. Its independently specified
 graph also retains artist/release-group links and an embedded recording.
 
-The unified command, `poetry run python scripts/check_offline.py`, now passes
+At the 26 October follow-up, `poetry run python scripts/check_offline.py` passed
 **88 tests and 14 competency fixture queries**. Black and diff checks also pass.
 All CSV/JSONL inputs in these tests are synthetic temporary files; no historical
 dump or stored export is required.

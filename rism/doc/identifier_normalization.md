@@ -44,8 +44,10 @@ On **20 October 2026**, the first 200 P2888 bindings in
 P2888 noncanonical query returned no rows and no partial-result header. These
 checks do not establish an error rate, complete source coverage, or the state of
 other predicates or stored files. An earlier broad graph scan timed out with no
-rows; that response is **not evidence of absence**. Local evidence is under
-`/tmp/linkedmusic-preservation-2026-10-20/`.
+rows; that response is **not evidence of absence**. Evidence was first saved to
+`/tmp/linkedmusic-preservation-2026-10-20/`, then copied and checksum-verified
+under `evaluation/audits/handoff-2026-10-20/preservation/`. The parent manifest
+records the copies; these ignored local files are not transferred with Git.
 
 Additional bounded checks returned 200 local RISM person IRIs for noncanonical-
 namespace P86 objects (all outside the normalization rule), and no noncanonical-

@@ -134,7 +134,7 @@ JSON, authoritative empty lists, duplicate rows, source links, independently
 specified graph assertions, Turtle round trips and a SPARQL lookup. The old
 pipeline reported 11 failures (including subtests); the seven tests now pass.
 Existing text/name tests also assert the additional evidence triples.
-The complete offline command passes **111 tests and 14 competency fixture
+At the 27 October list repair, the complete offline command passed **111 tests and 14 competency fixture
 queries**, including all 28 DIAMM tests. Black and diff checks pass. Self-review
 found no introduced correctness defects and added controls for the optional
 absent identifier list and labels with surrounding whitespace. No independent

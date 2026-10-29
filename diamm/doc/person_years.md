@@ -160,6 +160,8 @@ are additional regression controls, not new competency questions.
 Historical exports and API snapshots were not inspected. A source year/ID
 disagreement is retained, not resolved. The later person-name repair preserves
 the original display name (including floruit) and optional separate floruit
-text across JSON → CSV → RDF. It adds four tests for a current total of **99
-tests and 14 competency fixture queries**. Neither change can recover source
+text across JSON → CSV → RDF. It added four tests for a baseline of **99 tests
+and 14 competency fixture queries** on 26 October. Subsequent repairs are
+listed in the [current status](../../README.md#preservation-and-evaluation-status).
+Neither change can recover source
 text already lost from historical exports or establish complete DIAMM fidelity.

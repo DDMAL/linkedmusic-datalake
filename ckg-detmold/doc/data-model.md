@@ -2,8 +2,9 @@
 
 The authoritative reasoning behind the Detmold conversion. Detmold uses the **same converter
 and `mapping.json`** as musiconn ([`../../ckg-musiconn/doc/data-model.md`](../../ckg-musiconn/doc/data-model.md)
-has the full predicate map); this doc records what is **Detmold-specific**. Counts are from
-`detmold.ttl`.
+has the full predicate map); this doc records what is **Detmold-specific**. Counts
+describe the historical `detmold.ttl` ingestion and were not remeasured during
+the October repairs. Link coverage is not an independently verified accuracy rate.
 
 ## 1. What the source looks like
 

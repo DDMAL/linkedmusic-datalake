@@ -108,14 +108,11 @@ To solve this problem:
 
 ## Mapping MusicBrainz Relationships to Wikidata
 
-### What is Currently Completed
+### Coverage and remaining limits
 
-- Only 409 of the roughly 800 fields in [`relations.json`](/musicbrainz/src/rdf_conversion_config/relations.json) are currently filled.
-- The empty fields are largely due to the fact that most Wikidata properties do not have an equivalent inverse ([as mentionned above](#understanding-directionality)).
-
-- All in all, 98% of all the relationships in MusicBrainz have at least one direction reconciled with Wikidata. The missing 2% tend to be not widely used relationships, so should represent an even smaller share of total existing relations.
-
-- However, since Wikidata is not as specialized for music as MusicBrainz, there is inevitably some loss of accuracy.
+- The earlier mapping notes reported 409 filled entries out of roughly 800 and estimated 98% coverage of relationship types in at least one direction. These are historical notes, not a current inventory or measured coverage of relationship occurrences in the stored dump.
+- The completed [inventory](relationship_inventory.md) and [representation review](representation_review.md) cover the 33 former P767 mappings. They preserve source roles and qualifier evidence in both supported source directions; they do not establish full-dump fidelity or accuracy for all other mappings.
+- Legacy null/inverse mappings outside the pilot retain their behavior. Review them against source type definitions and [directionality](#understanding-directionality), preserving distinctions that a broader predicate would discard. Historical prevalence and conversion cost await snapshot access.
 
 ### The Relationships Reconciliation Process
 
@@ -149,7 +146,7 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
   - Contrasting Example: For school director, I would map to "place -> `director / manager(P1037)` -> artist" instead. I avoid using `employer(P108)` whenever there is a more specific relationship.
 
-  - A potential improvement to make our properties more accurate would be to add qualifiers to generic properties (there is currently no way to specify qualifiers in relations.json; we would have to refactor `convert_to_rdf.py`). Taking for example [J.S. Bach](https://www.wikidata.org/wiki/Q1339), we can see that J.S. Bach's relation with his employers is often supplemented by the qualifier "Bach(Q1339) -> `position held(P31)` -> organist(Q765778)", meaning that Bach was an organist for his employer.
+  - Qualifier preservation for employment and other nonpilot relationships remains separate work. The 33-role contributor pilot already retains supplied dates, attributes, credit text and full relationship JSON on named observations; it does not add that representation to all legacy employment mappings.
 
 - part of(P361) & has part(s)(P527)
 

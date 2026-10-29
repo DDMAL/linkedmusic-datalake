@@ -139,7 +139,7 @@ lmts = "https://linkedmusic.ca/graphs/thesession/"
 
 - All keys in a CSV table, with the exception of `PRIMARY_KEY`, are names of columns within the corresponding CSV file.
 
-  - It is important to update the config file before converting a new batch of reconciled CSV, as the column names may have changed (see [Alternative Step 2](./using_rdfconv_script.md#alternative-step-2-updating-the-config-file) for instructions on updating the config file)
+  - It is important to update the config file before converting a new batch of reconciled CSV, as the column names may have changed (see [Alternative Step 2](./using_rdfconv_script.md#alternative-step-2-update-the-config-file) for instructions on updating the config file)
 
 - Each CSV table contains a `PRIMARY_KEY` field. The user must map it onto a column, whose values will act as the default subject for all RDF triples created from that CSV.
   - Do not be confused by the fact that the value of `PRIMARY_KEY` is also a key within the table: all columns are listed in the table, and one of them has to be the primary key.

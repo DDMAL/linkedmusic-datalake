@@ -26,7 +26,7 @@ This guide details all the steps required to translate raw data from MusicBrainz
 ## Characteristics of the MusicBrainz Dataset
 
 - Given that MusicBrainz data is based on a Relational Database (RDB) model, most entities (e.g., artists and recordings) are already carefully linked with one another. In fact, there are over 800 defined relationship types connecting these entities!
-- Luckily, most Musicbrainz entities are already reconciled with Wikidata (i.e., they have a field containing the matching Wikidata QID). This removes the need for us to reconcile the data with OpenRefine (Ichiro confirmed).
+- The converter uses supplied Wikidata URL relationships where available; it does not assume every entity has a match. Auxiliary fields still use the OpenRefine workflow below, while entity relationships retain MusicBrainz source nodes.
 - Please take a look at the [official documentation on basic MusicBrainz entities](https://musicbrainz.org/doc/Terminology) and the [official table of MusicBrainz relationships](https://musicbrainz.org/relationships) before you continue.
 
 ## Data Processing Pipeline
@@ -81,7 +81,7 @@ Below are the steps you must execute from your console once you have cloned the 
 - The extracted JSONL files are located at:
   `musicbrainz/data/raw/extracted_jsonl/mbdump/`
 
-- Note: There are other files in the `.tar.xz`. However, they are timestamps and data licenses, which are not useful to our project.
+- Retain the archive's timestamp and licence metadata with the dump checksum. These are needed to identify the source snapshot and document reuse; the JSONL files alone do not establish provenance.
 
 #### 4. **Extract and Reconcile Unreconciled Fields**
 
@@ -126,7 +126,7 @@ Below are the steps you must execute from your console once you have cloned the 
   python musicbrainz/src/convert_to_rdf.py --input_folder musicbrainz/data/raw/extracted_jsonl/mbdump/ --reconciled_folder musicbrainz/data/raw/reconciled/ --config_folder musicbrainz/src/rdf_conversion_config/ --output_folder musicbrainz/data/rdf/
   ```
 
-- The generated RDF files are saved in the `data/musicbrainz/rdf/` directory.
+- With the command above, generated RDF files are saved in `musicbrainz/data/rdf/`.
 - Please consult [rdf_conversion.md](./doc/rdf_conversion.md) to learn more about our RDF conversion for MusicBrainz.
 
 #### **7. Retrieving Genre Information**
@@ -137,7 +137,7 @@ Below are the steps you must execute from your console once you have cloned the 
   python musicbrainz/src/get_genre.py --output musicbrainz/data/rdf/
   ```
 
-- The script outputs an RDF file, which is stored in `data/musicbrainz/rdf/`, along with the other RDF files.
+- The script outputs an RDF file in `musicbrainz/data/rdf/`, along with the other RDF files.
 - The script is rate-limited to 1 request every 1.375 seconds following MusicBrainz' [rate limit guides](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works). It was increased from 1 second to 1.375 seconds because we were still getting rate-limited even with a 1-second delay.
 - The script also provides a user-agent header, following the same guidelines.
 - The [MusicBrainz API Documentation](https://musicbrainz.org/doc/MusicBrainz_API/Rate_Limiting#How_throttling_works) states that they will respond to requests with a 503 when they rate limit you. However, I've never seen this happen; it seems like they simply timeout the request instead.
@@ -158,5 +158,12 @@ head -n 100000 area.jsonl > small_area.jsonl
 
 ## Data Upload
 
-- Upload all converted RDF files to Virtuoso for further use.
-  (This section is not yet completed.)
+Validate a separate candidate conversion against the matching source snapshot
+before loading. Follow the [role/schema deployment procedure](doc/relationship_preservation.md)
+and the URL/auxiliary contracts above: load the matching schema separately and
+check specific-role, broad-contributor and qualifier-sensitive queries in staging.
+Old P767-only Turtle cannot recover roles or qualifiers, and appending candidate
+RDF would leave old assertions in place. Use the
+[Virtuoso update procedure](https://github.com/DDMAL/linkedmusic-datalake/wiki/Importing-and-Updating-Data-on-Virtuoso)
+after validation and backup. Snapshot validation and deployment remain deferred;
+see the [handoff](../LINKEDMUSIC-HANDOFF.md#pending-deployment--liam-must-update-virtuoso).

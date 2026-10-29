@@ -2,6 +2,11 @@
 
 This file details the entire process for the DIAMM database, from fetching the data all the way to converting it into RDF.
 
+The October preservation repairs below are implemented and tested locally.
+They have not regenerated stored RDF or updated Virtuoso. Historical export
+validation awaits snapshot access; geographic names and other unprotected CSV
+columns still require review. See the [current status and handoff](../README.md#preservation-and-evaluation-status).
+
 Before starting, you should change your directory to `diamm/src/` as all scripts are written with the expectation that the working directory will be the script's directory.
 
 ## 1. Fetching Data

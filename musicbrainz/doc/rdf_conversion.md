@@ -15,14 +15,14 @@ In an effort to reduce the clutter of constant global variables containing mappi
 [`musicbrainz/src/convert_to_rdf.py`](/musicbrainz/src/convert_to_rdf.py) also imports two modules:
 
 - [`musicbrainz/src/mapping_schema.py`](/musicbrainz/src/mapping_schema.py): it contains the class definition of `MappingSchema`  
-- [`musicbrainz/src/url_patterns.py`](/musicbrainz/src/url_patterns.py): it contains regex patterns matching onto different urls.
+- [`musicbrainz/src/relationship_mapping.py`](/musicbrainz/src/relationship_mapping.py): loads role mappings and exports the pilot schema. Historical external-ID URL patterns live under `musicbrainz/removed_properties/` and are not imported by the converter.
 
 ## Rules for Literal Datatypes
 
 The below rules are to conform with RDF standards and with Wikidata standards
 
 - Any literal value not given an explicit type will default to `XSD:string`. This is part of the RDF standard.
-- Dates are given the type `XSD:date`. If the value has both date and time, it will be in `XSD:datetime`
+- Dates are given the type `XSD:date`. If the value has both date and time, it will be in `xsd:dateTime`
 - Coordinates (latitude/longitude) are given the `GEO:wktLiteral` type in the format `f"Point({lon} {lat})"`.
 - Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
 - All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting, or because they are links to personal websites (e.g. the link to a band's website).
@@ -56,7 +56,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 ## Notes on Particularities in MusicBrainz Dataset
 
 - The `release` entity type's `quality` field stands for "data quality". It indicates the credibility of the information MusicBrainz has on the release. See the [documentation page](https://musicbrainz.org/doc/Release#Data_quality) for more information. As it is effectively meta-metadata, there are no Wikidata entities or properties that we can use to store it. As such, for now, we will ignore this field. See [#336](https://github.com/DDMAL/linkedmusic-datalake/issues/336) for more information.
-- The `release` entity type's `status` field does not neatly map onto a single Wikidata property: I use P1534 "end cause" for values like cancelled, withdrawn, etc, and I use P31 "instance of" for things like bootleg, official album, etc. Though we reconciled the predicate against a Wikidata property, the object (e.g. bootleg, official album) is left as literal because there is no Wikidata equivalent for all of them.
+- Release `status` uses P1534 for configured end statuses (such as cancelled/withdrawn) and P31 for the remaining statuses. A complete bare-QID match from the isolated status CSV supplies the object; otherwise the original JSON status remains a literal. See the [auxiliary CSV contract](auxiliary_identifier_validation.md).
 - The `event` entity type's `setlist` field seems to contain pre-rendered data about the setlist, which makes it difficult to parse. Furthermore, the same data is also located in the `relations` field, and as such, the `setlist` field is ignored during the RDF conversion process.
 - The release group entity type is spelled `release-group` almost everywhere. Yet, in the `target-type` field under `relationships`, and as the name of a field under `relationships`, it is exceptionally spelled as `release_group`. The RDF conversion script's approach is to convert all underscores to dashes before processing.
 - As per this [forum thread](https://community.metabrainz.org/t/recording-json-dumps-incomplete/322708) and this [bug report](https://tickets.metabrainz.org/browse/MBS-9433), the data dump for the `recording` entities only contains "standalone" recordings, i.e. recordings that are not associated with any release, and all other recordings are located in the `release` data dump, as a list in each `release` entity.
@@ -86,7 +86,7 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 - As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, IDs to other databases are not stored.
 
-- The file with all possible attribute values and Wikidata properties they map onto can be found in [`musicbrainz/doc/rdf_conversion_config/attribute_mapping.json`](/musicbrainz/doc/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
+- The work-attribute mappings are in [`attribute_mapping.json`](../src/rdf_conversion_config/attribute_mapping.json). Unmapped work attributes are omitted from that projection. Pilot relationships separately retain their full source JSON and qualifier evidence under the [preservation model](relationship_preservation.md).
 
 ## URLS
 
@@ -97,7 +97,13 @@ item-URL normalization and preservation of all other values. The 21 October
 
 We store all URLs (except for Wikidata URIs) as string literals in the [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888) property, and Wikidata URIs are also stored in this property, but as URIs.
 
-As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, we no longer store IDs to external non-Wikidata databases, but the following section has been kept in the event that we choose to reintegrate those IDs, to not lose the work that was done. The file containing the URL patterns has been moved to the `musicbrainz/removed_properties` folder.
+### Historical external-ID extraction (inactive)
+
+The following notes describe the removed external-ID extraction, not current
+converter behavior. The patterns are retained in
+[`removed_properties/url_patterns.py`](../removed_properties/url_patterns.py).
+The active URL branch is governed by the contract above; ordinary external
+URLs remain literals under the existing P2888 policy.
 
 For some databases, MusicBrainz decides to store number IDs (e.g. Discogs Artist ID 1000 ). For other databases, MusicBrainz decide to store the full url (e.g. <https://www.discogs.com/artist/25058>).
 
@@ -105,13 +111,14 @@ Whenever possible, we try to extract the ID from the url, and store the ID alone
 
 The same database may have multiple Wikidata property. For example, Discogs has [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953) and [Discogs label ID (P1955)](https://www.wikidata.org/prop/direct/P1955) and [Discogs composition ID (P6080)](https://www.wikidata.org/prop/direct/P6080)...
 
-To extract the IDs properly, a regex pattern, taken from the `URL match pattern` field of each Wikidata property (e.g. `^https?:\/\/(?:www\.)?discogs\.com\/(?:[a-z]+\/)?artist\/([1-9][0-9]*)` for [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953)) is stored in [`musicbrainz/src/url_patterns.py`](/musicbrainz/src/url_patterns.py).
+The old extractor used each property's `URL match pattern`; those regexes are
+retained in [`removed_properties/url_patterns.py`](../removed_properties/url_patterns.py).
 
 If no Wikidata property exist, the url will be stored as [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888). This means that when regex fail (and it does occasionally fail), the urls will still be linked to the entity.
 
 Here is the mapping of databases onto their Wikidata property:
 
-- Wikidata: P2888 (there is no other for this), convert from `https://wikidata.org/wiki/...` to `https://wikidata.org/entity/...`
+- Wikidata: P2888. The active converter now emits canonical `http://www.wikidata.org/entity/Q…` IRIs for complete accepted item URLs; do not reuse the old HTTPS entity namespace.
 - Geonames: P1566
 - Soundcloud: P3040
 - Youtube & Youtube Music: P2397 for channels, P1651 for videos, and P4300 for playlists

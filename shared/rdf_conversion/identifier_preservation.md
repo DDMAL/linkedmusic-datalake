@@ -13,6 +13,13 @@ Global Jukebox mapping repair is recorded below.
 
 ## Input contract and precedence
 
+This contract applies after CSV loading. The existing loader still treats its
+configured missing-value tokens (including `NA`, `N/A`, `None`, `null`, `nan`,
+`-` and `?`, with listed case variants) as missing, then fills down within
+OpenRefine records. Explicit `xsd:string` does not recover a cell lost at that
+stage. The identifier repair did not change those rules or establish lossless
+preservation of every CSV text value.
+
 For nonempty string cells:
 
 1. A configured `datatype` or `lang` selects literal handling, even for a whole
@@ -97,8 +104,10 @@ resolves the duplicate social-factors alternative-name declarations. All 19
 columns now use `skos:altLabel` with explicit `xsd:string` handling. Its synthetic
 CSV test covers all 19 columns, blank and sparse records, ID-like names and a
 Turtle round trip through the actual mapping. The configuration compatibility
-test no longer excludes Global Jukebox. The complete offline command now passes
-65 tests and 14 competency fixture queries.
+test no longer excludes Global Jukebox. At that repair on 21 October, the
+complete offline command passed 65 tests and 14 competency fixture queries.
+See the [current validation baseline](../../README.md#preservation-and-evaluation-status)
+for subsequent additions.
 
 Before replacing stored RDF, obtain the corresponding snapshots, record input
 checksums and conversion revisions, regenerate into a separate directory, and
@@ -106,6 +115,8 @@ compare changed terms with their source cells. Review identifiers that become
 literals and mappings whose `if` guards consequently exclude them. Confirm local
 subjects, canonical joins and literal labels before staging/replacement. Do not
 try to repair an old collapsed QID without the original source value.
-Historical impact and production migration remain deferred. The narrower
-MusicBrainz/DIAMM normalization and SIMSSA P2888 mapping findings also remain
-separate follow-ups.
+Historical impact and production migration remain deferred. Separate repairs
+now cover [MusicBrainz URLs](../../musicbrainz/doc/url_recognition.md),
+[MusicBrainz auxiliary CSVs](../../musicbrainz/doc/auxiliary_identifier_validation.md),
+[DIAMM identifiers](../../diamm/doc/identifier_validation.md) and
+[SIMSSA person matches](../../simssa/doc/person_identifier_mapping.md).

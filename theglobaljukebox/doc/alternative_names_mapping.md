@@ -65,7 +65,7 @@ society, Unicode, punctuation, whitespace, bare IDs, ID-containing text and
 URLs. Exact graph equality and a Turtle round trip reject lost text, accidental
 entity objects, extra predicates and fill-down leakage across society records.
 
-The offline command passes 65 tests and 14 competency fixture queries. Black
+At the 21 October repair, the offline command passed 65 tests and 14 competency fixture queries. Black
 and `git diff --check` pass. No historical CSVs, stored RDF or production graphs
 were inspected or regenerated for this repair. Actual affected counts, export
 fidelity and deployment implications remain unverified until snapshot access

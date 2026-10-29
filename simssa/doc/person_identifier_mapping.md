@@ -57,7 +57,7 @@ comparison and Turtle round trips check both missing and extra triples. Work
 composer/author links still point to local people; a local key `Q42` remains
 in the SIMSSA namespace. The tests failed against the old mapping and now pass.
 
-The unified offline command passes **77 tests and 14 competency fixture queries**,
+At the 21 October repair, the unified offline command passed **77 tests and 14 competency fixture queries**,
 up from 74 and 14, including validation of all nine tracked TOML configurations.
 Black and diff checks pass. No historical dumps or live graph queries were used.
 

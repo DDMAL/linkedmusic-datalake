@@ -84,7 +84,7 @@ See [reconciliation_procedures.md](./reconciliation_procedures.md) for details.
 
 # Converting DTL1000 to RDF
 
-DTL1000 is converted to RDF using the General RDF Conversion script (please read through [General RDF Conversion Guide](../rdf_conversion/using_rdfconv_script.md)).
+DTL1000 is converted to RDF using the General RDF Conversion script (please read through the [General RDF Conversion Guide](../../shared/rdf_conversion/using_rdfconv_script.md) and its [identifier preservation contract](../../shared/rdf_conversion/identifier_preservation.md)).
 
 The TOML configuration for DTL1000 is `/code/rdf_config/digthatlick.toml`. You may need to update the configuration file if your column names differ from the expected.
 

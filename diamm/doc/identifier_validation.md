@@ -65,12 +65,13 @@ Five [offline tests](../tests/test_identifier_conversion.py) cover:
 After the import refactor but before the validator change, these tests reported
 nine failures and four errors. They now pass. At that repair, the unified offline
 command included `diamm/tests` and passed **74 tests and 14 competency fixture
-queries**, up from 69 and 14. Black and diff checks passed. The later person-year
-repair brought the total to 95 tests; the person-name preservation follow-up
-brought the total to **99 tests and 14 competency fixture queries**. The later
-[external identifier text repair](external_identifier_text.md) protects archive
-RISM and person RISM/VIAF cells from numeric and null inference; it adds five tests.
-No historical files are needed by the tests.
+queries**, up from 69 and 14. Black and diff checks passed. Later repairs cover
+[person years](person_years.md), [original names/floruit](person_name_preservation.md),
+[external identifier text](external_identifier_text.md),
+[complete identifier lists](external_identifier_selection.md) and
+[archive names/sigla](archive_text.md). See the
+[current baseline](../../README.md#preservation-and-evaluation-status) for their
+combined validation. No historical files are needed by the tests.
 
 Snapshot validation, affected-population counts and regeneration remain deferred.
 Before any production replacement, obtain matching reconciled CSVs, record their
