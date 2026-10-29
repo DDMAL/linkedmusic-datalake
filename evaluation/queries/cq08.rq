@@ -1,0 +1,7 @@
+SELECT DISTINCT ?record ?artist WHERE {
+  { GRAPH {{musicbrainz}} { ?record wdt:P767 ?artist } }
+  UNION {
+    GRAPH {{musicbrainz}} { ?record ?role ?artist }
+    GRAPH {{musicbrainz_schema}} { ?role rdfs:subPropertyOf+ wdt:P767 }
+  }
+} ORDER BY ?record ?artist LIMIT 25

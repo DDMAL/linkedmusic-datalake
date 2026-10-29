@@ -1,0 +1,28 @@
+name: Offline checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preservation-and-queries:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Install Poetry and locked dependencies
+        run: |
+          python -m pip install poetry==2.1.4
+          poetry install --no-interaction --no-root
+      - name: Run offline preservation and query checks
+        run: poetry run python scripts/check_offline.py

@@ -1,0 +1,245 @@
+{
+  "version": "1.0",
+  "selection": "Purposive coverage of three task families, including unsupported and negative cases; not an NLQ benchmark.",
+  "cases": [
+    {
+      "id": "cq01",
+      "question": "Which Weimar solos explicitly credit Charlie Parker as performer?",
+      "query": "queries/cq01.rq",
+      "datasets": [
+        "wjazzd"
+      ],
+      "parameters": {
+        "jazz_person": "http://www.wikidata.org/entity/Q103767"
+      },
+      "row_limit": 25,
+      "answer_scope": "Direct-QID performer path; solos only.",
+      "design_evidence": "wjazzd/README.md; shared/rdf_config/wjazzd.toml",
+      "independent_review": "Compare performer in solo_info and reviewed reconciliation export.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq02",
+      "question": "Which MusicBrainz recordings credit an artist linked to Charlie Parker?",
+      "query": "queries/cq02.rq",
+      "datasets": [
+        "musicbrainz"
+      ],
+      "parameters": {
+        "jazz_person": "http://www.wikidata.org/entity/Q103767"
+      },
+      "row_limit": 25,
+      "answer_scope": "Local artist/P2888 path; source artist credit, not a specific instrument role.",
+      "design_evidence": "musicbrainz/src/convert_to_rdf.py",
+      "independent_review": "Compare recording artist-credit and artist Wikidata URL relation in the same dump.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq03",
+      "question": "Which Charlie Parker Weimar solos link through their track MBID to a MusicBrainz recording?",
+      "query": "queries/cq03.rq",
+      "datasets": [
+        "wjazzd",
+        "musicbrainz"
+      ],
+      "parameters": {
+        "jazz_person": "http://www.wikidata.org/entity/Q103767"
+      },
+      "row_limit": 25,
+      "answer_scope": "Explicit identifier join across collections; excludes non-UUID P4404 values and does not match titles.",
+      "design_evidence": "shared/rdf_config/wjazzd.toml",
+      "independent_review": "Independently compare Weimar track_info.mbzid with MusicBrainz recording ID; review recording/version identity.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq04",
+      "question": "Which RISM sources have a composer assertion linked to Clara Schumann?",
+      "query": "queries/cq04.rq",
+      "datasets": [
+        "rism"
+      ],
+      "parameters": {
+        "historical_person": "http://www.wikidata.org/entity/Q132232"
+      },
+      "row_limit": 25,
+      "answer_scope": "Accept direct QID or one local P2888 hop; audit upstream role mapping before treating all P86 as verified composition.",
+      "design_evidence": "rism/src/mappings/property_mapping.json",
+      "independent_review": "Trace the RISM source role and reconciled person, not just the output P86 triple.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq05",
+      "question": "Which RISM sources and musiconn works connect through Clara Schumann?",
+      "query": "queries/cq05.rq",
+      "datasets": [
+        "rism",
+        "musiconn"
+      ],
+      "parameters": {
+        "historical_person": "http://www.wikidata.org/entity/Q132232"
+      },
+      "row_limit": 25,
+      "answer_scope": "RISM composer assertion plus musiconn role-unspecified person association; no work identity or musiconn composition claim.",
+      "design_evidence": "ckg-musiconn/doc/data-model.md",
+      "independent_review": "Check both source-person links independently; preserve their different meanings.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq06",
+      "question": "Which musiconn works relate to Clara Schumann without an explicit composer assertion for her?",
+      "query": "queries/cq06.rq",
+      "datasets": [
+        "musiconn"
+      ],
+      "parameters": {
+        "historical_person": "http://www.wikidata.org/entity/Q132232"
+      },
+      "row_limit": 25,
+      "answer_scope": "Negative role control: no explicit P86 in this graph does not mean she did not compose the work.",
+      "design_evidence": "ckg-musiconn/doc/data-model.md",
+      "independent_review": "Confirm CTO related-person evidence has no supplied composer role. Never promote it to P86.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq07",
+      "question": "Who has an explicit MusicBrainz recording-engineer credit?",
+      "query": "queries/cq07.rq",
+      "datasets": [
+        "musicbrainz"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Specific recording-engineer UUID only; excludes photography and generic contribution.",
+      "design_evidence": "musicbrainz/doc/relationship_preservation.md",
+      "independent_review": "Verify stable type UUID, endpoints and source direction against the source JSON.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq08",
+      "question": "Which contributors are reachable through explicit P767 or reviewed MusicBrainz subproperty alignments?",
+      "query": "queries/cq08.rq",
+      "datasets": [
+        "musicbrainz",
+        "musicbrainz_schema"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Broad pilot-compatible query; requires separately configured matching schema graph; no global inference.",
+      "design_evidence": "musicbrainz/doc/queries/pilot_contributors.rq",
+      "independent_review": "Compare expected union of generic and reviewed specific assertions with distinct record/artist pairs.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq09",
+      "question": "What dates, direction and attributes qualify the recording-engineer credits?",
+      "query": "queries/cq09.rq",
+      "datasets": [
+        "musicbrainz"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Relationship qualifiers and original JSON, not recording/release dates or a claim of lead engineer status.",
+      "design_evidence": "musicbrainz/doc/relationship_preservation.md",
+      "independent_review": "Compare original payload fields, including partial dates, null/missing values and assistant attributes.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq10",
+      "question": "Which preserved APSearch creation periods include 1940?",
+      "query": "queries/cq10.rq",
+      "datasets": [
+        "apsearch"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Inclusive year overlap for parsed periods, with review flags; not an event-in-1940 assertion.",
+      "design_evidence": "ckg-apsearch/doc/creation-period-preservation.md",
+      "independent_review": "Check both original endpoints; 1909\u20131950 includes 1940, 1960 does not; unresolved periods excluded.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq11",
+      "question": "Which APSearch creation periods retain evidence needing review?",
+      "query": "queries/cq11.rq",
+      "datasets": [
+        "apsearch"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Flags retain source evidence, including 9009, without guessing corrected values.",
+      "design_evidence": "ckg-apsearch/doc/creation-period-preservation.md",
+      "independent_review": "Trace each raw value to source bytes; separate unsupported syntax from factual source anomalies.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq12",
+      "question": "Can the import identify Arabic vocal field recordings before 1950?",
+      "query": "queries/cq12.rq",
+      "datasets": [
+        "apsearch"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Unsupported full question: query returns only explicit audio typing and a pre-1950 creation projection. Language, vocal status and field-recording status are not established.",
+      "design_evidence": "ckg-apsearch/doc/data-model.md",
+      "independent_review": "Record unavailable evidence explicitly. A nonempty necessary-condition probe still does not answer the full question.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq13",
+      "question": "Which Detmold works have catalogued creation dates in the 1830s?",
+      "query": "queries/cq13.rq",
+      "datasets": [
+        "detmold"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Creation-date lexical decade filter, not evidence of a performance/staging in that decade.",
+      "design_evidence": "ckg-detmold/doc/data-model.md",
+      "independent_review": "Inspect source creation-period meaning and precision; do not substitute it for a staging date.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    },
+    {
+      "id": "cq14",
+      "question": "Which Detmold person nodes lack a canonical Wikidata P2888 link in this graph?",
+      "query": "queries/cq14.rq",
+      "datasets": [
+        "detmold"
+      ],
+      "parameters": {},
+      "row_limit": 25,
+      "answer_scope": "Convenience inspection of unlinked or noncanonical nodes; not a missed-match rate or proof of absence from Wikidata.",
+      "design_evidence": "ckg-detmold/doc/data-model.md",
+      "independent_review": "Trace source authority and matching method, then independently search candidate identities with archived responses.",
+      "live_expected_answers": null,
+      "live_expected_status": "pending matching source evidence",
+      "fixture_expected": "fixtures/expected.json"
+    }
+  ]
+}

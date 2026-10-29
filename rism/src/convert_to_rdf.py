@@ -18,7 +18,7 @@ Usage:
         - `<input_folder>` is the path to the folder containing the input CSV files.
         - `<mappings_folder>` is the path to the folder containing the mapping files.
         - `<output_folder>` is the path to the folder where the output RDF files will be saved.
-    
+
     The script can also be run without arguments, in which case it will use default paths.
     The output folder will contain the generated Turtle files named after the file number of the CSV files.
     The script will create the output folder if it does not exist.
@@ -68,7 +68,17 @@ MAX_PROCESSES = min(MAX_WORKERS, os.cpu_count() or 1)
 REPROCESSING = False
 
 # Regex patterns for RDF object conversion
-WIKIDATA_PATTERN = re.compile(r"^https?:\/\/www\.wikidata\.org\/wiki\/(Q\d+)$")
+WIKIDATA_PATTERN = re.compile(
+    r"https?://(?:www\.)?wikidata\.org/(?:wiki|entity)/(Q[1-9][0-9]*)"
+)
+# CSV predicate keys stay as supplied. These explicit aliases are separate from
+# item-IRI normalization, so historical intermediate topic lookups still work.
+EXACT_MATCH_PREDICATES = (
+    str(WDT["P2888"]),
+    "http://wikidata.org/prop/direct/P2888",
+    "https://www.wikidata.org/prop/direct/P2888",
+    "https://wikidata.org/prop/direct/P2888",
+)
 TYPED_PATTERN = re.compile(r"^(.*)\^\^(.*)$")
 LANG_PATTERN = re.compile(r"^(.*)@(.*)$")
 URI_PATTERN = re.compile(r"^https?://")
@@ -111,8 +121,8 @@ def convert_rdf_object(obj: str) -> URIRef | Literal:
     """
     try:
         if URI_PATTERN.match(obj) and "^^" not in obj:
-            if m := WIKIDATA_PATTERN.match(obj):
-                # Convert /wiki/... to /entity/...
+            if m := WIKIDATA_PATTERN.fullmatch(obj):
+                # Normalize item IRIs only; never rewrite literal contents.
                 return WD[m.group(1)]
             return URIRef(obj)
         return convert_literal(obj)
@@ -159,9 +169,12 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
         if not isinstance(o_rdf, URIRef) or not p_map:
             return
         # Traverse the blank node
-        for obj in old_graph.get(
-            (o, "https://wikidata.org/prop/direct/P2888"), []
-        ) or old_graph.get((o, str(RDF.value)), []):
+        matches = [
+            obj
+            for predicate in EXACT_MATCH_PREDICATES
+            for obj in old_graph.get((o, predicate), [])
+        ]
+        for obj in matches or old_graph.get((o, str(RDF.value)), []):
             g.add((s_rdf, p_map, convert_rdf_object(obj)))
 
     elif p_rdf == RISM_API["hasMaterialGroup"]:
@@ -297,7 +310,9 @@ async def worker(
             path = await graph_queue.get()
             graph_started = True
 
-            output_file = output_folder / f"{path.stem.removesuffix('-ttl')}.ttl"  # Remove the "-ttl" suffix robustly
+            output_file = (
+                output_folder / f"{path.stem.removesuffix('-ttl')}.ttl"
+            )  # Remove the "-ttl" suffix robustly
 
             # Process the file in a separate process to speed up the processing
             g = await asyncio.gather(

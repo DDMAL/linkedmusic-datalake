@@ -10,16 +10,23 @@ In addition to the fields described below, each table, except for `relations`, w
 
 Data in `sources` and `city` will be in the relations CSV
 
-- `name`
-- `siglum`
+- `name`: original archive name, kept as text
+- `siglum`: original archive siglum, kept as text
 - `website`
-- `rism_id`
+- `rism_id`: exact string hint when one distinct nonblank RISM value is supplied
+- `source_identifiers`: complete source identifier list serialized as JSON text;
+  see the [identifier-list contract](external_identifier_selection.md)
+
+Keep names and sigla unchanged through reconciliation under the
+[archive text contract](archive_text.md). Nonempty cells become string literals;
+empty cells emit no name/siglum statement. Extraction writes JSON null and empty
+strings as empty CSV cells without retaining their distinction.
 
 ## Cities
 
 Data in `archives`, `provenance`, `organizations`, and `country` will be in the relations CSV
 
-- `name`
+- `name`: original city name, kept as text under the [geographic name contract](geographic_names.md)
 - `country`: This is only here to help with reconciliation
 
 ## Compositions
@@ -34,7 +41,7 @@ Data in `composers` and `sources` will be put in the relations CSV
 
 Data in `cities`, `regions`, and `states` will be put in the relations CSV
 
-- `name`
+- `name`: original country name, kept as text under the [geographic name contract](geographic_names.md)
 
 ## Organizations
 
@@ -48,21 +55,46 @@ Data in `related_sources`, `copied_sources`, `source_provenance`, and `location`
 
 Data in `compositions`, `related_sources`, and `copied_sources` will be put in the relations CSV. The relationships for `related_sources` will additionally keep track of the original relationship type.
 
-- `full_name`
+- `full_name`: cleaned display name used for reconciliation and the RDF label
 - `variant_names`: this is a list of variant names separated by `", "`
-- `earliest_year`
-- `latest_year`
-- `earliest_year_approximate`
-- `latest_year_approximate`
-- `rism_id`
-- `viaf_id`
+- `earliest_year`: person birth year, under the [source-model interpretation](person_years.md)
+- `latest_year`: person death year under the same interpretation
+- `earliest_year_approximate`: source uncertainty flag for the birth year
+- `latest_year_approximate`: source uncertainty flag for the death year
+- `rism_id`: exact string hint when one distinct nonblank RISM value is supplied
+- `viaf_id`: exact string hint when one distinct nonblank VIAF value is supplied
+- `source_full_name`: exact original JSON display name, including date/floruit text
+- `floruit`: optional separate JSON floruit text; not inferred from the display name
+- `source_identifiers`: complete source identifier list serialized as JSON text
+
+These person years are distinct from role dates and the upstream floruit field.
+OpenRefine adds `earliest_year_@id` and `latest_year_@id` while retaining the
+original year and flag cells. RDF conversion preserves all six cells and emits
+direct birth/death years only when explicitly non-approximate. The two appended
+text columns follow the [person-name preservation contract](person_name_preservation.md)
+and must pass through reconciliation unchanged.
+The two external identifier columns also require text-preserving import/export;
+see the [external identifier contract](external_identifier_text.md).
+The appended JSON column carries all identifier evidence and takes precedence
+over scalar hints during RDF conversion; see the
+[identifier-list contract](external_identifier_selection.md).
 
 ## Regions
 
 Data in `organizations`, `cities`, and `provenance` will be put in the relations CSV
 
-- `name`
-- `country`: This is only here to help with reconciliation
+- `name`: original region name, kept as text under the [geographic name contract](geographic_names.md)
+- `country`: source `parent` text, only a reconciliation hint; it does not create an RDF country link
+
+For all three geographic tables, empty names emit no RDF label. Nonempty strings,
+including whitespace and NA-like text, retain their spelling. JSON null and empty
+strings share an empty CSV cell; extraction does not preserve that distinction.
+
+Region `organizations` supplies organization-to-region location rows, now
+preserved as `diamm:organizationLocation`; see the
+[geographic relationship contract](geographic_relationships.md). Region/source
+provenance rows still lack RDF output, and extraction does not retain their
+uncertainty/year qualifiers. These limits require a separate repair.
 
 ## Relations
 

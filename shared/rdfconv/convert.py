@@ -13,6 +13,7 @@ import time
 from pathlib import Path
 from typing import Union, Any
 import logging
+import re
 from urllib.parse import quote
 import argparse
 import pandas as pd
@@ -22,7 +23,17 @@ from rdflib import Graph, URIRef, Literal, Namespace, XSD, RDF
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
-from wikidata_utils import extract_wd_id
+
+# Conversion accepts complete structured identifiers, never IDs found inside
+# prose, labels, ambiguous lists or another site's URL. Keep the permissive
+# search helper in wikidata_utils unchanged for its interactive callers.
+WD_ITEM = re.compile(
+    r"(?:wd:|https?://(?:www\.)?wikidata\.org/(?:wiki/|entity/))?(Q[1-9][0-9]*)"
+)
+WD_PROPERTY = re.compile(
+    r"(?:wd:|wdt:|https?://(?:www\.)?wikidata\.org/"
+    r"(?:wiki/Property:|entity/|prop/direct/))?(P[1-9][0-9]*)"
+)
 
 
 # === Setup Logger ===
@@ -44,8 +55,10 @@ def to_rdf_node(
     """
     Convert a value to the appropriate RDF node (URIRef or Literal) for RDF triple creation.
 
-    - Returns a URIRef if the value is a Wikidata ID, a full URI, or a value with a specified
-      prefix.
+    - Explicit language/datatype declarations produce literals.
+    - Otherwise recognizes complete Wikidata IDs/URLs, full HTTP(S) URIs,
+      or values with a specified local prefix. Local prefixes take precedence
+      over bare Wikidata IDs.
     - Returns None if the value is empty or NaN.
     - Otherwise, returns a Literal, optionally with language or datatype.
     - Handles special logic for date and datetime datatypes.
@@ -62,22 +75,21 @@ def to_rdf_node(
     """
     if not isinstance(val, str) or val == "":
         return None
-    qid = extract_wd_id(val)
-    if qid:
-        return URIRef(f"{namespaces['wd']}{qid}")
-    if val.startswith("http") and datatype not in ("xsd:anyURI", XSD.anyURI):
-        try:
-            # Attempt to create a URIRef and validate it
-            node = URIRef(val)
-            node.n3()  # Validate the URI
-            return node
-        except Exception:
-            # Encode the URI if it contains invalid characters
-            encoded_val = quote(val, safe=":/#")
-            return URIRef(encoded_val)
-    # A prefix can be specified to expand the value to a full URI
-    if prefix:
-        return URIRef(f"{namespaces.get(prefix)}{val}")
+    if lang is None and datatype is None:
+        is_url = val.startswith(("http://", "https://"))
+        if prefix and not is_url:
+            return URIRef(f"{namespaces[prefix]}{val}")
+        identifier = WD_ITEM.fullmatch(val) or WD_PROPERTY.fullmatch(val)
+        if identifier:
+            return URIRef(f"{namespaces['wd']}{identifier[1]}")
+        if is_url:
+            try:
+                node = URIRef(val)
+                node.n3()  # Validate the URI
+                return node
+            except Exception:
+                # Preserve existing escaping behavior for invalid HTTP(S) URIs.
+                return URIRef(quote(val, safe=":/#"))
     # Expand datatype if it is prefixed
     if datatype is not None and ":" in datatype:
         prefix, body = datatype.split(":", 1)
@@ -119,11 +131,10 @@ def to_predicate(val: str, namespaces: dict) -> URIRef:
     Raises:
         ValueError: If the property string is invalid or cannot be resolved.
     """
-    # The function extracts both QID and PID
-    wiki_id = extract_wd_id(val)
-    if wiki_id and wiki_id.startswith("P"):
-        return URIRef(f"{namespaces['wdt']}{wiki_id}")
-    elif val.startswith("http"):
+    property_id = WD_PROPERTY.fullmatch(val)
+    if property_id:
+        return URIRef(f"{namespaces['wdt']}{property_id[1]}")
+    elif val.startswith(("http://", "https://")):
         return URIRef(val)
     else:
         for prefix, prefix_uri in namespaces.items():

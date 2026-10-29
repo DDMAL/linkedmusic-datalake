@@ -1,0 +1,9 @@
+# Absence here means no explicit assertion in this graph, not "did not compose".
+SELECT DISTINCT ?work ?person WHERE {
+  GRAPH {{musiconn}} {
+    ?work a <https://linkedmusic.ca/graphs/ckg-musiconn/Work> ;
+          cto:CTO_0001009 ?person .
+    ?person wdt:P2888 {{historical_person}} .
+    FILTER NOT EXISTS { ?work wdt:P86/wdt:P2888? {{historical_person}} }
+  }
+} ORDER BY ?work ?person LIMIT 25

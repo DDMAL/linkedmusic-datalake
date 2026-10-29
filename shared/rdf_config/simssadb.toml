@@ -32,8 +32,7 @@ pred = "P144"  # based on (P144)
 
 [person]
 PRIMARY_KEY = "person_id"
-person_name = "P2888"  # exact match (P2888)
-person_name_original = "rdfs:label"
+person_name_original = {pred = "rdfs:label", datatype = "xsd:string"}
 birth_year = { pred = "P569", datatype = "xsd:date" }  # date of birth (P569)
 death_year = { pred = "P570", datatype = "xsd:date" }  # date of death (P570)
 viaf_id = "P214"  # VIAF cluster ID (P214)
@@ -41,6 +40,16 @@ viaf_id = "P214"  # VIAF cluster ID (P214)
 [person.person_id]
 type = "lms:Person"
 prefix = "sp"
+
+[person.person_name]
+pred = "P2888"  # exact match (P2888)
+if = """(
+    isinstance(obj, URIRef)
+    and str(obj).startswith('http://www.wikidata.org/entity/Q')
+    and str(obj).removeprefix('http://www.wikidata.org/entity/Q').isascii()
+    and str(obj).removeprefix('http://www.wikidata.org/entity/Q').isdigit()
+    and not str(obj).removeprefix('http://www.wikidata.org/entity/Q').startswith('0')
+)"""
 
 [source]
 PRIMARY_KEY = "source_id"

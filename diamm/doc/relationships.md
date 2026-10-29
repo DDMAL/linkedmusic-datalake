@@ -1,5 +1,11 @@
 # Property Mappings for Relationships
 
+For geographic links, see the
+[geographic relationship contract](geographic_relationships.md). It defines
+`diamm:organizationLocation` for organization/region location rows and records
+the separate parent-routing and qualified source-provenance limits. The source
+relationship mappings below are unchanged by that bounded repair.
+
 In the DIAMM database, there are more complex relationships between `people` and `sources` and between `organizations` and `sources`. They are modeled with a `related_sources` field in the `people` and `organizations` entity types, and with a `relationships` field in the `sources` entity type.
 
 For both `related_sources` fields, they contain the type of relationship, as well as the url and name of the related source. For the `relationships` field, it contains the type of relationship, as well as the url and name of the related entity, and we can retrieve the entity type of the related entity from its url.

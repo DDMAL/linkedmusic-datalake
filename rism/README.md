@@ -91,9 +91,19 @@ Ensure that the reconciled CSV files are in the `rism/data/reconciled/` folder.
 Then, from the `linkedmusic-datalake` directory, run the following command to convert the CSV files to Turtle:
 
 ```bash
-python convert_to_rdf.py --input_folder rism/data/reconciled/ --mappings_folder rism/src/mappings/ --output_folder rism/data/rdf/
+poetry run python rism/src/convert_to_rdf.py --input_folder rism/data/reconciled/ --mappings_folder rism/src/mappings/ --output_folder rism/data/rdf/
 ```
 
 Each CSV file will be converted into a Turtle file in the `rism/data/rdf/` folder.
 
 For more details on the RDF conversion process, read [`rdf_conversion.md`](./doc/rdf_conversion.md)
+
+Run the offline identifier regression suite from the repository root:
+
+```bash
+poetry run python -m unittest discover -s rism/tests -v
+```
+
+The converter normalizes recognized Wikidata item IRIs on new conversions.
+Existing files and loaded graphs require a separate operation; see the
+[identifier audit and migration procedure](doc/identifier_normalization.md).

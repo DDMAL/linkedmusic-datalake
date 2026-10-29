@@ -4,7 +4,9 @@ The authoritative reasoning behind the musiconn conversion: the source CTO shape
 predicate map ([`../src/ontology/mapping.json`](../src/ontology/mapping.json) is its runtime
 distillation), record typing, dates, reconciliation, the residue policy, and the emitted
 schema (the reference for **SESEMMI**, LinkedMusic's natural-language→SPARQL query tool).
-Counts are from `musiconn.ttl`.
+Counts describe the historical `musiconn.ttl` ingestion and were not remeasured
+during the October preservation work. They are coverage observations, not
+independent reconciliation-accuracy estimates.
 
 ## 1. What the source looks like
 
@@ -104,6 +106,11 @@ filter by kind.
 
 ## 4. Dates
 
+`CTO_0001009` links a related person without specifying their role. It does not
+by itself establish that the person composed or performed the associated
+material. The performance date below is distinct from a work's creation date
+or an archive/catalogue record's creation or modification date.
+
 `CTO_0001070` (performance date) is a uniform `YYYY-MM-DD` literal across all 65,359 event
 records → coerced to `xsd:date` (`coerce_date`, with a `xsd:gYear` fallback for `YYYY` /
 `YYYY-00-00`). musiconn carries **no** `schema:DateTime` interval dates, so the interval branch
@@ -112,7 +119,7 @@ feed-conditional logic.
 
 ## 5. Reconciliation rates
 
-The crosswalk is **deterministic** GND `P227` + VIAF `P214`. The real coverage:
+The crosswalk uses explicit GND `P227` + VIAF `P214` statements. Historical coverage:
 
 - **Distinct authorities → QID: ≈62%** (GND 61.9%, VIAF 61.8%).
 - **Relation-weighted** (how many *links* land on a reconciled node): person **79.1%**,
@@ -121,8 +128,11 @@ The crosswalk is **deterministic** GND `P227` + VIAF `P214`. The real coverage:
 - Output: **14,165 distinct `wdt:P2888` pivots**, 110,684 `rdfs:label` (Wikidata names
   for reconciled nodes + fetched authority names for residue).
 
-The unreconciled remainder is **genuinely absent from Wikidata** (~0.5% ID-hit on the residue
-after the targeted ID lookup), not a pipeline bug. It is kept intact — never dropped.
+The targeted lookup reported about a 0.5% ID-hit rate on the residue. Unreturned
+entities remain unresolved: this does not establish absence from Wikidata or
+exclude lookup/identifier limitations. Source nodes remain without P2888 links.
+Retain source versions and crosswalk responses for reproducibility, and review
+identity independently under the [evaluation protocol](../../evaluation/protocol.md).
 
 ## 6. Emitted schema (SESEMMI reference)
 
