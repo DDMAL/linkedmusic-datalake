@@ -2,18 +2,21 @@
 
 Prepared 20 October 2026. Updated **29 October 2026** after reconciling the
 repository documentation and sibling wiki with the completed preservation work,
-most recently DIAMM archive name/siglum text preservation. The
+and subsequently implementing DIAMM geographic name preservation. The
 [root status and contract index](README.md#preservation-and-evaluation-status)
 provides a shorter entry point. This handoff retains the dated task evidence;
 historical test counts are not the current baseline.
 
-Local validation remains **117 tests and 14 competency fixture queries**, rerun
-on 29 October. At Liam's subsequent request, the later repairs and documentation
-were committed and pushed to draft PR #473, and the wiki updates were published.
-The PR remains open, draft and unmerged. Publishing code does not deploy RDF.
-Publication statements in the dated task sections describe the status at those
-tasks; the 29 October publication section below supersedes earlier local-only
-status. Historical validation results retain their original scope.
+Local validation is **124 tests and 14 competency fixture queries**, rerun on
+29 October after the geographic-name repair. That repair and its repository/wiki
+documentation remain local and uncommitted, based on datalake `4465eaa8`.
+The preceding repairs and documentation were committed and pushed to draft
+PR #473 at Liam's request, and the preceding wiki updates were published.
+The last recorded PR status is open, draft and unmerged; it was not rechecked
+in this task. Publishing code does not deploy RDF. Publication statements in
+dated task sections describe those tasks; the 29 October publication section
+supersedes earlier local-only status, but does not include the subsequent
+geographic-name repair. Historical validation retains its original scope.
 
 ## Working agreement — update the handoff after every task
 
@@ -23,6 +26,58 @@ review findings and their disposition, relevant commits, publication/deployment
 status, remaining limitations and the next concrete task. Keep historical test
 results distinct from the current baseline. Updating the handoff is part of
 finishing the work.
+
+## Completed task — DIAMM geographic names
+
+Completed locally on 29 October 2026, based on `4465eaa8` on
+`preservation-repairs-2026-10-21`. The
+[geographic name contract](diamm/doc/geographic_names.md) traces city, country
+and region names through extraction, tracked histories/exports and RDF. The
+upstream geographic-area model and three detail serializers were inspected at
+`052004f86960a5dc4d1e7446be8d5a6ac8594bd1`; names are string fields. No live DIAMM
+records or historical snapshots were inspected.
+
+The three name columns now bypass pandas number/missing-value inference.
+Nonempty cells retain exact string labels, including leading zeros, long digits,
+NA-like values, Unicode, parentheses and whitespace. Empty cells no longer
+fabricate `"None"` labels. Literal `"None"` remains text. Local subjects, types,
+supplied P2888 matches and existing geographic/source links retain their behavior.
+Country text and `country_@id` remain matching hints and cannot create RDF
+relationships or inferred names. Extraction, histories and export templates did
+not need changes. Import guidance now explicitly requires text preservation.
+
+Seven new regressions exercise actual CSV loading, extraction and RDF CLIs,
+tracked export projection, independently specified full graphs, Turtle round
+trips and an exact-string SPARQL join. They cover all three tables, numeric-only
+columns, NA-like/empty/whitespace values, QID/URL names, rejected and supplied
+matches, duplicate/conflicting rows and hints distinct from source links. Before
+the fix, six tests reported ten failures including subtests; the history/export
+inspection test passed. All seven now pass. The full offline command passes
+**124 tests and 14 competency fixture queries** (shared 14, RISM 5,
+MusicBrainz 31, DIAMM 41, APSearch 11, evaluation 22). Black and diff checks pass.
+The documentation check verified 160 local file links in changed Markdown and
+parsed the new SPARQL example without remote execution; wiki diff checks pass.
+Inspected upstream files and pre-repair/full-offline logs are retained under
+`evaluation/audits/diamm-geographic-names-2026-10-29/`, ignored by Git; the source
+manifest records pinned URLs and blob SHAs. Tests do not depend on that directory.
+
+Self-review found no introduced converter defects. It found a pre-existing
+judgment facet on the region history's name-copy step; replay behavior and match
+coverage remain unverified and are documented. It also found separate existing
+geographic relationship limits: city extraction assumes a country endpoint for
+its general parent; extracted region/source and organization/region relations
+lack RDF branches, and provenance qualifiers are omitted. These are recorded
+for the next bounded review below, without claiming historical affected counts.
+No independent agent review or OpenRefine/service replay was performed.
+
+The repository overview, contributor guidance, identifier review and two local
+wiki status pages reflect this repair and distinguish it from the previously
+published work. Numeric RDF labels now become strings; existing queries may
+need literal changes. The unmatched whole-QID export ambiguity, empty/null CSV
+collapse, loss of name/match row pairing, other unprotected fields and historical
+prevalence remain limitations. No commits, push, issue updates, merge, stored
+data regeneration or deployment were performed in this task. The next task is
+the geographic relationship review below; snapshot work remains deferred.
 
 ## Completed task — documentation reconciliation
 
@@ -69,8 +124,9 @@ API retrieval or production SPARQL probe was performed. At completion of this
 documentation task, changes were uncommitted in both repositories, with three
 local context files ignored. The subsequent authorized publication is recorded
 below; no merge, issue update, data regeneration or deployment occurred.
-The next bounded implementation task remains **DIAMM geographic names** below;
-historical validation and deployment still await confirmed snapshot access.
+At that completion, the next bounded task was **DIAMM geographic names**, now
+completed above. Historical validation and deployment still await confirmed
+snapshot access.
 
 ## Publication status — 29 October 2026
 
@@ -101,7 +157,8 @@ and repair revision; CI on subsequent status commits is recorded separately by
 GitHub. The PR description was synchronized with the published repair scope and
 validation. The 655-link and diff checks also passed after the status updates.
 No snapshot validation, RDF regeneration, merge or deployment was performed.
-The next bounded implementation task remains DIAMM geographic names.
+At publication, the next bounded task was DIAMM geographic names; it is now
+completed locally above.
 
 ## Completed task — MusicBrainz URL recognition
 
@@ -437,20 +494,22 @@ Other tables/fields and historical prevalence remain unverified. Previously
 numeric RDF objects now become strings; old damaged exports require matching
 source evidence for recovery. Nothing was pushed, merged, regenerated or deployed.
 
-## Next task — DIAMM geographic names
+## Next task — DIAMM geographic relationships
 
-1. Review `name` in cities, countries and regions from extraction through their
-   tracked histories/exports to RDF. These tables still use default pandas
-   parsing and unconditional name literals. Reproduce any loss with synthetic
-   records, including numeric-looking, NA-like and empty names.
-2. If supported, make a bounded text-preservation repair while retaining supplied
-   matches, local subjects and geographic/source links. Keep country matching
-   hints distinct from source relationships, and review blank behavior before
-   changing it. Do not infer missing names or alter reconciliation semantics.
-3. Run actual extraction/CSV/RDF regressions and offline checks, document evidence
-   and compatibility, and update this handoff. Other tables, the existing
-   unmatched-QID export ambiguity and historical prevalence remain separate.
-   Do not repeat completed archive or identifier-list work.
+1. Trace geographic parent URLs and region/source/organization relationships
+   through upstream definitions, `to_csv.py`, `relations.csv` and `convert_rdf.py`.
+   The city serializer obtains `country` from a general geographic parent, but
+   extraction unconditionally records `country:{id}`. Region/source and
+   organization/region rows are extracted but have no RDF branch. Establish
+   meanings and reproduce these boundaries synthetically before changing them.
+2. Choose a bounded repair supported by those definitions. Preserve typed local
+   endpoints and distinguish geographic containment from provenance. Review
+   supplied uncertainty/date qualifiers before adding assertions; country
+   reconciliation hints are not source relationships. Do not infer absent links.
+3. Run extraction/CSV/RDF regressions and offline checks, document compatibility
+   and remaining omissions, and update this handoff. Region-history replay,
+   other text columns, the unmatched-QID export ambiguity and historical counts
+   remain separate. Do not repeat completed name or identifier-list work.
 
 Do not restart completed MusicBrainz URL, role or auxiliary work, or SIMSSA
 mapping work. Publishing remains separate; respect protected remote `main`.
@@ -511,7 +570,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **117 passing
+20 October. The completed additions below bring the current baseline to **124 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -550,9 +609,10 @@ the loader follow-up brought it to 88. DIAMM person-year preservation brought
 the total to 95. DIAMM original-name/floruit preservation brought the
 total to 99 tests. DIAMM RISM/VIAF identifier text preservation brought it to 104.
 DIAMM external identifier-list preservation brought the total to 111.
-Archive name/siglum text preservation brings the current total to
-**117 tests and 14 competency fixture queries**. Geographic name text parsing
-is the next bounded review.
+Archive name/siglum text preservation brought the total to 117.
+Geographic name preservation brings the current total to
+**124 tests and 14 competency fixture queries**. Geographic relationships
+are the next bounded review.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
 
@@ -641,8 +701,10 @@ Committing or merging this code will not update the live data.
   complete archive/person lists, supported labels, ambiguous hints and changed
   reconciliation results. Apply the [archive text contract](diamm/doc/archive_text.md)
   to names and sigla, including empty-cell behavior, string query compatibility
-  and matching hints. Review remaining column parsing before asserting full
-  source fidelity.
+  and matching hints. Apply the [geographic name contract](diamm/doc/geographic_names.md)
+  to city/country/region names, empty cells, string-query compatibility and the
+  region history's copy-step facet. Review geographic relationships and remaining
+  column parsing before asserting full source fidelity.
 - [ ] **SIMSSA TOML route:** verify actual person exports and completeness of
   original names under the [contract](simssa/doc/person_identifier_mapping.md),
   record which conversion route produced stored RDF, and regenerate separately.
@@ -864,7 +926,8 @@ Current queue (the **Start here** section is the next-agent brief):
    DIAMM RISM/VIAF identifier text preservation is complete (27 October).
    DIAMM external identifier-list preservation is also complete (27 October).
    Archive name/siglum text preservation is complete (28 October).
-   Geographic name text parsing is the next bounded review.
+   Geographic name preservation is complete locally (29 October).
+   Geographic relationships are the next bounded review.
    The Virtuoso comparison remains optional; none is a prerequisite to waiting
    for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared

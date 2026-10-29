@@ -30,6 +30,12 @@ do not concatenate them into a single hint. See the
 
 ## Cities
 
+Import `name` as text with automatic numeric/date parsing and whitespace
+trimming disabled. Preserve it unchanged; normalize only the `name_@id` copy.
+Keep `country` and its match copy as reconciliation hints, distinct from the
+source relationships in `relations.csv`. See the
+[geographic name contract](geographic_names.md) for blank behavior and limits.
+
 1. Create a column `country_@id` as a copy of `country`
 2. Reconcile `country_@id` against Q6256
 3. Set the best candidate score window to 99-101 and match each entry to its best candidate
@@ -54,6 +60,10 @@ do not concatenate them into a single hint. See the
 5. Reset the score window and create new entries for everything else
 
 ## Countries
+
+Keep `name` as text with automatic numeric/date parsing and whitespace trimming
+disabled. Reconcile only its copy below; empty original names emit no RDF label.
+See the [geographic name contract](geographic_names.md).
 
 1. Create a column `name_@id` as a copy of `name`
 2. Reconcile `name_@id` against Q6256
@@ -128,6 +138,13 @@ the evidence columns unchanged.
 13. Reset the score window and create new entries for everything else
 
 ## Regions
+
+Keep `name` as untouched text with automatic numeric/date parsing and whitespace
+trimming disabled. `country` comes from source `parent` text and is only a
+matching hint. The tracked history's name-copy step has a pre-existing judgment
+facet referencing `name_@id`; verify its behavior when replaying a real project.
+The synthetic text tests do not replay OpenRefine or establish match coverage.
+See the [geographic name contract](geographic_names.md).
 
 1. Create a column `country_@id` as a copy of `country`
 2. Reconcile `country_@id` against Q6256

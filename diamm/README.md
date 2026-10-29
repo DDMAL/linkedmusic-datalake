@@ -4,8 +4,8 @@ This file details the entire process for the DIAMM database, from fetching the d
 
 The October preservation repairs below are implemented and tested locally.
 They have not regenerated stored RDF or updated Virtuoso. Historical export
-validation awaits snapshot access; geographic names and other unprotected CSV
-columns still require review. See the [current status and handoff](../README.md#preservation-and-evaluation-status).
+validation awaits snapshot access; geographic relationships and other unprotected
+CSV columns still require review. See the [current status and handoff](../README.md#preservation-and-evaluation-status).
 
 Before starting, you should change your directory to `diamm/src/` as all scripts are written with the expectation that the working directory will be the script's directory.
 
@@ -84,6 +84,13 @@ nonempty strings retain their exact text under `rdfs:label` and P11550, includin
 leading zeros and NA-like values. Empty cells emit no corresponding statement;
 empty names no longer become `"None"` labels. Import both columns as text in
 OpenRefine. Existing name matches and source/location links remain independent.
+
+City, country and region names follow the
+[geographic name contract](doc/geographic_names.md): nonempty names remain exact
+strings, while empty cells emit no label. Import names as text without trimming.
+Country matching hints remain separate from relationships in `relations.csv`.
+The contract records existing region-history replay and relationship limitations;
+the text repair does not establish complete geographic fidelity.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion

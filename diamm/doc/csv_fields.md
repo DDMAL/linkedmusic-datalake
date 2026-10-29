@@ -26,7 +26,7 @@ strings as empty CSV cells without retaining their distinction.
 
 Data in `archives`, `provenance`, `organizations`, and `country` will be in the relations CSV
 
-- `name`
+- `name`: original city name, kept as text under the [geographic name contract](geographic_names.md)
 - `country`: This is only here to help with reconciliation
 
 ## Compositions
@@ -41,7 +41,7 @@ Data in `composers` and `sources` will be put in the relations CSV
 
 Data in `cities`, `regions`, and `states` will be put in the relations CSV
 
-- `name`
+- `name`: original country name, kept as text under the [geographic name contract](geographic_names.md)
 
 ## Organizations
 
@@ -83,8 +83,12 @@ over scalar hints during RDF conversion; see the
 
 Data in `organizations`, `cities`, and `provenance` will be put in the relations CSV
 
-- `name`
-- `country`: This is only here to help with reconciliation
+- `name`: original region name, kept as text under the [geographic name contract](geographic_names.md)
+- `country`: source `parent` text, only a reconciliation hint; it does not create an RDF country link
+
+For all three geographic tables, empty names emit no RDF label. Nonempty strings,
+including whitespace and NA-like text, retain their spelling. JSON null and empty
+strings share an empty CSV cell; extraction does not preserve that distinction.
 
 ## Relations
 
