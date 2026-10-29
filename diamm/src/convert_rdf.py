@@ -45,6 +45,9 @@ DIAMM_SCHEMA = {
     "region": WDT["P131"],
     "country": WDT["P17"],
     "location": WDT["P276"],
+    # Source Organization.location exposed by Region.organizations. A DIAMM
+    # region can be cultural rather than administrative; do not infer P131.
+    "organization_location": LMDIAMM.organizationLocation,
     "type": WDT["P31"],
     "composer": WDT["P86"],
     "genre": WDT["P136"],
@@ -651,7 +654,10 @@ def build_rdf_graph(
                 reverse = True
         elif first_type == "organization":
             first_uri = URIRef(f"{DO}{first_id}")
-            if second_type == "source":
+            if second_type == "region":
+                second_uri = URIRef(f"{DR}{second_id}")
+                pred_uri = DIAMM_SCHEMA["organization_location"]
+            elif second_type == "source":
                 second_uri = URIRef(f"{DS}{second_id}")
                 reverse = True
                 if work["type"] == "copied":

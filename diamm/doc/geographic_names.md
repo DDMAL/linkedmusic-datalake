@@ -79,13 +79,15 @@ region-to-country P17, archive/organization-to-city P131, source-to-city P131
 and organization-to-country P17. Their existing mapping and direction are
 unchanged; this name repair does not validate their geographic semantics.
 
-Review exposed separate existing relationship limits: city extraction assumes
+Review at the name repair exposed separate relationship limits: city extraction assumes
 that the supplied `country` URL identifies a country, while the inspected
 serializer obtains it from a general geographic parent. Extracted
-region-to-source and organization-to-region rows have no RDF conversion branch.
+region-to-source and organization-to-region rows lacked RDF conversion branches.
 Source provenance qualifiers are also not retained by that extraction route.
-These need a separate source-definition review and synthetic reproduction;
-the name tests do not establish complete geographic relationship fidelity.
+The subsequent [geographic relationship review](geographic_relationships.md)
+repairs the organization/region omission. Parent routing and qualified source
+provenance remain separate; the name tests do not establish complete geographic
+relationship fidelity.
 Variant names and other unmapped fields remain outside this repair.
 
 Duplicate triples collapse. Conflicting rows retain all distinct names and

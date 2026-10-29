@@ -90,6 +90,12 @@ For all three geographic tables, empty names emit no RDF label. Nonempty strings
 including whitespace and NA-like text, retain their spelling. JSON null and empty
 strings share an empty CSV cell; extraction does not preserve that distinction.
 
+Region `organizations` supplies organization-to-region location rows, now
+preserved as `diamm:organizationLocation`; see the
+[geographic relationship contract](geographic_relationships.md). Region/source
+provenance rows still lack RDF output, and extraction does not retain their
+uncertainty/year qualifiers. These limits require a separate repair.
+
 ## Relations
 
 This will hold all relationships between objects. `key1` will contain the object whose type is alphabetically before the other (for example, `key1` will contain `author` and `key2` will contain `source`, but not vice-versa).
