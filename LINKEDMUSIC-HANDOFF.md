@@ -8,9 +8,12 @@ provides a shorter entry point. This handoff retains the dated task evidence;
 historical test counts are not the current baseline.
 
 Local validation remains **117 tests and 14 competency fixture queries**, rerun
-on 29 October. Draft PR #473 was rechecked that day and remains open/unmerged
-at `0b508a76`; later repairs and this documentation refresh remain local.
-Publishing, merging and deploying RDF are separate actions.
+on 29 October. At Liam's subsequent request, the later repairs and documentation
+were committed and pushed to draft PR #473, and the wiki updates were published.
+The PR remains open, draft and unmerged. Publishing code does not deploy RDF.
+Publication statements in the dated task sections describe the status at those
+tasks; the 29 October publication section below supersedes earlier local-only
+status. Historical validation results retain their original scope.
 
 ## Working agreement — update the handoff after every task
 
@@ -62,11 +65,43 @@ draft PR #473 still has 20 commits through `0b508a76`; its prior hosted CI
 result does not validate later repairs.
 
 No independent agent review, OpenRefine replay, snapshot inspection, new source
-API retrieval or production SPARQL probe was performed. Changes are uncommitted
-in the two local repositories, with the three local context files still ignored.
-No push, merge, issue update, data regeneration or deployment occurred.
+API retrieval or production SPARQL probe was performed. At completion of this
+documentation task, changes were uncommitted in both repositories, with three
+local context files ignored. The subsequent authorized publication is recorded
+below; no merge, issue update, data regeneration or deployment occurred.
 The next bounded implementation task remains **DIAMM geographic names** below;
 historical validation and deployment still await confirmed snapshot access.
+
+## Publication status — 29 October 2026
+
+Liam explicitly authorized committing and pushing after the documentation
+review. Remote heads matched the recorded publication state, so normal
+fast-forward pushes were used; no force push or branch-protection change was
+needed.
+
+- Datalake documentation commit `de1b8379` (`docs: synchronize preservation and
+  evaluation guidance`) updates 31 Markdown files. Pushing
+  `preservation-repairs-2026-10-21` also publishes the 19 already-committed
+  DIAMM/SIMSSA/MusicBrainz repair and handoff commits after `0b508a76`.
+  GitHub confirmed draft PR #473 at `de1b8379` with 40 commits, open and unmerged.
+- Wiki documentation commit `5575645` (`docs: synchronize preservation models
+  and evaluation guidance`) updates 16 files, including the new preservation
+  overview. The push to wiki `master` also publishes the earlier policy commit
+  `49ad0ad`; the remote advanced from `295e751` to `5575645`.
+- Follow-up documentation commits record publication in this handoff, the
+  repository overview/contributor notes, identifier review and wiki status pages.
+  The three ignored local context files remain outside Git.
+
+The earlier same-day validation remains **117 tests and 14 competency fixture
+queries**. The 655-link documentation check and diff checks passed again before
+the first commits. Only documentation changed after that test run.
+[Hosted offline run 40862669774](https://github.com/DDMAL/linkedmusic-datalake/actions/runs/40862669774)
+completed successfully for `de1b8379`. This verifies the published documentation
+and repair revision; CI on subsequent status commits is recorded separately by
+GitHub. The PR description was synchronized with the published repair scope and
+validation. The 655-link and diff checks also passed after the status updates.
+No snapshot validation, RDF regeneration, merge or deployment was performed.
+The next bounded implementation task remains DIAMM geographic names.
 
 ## Completed task — MusicBrainz URL recognition
 
@@ -487,8 +522,9 @@ all 14 competency fixture queries. The new
 command on pushes to `main`, pull requests and manual dispatches with Python
 3.12 and locked dependencies. It requires no snapshots, credentials, running
 triplestore or source API calls after dependency installation. The workflow is
-published in draft PR #473. Hosted offline CI passed for `0b508a76`; the later
-DIAMM additions have local validation only.
+published in draft PR #473. Hosted offline CI passed for the original
+`0b508a76` publication; the later repairs and docs were published on 29 October
+and triggered a new run, recorded in that publication section above.
 
 The [identifier review](evaluation/identifier_review.md) retains source nodes
 and explicit, scoped QID/P2888 joins, with three query examples and six new
@@ -658,9 +694,11 @@ Issue closure recommendation:
 The four implementation/documentation commits from `data-preservation-pilot`
 were merged into local `main` by fast-forward on 20 October 2026, preserving
 their separate history. The wiki has a separate commit on its `master` branch.
-The datalake commits through `0b508a76` are published in draft PR #473; the
-wiki commit and subsequent DIAMM, SIMSSA and MusicBrainz work remain local.
-None deploys data to Virtuoso.
+The datalake commits through the documentation refresh `de1b8379` are published
+in draft PR #473, including the later DIAMM, SIMSSA and MusicBrainz work. Wiki
+commits `49ad0ad` and `5575645` were published to wiki `master` on 29 October.
+The follow-up status commits document that publication. None deploys RDF data
+to Virtuoso.
 
 | Stage | Repository | Commit |
 | --- | --- | --- |
@@ -745,7 +783,8 @@ Completed locally, with no production writes or full-dump regeneration:
   Poetry 2.1.4 and the lockfile. Output-directory protection, nonzero failure
   propagation, YAML settings and formatting were checked locally. Hosted CI
   subsequently passed for the published `0b508a76` revision, as recorded in
-  the 21 October publication section; later repairs have local validation only.
+  the 21 October publication section. The later repairs were published on
+  29 October and triggered another hosted run; see the newer publication section.
 - **Identifier design review (21 October):** reviewed converter/configuration
   paths for direct QIDs, source nodes and P2888. Added three query examples and
   six synthetic controls, preserving source/graph evidence and exposing

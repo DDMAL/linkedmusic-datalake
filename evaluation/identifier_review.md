@@ -212,8 +212,11 @@ queries**, using Python 3.12.11 / RDFLib 7.6.0 locally. Later repair counts are
 recorded by task in the [handoff](../LINKEDMUSIC-HANDOFF.md). The complete command
 was rerun on 29 October and passed **117 tests and 14 competency fixture queries**;
 see the [current baseline](../README.md#preservation-and-evaluation-status).
-The hosted CI result recorded for draft PR #473 covers only the earlier
-69-test revision, not the subsequent local repairs.
+The later repairs and documentation were pushed to draft PR #473 on 29 October,
+including documentation commit `de1b8379`.
+[Hosted offline CI](https://github.com/DDMAL/linkedmusic-datalake/actions/runs/40862669774)
+passed for that revision. Check a run's revision when citing hosted validation;
+the earlier 69-test CI pass does not cover these later changes.
 
 This local identifier design review is complete. It does not settle live
 reconciliation accuracy, the proportion of affected identifiers, source-record

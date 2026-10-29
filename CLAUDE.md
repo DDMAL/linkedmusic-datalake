@@ -54,7 +54,7 @@ For subprojects that reconcile in OpenRefine, history and export files live unde
 
 - Work happens on per-subproject feature branches (`acousticbrainz`, `relics`, `simssadb-ingestion`, `nlq2sparql-api`, etc.) merged into `main` via PR.
 - Inspect existing stashes before using them; their numeric positions can change. Do not drop stashes without checking with the user. The RISM identifier repair is already implemented in this branch.
-- Check `git status` and the handoff for the current task. As of 29 October 2026, work is on `preservation-repairs-2026-10-21`; draft PR #473 contains only the earlier commits through `0b508a76`. Remote `main` requires a pull request. Publication, merge and RDF deployment are separate actions.
+- Check `git status` and the handoff for the current task. As of 29 October 2026, work is on `preservation-repairs-2026-10-21`; draft PR #473 includes the later repairs and documentation commit `de1b8379`. The wiki documentation is also published. Remote `main` requires a pull request; the PR remains unmerged and RDF deployment is separate.
 
 ## Wiki
 
