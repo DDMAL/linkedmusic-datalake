@@ -8,6 +8,12 @@ Before starting RDF conversion, you should have reconciled the dataset against W
 
 The general RDF conversion script expects as input CSV files.
 
+Read the [identifier and text contract](identifier_preservation.md) before
+choosing mappings: explicit datatypes/languages keep ID-like names literal,
+local prefixes protect source keys, and only complete Wikidata identifiers
+normalize. The loader's existing missing-value tokens and record fill-down
+remain separate limits on text preservation.
+
 This script is not optimized to convert very large datasets (i.e., any dataset that would result in a Turtle file larger than roughly 2 GB), and serialization in such cases may take a very long time to complete. Additionally, since it stores all RDF triples in memory before serialization, it is subject to a hard limit determined by available RAM. For very large datasets, consider writing a custom RDF conversion script (e.g. `musicbrainz/src/convert_to_rdf.py`).
 
 ### 1.1 Note: Column Fill-Down
@@ -71,7 +77,7 @@ python -m rdfconv.tomlgen --input ../thesession/data/reconciled --output rdf_con
 
 - A new TOML configuration will be created at your select output path.
 
-- Note: Paths written within config files are currently relative to the script directory (`/shared/rdfconv`). They will be updated to be relative to `/shared` in a future pull request, after `origin/theglobaljukebox_rdf` has been merged.
+- `csv_folder` and `rdf_output_folder` paths inside the config resolve relative to `shared/rdfconv/`; absolute paths are also supported. The command-line config path resolves from your working directory.
 
 ### Alternative Step 2: Update the Config File
 
@@ -80,7 +86,7 @@ python -m rdfconv.tomlgen --input ../thesession/data/reconciled --output rdf_con
 - Open the config file and find the `csv_folder` field under the `[general]` table
 
   - For example, in `shared/rdf_config/thesession.toml`, the `csv_folder` is `"../../thesession/data/reconciled"`
-  - Note: Paths in the config files are currently relative to the script directory (`/shared/rdfconv`). They will be updated to be relative to `/shared/` in a future pull request, after `origin/theglobaljukebox_rdf` has been merged.
+  - Paths inside the config resolve relative to `shared/rdfconv/`, including when the config file is stored elsewhere.
 
 - Either move your reconciled CSV files to the folder specified in `csv_folder`, or update `csv_folder` to point to where your CSVs are stored.
 
@@ -90,7 +96,7 @@ python -m rdfconv.tomlgen --input ../thesession/data/reconciled --output rdf_con
 
   - During an update, new column names are added to the config file if they are not present already, while outdated column fields and their values are removed from the config file.
   - Changes will be logged to standard output by default.
-  - If you don't yet understand why there are CSV column names in the config file, don’t worry — we’ll walk through it in [Step 3](#step-3-understand-what-is-in-the-config-file).
+  - If you don't yet understand why there are CSV column names in the config file, don’t worry — we’ll walk through it in [Step 3](#step-3-manually-filling-the-config-file).
 
 - Run the following command to update the configuration file:
 
@@ -159,6 +165,11 @@ python -m rdfconv.convert rdf_config/thesession.toml
 
 Congratulations, you are now ready to convert your dataset to RDF.
 
+Run `poetry run python scripts/check_offline.py` from the repository root for
+the shared converter regressions, tracked-config checks and other preservation
+suites. A small test-mode conversion is useful for inspecting a mapping, but
+neither it nor synthetic tests establish full-snapshot fidelity.
+
 ## 4. Running the conversion script
 - Run the following command to start RDF conversion
 
@@ -176,5 +187,5 @@ python -m rdfconv.convert rdf_config/thesession.toml
 
 - Once the conversion is finished, the output TTL file can be found at the `rdf_output_folder` you specified in the config.
 
-- You can now try uploading the data to Virtuoso by following [this guide on the wiki](https://github.com/DDMAL/linkedmusic-datalake/wiki/Importing-and-Updating-Data-on-Virtuoso)
+- Validate regenerated output against its matching source/export snapshot, retain input/output hashes and review changed RDF terms in a staging graph before following [the Virtuoso loading guide](https://github.com/DDMAL/linkedmusic-datalake/wiki/Importing-and-Updating-Data-on-Virtuoso).
 	- Note: make sure you follow the "Update Data" section if your dataset has already been uploaded to Virtuoso before.

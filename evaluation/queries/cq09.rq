@@ -1,0 +1,12 @@
+SELECT DISTINCT ?observation ?source ?recording ?artist ?direction ?begin ?end ?attribute ?payload WHERE {
+  GRAPH {{musicbrainz}} {
+    ?observation a rdf:Statement ;
+      rdf:subject ?recording ;
+      rdf:predicate mbrel:a01ee869-80a8-45ef-9447-c59e91aa7926 ;
+      rdf:object ?artist ; dcterms:source ?source ; mbterm:sourcePayload ?payload .
+    OPTIONAL { ?observation mbterm:sourceDirection ?direction }
+    OPTIONAL { ?observation mbterm:begin ?begin }
+    OPTIONAL { ?observation mbterm:end ?end }
+    OPTIONAL { ?observation mbterm:attribute ?attribute }
+  }
+} ORDER BY ?observation ?source ?recording ?artist ?direction ?begin ?end ?attribute ?payload LIMIT 25

@@ -1,0 +1,7 @@
+SELECT DISTINCT ?work ?creationDate WHERE {
+  GRAPH {{detmold}} {
+    ?work a <https://linkedmusic.ca/graphs/ckg-detmold/Work> ;
+          wdt:P571 ?creationDate .
+    FILTER(REGEX(STR(?creationDate), "^183[0-9](-|$)"))
+  }
+} ORDER BY ?creationDate ?work LIMIT 25

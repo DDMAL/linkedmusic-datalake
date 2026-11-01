@@ -14,6 +14,15 @@ There is also the field `relationship` whose **properties**/**predicates** are u
 
 For each reconciliation, both OpenRefine history and export settings JSON files are located in the `musicbrainz/openrefine/` folder
 
+The converter accepts only complete bare QIDs from the exported ID columns.
+Unmatched source values are retained as literals, including full language names
+where supplied by the language export. Missing/blank matches fall back to the
+source field. See the [auxiliary identifier contract](auxiliary_identifier_validation.md)
+for the accepted format, per-field fallbacks and offline validation.
+The CSV loader preserves text such as `nan`, `None` and `NA`; only an empty
+cell is treated as empty. Field-specific lookups keep identical labels in
+different tables separate, and type matches are also scoped by entity kind.
+
 ## Types
 
 `types` are subclasses of a given `entity-type`. For example, `municipality` is a possible `type` of `area`.

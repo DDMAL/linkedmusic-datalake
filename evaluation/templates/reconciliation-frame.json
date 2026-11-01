@@ -1,0 +1,23 @@
+{
+  "complete": false,
+  "provenance": {
+    "snapshot_id": null,
+    "snapshot_sha256": null,
+    "reconciliation_export_sha256": null,
+    "extraction_command": null,
+    "extracted_at_utc": null,
+    "unit_definition": "One distinct source entity, including its full accepted target set or an empty set.",
+    "exclusions": []
+  },
+  "units": [
+    {
+      "id": "REPLACE_WITH_DATASET_AND_STABLE_SOURCE_ENTITY_ID",
+      "dataset": "detmold",
+      "entity_type": "Person",
+      "method": "unknown",
+      "linked": false,
+      "target": null,
+      "source_locator": "REPLACE_WITH_SOURCE_FILE_AND_RECORD_LOCATOR"
+    }
+  ]
+}

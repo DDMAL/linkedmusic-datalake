@@ -2,8 +2,9 @@
 
 The authoritative reasoning behind the Detmold conversion. Detmold uses the **same converter
 and `mapping.json`** as musiconn ([`../../ckg-musiconn/doc/data-model.md`](../../ckg-musiconn/doc/data-model.md)
-has the full predicate map); this doc records what is **Detmold-specific**. Counts are from
-`detmold.ttl`.
+has the full predicate map); this doc records what is **Detmold-specific**. Counts
+describe the historical `detmold.ttl` ingestion and were not remeasured during
+the October repairs. Link coverage is not an independently verified accuracy rate.
 
 ## 1. What the source looks like
 
@@ -29,6 +30,12 @@ backbone, drop provenance). Detmold exercises: `rdfs:label` (work title) kept; `
 → `wdt:P571` (date, §5); `CTO_0001009` related person → `cto:CTO_0001009` → `lmckg:Person`;
 `CTO_0001011` related location → `cto:CTO_0001011` → `lmckg:Place`; `NFDI_0001006` → the
 `wdt:P2888` pivot.
+
+`CTO_0001009` records an association with a person whose role is unspecified.
+It does not establish composition, authorship, or performance. A person's
+occupation in Wikidata cannot supply the missing role for this particular
+record. Likewise, the creation period on the source item should not be
+reinterpreted as a performance date.
 
 **`NFDI_0001008` "has url" is dropped** — like every feed, its object literal is
 byte-identical to the record's own subject IRI (self-referential). The subject IRI already
@@ -89,9 +96,11 @@ values is a `schema:DateTime` `START/END` interval whose span encodes the intend
 | a full calendar month | `xsd:gYearMonth` (≈5) |
 | a full calendar year (Jan 1 – Dec 31) | `xsd:gYear` (≈56) |
 
-This branch is Detmold-specific: musiconn carries no interval dates, and APSearch's intervals
-are all Jan-01 placeholders coerced straight to `gYear` (see the APSearch data-model). So all
-three feeds reconvert correctly from the one shared `coerce_date`.
+This behavior is unchanged by the APSearch creation-period repair. APSearch now
+preserves both year bounds and the source interval in a separate branch, with
+a `gYear` start-year projection for supported, ordered values
+(see [its model](../../ckg-apsearch/doc/creation-period-preservation.md)).
+musiconn carries no interval dates. The three converter copies remain identical.
 
 ## 6. Emitted schema (SESEMMI reference)
 
@@ -102,7 +111,7 @@ The schema the query layer sees (SESEMMI is LinkedMusic's natural-language→SPA
            wdt:P31 wd:Q838948 ;                 # work of art (fallback)
            rdfs:label "…title…" ;
            wdt:P571 "1853"^^xsd:gYear ;          # inception (from the interval)
-           cto:CTO_0001009 <gnd-or-viaf-uri> ;   # related person (composer/author — role-agnostic)
+           cto:CTO_0001009 <gnd-or-viaf-uri> ;   # related person; role unspecified
            cto:CTO_0001011 <geonames-uri> .      # related location
 
 <geonames-uri> rdf:type lmckg:Place ;

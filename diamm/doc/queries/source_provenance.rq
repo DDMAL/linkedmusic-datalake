@@ -1,0 +1,26 @@
+# Broad discovery. Restrict the VALUES list to select source uncertainty states.
+# "source-unflagged" means explicit false, never independently verified.
+# A true disagreement flag means differing supported qualifiers for the same
+# manuscript/place pair, not proof of a contradictory historical event.
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+SELECT ?source ?place ?observation ?uncertaintyState ?uncertain
+       ?earliest ?latest ?validationFlag ?hasQualifierDisagreement WHERE {
+  GRAPH <https://linkedmusic.ca/graphs/diamm/> {
+    ?source diamm:sourceProvenance ?observation .
+    ?observation a diamm:SourceProvenanceObservation; diamm:place ?place .
+    OPTIONAL { ?observation diamm:uncertain ?uncertain }
+    OPTIONAL { ?observation diamm:earliestYear ?earliest }
+    OPTIONAL { ?observation diamm:latestYear ?latest }
+    OPTIONAL { ?observation diamm:validationFlag ?validationFlag }
+    BIND(IF(!BOUND(?uncertain), "unknown",
+         IF(?uncertain, "uncertain", "source-unflagged")) AS ?uncertaintyState)
+    BIND(EXISTS {
+      ?source diamm:sourceProvenance ?other .
+      ?other diamm:place ?place; ?qualifier ?otherValue .
+      ?observation ?qualifier ?value .
+      VALUES ?qualifier { diamm:uncertain diamm:earliestYear diamm:latestYear }
+      FILTER(?other != ?observation && !sameTerm(?value, ?otherValue))
+    } AS ?hasQualifierDisagreement)
+  }
+  VALUES ?uncertaintyState { "uncertain" "source-unflagged" "unknown" }
+}

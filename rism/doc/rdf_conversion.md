@@ -21,7 +21,7 @@ A vast quantity of data in RISM's original graph is stored in blank nodes. In or
 - For the <https://rism.online/api/v1#hasEncoding> property, we take the RDFS:label value of the blank node as the object for the triple, since we ignore the URL to the file.
 - For the <https://rism.online/api/v1#hasRelationship> property, it points to a blank node with the <https://rism.online/api/v1#hasRole>, <http://purl.org/dc/terms/relation>, and <https://rism.online/api/v1#hasQualifier> properties. To construct the triple, we take the <https://rism.online/api/v1#hasRole> value of the blank node and run it through the role mapping to get the property, and we use the <http://purl.org/dc/terms/relation> value of the blank node as the object.
 - For the <https://rism.online/api/v1#hasHolding> property, we take the <http://www.wikidata.org/prop/direct/P195> value of the blank node as the object for the triple.
-- For the <http://www.wikidata.org/prop/direct/P921> property, we take the <http://wikidata.org/prop/direct/P2888> value if it is present, otherwise we take the rdf:value.
+- For the <http://www.wikidata.org/prop/direct/P921> property, we collect `P2888` values under the explicit HTTP/HTTPS, www/non-www predicate aliases, otherwise we take `rdf:value`. Intermediate dictionary keys remain unchanged; item-IRI normalization happens when the value is emitted.
 - For the <https://rism.online/api/v1#hasMaterialGroup> property, we do not currently do anything (see [#444](https://github.com/DDMAL/linkedmusic-datalake/issues/444))
 - For the <http://www.wikidata.org/prop/direct/P585> property, it points to a blank node with <https://rism.online/api/v1#dateStatement>, <http://www.wikidata.org/prop/direct/P1319>, and <http://www.wikidata.org/prop/direct/P1326> properties. The dateStatement is a string representation of the date/range, and the other 2 properties indicate the start and end years. 2 triples are constructed, one for the start year and one for the end year, and they are constructed by traversing the blank node, and converting the object of the P1319 and P1326 triples to XSD:date on January 1st of the year for P1319 and December 31st for P1326.
 
@@ -38,6 +38,20 @@ The list of types is:
 - Exemplar
 - Incipit
 - Subject
+
+## Wikidata item identifiers
+
+Recognized item IRIs in CSV object fields use the canonical
+`http://www.wikidata.org/entity/Q…` form. HTTP/HTTPS, www/non-www, and
+`wiki`/`entity` spellings are accepted only when the entire value matches
+`Q[1-9][0-9]*`. Literals (including typed `xsd:anyURI`), unrelated hosts,
+source-record IRIs, query strings/fragments, and malformed identifiers are not
+rewritten. A URL-shaped CSV value without literal metadata is interpreted as an
+IRI under the existing CSV convention.
+
+This fixes conversion behavior, not previously generated or loaded data. See
+[identifier normalization](identifier_normalization.md) for dated evidence,
+regression tests, and a separate migration procedure.
 
 ## General notes on the RDF conversion script
 

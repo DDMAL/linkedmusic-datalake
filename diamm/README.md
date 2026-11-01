@@ -2,6 +2,12 @@
 
 This file details the entire process for the DIAMM database, from fetching the data all the way to converting it into RDF.
 
+The October preservation repairs below are implemented and tested locally.
+They have not regenerated stored RDF or updated Virtuoso. Historical export
+validation awaits snapshot access; geographic parent routing, other provenance
+routes and unprotected CSV columns still require review. See the
+[current status and handoff](../README.md#preservation-and-evaluation-status).
+
 Before starting, you should change your directory to `diamm/src/` as all scripts are written with the expectation that the working directory will be the script's directory.
 
 ## 1. Fetching Data
@@ -28,15 +34,92 @@ See [`data_layout.md`](./doc/data_layout.md) for a brief overview of the data do
 
 Additionally, a utility class for the `to_csv.py` script is located in the `diamm/src/utils.py` module.
 
+Person extraction keeps `source_full_name` alongside the cleaned `full_name`,
+so parenthesized lifespan/floruit text survives. An optional separate source
+`floruit` field is also retained. Follow the
+[person-name preservation contract](doc/person_name_preservation.md) when
+importing and exporting these columns through OpenRefine.
+
+Archive and person extraction also retains the complete identifier list in
+`source_identifiers`. RISM/VIAF scalar columns provide reconciliation hints only
+when one distinct nonblank string is available. The
+[identifier-list contract](doc/external_identifier_selection.md) describes
+classification, multiple values, evidence retention and legacy compatibility.
+
+City/region provenance entries retain their complete parsed JSON in the
+`source_provenance` column of `relations.csv`, which bypasses OpenRefine.
+Uncertainty and year bounds stay paired with the source/place endpoints; see
+the [qualified provenance contract](doc/source_provenance.md).
+
 ## 3. Reconciling Data
 
 All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./doc/reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
 
 ## 4. Transforming to RDF (Turtle)
 
-The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
+The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. Main field mappings are in `DIAMM_SCHEMA`; the preservation contracts below describe additional source-evidence properties.
 
-For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
+For reconciled descriptive fields such as genre and type, a successful match supplies a Wikidata URI; otherwise the original literal text remains. When the items themselves were reconciled against Wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
+
+Person years follow the [year and approximation contract](doc/person_years.md).
+Original year, candidate ID and approximation flag stay together in a source
+observation. P569/P570 contain year literals only when the source explicitly
+marks the year as non-approximate; approximate or unknown values remain
+queryable through observations. Year-item IRIs are retained only as validated
+reconciliation evidence on those observations. See the contract for query
+examples and the change from the older date-object representation.
+
+Original person display names and separate floruit text are string values on
+`diamm:sourceFullName` and `diamm:floruit`. They do not supply birth/death dates.
+Older CSVs without those optional columns still load; their lost text requires
+the matching raw snapshot to recover.
+
+Archive RISM and person RISM/VIAF identifiers follow the
+[external identifier text contract](doc/external_identifier_text.md): nonempty
+cells remain string literals, preserving leading zeros and long digits. Import
+them as text in OpenRefine too. Previously numeric RDF objects now become strings;
+the converter cannot recover text already lost from old exports.
+
+New exports use the complete `source_identifiers` JSON cell to emit all supported
+RISM/VIAF strings and retain the list on `diamm:sourceIdentifiersJson`. This cell
+takes precedence over scalar hints; absent/empty cells use the legacy behavior.
+Other schemes remain JSON evidence only. See the identifier-list contract above.
+
+Archive names and sigla follow the [archive text contract](doc/archive_text.md):
+nonempty strings retain their exact text under `rdfs:label` and P11550, including
+leading zeros and NA-like values. Empty cells emit no corresponding statement;
+empty names no longer become `"None"` labels. Import both columns as text in
+OpenRefine. Existing name matches and source/location links remain independent.
+
+City, country and region names follow the
+[geographic name contract](doc/geographic_names.md): nonempty names remain exact
+strings, while empty cells emit no label. Import names as text without trimming.
+Country matching hints remain separate from relationships in `relations.csv`.
+The contract records existing region-history replay and relationship limitations;
+the text repair does not establish complete geographic fidelity.
+
+The [geographic relationship review](doc/geographic_relationships.md) now
+preserves previously omitted organization/region location rows under
+`diamm:organizationLocation`. That predicate retains the source location
+without asserting administrative status or inferring manuscript locations.
+The [qualified provenance contract](doc/source_provenance.md) now preserves
+city/region source entries as `diamm:sourceProvenance` observations, retaining
+raw JSON, supported uncertainty/year values and validation flags. Legacy rows
+remain explicit unqualified evidence. Source-to-city P131 is removed, including
+for legacy inputs; queries must use the observation route. Other city/country
+mappings retain their behavior, including the documented parent ambiguity.
+
+The [shared evidence contract](../shared/ontology/README.md) provides the
+machine-readable vocabulary and executable validation shapes. Use the
+[uncertainty-aware queries](doc/source_provenance.md#query-and-answer-contract)
+to distinguish source-unflagged evidence from unknown qualifiers, inspect
+disagreements and count manuscripts separately from observations. The optional
+snapshot-lineage profile and candidate SESEMMI context are not deployed.
+
+The [identifier validation contract](doc/identifier_validation.md) documents
+complete bare-QID matching, preserved unmatched names, import-safe conversion
+and offline regression coverage. Run `poetry run python scripts/check_offline.py`
+from the repository root to include the DIAMM tests.
 
 The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in [`relationships.md`](./doc/relationships.md).
 
@@ -44,7 +127,7 @@ Some properties of interest:
 
 - RDFS:label is used instead of P2561 to indicate the name of places/objects, as that's what Wikidata uses for the primary label for items, including for the title of compositions
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
-- P131 is used to indicate the city an entity is in, and P17 is used for the country. P131 is only used to point to the most specific point (city), and the city will point to the region.
+- Existing archive/organization city locations and city/region parent links use P131; country links use P17. Geographic parent types still require review. Manuscript city/region provenance uses qualified observations instead of P131.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
 - P276 (location) is used for provenance organizations because the fact that an organization is the provenance organization of a source means that it most likely was its location at some point in time

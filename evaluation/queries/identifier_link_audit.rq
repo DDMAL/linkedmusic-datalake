@@ -1,0 +1,12 @@
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+# Classify every supplied target; non-QID targets are not automatically errors.
+SELECT DISTINCT ?graph ?entity ?target ?kind WHERE {
+  VALUES ?graph { <urn:linkedmusic:identifier:a> <urn:linkedmusic:identifier:b> }
+  GRAPH ?graph { ?entity wdt:P2888 ?target }
+  BIND(
+    IF(!isIRI(?target), "non-IRI",
+      IF(REGEX(STR(?target), "^http://www[.]wikidata[.]org/entity/Q[1-9][0-9]*$"), "canonical-QID",
+        IF(REGEX(STR(?target), "^https?://(www[.])?wikidata[.]org/(wiki|entity)/Q[1-9][0-9]*$"),
+          "variant-QID-IRI", "other-IRI"))) AS ?kind)
+} ORDER BY ?graph ?entity ?target ?kind

@@ -1,0 +1,7 @@
+SELECT DISTINCT ?recording ?artist WHERE {
+  GRAPH {{musicbrainz}} {
+    ?recording a <https://linkedmusic.ca/graphs/musicbrainz/Recording> ;
+               wdt:P175 ?artist .
+    ?artist wdt:P2888 {{jazz_person}} .
+  }
+} ORDER BY ?recording ?artist LIMIT 25

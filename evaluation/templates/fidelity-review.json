@@ -1,0 +1,44 @@
+{
+  "status": "template_not_a_measurement",
+  "dataset": null,
+  "selection": {
+    "method": null,
+    "frame_sha256": null,
+    "seed": null,
+    "stratum": null,
+    "inclusion_probability": null
+  },
+  "source": {
+    "snapshot_id": null,
+    "snapshot_date": null,
+    "sha256": null,
+    "record_locator": null,
+    "occurrence_id": null,
+    "distinct_assertion_key": null,
+    "field": null,
+    "original_term_or_json": null
+  },
+  "intermediate": {
+    "file_sha256": null,
+    "record_locator": null,
+    "value": null
+  },
+  "conversion": {
+    "revision": null,
+    "code_sha256": null,
+    "configuration_sha256": null,
+    "output_sha256": null,
+    "graph_iri": null,
+    "observation_iris": [],
+    "rdf_terms": [],
+    "projection_notes": null
+  },
+  "judgment": {
+    "fidelity_outcome": "unresolved",
+    "finding_category": "pending_trace",
+    "evidence": [],
+    "reviewer": null,
+    "reviewed_at_utc": null,
+    "adjudication": null
+  }
+}

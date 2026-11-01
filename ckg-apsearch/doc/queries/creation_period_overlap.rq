@@ -1,0 +1,20 @@
+PREFIX ckgterm: <https://linkedmusic.ca/terms/ckg/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# Change the graph IRI and requested year for the candidate deployment.
+# "parsed" means supported, ordered syntax, not independently verified accuracy.
+# reviewFlag (e.g. year-9009) remains visible to the caller.
+SELECT DISTINCT ?record ?period ?start ?end ?source ?flag WHERE {
+  VALUES ?year { 1940 }
+  GRAPH <https://linkedmusic.ca/graphs/ckg-apsearch/staging/> {
+    ?record ckgterm:creationPeriod ?period .
+    ?period ckgterm:parseStatus "parsed" ;
+            ckgterm:startYear ?start ;
+            ckgterm:endYear ?end ;
+            rdf:value ?source .
+    OPTIONAL { ?period ckgterm:reviewFlag ?flag }
+  }
+  FILTER(xsd:integer(STR(?start)) <= ?year &&
+         xsd:integer(STR(?end)) >= ?year)
+}

@@ -1,0 +1,480 @@
+{
+  "cq01": {
+    "head": {
+      "vars": [
+        "solo"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "solo": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/solo"
+          }
+        }
+      ]
+    }
+  },
+  "cq02": {
+    "head": {
+      "vars": [
+        "recording",
+        "artist"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "recording": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          },
+          "artist": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/jazzArtist"
+          }
+        }
+      ]
+    }
+  },
+  "cq03": {
+    "head": {
+      "vars": [
+        "solo",
+        "track",
+        "recording"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "solo": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/solo"
+          },
+          "track": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/track"
+          },
+          "recording": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          }
+        }
+      ]
+    }
+  },
+  "cq04": {
+    "head": {
+      "vars": [
+        "source",
+        "person"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "source": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/sourceLocal"
+          },
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/rismPerson"
+          }
+        },
+        {
+          "source": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/sourceDirect"
+          },
+          "person": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q132232"
+          }
+        }
+      ]
+    }
+  },
+  "cq05": {
+    "head": {
+      "vars": [
+        "source",
+        "work",
+        "person"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "source": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/sourceLocal"
+          },
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/associatedWork"
+          },
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/historicalPerson"
+          }
+        },
+        {
+          "source": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/sourceLocal"
+          },
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/explicitWork"
+          },
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/historicalPerson"
+          }
+        },
+        {
+          "source": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/sourceDirect"
+          },
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/associatedWork"
+          },
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/historicalPerson"
+          }
+        },
+        {
+          "source": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/sourceDirect"
+          },
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/explicitWork"
+          },
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/historicalPerson"
+          }
+        }
+      ]
+    }
+  },
+  "cq06": {
+    "head": {
+      "vars": [
+        "work",
+        "person"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/associatedWork"
+          },
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/historicalPerson"
+          }
+        }
+      ]
+    }
+  },
+  "cq07": {
+    "head": {
+      "vars": [
+        "recording",
+        "artist"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "recording": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          },
+          "artist": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/engineer"
+          }
+        }
+      ]
+    }
+  },
+  "cq08": {
+    "head": {
+      "vars": [
+        "record",
+        "artist"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "record": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          },
+          "artist": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/engineer"
+          }
+        },
+        {
+          "record": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          },
+          "artist": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/photographer"
+          }
+        },
+        {
+          "record": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          },
+          "artist": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/generic"
+          }
+        }
+      ]
+    }
+  },
+  "cq09": {
+    "head": {
+      "vars": [
+        "recording",
+        "artist",
+        "direction",
+        "begin",
+        "end",
+        "attribute",
+        "payload",
+        "observation",
+        "source"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "recording": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          },
+          "artist": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/engineer"
+          },
+          "direction": {
+            "type": "literal",
+            "value": "backward"
+          },
+          "begin": {
+            "type": "literal",
+            "value": "2001"
+          },
+          "end": {
+            "type": "literal",
+            "value": "2002-03"
+          },
+          "attribute": {
+            "type": "literal",
+            "value": "assistant"
+          },
+          "payload": {
+            "type": "literal",
+            "value": "{\"direction\":\"backward\",\"begin\":\"2001\",\"end\":\"2002-03\",\"attributes\":[\"assistant\"]}",
+            "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#JSON"
+          },
+          "observation": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/observation"
+          },
+          "source": {
+            "type": "uri",
+            "value": "https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001"
+          }
+        }
+      ]
+    }
+  },
+  "cq10": {
+    "head": {
+      "vars": [
+        "work",
+        "start",
+        "end",
+        "raw",
+        "period"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/periodWork"
+          },
+          "start": {
+            "type": "literal",
+            "value": "1909",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear"
+          },
+          "end": {
+            "type": "literal",
+            "value": "1950",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear"
+          },
+          "raw": {
+            "type": "literal",
+            "value": "1909-01-01/1950-01-01"
+          },
+          "period": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/period"
+          }
+        }
+      ]
+    }
+  },
+  "cq11": {
+    "head": {
+      "vars": [
+        "work",
+        "raw",
+        "status",
+        "flag",
+        "period"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/anomalyWork"
+          },
+          "raw": {
+            "type": "literal",
+            "value": "9009"
+          },
+          "status": {
+            "type": "literal",
+            "value": "parsed"
+          },
+          "flag": {
+            "type": "literal",
+            "value": "year-9009"
+          },
+          "period": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/anomalyPeriod"
+          }
+        },
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/reversedWork"
+          },
+          "raw": {
+            "type": "literal",
+            "value": "1950/1909"
+          },
+          "status": {
+            "type": "literal",
+            "value": "unresolved"
+          },
+          "flag": {
+            "type": "literal",
+            "value": "reversed-interval"
+          },
+          "period": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/reversedPeriod"
+          }
+        }
+      ]
+    }
+  },
+  "cq12": {
+    "head": {
+      "vars": [
+        "work",
+        "year"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/periodWork"
+          },
+          "year": {
+            "type": "literal",
+            "value": "1909",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear"
+          }
+        }
+      ]
+    }
+  },
+  "cq13": {
+    "head": {
+      "vars": [
+        "work",
+        "creationDate"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/earlyWork"
+          },
+          "creationDate": {
+            "type": "literal",
+            "value": "1835",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear"
+          }
+        }
+      ]
+    }
+  },
+  "cq14": {
+    "head": {
+      "vars": [
+        "person"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/unlinkedPerson"
+          }
+        },
+        {
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/noncanonicalPerson"
+          }
+        }
+      ]
+    }
+  }
+}

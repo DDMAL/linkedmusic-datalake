@@ -1,0 +1,19 @@
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+# Replace the graph and relationship predicate for the dataset being queried.
+# Retain entity and route to distinguish direct values from matching evidence.
+SELECT DISTINCT ?graph ?record ?entity ?qid ?route WHERE {
+  VALUES ?graph { <urn:linkedmusic:identifier:a> }
+  GRAPH ?graph {
+    {
+      ?record wdt:P86 ?qid .
+      BIND(?qid AS ?entity)
+      BIND("direct" AS ?route)
+    } UNION {
+      ?record wdt:P86 ?entity .
+      ?entity wdt:P2888 ?qid .
+      BIND("P2888" AS ?route)
+    }
+    FILTER(isIRI(?qid) && REGEX(STR(?qid), "^http://www[.]wikidata[.]org/entity/Q[1-9][0-9]*$"))
+  }
+} ORDER BY ?graph ?record ?entity ?qid ?route

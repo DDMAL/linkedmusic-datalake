@@ -14,6 +14,7 @@ rdb2rdf/
 *.jsonl
 *.csv
 *.ttl
+!shared/ontology/*.ttl
 store/
 store-*/
 raw_data/
@@ -35,3 +36,6 @@ CKG-DOCS-HANDOFF.md
 *.log
 .python-version
 .claude/
+
+# Independent evaluation responses and review exports; synthetic fixtures are tracked.
+/evaluation/audits/

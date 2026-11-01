@@ -8,6 +8,8 @@ import re
 from pathlib import Path
 import pandas as pd
 from utils import HashableDict
+from external_identifiers import identifier_columns
+from source_provenance import provenance_relation
 
 BASE_PATH = "../data/raw/"
 BASE_CSV_PATH = "../data/csv/"
@@ -33,11 +35,7 @@ for file in (Path(BASE_PATH) / "archives").glob("*.json"):
         line["name"] = data["name"]
         line["siglum"] = data["siglum"]
         line["website"] = data["website"] if "website" in data else ""
-        line["rism_id"] = ""
-        for identifier in data["identifiers"]:
-            if re.search("RISM", identifier["label"], re.IGNORECASE):
-                line["rism_id"] = identifier["identifier"]
-                break
+        line.update(identifier_columns(data, ("rism_id",)))
         for source in data["sources"]:
             source_id = int(source["url"].split("/")[-2])
             relations.add(
@@ -85,16 +83,7 @@ for file in (Path(BASE_PATH) / "cities").glob("*.json"):
                 )
             )
         for source in data["provenance"]:
-            source_id = int(source["url"].split("/")[-2])
-            relations.add(
-                HashableDict(
-                    {
-                        "key1": f"city:{line['id']}",
-                        "key2": f"source:{source_id}",
-                        "type": "",
-                    }
-                )
-            )
+            relations.add(HashableDict(provenance_relation("city", line["id"], source)))
         for organization in data["organizations"]:
             organization_id = int(organization["url"].split("/")[-2])
             relations.add(
@@ -293,12 +282,14 @@ for file in (Path(BASE_PATH) / "people").glob("*.json"):
         line["latest_year_approximate"] = (
             data["latest_year_approximate"] if "latest_year_approximate" in data else ""
         )
-        line["rism_id"] = line["viaf_id"] = ""
-        for identifier in data["identifiers"]:
-            if re.search("RISM", identifier["label"], re.IGNORECASE):
-                line["rism_id"] = identifier["identifier"]
-            elif re.search("VIAF", identifier["label"], re.IGNORECASE):
-                line["viaf_id"] = identifier["identifier"]
+        identifier_cells = identifier_columns(data, ("rism_id", "viaf_id"))
+        line["rism_id"] = identifier_cells["rism_id"]
+        line["viaf_id"] = identifier_cells["viaf_id"]
+        # Keep the display name (including floruit/date text) alongside the
+        # cleaned reconciliation name. Append columns to preserve old positions.
+        line["source_full_name"] = data["full_name"]
+        line["floruit"] = data.get("floruit", "")
+        line["source_identifiers"] = identifier_cells["source_identifiers"]
         for composition in data["compositions"]:
             composition_id = int(composition["url"].split("/")[-2])
             composition_dict = HashableDict(
@@ -371,15 +362,8 @@ for file in (Path(BASE_PATH) / "regions").glob("*.json"):
                 )
             )
         for source in data["provenance"]:
-            source_id = int(source["url"].split("/")[-2])
             relations.add(
-                HashableDict(
-                    {
-                        "key1": f"region:{line['id']}",
-                        "key2": f"source:{source_id}",
-                        "type": "",
-                    }
-                )
+                HashableDict(provenance_relation("region", line["id"], source))
             )
         rows.append(line)
 df = pd.DataFrame(rows)
@@ -501,6 +485,9 @@ df.to_csv(os.path.join(BASE_CSV_PATH, "sources.csv"), index=False)
 print("Finished processing sources")
 
 # Write relations to CSV
-df = pd.DataFrame(HashableDict.to_list_of_dicts(relations))
+df = pd.DataFrame(
+    HashableDict.to_list_of_dicts(relations),
+    columns=["key1", "key2", "type", "source_provenance"],
+)
 df.to_csv(os.path.join(BASE_CSV_PATH, "relations.csv"), index=False)
 print("Finished writing relations")

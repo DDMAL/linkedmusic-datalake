@@ -1,0 +1,41 @@
+# Hand-authored synthetic identifier controls; no real entity claims.
+@prefix ex: <https://example.org/identifier-review/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<urn:linkedmusic:identifier:a> {
+  ex:directWork wdt:P86 wd:Q42 .
+  ex:localWork wdt:P86 ex:personA, ex:personAlias .
+  ex:personA wdt:P2888 wd:Q42 ; rdfs:label "Source A name" .
+  ex:personAlias wdt:P2888 wd:Q42 ; rdfs:label "Another source node" .
+  ex:ambiguousWork wdt:P86 ex:ambiguous .
+  ex:ambiguous wdt:P2888 wd:Q42, wd:Q43 .
+  ex:unmatchedWork wdt:P86 ex:unmatched .
+  ex:unmatched rdfs:label "Source A name" .
+  ex:literalWork wdt:P86 "Q42" .
+  ex:externalWork wdt:P86 ex:external .
+  ex:external wdt:P2888 <https://example.net/authority/42> .
+  ex:variantWork wdt:P86 ex:variant .
+  ex:variant wdt:P2888 <https://www.wikidata.org/entity/Q42> .
+  ex:literalTargetWork wdt:P86 ex:literalTarget .
+  ex:literalTarget wdt:P2888 "http://www.wikidata.org/entity/Q42" .
+  ex:chainWork wdt:P86 ex:chainStart .
+  ex:chainStart wdt:P2888 ex:chainMid .
+  ex:chainMid wdt:P2888 wd:Q42 .
+  ex:wrongScopeWork wdt:P86 ex:wrongScope .
+  # Deliberately questionable assertion: syntax cannot verify entity identity.
+  ex:badMatchWork wdt:P86 ex:catalogueRecord .
+  ex:catalogueRecord a ex:CatalogueRecord ; wdt:P2888 wd:Q42 .
+}
+<urn:linkedmusic:identifier:b> {
+  ex:otherWork wdt:P86 ex:personB .
+  ex:personB wdt:P2888 wd:Q42 ; rdfs:label "Source B name" .
+  ex:differentWork wdt:P86 wd:Q43 .
+  # A match in this graph must not silently supply source A's missing match.
+  ex:unmatched wdt:P2888 wd:Q42 .
+}
+<urn:linkedmusic:identifier:unrelated> {
+  ex:wrongScope wdt:P2888 wd:Q42 .
+  ex:outsideWork wdt:P86 wd:Q42 .
+}

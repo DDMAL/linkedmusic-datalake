@@ -1,0 +1,6 @@
+SELECT DISTINCT ?work ?period ?raw ?status ?flag WHERE {
+  GRAPH {{apsearch}} {
+    ?work ckg:creationPeriod ?period .
+    ?period rdf:value ?raw ; ckg:parseStatus ?status ; ckg:reviewFlag ?flag .
+  }
+} ORDER BY ?work ?period ?raw ?status ?flag LIMIT 25

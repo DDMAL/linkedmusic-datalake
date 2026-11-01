@@ -28,6 +28,7 @@ tomli-w = "^1.2.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
+pyshacl = "^0.40.2"
 
 [build-system]
 requires = ["poetry-core"]

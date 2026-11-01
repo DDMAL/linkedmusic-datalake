@@ -1,0 +1,13 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+SELECT DISTINCT ?record ?artist WHERE {
+  {
+    GRAPH <urn:linkedmusic:pilot:data> { ?record wdt:P767 ?artist }
+  } UNION {
+    GRAPH <urn:linkedmusic:pilot:data> { ?record ?role ?artist }
+    GRAPH <urn:linkedmusic:pilot:schema> {
+      ?role rdfs:subPropertyOf+ wdt:P767
+    }
+  }
+}
