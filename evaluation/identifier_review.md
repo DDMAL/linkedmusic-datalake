@@ -32,8 +32,10 @@ Later DIAMM repairs preserve [external identifier text](../diamm/doc/external_id
 and [archive names/sigla](../diamm/doc/archive_text.md). The subsequent
 [geographic-name repair](../diamm/doc/geographic_names.md) preserves city,
 country and region labels. The [geographic relationship review](../diamm/doc/geographic_relationships.md)
-also preserves organization/region locations. Qualified source provenance is
-the next bounded task; the unmatched whole-QID export ambiguity and
+also preserves organization/region locations. The subsequent local
+[qualified provenance repair](../diamm/doc/source_provenance.md) retains
+city/region source entries with paired uncertainty/year evidence and replaces
+source-to-city P131. Parent routing, unmatched whole-QID export ambiguity and
 historical prevalence remain unresolved.
 
 ## Scope and versions

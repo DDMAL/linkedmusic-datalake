@@ -1,0 +1,127 @@
+@prefix lm: <https://linkedmusic.ca/terms/preservation/> .
+@prefix diamm: <https://linkedmusic.ca/graphs/diamm/> .
+@prefix mb: <https://linkedmusic.ca/terms/musicbrainz/> .
+@prefix ckg: <https://linkedmusic.ca/terms/ckg/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+lm: a owl:Ontology ;
+    owl:versionIRI lm:v1 ;
+    rdfs:label "LinkedMusic preservation contract"@en ;
+    rdfs:comment "Local contract, version 1. Schema descriptions do not deploy data, verify source claims, or supply missing lineage."@en ;
+    dcterms:created "2026-11-01"^^xsd:date ;
+    rdfs:seeAlso <https://www.w3.org/TR/prov-o/>, <https://www.w3.org/TR/shacl/> .
+
+lm:EvidenceObservation a rdfs:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Retained evidence observation"@en ;
+    rdfs:comment "Content identified evidence and its interpretation. May be incomplete or conflicting. Neither an independently identified historical event nor a retrieval occurrence. Dataset profiles define endpoints and any direct projections."@en .
+
+lm:sourceUncertain a rdf:Property ;
+    rdfs:label "Source uncertainty flag"@en ;
+    rdfs:range xsd:boolean ;
+    rdfs:comment "Boolean explicitly supplied by a source for the association described by an observation. False means source-unflagged, not independently verified. Absence means unknown under the relevant profile."@en .
+lm:dateApproximate a rdf:Property ;
+    rdfs:label "Source date approximation flag"@en ;
+    rdfs:range xsd:boolean ;
+    rdfs:comment "Source flag about the precision of the particular date. Separate from uncertainty about an association, parsing success, reconciliation quality and answer confidence."@en .
+lm:validationFlag a rdf:Property ;
+    rdfs:label "Conversion or review flag"@en ;
+    rdfs:comment "Repeatable source-specific processing limitation or review condition. Absence is not proof of correctness; flags are not confidence scores."@en .
+
+# These are schema alignments; converters retain their dataset-specific terms.
+diamm:SourceProvenanceObservation a rdfs:Class ;
+    rdfs:subClassOf lm:EvidenceObservation ;
+    rdfs:label "Manuscript geographic provenance observation"@en ;
+    rdfs:comment "One retained city/source or region/source association and its paired qualifiers. Does not establish creation, present storage or administrative containment."@en .
+diamm:PersonYearObservation a rdfs:Class ;
+    rdfs:subClassOf lm:EvidenceObservation ;
+    rdfs:label "Person year observation"@en ;
+    rdfs:comment "DIAMM person year, original identifier and approximation evidence; may lack a supported year."@en .
+mb:RelationshipObservation a rdfs:Class ;
+    rdfs:subClassOf lm:EvidenceObservation ;
+    rdfs:label "MusicBrainz relationship observation"@en ;
+    rdfs:comment "Retained relationship JSON and mapping status. Only mapped observations have RDF statement endpoints. Mapping success is not a certainty flag."@en .
+ckg:CreationPeriod a rdfs:Class ;
+    rdfs:subClassOf lm:EvidenceObservation ;
+    rdfs:label "APSearch creation-period observation"@en ;
+    rdfs:comment "Original CTO value with separately paired supported bounds and parsing status. A creation span does not establish continuous activity or a performance date."@en .
+
+diamm:sourceProvenance a rdf:Property ;
+    rdfs:label "Has geographic provenance evidence"@en ;
+    rdfs:range diamm:SourceProvenanceObservation ;
+    rdfs:comment "Manuscript to an observation. Retains uncertain and legacy associations without asserting a direct geographic location."@en .
+diamm:place a rdf:Property ;
+    rdfs:label "Place mentioned by provenance evidence"@en ;
+    rdfs:comment "Observation to its local city or region endpoint. Does not entail a place type, name or Wikidata identity."@en .
+diamm:sourceField a rdf:Property ;
+    rdfs:label "Source field"@en ;
+    rdfs:comment "Field identified by the dataset profile: city/region for geographic provenance; earliest_year/latest_year for person-year evidence."@en .
+diamm:sourceProvenanceJson a rdf:Property ;
+    rdfs:label "Retained provenance JSON"@en ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Exact parsed CSV evidence cell, not original JSON file bytes or a complete source record. Absent on legacy observations."@en .
+diamm:uncertain a rdf:Property ;
+    rdfs:subPropertyOf lm:sourceUncertain ;
+    rdfs:label "DIAMM geographic uncertainty"@en ;
+    rdfs:range xsd:boolean ;
+    rdfs:comment "Supported city_uncertain or region_uncertain value. False means DIAMM did not flag the association; missing is never defaulted to false."@en .
+diamm:approximate a rdf:Property ;
+    rdfs:subPropertyOf lm:dateApproximate ;
+    rdfs:label "DIAMM person-year approximation"@en ;
+    rdfs:range xsd:boolean ;
+    rdfs:comment "Parsed source approximation flag for one person year. Does not qualify geographic provenance or imply uncertainty probabilities."@en .
+diamm:earliestYear a rdf:Property ;
+    rdfs:label "Supplied earliest provenance year"@en ;
+    rdfs:range xsd:gYear ;
+    rdfs:comment "Supported supplied lower bound. Missing is not negative infinity. Reversed bounds remain with a validation flag."@en .
+diamm:latestYear a rdf:Property ;
+    rdfs:label "Supplied latest provenance year"@en ;
+    rdfs:range xsd:gYear ;
+    rdfs:comment "Supported supplied upper bound. Missing is not positive infinity. Bounds do not establish uninterrupted presence."@en .
+diamm:validationFlag a rdf:Property ;
+    rdfs:subPropertyOf lm:validationFlag ;
+    rdfs:label "DIAMM conversion flag"@en ;
+    rdfs:comment "Profile-specific missing, null, invalid, reversed or legacy evidence condition; not historical accuracy."@en .
+ckg:reviewFlag a rdf:Property ;
+    rdfs:subPropertyOf lm:validationFlag ;
+    rdfs:label "APSearch review flag"@en ;
+    rdfs:comment "Parsing limitation or identified source anomaly. Parsed observations can still have flags."@en .
+
+# Optional lineage profile. Existing converters do not emit this profile yet.
+lm:SourceSnapshot a rdfs:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Retained source snapshot"@en ;
+    rdfs:comment "An immutable source artifact whose exact retained bytes have a recorded SHA-256. Snapshot identity and retrieval occurrence are separate."@en .
+lm:SourceRecordVersion a rdfs:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Source record in a snapshot"@en ;
+    rdfs:comment "A record selected unambiguously within one retained snapshot. Not the manuscript, person or place that the record describes."@en .
+lm:Conversion a rdfs:Class ;
+    rdfs:subClassOf prov:Activity ;
+    rdfs:label "Conversion execution"@en ;
+    rdfs:comment "One execution, identified separately from its source-code version. Its retained manifest records exact code, configuration, input and runtime identities."@en .
+lm:ObservationOccurrence a rdfs:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Observation in a conversion execution"@en ;
+    rdfs:comment "A run-specific specialization of a content identified evidence observation, derived from a source record version and generated by one conversion. Use separate occurrences across runs; do not attach multiple generation events to a shared content identity."@en .
+lm:RunManifest a rdfs:Class ;
+    rdfs:subClassOf prov:Entity ;
+    rdfs:label "Retained conversion manifest"@en ;
+    rdfs:comment "Immutable manifest of actual code/dependency/configuration/input hashes, execution identity and output checksums. Shape validation cannot verify the external file or its contents."@en .
+lm:sha256 a rdf:Property ;
+    rdfs:label "SHA-256 of retained artifact bytes"@en ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Lowercase 64-character hexadecimal checksum of exact bytes, not a parsed/reformatted JSON object or a guessed source date."@en .
+lm:recordSelector a rdf:Property ;
+    rdfs:label "Record selector within a snapshot"@en ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Nonempty, documented locator resolving to one retained record, such as an archive member and JSON pointer. Include occurrence position when available and required to retain multiplicity."@en .
+lm:runManifest a rdf:Property ;
+    rdfs:label "Conversion manifest"@en ;
+    rdfs:range lm:RunManifest ;
+    rdfs:comment "Conversion execution to its immutable retained manifest. A Git revision alone does not describe dirty code, runtime or inputs."@en .

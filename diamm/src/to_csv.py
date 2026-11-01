@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 from utils import HashableDict
 from external_identifiers import identifier_columns
+from source_provenance import provenance_relation
 
 BASE_PATH = "../data/raw/"
 BASE_CSV_PATH = "../data/csv/"
@@ -82,16 +83,7 @@ for file in (Path(BASE_PATH) / "cities").glob("*.json"):
                 )
             )
         for source in data["provenance"]:
-            source_id = int(source["url"].split("/")[-2])
-            relations.add(
-                HashableDict(
-                    {
-                        "key1": f"city:{line['id']}",
-                        "key2": f"source:{source_id}",
-                        "type": "",
-                    }
-                )
-            )
+            relations.add(HashableDict(provenance_relation("city", line["id"], source)))
         for organization in data["organizations"]:
             organization_id = int(organization["url"].split("/")[-2])
             relations.add(
@@ -370,15 +362,8 @@ for file in (Path(BASE_PATH) / "regions").glob("*.json"):
                 )
             )
         for source in data["provenance"]:
-            source_id = int(source["url"].split("/")[-2])
             relations.add(
-                HashableDict(
-                    {
-                        "key1": f"region:{line['id']}",
-                        "key2": f"source:{source_id}",
-                        "type": "",
-                    }
-                )
+                HashableDict(provenance_relation("region", line["id"], source))
             )
         rows.append(line)
 df = pd.DataFrame(rows)
@@ -500,6 +485,9 @@ df.to_csv(os.path.join(BASE_CSV_PATH, "sources.csv"), index=False)
 print("Finished processing sources")
 
 # Write relations to CSV
-df = pd.DataFrame(HashableDict.to_list_of_dicts(relations))
+df = pd.DataFrame(
+    HashableDict.to_list_of_dicts(relations),
+    columns=["key1", "key2", "type", "source_provenance"],
+)
 df.to_csv(os.path.join(BASE_CSV_PATH, "relations.csv"), index=False)
 print("Finished writing relations")

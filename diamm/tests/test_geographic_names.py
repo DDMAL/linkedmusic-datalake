@@ -7,6 +7,7 @@ import unittest
 from rdflib import Graph, Literal, RDF, RDFS
 
 import test_external_identifier_text as fixtures
+from test_source_provenance import observation_triples
 
 DIAMM, LM, WD, WDT = fixtures.DIAMM, fixtures.LM, fixtures.WD, fixtures.WDT
 ROOT = fixtures.ROOT
@@ -20,7 +21,7 @@ class GeographicNameTests(unittest.TestCase):
         self.addCleanup(self.fixture.doCleanups)
         self.fixture.relations.write_text(
             "key1,key2,type\narchive:1,city:1,\ncity:1,country:1,\n"
-            "city:1,region:1,\ncountry:1,region:1,\ncity:1,source:1,\n"
+            "city:1,region:1,\ncountry:1,region:1,\n"
             "city:1,organization:1,\ncountry:1,organization:2,\n"
         )
         # Explicit expected directions and local endpoints, independent of
@@ -30,7 +31,6 @@ class GeographicNameTests(unittest.TestCase):
             (DIAMM["cities/1"], WDT.P17, DIAMM["countries/1"]),
             (DIAMM["cities/1"], WDT.P131, DIAMM["regions/1"]),
             (DIAMM["regions/1"], WDT.P17, DIAMM["countries/1"]),
-            (DIAMM["sources/1"], WDT.P131, DIAMM["cities/1"]),
             (DIAMM["organizations/1"], WDT.P131, DIAMM["cities/1"]),
             (DIAMM["organizations/2"], WDT.P17, DIAMM["countries/1"]),
         }
@@ -222,7 +222,6 @@ class GeographicNameTests(unittest.TestCase):
             self.links.update(
                 {
                     (DIAMM["archives/1"], WDT.P131, DIAMM[f"cities/{i}"]),
-                    (DIAMM["sources/1"], WDT.P131, DIAMM[f"cities/{i}"]),
                     (DIAMM["organizations/1"], WDT.P131, DIAMM[f"cities/{i}"]),
                     (DIAMM[f"cities/{i}"], WDT.P17, DIAMM["countries/1"]),
                     (DIAMM[f"cities/{i}"], WDT.P131, DIAMM[f"regions/{i}"]),
@@ -235,6 +234,21 @@ class GeographicNameTests(unittest.TestCase):
             self.fixture.directory / "data/RDF/diamm.ttl", format="turtle"
         )
         expected = self.expected_graph(rows)
+        for i in range(1, len(values) + 1):
+            expected.update(
+                observation_triples(
+                    graph,
+                    DIAMM["sources/1"],
+                    DIAMM[f"cities/{i}"],
+                    "city",
+                    json.dumps({"url": f"{DIAMM}sources/1/"}, separators=(",", ":")),
+                    flags=(
+                        "missing-uncertainty",
+                        "missing-earliest-year",
+                        "missing-latest-year",
+                    ),
+                )
+            )
         for table in TABLES:
             expected.update(
                 {
@@ -244,16 +258,18 @@ class GeographicNameTests(unittest.TestCase):
                 }
             )
         self.fixture.assert_graph_and_roundtrip(graph, expected)
-        result = graph.query(f"""
+        result = graph.query(
+            f"""
             SELECT ?source ?city ?region ?country ?match WHERE {{
-              ?source <{WDT.P131}> ?city .
+              ?source <{LM.sourceProvenance}>/<{LM.place}> ?city .
               ?city <{RDFS.label}> "00123"; <{WDT.P2888}> ?match;
                     <{WDT.P131}> ?region; <{WDT.P17}> ?country .
               ?region <{RDFS.label}> "00123"; <{WDT.P17}> ?country .
               ?country <{RDFS.label}> "00123" .
               VALUES ?source {{ <{DIAMM['sources/1']}> }}
             }}
-        """)
+        """
+        )
         self.assertEqual(
             {tuple(row) for row in result},
             {

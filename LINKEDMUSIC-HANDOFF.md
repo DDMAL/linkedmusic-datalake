@@ -1,16 +1,20 @@
 # LinkedMusic data preservation and evaluation handoff
 
-Prepared 20 October 2026. Updated **29 October 2026** after reconciling the
+Prepared 20 October 2026. Updated **1 November 2026** after defining and testing
+the shared evidence/lineage contract and finalizing qualified DIAMM provenance.
+The preceding work reconciled the
 repository documentation and sibling wiki with the completed preservation work,
-and subsequently implementing DIAMM geographic names and organization/region
-location preservation. The
+and subsequently implementing DIAMM geographic names, organization/region
+locations and qualified city/region manuscript provenance. The
 [root status and contract index](README.md#preservation-and-evaluation-status)
 provides a shorter entry point. This handoff retains the dated task evidence;
 historical test counts are not the current baseline.
 
-Local validation is **128 tests and 14 competency fixture queries**, rerun on
-29 October after the organization/region repair. Liam requested committing,
-pushing and continuing: geographic-name commit `df7854fe` and organization/region
+Local validation is **142 tests and 14 competency fixture queries**, rerun on
+1 November after the shared contract and query controls. The qualified-provenance
+repair and shared contract are finalized in the local commit containing this
+update, based on `74240257`; they have not been pushed or deployed. Earlier,
+Liam requested committing, pushing and continuing: geographic-name commit `df7854fe` and organization/region
 commit `6df2c7a6` are pushed to `preservation-repairs-2026-10-21`. Wiki commits
 `01d5717` and `6ed5b35` are published on `master`. Draft PR #473 remains open
 and unmerged. Publishing code does not deploy RDF. The additional publication
@@ -25,6 +29,155 @@ review findings and their disposition, relevant commits, publication/deployment
 status, remaining limitations and the next concrete task. Keep historical test
 results distinct from the current baseline. Updating the handoff is part of
 finishing the work.
+
+## Completed task — shared evidence/lineage contract and DIAMM query behavior
+
+Completed 1 November 2026 after Liam authorized continuing the proposed next
+work. The [shared contract](shared/ontology/README.md) retains named evidence
+observations, adds conservative RDFS descriptions across DIAMM, MusicBrainz and
+APSearch, and keeps source uncertainty, date approximation and processing status
+distinct. It does not introduce a confidence score, guessed endpoints or direct
+location inference. Existing converter output and observation identities remain
+unchanged by this contract layer.
+
+The optional PROV-O profile distinguishes source snapshot bytes, a record
+selected within a snapshot, a conversion execution with a retained manifest,
+and a run-specific observation occurrence. Separate occurrences specialize the
+shared content identity, avoiding false identification of repeated runs as one
+generation event. Actual metadata is required; existing converters do not emit
+the profile, and current `dcterms:source` links remain coarse origin references.
+SHACL checks the profile's structure, not the availability/checksums of external
+artifacts, the manifest contents or historical truth.
+
+Three executable DIAMM queries cover broad discovery/state selection, supported
+qualifier disagreements and distinct manuscript/observation counts. Missing,
+null, invalid and legacy flags remain unknown; false means source-unflagged.
+Disagreement is assessed only for the same manuscript/place, and differing
+years do not establish a contradictory historical event. The answer contract
+retains qualifiers and forbids silently treating unknown evidence as certain.
+
+Eight new tests exercise real converter output against SHACL, malformed endpoint
+and qualifier mutations, optional lineage completeness, separate run occurrences,
+RDFS inference without uncertainty/approximation conflation or location inference,
+and exact query results including graph isolation and duplicate/count handling.
+Initial tests exposed a fixture-root error, an RDFLib plain/typed-string shape
+comparison and unsupported `gYear` value inequality. The test path was corrected;
+the shape now validates datatype plus lexical form, and queries use RDF-term
+comparison on canonical projected values. Full offline validation passes
+**142 tests and 14 competency fixture queries** (shared 17, RISM 5,
+MusicBrainz 31, DIAMM 56, APSearch 11, evaluation 22). pySHACL is a locked dev
+dependency; its dependencies require RDFLib 7.6.0 in the lock file. Formatting,
+repository/wiki whitespace and 219 local document links/anchors/wiki references
+pass; changed Markdown SPARQL examples parse offline.
+
+The [candidate NLQ context](diamm/doc/source_provenance_nlq.txt) was passed through
+SESEMMI's actual parser and slicer read-only. Selecting the observation block
+retains all qualifiers and notes; a Source-only slice still omits qualifier
+properties. This is a context-selection requirement, not an NLQ accuracy result.
+No SESEMMI configuration, paid model call or production service was changed.
+W3C PROV-O, RDF Schema and SHACL specifications and pySHACL documentation were
+consulted; authoritative references are linked from the contract.
+
+The pending provenance implementation, tests and documentation are finalized
+with this contract, and sibling wiki status pages are committed locally as
+`4316f6a`. This is a
+local commit checkpoint, with no push, PR/issue message, merge, source-data
+regeneration or deployment. No independent agent review was performed. Real
+snapshot fidelity, lineage emission and NLQ accuracy/cost remain unmeasured.
+Next: geographic parent evidence/type routing below. Activate the SESEMMI
+migration only with its matching graph version; snapshot work still awaits
+Liam's confirmation of access.
+
+## Design review — provenance, uncertainty and NLQ compatibility
+
+Historical review: its shared-contract prerequisite is resolved by the
+1 November implementation above. Snapshot lineage emission and application
+migration remain pending.
+
+Reviewed 29 October 2026 after Liam questioned whether the intermediate node is
+a blank node and whether the model is appropriate for NLQ. The
+[contract's design review](diamm/doc/source_provenance.md#design-review--29-october-2026)
+records the findings and distinguishes implemented behavior from recommendations.
+The observation is a named evidence IRI; replacing it with a blank node would
+not remove qualification joins. Named observations remain a defensible candidate,
+but this repair is not a completed shared ontology or an NLQ-ready migration.
+
+The dataset-specific uncertainty/approximation/status vocabularies are not a
+unified model. Data lineage also needs separation from historical manuscript
+provenance: the current geographic `dcterms:source` link lacks exact document,
+snapshot and conversion identity. Evidence hashes change with incidental
+metadata/formatting and do not identify source events or retrieval occurrences.
+PROV-O was reviewed as a candidate for record/conversion lineage, and CRMinf
+as a possible later fit for attributed scholarly beliefs. Neither was adopted
+by this review; absent source arguments or confidence values must not be invented.
+
+Read-only inspection of SESEMMI found its static DIAMM schema still specifies
+Source/P131/City and has no new observation/uncertainty terms. The actual parser
+and slicer accepted an in-memory candidate observation block and preserved its
+qualifiers when selected, but a Source-only slice omitted them. This demonstrates
+a context-selection requirement, not model accuracy. No paid model calls,
+production probes or SESEMMI edits were performed. Existing 134-test/14-query
+validation remains the preceding converter baseline; it was not rerun for this
+documentation-only review. Local diff checks passed.
+
+Recommended prerequisite before more modeling or deployment: define the small
+shared assertion/lineage contract and machine-readable descriptions, distinguish
+source uncertainty from approximation and validation status, and specify query
+and answer behavior for uncertain, source-unflagged, unknown and conflicting
+entries. Keep the application migration as a separate later task, synchronized
+with the graph version. NLQ accuracy, query cost and snapshot-level fidelity
+remain unmeasured. All current repair/review changes remain local and uncommitted.
+
+## Completed task — DIAMM qualified city/region source provenance
+
+Completed locally on 29 October 2026, based on `74240257` on
+`preservation-repairs-2026-10-21`. The [qualified provenance contract](diamm/doc/source_provenance.md)
+records the definition evidence, CSV/RDF boundary, query migration and remaining
+limits. Retained city/region serializers and the SourceProvenance model at
+`052004f86960a5dc4d1e7446be8d5a6ac8594bd1` were inspected and their Git blob hashes
+verified against the previous manifests. No fresh upstream retrieval, live DIAMM
+record inspection or historical snapshot validation was performed.
+
+Extraction appends `source_provenance` JSON evidence to city/source and
+region/source relation rows. Complete parsed entries participate in deduplication,
+so conflicting qualifiers survive. This relation file bypasses OpenRefine.
+Named `diamm:sourceProvenance` observations keep the manuscript/place endpoints,
+raw entry, supported boolean uncertainty and integer year bounds together.
+Missing, null, invalid and reversed qualifiers are retained and flagged; no
+certainty or dates are inferred. Legacy rows still load as explicitly unqualified
+observations. City/source P131 is removed for both new and legacy inputs because
+provenance does not establish administrative containment; region/source entries
+now survive in RDF. Existing other relationship routes retain their mappings.
+
+Six new tests failed before implementation (14 failures including subtests)
+and now pass. They exercise extraction/CSV/RDF CLIs, independently specified
+full graphs, Turtle and SPARQL, both routes, text/JSON fidelity, missing/null/
+invalid qualifiers, supported/reversed bounds, legacy inputs, duplicates,
+conflicts, stable identity, endpoint isolation and malformed/mismatched evidence.
+The existing geographic-name end-to-end regression now queries the observation
+route. Full offline validation passes **134 tests and 14 competency fixture
+queries** (shared 14, RISM 5, MusicBrainz 31, DIAMM 51, APSearch 11, evaluation 22).
+Black and diff checks pass. Documentation validation checked 184 local file
+links across 11 changed Markdown files, parsed five SPARQL examples and checked
+navigation in both changed wiki pages. Both new contract queries returned their
+expected synthetic results (four broad observations, two explicitly non-uncertain).
+Self-review added duplicate-JSON-key/non-JSON constant
+rejection, an unsupported relation-type guard, and text loading for that type
+column so NA-like strings cannot masquerade as a blank legacy type. No independent
+agent review or OpenRefine replay was performed. Logs and verified definition
+copies are retained under ignored `evaluation/audits/diamm-source-provenance-2026-10-29/`;
+the tests do not depend on them.
+
+The repository contracts, contributor guidance, status index and two sibling
+wiki status pages were synchronized locally. This task remains uncommitted;
+no push, PR/issue update, merge, source regeneration or deployment occurred.
+Historical frequencies, real snapshot/export compatibility, event multiplicity
+and RDF-size overhead remain unmeasured. Parsed JSON is preserved, not original
+file bytes. Identical entries collapse, formatting/metadata changes can change
+observation identities, and separate city/region listings cannot identify a
+shared provenance event without upstream row IDs. Other provenance routes,
+parent types, region-history replay and unmatched-QID ambiguity remain separate.
+The next bounded task is geographic parent evidence/type routing below.
 
 ## Completed task — geographic relationship review and organization locations
 
@@ -60,11 +213,11 @@ ignored by Git and unnecessary for the tests.
 The review narrowed the remaining parent problem: the inspected city serializer
 itself can generate a country URL for a general geographic parent, so URL-path
 parsing alone cannot establish the true type. The source-provenance model also
-distinguishes geographic uncertainty and year bounds. Extraction drops these;
-city/source rows become unqualified P131, while region/source rows have no RDF
-branch. A simple missing-branch patch would lose these distinctions. The next
-bounded task is qualified city/region source provenance below. Parent routing
-needs explicit source type evidence; no type or location is guessed from names
+distinguishes geographic uncertainty and year bounds. At that review, extraction
+dropped these; city/source rows became unqualified P131, while region/source
+rows had no RDF branch. A simple missing-branch patch would lose these distinctions. The next
+bounded task at that stage was qualified city/region source provenance, now
+completed above. Parent routing needs explicit source type evidence; no type or location is guessed from names
 or reconciliation hints. Historical prevalence and source-version compatibility
 remain unmeasured. No stored RDF was regenerated or deployed.
 
@@ -554,7 +707,26 @@ Other tables/fields and historical prevalence remain unverified. Previously
 numeric RDF objects now become strings; old damaged exports require matching
 source evidence for recovery. Nothing was pushed, merged, regenerated or deployed.
 
-## Next task — DIAMM qualified city/region source provenance
+## Next task — DIAMM geographic parent evidence and endpoint types
+
+The assertion/lineage and query prerequisite is resolved by the 1 November
+[shared contract](shared/ontology/README.md). Follow its evidence and qualifier
+rules when implementing this next geographic conversion repair.
+
+1. Trace the pinned geographic model and city/country/region serializers through
+   parent extraction and RDF. The city serializer can label a general parent
+   with a country URL; URL-path parsing alone cannot establish its true type.
+2. Define how to retain the supplied parent evidence without guessing the
+   endpoint's type from a name, matching hint or misleading URL. Determine what
+   explicit source type evidence can support routing and how unsupported legacy
+   rows must be represented. Keep administrative containment distinct from
+   general geographic parentage and record the compatibility decision.
+3. Reproduce any established loss/error with synthetic extraction/CSV/RDF cases
+   before a bounded repair. Preserve current provenance and organization-location
+   behavior. Document unresolved source-version/historical limits and update this
+   handoff. Region-history replay and other columns remain subsequent work.
+
+## Plan completed — DIAMM qualified city/region source provenance
 
 1. Trace city/region `provenance` entries and the SourceProvenance model through
    extraction and RDF. The serializers expose `city_uncertain` or
@@ -631,7 +803,7 @@ bounded recognition of unresolved relationships, the scope of retained JSON,
 observation-ID/counting limits, and recording photography's deprecation. Four
 new regression tests and a stronger graph-scope test cover the previously
 unchecked cases. That review passed 48 tests and 14 fixture queries on
-20 October. The completed additions below bring the current baseline to **128 passing
+20 October. The completed additions below bring the current baseline to **142 passing
 tests and 14 passing competency fixture queries**; neither result establishes
 population quality. Do not repeat completed reviews or restart the tooling.
 
@@ -672,9 +844,11 @@ total to 99 tests. DIAMM RISM/VIAF identifier text preservation brought it to 10
 DIAMM external identifier-list preservation brought the total to 111.
 Archive name/siglum text preservation brought the total to 117.
 Geographic name preservation brought the total to 124. The organization/region
-repair brings the current total to **128 tests and 14 competency fixture queries**.
-Qualified city/region source provenance is the next bounded task; parent endpoint
-types still require source evidence.
+repair brought the total to 128. Qualified city/region provenance brings the
+then-current total to **134 tests and 14 competency fixture queries**. The shared
+contract and DIAMM query controls bring the current total to **142 tests and
+14 competency fixture queries**. Geographic
+parent evidence/type routing is next; endpoint types require source evidence.
 These are code/config findings, not measured historical-data defects. Snapshot
 validation and regeneration remain deferred until Liam confirms access.
 
@@ -768,8 +942,11 @@ Committing or merging this code will not update the live data.
   region history's copy-step facet. Apply the
   [geographic relationship contract](diamm/doc/geographic_relationships.md) to
   organization/region rows and `diamm:organizationLocation` queries. Review
-  qualified source provenance, parent types and remaining column parsing before
-  asserting full source fidelity.
+  the [qualified provenance contract](diamm/doc/source_provenance.md) across raw
+  city/region entries, the appended relation JSON and observation queries. Re-extract
+  to recover qualifiers and replace old source-to-city P131 assertions rather
+  than appending to them. Review parent types, other provenance routes and remaining
+  column parsing before asserting full source fidelity.
 - [ ] **SIMSSA TOML route:** verify actual person exports and completeness of
   original names under the [contract](simssa/doc/person_identifier_mapping.md),
   record which conversion route produced stored RDF, and regenerate separately.
@@ -994,7 +1171,9 @@ Current queue (the **Start here** section is the next-agent brief):
    Geographic name preservation is complete locally (29 October).
    The geographic relationship review and organization/region location repair
    are complete and published (29 October). Qualified city/region provenance is
-   the next bounded task; parent routing still needs source evidence.
+   now complete locally. The shared assertion/lineage contract, executable shapes
+   and uncertainty-aware query controls are also complete (1 November);
+   geographic parent evidence/type routing is next.
    The Virtuoso comparison remains optional; none is a prerequisite to waiting
    for snapshots.
 2. **Deferred until snapshot access resumes:** populate the prepared

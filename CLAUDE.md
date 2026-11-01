@@ -9,6 +9,12 @@ The [root README](README.md#preservation-and-evaluation-status) indexes the
 current contracts. Source snapshots, regeneration and production deployment
 remain deferred until Liam confirms access; synthetic tests do not replace them.
 
+The [shared evidence/lineage contract](shared/ontology/README.md) supplies local
+schema and SHACL shapes. Keep source uncertainty, date approximation and
+processing status distinct. Versioned PROV-O lineage is optional and must use
+actual snapshot/run metadata. The locked development dependencies include
+pySHACL; `poetry install` installs them for offline validation.
+
 ## What this repo is
 
 A data-ingestion monorepo with one pipeline per dataset; see the [dataset list](README.md#datasets). The nominal pipeline is **fetch → extract → reconcile → convert to RDF Turtle**, with OpenRefine, source-supplied links or authority crosswalks depending on the source. AcousticBrainz and RELICS work lives on separate feature branches and is not present in this checkout.
@@ -41,7 +47,7 @@ Reusable code lives here, but it is **not a package** — there's no install ste
 - **RISM** starts from RDF (not CSV). It splits via `force_split.py`, reconciles in OpenRefine using the **RDF-transform** extension, then re-emits Turtle. RDF-transform **only works in Chrome** — Firefox/Safari will fail silently.
 - **MusicBrainz** consumes JSONL and supplied Wikidata URL relationships; auxiliary type/key/gender/language/packaging/status CSVs use OpenRefine. Keep field/type lookups isolated. The 33-role pilot retains specific predicates and observations; broad-contributor queries explicitly select the matching schema graph.
 - **SIMSSA** has a shared CSV-to-Turtle config at `shared/rdf_config/simssadb.toml` and older JSON-LD files. The person mapping is tested; historical deployment of that route is unverified. Preserve original names and require canonical item IRIs for person P2888.
-- **DIAMM** uses bespoke extraction and RDF conversion. Its contracts cover year/approximation observations, original person names/floruit, complete archive/person identifier lists, external-ID strings, archive names/sigla, geographic names and organization/region locations. The new region route uses `diamm:organizationLocation`; do not infer manuscript locations through organizations. Qualified city/region provenance is next; parent types need source evidence. Country matching hints do not create RDF relationships.
+- **DIAMM** uses bespoke extraction and RDF conversion. Its contracts cover year/approximation observations, original person names/floruit, complete archive/person identifier lists, external-ID strings, archive names/sigla, geographic names and organization/region locations. The region location route uses `diamm:organizationLocation`; do not infer manuscript locations through organizations. City/region manuscript provenance now uses `diamm:sourceProvenance` observations with paired JSON/uncertainty/years, replacing source-to-city P131 even for legacy CSVs. Parent evidence/type routing is next. Country matching hints do not create RDF relationships.
 - **CKG** (NFDI4Culture Culture Knowledge Graph) is **RDF-native** (per-feed N-Triples dumps, no fetch step) and is split into **three sibling subprojects** — `ckg-musiconn/`, `ckg-detmold/`, `ckg-apsearch/` — one per feed, because each loads as its own Virtuoso named graph. They **share one pipeline, copied verbatim** into each `src/` (the scripts take a feed argument, so the copies are identical and overlap is intentional). Reconciliation is a **deterministic authority-ID→Wikidata crosswalk** (GND `P227` / VIAF `P214` / GeoNames `P1566`), with OpenRefine only for the residue (musiconn/Detmold; APSearch needs none). The CKG's RISM feed (`E5313`) is excluded — LinkedMusic ingests RISM separately. Each feed's `doc/data-model.md` is the authoritative mapping/schema doc.
 - **APSearch creation periods** retain original CTO assertions and paired year bounds on named observations; P571 is only a supported start-year projection. Keep all three CKG converter/config copies identical.
 - **Shared CSV datasets** use explicit literal declarations for text that may resemble IDs. Whole-ID recognition does not change existing missing-value parsing or conditional mapping omissions. Global Jukebox's 19 social-factor alternative-name columns are `skos:altLabel` strings.

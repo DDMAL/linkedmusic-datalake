@@ -4,8 +4,8 @@ This file details the entire process for the DIAMM database, from fetching the d
 
 The October preservation repairs below are implemented and tested locally.
 They have not regenerated stored RDF or updated Virtuoso. Historical export
-validation awaits snapshot access; qualified geographic provenance, parent
-routing and other unprotected CSV columns still require review. See the
+validation awaits snapshot access; geographic parent routing, other provenance
+routes and unprotected CSV columns still require review. See the
 [current status and handoff](../README.md#preservation-and-evaluation-status).
 
 Before starting, you should change your directory to `diamm/src/` as all scripts are written with the expectation that the working directory will be the script's directory.
@@ -45,6 +45,11 @@ Archive and person extraction also retains the complete identifier list in
 when one distinct nonblank string is available. The
 [identifier-list contract](doc/external_identifier_selection.md) describes
 classification, multiple values, evidence retention and legacy compatibility.
+
+City/region provenance entries retain their complete parsed JSON in the
+`source_provenance` column of `relations.csv`, which bypasses OpenRefine.
+Uncertainty and year bounds stay paired with the source/place endpoints; see
+the [qualified provenance contract](doc/source_provenance.md).
 
 ## 3. Reconciling Data
 
@@ -97,9 +102,19 @@ The [geographic relationship review](doc/geographic_relationships.md) now
 preserves previously omitted organization/region location rows under
 `diamm:organizationLocation`. That predicate retains the source location
 without asserting administrative status or inferring manuscript locations.
-Existing city/country mappings remain unchanged. City/region source provenance
-still needs a representation that retains its uncertainty and years; parent
-URLs also have a documented source-definition ambiguity.
+The [qualified provenance contract](doc/source_provenance.md) now preserves
+city/region source entries as `diamm:sourceProvenance` observations, retaining
+raw JSON, supported uncertainty/year values and validation flags. Legacy rows
+remain explicit unqualified evidence. Source-to-city P131 is removed, including
+for legacy inputs; queries must use the observation route. Other city/country
+mappings retain their behavior, including the documented parent ambiguity.
+
+The [shared evidence contract](../shared/ontology/README.md) provides the
+machine-readable vocabulary and executable validation shapes. Use the
+[uncertainty-aware queries](doc/source_provenance.md#query-and-answer-contract)
+to distinguish source-unflagged evidence from unknown qualifiers, inspect
+disagreements and count manuscripts separately from observations. The optional
+snapshot-lineage profile and candidate SESEMMI context are not deployed.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion
@@ -112,7 +127,7 @@ Some properties of interest:
 
 - RDFS:label is used instead of P2561 to indicate the name of places/objects, as that's what Wikidata uses for the primary label for items, including for the title of compositions
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
-- P131 is used to indicate the city an entity is in, and P17 is used for the country. P131 is only used to point to the most specific point (city), and the city will point to the region.
+- Existing archive/organization city locations and city/region parent links use P131; country links use P17. Geographic parent types still require review. Manuscript city/region provenance uses qualified observations instead of P131.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
 - P276 (location) is used for provenance organizations because the fact that an organization is the provenance organization of a source means that it most likely was its location at some point in time

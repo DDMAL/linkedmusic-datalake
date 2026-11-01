@@ -75,19 +75,20 @@ text comes from `parent`. Their `country_@id` copies are reconciliation hints,
 not RDF relationships. The RDF converter does not use either hint column to
 create P17, labels or fallback matches. Geographic relationships instead come
 from `relations.csv`, including city-to-country P17, city-to-region P131,
-region-to-country P17, archive/organization-to-city P131, source-to-city P131
-and organization-to-country P17. Their existing mapping and direction are
-unchanged; this name repair does not validate their geographic semantics.
+region-to-country P17, archive/organization-to-city P131 and
+organization-to-country P17. The name repair did not change these mappings
+or validate their semantics. Source-to-city P131 was subsequently replaced
+by the [qualified provenance observation route](source_provenance.md).
 
 Review at the name repair exposed separate relationship limits: city extraction assumes
 that the supplied `country` URL identifies a country, while the inspected
 serializer obtains it from a general geographic parent. Extracted
 region-to-source and organization-to-region rows lacked RDF conversion branches.
-Source provenance qualifiers are also not retained by that extraction route.
+The extraction route also discarded provenance qualifiers at that time.
 The subsequent [geographic relationship review](geographic_relationships.md)
-repairs the organization/region omission. Parent routing and qualified source
-provenance remain separate; the name tests do not establish complete geographic
-relationship fidelity.
+repairs the organization/region omission; the [qualified provenance repair](source_provenance.md)
+preserves city/region source entries and their qualifiers. Parent routing
+remains unresolved; the name tests do not establish complete geographic fidelity.
 Variant names and other unmapped fields remain outside this repair.
 
 Duplicate triples collapse. Conflicting rows retain all distinct names and
@@ -101,14 +102,16 @@ PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 SELECT ?source ?city ?country ?countryName WHERE {
-  ?source a diamm:Source; wdt:P131 ?city .
+  ?source a diamm:Source; diamm:sourceProvenance/diamm:place ?city .
   ?city rdfs:label "00123"; wdt:P17 ?country .
   OPTIONAL { ?country rdfs:label ?countryName }
 }
 ```
 
-Scope queries to the DIAMM graph in a shared endpoint. Numeric-literal filters
-for formerly coerced names need updating, and optional labels accommodate
+This broad provenance path includes uncertain and legacy associations; use
+observation qualifiers when certainty or years matter. The query follows the
+subsequent provenance repair. Scope it to the DIAMM graph in a shared endpoint.
+Numeric-literal filters for formerly coerced names need updating, and optional labels accommodate
 empty names. Do not delete every old `"None"` label without matching source
 evidence: the spelling may have been supplied literally.
 

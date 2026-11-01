@@ -2,8 +2,9 @@
 
 Reviewed 29 October 2026. The bounded repair preserves the organization/region
 rows already extracted into `relations.csv`. Previously those rows had no RDF
-branch and disappeared. Parent routing and qualified source provenance remain
-separate problems; this change does not establish complete geographic fidelity.
+branch and disappeared. Parent routing remains unresolved. The subsequent
+[qualified provenance repair](source_provenance.md) handles city/region source
+entries; neither change establishes complete geographic fidelity.
 
 ## Source evidence and decision
 
@@ -86,13 +87,13 @@ occurrence and deployed serializer behavior remain unmeasured.
 The [source-provenance model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/source_provenance.py)
 links a manuscript to geographic areas, with separate uncertainty flags and
 earliest/latest years. City/region serializers expose those qualifiers. Local
-extraction discards them: city/source rows become unqualified P131, while
-region/source rows currently have no RDF branch. Simply adding an unqualified
-region/source location assertion would discard uncertainty and conflate source
-provenance with the organization's own location. The next bounded task is a
-source-preserving city/region provenance representation, including paired raw
-qualifiers and explicit legacy-input behavior. It must not invent dates or
-interpret provenance as manuscript creation, performance or current storage.
+extraction previously discarded them: city/source rows became unqualified P131,
+while region/source rows had no RDF branch. The subsequent
+[qualified provenance repair](source_provenance.md) preserves these entries in
+named observations, with paired raw evidence and explicit legacy behavior. It
+removes source-to-city P131 for new and legacy inputs, without inferring dates,
+creation, performance or current storage. This is separate from the
+organization-location predicate described here.
 
 The [region-history copy-step facet](geographic_names.md), other unprotected
 text fields, source URL parsing outside this route and broader relationship
@@ -114,7 +115,8 @@ the repair; all four pass after it. No OpenRefine replay is claimed.
 The full offline command, `poetry run python scripts/check_offline.py`, passes
 **128 tests and 14 competency fixture queries**, including 45 DIAMM tests.
 Black and diff checks pass. Self-review found no introduced correctness defects;
-parent type ambiguity and provenance qualifier loss remain documented above.
+parent type ambiguity and the then-unrepaired provenance loss were recorded above.
+The later provenance repair and current baseline are recorded in the handoff.
 No independent agent review was performed. Pinned upstream files and before/after
 test logs are retained in the ignored
 `evaluation/audits/diamm-geographic-relationships-2026-10-29/` directory; tests

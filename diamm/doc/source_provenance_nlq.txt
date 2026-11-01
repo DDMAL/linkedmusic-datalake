@@ -1,0 +1,37 @@
+<database name="DIAMM provenance candidate" graph-iri="https://linkedmusic.ca/graphs/diamm/" contract="preservation-v1">
+<description>
+Candidate context fragment for the qualified-provenance graph version. Merge
+into the full DIAMM corpus only with that graph's rollout. It replaces the
+Source/P131/City provenance route; it is not the complete DIAMM schema.
+</description>
+<query-notes>
+Selecting sourceProvenance requires the SourceProvenanceObservation block and
+these notes in the retrieved context. Return observation IDs, uncertainty,
+available year bounds and validation flags. Explicit uncertain=false means
+"DIAMM does not flag this association as uncertain", never "verified".
+Absent uncertainty is unknown; never default it to false. Broad discovery
+includes all states. Compare supported qualifiers only within the same
+manuscript/place pair. Different bounds can describe different events; report
+disagreement without choosing a winner or inventing a single historical event.
+Count DISTINCT manuscripts or DISTINCT observations explicitly. One manuscript
+can have multiple observations and uncertainty states. Missing bounds are not
+infinite. Exclude reversed-year-bounds from ordered-interval queries. Provenance
+does not establish creation, administrative containment or present storage.
+The dcterms:source link is coarse origin context, not a versioned source record.
+</query-notes>
+<ontology>
+@prefix diamm: <https://linkedmusic.ca/graphs/diamm/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+diamm:Source
+	diamm:sourceProvenance	diamm:SourceProvenanceObservation .
+diamm:SourceProvenanceObservation
+	diamm:place	diamm:City, diamm:Region ;
+	dcterms:source	diamm:City, diamm:Region ;
+	diamm:sourceField	"city or region" ;
+	diamm:sourceProvenanceJson	"retained JSON; absent for legacy evidence" ;
+	diamm:uncertain	"optional boolean; false is source-unflagged, absent is unknown" ;
+	diamm:earliestYear	"optional supplied gYear" ;
+	diamm:latestYear	"optional supplied gYear" ;
+	diamm:validationFlag	"repeatable processing flags; not confidence" .
+</ontology>
+</database>
