@@ -7,21 +7,25 @@ remains in the existing preservation handoff.
 ## Current checkpoint
 
 - **Task:** LM-WF01, establish the cross-session development/review workflow.
-- **Status:** preparing the documentation PR; independent Claude review pending.
+- **Status:** awaiting independent Claude review.
 - **Repository/branch:** DDMAL/linkedmusic-datalake,
   `docs/review-workflow-2026-11-11`, based on main `59b44485`.
-- **PR:** publication pending; replace this entry after creating the PR.
+- **PR:** [#474](https://github.com/DDMAL/linkedmusic-datalake/pull/474), open for
+  review. Resolve its live head SHA before starting a review or resuming work.
 - **Completed:** workflow, agent entry instructions, roadmap, PR template and
-  reusable Claude review brief drafted.
-- **Validation:** content, local-link and diff checks to be recorded in the PR
-  after execution. No converter tests or Claude model session run for this task.
+  reusable Claude review brief published.
+- **Validation:** seven Markdown files and 22 relative links checked against
+  the pinned base plus proposed files; entry import, whitespace, final newlines,
+  code fences and Git diff checks passed. No converter tests or Claude model
+  session run for this task. The PR records the revision-specific review packet.
 - **Evidence:** reviewable Markdown in this PR; initial data observations below
   are file-availability observations, not integrity or completeness measurements.
 - **Open decision:** Claude review and Liam's acceptance of the workflow.
 - **Publication:** code/wiki/RDF behavior unchanged; this task requires no wiki
   edits because the workflow belongs in the repository.
-- **Next action:** publish the checked PR and provide Liam the exact review packet.
-  After review, resolve findings and obtain merge approval.
+- **Next action:** Liam starts Claude review using the PR's pinned review packet.
+  Codex then preserves and resolves findings, arranges any needed re-review and
+  requests merge approval. Do not start dependent implementation while waiting.
 
 ## Available data and scope
 
