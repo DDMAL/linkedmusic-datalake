@@ -66,6 +66,13 @@ Setup and the full ingestion workflow are documented in the wiki. In brief: the 
 - [Working with Virtuoso](https://github.com/DDMAL/linkedmusic-datalake/wiki/Working-with-Virtuoso) · [Accessing the SPARQL endpoint](https://github.com/DDMAL/linkedmusic-datalake/wiki/Accessing-the-Virtuoso-SPARQL-Endpoint)
 - [Project status](https://github.com/DDMAL/linkedmusic-datalake/wiki/Project-Status)
 
+## Development and review
+
+Start with the [roadmap and current checkpoint](docs/roadmap.md) and follow the
+[development and review workflow](docs/workflow.md). Work is delivered through
+coherent PRs with independent Claude review and Liam's merge approval. Repository
+agent instructions are in [AGENTS.md](AGENTS.md).
+
 ## Team & contact
 
 LinkedMusic is developed at the [Distributed Digital Music Archives and Libraries Lab (DDMAL)](https://ddmal.ca/) at McGill University.

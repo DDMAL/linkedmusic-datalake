@@ -1,5 +1,11 @@
 # CLAUDE.md
 
+@AGENTS.md
+
+The shared working agreement above governs session checkpoints and independent
+review. Read [the current roadmap](docs/roadmap.md) before choosing a task.
+Historical branch/task notes below are background; verify current state.
+
 Context for Claude Code working in the `linkedmusic-datalake` monorepo. Per-subproject READMEs are authoritative — read the relevant one before touching that subproject.
 
 ## What this repo is
