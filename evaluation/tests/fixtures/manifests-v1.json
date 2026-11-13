@@ -1,0 +1,372 @@
+{
+  "protocol_version": "1.0",
+  "prepared_on": "2026-10-20",
+  "scope": "Six-dataset pilot inventory, not a full data-lake census. Null means unknown, never zero.",
+  "datasets": [
+    {
+      "key": "wjazzd",
+      "name": "Weimar Jazz Database",
+      "graph_iri": "https://linkedmusic.ca/graphs/wjazzd/",
+      "graph_iri_evidence": "wjazzd/README.md",
+      "source": {
+        "description": "SQLite export; imported snapshot unavailable",
+        "snapshot_id": null,
+        "snapshot_date": null,
+        "retrieved_at_utc": null,
+        "sha256": null,
+        "availability": "Arbutus/Montreal; not in this checkout"
+      },
+      "conversion": {
+        "deployed_revision": null,
+        "candidate_revision": "working_tree; exact file hashes captured by runner",
+        "configuration_revision": null,
+        "files": [
+          "shared/rdfconv/convert.py",
+          "shared/rdf_config/wjazzd.toml"
+        ]
+      },
+      "licence": {
+        "references": [
+          "https://jazzomat.hfm-weimar.de/download/download.html"
+        ],
+        "verified_for_snapshot": false,
+        "notes": "Discovery references only; capture exact terms for the supplied snapshot and distinguish metadata from media rights."
+      },
+      "counts": {
+        "measured_at_utc": null,
+        "source_records": null,
+        "rdf_entities_by_class": null,
+        "rdf_triples": null,
+        "measurement_artifact": null
+      },
+      "selected_fields": [
+        {
+          "field": "performer P175 (direct QID)",
+          "evidence": "wjazzd/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "solo/track P361",
+          "evidence": "wjazzd/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "track MBID P4404",
+          "evidence": "wjazzd/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "recording date P10135",
+          "evidence": "wjazzd/README.md",
+          "availability": "documented; snapshot not measured"
+        }
+      ],
+      "known_exclusions": [
+        "Unmapped SQLite columns; see TOML",
+        "Titles do not establish recording identity"
+      ]
+    },
+    {
+      "key": "musicbrainz",
+      "name": "MusicBrainz",
+      "graph_iri": "https://linkedmusic.ca/graphs/musicbrainz/",
+      "graph_iri_evidence": "musicbrainz/README.md",
+      "source": {
+        "description": "JSON dump; imported snapshot unavailable",
+        "snapshot_id": null,
+        "snapshot_date": null,
+        "retrieved_at_utc": null,
+        "sha256": null,
+        "availability": "Arbutus/Montreal; not in this checkout"
+      },
+      "conversion": {
+        "deployed_revision": null,
+        "candidate_revision": "working_tree; exact file hashes captured by runner",
+        "configuration_revision": null,
+        "files": [
+          "musicbrainz/src/convert_to_rdf.py",
+          "musicbrainz/src/relationship_mapping.py",
+          "musicbrainz/src/rdf_conversion_config/relations.json",
+          "musicbrainz/src/rdf_conversion_config/mappings.json",
+          "musicbrainz/src/rdf_conversion_config/attribute_mapping.json",
+          "musicbrainz/src/mapping_schema.py"
+        ]
+      },
+      "licence": {
+        "references": [
+          "https://musicbrainz.org/doc/About/Data_License"
+        ],
+        "verified_for_snapshot": false,
+        "notes": "Discovery references only; capture exact terms for the supplied snapshot and distinguish metadata from media rights."
+      },
+      "counts": {
+        "measured_at_utc": null,
+        "source_records": null,
+        "rdf_entities_by_class": null,
+        "rdf_triples": null,
+        "measurement_artifact": null
+      },
+      "selected_fields": [
+        {
+          "field": "artist-credit P175 to local artist",
+          "evidence": "musicbrainz/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "artist P2888",
+          "evidence": "musicbrainz/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "33 specific pilot role types and observations in candidate conversion",
+          "evidence": "musicbrainz/README.md",
+          "availability": "documented; snapshot not measured"
+        }
+      ],
+      "known_exclusions": [
+        "Pilot role/schema changes not deployed",
+        "Nonpilot qualifiers not covered by pilot"
+      ]
+    },
+    {
+      "key": "rism",
+      "name": "RISM",
+      "graph_iri": "https://linkedmusic.ca/graphs/rism/",
+      "graph_iri_evidence": "rism/README.md",
+      "source": {
+        "description": "RDF source and reconciled CSVs; imported snapshot unavailable",
+        "snapshot_id": null,
+        "snapshot_date": null,
+        "retrieved_at_utc": null,
+        "sha256": null,
+        "availability": "Arbutus/Montreal; not in this checkout"
+      },
+      "conversion": {
+        "deployed_revision": null,
+        "candidate_revision": "working_tree; exact file hashes captured by runner",
+        "configuration_revision": null,
+        "files": [
+          "rism/src/convert_to_rdf.py",
+          "rism/src/mappings/property_mapping.json",
+          "rism/src/mappings/roles.json"
+        ]
+      },
+      "licence": {
+        "references": [
+          "https://rism.info/community/linked-data.html"
+        ],
+        "verified_for_snapshot": false,
+        "notes": "Discovery references only; capture exact terms for the supplied snapshot and distinguish metadata from media rights."
+      },
+      "counts": {
+        "measured_at_utc": null,
+        "source_records": null,
+        "rdf_entities_by_class": null,
+        "rdf_triples": null,
+        "measurement_artifact": null
+      },
+      "selected_fields": [
+        {
+          "field": "P86 mapped from source P50",
+          "evidence": "rism/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "P2888 canonical-ID joins",
+          "evidence": "rism/README.md",
+          "availability": "documented; snapshot not measured"
+        }
+      ],
+      "known_exclusions": [
+        "Qualifier and role mapping require source review",
+        "Converter revision does not establish live-data migration"
+      ]
+    },
+    {
+      "key": "musiconn",
+      "name": "CKG musiconn.performance E5320",
+      "graph_iri": "https://linkedmusic.ca/graphs/ckg-musiconn/",
+      "graph_iri_evidence": "ckg-musiconn/README.md",
+      "source": {
+        "description": "N-Triples feed E5320; imported snapshot unavailable",
+        "snapshot_id": null,
+        "snapshot_date": null,
+        "retrieved_at_utc": null,
+        "sha256": null,
+        "availability": "Arbutus/Montreal; not in this checkout"
+      },
+      "conversion": {
+        "deployed_revision": null,
+        "candidate_revision": "working_tree; exact file hashes captured by runner",
+        "configuration_revision": null,
+        "files": [
+          "ckg-musiconn/src/preprocess.py",
+          "ckg-musiconn/src/build_crosswalk.py",
+          "ckg-musiconn/src/convert_to_rdf.py",
+          "ckg-musiconn/src/ontology/mapping.json"
+        ]
+      },
+      "licence": {
+        "references": [
+          "https://nfdi4culture.de/resource/E5320/about.html"
+        ],
+        "verified_for_snapshot": false,
+        "notes": "Discovery references only; capture exact terms for the supplied snapshot and distinguish metadata from media rights."
+      },
+      "counts": {
+        "measured_at_utc": null,
+        "source_records": null,
+        "rdf_entities_by_class": null,
+        "rdf_triples": null,
+        "measurement_artifact": null
+      },
+      "selected_fields": [
+        {
+          "field": "CTO_0001009 related person",
+          "evidence": "ckg-musiconn/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "P2888 authority crosswalk",
+          "evidence": "ckg-musiconn/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "P585 event date",
+          "evidence": "ckg-musiconn/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "CTO_0001019 related work",
+          "evidence": "ckg-musiconn/README.md",
+          "availability": "documented; snapshot not measured"
+        }
+      ],
+      "known_exclusions": [
+        "Person association has no composer/performer role",
+        "Feed E5313 excluded; RISM ingested separately"
+      ]
+    },
+    {
+      "key": "detmold",
+      "name": "CKG Hoftheater Detmold E5305",
+      "graph_iri": "https://linkedmusic.ca/graphs/ckg-detmold/",
+      "graph_iri_evidence": "ckg-detmold/README.md",
+      "source": {
+        "description": "N-Triples feed E5305; imported snapshot unavailable",
+        "snapshot_id": null,
+        "snapshot_date": null,
+        "retrieved_at_utc": null,
+        "sha256": null,
+        "availability": "Arbutus/Montreal; not in this checkout"
+      },
+      "conversion": {
+        "deployed_revision": null,
+        "candidate_revision": "working_tree; exact file hashes captured by runner",
+        "configuration_revision": null,
+        "files": [
+          "ckg-detmold/src/preprocess.py",
+          "ckg-detmold/src/build_crosswalk.py",
+          "ckg-detmold/src/convert_to_rdf.py",
+          "ckg-detmold/src/ontology/mapping.json"
+        ]
+      },
+      "licence": {
+        "references": [
+          "https://nfdi4culture.de/resource/E5305/about.html"
+        ],
+        "verified_for_snapshot": false,
+        "notes": "Discovery references only; capture exact terms for the supplied snapshot and distinguish metadata from media rights."
+      },
+      "counts": {
+        "measured_at_utc": null,
+        "source_records": null,
+        "rdf_entities_by_class": null,
+        "rdf_triples": null,
+        "measurement_artifact": null
+      },
+      "selected_fields": [
+        {
+          "field": "CTO_0001009 related person",
+          "evidence": "ckg-detmold/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "P2888 authority crosswalk",
+          "evidence": "ckg-detmold/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "P571 work creation date",
+          "evidence": "ckg-detmold/README.md",
+          "availability": "documented; snapshot not measured"
+        }
+      ],
+      "known_exclusions": [
+        "P571 is not a staging date",
+        "Person/opera cases require source tracing"
+      ]
+    },
+    {
+      "key": "apsearch",
+      "name": "CKG APSearch E6304",
+      "graph_iri": "https://linkedmusic.ca/graphs/ckg-apsearch/",
+      "graph_iri_evidence": "ckg-apsearch/README.md",
+      "source": {
+        "description": "N-Triples feed E6304; imported snapshot unavailable",
+        "snapshot_id": null,
+        "snapshot_date": null,
+        "retrieved_at_utc": null,
+        "sha256": null,
+        "availability": "Arbutus/Montreal; not in this checkout"
+      },
+      "conversion": {
+        "deployed_revision": null,
+        "candidate_revision": "working_tree; exact file hashes captured by runner",
+        "configuration_revision": null,
+        "files": [
+          "ckg-apsearch/src/preprocess.py",
+          "ckg-apsearch/src/build_crosswalk.py",
+          "ckg-apsearch/src/convert_to_rdf.py",
+          "ckg-apsearch/src/ontology/mapping.json"
+        ]
+      },
+      "licence": {
+        "references": [
+          "https://nfdi4culture.de/resource/E6304/about.html"
+        ],
+        "verified_for_snapshot": false,
+        "notes": "Discovery references only; capture exact terms for the supplied snapshot and distinguish metadata from media rights."
+      },
+      "counts": {
+        "measured_at_utc": null,
+        "source_records": null,
+        "rdf_entities_by_class": null,
+        "rdf_triples": null,
+        "measurement_artifact": null
+      },
+      "selected_fields": [
+        {
+          "field": "P31 media classification",
+          "evidence": "ckg-apsearch/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "P571 start-year projection",
+          "evidence": "ckg-apsearch/README.md",
+          "availability": "documented; snapshot not measured"
+        },
+        {
+          "field": "Original CTO_0001073 and paired creationPeriod bounds in candidate conversion",
+          "evidence": "ckg-apsearch/README.md",
+          "availability": "documented; snapshot not measured"
+        }
+      ],
+      "known_exclusions": [
+        "No structured language/vocal/field-recording evidence in documented import",
+        "Interval preservation not deployed",
+        "9009 retained pending source trace"
+      ]
+    }
+  ]
+}

@@ -35,3 +35,4 @@ CKG-DOCS-HANDOFF.md
 *.log
 .python-version
 .claude/
+/evaluation/audits/

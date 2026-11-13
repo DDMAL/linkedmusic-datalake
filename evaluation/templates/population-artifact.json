@@ -1,0 +1,60 @@
+{
+  "id": "replace-artifact-id",
+  "population": "stored",
+  "availability": {
+    "status": "unknown",
+    "reason": "Template; no artifact has been observed."
+  },
+  "file": {
+    "path": {
+      "status": "unknown",
+      "value": null,
+      "reason": "No working file has been identified."
+    },
+    "sha256": {
+      "status": "unknown",
+      "value": null,
+      "reason": "No bytes have been hashed."
+    }
+  },
+  "storage": {
+    "location": {
+      "status": "unknown",
+      "value": null,
+      "reason": "No durable archive has been identified."
+    },
+    "availability": {
+      "status": "unknown",
+      "reason": "Template; no artifact has been observed."
+    }
+  },
+  "source_snapshot_ids": [],
+  "converter": {
+    "revision": {
+      "status": "unknown",
+      "value": null,
+      "reason": "Converter revision is not established."
+    },
+    "dirty": null,
+    "files": []
+  },
+  "graph": {
+    "iri": {
+      "status": "unknown",
+      "value": null,
+      "reason": "No graph has been identified."
+    },
+    "evidence": []
+  },
+  "deployment": {
+    "observed_at": {
+      "status": "unknown",
+      "value": null,
+      "reason": "No deployment has been observed."
+    },
+    "evidence": []
+  },
+  "environment": null,
+  "relations": [],
+  "measurements": []
+}
