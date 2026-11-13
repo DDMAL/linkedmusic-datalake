@@ -1,0 +1,1557 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LinkedMusic population manifest",
+  "description": "Structural authority for legacy v1 and population-aware v2; cross-record references and selected local bytes are checked by manifest.py.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/v1"
+    },
+    {
+      "$ref": "#/$defs/v2"
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*(?![\\s\\S])"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "revision": {
+      "type": "string",
+      "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})(?![\\s\\S])"
+    },
+    "path": {
+      "type": "string",
+      "format": "repository-path"
+    },
+    "iri": {
+      "type": "string",
+      "format": "absolute-iri"
+    },
+    "time": {
+      "type": "string",
+      "format": "utc-timestamp"
+    },
+    "date": {
+      "type": "string",
+      "format": "calendar-date"
+    },
+    "textState": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            },
+            "reason": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "sha256State": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "$ref": "#/$defs/hash"
+            },
+            "reason": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "commitState": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "$ref": "#/$defs/revision"
+            },
+            "reason": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "pathState": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "$ref": "#/$defs/path"
+            },
+            "reason": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "iriState": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "$ref": "#/$defs/iri"
+            },
+            "reason": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "timestampState": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "$ref": "#/$defs/time"
+            },
+            "reason": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "dateState": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "const": "known"
+            },
+            "value": {
+              "$ref": "#/$defs/date"
+            },
+            "reason": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "unavailable",
+                "not_applicable"
+              ]
+            },
+            "value": {
+              "type": "null"
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "status",
+            "value",
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "availability": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "available",
+            "unavailable",
+            "unknown",
+            "not_applicable"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "inventory": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "unknown",
+            "partial",
+            "complete"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "status",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "format": "evidence-location"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256State"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "location",
+        "sha256",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "file": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/pathState"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256State"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "storage": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "const": "known"
+                },
+                "value": {
+                  "type": "string",
+                  "format": "archive-iri"
+                },
+                "reason": {
+                  "type": "null"
+                }
+              },
+              "required": [
+                "status",
+                "value",
+                "reason"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "enum": [
+                    "unknown",
+                    "unavailable",
+                    "not_applicable"
+                  ]
+                },
+                "value": {
+                  "type": "null"
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "status",
+                "value",
+                "reason"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "availability": {
+          "$ref": "#/$defs/availability"
+        }
+      },
+      "required": [
+        "location",
+        "availability"
+      ],
+      "additionalProperties": false
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "lock_sha256": {
+          "$ref": "#/$defs/sha256State"
+        },
+        "python": {
+          "$ref": "#/$defs/textState"
+        },
+        "rdflib": {
+          "$ref": "#/$defs/textState"
+        },
+        "oxrdflib": {
+          "$ref": "#/$defs/textState"
+        },
+        "other": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "lock_sha256",
+        "python",
+        "rdflib",
+        "oxrdflib",
+        "other"
+      ],
+      "additionalProperties": false
+    },
+    "codeReference": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "kind": {
+          "enum": [
+            "code",
+            "configuration",
+            "code_or_configuration"
+          ]
+        },
+        "availability": {
+          "$ref": "#/$defs/availability"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256State"
+        }
+      },
+      "required": [
+        "path",
+        "kind",
+        "availability",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "converter": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "#/$defs/commitState"
+        },
+        "dirty": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/codeReference"
+          }
+        }
+      },
+      "required": [
+        "revision",
+        "dirty",
+        "files"
+      ],
+      "additionalProperties": false
+    },
+    "licence": {
+      "type": "object",
+      "properties": {
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/iri"
+          }
+        },
+        "verified_for_snapshot": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "references",
+        "verified_for_snapshot",
+        "notes"
+      ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "snapshot_id": {
+          "$ref": "#/$defs/textState"
+        },
+        "snapshot_date": {
+          "$ref": "#/$defs/dateState"
+        },
+        "retrieved_at": {
+          "$ref": "#/$defs/timestampState"
+        },
+        "source_record_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "file": {
+          "$ref": "#/$defs/file"
+        },
+        "storage": {
+          "$ref": "#/$defs/storage"
+        },
+        "availability": {
+          "$ref": "#/$defs/availability"
+        },
+        "reconciliation_intermediates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/file"
+          }
+        },
+        "licence": {
+          "$ref": "#/$defs/licence"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "snapshot_id",
+        "snapshot_date",
+        "retrieved_at",
+        "source_record_ids",
+        "file",
+        "storage",
+        "availability",
+        "reconciliation_intermediates",
+        "licence"
+      ],
+      "additionalProperties": false
+    },
+    "deployment": {
+      "type": "object",
+      "properties": {
+        "observed_at": {
+          "$ref": "#/$defs/timestampState"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "observed_at",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "relation": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "loaded_from",
+            "generated_from"
+          ]
+        },
+        "artifact_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_snapshot_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "converter_run_id": {
+          "$ref": "#/$defs/textState"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "artifact_id",
+        "source_snapshot_ids",
+        "converter_run_id",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "measurement": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "denominator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "failed",
+            "unmeasured",
+            "not_applicable"
+          ]
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "observed_at": {
+          "$ref": "#/$defs/timestampState"
+        },
+        "method": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "file_parse",
+                "remote_query",
+                "source_count",
+                "entity_count",
+                "other"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256State"
+            }
+          },
+          "required": [
+            "kind",
+            "description",
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "environment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/environment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "metric",
+        "denominator",
+        "status",
+        "value",
+        "observed_at",
+        "method",
+        "evidence",
+        "reason",
+        "environment"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "allOf": [
+              {
+                "properties": {
+                  "observed_at": {
+                    "properties": {
+                      "status": {
+                        "const": "known"
+                      }
+                    }
+                  },
+                  "method": {
+                    "properties": {
+                      "sha256": {
+                        "properties": {
+                          "status": {
+                            "const": "known"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "evidence": {
+                    "minItems": 1
+                  },
+                  "environment": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/environment"
+                      },
+                      {
+                        "properties": {
+                          "lock_sha256": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          },
+                          "python": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          },
+                          "rdflib": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          },
+                          "oxrdflib": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "reason": {
+                    "type": "null"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "partial"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "allOf": [
+              {
+                "properties": {
+                  "observed_at": {
+                    "properties": {
+                      "status": {
+                        "const": "known"
+                      }
+                    }
+                  },
+                  "method": {
+                    "properties": {
+                      "sha256": {
+                        "properties": {
+                          "status": {
+                            "const": "known"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "evidence": {
+                    "minItems": 1
+                  },
+                  "environment": {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/environment"
+                      },
+                      {
+                        "properties": {
+                          "lock_sha256": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          },
+                          "python": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          },
+                          "rdflib": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          },
+                          "oxrdflib": {
+                            "properties": {
+                              "status": {
+                                "const": "known"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "value": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "failed",
+                  "unmeasured",
+                  "not_applicable"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "artifact": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "population": {
+          "enum": [
+            "stored",
+            "deployed",
+            "candidate"
+          ]
+        },
+        "availability": {
+          "$ref": "#/$defs/availability"
+        },
+        "file": {
+          "$ref": "#/$defs/file"
+        },
+        "storage": {
+          "$ref": "#/$defs/storage"
+        },
+        "source_snapshot_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "converter": {
+          "$ref": "#/$defs/converter"
+        },
+        "graph": {
+          "type": "object",
+          "properties": {
+            "iri": {
+              "$ref": "#/$defs/iriState"
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/evidence"
+              }
+            }
+          },
+          "required": [
+            "iri",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "deployment": {
+          "$ref": "#/$defs/deployment"
+        },
+        "environment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/environment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relation"
+          }
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/measurement"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "population",
+        "availability",
+        "file",
+        "storage",
+        "source_snapshot_ids",
+        "converter",
+        "graph",
+        "deployment",
+        "environment",
+        "relations",
+        "measurements"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "availability": {
+                "properties": {
+                  "status": {
+                    "const": "available"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "if": {
+              "properties": {
+                "population": {
+                  "enum": [
+                    "stored",
+                    "candidate"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "file": {
+                  "properties": {
+                    "path": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    },
+                    "sha256": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "graph": {
+                  "properties": {
+                    "iri": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    },
+                    "evidence": {
+                      "minItems": 1
+                    }
+                  }
+                },
+                "deployment": {
+                  "properties": {
+                    "observed_at": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    },
+                    "evidence": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "dataset": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_graph": {
+          "type": "object",
+          "properties": {
+            "iri": {
+              "$ref": "#/$defs/iriState"
+            },
+            "evidence": {
+              "$ref": "#/$defs/textState"
+            }
+          },
+          "required": [
+            "iri",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "artifact_inventory": {
+          "$ref": "#/$defs/inventory"
+        },
+        "source_snapshots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "code_references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/codeReference"
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        },
+        "legacy": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "key",
+        "name",
+        "expected_graph",
+        "artifact_inventory",
+        "source_snapshots",
+        "code_references",
+        "artifacts",
+        "legacy"
+      ],
+      "additionalProperties": false
+    },
+    "v2": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
+        },
+        "protocol_version": {
+          "const": "1.0"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "datasets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/dataset"
+          }
+        },
+        "legacy": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "protocol_version",
+        "scope",
+        "datasets",
+        "legacy"
+      ],
+      "additionalProperties": false
+    },
+    "v1": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "protocol_version": {
+          "const": "1.0"
+        },
+        "prepared_on": {
+          "$ref": "#/$defs/date"
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "datasets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "$ref": "#/$defs/id"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "graph_iri": {
+                "$ref": "#/$defs/iri"
+              },
+              "graph_iri_evidence": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "snapshot_id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "snapshot_date": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/date"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "retrieved_at_utc": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "sha256": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/hash"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "availability": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "description",
+                  "snapshot_id",
+                  "snapshot_date",
+                  "retrieved_at_utc",
+                  "sha256",
+                  "availability"
+                ],
+                "additionalProperties": true
+              },
+              "conversion": {
+                "type": "object",
+                "properties": {
+                  "deployed_revision": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "candidate_revision": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "configuration_revision": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/path"
+                    }
+                  }
+                },
+                "required": [
+                  "deployed_revision",
+                  "candidate_revision",
+                  "configuration_revision",
+                  "files"
+                ],
+                "additionalProperties": true
+              },
+              "licence": {
+                "type": "object",
+                "properties": {
+                  "references": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/iri"
+                    }
+                  },
+                  "verified_for_snapshot": {
+                    "type": "boolean"
+                  },
+                  "notes": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "references",
+                  "verified_for_snapshot",
+                  "notes"
+                ],
+                "additionalProperties": true
+              },
+              "counts": {
+                "type": "object"
+              },
+              "selected_fields": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "known_exclusions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "key",
+              "name",
+              "graph_iri",
+              "graph_iri_evidence",
+              "source",
+              "conversion",
+              "licence",
+              "counts",
+              "selected_fields",
+              "known_exclusions"
+            ],
+            "additionalProperties": true
+          }
+        }
+      },
+      "required": [
+        "protocol_version",
+        "scope",
+        "datasets"
+      ],
+      "additionalProperties": true
+    }
+  }
+}
