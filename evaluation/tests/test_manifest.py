@@ -71,6 +71,20 @@ def measurement():
     }
 
 
+def generation(a):
+    a["source_snapshot_ids"] = ["legacy-source"]
+    a["relations"] = [
+        {
+            "kind": "generated_from",
+            "artifact_id": None,
+            "source_snapshot_ids": ["legacy-source"],
+            "converter_run_id": m.known("synthetic-run"),
+            "evidence": [evidence()],
+        }
+    ]
+    return a
+
+
 class ManifestTests(unittest.TestCase):
     def assert_invalid(self, value, message=None):
         with self.assertRaises(m.ManifestError) as error:
@@ -87,11 +101,35 @@ class ManifestTests(unittest.TestCase):
         m.validator().check_schema(json.loads(m.SCHEMA_PATH.read_text()))
         m.validator("artifact").validate(artifact())
 
-    def test_live_pilot_is_exact_deterministic_migration(self):
+    def test_live_pilot_is_migration_plus_pinned_graph_evidence(self):
+        migrated = m.normalize(legacy())
+        live = m.load(ROOT / "evaluation/manifests.json")
+        self.assertEqual(len(live["datasets"]), 6)
         self.assertEqual(
-            m.normalize(legacy()), m.load(ROOT / "evaluation/manifests.json")
+            sum(
+                row["expected_graph"]["evidence"]["status"] == "known"
+                for row in live["datasets"]
+            ),
+            3,
         )
-        self.assertEqual(len(m.load(ROOT / "evaluation/manifests.json")["datasets"]), 6)
+        for row, original in zip(live["datasets"], migrated["datasets"]):
+            if row["key"] in ("musiconn", "detmold", "apsearch"):
+                expected = row["expected_graph"]["evidence"]
+                self.assertEqual(expected["status"], "known")
+                self.assertIn(
+                    "/263eb32e1792c07a2e809545afd02f8783c17c80/", expected["value"]
+                )
+                self.assertIn(row["key"] + "/README.md", expected["value"])
+                self.assertIn(
+                    row["expected_graph"]["iri"]["value"],
+                    (ROOT / ("ckg-" + row["key"]) / "README.md").read_text(),
+                )
+                row["expected_graph"]["evidence"] = original["expected_graph"][
+                    "evidence"
+                ]
+            else:
+                self.assertEqual(row["expected_graph"]["evidence"]["status"], "unknown")
+        self.assertEqual(migrated, live)
 
     def test_migration_preserves_every_legacy_field_without_mutating_input(self):
         old = legacy()
@@ -207,6 +245,7 @@ class ManifestTests(unittest.TestCase):
 
     def test_zero_unknown_and_not_applicable_are_distinct(self):
         a = artifact()
+        a["file"]["sha256"] = m.known("a" * 64)
         a["measurements"] = [measurement()]
         m.validate(self.with_artifact(a))
         for status in ["failed", "unmeasured", "not_applicable"]:
@@ -219,6 +258,7 @@ class ManifestTests(unittest.TestCase):
 
     def test_partial_measurement_requires_reason_and_is_not_zero(self):
         a = artifact()
+        a["file"]["sha256"] = m.known("a" * 64)
         partial = measurement()
         partial.update(
             status="partial", value=5, reason="Parsing stopped before end of input."
@@ -232,7 +272,9 @@ class ManifestTests(unittest.TestCase):
 
     def test_successful_measurement_requires_evidence_method_time_and_environment(self):
         a = artifact()
+        a["file"]["sha256"] = m.known("a" * 64)
         a["measurements"] = [measurement()]
+        m.validate(self.with_artifact(a))
         for field, value in [
             ("value", None),
             ("value", True),
@@ -246,6 +288,152 @@ class ManifestTests(unittest.TestCase):
             self.assert_invalid(self.with_artifact(bad))
         a["measurements"][0]["method"]["sha256"] = m.unknown("Unrecorded")
         self.assert_invalid(self.with_artifact(a))
+
+    def test_measured_populations_require_identity_even_if_bytes_are_unavailable(self):
+        for population in ("stored", "candidate", "deployed"):
+            for status in ("complete", "partial"):
+                for kind in (
+                    ("file_parse", "entity_count", "other")
+                    if population != "deployed"
+                    else ("remote_query", "entity_count", "other")
+                ):
+                    with self.subTest(population=population, status=status, kind=kind):
+                        a = artifact(population)
+                        count = measurement()
+                        count.update(
+                            status=status,
+                            value=42,
+                            reason="Interrupted" if status == "partial" else None,
+                        )
+                        count["method"]["kind"] = kind
+                        count["environment"]["other"] = {
+                            "runtime": "synthetic counter 1",
+                            "endpoint": "https://example.org/sparql",
+                            "server": "synthetic server 1",
+                        }
+                        a["measurements"] = [count]
+                        self.assert_invalid(self.with_artifact(a), "known")
+                        if population == "deployed":
+                            a["graph"]["iri"] = m.known("urn:example:graph")
+                        else:
+                            a["file"]["sha256"] = m.known("a" * 64)
+                        a["availability"] = {
+                            "status": "unavailable",
+                            "reason": "Historical artifact unavailable",
+                        }
+                        m.validate(self.with_artifact(a))
+
+    def test_non_file_runtime_can_truthfully_mark_unused_libraries(self):
+        for kind in ("remote_query", "source_count", "entity_count", "other"):
+            for status in ("complete", "partial"):
+                with self.subTest(kind=kind, status=status):
+                    a = (
+                        artifact("deployed")
+                        if kind == "remote_query"
+                        else generation(artifact())
+                    )
+                    a["graph"]["iri"] = m.known("urn:example:graph")
+                    a["file"]["sha256"] = m.known("a" * 64)
+                    count = measurement()
+                    count.update(
+                        status=status,
+                        value=42,
+                        reason="Interrupted" if status == "partial" else None,
+                    )
+                    count["method"]["kind"] = kind
+                    fields = ("lock_sha256", "python", "rdflib", "oxrdflib")
+                    count["environment"] = {
+                        key: m.unknown("Not used by this method", "not_applicable")
+                        for key in fields
+                    }
+                    count["environment"]["other"] = {
+                        "runtime": "isql synthetic version",
+                        "endpoint": "https://example.org/sparql",
+                        "server": "Virtuoso synthetic version",
+                    }
+                    a["measurements"] = [count]
+                    m.validate(self.with_artifact(a))
+                    for key in fields:
+                        bad = deepcopy(a)
+                        bad["measurements"][0]["environment"][key] = m.unknown(
+                            "Not recorded"
+                        )
+                        self.assert_invalid(self.with_artifact(bad))
+                    bad = deepcopy(a)
+                    del bad["measurements"][0]["environment"]["other"]["runtime"]
+                    self.assert_invalid(self.with_artifact(bad))
+
+    def test_remote_measurements_require_endpoint_and_server(self):
+        a = artifact("deployed")
+        a["graph"]["iri"] = m.known("urn:example:graph")
+        count = measurement()
+        count["method"]["kind"] = "remote_query"
+        count["environment"]["other"] = {
+            "runtime": "isql version",
+            "endpoint": "https://example.org/sparql",
+            "server": "Virtuoso version",
+        }
+        a["measurements"] = [count]
+        m.validate(self.with_artifact(a))
+        for key in ("endpoint", "server"):
+            bad = deepcopy(a)
+            del bad["measurements"][0]["environment"]["other"][key]
+            self.assert_invalid(self.with_artifact(bad))
+        count["environment"]["other"]["endpoint"] = "not an endpoint"
+        self.assert_invalid(self.with_artifact(a))
+
+    def test_file_parse_requires_known_library_and_lock_versions(self):
+        a = artifact()
+        a["file"]["sha256"] = m.known("a" * 64)
+        a["measurements"] = [measurement()]
+        for status in ("complete", "partial"):
+            a["measurements"][0].update(
+                status=status,
+                value=42,
+                reason="Interrupted" if status == "partial" else None,
+            )
+            m.validate(self.with_artifact(a))
+            for field in ("lock_sha256", "python", "rdflib", "oxrdflib"):
+                for state in ("unknown", "not_applicable"):
+                    bad = deepcopy(a)
+                    bad["measurements"][0]["environment"][field] = m.unknown(
+                        "Unrecorded or unused", state
+                    )
+                    self.assert_invalid(self.with_artifact(bad))
+
+    def test_generation_sources_must_equal_evidenced_sources(self):
+        for population in ("stored", "candidate"):
+            a = generation(artifact(population))
+            m.validate(self.with_artifact(a))
+            a["relations"] = []
+            self.assert_invalid(self.with_artifact(a), "evidenced")
+            a = generation(artifact(population))
+            a["source_snapshot_ids"] = []
+            self.assert_invalid(self.with_artifact(a), "evidenced")
+            a = generation(artifact(population))
+            a["relations"][0]["evidence"] = []
+            self.assert_invalid(self.with_artifact(a))
+        self.assert_invalid(
+            self.with_artifact(generation(artifact("deployed"))), "stored/candidate"
+        )
+
+    def test_converter_identity_cannot_bypass_lineage_evidence(self):
+        a = artifact()
+        a["converter"]["revision"] = m.known("a" * 40)
+        self.assert_invalid(self.with_artifact(a), "Converter identity")
+        generation(a)
+        m.validate(self.with_artifact(a))
+
+    def test_source_count_requires_source_lineage(self):
+        a = artifact()
+        a["file"]["sha256"] = m.known("a" * 64)
+        count = measurement()
+        count["method"]["kind"] = "source_count"
+        count["environment"]["other"] = {"runtime": "synthetic counter 1"}
+        a["measurements"] = [count]
+        self.assert_invalid(self.with_artifact(a), "source lineage")
+        generation(a)
+        m.validate(self.with_artifact(a))
 
     def test_unknown_state_cannot_smuggle_a_value(self):
         a = artifact()
@@ -350,6 +538,7 @@ class ManifestTests(unittest.TestCase):
                 "sha256": m.known("a" * 64),
             }
         ]
+        generation(a)
         m.validate(self.with_artifact(a))
 
     def test_working_and_durable_locations_have_separate_availability(self):
@@ -500,6 +689,12 @@ class ManifestTests(unittest.TestCase):
                 "import unittest\nclass Example(unittest.TestCase):\n    def test_bad(self): self.fail('expected failure')\n"
             )
             self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            (suite / "test_example.py").write_text(
+                "import missing_dependency_for_synthetic_test\n"
+            )
+            result = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("ModuleNotFoundError", result.stderr)
 
 
 if __name__ == "__main__":

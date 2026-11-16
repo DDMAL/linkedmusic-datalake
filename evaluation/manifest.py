@@ -131,7 +131,12 @@ def validate(document):
     if errors:
         error = errors[0]
         where = "/".join(str(part) for part in error.absolute_path) or "/"
-        raise ManifestError(f"{where}: {error.message}")
+        hint = (
+            " (missing schema_version is interpreted as v1)"
+            if "schema_version" not in document
+            else ""
+        )
+        raise ManifestError(f"{where}: {error.message}{hint}")
     _unique(document["datasets"], "key", "dataset key")
     if version == "1.0":
         return document
@@ -148,6 +153,7 @@ def validate(document):
                 files = artifact["converter"]["files"]
                 if not files or any(f["sha256"]["status"] != "known" for f in files):
                     raise ManifestError("Dirty converter requires exact file hashes")
+            generated_sources = set()
             for relation in artifact["relations"]:
                 if relation["kind"] == "loaded_from":
                     target = artifacts.get(relation["artifact_id"])
@@ -159,22 +165,54 @@ def validate(document):
                         or relation["converter_run_id"]["status"] != "not_applicable"
                     ):
                         raise ManifestError("loaded_from must link deployed to stored")
-                elif (
-                    artifact["population"] != "candidate"
-                    or relation["artifact_id"] is not None
-                    or not relation["source_snapshot_ids"]
-                    or not set(relation["source_snapshot_ids"]) <= sources
-                    or not set(relation["source_snapshot_ids"])
-                    <= set(artifact["source_snapshot_ids"])
-                    or relation["converter_run_id"]["status"] != "known"
-                ):
-                    raise ManifestError("generated_from requires sources and a run ID")
+                else:
+                    if artifact["population"] not in ("stored", "candidate"):
+                        raise ManifestError(
+                            "generated_from belongs to stored/candidate RDF"
+                        )
+                    if (
+                        relation["artifact_id"] is not None
+                        or not relation["source_snapshot_ids"]
+                        or not set(relation["source_snapshot_ids"]) <= sources
+                        or relation["converter_run_id"]["status"] != "known"
+                    ):
+                        raise ManifestError(
+                            "generated_from requires known sources, a null artifact target and a run ID"
+                        )
+                    generated_sources.update(relation["source_snapshot_ids"])
+            if set(artifact["source_snapshot_ids"]) != generated_sources:
+                raise ManifestError(
+                    "source_snapshot_ids must equal the evidenced generated_from sources"
+                )
+            converter = artifact["converter"]
+            if not generated_sources and (
+                converter["revision"]["status"] == "known"
+                or converter["dirty"] is not None
+                or converter["files"]
+            ):
+                raise ManifestError(
+                    "Converter identity requires evidenced generated_from lineage"
+                )
             for measurement in artifact["measurements"]:
                 kind = measurement["method"]["kind"]
                 if kind == "remote_query" and artifact["population"] != "deployed":
                     raise ManifestError("Remote graph counts belong to deployed RDF")
                 if kind == "file_parse" and artifact["population"] == "deployed":
                     raise ManifestError("File counts belong to stored/candidate RDF")
+                if measurement["status"] in ("complete", "partial"):
+                    if artifact["population"] == "deployed":
+                        if artifact["graph"]["iri"]["status"] != "known":
+                            raise ManifestError(
+                                "Measured deployed RDF requires a known graph IRI"
+                            )
+                    elif artifact["file"]["sha256"]["status"] != "known":
+                        raise ManifestError(
+                            "Measured local RDF requires a known file SHA-256"
+                        )
+                    if kind == "source_count" and not generated_sources:
+                        raise ManifestError(
+                            "Source counts require evidenced source lineage"
+                        )
     return document
 
 
@@ -213,7 +251,9 @@ def normalize(document):
                 "name": item["name"],
                 "expected_graph": {
                     "iri": known(item["graph_iri"]),
-                    "evidence": known(item["graph_iri_evidence"]),
+                    "evidence": unknown(
+                        "Legacy graph reference has not been independently verified; retained under legacy.graph_iri_evidence."
+                    ),
                 },
                 "artifact_inventory": {"status": "unknown", "reason": reason},
                 "source_snapshots": [

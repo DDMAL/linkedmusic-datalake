@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "LinkedMusic population manifest",
-  "description": "Structural authority for legacy v1 and population-aware v2; cross-record references and selected local bytes are checked by manifest.py.",
+  "description": "Structural authority for legacy v1 and population-aware v2; cross-record references and selected local bytes are checked by manifest.py. Custom formats are enforced by evaluation/manifest.py; generic validators may treat them as annotations.",
   "oneOf": [
     {
       "$ref": "#/$defs/v1"
@@ -909,28 +909,40 @@
                           "lock_sha256": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           },
                           "python": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           },
                           "rdflib": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           },
                           "oxrdflib": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           }
@@ -1000,28 +1012,40 @@
                           "lock_sha256": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           },
                           "python": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           },
                           "rdflib": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           },
                           "oxrdflib": {
                             "properties": {
                               "status": {
-                                "const": "known"
+                                "enum": [
+                                  "known",
+                                  "not_applicable"
+                                ]
                               }
                             }
                           }
@@ -1066,6 +1090,123 @@
               "reason": {
                 "type": "string",
                 "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "complete",
+                  "partial"
+                ]
+              }
+            }
+          },
+          "then": {
+            "if": {
+              "properties": {
+                "method": {
+                  "properties": {
+                    "kind": {
+                      "const": "file_parse"
+                    }
+                  }
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "environment": {
+                  "properties": {
+                    "lock_sha256": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    },
+                    "python": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    },
+                    "rdflib": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    },
+                    "oxrdflib": {
+                      "properties": {
+                        "status": {
+                          "const": "known"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "environment": {
+                  "properties": {
+                    "other": {
+                      "required": [
+                        "runtime"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "complete",
+                  "partial"
+                ]
+              },
+              "method": {
+                "properties": {
+                  "kind": {
+                    "const": "remote_query"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "environment": {
+                "properties": {
+                  "other": {
+                    "properties": {
+                      "endpoint": {
+                        "type": "string",
+                        "format": "absolute-iri"
+                      },
+                      "server": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "endpoint",
+                      "server"
+                    ]
+                  }
+                }
               }
             }
           }

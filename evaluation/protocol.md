@@ -28,11 +28,12 @@ The [manifest contract](README.md) separates stored RDF, deployed RDF and
 candidate outputs. Every measurement names a dataset and artifact ID and its
 population. A finding about a stored file applies to a deployed graph only when
 load/observation evidence establishes that relationship. Expected graph IRIs in
-the migrated pilot are documentation references, not observations of deployment.
-The supplied pilot contains no measured population artifacts.
+the migrated pilot are inherited assertions, with independently inspected CKG
+documentation references and unknown evidence for the other three sources; none
+is an observation of deployment. The supplied pilot contains no measured
+population artifacts.
 
-Fill
-snapshot date independently of retrieval time. Record source entity counts,
+Fill snapshot date independently of retrieval time. Record source entity counts,
 counts by RDF class and triple counts with their measurement time, query or
 script, evidence file and completeness status. Count each entity once per stated
 class; class totals can overlap. RDF triples, source records, relationship

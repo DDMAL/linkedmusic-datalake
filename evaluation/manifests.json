@@ -13,9 +13,9 @@
           "reason": null
         },
         "evidence": {
-          "status": "known",
-          "value": "wjazzd/README.md",
-          "reason": null
+          "status": "unknown",
+          "value": null,
+          "reason": "Legacy graph reference has not been independently verified; retained under legacy.graph_iri_evidence."
         }
       },
       "artifact_inventory": {
@@ -182,9 +182,9 @@
           "reason": null
         },
         "evidence": {
-          "status": "known",
-          "value": "musicbrainz/README.md",
-          "reason": null
+          "status": "unknown",
+          "value": null,
+          "reason": "Legacy graph reference has not been independently verified; retained under legacy.graph_iri_evidence."
         }
       },
       "artifact_inventory": {
@@ -402,9 +402,9 @@
           "reason": null
         },
         "evidence": {
-          "status": "known",
-          "value": "rism/README.md",
-          "reason": null
+          "status": "unknown",
+          "value": null,
+          "reason": "Legacy graph reference has not been independently verified; retained under legacy.graph_iri_evidence."
         }
       },
       "artifact_inventory": {
@@ -576,7 +576,7 @@
         },
         "evidence": {
           "status": "known",
-          "value": "ckg-musiconn/README.md",
+          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/263eb32e1792c07a2e809545afd02f8783c17c80/ckg-musiconn/README.md",
           "reason": null
         }
       },
@@ -773,7 +773,7 @@
         },
         "evidence": {
           "status": "known",
-          "value": "ckg-detmold/README.md",
+          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/263eb32e1792c07a2e809545afd02f8783c17c80/ckg-detmold/README.md",
           "reason": null
         }
       },
@@ -965,7 +965,7 @@
         },
         "evidence": {
           "status": "known",
-          "value": "ckg-apsearch/README.md",
+          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/263eb32e1792c07a2e809545afd02f8783c17c80/ckg-apsearch/README.md",
           "reason": null
         }
       },
