@@ -576,7 +576,7 @@
         },
         "evidence": {
           "status": "known",
-          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/263eb32e1792c07a2e809545afd02f8783c17c80/ckg-musiconn/README.md",
+          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/59b4448580ab89ff9ffa2555ebf26843d6e5745b/ckg-musiconn/README.md",
           "reason": null
         }
       },
@@ -773,7 +773,7 @@
         },
         "evidence": {
           "status": "known",
-          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/263eb32e1792c07a2e809545afd02f8783c17c80/ckg-detmold/README.md",
+          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/59b4448580ab89ff9ffa2555ebf26843d6e5745b/ckg-detmold/README.md",
           "reason": null
         }
       },
@@ -965,7 +965,7 @@
         },
         "evidence": {
           "status": "known",
-          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/263eb32e1792c07a2e809545afd02f8783c17c80/ckg-apsearch/README.md",
+          "value": "https://github.com/DDMAL/linkedmusic-datalake/blob/59b4448580ab89ff9ffa2555ebf26843d6e5745b/ckg-apsearch/README.md",
           "reason": null
         }
       },

@@ -172,6 +172,9 @@ empty source and relation lists. Deployed artifacts express provenance through
 Stored-file findings do not automatically transfer to deployed RDF. Artifacts may retain an
 unknown (`null`) environment; a later query environment cannot identify an old
 conversion environment.
+The adapter validates an artifact environment's structure but does not require
+generation lineage for that field. Reviewers must verify its attribution to the
+conversion; deployed artifacts should leave it null and refer to stored lineage.
 
 ## Measurements
 
@@ -191,6 +194,10 @@ requires an explicit reference to that same measurement evidence; it is not an
 RDF count. Standalone source counts collected before an artifact is identified
 remain in external evidence until attachment is possible. Source-level
 measurement storage is outside this version's contract.
+The adapter checks source-lineage references, but does not require a known hash
+or snapshot identifier on the counted sources. Reviewers must verify source
+identity and the denominator against the evidence; the required RDF artifact
+hash does not identify the counted source bytes.
 
 - `complete`: a nonnegative numeric result, including a genuine zero; no failure
   reason. Observation time, method hash, evidence and runtime identity required.
@@ -205,8 +212,9 @@ identity when used; unused fields are `not_applicable` with a reason, never
 unknown/unavailable. This applies to file parsing too: direct PyOxigraph parsing
 records its version in `other.runtime` and marks unused rdflib/oxrdflib entries
 not applicable. Installed but unused libraries do not establish runtime identity.
-Remote queries additionally require `other.endpoint` (an absolute IRI)
-and `other.server` (server identity/version). For example, an isql observation
+All complete/partial deployed measurements additionally require `other.endpoint`
+(an absolute IRI) and `other.server` (server identity/version), regardless of
+method kind. For example, an isql observation
 can mark unused Python/library/lock fields not applicable and record its isql
 version, endpoint and Virtuoso version in these keys. Additional relevant
 versions or settings can also go in `other`.

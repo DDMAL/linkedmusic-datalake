@@ -117,7 +117,7 @@ class ManifestTests(unittest.TestCase):
                 expected = row["expected_graph"]["evidence"]
                 self.assertEqual(expected["status"], "known")
                 self.assertIn(
-                    "/263eb32e1792c07a2e809545afd02f8783c17c80/", expected["value"]
+                    "/59b4448580ab89ff9ffa2555ebf26843d6e5745b/", expected["value"]
                 )
                 self.assertIn(row["key"] + "/README.md", expected["value"])
                 self.assertIn(
@@ -381,6 +381,42 @@ class ManifestTests(unittest.TestCase):
             self.assert_invalid(self.with_artifact(bad))
         count["environment"]["other"]["endpoint"] = "not an endpoint"
         self.assert_invalid(self.with_artifact(a))
+
+    def test_deployed_identity_does_not_depend_on_measurement_kind(self):
+        for kind in ("entity_count", "other", "remote_query"):
+            for status in ("complete", "partial"):
+                a = artifact("deployed")
+                a["graph"]["iri"] = m.known("urn:example:graph")
+                count = measurement()
+                count.update(
+                    status=status,
+                    value=42,
+                    reason="Interrupted" if status == "partial" else None,
+                )
+                count["method"]["kind"] = kind
+                count["environment"]["other"].update(
+                    endpoint="https://example.org/sparql", server="Virtuoso version"
+                )
+                a["measurements"] = [count]
+                with self.subTest(kind=kind, status=status):
+                    m.validate(self.with_artifact(a))
+                for field, value in (
+                    ("endpoint", None),
+                    ("endpoint", "relative/path"),
+                    ("endpoint", "https://example.org/%zz"),
+                    ("server", None),
+                    ("server", ""),
+                ):
+                    with self.subTest(
+                        kind=kind, status=status, field=field, value=value
+                    ):
+                        bad = deepcopy(a)
+                        other = bad["measurements"][0]["environment"]["other"]
+                        if value is None:
+                            del other[field]
+                        else:
+                            other[field] = value
+                        self.assert_invalid(self.with_artifact(bad))
 
     def test_file_parse_requires_known_or_explicitly_unused_environment(self):
         a = artifact()

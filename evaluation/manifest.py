@@ -205,6 +205,15 @@ def validate(document):
                             raise ManifestError(
                                 "Measured deployed RDF requires a known graph IRI"
                             )
+                        remote = measurement["environment"]["other"]
+                        if not absolute_iri(remote.get("endpoint", "")):
+                            raise ManifestError(
+                                "Measured deployed RDF requires an absolute endpoint IRI"
+                            )
+                        if not remote.get("server"):
+                            raise ManifestError(
+                                "Measured deployed RDF requires server identity/version"
+                            )
                     elif artifact["file"]["sha256"]["status"] != "known":
                         raise ManifestError(
                             "Measured local RDF requires a known file SHA-256"
