@@ -48,7 +48,7 @@ def environment():
         "python": m.known("3.12.7"),
         "rdflib": m.known("7.1.4"),
         "oxrdflib": m.known("0.4.0"),
-        "other": {},
+        "other": {"runtime": "CPython 3.12.7 with rdflib 7.1.4 and oxrdflib 0.4.0"},
     }
 
 
@@ -382,7 +382,7 @@ class ManifestTests(unittest.TestCase):
         count["environment"]["other"]["endpoint"] = "not an endpoint"
         self.assert_invalid(self.with_artifact(a))
 
-    def test_file_parse_requires_known_library_and_lock_versions(self):
+    def test_file_parse_requires_known_or_explicitly_unused_environment(self):
         a = artifact()
         a["file"]["sha256"] = m.known("a" * 64)
         a["measurements"] = [measurement()]
@@ -394,12 +394,36 @@ class ManifestTests(unittest.TestCase):
             )
             m.validate(self.with_artifact(a))
             for field in ("lock_sha256", "python", "rdflib", "oxrdflib"):
-                for state in ("unknown", "not_applicable"):
+                for state in ("unknown", "unavailable"):
                     bad = deepcopy(a)
                     bad["measurements"][0]["environment"][field] = m.unknown(
                         "Unrecorded or unused", state
                     )
                     self.assert_invalid(self.with_artifact(bad))
+
+    def test_file_parse_can_record_pyoxigraph_without_unused_rdflib_versions(self):
+        a = artifact()
+        a["file"]["sha256"] = m.known("a" * 64)
+        count = measurement()
+        count["environment"]["rdflib"] = m.unknown(
+            "Parser uses pyoxigraph directly", "not_applicable"
+        )
+        count["environment"]["oxrdflib"] = m.unknown(
+            "Adapter is not used", "not_applicable"
+        )
+        count["environment"]["other"] = {
+            "runtime": "pyoxigraph 0.4.11 under CPython 3.12.7"
+        }
+        a["measurements"] = [count]
+        for status in ("complete", "partial"):
+            count.update(
+                status=status,
+                value=42,
+                reason="Interrupted" if status == "partial" else None,
+            )
+            m.validate(self.with_artifact(a))
+        del count["environment"]["other"]["runtime"]
+        self.assert_invalid(self.with_artifact(a))
 
     def test_generation_sources_must_equal_evidenced_sources(self):
         for population in ("stored", "candidate"):

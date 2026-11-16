@@ -1106,62 +1106,13 @@
             }
           },
           "then": {
-            "if": {
-              "properties": {
-                "method": {
-                  "properties": {
-                    "kind": {
-                      "const": "file_parse"
-                    }
-                  }
-                }
-              }
-            },
-            "then": {
-              "properties": {
-                "environment": {
-                  "properties": {
-                    "lock_sha256": {
-                      "properties": {
-                        "status": {
-                          "const": "known"
-                        }
-                      }
-                    },
-                    "python": {
-                      "properties": {
-                        "status": {
-                          "const": "known"
-                        }
-                      }
-                    },
-                    "rdflib": {
-                      "properties": {
-                        "status": {
-                          "const": "known"
-                        }
-                      }
-                    },
-                    "oxrdflib": {
-                      "properties": {
-                        "status": {
-                          "const": "known"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "else": {
-              "properties": {
-                "environment": {
-                  "properties": {
-                    "other": {
-                      "required": [
-                        "runtime"
-                      ]
-                    }
+            "properties": {
+              "environment": {
+                "properties": {
+                  "other": {
+                    "required": [
+                      "runtime"
+                    ]
                   }
                 }
               }

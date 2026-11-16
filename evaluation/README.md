@@ -199,11 +199,13 @@ measurement storage is outside this version's contract.
   count is recorded as failed with null value, not a measured zero.
 - `failed`, `unmeasured`, `not_applicable`: null value and an explicit reason.
 
-Complete/partial `file_parse` results require the lockfile SHA-256 and actual
-Python, rdflib and oxrdflib versions. Other methods allow each unused field to
-be `not_applicable` with a reason, but not unknown/unavailable. They require
-`environment.other.runtime` to identify the actual counting client/tool and
-version. Remote queries additionally require `other.endpoint` (an absolute IRI)
+Complete/partial results identify the actual counting client/tool and version
+in `environment.other.runtime`. Record known lockfile/Python/rdflib/oxrdflib
+identity when used; unused fields are `not_applicable` with a reason, never
+unknown/unavailable. This applies to file parsing too: direct PyOxigraph parsing
+records its version in `other.runtime` and marks unused rdflib/oxrdflib entries
+not applicable. Installed but unused libraries do not establish runtime identity.
+Remote queries additionally require `other.endpoint` (an absolute IRI)
 and `other.server` (server identity/version). For example, an isql observation
 can mark unused Python/library/lock fields not applicable and record its isql
 version, endpoint and Virtuoso version in these keys. Additional relevant
