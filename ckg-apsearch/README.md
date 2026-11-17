@@ -1,17 +1,17 @@
 # CKG — APSearch (`E6304`) → LinkedMusic
 
-Ingestion of the **APSearch** feed of the NFDI4Culture **Culture Knowledge Graph (CKG)** into
-the LinkedMusic data lake as RDF Turtle. APSearch is **ELAR (Endangered Languages Archive)**
-data — audio/image/video/text field recordings of endangered languages (host
-`elararchive.org`; publisher BBAW). It is ~98.9% ELAR plus ~1.1% (72 records) Staatliche
-Museen zu Berlin objects.
+Ingestion of the **APSearch (Arab Phonogram Search)** feed of the NFDI4Culture
+**Culture Knowledge Graph (CKG)** into LinkedMusic as RDF Turtle. The primary
+[NFDI4Culture E6304 record](https://nfdi4culture.de/resource/E6304/about.html)
+describes an aggregator/search portal for Arabic phonogram recordings and names
+BBAW as publisher. APSearch is distinct from the Endangered Languages Archive
+(ELAR). A record's licence URI or content-link host does not identify the whole
+feed with that repository.
 
-APSearch is a **media/content feed and differs from musiconn/Detmold**: it has **no persons,
-no relational backbone, and ~0% authority IDs**. Titles are free-text descriptions, not
-entities. So there is **no label-based OpenRefine surface in the dump** — its reconciliation
-is small and **fully deterministic** (licenses, publisher, media classes, AAT codes). The
-reconcilable content (languages, countries, depositors) lives in the ELAR *source*, which is
-access-walled, so it is not represented in this dataset.
+This converter uses the media-feed paths: media classifiers, content-URL joins
+and configured licence/publisher crosswalks. It has no APSearch-specific
+label-reconciliation pass. Missing exported fields do not establish that upstream
+metadata is unavailable, and access conditions must be checked at the source.
 
 This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-musiconn`](../ckg-musiconn), [`ckg-detmold`](../ckg-detmold),
@@ -24,10 +24,9 @@ knowledge graph.
 
 | | |
 |---|---|
-| CKG dump | `E6304` (23 MB, ~129k triples, 6,271 records) |
-| Output | `data/rdf/apsearch.ttl` — **~46,203 triples**, 0 blank nodes |
-| Records | 6,271 works (`lmckg:Work`), each typed `lmckg:Work` + ≥1 `wdt:P31` |
-| Media | 3,783 `wdt:P953` content URLs; 3 `wdt:P2888` pivots (2 licenses + publisher) |
+| CKG feed | `E6304` |
+| Output | `data/rdf/apsearch.ttl` |
+| Record class | `https://linkedmusic.ca/graphs/ckg/Work` |
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-apsearch/` |
 
 Why each mapping decision was made — the media-class typing, license/publisher pivots, date
@@ -39,8 +38,8 @@ under `data/` is **gitignored**.
 
 > APSearch runs the **same machinery** as musiconn/Detmold (same `src/`, same `mapping.json`),
 > exercising the media-feed paths: `CTO_0001049` media classes, `associatedMedia` content-URL
-> join, license/publisher `P2888` pivots, and an APSearch-specific date coercion. There is no
-> OpenRefine pass and no relational backbone.
+> join, license/publisher `P2888` pivots, and an APSearch-specific date coercion. No APSearch-specific
+> OpenRefine pass is configured.
 
 ---
 
@@ -67,8 +66,9 @@ python preprocess.py apsearch
 # -> data/extracted/apsearch.norm.nt, .entities.json (record kind/classifier/content-url maps)
 ```
 
-**`build_crosswalk.py`** — resolves the AAT classifier codes via `wdt:P1014`. (There are no
-GND/VIAF/GeoNames authority IDs in APSearch, so the authority crosswalk is empty here.)
+**`build_crosswalk.py`** — resolves AAT classifier codes via `wdt:P1014` and
+available authority identifiers through the shared pipeline. Inspect the selected
+input and retained crosswalk evidence before making population claims.
 
 ```bash
 python build_crosswalk.py apsearch
@@ -77,18 +77,14 @@ python build_crosswalk.py apsearch
 
 ## 3. Reconciliation
 
-**No OpenRefine.** The dump's reconciliation surface is small and **fully deterministic**, so
-all of it is wired into the mapping files rather than reconciled by hand:
+No APSearch-specific OpenRefine pass is configured. The converter consumes:
 
-- **Media classes / AAT codes** → `wdt:P31` QIDs (hand-verified) in `record_types.json`.
-- **Licenses / publisher** → `wdt:P2888` pivots in `crosswalk.json` (resolved via the NFDI
-  `owl:sameAs` on the `nfdi4culture.de/id/E####` pages).
+- Media-class and AAT mappings from `record_types.json` for `wdt:P31`.
+- Licence/publisher targets in `crosswalk.json` for `wdt:P2888` links.
 
-All QIDs were verified against primary sources — see [`doc/data-model.md`](doc/data-model.md).
-
-The label-based reconciliation (languages → ISO 639-3/Glottolog, countries, depositors) is
-**not in the CKG dump** — it requires the ELAR source, which is access-walled, so it is not
-represented in this dataset.
+These are configured mappings, not evidence that every candidate or source
+licence has been independently verified. Record the exact mapping files and
+source snapshot used for a conversion; see [the data model](doc/data-model.md).
 
 ## 4. Convert to RDF
 
@@ -102,8 +98,9 @@ license/publisher `P2888` pivots, coerces dates to `xsd:gYear`, and emits the jo
 python convert_to_rdf.py apsearch          # -> data/rdf/apsearch.ttl
 ```
 
-Verify: `grep -c '_:' data/rdf/apsearch.ttl` == 0, an `rdflib` parse, and ~46,203 triples /
-6,271 records each with ≥1 `wdt:P31` / 3,783 `wdt:P953`.
+Validate each candidate by parsing it and comparing its record, type, date,
+content-link and crosswalk sets with the identified input. Historical output
+counts are not acceptance criteria for a different source or converter revision.
 
 ## 5. Load
 
@@ -131,10 +128,10 @@ ckg-apsearch/
 │   # (the GND/VIAF name-fetch + OpenRefine-merge scripts are copied too but unused here)
 ├── data/                          # gitignored (extracted / mappings / rdf)
 └── doc/
-    └── data-model.md              # schema + mapping decisions + verified IDs (the "why")
+    └── data-model.md              # schema + mapping decisions and their limits
 ```
 
 > The `src/` scripts are **shared across all three CKG feeds** and copied verbatim; the
-> person/residue-reconciliation scripts don't apply to APSearch (no persons). There is no
-> `openrefine/` folder — APSearch's dump reconciliation is deterministic. Feeds: musiconn
+> person/residue-reconciliation scripts are not an APSearch-specific workflow.
+> There is no `openrefine/` folder for this feed. Feeds: musiconn
 > `E5320`, Detmold `E5305`, APSearch `E6304`.

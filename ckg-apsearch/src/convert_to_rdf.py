@@ -55,9 +55,9 @@ CTO_NS = "https://nfdi4culture.de/ontology/"
 #    (Q25379) and opera (Q1344) -- correct for every record and a strong federation
 #    hub, unlike abstract "creative work" (Q17537576) or play-excluding "composed
 #    musical work" (Q207628).
-#  * APSearch (ELAR endangered-language documentation) -> Q17537576 "creative work":
-#    these are linguistic/oral field recordings (the faithful schema:CreativeWork
-#    mapping); "work of art" would mis-type them.
+#  * APSearch (Arab Phonogram Search sound recordings) -> Q17537576 "creative work":
+#    retain the broad schema:CreativeWork mapping when no classifier resolves;
+#    the feed identity alone does not establish a specific media class.
 # musiconn records all carry a resolving classifier, so no fallback fires there.
 RECORD_KIND_P31_BY_FEED = {
     "detmold": {"Work": "Q838948"},
