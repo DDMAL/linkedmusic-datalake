@@ -2,7 +2,9 @@
 
 Please read the section **4. Extracting and Reconciling Unreconciled Fields** in README.md before reading this document.
 
-Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro confirmed that MusicBrainz entities don't need additional reconciliation), only the values in the following fields are not:
+MusicBrainz supplies entity relationships and can include Wikidata links. Their
+presence does not establish reconciliation completeness or correctness. This
+guide covers separate reconciliation exports for these descriptive fields:
 
 - The `type` field for all entity types that have it
 - The values for the `key` attribute type for works
@@ -13,6 +15,15 @@ Pretty much all MusicBrainz data are already reconciled with Wikidata (Ichiro co
 There is also the field `relationship` whose **properties**/**predicates** are unreconciled. This field is treated separately in [`relationships_reconciliation.md`](./relationships_reconciliation.md).
 
 For each reconciliation, both OpenRefine history and export settings JSON files are located in the `musicbrainz/openrefine/` folder
+
+The converter accepts only complete bare QIDs from the exported ID columns.
+Unmatched source values are retained as literals, including full language names
+where supplied by the language export. Missing/blank matches fall back to the
+source field. See the [auxiliary identifier contract](auxiliary_identifier_validation.md)
+for the accepted format, per-field fallbacks and offline validation.
+The CSV loader preserves text such as `nan`, `None` and `NA`; only an empty
+cell is treated as empty. Field-specific lookups keep identical labels in
+different tables separate, and type matches are also scoped by entity kind.
 
 ## Types
 
