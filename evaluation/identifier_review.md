@@ -1,0 +1,126 @@
+# Identifier query contracts
+
+Keep source entity nodes and query explicit identifier links. Resolve canonical
+QID IRIs within selected named graphs, retaining the source node, graph and
+matching route as evidence. These controls support [#419](https://github.com/DDMAL/linkedmusic-datalake/issues/419)
+and [#432](https://github.com/DDMAL/linkedmusic-datalake/issues/432); they do not
+establish deployed link accuracy, completeness or latency.
+
+## Current converter boundaries
+
+These are code/configuration contracts, not claims about which revision produced
+stored or deployed RDF. The query controls do not repair these converters.
+
+| Route | Current behavior | Query consequence |
+| --- | --- | --- |
+| [MusicBrainz](../musicbrainz/src/convert_to_rdf.py) | Retains MusicBrainz entity URLs. Its Wikidata URL branch recognizes HTTP(S) `www.wikidata.org/wiki/Q` followed by digits; other URL forms remain literals. Auxiliary CSV matches use a prefix QID check. | Follow entity relations and explicit P2888 links; audit complete target terms before treating them as canonical identifiers. |
+| [RISM](../rism/src/convert_to_rdf.py) | Retains source IRIs and normalizes the complete HTTP(S) `www.wikidata.org/wiki/Q` form. Its pattern does not include `/entity/` or a host without `www`. Topic mappings can project through an intermediate match/value lookup. | Support direct QIDs and local targets; do not assume every URL form is canonical or every intermediate node survives. |
+| [CKG musiconn/Detmold](../ckg-musiconn/src/convert_to_rdf.py) | Authority blank nodes become GND/VIAF/GeoNames IRIs; successful crosswalks add P2888. Residual source nodes remain. | A generic related-person link does not assert a composer role. The link must be present in the selected graph. |
+| [CKG APSearch](../ckg-apsearch/src/convert_to_rdf.py) | Publisher/licence links can receive P2888 crosswalks; this is not a person-reconciliation frame. | Do not treat every P2888 subject as a person. |
+| [DIAMM](../diamm/src/convert_rdf.py) | Retains DIAMM subjects and relationship endpoints; reconciled fields can supply P2888 or direct QIDs. Its bare-ID helper currently uses a prefix match, without a complete-string boundary. | Inspect complete terms; query success does not validate the identifier or its source meaning. |
+| [Shared CSV conversion](../shared/rdfconv/convert.py) | Attempts general QID extraction before literal declarations, local prefixes and URI handling. | Audit text and unrelated URLs containing QID-like fragments; do not infer historical prevalence from this code boundary. |
+| [SIMSSA TOML route](../shared/rdf_config/simssadb.toml) | Person names map to P2888 without an IRI guard; work titles have an IRI guard. Composer/author fields use local person links. | Preserve and classify literal targets instead of silently coercing them to QIDs. This route is separate from SIMSSA's JSON-LD converter. |
+| [Weimar](../shared/rdf_config/wjazzd.toml) | Local solos/tracks; performer fields can contain direct QIDs, and track MusicBrainz IDs use P4404. | Join recordings by the explicit UUID, not title or shared performer. |
+| [Cantus DB](../shared/rdf_config/cantusdb.toml) | P2888 can point to Cantus Index identifiers. | Other-IRI targets are not automatically errors or Wikidata identities; source-record/entity meaning needs separate review. |
+
+## Meaning and decision
+
+P2888 expresses a claimed exact match to another identifier/concept; it is not
+restricted to Wikidata targets. Its meaning is stronger than a mere shared
+label. The queries below retain the supplied claim without independently
+verifying it. [Wikidata's P2888 definition](https://www.wikidata.org/wiki/Property:P2888).
+
+`owl:sameAs` identifies individuals and allows their facts to be interpreted
+as facts about the same individual. A mistaken reconciliation, or confusing a
+catalogue record with the person/work it describes, can therefore propagate
+incorrect assertions. This review adds no equivalence, symmetry, transitivity
+or inverse-functional rules to P2888.
+[OWL identity semantics](https://www.w3.org/TR/owl-ref/#sameAs-def).
+
+Retain both supported storage forms:
+
+1. A relationship directly targets a canonical QID when the converted source
+   field supplies that reconciled identifier.
+2. A relationship targets a source entity, which has an explicit P2888 match.
+   Keep the entity's source attributes and provenance attached to that node.
+
+Canonical item objects use `http://www.wikidata.org/entity/Q…`; direct
+predicates use `http://www.wikidata.org/prop/direct/P…`. These are exact RDF
+terms. An HTTPS URL or a literal containing the same characters will not join
+as that canonical IRI. Audit variants separately rather than changing strings
+inside a query and hiding the evidence of conversion differences.
+
+Keep multiple candidate targets visible. Selecting the first or last target,
+or using `SAMPLE`/`COALESCE` to hide competing matches, does not resolve an
+identity conflict. A shared QID can support an identifier-agreement join;
+it does not establish that the linked source records describe the same work,
+recording, edition or event.
+
+Global replacement would detach relationships from source-specific entity
+descriptions and obscure which match supported the answer. A derived query
+view could be considered later for a demonstrated compatibility/performance
+need, retaining its original nodes and derivation evidence separately. There
+is no measured performance result here that justifies flattening base graphs.
+
+## Reusable query patterns
+
+Three runnable examples use synthetic graph IRIs. Replace those IRIs with
+explicitly selected data graphs and P86 with the source-supported relationship
+being asked about. They are not requests to run against production. In
+particular, changing an unspecified CKG person relation to P86 would invent a
+composer role.
+
+- [Resolve entity references](queries/identifier_entities.rq): returns graph,
+  record, original entity, canonical QID and `direct`/`P2888` route. It follows
+  at most one supplied P2888 edge in that graph.
+- [Join two source graphs](queries/identifier_cross_graph.rq): resolves each
+  side in its own selected graph, joins canonical QIDs and returns both source
+  records/entities. A matching edge in a third graph is not silently borrowed.
+- [Inspect supplied links](queries/identifier_link_audit.rq): retains every
+  P2888 target and classifies canonical QIDs, variant QID IRIs, other IRIs and
+  non-IRIs. Other IRIs are not automatically errors; Cantus Index is an example.
+
+For a compact query that only needs distinct record/QID pairs within one graph:
+
+```sparql
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT DISTINCT ?record ?qid WHERE {
+  GRAPH <urn:linkedmusic:identifier:a> {
+    ?record wdt:P86/wdt:P2888? ?qid .
+    FILTER(isIRI(?qid) && REGEX(STR(?qid),
+      "^http://www[.]wikidata[.]org/entity/Q[1-9][0-9]*$"))
+  }
+}
+```
+
+The `?` path means zero or one edge, supporting direct QIDs and one-hop links;
+`*` would traverse arbitrary chains and broaden the interpretation. The compact
+form discards the original entity and route, so use the explicit UNION query
+for evidence review. [SPARQL property paths](https://www.w3.org/TR/sparql11-query/#propertypaths).
+
+If relationship assertions and identifier links intentionally live in different
+graphs, bind each graph explicitly and document why both are authoritative for
+that question. Do not rely on an endpoint's default union graph. A missing
+link in the selected graph does not establish absence from Wikidata.
+
+## Synthetic verification
+
+The [identifier fixture](fixtures/identifiers.trig) includes direct and one-hop
+links, competing QIDs, unmatched names, external targets, HTTPS variants,
+literal targets, two-hop chains and matches in unrelated graphs. A deliberately
+questionable catalogue-record match demonstrates that identifier agreement
+can be returned even when identity requires adjudication.
+
+[Tests](tests/test_identifier_queries.py) check complete source-preserving
+bindings, distinct record/QID pairs, graph isolation, target classifications
+and retention of original node descriptions. Run from the repository root:
+
+```sh
+poetry run python scripts/check_offline.py
+```
+
+The three identifier queries supplement the [14 competency controls](cases.json).
+The role/period controls describe explicit synthetic models; they do not assert
+that matching converter behavior or a schema graph has been deployed. No
+historical conversion-probe result or data quality rate is established by these
+fixtures. Use the [protocol](protocol.md) for source evidence and human review.

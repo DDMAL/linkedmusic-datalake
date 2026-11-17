@@ -1,0 +1,10 @@
+# Convenience inspection only; this LIMIT is not a probability sampling frame.
+SELECT DISTINCT ?person WHERE {
+  GRAPH {{detmold}} {
+    ?person a <https://linkedmusic.ca/graphs/ckg-detmold/Person> .
+    FILTER NOT EXISTS {
+      ?person wdt:P2888 ?qid .
+      FILTER(isIRI(?qid) && REGEX(STR(?qid), "^http://www.wikidata.org/entity/Q[1-9][0-9]*$"))
+    }
+  }
+} ORDER BY ?person LIMIT 25

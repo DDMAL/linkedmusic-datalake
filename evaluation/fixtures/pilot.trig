@@ -1,0 +1,89 @@
+# Hand-authored synthetic query controls, NOT source records or converted data.
+# Real vocabulary/QIDs are used only as join tokens in these fictitious assertions.
+@prefix ex: <https://example.org/lm-evaluation/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix cto: <https://nfdi4culture.de/ontology/> .
+@prefix ckg: <https://linkedmusic.ca/terms/ckg/> .
+@prefix mbterm: <https://linkedmusic.ca/terms/musicbrainz/> .
+@prefix mbrel: <https://linkedmusic.ca/terms/musicbrainz/relationship/> .
+@prefix rec: <https://musicbrainz.org/recording/> .
+@prefix mb: <https://linkedmusic.ca/graphs/musicbrainz/> .
+@prefix wj: <https://linkedmusic.ca/graphs/wjazzd/> .
+@prefix mu: <https://linkedmusic.ca/graphs/ckg-musiconn/> .
+@prefix de: <https://linkedmusic.ca/graphs/ckg-detmold/> .
+@prefix ap: <https://linkedmusic.ca/graphs/ckg-apsearch/> .
+
+wj: {
+  ex:solo a wj:Solo ; wdt:P175 wd:Q103767 ; wdt:P361 ex:track .
+  ex:track a wj:Track ; wdt:P4404 "00000000-0000-4000-8000-000000000001" .
+  ex:otherSolo a wj:Solo ; wdt:P175 wd:Q132232 ; wdt:P361 ex:titleOnlyTrack .
+  ex:titleOnlyTrack a wj:Track ; rdfs:label "Shared title is not identity" .
+}
+mb: {
+  rec:00000000-0000-4000-8000-000000000001 a mb:Recording ;
+    rdfs:label "Shared title is not identity" ;
+    wdt:P175 ex:jazzArtist ;
+    mbrel:a01ee869-80a8-45ef-9447-c59e91aa7926 ex:engineer ;
+    mbrel:a7e408a1-8c64-4122-9ec2-906068955187 ex:photographer ;
+    wdt:P767 ex:generic .
+  ex:jazzArtist a mb:Artist ; wdt:P2888 wd:Q103767 .
+  ex:observation a rdf:Statement ;
+    dcterms:source rec:00000000-0000-4000-8000-000000000001 ;
+    rdf:subject rec:00000000-0000-4000-8000-000000000001 ;
+    rdf:predicate mbrel:a01ee869-80a8-45ef-9447-c59e91aa7926 ;
+    rdf:object ex:engineer ; mbterm:sourceDirection "backward" ;
+    mbterm:begin "2001" ; mbterm:end "2002-03" ; mbterm:attribute "assistant" ;
+    mbterm:sourcePayload "{\"direction\":\"backward\",\"begin\":\"2001\",\"end\":\"2002-03\",\"attributes\":[\"assistant\"]}"^^rdf:JSON .
+  # This predicate is aligned only in an unrelated graph, so CQ08 must exclude it.
+  ex:decoyRecord ex:unreviewedRole ex:decoyArtist .
+}
+<urn:linkedmusic:evaluation:schema> {
+  mbrel:a01ee869-80a8-45ef-9447-c59e91aa7926 rdfs:subPropertyOf wdt:P767 .
+  mbrel:a7e408a1-8c64-4122-9ec2-906068955187 rdfs:subPropertyOf wdt:P767 .
+}
+<https://linkedmusic.ca/graphs/rism/> {
+  ex:sourceLocal wdt:P86 ex:rismPerson .
+  ex:rismPerson wdt:P2888 wd:Q132232 .
+  ex:sourceDirect wdt:P86 wd:Q132232 .
+}
+mu: {
+  ex:associatedWork a mu:Work ; cto:CTO_0001009 ex:historicalPerson .
+  ex:explicitWork a mu:Work ; cto:CTO_0001009 ex:historicalPerson ;
+    wdt:P86 wd:Q132232 .
+  ex:historicalPerson a mu:Person ; wdt:P2888 wd:Q132232 .
+}
+ap: {
+  ex:periodWork a ap:Work ; wdt:P31 wd:Q3302947 ; wdt:P571 "1909"^^xsd:gYear ;
+    cto:CTO_0001073 "1909-01-01/1950-01-01" ; ckg:creationPeriod ex:period .
+  ex:period a ckg:CreationPeriod ; ckg:parseStatus "parsed" ;
+    ckg:startYear "1909"^^xsd:gYear ; ckg:endYear "1950"^^xsd:gYear ;
+    rdf:value "1909-01-01/1950-01-01" .
+  ex:laterWork ckg:creationPeriod ex:laterPeriod .
+  ex:laterPeriod ckg:parseStatus "parsed" ; ckg:startYear "1960"^^xsd:gYear ;
+    ckg:endYear "1960"^^xsd:gYear ; rdf:value "1960" .
+  ex:anomalyWork ckg:creationPeriod ex:anomalyPeriod .
+  ex:anomalyPeriod ckg:parseStatus "parsed" ; ckg:startYear "9009"^^xsd:gYear ;
+    ckg:endYear "9009"^^xsd:gYear ; rdf:value "9009" ; ckg:reviewFlag "year-9009" .
+  ex:reversedWork ckg:creationPeriod ex:reversedPeriod .
+  ex:reversedPeriod ckg:parseStatus "unresolved" ; ckg:startYear "1950"^^xsd:gYear ;
+    ckg:endYear "1909"^^xsd:gYear ; rdf:value "1950/1909" ;
+    ckg:reviewFlag "reversed-interval" .
+  ex:genericWork a ap:Work ; wdt:P31 wd:Q17537576 ; wdt:P571 "1900"^^xsd:gYear .
+}
+de: {
+  ex:earlyWork a de:Work ; wdt:P571 "1835"^^xsd:gYear .
+  ex:lateWork a de:Work ; wdt:P571 "1853"^^xsd:gYear .
+  ex:linkedPerson a de:Person ; wdt:P2888 wd:Q132232 .
+  ex:unlinkedPerson a de:Person .
+  ex:noncanonicalPerson a de:Person ; wdt:P2888 <https://www.wikidata.org/entity/Q132232> .
+}
+<urn:linkedmusic:evaluation:unrelated> {
+  ex:associatedWork wdt:P86 wd:Q132232 .
+  ex:unreviewedRole rdfs:subPropertyOf wdt:P767 .
+  ex:unlinkedPerson wdt:P2888 wd:Q132232 .
+}

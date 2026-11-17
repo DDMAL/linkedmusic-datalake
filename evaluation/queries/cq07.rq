@@ -1,0 +1,5 @@
+SELECT DISTINCT ?recording ?artist WHERE {
+  GRAPH {{musicbrainz}} {
+    ?recording mbrel:a01ee869-80a8-45ef-9447-c59e91aa7926 ?artist .
+  }
+} ORDER BY ?recording ?artist LIMIT 25

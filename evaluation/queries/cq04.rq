@@ -1,0 +1,7 @@
+# Zero-length P2888 path accepts a direct QID as well as one local-node pivot.
+SELECT DISTINCT ?source ?person WHERE {
+  GRAPH {{rism}} {
+    ?source wdt:P86 ?person .
+    ?person wdt:P2888? {{historical_person}} .
+  }
+} ORDER BY ?source ?person LIMIT 25

@@ -122,10 +122,10 @@ when the available population permits. If it does not, report a smaller census.
 
 Sampling requires the complete-frame declaration and positive quotas for all
 nonempty strata; [the frame template](templates/reconciliation-frame.json)
-records those inputs. This directory supplies the protocol and templates; an executable sampler
-is not included. Record a randomly chosen seed before
-review, never search seeds for desirable cases. Save selected IDs and inclusion
-probabilities. If manual sampling is used instead, record the exact selection
+records those inputs. The [sampler](sample_review.py) validates the frame
+and draws from every observed stratum; see the [commands](README.md#stratified-reconciliation-sampling).
+Record a randomly chosen seed before review; never search seeds for desirable
+cases. Save selected IDs and inclusion probabilities. If manual sampling is used instead, record the exact selection
 procedure and seed with equivalent evidence.
 
 For each selected entity review independently:
@@ -163,8 +163,8 @@ purposive cases to its denominator.
 
 ## Competency questions and independent answers
 
-A competency catalogue should fix each question's meaning, manually written
-SPARQL and evidence needed for review. Bind historical people to canonical
+The [competency catalogue](cases.json) fixes each question's meaning, manually
+written SPARQL and evidence needed for review. Bind historical people to canonical
 identifiers selected for the research question, not for whether a query returns
 rows. Query catalogues and execution tools are separate from manifest validation.
 
