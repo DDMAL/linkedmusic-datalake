@@ -1,5 +1,11 @@
 # MusicBrainz: Reconciling Relationships between Entities
 
+The [contributor-role pilot](relationship_preservation.md) supersedes the older
+P767 generalization for 33 recording/release-to-artist roles. It preserves stable
+source type IDs, specific roles, direction, and relationship qualifiers. Consult
+the [mapping inventory](relationship_inventory.md) before changing those entries.
+The remaining sections describe legacy mappings outside that bounded pilot.
+
 ## Understanding MusicBrainz Relationships
 
 It is important to read this section before you attempt reconciling MusicBrainz relationships against Wikidata.
@@ -74,7 +80,10 @@ Refer to this image for further clarifications on inverse relationships:
   - the third dictionary key is the relationship's name (e.g. "owner").
   - As discussed above, it is crucial for MusicBrainz relationships to be identified by what it accepts as subject and as object
 
-- The values associated with each relationship are the Wikidata Property ID that the relationship maps to, in string format (e.g. `"P2888"`). If a relationship has no equivalent in Wikidata, it should either be removed or left as `null`/`None`: this would ensure that it is ignored by the RDF conversion script.
+- Legacy string values associated with each relationship are the Wikidata Property ID that the relationship maps to, in string format (e.g. `"P2888"`). If a relationship has no equivalent in Wikidata, it should either be removed or left as `null`/`None`: this would ensure that it is ignored by the RDF conversion script.
+
+Structured role entries instead retain source type UUIDs, endpoint types, local
+predicates and readable definitions; see the [role contract](relationship_preservation.md).
 
 #### Note: Same-Type Relationships
 
@@ -102,20 +111,15 @@ To solve this problem:
 
 ## Mapping MusicBrainz Relationships to Wikidata
 
-### What is Currently Completed
+### Coverage and remaining limits
 
-- Only 409 of the roughly 800 fields in [`relations.json`](/musicbrainz/src/rdf_conversion_config/relations.json) are currently filled.
-- The empty fields are largely due to the fact that most Wikidata properties do not have an equivalent inverse ([as mentionned above](#understanding-directionality)).
-
-- All in all, 98% of all the relationships in MusicBrainz have at least one direction reconciled with Wikidata. The missing 2% tend to be not widely used relationships, so should represent an even smaller share of total existing relations.
-
-- However, since Wikidata is not as specialized for music as MusicBrainz, there is inevitably some loss of accuracy.
+- The [configuration inventory](relationship_inventory.md) and [representation rationale](representation_review.md) cover 33 specific contributor mappings. They do not establish complete relationship coverage or historical dump fidelity.
+- Legacy null/inverse mappings outside the pilot retain their behavior. Review them against source type definitions and [directionality](#understanding-directionality), preserving distinctions that a broader predicate would discard. Historical prevalence and conversion cost await snapshot access.
 
 ### The Relationships Reconciliation Process
 
 OpenRefine only allows reconciliation of items (with QID), but not reconciliation of properties (PID). However, calling Wikidata Search API, which does plaintext search with Wikidata's ElasticSearch engine, can be a useful substitute.
 
-- (I will elaborate on this section of the documentation in another pull request about Wikidata APIs.)
 
 ### Notes on Reconciliation Decisions
 
@@ -129,7 +133,7 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
   - A generic property for contributors whose role is too specific to exist in Wikidata (e.g. "field recordist", "mix-DJ", "remixer").
 
-  - Must have a release, recording, or work (i.e. composition) as object. In the case of the object being an event or a place, use `employer(P108)` instead.
+  - The release, recording, or work is the **subject**; its contributor is the **object**. Do not reverse this direction. Employer relationships have different semantics and must be checked independently.
 
   - Despite that we commonly say "this artist is the illustrator of this album", `"performer(P175)"`, `"illustrator(P110)"`, or any similar Wikidata property for contributors needs the person as the object. It is better to understand them as "has performer" and "has illustrator".
 
@@ -143,7 +147,7 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
   - Contrasting Example: For school director, I would map to "place -> `director / manager(P1037)` -> artist" instead. I avoid using `employer(P108)` whenever there is a more specific relationship.
 
-  - A potential improvement to make our properties more accurate would be to add qualifiers to generic properties (there is currently no way to specify qualifiers in relations.json; we would have to refactor `convert_to_rdf.py`). Taking for example [J.S. Bach](https://www.wikidata.org/wiki/Q1339), we can see that J.S. Bach's relation with his employers is often supplemented by the qualifier "Bach(Q1339) -> `position held(P31)` -> organist(Q765778)", meaning that Bach was an organist for his employer.
+  - Qualifier preservation for employment and other nonpilot relationships remains separate work. The 33-role contributor pilot already retains supplied dates, attributes, credit text and full relationship JSON on named observations; it does not add that representation to all legacy employment mappings.
 
 - part of(P361) & has part(s)(P527)
 

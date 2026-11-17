@@ -2,6 +2,22 @@
 
 This documents any choices for properties in the RDF conversion process, as well as other information relating to the RDF conversion process
 
+
+## Contributor-role preservation
+
+The [role model](relationship_preservation.md) preserves 33 configured recording
+and release contributor types as specific predicates. Named observations retain
+source UUID/direction, relationship dates, attributes and the complete supplied
+relationship payload. Generic contributors never imply a specific role.
+
+The mapping loader accepts legacy PIDs/nulls, absolute predicate IRIs and
+validated structured role entries. Known role UUIDs handle either source
+endpoint direction. Unknown or inconsistent pilot evidence is retained without
+a direct role assertion; ordinary nonpilot conversion stays outside this scope.
+The [representation rationale](representation_review.md) documents observation
+identity, counting units and graph-scoped queries. Load the matching generated
+schema separately when broad contributor answers are required.
+
 ## Reducing Clutter
 
 Due to the nature of the RDF conversion script, we need to store a fairly large amount of mapping data to properly convert the JSONL files to RDF.
@@ -15,7 +31,7 @@ In an effort to reduce the clutter of constant global variables containing mappi
 [`musicbrainz/src/convert_to_rdf.py`](/musicbrainz/src/convert_to_rdf.py) also imports two modules:
 
 - [`musicbrainz/src/mapping_schema.py`](/musicbrainz/src/mapping_schema.py): it contains the class definition of `MappingSchema`  
-- [`musicbrainz/src/url_patterns.py`](/musicbrainz/src/url_patterns.py): it contains regex patterns matching onto different urls.
+- [`musicbrainz/src/url_patterns.py`](/musicbrainz/removed_properties/url_patterns.py): it contains regex patterns matching onto different urls.
 
 ## Rules for Literal Datatypes
 
@@ -81,7 +97,7 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 - As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, IDs to other databases are not stored.
 
-- The file with all possible attribute values and Wikidata properties they map onto can be found in [`musicbrainz/doc/rdf_conversion_config/attribute_mapping.json`](/musicbrainz/doc/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
+- The file with all possible attribute values and Wikidata properties they map onto can be found in [`musicbrainz/doc/rdf_conversion_config/attribute_mapping.json`](/musicbrainz/src/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
 
 ## URLS
 
@@ -95,7 +111,7 @@ Whenever possible, we try to extract the ID from the url, and store the ID alone
 
 The same database may have multiple Wikidata property. For example, Discogs has [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953) and [Discogs label ID (P1955)](https://www.wikidata.org/prop/direct/P1955) and [Discogs composition ID (P6080)](https://www.wikidata.org/prop/direct/P6080)...
 
-To extract the IDs properly, a regex pattern, taken from the `URL match pattern` field of each Wikidata property (e.g. `^https?:\/\/(?:www\.)?discogs\.com\/(?:[a-z]+\/)?artist\/([1-9][0-9]*)` for [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953)) is stored in [`musicbrainz/src/url_patterns.py`](/musicbrainz/src/url_patterns.py).
+To extract the IDs properly, a regex pattern, taken from the `URL match pattern` field of each Wikidata property (e.g. `^https?:\/\/(?:www\.)?discogs\.com\/(?:[a-z]+\/)?artist\/([1-9][0-9]*)` for [Discogs artist ID (P1953)](https://www.wikidata.org/prop/direct/P1953)) is stored in [`musicbrainz/src/url_patterns.py`](/musicbrainz/removed_properties/url_patterns.py).
 
 If no Wikidata property exist, the url will be stored as [exact match (P2888)](https://www.wikidata.org/prop/direct/P2888). This means that when regex fail (and it does occasionally fail), the urls will still be linked to the entity.
 

@@ -768,6 +768,14 @@ class ManifestTests(unittest.TestCase):
             (rism_suite / "test_example.py").write_bytes(
                 (suite / "test_example.py").read_bytes()
             )
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            musicbrainz_suite = root / "musicbrainz/tests"
+            musicbrainz_suite.mkdir(parents=True)
+            (musicbrainz_suite / "test_empty.py").write_text("# Contains zero tests.\n")
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            (musicbrainz_suite / "test_example.py").write_bytes(
+                (suite / "test_example.py").read_bytes()
+            )
             self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
             complete[0]["validation"] = "fixture_fail"
             query_runner.write_text(stub.replace("CASES", repr(complete)))
