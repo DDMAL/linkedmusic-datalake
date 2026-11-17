@@ -1,142 +1,109 @@
-# APSearch (`E6304`) — data model & mapping decisions
+# APSearch (`E6304`) — data model and mapping decisions
 
-The authoritative reasoning behind the APSearch conversion. APSearch uses the **same converter
-and `mapping.json`** as the other feeds ([`../../ckg-musiconn/doc/data-model.md`](../../ckg-musiconn/doc/data-model.md)
-has the full predicate map); this doc records what is **APSearch-specific** — it exercises the
-media-feed paths, not the relational backbone. Counts are from `apsearch.ttl`.
+APSearch uses the same converter and predicate mapping as
+[musiconn](../../ckg-musiconn/doc/data-model.md) and Detmold. This document describes
+the configured APSearch behavior. It does not identify the code or input revision
+of any stored/deployed graph; measurements require their own input hashes and
+converter revision.
 
-## 1. What the source looks like
+## Source identity
 
-APSearch (**Arab Phonogram Search**) is an aggregator/search portal for **Arabic phonogram
-recordings** — sound recordings of music and verbal expressions from Arab countries
-(NFDI4Culture `E6304` "Metadata on audio objects from APSearch"; publisher BBAW) — remodeled
-into the **nfdicore / CTO** ontology. 6,271 audio/image/video/text records, each a
-`CTO_0001005` "source item" and `schema:CreativeWork`. Licenses split **ELAR (Endangered
-Languages Archive) access-terms** (5,617), **CC BY 4.0** (562), and **CC BY-SA 4.0** (92); of
-these, 72 are Staatliche Museen zu Berlin objects (the records with `id.smb.museum` URLs).
+The primary [NFDI4Culture E6304 record](https://nfdi4culture.de/resource/E6304/about.html)
+identifies APSearch as **Arab Phonogram Search**, a portal aggregating Arabic
+phonogram metadata, with BBAW as publisher. The feed uses nfdicore/CTO terms.
+APSearch is distinct from ELAR. An ELAR legal URI on an individual record is
+retained source metadata; it does not establish that the whole feed is ELAR,
+that every content link resolves there, or that all upstream access is restricted.
 
-**It differs from musiconn/Detmold:** no persons, no `has related person/organization/location`
-backbone, and **0 authority IDs** (~0.4% Wikidata-crosswalkable). The reconcilable content
-(languages, countries, depositors) is **not in the CKG dump** — it lives in the access-walled
-upstream source archives — so it is not represented in this dataset. What *is* reconcilable is
-small and fully deterministic: media-class typing, AAT classifiers, and the license/publisher
-pivots. There is no relational backbone to collapse and no OpenRefine pass.
+The converter handles media classifiers and content URLs. It does not run an
+APSearch-specific label-reconciliation workflow. Assess missing fields and access
+conditions against the particular source export and repository, not the feed name.
 
-## 2. Predicate map (APSearch-exercised rows)
+## Predicate map
 
-| Source predicate | Action | Result |
-|---|---|---|
-| `rdf:type` | type | record → `lmckg:Work` |
-| `rdfs:label` | label | keep `rdfs:label` (free-text description/title) |
-| `CTO_0001049` has data concept | classifier_media | `wdt:P31` from the media class (§3) |
-| `CTO_0001026` has external classifier | classifier_aat | `wdt:P31` from AAT (deterministic) + keep the AAT URI (§3) |
-| `CTO_0001073` has creation period | remap_date | `wdt:P571` → `xsd:gYear` (§4) |
-| `NFDI_0000142` has license | remap (+ pivot) | `wdt:P275` → license URI; the URI carries `wdt:P2888` → QID (§5) |
-| `NFDI_0000191` published by | remap (+ pivot) | `wdt:P123` → publisher URI; carries `wdt:P2888` → QID (§5) |
-| `CTO_0001021` has content url *(via `associatedMedia` bnode)* | join + remap | `wdt:P953` content URL (§6) |
+| Source predicate | Action | Output |
+| --- | --- | --- |
+| `rdf:type` | type indexed records | `lmckg:Work` |
+| `rdfs:label` | preserve labels | `rdfs:label` |
+| `CTO_0001049` | media classifier lookup | configured `wdt:P31` |
+| `CTO_0001026` | AAT classifier lookup | configured `wdt:P31`; retain AAT URI |
+| `CTO_0001073` creation period | date coercion | start-year `wdt:P571` (`xsd:gYear`) |
+| `NFDI_0000142` licence | remap and crosswalk | `wdt:P275` source URI; optional `wdt:P2888` target |
+| `NFDI_0000191` publisher | remap and crosswalk | `wdt:P123` source URI; optional `wdt:P2888` target |
+| `CTO_0001021` content URL | join through `schema:associatedMedia` | `wdt:P953` URI |
 
-### Dropped — confirmed CKG provenance, not source content
+`lmckg:` is `https://linkedmusic.ca/graphs/ckg/`, shared across the three feeds;
+the APSearch named graph is `https://linkedmusic.ca/graphs/ckg-apsearch/`.
+The graph IRI is not the class namespace.
 
-- `dateModified` — a single constant (`2025-11-21`) across all records = CKG's harvest date,
-  not a per-record source edit date.
-- `NFDI_0000146` "metadata media type" = E3087 (application/json) — describes how CKG
-  *serialized* its metadata (the export is JSON), **not** the audio/image content type (there
-  is no content-MIME field in the dump).
-- `NFDI_0000207` "metadata standard" (RDF/Schema.org) — constant CKG-ETL values.
-- `NFDI_0000125` — one dataset-level link (subject is the dataset entity, not a record).
-- `schema:associatedMedia` — the record→media-bnode edge; used to join the content URL back to
-  the record (§6), then dropped (the bnode is never emitted).
-- `schema:dateModified`, `schema:item`, `schema:dataFeedElement`, `schema:sameAs` — envelope.
+The mapping drops envelope/metadata properties including `schema:dateModified`,
+`schema:item`, `schema:dataFeedElement`, `schema:sameAs`, and the configured
+metadata-standard/media-type properties. `dateModified` is not used as a creation
+date. A constant timestamp alone would not prove its provenance. The
+`schema:associatedMedia` edge is used for the content-URL join before being dropped.
 
-## 3. Record typing (`P31`)
+## Record typing
 
-Every record is `lmckg:Work` and gets `wdt:P31` from its media class (`CTO_0001049`), with an
-AAT classifier (`CTO_0001026`) adding a second `wdt:P31` on the few records that carry one. A
-record with no resolving classifier falls back to **`Q17537576` "creative work"** — chosen
-over Detmold's `Q838948` "work of art" because APSearch records are **sound recordings,
-not visual art**. (6,271 records, 6,590 `wdt:P31` total → ~319 records carry a 2nd, AAT-derived type.)
+Each indexed record receives `lmckg:Work`. Resolving media/AAT classifier mappings
+add `wdt:P31`; otherwise the APSearch fallback is `wd:Q17537576` (creative work).
+The broad fallback avoids asserting a specific media class without a mapping.
+It is not a claim that all source objects have the same medium.
 
-| Source class / code | `wdt:P31` QID | count | note |
-|---|---|---|---|
-| `CTO_0001043` audio object | `Q3302947` audio recording | 3,005 | "single object representing recorded audio" |
-| `CTO_0001044` image object | `Q478798` image | 523 | chosen over `Q125191` photograph (not all are photos) |
-| `CTO_0001048` video object | `Q30070675` video recording | 454 | "single work/take" — parallels audio; **not** `Q34508` (the technique) |
-| `CTO_0001047` text object | `Q234460` text | 52 | chosen over `Q49848` document |
-| `aat:300028633` sound recordings | `Q3302947` audio recording | 84 | **deterministic** via `wdt:P1014` |
-| `aat:300265798` cylinder phonographs | `Q691783` phonograph cylinder | 84 | the *medium*, not the device ("close enough") |
-| `aat:300234108` ethnographic objects | *(unmapped)* | 92 | no precise Wikidata item; AAT URI kept, no `P31` from it (the record is already typed by its media class / fallback) |
-| `CTO_0001045` media object (1 rec) | *(none → fallback)* | 1 | too generic |
-| **fallback** (no resolving classifier) | `Q17537576` creative work | 2,472 | incl. the 4 ethnographic-AAT-only records (caught by the post-loop fallback) |
+The current configured mapping choices include audio recording (`Q3302947`),
+image (`Q478798`), video recording (`Q30070675`), text (`Q234460`) and phonograph
+cylinder (`Q691783`). These choices and their target validity need independent
+source-backed review when the mapping snapshot changes. An unmapped AAT term
+can remain as an external-classifier URI without acquiring a guessed class.
+A mapping change must be checked against all three feeds even when a sampled
+classifier occurs in only one feed.
 
-All media-class/AAT URIs are **APSearch-only**, so wiring them into `record_types.json` leaves
-musiconn/Detmold reconverting byte-identically.
+## Creation dates
 
-## 4. Dates — all-placeholder `gYear`
+The APSearch date branch coerces a recognized creation-period interval to the
+start year as `xsd:gYear`. It does not retain the original interval or the ending
+year. Thus a range such as `1909-01-01/1950-01-01` cannot support an interval-overlap
+answer after this conversion. January-01 boundaries alone do not establish exact
+day precision. Creation dates must not be treated as performance dates.
 
-`CTO_0001073` "creation period" (4,214 values) has **zero day-precision dates**: *every* value
-is a Jan-01 full-day placeholder — 4,086 single-year (`"2015-01-01/2015-01-01"`) and 128
-multi-*year* ranges (`"1909-01-01/1950-01-01"`, mostly 1909–1950). A naïve `xsd:date` would
-assert false day precision, so APSearch coerces **every interval → `xsd:gYear` of the start
-year** (`coerce_date(o, "apsearch")`). All `wdt:P571` values are `xsd:gYear`; the end-year of
-the 128 multi-year ranges is not retained. This branch is APSearch-only — Detmold has no
-Jan-01 same-day spans and musiconn has no intervals.
+The feeds use mixed date datatypes. Queries must inspect the datatype/lexical
+form before applying date functions; `YEAR` is not portable over `xsd:gYear`.
+Do not derive corpus-wide interval or precision counts from this contract.
 
-> **Lake-wide date note for SESEMMI:** dates are mixed-precision across feeds (`xsd:date` /
-> `gYearMonth` / `gYear`). The robust, datatype-agnostic year filter to teach the query layer
-> is `FILTER(STRSTARTS(STR(?d), "2015"))` — `YEAR(?d)` only works on `xsd:date`/`dateTime` and
-> breaks on `gYear`. (SESEMMI is LinkedMusic's natural-language→SPARQL query tool.)
+## Licences and publisher
 
-## 5. Licenses & publisher (`P2888` pivots)
+Source licence/publisher URIs remain the `wdt:P275`/`wdt:P123` objects. When the
+selected crosswalk supplies a target, a separate `wdt:P2888` edge links that URI
+to Wikidata. The existing mapping choices include NFDI resources `E6404` to
+`Q20007257`, `E6429` to `Q18199165`, and `E2431` to `Q219989`.
+An unmapped source URI remains available without a fabricated QID.
 
-License/publisher URIs are kept as the object and pivoted to a QID via the **same local-node +
-`P2888`** shape used for backbone entities (`P275`/`P123` are `wikibase-item` properties, so
-the object must be a QID — the URI node carries the pivot). QIDs resolved via NFDI `owl:sameAs`:
+Only record-level licence assertions are emitted by this path. A licence on an
+associated-media node is not substituted for a record licence. These RDF links
+preserve the supplied level of description; they do not decide access or reuse
+rights. Compare the exact source and mapping snapshot when auditing the output.
 
-| field | source URI | `wdt:P2888` QID | label |
-|---|---|---|---|
-| license `P275` | `nfdi4culture.de/id/E6404` (562) | `Q20007257` | CC BY 4.0 |
-| license `P275` | `nfdi4culture.de/id/E6429` (92) | `Q18199165` | CC BY-SA 4.0 |
-| license `P275` | `www.elararchive.org/legal` (5,617) | *(residue, no QID)* | ELAR custom access terms |
-| publisher `P123` | `nfdi4culture.de/id/E2431` (6,271) | `Q219989` | BBAW (Berlin-Brandenburg Academy) |
+## Content URLs and queries
 
-→ 3 distinct `wdt:P2888` pivots in the output. **Not emitted:** the CC BY-NC-SA value
-(`Q42553662`) — it sits only on the *media bnode* of the 72 SMB records (whose *record-level*
-license is E6429/CC BY-SA); we emit the uniform record-level license per record.
-
-## 6. Content URLs (`P953`)
-
-The content URL (`CTO_0001021`) sits on the `schema:associatedMedia` **blank node**, not the
-record. `preprocess.py` joins record → `associatedMedia` bnode → `CTO_0001021` and the
-converter emits `<record> wdt:P953 <url>` (a URI node, post-loop) — **3,783** of them. The
-URLs split two ways: 3,711 `hdl.loc.gov/hdl:2196/…` handles + 72 `id.smb.museum/…` SMB
-assets (the rest have no content URL). `P953` "work available at URL" was chosen because the
-repo has no competing convention for access pages (diamm uses `P856` for institution sites,
-cantusdb `P18` for direct image files — neither fits these access/landing pages).
-
-## 7. Emitted schema (SESEMMI reference)
-
-Namespaces: `lmckg:` = `https://linkedmusic.ca/graphs/ckg/` (local classes), `wdt:`/`wd:`
-Wikidata, `cto:` = `https://nfdi4culture.de/ontology/`.
+Preprocessing joins record → `schema:associatedMedia` → `CTO_0001021` and the
+converter emits the resulting `wdt:P953` URI. A URL hostname alone does not prove
+repository ownership, link availability, or the population's source composition.
+Keep record counts, link counts and distinct URL counts separate.
 
 ```turtle
-<record-iri> rdf:type lmckg:Work ;
-             wdt:P31  wd:Q3302947 ;                 # audio recording (media class)
-             rdfs:label "…description…" ;
-             wdt:P571 "2010"^^xsd:gYear ;            # inception
-             wdt:P275 <nfdi…/E6404> ;                # license (URI node, pivoted)
-             wdt:P123 <nfdi…/E2431> ;                # publisher (URI node, pivoted)
-             wdt:P953 <https://hdl.loc.gov/hdl:2196/…> .   # content URL
+@prefix lmckg: <https://linkedmusic.ca/graphs/ckg/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
+@prefix wd: <http://www.wikidata.org/entity/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 
-<nfdi…/E6404> wdt:P2888 wd:Q20007257 .               # → CC BY 4.0
-<nfdi…/E2431> wdt:P2888 wd:Q219989 .                 # → BBAW
+<urn:synthetic:record> a lmckg:Work ;
+    wdt:P31 wd:Q3302947 ;
+    rdfs:label "Synthetic recording" ;
+    wdt:P571 "2010"^^xsd:gYear ;
+    wdt:P123 <https://nfdi4culture.de/id/E2431> .
+<https://nfdi4culture.de/id/E2431> wdt:P2888 wd:Q219989 .
 ```
 
-Every record is `lmckg:Work`; there are **no entity nodes** (no persons/places). Reconciled
-licenses/publisher reach Wikidata via `wdt:P2888`. Namespaces as in the musiconn data-model.
-
-## 8. Manually verified IDs
-
-All record-type and license/publisher QIDs were confirmed against Wikidata — media:
-`Q3302947` audio, `Q478798` image, `Q30070675` video, `Q234460` text, `Q691783` phonograph
-cylinder, `Q17537576` creative-work fallback (`aat:300234108` ethnographic deliberately left
-unmapped); licenses/publisher: `Q20007257`, `Q18199165`, `Q219989`.
+This example describes RDF shape, not an observed source record. Exact source,
+crosswalk and code revisions are needed for a reproducible candidate conversion;
+publication of this documentation does not update stored or deployed RDF.
