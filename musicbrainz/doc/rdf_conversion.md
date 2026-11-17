@@ -31,7 +31,7 @@ In an effort to reduce the clutter of constant global variables containing mappi
 [`musicbrainz/src/convert_to_rdf.py`](/musicbrainz/src/convert_to_rdf.py) also imports two modules:
 
 - [`musicbrainz/src/mapping_schema.py`](/musicbrainz/src/mapping_schema.py): it contains the class definition of `MappingSchema`  
-- [`musicbrainz/src/url_patterns.py`](/musicbrainz/removed_properties/url_patterns.py): it contains regex patterns matching onto different urls.
+- [`musicbrainz/src/relationship_mapping.py`](/musicbrainz/src/relationship_mapping.py): validates role definitions and preserves relationship evidence.
 
 ## Rules for Literal Datatypes
 
@@ -97,7 +97,7 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 - As mentioned in the [Identifiers to other databases](#identifiers-to-other-databases) section, IDs to other databases are not stored.
 
-- The file with all possible attribute values and Wikidata properties they map onto can be found in [`musicbrainz/doc/rdf_conversion_config/attribute_mapping.json`](/musicbrainz/src/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
+- The file with all possible attribute values and Wikidata properties they map onto can be found in [`musicbrainz/src/rdf_conversion_config/attribute_mapping.json`](/musicbrainz/src/rdf_conversion_config/attribute_mapping.json). Attributes that are not present in `attribute_mapping.json` or that have the value `null`/`None` will be ignored by the RDF conversion script.
 
 ## URLS
 

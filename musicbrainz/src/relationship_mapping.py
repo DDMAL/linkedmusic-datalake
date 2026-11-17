@@ -175,7 +175,7 @@ class RelationshipMappings(dict):
         ):
             if key in relation and relation[key] is not None:
                 graph.add((node, pred, Literal(relation[key])))
-        for attribute in relation.get("attributes", []):
+        for attribute in relation.get("attributes") or []:
             graph.add((node, TERMS.attribute, Literal(attribute)))
         for key, pred in (
             ("attribute-ids", TERMS.attributeIds),
