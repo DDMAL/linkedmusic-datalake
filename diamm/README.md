@@ -28,15 +28,62 @@ See [`data_layout.md`](./doc/data_layout.md) for a brief overview of the data do
 
 Additionally, a utility class for the `to_csv.py` script is located in the `diamm/src/utils.py` module.
 
+Person extraction keeps `source_full_name` alongside the cleaned `full_name`,
+so parenthesized lifespan/floruit text survives. An optional separate source
+`floruit` field is also retained. Follow the
+[person-name preservation contract](doc/person_name_preservation.md) when
+importing and exporting these columns through OpenRefine.
+
+Archive and person extraction also retains the complete identifier list in
+`source_identifiers`. RISM/VIAF scalar columns provide reconciliation hints only
+when one distinct nonblank string is available. The
+[identifier-list contract](doc/external_identifier_selection.md) describes
+classification, multiple values, evidence retention and legacy compatibility.
+
 ## 3. Reconciling Data
 
 All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./doc/reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
 
 ## 4. Transforming to RDF (Turtle)
 
-The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. All property mappings are contained in the `DIAMM_SCHEMA` dictionary to make changing mappings easier.
+The [`diamm/src/convert_rdf.py`](/diamm/src/convert_rdf.py) will take the reconciled CSVs and the relations CSV, and will merge everything to produce a Turtle file using Wikidata properties. Main field mappings are in `DIAMM_SCHEMA`; the preservation contracts below describe additional source-evidence properties.
 
-For all properties that were reconciled against Wikidata (e.g., city), if the reconciliation was successful, the Wikidata URI of the item is stored in the property, and if the reconciliation was unsuccessful, the literal name is stored instead. When the items themselves were reconciled against wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
+For reconciled descriptive fields such as genre and type, a successful match supplies a Wikidata URI; otherwise the original literal text remains. When the items themselves were reconciled against Wikidata (archives, organizations, cities, etc), a triple is created with P2888 linking to the reconciled Q-ID.
+
+Person years follow the [year and approximation contract](doc/person_years.md).
+Original year, candidate ID and approximation flag stay together in a source
+observation. P569/P570 contain year literals only when the source explicitly
+marks the year as non-approximate; approximate or unknown values remain
+queryable through observations. Year-item IRIs are retained only as validated
+reconciliation evidence on those observations. See the contract for query
+examples and the change from the older date-object representation.
+
+Original person display names and separate floruit text are string values on
+`diamm:sourceFullName` and `diamm:floruit`. They do not supply birth/death dates.
+Older CSVs without those optional columns still load; their lost text requires
+the matching raw snapshot to recover.
+
+Archive RISM and person RISM/VIAF identifiers follow the
+[external identifier text contract](doc/external_identifier_text.md): nonempty
+cells remain string literals, preserving leading zeros and long digits. Import
+them as text in OpenRefine too. Previously numeric RDF objects now become strings;
+the converter cannot recover text already lost from old exports.
+
+New exports use the complete `source_identifiers` JSON cell to emit all supported
+RISM/VIAF strings and retain the list on `diamm:sourceIdentifiersJson`. This cell
+takes precedence over scalar hints; absent/empty cells use the legacy behavior.
+Other schemes remain JSON evidence only. See the identifier-list contract above.
+
+Archive names and sigla follow the [archive text contract](doc/archive_text.md):
+nonempty strings retain their exact text under `rdfs:label` and P11550, including
+leading zeros and NA-like values. Empty cells emit no corresponding statement;
+empty names no longer become `"None"` labels. Import both columns as text in
+OpenRefine. Existing name matches and source/location links remain independent.
+
+The [identifier validation contract](doc/identifier_validation.md) documents
+complete bare-QID matching, preserved unmatched names, import-safe conversion
+and offline regression coverage. Run `poetry run python scripts/check_offline.py`
+from the repository root to include the DIAMM tests.
 
 The `related_sources` field in the `organizations` and `people` entity types, as well as the `relationships` field for the `sources` entity type are handled separately, and that is detailed in [`relationships.md`](./doc/relationships.md).
 
@@ -47,7 +94,7 @@ Some properties of interest:
 - P131 is used to indicate the city an entity is in, and P17 is used for the country. P131 is only used to point to the most specific point (city), and the city will point to the region.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
-- P276 (location) is used for provenance organizations because the fact that an organization is the provenance organization of a source means that it most likely was its location at some point in time
+- The legacy organization-provenance branch emits P276 (location), while city/region provenance uses P131. These are current mappings, not evidence that every provenance relation establishes physical location; inspect the source relation before using them as location facts.
 - P11603 (transcribed by) is used to indicate people that copied a source as one of the alternate uses is to indicate copying
 - P361 (part of) is used to indicate sets or compositions that are contained in sources
 

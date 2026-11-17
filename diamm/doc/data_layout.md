@@ -46,6 +46,9 @@ The `relationships` field for `sources` is very similar, containing relationship
 
 ## People
 
+- `full_name` is the source display name and can include parenthesized lifespan
+  or floruit text. The reviewed upstream detail serializer does not expose a
+  separate floruit field; [preserve the original display string](person_name_preservation.md).
 - `compositions` is the list of compositions that they wrote
 - `related_sources`, `copied_sources` and `uninventoried_items` contain a list of sources. `uninventoried_items` seems to be a catch-all for sources that don't fit in the other 2 lists. `related_sources` also contains information about the relationship type
 - `identifiers` has 3rd party identifiers (RISM, VIAF, GNS, Wikidata)

@@ -13,6 +13,7 @@ SUITES = (
     "musicbrainz/tests",
     "ckg-apsearch/tests",
     "shared/tests",
+    "diamm/tests",
 )
 
 # Discovery must fail even when a test_*.py file exists but contains no tests.
