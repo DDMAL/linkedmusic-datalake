@@ -94,17 +94,19 @@ unknown relationship. A coincident label can trigger evidence retention but
 cannot assign a specific role. The sample command exits unsuccessfully after
 writing its audit if any retained observation is unresolved. Full-batch users
 must inspect `mbterm:mappingStatus` and separately account for unrecognized
-relationships before publishing data.
+relationships before publishing data. A recognized pilot UUID with inconsistent
+endpoints withholds both the role assertion and the legacy relation edge; its
+unresolved payload remains available rather than asserting either interpretation.
 
 The retained JSON is the complete relationship object supplied to the converter,
 not the complete parent entity, response envelope or dump line. A source entity
 without an ID is skipped by the existing converter. This pilot assumes the
-usual JSON field shapes (for example, an attribute list); preservation of null
-values inside the payload is not a promise to accept arbitrary malformed
-shapes. Validate those shapes against the stored dump before regeneration.
+usual JSON field shapes. A null attribute list is retained in the payload and
+produces no convenience attribute triples; other arbitrary malformed shapes
+are not promised support. Validate those shapes against the stored dump before regeneration.
 
 This pilot does not preserve qualifiers on nonpilot mappings. It does not move
-deprecated recording mastering or photography credits onto releases, infer
+recording-level mastering or photography credits onto releases, infer
 unsupplied roles, or reconcile new people.
 
 ## Configuration and query compatibility
@@ -213,3 +215,24 @@ source-backed exact-role and qualifier queries and scoped broad queries. Check
 application schema compatibility, backups and rollback before a separately
 approved replacement. Installing this code does not change stored or deployed
 RDF or configure application context.
+
+## Emit a matching schema for a batch conversion
+
+Generate schema from the exact `relations.json` used by the batch converter:
+
+```sh
+poetry run python musicbrainz/src/emit_relationship_schema.py \
+  --relations musicbrainz/src/rdf_conversion_config/relations.json \
+  --output-dir /absolute/path/to/new-role-schema
+```
+
+The output directory must be new. It contains `schema.ttl`, a byte-for-byte copy
+of the mapping configuration and `audit.json` with configuration, schema, code,
+lock-file and runtime identity. Match the recorded configuration hash with the
+batch run, load data and schema into distinct graphs, then run the
+[scoped contributor query](queries/pilot_contributors.rq). Without the schema,
+queries following broader P767 paths cannot discover the specific-role edges.
+This command does not load data or configure inference.
+
+Internal callers need `RelationshipMappings` for role evidence; plain mapping
+dictionaries retain the legacy conversion path and do not implement this contract.

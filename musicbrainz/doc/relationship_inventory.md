@@ -66,7 +66,7 @@ These links identify the official attribute definitions. The converter preserves
 
 ## Interpretation and alignment
 
-Each retained role describes a contribution from the artist to the recording/release, so its record-to-artist predicate is aligned with `wdt:P767` using `rdfs:subPropertyOf`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. The configuration describes recording mastering and photography as deprecated; the converter retains credits on the supplied recording rather than relocating them. Verify lifecycle details against the selected source definitions.
+Each retained role describes a contribution from the artist to the recording/release, so its record-to-artist predicate is aligned with `wdt:P767` using `rdfs:subPropertyOf`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. The configuration describes recording mastering as deprecated; the converter retains credits on the supplied recording rather than relocating them. Verify lifecycle details against the selected source definitions.
 
 The [representation rationale](representation_review.md) explains the mapping
 and its source-validation limits. An `Artist` endpoint may represent a person,

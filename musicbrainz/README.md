@@ -160,8 +160,10 @@ Validate separate candidate output against the matching source snapshot and
 archive its input/configuration/runtime evidence. Load the matching role schema
 into its own staging graph and check exact-role, broad-contributor and
 qualifier-sensitive queries before rollout. The complete-batch converter emits
-role data; the bounded sample command also emits `schema.ttl` from the same
-configuration. Keep that configuration identity aligned for any schema load.
+role data. Use the [schema emitter](doc/relationship_preservation.md#emit-a-matching-schema-for-a-batch-conversion)
+with that batch's exact configuration to produce `schema.ttl` and its audit. The
+bounded sample command also emits its matching schema. Keep the configuration
+hash aligned for every data/schema load.
 
 Old P767-only RDF cannot recover discarded roles or qualifiers. Appending new
 RDF would retain old assertions, so follow the
