@@ -94,7 +94,7 @@ Some properties of interest:
 - P131 is used to indicate the city an entity is in, and P17 is used for the country. P131 is only used to point to the most specific point (city), and the city will point to the region.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
-- The legacy organization-provenance branch emits P276 (location), while city/region provenance uses P131. These are current mappings, not evidence that every provenance relation establishes physical location; inspect the source relation before using them as location facts.
+- The legacy organization-provenance branch emits P276 (location), and city/source provenance emits P131. Region/source provenance rows have no RDF branch. These mappings do not establish that every provenance relation means physical location; inspect the source relation before using them as location facts.
 - P11603 (transcribed by) is used to indicate people that copied a source as one of the alternate uses is to indicate copying
 - P361 (part of) is used to indicate sets or compositions that are contained in sources
 

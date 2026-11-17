@@ -15,8 +15,9 @@ Relationships mapped to `null`/`None` are ignored by the RDF conversion script.
 
 The converter implements only its recognized key/type branches; extraction
 into `relations.csv` does not guarantee an RDF assertion. In particular, the
-legacy provenance branches emit P276 for organizations and P131 for cities or
-regions without retaining a qualified provenance observation. These projections
+legacy provenance branches emit P276 for organizations and P131 for cities;
+region/source rows have no RDF branch. Neither emitted route retains a qualified
+provenance observation. These projections
 do not establish that every provenance association means physical location.
 
 The mappings below document existing choices, including approximate semantic
