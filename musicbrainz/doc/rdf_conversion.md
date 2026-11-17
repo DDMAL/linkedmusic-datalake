@@ -84,7 +84,40 @@ MusicBrainz has a lot of identifiers to other databases, which significantly com
 
 However, since work was already done to map database IDs to properties, removed mappings will be located in the [`musicbrainz/removed_properties/attribute_mapping.json`](/musicbrainz/removed_properties/attribute_mapping.json) file for attributes, and in the [`musicbrainz/removed_properties/mappings.json`](/musicbrainz/removed_properties/mappings.json) file for general mappings. These files follow the same dictionary structure as the files with the same name in the `musicbrainz/src/rdf_conversion_config` folder.
 
-Additionally, all the regex patterns in the [`musicbrainz/removed_properties/url_patterns.py`](/musicbrainz/removed_properties/url_patterns.py) are now irrelevant because they all match external identifiers. As such, it was moved to the `removed_properties` folder.
+### Archived URL-to-identifier mappings
+
+The archived [URL patterns](../removed_properties/url_patterns.py) and
+[property mappings](../removed_properties/mappings.json) share lookup keys.
+For example, the `discogsa` pattern captures `25058` from
+`https://www.discogs.com/artist/25058`, and the `discogsa` mapping assigns
+that identifier to P1953. The current converter stores this URL as a P2888
+literal. Its [URL contract](url_recognition.md) describes the Wikidata URLs
+that become entity IRIs.
+
+| Database | Archived Wikidata properties by identifier |
+| --- | --- |
+| GeoNames | P1566 |
+| SoundCloud | P3040 |
+| YouTube and YouTube Music | Channel P2397, video P1651, playlist P4300 |
+| Discogs | Artist P1953, master P1954, label P1955 |
+| VGMdb | Album P3483, organization P3511 |
+| BookBrainz | Author P2607, publisher P8063 |
+| IMSLP | P839 |
+| IMDb | P345 |
+| Apple Music | Artist P2850, album P2281, label P9550, track P10110 |
+| VIAF | P214 |
+| Last.fm | P3192 |
+| Rate Your Music | Release P8392, label P7313, artist P5404, concert P11622, venue P11600, work P11665, track P13056 |
+| Encyclopaedia Metallum (Metal Archives) | Band P1952, release P2721, label P8166, artist P1989 |
+| Musik-Sammler | Artist P9965 |
+| WorldCat Entities | P10832 |
+| Bibliothèque nationale de France | P268 |
+| RISM | P5504 |
+| Deutsche Nationalbibliothek | P227 |
+| Library of Congress | P244 |
+
+Discogs also has a separate [composition ID (P6080)](https://www.wikidata.org/wiki/Property:P6080).
+The archived `discogsw` pattern covers Discogs master URLs.
 
 ## Attributes
 
