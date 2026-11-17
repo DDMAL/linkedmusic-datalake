@@ -53,10 +53,47 @@ class AuditTests(unittest.TestCase):
             self.assertEqual(report["would_normalize"], 1)
             self.assertEqual(report["other_terms"], 3)
             self.assertIsNone(report["graph"])
+            self.assertEqual(report["row_cap_reached"], "not_established")
             self.assertFalse(report["request_attempted"])
             self.assertEqual((output / "response.json").read_bytes(), original)
             self.assertEqual(source.read_bytes(), original)
             remote.assert_not_called()
+
+    def test_row_cap_is_known_only_for_the_query_this_run_issued(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "input.json"
+            body = json.dumps(self.response()).encode()
+            source.write_bytes(body)
+            for saved in (False, True):
+                for limit in (5, 6):
+                    with self.subTest(saved=saved, limit=limit), patch.object(
+                        audit,
+                        "execute_remote",
+                        return_value=(
+                            {"status": "ok", "result": self.response()},
+                            body,
+                        ),
+                    ) as remote:
+                        output = root / f"audit-{saved}-{limit}"
+                        args = (
+                            ["--response", str(source)]
+                            if saved
+                            else ["--endpoint", "https://example.org/sparql"]
+                        )
+                        self.assertEqual(
+                            audit.main(
+                                args
+                                + ["--limit", str(limit), "--output-dir", str(output)]
+                            ),
+                            0,
+                        )
+                        report = json.loads((output / "report.json").read_text())
+                        self.assertEqual(
+                            report["row_cap_reached"],
+                            "not_established" if saved else limit == 5,
+                        )
+                        self.assertEqual(remote.call_count, 0 if saved else 1)
 
     def test_missing_source_or_existing_output_never_makes_a_request(self):
         with tempfile.TemporaryDirectory() as directory, patch.object(

@@ -126,7 +126,9 @@ def main(argv=None):
             report.update(execution)
         if result is not None:
             report.update(classify(result))
-            report["row_cap_reached"] = report["rows"] >= args.limit
+            report["row_cap_reached"] = (
+                "not_established" if args.response else report["rows"] >= args.limit
+            )
     except (OSError, ValueError, TypeError, KeyError) as error:
         report.update(
             status=(

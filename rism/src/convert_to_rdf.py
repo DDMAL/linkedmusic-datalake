@@ -69,7 +69,7 @@ REPROCESSING = False
 
 # Regex patterns for RDF object conversion
 WIKIDATA_PATTERN = re.compile(
-    r"https?://(?:www\.)?wikidata\.org/(?:wiki|entity)/(Q[1-9][0-9]*)"
+    r"\Ahttps?://(?:www\.)?wikidata\.org/(?:wiki|entity)/(Q[1-9][0-9]*)\Z"
 )
 # CSV predicate keys stay as supplied. These explicit aliases are separate from
 # item-IRI normalization, so historical intermediate topic lookups still work.

@@ -3,6 +3,7 @@
 from copy import deepcopy
 import hashlib
 import json
+import runpy
 from pathlib import Path
 import subprocess
 import sys
@@ -736,16 +737,23 @@ class ManifestTests(unittest.TestCase):
             runner = root / "scripts/check_offline.py"
             runner.write_bytes((ROOT / "scripts/check_offline.py").read_bytes())
             command = [sys.executable, str(runner)]
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
-            suite = root / "evaluation/tests"
-            suite.mkdir(parents=True)
-            (suite / "test_empty.py").write_text("# Contains zero tests.\n")
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
-            (suite / "test_example.py").write_text(
-                "import unittest\nclass Example(unittest.TestCase):\n    def test_ok(self): self.assertTrue(True)\n"
+            suites = runpy.run_path(str(runner))["SUITES"]
+            passing = (
+                "import unittest\nclass Example(unittest.TestCase):\n"
+                "    def test_ok(self): self.assertTrue(True)\n"
             )
-            # A passing suite no longer substitutes for the mandatory query run.
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            for name in suites:
+                suite = root / name
+                suite.mkdir(parents=True)
+                (suite / "test_example.py").write_text(passing)
+
+            def fails_with(message):
+                result = subprocess.run(command, capture_output=True, text=True)
+                self.assertEqual(result.returncode, 1)
+                self.assertIn(message, result.stderr)
+
+            # All suites pass first, so these failures must reach query checks.
+            fails_with("evaluation/run_queries.py")
             query_runner = root / "evaluation/run_queries.py"
             stub = (
                 "import json, sys\nfrom pathlib import Path\n"
@@ -753,35 +761,46 @@ class ManifestTests(unittest.TestCase):
                 "output.mkdir()\n"
                 "(output / 'report.json').write_text(json.dumps({'cases': CASES}))\n"
             )
-            query_runner.write_text(stub.replace("CASES", "[]"))
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
             complete = [
                 {"id": f"cq{i:02d}", "validation": "fixture_pass"} for i in range(1, 15)
             ]
+            wrong_id = deepcopy(complete)
+            wrong_id[0]["id"] = "cq02"
+            wrong_status = deepcopy(complete)
+            wrong_status[0]["validation"] = "fixture_fail"
+            for cases in (
+                [],
+                complete[:-1],
+                complete + [complete[0]],
+                wrong_id,
+                wrong_status,
+            ):
+                with self.subTest(cases=cases):
+                    query_runner.write_text(stub.replace("CASES", repr(cases)))
+                    fails_with("All 14 competency fixture cases are required")
             query_runner.write_text(stub.replace("CASES", repr(complete)))
-            # Each required suite must exist and contain passing tests.
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
-            rism_suite = root / "rism/tests"
-            rism_suite.mkdir(parents=True)
-            (rism_suite / "test_empty.py").write_text("# Contains zero tests.\n")
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
-            (rism_suite / "test_example.py").write_bytes(
-                (suite / "test_example.py").read_bytes()
-            )
             self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
-            complete[0]["validation"] = "fixture_fail"
-            query_runner.write_text(stub.replace("CASES", repr(complete)))
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
-            (suite / "test_example.py").write_text(
-                "import unittest\nclass Example(unittest.TestCase):\n    def test_bad(self): self.fail('expected failure')\n"
-            )
-            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
-            (suite / "test_example.py").write_text(
-                "import missing_dependency_for_synthetic_test\n"
-            )
-            result = subprocess.run(command, capture_output=True, text=True)
-            self.assertEqual(result.returncode, 1)
-            self.assertIn("ModuleNotFoundError", result.stderr)
+
+            # Isolate every suite boundary with passing query/sibling controls.
+            for name in suites:
+                with self.subTest(suite=name):
+                    suite = root / name
+                    hidden = suite.with_name("hidden-tests")
+                    suite.rename(hidden)
+                    fails_with(f"Missing required suite: {name}")
+                    hidden.rename(suite)
+                    test = suite / "test_example.py"
+                    test.write_text("# Contains zero tests.\n")
+                    fails_with(f"Required suite is empty: {name}")
+                    test.write_text(
+                        "import unittest\nclass Example(unittest.TestCase):\n"
+                        "    def test_bad(self): self.fail('expected failure')\n"
+                    )
+                    fails_with("expected failure")
+                    test.write_text("import missing_dependency_for_synthetic_test\n")
+                    fails_with("ModuleNotFoundError")
+                    test.write_text(passing)
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
 
 
 if __name__ == "__main__":
