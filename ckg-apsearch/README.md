@@ -38,7 +38,7 @@ under `data/` is **gitignored**.
 
 > APSearch runs the **same machinery** as musiconn/Detmold (same `src/`, same `mapping.json`),
 > exercising the media-feed paths: `CTO_0001049` media classes, `associatedMedia` content-URL
-> join, license/publisher `P2888` pivots, and an APSearch-specific date coercion. No APSearch-specific
+> join, license/publisher `P2888` pivots, and an APSearch-specific creation-period representation. No APSearch-specific
 > OpenRefine pass is configured.
 
 ---
@@ -91,8 +91,12 @@ source snapshot used for a conversion; see [the data model](doc/data-model.md).
 **`convert_to_rdf.py`** — the shared two-pass converter (see
 [`doc/data-model.md`](doc/data-model.md)): types every record `lmckg:Work` + `wdt:P31` (media
 class, or the `Q17537576` "creative work" fallback for classifier-less records), emits the
-license/publisher `P2888` pivots, coerces dates to `xsd:gYear`, and emits the joined
-`wdt:P953` content URLs post-loop. No blank nodes survive.
+license/publisher `P2888` pivots, retains creation-period source terms and paired
+year bounds with parse/review flags, and emits the joined
+`wdt:P953` content URLs post-loop. Parsed periods also project their start year
+to `wdt:P571`; use [paired bounds](doc/creation-period-preservation.md) for overlap.
+No blank nodes survive a successful conversion. Unexpected blank-node periods
+stop conversion; use a fresh output directory and require a successful exit/audit.
 
 ```bash
 python convert_to_rdf.py apsearch          # -> data/rdf/apsearch.ttl

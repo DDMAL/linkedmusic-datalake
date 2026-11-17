@@ -96,8 +96,9 @@ is handled in two ways:
 
 Whatever still doesn't resolve stays as an un-reconciled node (a GND/VIAF authority URI, or
 a bare `performance.musiconn.de/…` source URI) with **no `P2888`** — preserved intact, never
-dropped. The residue is genuinely absent from Wikidata (~0.5% ID-hit rate on what's left);
-see [`doc/data-model.md`](doc/data-model.md) for the rates.
+dropped. A missing crosswalk target leaves identity unresolved; it does not prove
+absence from Wikidata or exclude lookup/cache limitations. See the
+[model and evidence limits](doc/data-model.md).
 
 ## 4. Convert to RDF
 

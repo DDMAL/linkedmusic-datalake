@@ -1,57 +1,30 @@
 # musiconn (`E5320`) — data model & mapping decisions
 
-The authoritative reasoning behind the musiconn conversion: the source CTO shape, the
-predicate map ([`../src/ontology/mapping.json`](../src/ontology/mapping.json) is its runtime
-distillation), record typing, dates, reconciliation, the residue policy, and the emitted
-schema (the reference for **SESEMMI**, LinkedMusic's natural-language→SPARQL query tool).
-Counts are from `musiconn.ttl`.
+The [shared predicate map](../src/ontology/mapping.json) controls record typing,
+dates, relationships and reconciliation output. This guide describes configured
+behavior, not current population measurements or deployment. Identify the input,
+mapping files and converter revision before reporting counts or link coverage.
 
-## 1. What the source looks like
+## 1. Source shape and identity boundaries
 
-CKG remodels musiconn.performance into the **nfdicore / CTO** ontology. Every record is a
-`CTO_0001005` "source item" (106,169 of them); each is an **Event** or a **Work**. The
-relational backbone — who/where/what-collection — is **reified**: `has related person/org/
-location` and `part of` point to **blank nodes**, and each blank node carries exactly two
-triples: an `rdf:type` and one authority identifier:
+Preprocessing indexes source records as Events or Works. Reified relationships
+can point to person, place, organization or collection blank nodes carrying
+an authority identifier. Conversion collapses these to persistent authority
+URIs and adds supplied `wdt:P2888` crosswalk links separately. Repeated authority
+URIs coalesce; this does not independently establish real-world identity.
 
-```
-_:bb277260  rdf:type      nfdi:NFDI_0000004          # person
-_:bb277260  nfdi:NFDI_0001006  <https://d-nb.info/gnd/118508288>   # its GND id
-```
-
-| Relation (object = bnode) | count | typed entity | authority |
-|---|---|---|---|
-| `CTO_0001009` has related person | 128,205 | `NFDI_0000004` person | `NFDI_0001006` GND/VIAF |
-| `CTO_0001011` has related location | 84,244 | `NFDI_0000005` place | GND/VIAF |
-| `CTO_0001010` has related organization | 65,724 | `NFDI_0000003` organization | GND/VIAF |
-| `BFO_0000050` part of | 35,418 | `NFDI_0000107` collection | GND/VIAF |
-
-Authority IDs are **GND (`d-nb.info`, ~57%) and VIAF (`viaf.org`, ~43%) only** — no
-Getty/TGN/Iconclass on the music entities.
-
-Four consequences drive the whole conversion:
-
-1. **Names are not in the dump.** Entity nodes have no label, only an authority ID
-   (`rdfs:label` is on 100% of records, 0% of entity nodes). Display names come from
-   Wikidata (reconciled) or the authority-service name fetch.
-2. **No blank nodes in output** (LinkedMusic rule): collapse each entity bnode **to its
-   authority URI**, and add a separate `wdt:P2888` → QID pivot when reconciled. The relation
-   always points to the persistent authority-URI node — never directly to the QID, never to a
-   blank node. Same shape as `mb:Area` / `diamm:City`.
-3. **This dedupes for free.** The same real-world entity is reified as a *separate* bnode in
-   every record. Collapsing by authority URI merges them — so the 128,205 person *links*
-   become **19,775 distinct** `lmckg:Person` nodes.
-4. **Roles are flattened.** Each of the 128,205 person↔event links is fully identified but
-   carries **zero role/voice-type** — performer, composer and conductor roles are not
-   represented in this dataset.
+Record labels are retained. Related-node names depend on supplied Wikidata or
+authority-name inputs; missing names are not invented. `CTO_0001009` is a
+related-person association with an unspecified role. It cannot establish
+composition, performance or conducting, even if the person's Wikidata occupation
+is known. Roles and performance dates must come from evidence about that event.
 
 ## 2. Predicate map
 
 `convert_to_rdf.py` rewrites each triple by `mapping.json`; an absent predicate is dropped
 and logged. **Policy: remap to `wdt:P*` where a faithful Wikidata equivalent exists; keep the
-CTO IRI for the role-agnostic relations** (musiconn's whole backbone is role-agnostic, so
-forcing it into specific Wikidata properties would assert roles the data doesn't have); drop
-provenance noise.
+CTO IRI for role-unspecified relations**; drop only the configured properties.
+Inspect reported unknown predicates before accepting a conversion.
 
 ### Record fields (on `CTO_0001005`)
 
@@ -63,8 +36,8 @@ provenance noise.
 | `CTO_0001026` has external classifier | classifier_aat | `wdt:P31` from AAT→QID **and keep the `cto:CTO_0001026` AAT URI** |
 | `NFDI_0000191` published by | remap | `wdt:P123` |
 | `NFDI_0000142` has license | remap | `wdt:P275` |
-| `NFDI_0001008` has url | **drop** | self-referential (object == the record's own IRI) in every feed; the subject IRI already *is* the permalink |
-| `CTO_0001007` has license statement | **drop** | values are stringified bnode ids (a CKG export bug) — the real license is `NFDI_0000142` |
+| `NFDI_0001008` has url | **drop** | the configured map emits no separate URL for this property |
+| `CTO_0001007` has license statement | **drop** | this configured drop does not replace record-level `NFDI_0000142` licence assertions |
 
 ### Relational backbone (kept as CTO; object collapsed to the authority-URI node)
 
@@ -87,42 +60,35 @@ standard), `NFDI_0000146` (metadata media type), `schema:item`, `schema:dataFeed
 
 ## 3. Record typing (`P31`)
 
-Every record is typed two ways: a **local `lmckg:` class** (for cheap kind-filtering in
-SESEMMI without federation) **and** a `wdt:P31` → QID from its AAT classifier. musiconn
-records all carry a resolving AAT classifier, so the cross-feed `RECORD_KIND_P31` fallback
-never fires here.
+Indexed records receive a local `lmckg:` class. A resolving AAT classifier can
+also add `wdt:P31` using the supplied record-type map. The configured choices are:
 
 | Record (AAT classifier `CTO_0001026`) | local class | `wdt:P31` |
 |---|---|---|
 | event (`aat:300262956` "musical performances") | `lmckg:Event` | `wd:Q6942562` musical performance |
 | work (`aat:300417577` "musical compositions") | `lmckg:Work` | `wd:Q207628` composed musical work |
 
-Both QIDs are also confirmed deterministically (`aat:… wdt:P1014 → QID`). Real-world entities
-(person/place/org/collection) get only the local `lmckg:` class, **not** a `wdt:P31` —
-Wikidata already supplies the type for reconciled ones, and the local class is enough to
-filter by kind.
+Related person/place/organization/collection nodes receive local classes.
+Identifier mappings and type choices require source-backed review; neither
+syntax nor a deterministic lookup proves a link is correct.
 
 ## 4. Dates
 
-`CTO_0001070` (performance date) is a uniform `YYYY-MM-DD` literal across all 65,359 event
-records → coerced to `xsd:date` (`coerce_date`, with a `xsd:gYear` fallback for `YYYY` /
-`YYYY-00-00`). musiconn carries **no** `schema:DateTime` interval dates, so the interval branch
-(used by Detmold/APSearch) never fires — musiconn dates stay byte-identical regardless of the
-feed-conditional logic.
+`CTO_0001070` maps to `wdt:P585`. The existing coercion preserves supported valid
+dates as `xsd:date`, reduces unknown day/month components to `xsd:gYearMonth` or
+`xsd:gYear`, and can lose precision for unsupported/invalid components. This
+behavior is unchanged by the [APSearch interval model](../../ckg-apsearch/doc/creation-period-preservation.md).
+A performance date is distinct from a work's creation period or a catalogue
+record's modification date. Inspect the source and output datatype for each claim.
 
-## 5. Reconciliation rates
+## 5. Reconciliation evidence
 
-The crosswalk is **deterministic** GND `P227` + VIAF `P214`. The real coverage:
-
-- **Distinct authorities → QID: ≈62%** (GND 61.9%, VIAF 61.8%).
-- **Relation-weighted** (how many *links* land on a reconciled node): person **79.1%**,
-  location 54.2%, organization 47.7% — popular composers reconcile far better than venues and
-  orgs.
-- Output: **14,165 distinct `wdt:P2888` pivots**, 110,684 `rdfs:label` (Wikidata names
-  for reconciled nodes + fetched authority names for residue).
-
-The unreconciled remainder is **genuinely absent from Wikidata** (~0.5% ID-hit on the residue
-after the targeted ID lookup), not a pipeline bug. It is kept intact — never dropped.
+Crosswalks use explicit GND `P227`, VIAF `P214` and GeoNames `P1566` statements.
+Unreturned entities remain unresolved; this does not establish absence from
+Wikidata or exclude lookup/cache limitations. Source nodes remain without a
+fabricated target. Retain source versions and crosswalk responses, and review
+identity independently under the [evaluation protocol](../../evaluation/protocol.md).
+Report distinct-node and relation-weighted coverage separately from correctness.
 
 ## 6. Emitted schema (SESEMMI reference)
 
@@ -149,9 +115,3 @@ Wikidata, `cto:` = `https://nfdi4culture.de/ontology/` (kept role-agnostic relat
 Filter records by `lmckg:Event` / `lmckg:Work`; entities by `lmckg:Person/Place/Organization/
 Collection`. Reconciled entities reach Wikidata via `wdt:P2888`; residue entities have the
 local class and label but no `P2888`.
-
-## 7. Verified record-type IDs
-
-The deterministic crosswalk QIDs are trustworthy by construction. The record-type QIDs in use
-are **Q6942562** musical performance and **Q207628** composed musical work, both confirmed
-against Wikidata (`aat:… wdt:P1014 → QID`).

@@ -27,7 +27,7 @@ conditions against the particular source export and repository, not the feed nam
 | `rdfs:label` | preserve labels | `rdfs:label` |
 | `CTO_0001049` | media classifier lookup | configured `wdt:P31` |
 | `CTO_0001026` | AAT classifier lookup | configured `wdt:P31`; retain AAT URI |
-| `CTO_0001073` creation period | date coercion | start-year `wdt:P571` (`xsd:gYear`) |
+| `CTO_0001073` creation period | retain source and paired bounds | named observation; parsed start-year `wdt:P571` projection |
 | `NFDI_0000142` licence | remap and crosswalk | `wdt:P275` source URI; optional `wdt:P2888` target |
 | `NFDI_0000191` publisher | remap and crosswalk | `wdt:P123` source URI; optional `wdt:P2888` target |
 | `CTO_0001021` content URL | join through `schema:associatedMedia` | `wdt:P953` URI |
@@ -59,15 +59,17 @@ classifier occurs in only one feed.
 
 ## Creation dates
 
-The APSearch date branch coerces a recognized creation-period interval to the
-start year as `xsd:gYear`. It does not retain the original interval or the ending
-year. Thus a range such as `1909-01-01/1950-01-01` cannot support an interval-overlap
-answer after this conversion. January-01 boundaries alone do not establish exact
-day precision. Creation dates must not be treated as performance dates.
+The APSearch branch retains the original `CTO_0001073` assertion and a named
+observation containing its RDF value, paired year bounds, parse status and review
+flags. Supported ordered values additionally emit a start-year `wdt:P571`
+projection. Malformed, reversed and unsupported values retain evidence without
+that projection. Year `9009` remains unchanged and flagged.
 
-The feeds use mixed date datatypes. Queries must inspect the datatype/lexical
-form before applying date functions; `YEAR` is not portable over `xsd:gYear`.
-Do not derive corpus-wide interval or precision counts from this contract.
+Use the [creation-period contract](creation-period-preservation.md) and
+[named-graph overlap query](queries/creation_period_overlap.rq). Bounds are
+inclusive, remain paired per observation and do not imply an event occurred in
+each year. Creation periods must not be treated as performance dates. This
+APSearch branch does not alter the other feeds' existing date conversion.
 
 ## Licences and publisher
 
