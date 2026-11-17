@@ -23,7 +23,7 @@ The `relationships` field for `sources` is very similar, containing relationship
 - `archives` has the list of archives in that city
 - `country` is the country that the city is located in
 - `organizations` are organizations that are located in that city
-- `provenance` is a list of sources that came from the city
+- `provenance` lists manuscript associations with source URL/name, `city_uncertain` and optional earliest/latest years; see [qualified provenance](source_provenance.md).
 
 ## Compositions
 
@@ -62,7 +62,7 @@ definitions, organization location and parent-type limits.
 
 - `organizations` lists organizations whose source `location` is that geographic area; it supplies organization-to-region links independently of manuscript provenance
 - `cities` is a list of cities in the region
-- `provenance` is a list of sources that came from this region
+- `provenance` lists manuscript associations with source URL/name, `region_uncertain` and optional earliest/latest years; see [qualified provenance](source_provenance.md).
 
 ## Sets
 

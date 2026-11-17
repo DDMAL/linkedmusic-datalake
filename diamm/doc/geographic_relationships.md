@@ -1,9 +1,9 @@
 # Geographic relationships and organization locations
 
 Organization/region rows in `relations.csv` produce explicit source-supported
-location assertions. Parent routing and qualified manuscript provenance retain
-their separate limitations; this contract does not establish complete geographic
-fidelity.
+location assertions. Parent routing retains its limitations;
+[qualified manuscript provenance](source_provenance.md) has its own observation
+contract. Neither establishes complete geographic fidelity.
 
 ## Source evidence and decision
 
@@ -85,14 +85,12 @@ occurrence and deployed serializer behavior remain unmeasured.
 
 The [source-provenance model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/source_provenance.py)
 links a manuscript to geographic areas, with separate uncertainty flags and
-earliest/latest years. City/region serializers expose those qualifiers. Local
-extraction discards them: city/source rows become unqualified P131, while
-region/source rows currently have no RDF branch. Simply adding an unqualified
-region/source location assertion would discard uncertainty and conflate source
-provenance with the organization's own location. A complete representation would
-need paired raw qualifiers and explicit
-legacy-input behavior. The current projections must not be interpreted as
-manuscript creation, performance or current storage.
+earliest/latest years. City/region serializers expose those qualifiers. The
+[qualified provenance contract](source_provenance.md) retains both routes in
+named observations with paired JSON, supported qualifiers and explicit legacy
+behavior. It emits no direct source-to-city P131 for new or legacy inputs and
+does not infer dates, creation, performance or current storage. This is separate
+from the organization-location predicate described here.
 
 The [region-history copy-step facet](geographic_names.md), other unprotected
 text fields, source URL parsing outside this route and broader relationship

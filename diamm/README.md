@@ -40,6 +40,11 @@ when one distinct nonblank string is available. The
 [identifier-list contract](doc/external_identifier_selection.md) describes
 classification, multiple values, evidence retention and legacy compatibility.
 
+City/region provenance entries retain their complete parsed JSON in the
+`source_provenance` column of `relations.csv`, which bypasses OpenRefine.
+Uncertainty and year bounds stay paired with source/place endpoints under the
+[qualified provenance contract](doc/source_provenance.md).
+
 ## 3. Reconciling Data
 
 All of the CSV files produced by [`diamm/src/to_csv.py`](/diamm/src/to_csv.py), except for `relations.csv`, are reconciled in OpenRefine following the steps outlined in [`reconciliation.md`](./doc/reconciliation.md). The `diamm/openrefine/` folder contains the history and export template files for the reconciliation of each CSV.
@@ -87,8 +92,16 @@ Country matching hints are separate from relationships in `relations.csv`.
 The [geographic relationship contract](doc/geographic_relationships.md) maps
 organization/region rows to `diamm:organizationLocation`, without asserting
 administrative status or inferring manuscript locations. Existing city/country
-mappings retain their limitations. City/region provenance qualifiers and
-ambiguous parent types require source evidence beyond names or country hints.
+mappings retain their limitations. [City/region manuscript provenance](doc/source_provenance.md) uses named
+observations retaining raw JSON, supported qualifiers and validation flags.
+Legacy rows remain explicitly unqualified evidence. Source-to-city P131 is
+removed for both new and legacy inputs. Parent-type ambiguity remains unresolved.
+
+The [shared evidence contract](../shared/ontology/README.md) provides vocabulary
+and executable shapes. Use the [query contract](doc/source_provenance.md#query-and-answer-contract)
+to distinguish uncertain, source-unflagged and unknown evidence, retain
+disagreements, and count manuscripts separately from observations. Optional
+snapshot lineage and candidate NLQ context require separate integration.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion
@@ -101,10 +114,10 @@ Some properties of interest:
 
 - RDFS:label is used instead of P2561 to indicate the name of places/objects, as that's what Wikidata uses for the primary label for items, including for the title of compositions
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
-- P131 is used to indicate the city an entity is in, and P17 is used for the country. P131 is only used to point to the most specific point (city), and the city will point to the region.
+- Existing archive/organization city locations and city/region parent links use P131; country links use P17. Parent types require source review. Manuscript city/region provenance uses qualified observations.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
-- The legacy organization-provenance branch emits P276 (location), and city/source provenance emits P131. Region/source provenance rows have no RDF branch. These mappings do not establish that every provenance relation means physical location; inspect the source relation before using them as location facts.
+- The legacy organization-provenance branch still emits P276 (location), with its separate semantic limits. City/region manuscript provenance uses observations without direct location projection. Inspect the original source relation before interpreting any route as physical location.
 - P11603 (transcribed by) is used to indicate people that copied a source as one of the alternate uses is to indicate copying
 - P361 (part of) is used to indicate sets or compositions that are contained in sources
 

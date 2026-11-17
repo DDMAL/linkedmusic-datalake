@@ -1,0 +1,12 @@
+# Review differing supported qualifiers; retain both evidence identities.
+# Different dates may describe different events. Missing is not disagreement.
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+SELECT DISTINCT ?source ?place ?left ?right ?qualifier ?leftValue ?rightValue WHERE {
+  GRAPH <https://linkedmusic.ca/graphs/diamm/> {
+    ?source diamm:sourceProvenance ?left, ?right .
+    ?left diamm:place ?place; ?qualifier ?leftValue .
+    ?right diamm:place ?place; ?qualifier ?rightValue .
+    VALUES ?qualifier { diamm:uncertain diamm:earliestYear diamm:latestYear }
+    FILTER(STR(?left) < STR(?right) && !sameTerm(?leftValue, ?rightValue))
+  }
+}

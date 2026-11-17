@@ -6,3 +6,8 @@ The CSV converter recognizes complete Wikidata identifiers while preserving text
 external URLs and configured local identifiers. See the
 [identifier contract](rdf_conversion/identifier_preservation.md) and run its tests
 with `poetry run python scripts/check_offline.py` from the repository root.
+
+The [shared evidence and lineage contract](ontology/README.md) describes
+source-specific observations, separates uncertainty from date approximation
+and processing status, and provides vocabulary and SHACL shapes. Its optional
+PROV-O lineage profile requires actual retained snapshots and run metadata.
