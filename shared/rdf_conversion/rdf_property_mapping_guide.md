@@ -2,17 +2,15 @@
 
 This short guide explains how to choose the most appropriate Wikidata property when mapping dataset relations. The guide assumes that you are doing mapping with the help of `prop_cli.py`. Nevertheless, all the steps can be replicated through navigating the Wikidata GUI (it just would be less convenient).
 
-This guide will likely be merged into the [RDF conversion guideline Wiki](https://github.com/DDMAL/linkedmusic-datalake/wiki/RDF-Conversion-Guidelines) after the pull request. We still need to clarify how documentation is to be organized.
+This guide covers the CLI workflow. The [RDF conversion policy](https://github.com/DDMAL/linkedmusic-datalake/wiki/RDF-Conversion-Guidelines) covers source preservation, direction, qualifiers and reviewed alignments.
 
 # 1. Mapping relations to Wikidata Properties
 
 ## 1.1 The Rule of Thumb
 
-- Whenever possible, we should rely on how Wikidata properties are used, and not as much on how they are defined.
-- Example:
-  - Suppose you're trying to find a Wikidata property to describe the relationship between a software and the person who designed it.
-  - You may hesitate between `creator(P170)` and `designed by(P287)` — just by looking at their definitions, you cannot tell which is more appropriate.
-  - Nevertheless, you should choose `creator(P170)`, because that is the predicate used between `Linus Torvalds(Q34253)` and `Linux (Q388)`.
+- Read the source relationship's definition, endpoints, direction and qualifiers before choosing a predicate. Check candidate property definitions first, then inspect usage as supporting evidence.
+- A relationship observed elsewhere does not establish that role in the source record. A generic related-person link cannot become a composer or performer assertion merely because the person has those roles elsewhere.
+- When a Wikidata mapping would erase a supplied distinction, retain the source predicate or a documented LinkedMusic term. Preserve qualifiers on an observation and add only reviewed broader alignments. See the [MusicBrainz representation decision](../../musicbrainz/doc/representation_review.md) for a worked example.
 
 ## 1.2 Running prop_cli.py
 
@@ -58,9 +56,8 @@ For each decision:
   - I am not sure what property to use to map a jazz artist onto their work (are they performer or composer?). However, I know that the relation between Charlie Parker and Anthropology is a good example of this relationship.
   - I type `charlie parker, anthropology jazz` (if I don't type "jazz", "anthropology" would match onto the academic discipline)
   - Both `Anthropology(Q574394)  composer(P86)  Charlie Parker(Q103767)` and `Anthropology(Q574394)  performer(P175)  Charlie Parker(Q103767)` are printed to the console.
-  - I know that I should use both `P86` and `P175`.
-  - I can type `dizzy gillespie, night in tunisia` to double check.
-  - It returns the same result. I am confident in my mapping.
+  - These are candidate predicates. Use `P86` only where the source supplies composition, and `P175` only where it supplies performance, with the correct endpoint type and direction.
+  - Another example, such as `dizzy gillespie, night in tunisia`, can help inspect usage; it cannot supply a missing role for the source record being converted.
 
 3. If you know (or can guess) what the Wikidata property is named but don't remember the PID, type the property name.
 

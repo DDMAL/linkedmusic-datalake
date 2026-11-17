@@ -7,7 +7,13 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SUITES = ("evaluation/tests", "rism/tests", "musicbrainz/tests", "ckg-apsearch/tests")
+SUITES = (
+    "evaluation/tests",
+    "rism/tests",
+    "musicbrainz/tests",
+    "ckg-apsearch/tests",
+    "shared/tests",
+)
 
 # Discovery must fail even when a test_*.py file exists but contains no tests.
 DISCOVER = """
