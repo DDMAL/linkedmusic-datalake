@@ -759,6 +759,15 @@ class ManifestTests(unittest.TestCase):
                 {"id": f"cq{i:02d}", "validation": "fixture_pass"} for i in range(1, 15)
             ]
             query_runner.write_text(stub.replace("CASES", repr(complete)))
+            # Each required suite must exist and contain passing tests.
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            rism_suite = root / "rism/tests"
+            rism_suite.mkdir(parents=True)
+            (rism_suite / "test_empty.py").write_text("# Contains zero tests.\n")
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            (rism_suite / "test_example.py").write_bytes(
+                (suite / "test_example.py").read_bytes()
+            )
             self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
             complete[0]["validation"] = "fixture_fail"
             query_runner.write_text(stub.replace("CASES", repr(complete)))

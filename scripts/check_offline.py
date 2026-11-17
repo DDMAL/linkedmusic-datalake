@@ -7,7 +7,7 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SUITES = ("evaluation/tests",)
+SUITES = ("evaluation/tests", "rism/tests")
 
 # Discovery must fail even when a test_*.py file exists but contains no tests.
 DISCOVER = """
