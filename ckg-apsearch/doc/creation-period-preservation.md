@@ -177,3 +177,6 @@ The three converter copies are intentionally identical. The new preservation
 branch runs only for APSearch `CTO_0001073`; musiconn/Detmold retain their date
 coercion and output shape. Later SESEMMI integration must explicitly ingest this
 model and the overlap query; no SESEMMI changes are included here.
+
+A [hash-identified candidate comparison](candidate-validation.md) records the
+validated source cohort and its limits; it does not establish deployment.
