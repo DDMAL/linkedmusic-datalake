@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  manifest-contract:
+  evaluation-contract:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -24,9 +24,9 @@ jobs:
         run: |
           python -m pip install poetry==2.1.3
           poetry install --no-interaction --no-root
-      - name: Validate the manifest and required suites
+      - name: Validate manifests, required suites and competency controls
         run: |
           poetry run python evaluation/manifest.py validate evaluation/manifests.json
           poetry run python scripts/check_offline.py
       - name: Check Python formatting
-        run: poetry run black --check evaluation/manifest.py evaluation/tests/test_manifest.py scripts/check_offline.py
+        run: poetry run black --check evaluation/*.py evaluation/tests/*.py scripts/check_offline.py

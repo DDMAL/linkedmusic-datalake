@@ -1,0 +1,23 @@
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+# An identifier agreement join, not a proof that the two source records match.
+SELECT DISTINCT ?leftGraph ?rightGraph ?leftRecord ?leftEntity ?rightRecord ?rightEntity ?qid WHERE {
+  VALUES (?leftGraph ?rightGraph) {
+    (<urn:linkedmusic:identifier:a> <urn:linkedmusic:identifier:b>)
+  }
+  GRAPH ?leftGraph {
+    {
+      ?leftRecord wdt:P86 ?qid . BIND(?qid AS ?leftEntity)
+    } UNION {
+      ?leftRecord wdt:P86 ?leftEntity . ?leftEntity wdt:P2888 ?qid .
+    }
+  }
+  GRAPH ?rightGraph {
+    {
+      ?rightRecord wdt:P86 ?qid . BIND(?qid AS ?rightEntity)
+    } UNION {
+      ?rightRecord wdt:P86 ?rightEntity . ?rightEntity wdt:P2888 ?qid .
+    }
+  }
+  FILTER(isIRI(?qid) && REGEX(STR(?qid), "^http://www[.]wikidata[.]org/entity/Q[1-9][0-9]*$"))
+} ORDER BY ?leftGraph ?rightGraph ?leftRecord ?leftEntity ?rightRecord ?rightEntity ?qid

@@ -58,9 +58,12 @@ poetry run python evaluation/manifest.py validate evaluation/manifests.json
 poetry run python scripts/check_offline.py
 ```
 
-These checks validate the manifest contract with synthetic inputs. They do not
-measure source fidelity or deployment. Keep large evidence and generated data
-outside Git, with hashes and durable availability recorded where known.
+These checks validate the manifest, identifier queries, sampling and 14
+competency controls with synthetic inputs. They do not measure source fidelity
+or deployment. Measured query runs require explicit population/artifact selection;
+use the manifest adapter and retain failed/partial results. Keep large evidence
+and generated data outside Git, with hashes and durable availability recorded
+where known.
 
 ## Wiki
 

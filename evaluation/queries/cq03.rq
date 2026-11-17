@@ -1,0 +1,14 @@
+# Join explicit MusicBrainz IDs, not titles or shared performer identity.
+SELECT DISTINCT ?solo ?track ?recording WHERE {
+  GRAPH {{wjazzd}} {
+    ?solo a <https://linkedmusic.ca/graphs/wjazzd/Solo> ;
+          wdt:P175 {{jazz_person}} ; wdt:P361 ?track .
+    ?track wdt:P4404 ?mbid .
+    FILTER(isLiteral(?mbid))
+    FILTER(REGEX(STR(?mbid), "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"))
+    BIND(IRI(CONCAT("https://musicbrainz.org/recording/", LCASE(STR(?mbid)))) AS ?recording)
+  }
+  GRAPH {{musicbrainz}} {
+    ?recording a <https://linkedmusic.ca/graphs/musicbrainz/Recording> .
+  }
+} ORDER BY ?solo ?track ?recording LIMIT 25

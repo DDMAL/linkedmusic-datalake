@@ -744,7 +744,25 @@ class ManifestTests(unittest.TestCase):
             (suite / "test_example.py").write_text(
                 "import unittest\nclass Example(unittest.TestCase):\n    def test_ok(self): self.assertTrue(True)\n"
             )
+            # A passing suite no longer substitutes for the mandatory query run.
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            query_runner = root / "evaluation/run_queries.py"
+            stub = (
+                "import json, sys\nfrom pathlib import Path\n"
+                "output = Path(sys.argv[sys.argv.index('--output-dir') + 1])\n"
+                "output.mkdir()\n"
+                "(output / 'report.json').write_text(json.dumps({'cases': CASES}))\n"
+            )
+            query_runner.write_text(stub.replace("CASES", "[]"))
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
+            complete = [
+                {"id": f"cq{i:02d}", "validation": "fixture_pass"} for i in range(1, 15)
+            ]
+            query_runner.write_text(stub.replace("CASES", repr(complete)))
             self.assertEqual(subprocess.run(command, capture_output=True).returncode, 0)
+            complete[0]["validation"] = "fixture_fail"
+            query_runner.write_text(stub.replace("CASES", repr(complete)))
+            self.assertEqual(subprocess.run(command, capture_output=True).returncode, 1)
             (suite / "test_example.py").write_text(
                 "import unittest\nclass Example(unittest.TestCase):\n    def test_bad(self): self.fail('expected failure')\n"
             )

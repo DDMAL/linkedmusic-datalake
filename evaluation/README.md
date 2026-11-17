@@ -1,4 +1,4 @@
-# Evaluation manifests
+# Evaluation tools and manifests
 
 The manifest records evidence about source snapshots and RDF artifacts for
 [the evaluation protocol](protocol.md). It separates three populations:
@@ -31,8 +31,9 @@ poetry run python scripts/check_offline.py
 The offline runner explicitly requires `evaluation/tests` and fails if the
 suite is absent, has zero tests, fails to import, or reports a failing test.
 Each required suite runs in its own interpreter. The GitHub workflow runs the
-same checks and formatting. These are synthetic contract tests, not a data
-census, converter-fidelity test, query execution or endpoint probe.
+same checks, all 14 synthetic competency queries and formatting. These are
+synthetic controls, not a data census, historical converter-fidelity measurement
+or endpoint probe.
 
 Migrate a legacy manifest to a **new** path:
 
@@ -65,6 +66,179 @@ repository root. `--root` explicitly selects a different checkout/staging root.
 Deployed graphs cannot use local-file verification; the tool never contacts an
 endpoint or downloads an archive. Selecting a deployed record checks its
 recorded evidence structure, not whether it is still deployed today.
+
+## Query execution and controls
+
+[cases.json](cases.json) defines 14 manually authored competency controls.
+[identifier_review.md](identifier_review.md) documents the separate identifier
+patterns. Run the synthetic fixture to a fresh directory:
+
+```sh
+poetry run python evaluation/run_queries.py --fixture \
+  --output-dir evaluation/audits/fixture-run
+```
+
+All 14 cases compare complete RDF bindings as multisets, preserving duplicates,
+IRIs, literal lexical forms, datatype and language. Equivalent JSON literal
+encodings are normalized; language tags compare without case. Projection
+variables are checked even for empty results. Blank-node labels are compared
+literally; these fixtures contain no blank nodes in expected answers, and the
+runner is not a general blank-node-isomorphism scorer. Exact fixture answers
+are synthetic controls, not independently verified answers for real datasets.
+
+Fixture graph IRIs are fixed independently of the manifest. Both supported
+manifest versions go through `manifest.py`, and the report records input and
+normalized schema versions. Future converter paths in legacy metadata are not
+required fixture inputs. CQ07–09 test a specific MusicBrainz role/observation
+model and separate schema graph; CQ10–11 test paired CKG periods. Their design
+references pin that model's source revision. Verify those predicates and their
+meaning in any measured population before interpreting results.
+The three CKG feeds use shared `https://linkedmusic.ca/graphs/ckg/Work` and
+`Person` classes inside their separate per-feed named graphs. Negative fixture
+records exercise class constraints, identifier shapes, one-hop link limits and
+inclusive/exclusive year boundaries.
+
+Measured runs require a population and an exact artifact binding for each query
+graph. `--artifact KEY=ID` selects an artifact in dataset KEY; a colon is part of
+the ID, so `wjazzd=export:2026-11` selects that exact ID within `wjazzd`.
+Primary graph keys cannot select another dataset. The declared auxiliary key
+uses `--artifact musicbrainz_schema=musicbrainz/ID` to select a schema artifact
+from `musicbrainz`; `/` cannot occur in an artifact ID. Repeat the option for
+cross-source queries. Each binding must have a distinct known graph IRI. There is no fallback
+to an expected graph, unrelated dataset or endpoint default union.
+
+For a real inventory containing a stored `wjazzd` artifact named `export-1`:
+
+```sh
+poetry run python evaluation/run_queries.py --local --population stored \
+  --manifest path/to/inventory.json --artifact wjazzd=export-1 --case cq01 \
+  --output-dir evaluation/audits/stored-query
+```
+
+Use `--population candidate` for candidate files. Local mode loads **one file
+per named graph**. It accepts single-graph `.ttl` and `.nt` files, verifies their
+SHA-256 before and after loading, and assigns each to its selected named graph.
+An answer about an entire graph requires a file containing that entire graph.
+For exports split across files, such as MusicBrainz or RISM, selecting one part
+does not load the others. Assemble all required parts into a separate derived
+artifact before running a whole-graph query. Record its own SHA-256, the assembly
+procedure and every input part's identity/hash as lineage evidence; preserve
+the originals. The manifest and runner do not aggregate parts automatically.
+
+A deliberately selected subset answers only for that subset. Record its coverage
+and exclusions explicitly; both empty and nonempty `ok` answers can omit matches
+from unselected parts and cannot establish a whole-graph result.
+`--root` selects the
+root for repository-relative artifact paths. Paths must remain inside that
+root. Relative IRIs require an explicit base in the RDF; the file's machine
+path is not an implicit base. Local loading uses RDFLib's in-memory store and
+has no time or memory bound. Large whole-graph queries may require a separately
+staged complete graph with its own deployment evidence. Quad formats and archives are not
+accepted in local mode.
+
+For an explicitly authorized endpoint observation with a deployed record:
+
+```sh
+poetry run python evaluation/run_queries.py \
+  --endpoint https://example.org/sparql --population deployed \
+  --manifest path/to/inventory.json --artifact wjazzd=observed-graph --case cq01 \
+  --timeout 10 --output-dir evaluation/audits/endpoint-query
+```
+
+These IDs and paths are placeholders. The supplied pilot has no selectable
+population artifacts. A selected deployed record identifies the declared
+observation target; it cannot prove that the endpoint still contains the same
+snapshot, nor establish a stored/deployed correspondence. Record matching load
+and endpoint evidence in the manifest and inspect it before running. Do not use
+an arbitrary endpoint with an unrelated deployment record.
+
+Only SELECT/ASK are accepted. Updates, SERVICE and FROM clauses are rejected.
+The runner uses one GET per case without retries or redirects. Remote timeouts
+use a 1–60 second server budget, a 5 second connect timeout and a read timeout
+five seconds longer than the server budget; these are not a total wall-clock
+bound or an assurance that a server stops work. External authority responses
+must be archived separately under the protocol; this tool does not fetch them.
+
+Each fresh run directory preserves the exact manifest input, normalized manifest,
+rendered queries, raw responses and a checkpointed `report.json`. Reports include
+query/response hashes, adapter/schema/catalogue/protocol/lock/code hashes,
+actual Python/client versions, Git head and dirty status, population and selected
+artifact IDs. Local file verification is separate from converter provenance;
+reading a file never assigns the current query runtime to its conversion.
+
+Execution statuses distinguish `ok`, `partial`, `timeout`, `endpoint_error`,
+`invalid_response`, `query_error` and `configuration_error`. Every case records
+whether a request was attempted. Missing artifacts, graph bindings or local
+parse/hash failures produce configuration errors without querying that case;
+other independently configured cases continue. Timeout/HTTP/partial/invalid
+responses are retained and cause a nonzero exit. HTTP 206 and Virtuoso-style
+`X-SPARQL-Anytime`/`X-SQL*` headers flag partial results. Other server-side limits
+may not be detectable: an `ok` response alone never establishes completeness.
+If downloading a response body times out, the report records `timeout` and
+retains the HTTP status, diagnostic headers and decoded body bytes received
+before the failure. A generic connection failure remains `endpoint_error`.
+
+A row count at or above the catalogue limit is explicitly flagged. CQ12 is an
+unsupported full question even if its necessary-condition probe returns rows;
+its support status remains visible alongside execution and fixture validation.
+Other measured answers require independent source review, including successful
+empty results. Exit zero means execution/fixture checks completed, not that
+real answers are correct or complete or that every question is supported.
+Reports are evidence artifacts, not manifest measurements automatically written
+back into an inventory. Keep the directories outside Git and archive them with
+availability information before citing empirical results.
+
+## Stratified reconciliation sampling
+
+Start from [the frame template](templates/reconciliation-frame.json), filling
+its provenance and every source entity before declaring `complete: true`.
+The frame uses schema/protocol `1.0` and manifest schema `2.0`; unknown or missing
+versions fail. Provenance requires source snapshot and reconciliation-export
+SHA-256 values, extraction command, UTC extraction time, unit definition and
+explicit exclusions. When a single source export contains accepted targets,
+its checksum can identify both inputs. The sampler checks their structure,
+not the truth or completeness of the extraction; archive those inputs.
+
+Each unique source-entity ID has dataset, entity type, matching method, linked
+boolean, source locator and whole accepted `target` set. A linked target is an
+absolute IRI or a nonempty list of distinct absolute IRIs; direct-QID entities
+belong in the frame too. Unlinked units use null or an empty list. Unknown
+matching methods use the literal string `unknown`. The first three stratum
+fields cannot contain `|`, which separates them in quota keys.
+Unit objects accept exactly `id`, `dataset`, `entity_type`, `method`, `linked`,
+`target` and `source_locator`; unknown fields are rejected. Keep prior reviewer
+notes, labels and judgments outside the sampling frame. Use `source_locator`
+to identify separately archived source context for independent review.
+
+Supply a JSON quota object covering every observed stratum exactly, for example:
+
+```json
+{
+  "detmold|Person|authority_crosswalk|true": 7,
+  "detmold|Person|unknown|false": 3
+}
+```
+
+Freeze positive quotas between 1 and N per nonempty stratum and a randomly
+chosen seed before examining outcomes. Adjust short strata and redistribute
+quotas under the protocol before sampling; the tool never silently changes
+quotas. An empty complete frame with empty quotas produces a zero-unit census.
+
+```sh
+poetry run python evaluation/sample_review.py \
+  --frame path/to/frame.json --quotas path/to/quotas.json \
+  --seed RECORDED_RANDOM_SEED --output evaluation/audits/review-sample.json
+```
+
+SHA-256 priorities over seed, stratum and ID select without replacement and
+are invariant to input order. Each output retains the complete accepted target
+set, N, n, inclusion probability n/N, seed, input hashes and sampler/adapter/
+protocol hashes. Verdicts, evidence and reviewer fields start unreviewed. The
+output is exclusively created; an existing sample is never overwritten. Keep
+the frozen frame and quota files alongside it. Probability interpretation
+requires a seed chosen independently of outcomes and a genuinely complete
+frame, neither of which the program can verify. Human identity review and
+weighted estimates remain separate work under the protocol.
 
 ## Version and migration contract
 

@@ -1,0 +1,9 @@
+SELECT DISTINCT ?work ?period ?start ?end ?raw ?flag WHERE {
+  GRAPH {{apsearch}} {
+    ?work ckg:creationPeriod ?period .
+    ?period ckg:parseStatus "parsed" ; ckg:startYear ?start ;
+            ckg:endYear ?end ; rdf:value ?raw .
+    OPTIONAL { ?period ckg:reviewFlag ?flag }
+    FILTER(xsd:integer(STR(?start)) <= 1940 && xsd:integer(STR(?end)) >= 1940)
+  }
+} ORDER BY ?work ?period ?start ?end ?raw ?flag LIMIT 25
