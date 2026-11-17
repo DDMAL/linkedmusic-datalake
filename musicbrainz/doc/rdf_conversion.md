@@ -157,7 +157,7 @@ For other properties in other fields:
 - To indicate that a release is a part of a release group, I use P361 "part of", because release groups are just groups of releases
 - To attribute a release, release group or recording to an artist, I use P175 "performer"
 - To indicate that a release was released in a country (this is what release events are), I use P495 "country of origin" as it is used to indicate where a work is from
-- For other people related to a release (engineers, art directors, etc), I use P767 "contributor to the creative work or subject" as it's a catch-all for people that contributed in some way to the work
+- The 33 configured contributor relationship types emit specific role predicates and source observations. Broad P767 queries traverse the separately loaded role schema; the converter does not also emit generic P767 edges for these roles. See [role querying](contributor_role_querying.md).
 - To indicate musical genres, I use P136 "genre", as it is an exact match for what we want
 - To indicate types, I use P31 "instance of" instead of RDF:type because our goal is to mach against wikidata, so we should use its properties as much as possible
 - To indicate the area for artists, I use P27 "country of citizenship", as it is already used for this purpose on wikidata
