@@ -29,4 +29,4 @@ jobs:
           poetry run python evaluation/manifest.py validate evaluation/manifests.json
           poetry run python scripts/check_offline.py
       - name: Check Python formatting
-        run: poetry run black --check evaluation/*.py evaluation/tests/*.py scripts/check_offline.py rism/src/convert_to_rdf.py rism/src/audit_identifiers.py rism/tests/*.py
+        run: poetry run black --check evaluation/*.py evaluation/tests/*.py scripts/check_offline.py rism/src/convert_to_rdf.py rism/src/audit_identifiers.py rism/tests/*.py musicbrainz/src/convert_to_rdf.py musicbrainz/src/relationship_mapping.py musicbrainz/src/convert_relationship_sample.py musicbrainz/src/emit_relationship_schema.py musicbrainz/tests/*.py

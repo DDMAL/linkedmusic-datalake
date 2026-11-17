@@ -1,0 +1,42 @@
+{
+  "id": "00000000-0000-4000-8000-000000000001",
+  "title": "Synthetic role preservation recording",
+  "relations": [
+    {
+      "type": "recording",
+      "type-id": "a01ee869-80a8-45ef-9447-c59e91aa7926",
+      "target-type": "artist",
+      "direction": "backward",
+      "artist": {"id": "00000000-0000-4000-8000-000000000002", "name": "Synthetic engineer"},
+      "begin": "2001",
+      "end": "2002-03",
+      "ended": false,
+      "attributes": ["assistant"],
+      "attribute-ids": {"assistant": "8c4196b1-7053-4b16-921a-f22b2898ed44"},
+      "attribute-values": {"task": "Recording assistance"},
+      "attribute-credits": {"assistant": "Assistant engineer"}
+    },
+    {
+      "type": "photography",
+      "type-id": "a7e408a1-8c64-4122-9ec2-906068955187",
+      "target-type": "artist",
+      "direction": "backward",
+      "artist": {"id": "00000000-0000-4000-8000-000000000003", "name": "Synthetic photographer"},
+      "begin": null,
+      "end": null,
+      "ended": null,
+      "attributes": []
+    },
+    {
+      "type": "remixer",
+      "type-id": "7950be4d-13a3-48e7-906b-5af562e39544",
+      "target-type": "artist",
+      "direction": "backward",
+      "artist": {"id": "00000000-0000-4000-8000-000000000004", "name": "Synthetic remixer"},
+      "begin": "",
+      "end": "",
+      "ended": true,
+      "attributes": ["additional"]
+    }
+  ]
+}
