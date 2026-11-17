@@ -55,9 +55,12 @@ The `relationships` field for `sources` is very similar, containing relationship
 
 ## Regions
 
-This designates administrative regions between cities and countries (think provinces). It does not always seem to be used.
+The pinned geographic model includes both states and regions/cultural areas;
+a region URL alone does not establish administrative status. See the
+[geographic relationship contract](geographic_relationships.md) for source
+definitions, organization location and parent-type limits.
 
-- `organizations` is a list of organizations in that region
+- `organizations` lists organizations whose source `location` is that geographic area; it supplies organization-to-region links independently of manuscript provenance
 - `cities` is a list of cities in the region
 - `provenance` is a list of sources that came from this region
 

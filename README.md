@@ -90,7 +90,9 @@ The [DIAMM conversion guide](diamm/README.md#4-transforming-to-rdf-turtle)
 documents complete bare-QID validation, original names and external-identifier
 lists, and paired year/approximation evidence. Its tests cover synthetic
 extraction and conversion; historical source fidelity and deployment require
-separate evidence.
+separate evidence. DIAMM also preserves geographic name strings and explicit
+[organization/region locations](diamm/doc/geographic_relationships.md), with
+parent-type and manuscript-provenance limitations documented separately.
 
 ## Team & contact
 
