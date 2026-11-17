@@ -23,11 +23,11 @@ conditions against the particular source export and repository, not the feed nam
 
 | Source predicate | Action | Output |
 | --- | --- | --- |
-| `rdf:type` | type indexed records | `lmckg:Work` |
+| `rdf:type CTO_0001005` | type records with an indexed is-about kind | corresponding `lmckg:` class |
 | `rdfs:label` | preserve labels | `rdfs:label` |
 | `CTO_0001049` | media classifier lookup | configured `wdt:P31` |
 | `CTO_0001026` | AAT classifier lookup | configured `wdt:P31`; retain AAT URI |
-| `CTO_0001073` creation period | date coercion | start-year `wdt:P571` (`xsd:gYear`) |
+| `CTO_0001073` creation period | date coercion | `wdt:P571` with date-dependent datatype; unrecognized values unchanged |
 | `NFDI_0000142` licence | remap and crosswalk | `wdt:P275` source URI; optional `wdt:P2888` target |
 | `NFDI_0000191` publisher | remap and crosswalk | `wdt:P123` source URI; optional `wdt:P2888` target |
 | `CTO_0001021` content URL | join through `schema:associatedMedia` | `wdt:P953` URI |
@@ -44,8 +44,12 @@ date. A constant timestamp alone would not prove its provenance. The
 
 ## Record typing
 
-Each indexed record receives `lmckg:Work`. Resolving media/AAT classifier mappings
-add `wdt:P31`; otherwise the APSearch fallback is `wd:Q17537576` (creative work).
+An indexed is-about kind supplies the local class, but the converter emits it
+only when the record also has its own `rdf:type CTO_0001005` source-item assertion.
+An index entry alone does not guarantee an `lmckg:` type. Resolving media/AAT
+classifier mappings add `wdt:P31`; otherwise the APSearch fallback for indexed
+records is `wd:Q17537576` (creative work). That fallback does not require the
+source-item assertion and therefore does not guarantee a local class.
 The broad fallback avoids asserting a specific media class without a mapping.
 It is not a claim that all source objects have the same medium.
 
@@ -61,9 +65,14 @@ classifier occurs in only one feed.
 
 The APSearch date branch coerces a recognized creation-period interval to the
 start year as `xsd:gYear`. It does not retain the original interval or the ending
-year. Thus a range such as `1909-01-01/1950-01-01` cannot support an interval-overlap
-answer after this conversion. January-01 boundaries alone do not establish exact
-day precision. Creation dates must not be treated as performance dates.
+year. For example, `1909-01-01T00:00:00/1950-01-01T23:59:59` becomes the start
+year and cannot support an interval-overlap answer after conversion. Date-only
+ranges such as `1909-01-01/1950-01-01` do not match this interval branch and remain
+unchanged. A valid full date such as `2010-04-20` becomes `xsd:date`; partial
+year/month/day forms use the existing date-coercion rules, including
+`2010-04-00` becoming `xsd:gYearMonth` and `2010` becoming `xsd:gYear`.
+Unrecognized values remain unchanged. January-01 boundaries alone do not
+establish exact day precision. Creation dates must not become performance dates.
 
 The feeds use mixed date datatypes. Queries must inspect the datatype/lexical
 form before applying date functions; `YEAR` is not portable over `xsd:gYear`.
