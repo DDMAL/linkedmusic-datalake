@@ -23,7 +23,7 @@ conditions against the particular source export and repository, not the feed nam
 
 | Source predicate | Action | Output |
 | --- | --- | --- |
-| `rdf:type` | type indexed records | `lmckg:Work` |
+| `rdf:type CTO_0001005` | type records with an indexed is-about kind | corresponding `lmckg:` class |
 | `rdfs:label` | preserve labels | `rdfs:label` |
 | `CTO_0001049` | media classifier lookup | configured `wdt:P31` |
 | `CTO_0001026` | AAT classifier lookup | configured `wdt:P31`; retain AAT URI |
@@ -44,8 +44,12 @@ date. A constant timestamp alone would not prove its provenance. The
 
 ## Record typing
 
-Each indexed record receives `lmckg:Work`. Resolving media/AAT classifier mappings
-add `wdt:P31`; otherwise the APSearch fallback is `wd:Q17537576` (creative work).
+An indexed is-about kind supplies the local class, but the converter emits it
+only when the record also has its own `rdf:type CTO_0001005` source-item assertion.
+An index entry alone does not guarantee an `lmckg:` type. Resolving media/AAT
+classifier mappings add `wdt:P31`; otherwise the APSearch fallback for indexed
+records is `wd:Q17537576` (creative work). That fallback does not require the
+source-item assertion and therefore does not guarantee a local class.
 The broad fallback avoids asserting a specific media class without a mapping.
 It is not a claim that all source objects have the same medium.
 
