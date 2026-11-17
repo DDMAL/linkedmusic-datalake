@@ -1,7 +1,7 @@
 # Diagnostic necessary conditions only. Does not answer the full question.
 SELECT DISTINCT ?work ?year WHERE {
   GRAPH {{apsearch}} {
-    ?work a <https://linkedmusic.ca/graphs/ckg-apsearch/Work> ;
+    ?work a <https://linkedmusic.ca/graphs/ckg/Work> ;
           wdt:P31 wd:Q3302947 ; wdt:P571 ?year .
     FILTER(datatype(?year) = xsd:gYear && xsd:integer(STR(?year)) < 1950)
   }

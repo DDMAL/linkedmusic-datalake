@@ -49,6 +49,7 @@ class EvaluationTests(unittest.TestCase):
         session.get.return_value = Mock(
             content=body, status_code=status, headers=headers or {}
         )
+        session.get.return_value.raw.read1.side_effect = [body, b""]
         return session
 
     def test_all_questions_against_hand_authored_fixture_answers(self):
@@ -88,10 +89,10 @@ class EvaluationTests(unittest.TestCase):
 
     def test_graph_override_changes_graph_not_class_namespace(self):
         query = runner.render(
-            self.cases[0], {**self.graphs, "wjazzd": "urn:staging:wjazzd"}
+            self.cases[12], {**self.graphs, "detmold": "urn:staging:detmold"}
         )
-        self.assertIn("GRAPH <urn:staging:wjazzd>", query)
-        self.assertIn("<https://linkedmusic.ca/graphs/wjazzd/Solo>", query)
+        self.assertIn("GRAPH <urn:staging:detmold>", query)
+        self.assertIn("<https://linkedmusic.ca/graphs/ckg/Work>", query)
 
     def test_updates_and_service_are_rejected_before_request(self):
         for query in (
@@ -242,7 +243,14 @@ class EvaluationTests(unittest.TestCase):
     def run_cli(self, root, arguments):
         output = root / "run"
         result = runner.main([*arguments, "--output-dir", str(output)])
-        return result, json.loads((output / "report.json").read_text())
+        report = json.loads((output / "report.json").read_text())
+        for row in report["cases"]:
+            if "query_file" in row:
+                self.assertEqual(
+                    row["query_sha256"],
+                    runner.sha256((output / row["query_file"]).read_bytes()),
+                )
+        return result, report
 
     def test_fixture_reports_v1_and_v2_provenance_without_inventing_artifacts(self):
         for version, path in (
@@ -275,8 +283,8 @@ class EvaluationTests(unittest.TestCase):
     def test_cli_checkpoints_errors_and_continues_without_claiming_validation(self):
         empty = b'{"head":{"vars":["person"]},"results":{"bindings":[]}}'
         responses = [
-            Mock(content=b"failed", status_code=503, headers={}),
-            Mock(content=empty, status_code=200, headers={}),
+            self.response(b"failed", status=503).get.return_value,
+            self.response(empty).get.return_value,
         ]
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -480,8 +488,8 @@ class EvaluationTests(unittest.TestCase):
         body = b'{"head":{"vars":["solo"]},"results":{"bindings":[]}}'
         attempts = [
             (requests.Timeout("timed out"), "timeout"),
-            (Mock(content=body, status_code=206, headers={}), "partial"),
-            (Mock(content=b"broken", status_code=200, headers={}), "invalid_response"),
+            (self.response(body, status=206).get.return_value, "partial"),
+            (self.response(b"broken").get.return_value, "invalid_response"),
         ]
         for response, status in attempts:
             with self.subTest(
@@ -526,7 +534,7 @@ class EvaluationTests(unittest.TestCase):
     def test_artifact_aliases_and_duplicate_graphs_fail_closed(self):
         self.assertEqual(
             runner.artifact_bindings(
-                ["musicbrainz_schema=musicbrainz:schema"], {"musicbrainz_schema"}
+                ["musicbrainz_schema=musicbrainz/schema"], {"musicbrainz_schema"}
             ),
             {"musicbrainz_schema": ("musicbrainz", "schema")},
         )
@@ -550,7 +558,7 @@ class EvaluationTests(unittest.TestCase):
                     "--artifact",
                     "musicbrainz=test",
                     "--artifact",
-                    "musicbrainz_schema=musicbrainz:test",
+                    "musicbrainz_schema=musicbrainz/test",
                     "--case",
                     "cq08",
                     "--manifest",
@@ -609,6 +617,224 @@ class EvaluationTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 runner.main(["--fixture", "--output-dir", str(output)])
             self.assertEqual((output / "report.json").read_text(), "original")
+
+    def test_fixture_detects_weakened_query_constraints(self):
+        import re
+
+        dataset = self.dataset()
+        mutants = []
+        for number in (1, 2, 3, 5, 6, 12, 13, 14):
+            query = runner.render(self.cases[number - 1], self.graphs)
+            for index, match in enumerate(
+                re.finditer(r"(\?\w+) a <[^>]+>\s*([;.])", query)
+            ):
+                replacement = match[1] + " " if match[2] == ";" else ""
+                mutants.append(
+                    (
+                        number,
+                        f"type-{index}",
+                        query[: match.start()] + replacement + query[match.end() :],
+                    )
+                )
+        query = runner.render(self.cases[2], self.graphs)
+        without_uuid = re.sub(r"    FILTER\(REGEX\(STR\(\?mbid\).*\n", "", query)
+        mutants.extend(
+            [
+                (3, "UUID", without_uuid),
+                (
+                    3,
+                    "both ID filters",
+                    without_uuid.replace("FILTER(isLiteral(?mbid))", ""),
+                ),
+            ]
+        )
+        for number in (4, 5):
+            query = runner.render(self.cases[number - 1], self.graphs)
+            mutants.append(
+                (number, "unbounded P2888", query.replace("wdt:P2888?", "wdt:P2888*"))
+            )
+        query = runner.render(self.cases[9], self.graphs)
+        mutants.extend(
+            [
+                (10, "start exclusive", query.replace("<= 1940", "< 1940")),
+                (10, "end exclusive", query.replace(">= 1940", "> 1940")),
+            ]
+        )
+        query = runner.render(self.cases[11], self.graphs)
+        mutants.extend(
+            [
+                (12, "inclusive 1950", query.replace("< 1950", "<= 1950")),
+                (12, "no year filter", re.sub(r"    FILTER\(datatype.*\n", "", query)),
+                (
+                    12,
+                    "no datatype",
+                    query.replace("datatype(?year) = xsd:gYear && ", ""),
+                ),
+            ]
+        )
+        query = runner.render(self.cases[13], self.graphs)
+        mutants.append(
+            (
+                14,
+                "wildcard hostname",
+                query.replace("www[.]wikidata[.]org", "www.wikidata.org"),
+            )
+        )
+        for number, label, query in mutants:
+            with self.subTest(case=number, mutant=label):
+                result = json.loads(dataset.query(query).serialize(format="json"))
+                self.assertNotEqual(
+                    runner.comparable(result),
+                    runner.comparable(self.expected[f"cq{number:02d}"]),
+                )
+
+    def test_ckg_queries_match_the_converter_namespace(self):
+        # Read the documented converter constant without importing its CLI.
+        import ast
+
+        source = runner.ROOT / "ckg-musiconn/src/convert_to_rdf.py"
+        namespaces = next(
+            ast.literal_eval(node.value)
+            for node in ast.parse(source.read_text()).body
+            if isinstance(node, ast.Assign)
+            and isinstance(node.value, ast.Dict)
+            and any(
+                isinstance(key, ast.Constant) and key.value == "lmckg"
+                for key in node.value.keys
+            )
+        )
+        payload = (
+            f'<urn:work> a <{namespaces["lmckg"]}Work>; '
+            '<http://www.wikidata.org/prop/direct/P571> "1835"^^<http://www.w3.org/2001/XMLSchema#gYear> .\n'
+            f'<urn:person> a <{namespaces["lmckg"]}Person> .\n'
+        ).encode()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            inventory = self.write_inventory(root, ["detmold"], "stored", payload)
+            result, report = self.run_cli(
+                root,
+                [
+                    "--local",
+                    "--population",
+                    "stored",
+                    "--artifact",
+                    "detmold=test",
+                    "--manifest",
+                    str(inventory),
+                    "--root",
+                    str(root),
+                    "--case",
+                    "cq13",
+                    "--case",
+                    "cq14",
+                ],
+            )
+            self.assertEqual(result, 0)
+            self.assertEqual([row["row_count"] for row in report["cases"]], [1, 1])
+            self.assertEqual(
+                report["cases"][0]["result"]["results"]["bindings"][0]["work"]["value"],
+                "urn:work",
+            )
+            self.assertEqual(
+                report["cases"][1]["result"]["results"]["bindings"][0]["person"][
+                    "value"
+                ],
+                "urn:person",
+            )
+
+    def test_colon_artifact_ids_cannot_select_another_dataset(self):
+        self.assertEqual(
+            runner.artifact_bindings(["wjazzd=export:2026-11"], {"wjazzd"}),
+            {"wjazzd": ("wjazzd", "export:2026-11")},
+        )
+        self.assertEqual(
+            runner.artifact_bindings(["wjazzd=rism:stored-1"], {"wjazzd"}),
+            {"wjazzd": ("wjazzd", "rism:stored-1")},
+        )
+        with self.assertRaises(ValueError):
+            runner.artifact_bindings(["wjazzd=rism/stored-1"], {"wjazzd"})
+        for value in ("rism/schema", "musicbrainz:schema", "musicbrainz/schema/part"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                runner.artifact_bindings(
+                    [f"musicbrainz_schema={value}"], {"musicbrainz_schema"}
+                )
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            inventory = self.write_inventory(root, ["wjazzd"], "stored")
+            document = json.loads(inventory.read_text())
+            entry = next(d for d in document["datasets"] if d["key"] == "wjazzd")
+            entry["artifacts"][0]["id"] = "rism:stored-1"
+            inventory.write_text(json.dumps(document))
+            result, report = self.run_cli(
+                root,
+                [
+                    "--local",
+                    "--population",
+                    "stored",
+                    "--artifact",
+                    "wjazzd=rism:stored-1",
+                    "--case",
+                    "cq01",
+                    "--manifest",
+                    str(inventory),
+                    "--root",
+                    str(root),
+                ],
+            )
+            self.assertEqual(result, 0)
+            self.assertEqual(report["cases"][0]["status"], "ok")
+
+    def test_response_body_timeouts_preserve_received_bytes_and_headers(self):
+        from urllib3.exceptions import ReadTimeoutError
+
+        for error in (
+            ReadTimeoutError(None, "https://example.org", "stalled"),
+            requests.ConnectionError(
+                ReadTimeoutError(None, "https://example.org", "stalled")
+            ),
+            requests.ConnectionError("connection reset"),
+        ):
+            session = self.response(
+                b'{"head":',
+                headers={"Server": "test-server", "Set-Cookie": "not archived"},
+            )
+            response = session.get.return_value
+            response.raw.read1.side_effect = [b'{"head":', error]
+
+            # Non-streaming requests raises before returning a response, losing
+            # even the headers. This mock models that boundary on the old runner.
+            def get(*args, **kwargs):
+                if not kwargs.get("stream"):
+                    raise requests.ConnectionError(error)
+                return response
+
+            session.get.side_effect = get
+            report, body = runner.execute_remote(
+                "ASK { ?s ?p ?o }", "https://example.org", 1, session
+            )
+            expected_status = (
+                "endpoint_error" if str(error) == "connection reset" else "timeout"
+            )
+            self.assertEqual(report["status"], expected_status)
+            self.assertEqual(report["http_status"], 200)
+            self.assertEqual(report["headers"], {"server": "test-server"})
+            self.assertEqual(body, b'{"head":')
+            self.assertNotIn("result", report)
+            response.close.assert_called_once()
+
+    def test_local_invalid_response_keeps_serialized_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with patch.object(
+                runner, "parse_result", side_effect=ValueError("test rejection")
+            ):
+                result, report = self.run_cli(root, ["--fixture", "--case", "cq01"])
+            row = report["cases"][0]
+            self.assertEqual(result, 1)
+            self.assertEqual(row["status"], "query_error")
+            body = (root / "run/cq01.response").read_bytes()
+            self.assertIn(b'"bindings"', body)
+            self.assertEqual(row["response_sha256"], runner.sha256(body))
 
 
 class SamplingTests(unittest.TestCase):
@@ -681,7 +907,6 @@ class SamplingTests(unittest.TestCase):
     def test_multitarget_units_remain_whole_and_census_probabilities_are_one(self):
         frame = self.frame()
         frame["units"][0]["target"] = ["urn:first", "urn:second"]
-        frame["units"][0]["identity_verdict"] = "correct"
         quotas = {key: 10 for key in self.quotas()}
         result = select(frame, quotas, "seed")
         row = next(r for r in result["selected"] if r["id"] == "0")
@@ -738,6 +963,18 @@ class SamplingTests(unittest.TestCase):
         del frame["units"][-1]["target"]
         with self.assertRaises(ValueError):
             select(frame, self.quotas(), "seed")
+
+    def test_unknown_unit_fields_are_rejected_before_sampling(self):
+        for field in (
+            "identity_verdict",
+            "prior_reviewer_note",
+            "qid_label",
+            "confidence",
+        ):
+            frame = self.frame()
+            frame["units"][0][field] = "prior judgment"
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                select(frame, self.quotas(), "seed")
 
     def test_sampler_cli_archives_identity_and_refuses_overwrite(self):
         with tempfile.TemporaryDirectory() as directory:

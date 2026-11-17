@@ -8,6 +8,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix cto: <https://nfdi4culture.de/ontology/> .
+@prefix lmckg: <https://linkedmusic.ca/graphs/ckg/> .
 @prefix ckg: <https://linkedmusic.ca/terms/ckg/> .
 @prefix mbterm: <https://linkedmusic.ca/terms/musicbrainz/> .
 @prefix mbrel: <https://linkedmusic.ca/terms/musicbrainz/relationship/> .
@@ -23,6 +24,14 @@ wj: {
   ex:track a wj:Track ; wdt:P4404 "00000000-0000-4000-8000-000000000001" .
   ex:otherSolo a wj:Solo ; wdt:P175 wd:Q132232 ; wdt:P361 ex:titleOnlyTrack .
   ex:titleOnlyTrack a wj:Track ; rdfs:label "Shared title is not identity" .
+  # Same joins, wrong Solo class; both CQ01 and CQ03 must exclude this node.
+  ex:wrongSolo a wj:Track ; wdt:P175 wd:Q103767 ; wdt:P361 ex:track .
+  ex:untypedRecordingSolo a wj:Solo ; wdt:P175 wd:Q103767 ; wdt:P361 ex:untypedRecordingTrack .
+  ex:untypedRecordingTrack wdt:P4404 "00000000-0000-4000-8000-000000000002" .
+  ex:badIdSolo a wj:Solo ; wdt:P175 wd:Q103767 ; wdt:P361 ex:badIdTrack .
+  ex:badIdTrack wdt:P4404 "not-a-uuid" .
+  ex:iriIdSolo a wj:Solo ; wdt:P175 wd:Q103767 ; wdt:P361 ex:iriIdTrack .
+  ex:iriIdTrack wdt:P4404 <urn:not-a-literal> .
 }
 mb: {
   rec:00000000-0000-4000-8000-000000000001 a mb:Recording ;
@@ -41,6 +50,11 @@ mb: {
     mbterm:sourcePayload "{\"direction\":\"backward\",\"begin\":\"2001\",\"end\":\"2002-03\",\"attributes\":[\"assistant\"]}"^^rdf:JSON .
   # This predicate is aligned only in an unrelated graph, so CQ08 must exclude it.
   ex:decoyRecord ex:unreviewedRole ex:decoyArtist .
+  ex:wrongRecording a mb:Artist ; wdt:P175 ex:jazzArtist .
+  # Exist as join targets so removing type or UUID filters changes CQ03's answer.
+  rec:00000000-0000-4000-8000-000000000002 a mb:Artist .
+  rec:not-a-uuid a mb:Recording .
+  <https://musicbrainz.org/recording/urn:not-a-literal> a mb:Recording .
 }
 <urn:linkedmusic:evaluation:schema> {
   mbrel:a01ee869-80a8-45ef-9447-c59e91aa7926 rdfs:subPropertyOf wdt:P767 .
@@ -50,15 +64,19 @@ mb: {
   ex:sourceLocal wdt:P86 ex:rismPerson .
   ex:rismPerson wdt:P2888 wd:Q132232 .
   ex:sourceDirect wdt:P86 wd:Q132232 .
+  ex:sourceChain wdt:P86 ex:chainStart .
+  ex:chainStart wdt:P2888 ex:chainMiddle .
+  ex:chainMiddle wdt:P2888 wd:Q132232 .
 }
 mu: {
-  ex:associatedWork a mu:Work ; cto:CTO_0001009 ex:historicalPerson .
-  ex:explicitWork a mu:Work ; cto:CTO_0001009 ex:historicalPerson ;
+  ex:associatedWork a lmckg:Work ; cto:CTO_0001009 ex:historicalPerson .
+  ex:explicitWork a lmckg:Work ; cto:CTO_0001009 ex:historicalPerson ;
     wdt:P86 wd:Q132232 .
-  ex:historicalPerson a mu:Person ; wdt:P2888 wd:Q132232 .
+  ex:historicalPerson a lmckg:Person ; wdt:P2888 wd:Q132232 .
+  ex:wrongWork a lmckg:Event ; cto:CTO_0001009 ex:historicalPerson .
 }
 ap: {
-  ex:periodWork a ap:Work ; wdt:P31 wd:Q3302947 ; wdt:P571 "1909"^^xsd:gYear ;
+  ex:periodWork a lmckg:Work ; wdt:P31 wd:Q3302947 ; wdt:P571 "1909"^^xsd:gYear ;
     cto:CTO_0001073 "1909-01-01/1950-01-01" ; ckg:creationPeriod ex:period .
   ex:period a ckg:CreationPeriod ; ckg:parseStatus "parsed" ;
     ckg:startYear "1909"^^xsd:gYear ; ckg:endYear "1950"^^xsd:gYear ;
@@ -73,14 +91,27 @@ ap: {
   ex:reversedPeriod ckg:parseStatus "unresolved" ; ckg:startYear "1950"^^xsd:gYear ;
     ckg:endYear "1909"^^xsd:gYear ; rdf:value "1950/1909" ;
     ckg:reviewFlag "reversed-interval" .
-  ex:genericWork a ap:Work ; wdt:P31 wd:Q17537576 ; wdt:P571 "1900"^^xsd:gYear .
+  ex:genericWork a lmckg:Work ; wdt:P31 wd:Q17537576 ; wdt:P571 "1900"^^xsd:gYear .
+  ex:wrongAudio a lmckg:Event ; wdt:P31 wd:Q3302947 ; wdt:P571 "1900"^^xsd:gYear .
+  ex:cutoffAudio a lmckg:Work ; wdt:P31 wd:Q3302947 ; wdt:P571 "1950"^^xsd:gYear .
+  ex:laterAudio a lmckg:Work ; wdt:P31 wd:Q3302947 ; wdt:P571 "1960"^^xsd:gYear .
+  ex:untypedYearAudio a lmckg:Work ; wdt:P31 wd:Q3302947 ; wdt:P571 "1900" .
+  # Both endpoints are inclusive in CQ10.
+  ex:starts1940 ckg:creationPeriod ex:startBoundary .
+  ex:startBoundary ckg:parseStatus "parsed" ; ckg:startYear "1940"^^xsd:gYear ;
+    ckg:endYear "1950"^^xsd:gYear ; rdf:value "1940/1950" .
+  ex:ends1940 ckg:creationPeriod ex:endBoundary .
+  ex:endBoundary ckg:parseStatus "parsed" ; ckg:startYear "1930"^^xsd:gYear ;
+    ckg:endYear "1940"^^xsd:gYear ; rdf:value "1930/1940" .
 }
 de: {
-  ex:earlyWork a de:Work ; wdt:P571 "1835"^^xsd:gYear .
-  ex:lateWork a de:Work ; wdt:P571 "1853"^^xsd:gYear .
-  ex:linkedPerson a de:Person ; wdt:P2888 wd:Q132232 .
-  ex:unlinkedPerson a de:Person .
-  ex:noncanonicalPerson a de:Person ; wdt:P2888 <https://www.wikidata.org/entity/Q132232> .
+  ex:earlyWork a lmckg:Work ; wdt:P571 "1835"^^xsd:gYear .
+  ex:lateWork a lmckg:Work ; wdt:P571 "1853"^^xsd:gYear .
+  ex:linkedPerson a lmckg:Person ; wdt:P2888 wd:Q132232 .
+  ex:unlinkedPerson a lmckg:Person .
+  ex:noncanonicalPerson a lmckg:Person ; wdt:P2888 <https://www.wikidata.org/entity/Q132232> .
+  ex:lookalikePerson a lmckg:Person ; wdt:P2888 <http://wwwXwikidata.org/entity/Q132232> .
+  ex:wrongDateKind a lmckg:Place ; wdt:P571 "1835"^^xsd:gYear .
 }
 <urn:linkedmusic:evaluation:unrelated> {
   ex:associatedWork wdt:P86 wd:Q132232 .

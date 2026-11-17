@@ -10,6 +10,16 @@ from pathlib import Path
 
 from manifest import absolute_iri, utc_timestamp
 
+UNIT_FIELDS = (
+    "id",
+    "dataset",
+    "entity_type",
+    "method",
+    "linked",
+    "target",
+    "source_locator",
+)
+
 
 def read_json(data):
     def unique_keys(pairs):
@@ -69,6 +79,11 @@ def select(frame, quotas, seed):
     for row in frame["units"]:
         if not isinstance(row, dict):
             raise ValueError("Frame unit must be an object")
+        if set(row) - set(UNIT_FIELDS):
+            raise ValueError(
+                "Unknown frame unit fields: "
+                + ", ".join(sorted(set(row) - set(UNIT_FIELDS)))
+            )
         key = row["id"]
         if not isinstance(key, str) or not key or key in seen:
             raise ValueError("Frame IDs must be nonempty, unique strings")
@@ -126,7 +141,7 @@ def select(frame, quotas, seed):
         for row in ordered[:size]:
             selected.append(
                 {
-                    **row,
+                    **{key: row[key] for key in UNIT_FIELDS},
                     "stratum": stratum,
                     "inclusion_probability": size / len(rows),
                     "identifier_agreement": "unreviewed",

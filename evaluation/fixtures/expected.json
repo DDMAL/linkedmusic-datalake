@@ -12,6 +12,24 @@
             "type": "uri",
             "value": "https://example.org/lm-evaluation/solo"
           }
+        },
+        {
+          "solo": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/badIdSolo"
+          }
+        },
+        {
+          "solo": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/iriIdSolo"
+          }
+        },
+        {
+          "solo": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/untypedRecordingSolo"
+          }
         }
       ]
     }
@@ -346,6 +364,54 @@
             "type": "uri",
             "value": "https://example.org/lm-evaluation/period"
           }
+        },
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/starts1940"
+          },
+          "period": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/startBoundary"
+          },
+          "start": {
+            "type": "literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+            "value": "1940"
+          },
+          "end": {
+            "type": "literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+            "value": "1950"
+          },
+          "raw": {
+            "type": "literal",
+            "value": "1940/1950"
+          }
+        },
+        {
+          "work": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/ends1940"
+          },
+          "period": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/endBoundary"
+          },
+          "start": {
+            "type": "literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+            "value": "1930"
+          },
+          "end": {
+            "type": "literal",
+            "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+            "value": "1940"
+          },
+          "raw": {
+            "type": "literal",
+            "value": "1930/1940"
+          }
         }
       ]
     }
@@ -473,6 +539,12 @@
           "person": {
             "type": "uri",
             "value": "https://example.org/lm-evaluation/noncanonicalPerson"
+          }
+        },
+        {
+          "person": {
+            "type": "uri",
+            "value": "https://example.org/lm-evaluation/lookalikePerson"
           }
         }
       ]

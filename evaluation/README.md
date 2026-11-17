@@ -93,12 +93,18 @@ required fixture inputs. CQ07–09 test a specific MusicBrainz role/observation
 model and separate schema graph; CQ10–11 test paired CKG periods. Their design
 references pin that model's source revision. Verify those predicates and their
 meaning in any measured population before interpreting results.
+The three CKG feeds use shared `https://linkedmusic.ca/graphs/ckg/Work` and
+`Person` classes inside their separate per-feed named graphs. Negative fixture
+records exercise class constraints, identifier shapes, one-hop link limits and
+inclusive/exclusive year boundaries.
 
 Measured runs require a population and an exact artifact binding for each query
-graph. `--artifact KEY=ID` selects artifact ID in dataset KEY. The form
-`--artifact KEY=DATASET:ID` binds an auxiliary graph, such as `musicbrainz_schema`,
-to another artifact in the named dataset. Repeat the option for cross-source
-queries. Each binding must have a distinct known graph IRI. There is no fallback
+graph. `--artifact KEY=ID` selects an artifact in dataset KEY; a colon is part of
+the ID, so `wjazzd=export:2026-11` selects that exact ID within `wjazzd`.
+Primary graph keys cannot select another dataset. The declared auxiliary key
+uses `--artifact musicbrainz_schema=musicbrainz/ID` to select a schema artifact
+from `musicbrainz`; `/` cannot occur in an artifact ID. Repeat the option for
+cross-source queries. Each binding must have a distinct known graph IRI. There is no fallback
 to an expected graph, unrelated dataset or endpoint default union.
 
 For a real inventory containing a stored `wjazzd` artifact named `export-1`:
@@ -109,14 +115,25 @@ poetry run python evaluation/run_queries.py --local --population stored \
   --output-dir evaluation/audits/stored-query
 ```
 
-Use `--population candidate` for candidate files. Local mode accepts
-single-graph `.ttl` and `.nt` files, verifies their SHA-256 before and after
-loading, and assigns each to its selected named graph. `--root` selects the
+Use `--population candidate` for candidate files. Local mode loads **one file
+per named graph**. It accepts single-graph `.ttl` and `.nt` files, verifies their
+SHA-256 before and after loading, and assigns each to its selected named graph.
+An answer about an entire graph requires a file containing that entire graph.
+For exports split across files, such as MusicBrainz or RISM, selecting one part
+does not load the others. Assemble all required parts into a separate derived
+artifact before running a whole-graph query. Record its own SHA-256, the assembly
+procedure and every input part's identity/hash as lineage evidence; preserve
+the originals. The manifest and runner do not aggregate parts automatically.
+
+A deliberately selected subset answers only for that subset. Record its coverage
+and exclusions explicitly; both empty and nonempty `ok` answers can omit matches
+from unselected parts and cannot establish a whole-graph result.
+`--root` selects the
 root for repository-relative artifact paths. Paths must remain inside that
 root. Relative IRIs require an explicit base in the RDF; the file's machine
 path is not an implicit base. Local loading uses RDFLib's in-memory store and
-has no time or memory bound; use appropriately sized subsets or separately
-staged graph deployments for large datasets. Quad formats and archives are not
+has no time or memory bound. Large whole-graph queries may require a separately
+staged complete graph with its own deployment evidence. Quad formats and archives are not
 accepted in local mode.
 
 For an explicitly authorized endpoint observation with a deployed record:
@@ -157,6 +174,9 @@ other independently configured cases continue. Timeout/HTTP/partial/invalid
 responses are retained and cause a nonzero exit. HTTP 206 and Virtuoso-style
 `X-SPARQL-Anytime`/`X-SQL*` headers flag partial results. Other server-side limits
 may not be detectable: an `ok` response alone never establishes completeness.
+If downloading a response body times out, the report records `timeout` and
+retains the HTTP status, diagnostic headers and decoded body bytes received
+before the failure. A generic connection failure remains `endpoint_error`.
 
 A row count at or above the catalogue limit is explicitly flagged. CQ12 is an
 unsupported full question even if its necessary-condition probe returns rows;
@@ -185,6 +205,10 @@ absolute IRI or a nonempty list of distinct absolute IRIs; direct-QID entities
 belong in the frame too. Unlinked units use null or an empty list. Unknown
 matching methods use the literal string `unknown`. The first three stratum
 fields cannot contain `|`, which separates them in quota keys.
+Unit objects accept exactly `id`, `dataset`, `entity_type`, `method`, `linked`,
+`target` and `source_locator`; unknown fields are rejected. Keep prior reviewer
+notes, labels and judgments outside the sampling frame. Use `source_locator`
+to identify separately archived source context for independent review.
 
 Supply a JSON quota object covering every observed stratum exactly, for example:
 

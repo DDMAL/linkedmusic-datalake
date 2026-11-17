@@ -4,7 +4,7 @@ SELECT DISTINCT ?source ?work ?person WHERE {
     ?source wdt:P86/wdt:P2888? {{historical_person}} .
   }
   GRAPH {{musiconn}} {
-    ?work a <https://linkedmusic.ca/graphs/ckg-musiconn/Work> ;
+    ?work a <https://linkedmusic.ca/graphs/ckg/Work> ;
           cto:CTO_0001009 ?person .
     ?person wdt:P2888 {{historical_person}} .
   }

@@ -20,12 +20,14 @@ from rdflib import Dataset, URIRef
 from rdflib.plugins.sparql.parser import parseQuery
 from rdflib.plugins.sparql.parserutils import CompValue
 from pyparsing import ParseBaseException
+from urllib3.exceptions import HTTPError, ReadTimeoutError
 
 import manifest
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 TOKEN = re.compile(r"\{\{([a-z_]+)\}\}")
+AUXILIARY_DATASETS = {"musicbrainz_schema": "musicbrainz"}
 FIXTURE_GRAPHS = {
     "wjazzd": "https://linkedmusic.ca/graphs/wjazzd/",
     "musicbrainz": "https://linkedmusic.ca/graphs/musicbrainz/",
@@ -230,7 +232,8 @@ def execute_remote(query, endpoint, timeout, session=requests):
         "request_attempted": True,
         "partial_signals": False,
     }
-    body = b""
+    body = bytearray()
+    response = None
     try:
         response = session.get(
             endpoint,
@@ -245,8 +248,8 @@ def execute_remote(query, endpoint, timeout, session=requests):
             },
             timeout=(5, timeout + 5),
             allow_redirects=False,
+            stream=True,
         )
-        body = response.content
         # Retain diagnostic headers, without archiving cookies.
         headers = {
             key.lower(): value
@@ -259,6 +262,10 @@ def execute_remote(query, endpoint, timeout, session=requests):
             key.startswith(("x-sparql-anytime", "x-sql")) for key in headers
         )
         report["partial_signals"] = partial
+        # read1 returns available bytes without filling a fixed-size chunk first.
+        # Preserve earlier decoded bytes if a later read times out or disconnects.
+        while chunk := response.raw.read1(65536, decode_content=True):
+            body.extend(chunk)
         if not 200 <= response.status_code < 300:
             report["error"] = f"HTTP {response.status_code}"
         else:
@@ -268,12 +275,24 @@ def execute_remote(query, endpoint, timeout, session=requests):
             except (ValueError, TypeError, KeyError) as exc:
                 report["status"] = "partial" if partial else "invalid_response"
                 report["error"] = str(exc)
-    except requests.Timeout as exc:
-        report.update(status="timeout", error=str(exc))
-    except requests.RequestException as exc:
-        report["error"] = str(exc)
+    except (requests.RequestException, HTTPError) as exc:
+        pending, seen = [exc], set()
+        timed_out = False
+        while pending:
+            error = pending.pop()
+            if not isinstance(error, BaseException) or id(error) in seen:
+                continue
+            seen.add(id(error))
+            timed_out |= isinstance(error, (requests.Timeout, ReadTimeoutError))
+            pending.extend((error.__cause__, error.__context__, *error.args))
+        report.update(
+            status="timeout" if timed_out else "endpoint_error", error=str(exc)
+        )
+    finally:
+        if response is not None:
+            response.close()
     report["elapsed_seconds"] = round(time.monotonic() - started, 6)
-    return report, body
+    return report, bytes(body)
 
 
 def provenance(document, extra_paths=()):
@@ -321,14 +340,14 @@ def provenance(document, extra_paths=()):
         "python": sys.version,
         "packages": {
             name: importlib.metadata.version(name)
-            for name in ("rdflib", "requests", "jsonschema", "pyparsing")
+            for name in ("rdflib", "requests", "urllib3", "jsonschema", "pyparsing")
         },
         "rdf_store": "rdflib Memory; default_union=False",
     }
 
 
 def artifact_bindings(values, allowed):
-    """KEY=ID selects that dataset; KEY=DATASET:ID binds an auxiliary graph."""
+    """Primary KEY=ID never changes dataset; declared auxiliaries use DATASET/ID."""
     bindings = {}
     for value in values:
         key, sep, target = value.partition("=")
@@ -336,10 +355,15 @@ def artifact_bindings(values, allowed):
             raise ValueError(
                 f"Unknown, duplicate or malformed artifact binding: {value}"
             )
-        dataset, sep, identifier = target.partition(":")
-        if not sep:
+        if key in AUXILIARY_DATASETS:
+            dataset, sep, identifier = target.partition("/")
+            if not sep or dataset != AUXILIARY_DATASETS[key]:
+                raise ValueError(
+                    f"Auxiliary {key} requires {AUXILIARY_DATASETS[key]}/ID"
+                )
+        else:
             dataset, identifier = key, target
-        if not dataset or not identifier:
+        if not identifier or "/" in identifier:
             raise ValueError(f"Malformed artifact binding: {value}")
         bindings[key] = (dataset, identifier)
     return bindings
@@ -386,7 +410,7 @@ def main(argv=None):
     parser.add_argument("--manifest", type=Path, default=HERE / "manifests.json")
     parser.add_argument("--population", choices=("stored", "deployed", "candidate"))
     parser.add_argument(
-        "--artifact", action="append", default=[], metavar="KEY=[DATASET:]ID"
+        "--artifact", action="append", default=[], metavar="KEY=[DATASET/]ID"
     )
     parser.add_argument(
         "--root", type=Path, default=ROOT, help="Root for manifest file paths"
@@ -532,10 +556,12 @@ def main(argv=None):
             row.update(status="configuration_error", error=str(exc))
         else:
             query_file = args.output_dir / f"{case['id']}.rq"
-            query_file.write_text(query)
-            row.update(query_file=query_file.name, query_sha256=sha256(query.encode()))
+            query_bytes = query.encode("utf-8")
+            query_file.write_bytes(query_bytes)
+            row.update(query_file=query_file.name, query_sha256=sha256(query_bytes))
             if dataset is not None:
                 started = time.monotonic()
+                body = b""
                 try:
                     body = dataset.query(query).serialize(format="json")
                     result = parse_result(body, validate_query(query))
@@ -545,7 +571,6 @@ def main(argv=None):
                         result=result,
                     )
                 except Exception as exc:
-                    body = b""
                     row.update(status="query_error", error=str(exc))
             else:
                 execution, body = execute_remote(query, args.endpoint, args.timeout)
