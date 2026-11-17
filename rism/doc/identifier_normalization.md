@@ -100,3 +100,7 @@ can trigger the converter's skip-existing behavior. Regeneration includes the
 topic/P2888 mapping fixes as well as item normalization, so compare those added
 assertions separately from the identifier-only transform. Neither route repairs
 source values or changes reconciliation decisions.
+
+`row_cap_reached` compares returned rows with the requested cap only in endpoint
+mode. For an archived response it is `not_established`: its original query and
+limit are unknown. `--noncanonical` samples IRIs only; literal terms are excluded.
