@@ -31,6 +31,7 @@ There is one folder per source database (listed under [Datasets](#datasets)). Mo
 The repository root also holds:
 
 - `shared/` — code reused across subprojects: a config-driven RDF conversion tool (`rdfconv/`, with per-subproject configs in `rdf_config/`), a Wikidata API client (`wikidata_utils/`), and standalone utilities.
+- `evaluation/` — [versioned provenance manifests and evaluation protocol](evaluation/README.md), separating stored, deployed and candidate artifacts.
 - `pyproject.toml` / `poetry.lock` — Python dependencies, managed with Poetry (one environment for the whole repo).
 
 A few of the older subprojects also contain a `jsonld_approach/` folder, holding files from the now-discontinued JSON-LD approach.
@@ -65,6 +66,19 @@ Setup and the full ingestion workflow are documented in the wiki. In brief: the 
 - [Current pipeline for adding a new dataset](https://github.com/DDMAL/linkedmusic-datalake/wiki/Current-Pipeline-for-Adding-a-New-Dataset)
 - [Working with Virtuoso](https://github.com/DDMAL/linkedmusic-datalake/wiki/Working-with-Virtuoso) · [Accessing the SPARQL endpoint](https://github.com/DDMAL/linkedmusic-datalake/wiki/Accessing-the-Virtuoso-SPARQL-Endpoint)
 - [Project status](https://github.com/DDMAL/linkedmusic-datalake/wiki/Project-Status)
+
+## Evaluation manifests
+
+Validate the six-source pilot inventory and run the required offline checks:
+
+```sh
+poetry run python evaluation/manifest.py validate evaluation/manifests.json
+poetry run python scripts/check_offline.py
+```
+
+The [manifest guide](evaluation/README.md) documents migration, artifact selection
+and local checksum verification. The pilot preserves unknown provenance; it is
+not a census or a measurement of source fidelity or deployed graphs.
 
 ## Team & contact
 

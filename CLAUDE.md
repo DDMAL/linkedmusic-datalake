@@ -31,7 +31,7 @@ Reusable code lives here, but it is **not a package** — there's no install ste
 - **RISM** starts from RDF (not CSV). It splits via `force_split.py`, reconciles in OpenRefine using the **RDF-transform** extension, then re-emits Turtle. RDF-transform **only works in Chrome** — Firefox/Safari will fail silently.
 - **MusicBrainz** skips OpenRefine. Source data already carries Wikidata QIDs; only auxiliary fields (types, keys, genres, languages) are reconciled separately.
 - **SIMSSA** outputs **JSON-LD**, not Turtle. There's a standing TODO to convert it to Turtle.
-- **AcousticBrainz** is mid-pipeline: `convert_to_rdf.py` exists but has never been run end-to-end (no `data/rdf/` folder exists yet).
+- **AcousticBrainz** has separate extraction and RDF conversion steps. Check the actual source/intermediate availability before running a step; script existence does not establish an earlier successful conversion.
 - **CKG** (NFDI4Culture Culture Knowledge Graph) is **RDF-native** (per-feed N-Triples dumps, no fetch step) and is split into **three sibling subprojects** — `ckg-musiconn/`, `ckg-detmold/`, `ckg-apsearch/` — one per feed, because each loads as its own Virtuoso named graph. They **share one pipeline, copied verbatim** into each `src/` (the scripts take a feed argument, so the copies are identical and overlap is intentional). Reconciliation is a **deterministic authority-ID→Wikidata crosswalk** (GND `P227` / VIAF `P214` / GeoNames `P1566`), with OpenRefine only for the residue (musiconn/Detmold; APSearch needs none). The CKG's RISM feed (`E5313`) is excluded — LinkedMusic ingests RISM separately. Each feed's `doc/data-model.md` is the authoritative mapping/schema doc.
 - **DTL, Global Jukebox, Cantus, DIAMM, TheSession** follow the standard pipeline.
 
@@ -39,15 +39,35 @@ Reusable code lives here, but it is **not a package** — there's no install ste
 
 For subprojects that reconcile in OpenRefine, history and export files live under `<subproject>/openrefine/{history,export}/`. Filenames are inconsistent across subprojects (some `_history` / `_export` suffixed, some not, some hyphenated, some underscored). **Do not bulk-rename** without asking — these are referenced manually during reconciliation runs.
 
-## Branches and stashes
+## Scope and repository state
 
-- Work happens on per-subproject feature branches (`acousticbrainz`, `relics`, `simssadb-ingestion`, `nlq2sparql-api`, etc.) merged into `main` via PR.
-- **`stash@{0}` holds a parked RISM Wikidata-URI regex fix.** Do not drop the stash list without checking with the user.
-- When asked about the "current task," look at the active branch first — that's usually the subproject in play.
+Inspect Git status, the actual branch, relevant PR heads and the user's explicit
+scope before acting. A branch name does not identify the current task. Preserve
+unrelated changes, stashes, source inputs and generated RDF. Do not infer source
+availability, conversion provenance or deployment from old documentation.
+
+## Evaluation
+
+Read [evaluation/README.md](evaluation/README.md) before editing manifest records.
+Use the versioned adapter in `evaluation/manifest.py`; do not read an unknown
+schema version as if it were the legacy inventory. Keep stored, deployed and
+candidate populations distinct and retain unknowns. Run:
+
+```sh
+poetry run python evaluation/manifest.py validate evaluation/manifests.json
+poetry run python scripts/check_offline.py
+```
+
+These checks validate the manifest contract with synthetic inputs. They do not
+measure source fidelity or deployment. Keep large evidence and generated data
+outside Git, with hashes and durable availability recorded where known.
 
 ## Wiki
 
-There's a sibling GitHub wiki cloned at `/Users/liampond/Documents/GitHub/linkedmusic-datalake.wiki`. It holds Virtuoso ops guides, NL2SPARQL experiment notes, and cross-cutting reconciliation guidelines — content that doesn't fit any single subproject README. If you need infrastructure or query-side context, check the wiki before grepping the codebase.
+The [wiki](https://github.com/DDMAL/linkedmusic-datalake/wiki) holds Virtuoso
+operations, query experiments and cross-cutting reconciliation guidance. Inspect
+the relevant page and its revision before proposing changes. Code changes and
+wiki publication do not themselves deploy RDF.
 
 ## Conventions for new work
 
