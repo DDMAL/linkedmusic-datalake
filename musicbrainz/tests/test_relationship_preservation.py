@@ -1,5 +1,7 @@
 import copy
 import json
+import hashlib
+import subprocess
 import pickle
 import re
 import sys
@@ -390,6 +392,58 @@ class RelationshipPreservationTests(unittest.TestCase):
         self.record["relations"][0]["type"] = "a changed source label"
         graph = self.convert()
         self.assertEqual(len(list(graph.triples((None, ENGINEER, None)))), 1)
+
+    def test_null_attribute_list_retains_payload_and_role(self):
+        record = copy.deepcopy(self.record)
+        record["relations"] = [record["relations"][0] | {"attributes": None}]
+        graph = self.convert(record)
+        node = next(graph.subjects(RDF.predicate, ENGINEER))
+        self.assertIsNone(
+            json.loads(str(graph.value(node, TERMS.sourcePayload)))["attributes"]
+        )
+        self.assertFalse(list(graph.objects(node, TERMS.attribute)))
+        self.assertEqual(len(list(graph.triples((None, ENGINEER, None)))), 1)
+
+    def test_schema_cli_supplies_broad_query_without_sample_conversion(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "schema"
+            mapping = ROOT / "src/rdf_conversion_config/relations.json"
+            command = [
+                sys.executable,
+                str(ROOT / "src/emit_relationship_schema.py"),
+                "--relations",
+                str(mapping),
+                "--output-dir",
+                str(output),
+            ]
+            run = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(run.returncode, 0, run.stderr)
+            dataset = Dataset(default_union=False)
+            data = dataset.graph(URIRef("urn:linkedmusic:pilot:data"))
+            for triple in self.convert():
+                data.add(triple)
+            query = (ROOT / "doc/queries/pilot_contributors.rq").read_text()
+            self.assertFalse(list(dataset.query(query)))
+            dataset.graph(URIRef("urn:linkedmusic:pilot:schema")).parse(
+                output / "schema.ttl", format="turtle"
+            )
+            self.assertEqual(len(list(dataset.query(query))), 3)
+            audit = json.loads((output / "audit.json").read_text())
+            self.assertEqual(
+                audit["relations_sha256"],
+                hashlib.sha256(mapping.read_bytes()).hexdigest(),
+            )
+            self.assertEqual(
+                (output / "relations.json").read_bytes(), mapping.read_bytes()
+            )
+            self.assertEqual(
+                audit["schema_sha256"],
+                hashlib.sha256((output / "schema.ttl").read_bytes()).hexdigest(),
+            )
+            before = {p.name: p.read_bytes() for p in output.iterdir()}
+            rerun = subprocess.run(command, capture_output=True, text=True)
+            self.assertNotEqual(rerun.returncode, 0)
+            self.assertEqual(before, {p.name: p.read_bytes() for p in output.iterdir()})
 
     def test_invalid_evidence_is_preserved_without_asserting_a_role(self):
         for changes, status in (
