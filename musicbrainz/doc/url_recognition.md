@@ -1,60 +1,67 @@
-# Wikidata URL recognition
+# MusicBrainz URL relationships
 
-The URL-relationship branch of `process_entity` in `src/convert_to_rdf.py`
-recognizes complete Wikidata item URLs. MusicBrainz subjects and entity-to-entity
-relationships remain source IRIs; normalization adds no identity inference or
-new reconciliation. See the [identifier guide](../../evaluation/identifier_review.md).
+In the JSON dumps, each external link has two parts. The relationship's
+`type` describes why MusicBrainz links to the page, and `url.resource`
+contains its address. A single host can serve pages about different subjects.
+For example, Cher's artist record links to three Wikidata items:
 
-## Evidence and accepted input
+| MusicBrainz relationship | Item | What the RDF says |
+| --- | --- | --- |
+| `wikidata` | Q12003, Cher | The MusicBrainz artist has this Wikidata exact match. |
+| `discography page` | Q2604791, albums discography | The artist has an albums discography at this address. |
+| `discography page` | Q5264608, singles discography | The artist has a singles discography at this address. |
 
-The tracked converter reads `relations[].url.resource` when `target-type` is
-`url` and a relationship `type` is present. The existing
-[`mappings.json`](../src/rdf_conversion_config/mappings.json) assigns these URL
-relationships to P2888. The [conversion guide](rdf_conversion.md#urls) specifies
-that recognized Wikidata links are IRIs and other URL values remain literals.
-That broader P2888 policy is unchanged by this narrowly scoped repair.
+These roles come from the artist's [MusicBrainz API record](https://musicbrainz.org/ws/2/artist/bfcc6d75-a6a5-4bc6-8282-47aec8531818?inc=url-rels&fmt=json).
+MusicBrainz defines the [artist Wikidata relationship](https://musicbrainz.org/relationship/689870a4-a1e4-4912-b17f-7b2664215698)
+and [discography page relationship](https://musicbrainz.org/relationship/4fb0eeec-a6eb-4ae3-ad52-b55765b94e8f) separately.
 
-The project's canonical item namespace is
-`http://www.wikidata.org/entity/`. Only complete recognized URL forms are
-normalized; this checks syntax, not item existence or reconciliation identity.
+## Exact matches
 
-| Input | Output object of P2888 |
-| --- | --- |
-| HTTP/HTTPS, `www.wikidata.org` or `wikidata.org`, `/wiki/Q42` or `/entity/Q42` | IRI `http://www.wikidata.org/entity/Q42` |
-| Canonical entity IRI supplied again as a URL | Same canonical IRI |
-| External URL, lookalike host, query/fragment, suffix or trailing slash | Literal containing the original value |
-| `Q0`, `Q042`, non-ASCII digits, whitespace or newline in a URL | Original literal |
-| Property URLs, Special:EntityData URLs, explicit ports or percent-encoded IDs | Original literal; not part of this item-URL contract |
-| Bare `Q42`, `wd:Q42`, ambiguous lists or prose in the URL field | Original literal; no substring extraction |
+The converter emits `wdt:P2888` on the original MusicBrainz entity when:
 
-Matching is case-sensitive and requires the entire value. The QID must contain
-positive ASCII digits with no leading zero. No redirects, stripping, decoding,
-network lookups or case folding occur. Ordinary name fields remain literal even
-when their complete value is an accepted item URL. Multiple distinct P2888
-targets survive; conversion does not resolve competing matches.
+- The source relationship is named `wikidata` and MusicBrainz defines it
+  for this kind of entity. If supplied, its type UUID and direction must
+  agree with the definition. Older input can supply the name alone.
+  A release group and its individual releases are distinct entity kinds.
+  See the [MusicBrainz relationship definitions](https://musicbrainz.org/relationships).
+- The relationship has no end date and is not marked as ended.
+- The complete address matches `http` or `https`, host `wikidata.org` or
+  `www.wikidata.org`, and path `/wiki/Q…` or `/entity/Q…`. The digits
+  after Q must be ASCII, positive and free of leading zeros. Case matters.
+  Ports, query strings, fragments and trailing slashes fall outside this rule.
 
-## Validation and limits
+The exact-match object uses the canonical spelling, for example
+`http://www.wikidata.org/entity/Q12003`. Distinct qualifying items remain
+separate claims. The converter performs no lookup or editorial reconciliation.
 
-Four [regression tests](../tests/test_url_recognition.py) call the actual entity
-converter using tracked field and relationship mappings. They check all eight
-accepted URL combinations, idempotence, malformed/external values, unchanged
-name literals, multiple targets and source-node retention. Exact expected
-triples, a Turtle round trip and a SPARQL join to canonical Q42 are independently
-specified. Run the controls from the repository root:
+## Retrieving the original links
 
-```sh
-poetry run python -m unittest discover -s musicbrainz/tests -v
-poetry run python scripts/check_offline.py
+Every URL relationship has an observation with the original MusicBrainz JSON in
+`mb:sourcePayload` and, when supplied as strings, its role in `mb:sourceTypeName`,
+type UUID in `mb:sourceTypeId` and address in `mb:urlTarget`. The observation
+identifier depends on the source entity and the complete relationship. Different
+roles or qualifiers on the same address remain distinguishable after serialization.
+
+Absolute HTTP(S) addresses with a host and a usable port become RDF links with
+their original spelling. Whitespace, control characters, unsafe Turtle IRI
+characters, malformed percent escapes and unparseable addresses are retained
+as text. Other schemes and relative strings are also retained as text. A
+missing or non-string address remains available in the source JSON. Official
+homepages, streaming links, discographies and unfamiliar roles are retrievable
+by their MusicBrainz names. For example:
+
+```sparql
+PREFIX mb: <https://linkedmusic.ca/terms/musicbrainz/>
+SELECT ?page WHERE {
+  <https://musicbrainz.org/artist/bfcc6d75-a6a5-4bc6-8282-47aec8531818>
+      mb:urlRelationship ?relation .
+  ?relation mb:sourceTypeName "discography page" ; mb:urlTarget ?page .
+}
 ```
 
-These synthetic controls do not measure URL forms or affected links in a
-stored or deployed population. For a matched source snapshot, record checksums and converter versions,
-count accepted/rejected forms against source cells, regenerate into a separate
-directory, and verify canonical joins and preserved literal targets in staging.
-Do not rewrite stored literal values globally or infer names from old IDs.
-
-The auxiliary CSV `matched_wikidata` helper follows its separate
-[bare-ID export contract](auxiliary_identifier_validation.md).
-It serves reconciled types, keys, genders, languages, packaging and statuses;
-full URLs remain outside that contract. Other URL-to-P2888 semantics,
-relationship roles, SESEMMI and production inference settings remain unchanged.
+The [regression tests](../tests/test_url_recognition.py) exercise the JSON
+converter, Turtle serialization and the distinction between these query paths.
+The separate [CSV contract](auxiliary_identifier_validation.md) covers bare
+item IDs assigned during reconciliation of descriptive fields. Existing RDF
+retains the behavior of the converter that generated it. Reproducing counts or
+regenerating a graph requires the corresponding source snapshot.

@@ -41,7 +41,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - Dates are given the type `XSD:date`. If the value has both date and time, it will be in `XSD:datetime`
 - Coordinates (latitude/longitude) are given the `GEO:wktLiteral` type in the format `f"Point({lon} {lat})"`.
 - Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
-- All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting, or because they are links to personal websites (e.g. the link to a band's website).
+- External URL relationships retain their source role and address. The converter emits web links and preserves malformed addresses as text. See the [URL contract](url_recognition.md).
 
 ## Miscellaneous Notes on convert_to_rdf.py
 
@@ -90,9 +90,9 @@ The archived [URL patterns](../removed_properties/url_patterns.py) and
 [property mappings](../removed_properties/mappings.json) share lookup keys.
 For example, the `discogsa` pattern captures `25058` from
 `https://www.discogs.com/artist/25058`, and the `discogsa` mapping assigns
-that identifier to P1953. The current converter stores this URL as a P2888
-literal. Its [URL contract](url_recognition.md) describes the Wikidata URLs
-that become entity IRIs.
+that identifier to P1953. The current converter retains the supplied Discogs URL and its MusicBrainz
+relationship type. The identity rule for Wikidata is described in the
+[URL contract](url_recognition.md).
 
 | Database | Archived Wikidata properties by identifier |
 | --- | --- |
@@ -134,11 +134,10 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 ## URLS
 
-The URL relationship branch uses complete positive-ASCII item URLs across
-HTTP/HTTPS, www/non-www and wiki/entity forms. Recognized values become
-canonical Wikidata entity IRIs; other values remain original literals. Source
-nodes, ordinary names and competing targets remain unchanged. See the
-[URL input contract](url_recognition.md).
+A current MusicBrainz `wikidata` relationship to a complete item URL gives the
+source entity a canonical Wikidata exact match. Each URL relationship retains
+its own role and original address, including official sites, streaming pages
+and discographies. See the [URL input contract and example query](url_recognition.md).
 
 Auxiliary CSV exports have a separate [bare-ID contract](auxiliary_identifier_validation.md).
 Read them as text without pandas NA/numeric inference. Lookups remain separate
