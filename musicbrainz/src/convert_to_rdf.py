@@ -48,16 +48,18 @@ import argparse
 import asyncio
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
+from urllib.parse import urlsplit
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
+from pyoxigraph import NamedNode
 from tqdm import tqdm
 from rdflib import Graph, ConjunctiveGraph, URIRef, Literal, Namespace
 from rdflib.namespace import XSD, RDF
 import pandas as pd
 import aiofiles
 from mapping_schema import MappingSchema
-from relationship_mapping import RelationshipMappings
+from relationship_mapping import RelationshipMappings, TERMS, source_observation
 
 # Define namespaces
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
@@ -126,13 +128,101 @@ ENTITIES_WITHOUT_TYPES = [
     "release",
 ]
 
-# This one is separated because I need to convert from /wiki/... to /entity/...
-WIKIDATA_REGEX = re.compile(r"^https?:\/\/www\.wikidata\.org\/wiki\/Q\d+$")
+# Only complete item URLs qualify for canonical entity IRIs. Keep URL parsing
+# separate from the bare-QID contract used by auxiliary reconciliation files.
+WIKIDATA_REGEX = re.compile(
+    r"https?://(?:www\.)?wikidata\.org/(?:wiki|entity)/(Q[1-9][0-9]*)"
+)
 
 
-def matched_wikidata(field: str) -> bool:
-    """Check if the field is a matched Wikidata ID."""
-    return re.match(r"^Q\d+", field) is not None
+# MusicBrainz's entity-specific "wikidata" URL relationship definitions.
+# See https://musicbrainz.org/relationships (including URL–Work).
+WIKIDATA_URL_TYPES = {
+    "area": "85c5256f-aef1-484f-979a-42007218a1c2",
+    "artist": "689870a4-a1e4-4912-b17f-7b2664215698",
+    "event": "b022d060-e6a8-340f-8c73-6b21b1d090b9",
+    "genre": "11a13c3b-15cb-4c1c-accc-0417f7f2019b",
+    "instrument": "1486fccd-cf59-35e4-9399-b50e2b255877",
+    "label": "75d87e83-d927-4580-ba63-44dc76256f98",
+    "place": "e6826618-b410-4b8d-b3b5-52e29eac5e1f",
+    "release-group": "b988d08c-5d86-4a57-9557-c83b399e3580",
+    "series": "a1eecd98-f2f2-420b-ba8e-e5bc61697869",
+    "work": "587fdd8f-080e-46a9-97af-6425ebbcb3a2",
+}
+
+
+def url_target(value):
+    """Keep a web address as a link only if both graph stores can use it."""
+    if not re.search(r"\s", value):
+        try:
+            parts = urlsplit(value)
+            if parts.scheme in ("http", "https") and parts.hostname:
+                # Reading the port also validates its spelling and range.
+                _ = parts.port
+                return URIRef(NamedNode(value).value)
+        except ValueError:
+            pass
+    return Literal(value)
+
+
+def preserve_url(graph, source, entity_type, relation):
+    node = source_observation(graph, source, relation)
+    graph.add((source, TERMS.urlRelationship, node))
+    for field, predicate in (
+        ("type", TERMS.sourceTypeName),
+        ("type-id", TERMS.sourceTypeId),
+    ):
+        if isinstance(relation.get(field), str):
+            graph.add((node, predicate, Literal(relation[field])))
+
+    url = relation.get("url")
+    if not isinstance(url, dict) or not isinstance(value := url.get("resource"), str):
+        return
+    graph.add((node, TERMS.urlTarget, url_target(value)))
+
+    direction = "backward" if entity_type == "work" else "forward"
+    expected_id = WIKIDATA_URL_TYPES.get(entity_type)
+    if (
+        expected_id
+        and relation.get("type") == "wikidata"
+        and relation.get("type-id", expected_id) == expected_id
+        and relation.get("direction", direction) == direction
+        and not relation.get("ended")
+        and not relation.get("end")
+        and (match := WIKIDATA_REGEX.fullmatch(value))
+    ):
+        graph.add((source, WDT.P2888, WD[match[1]]))
+
+
+def matched_wikidata(field: object) -> bool:
+    """Recognize a complete bare item ID from an auxiliary CSV export."""
+    return isinstance(field, str) and re.fullmatch(r"Q[1-9][0-9]*", field) is not None
+
+
+def load_reconciliation_csv(source, key_column, id_column):
+    """Read exported text verbatim, retaining empty candidates for fallback."""
+    cells = pd.read_csv(source, encoding="utf-8", dtype=str, keep_default_na=False)
+    return {
+        key: candidate
+        for key, candidate in zip(cells[key_column], cells[id_column])
+        if key != ""
+    }
+
+
+def load_auxiliary_reconciliations(directory):
+    """Keep each field's matches separate, even when source labels coincide."""
+    mappings = {}
+    for field, filename, id_column in (
+        ("key", "keys-csv.csv", "key_@id"),
+        ("gender", "genders-csv.csv", "gender_@id"),
+        ("language", "languages-csv.csv", "full_language_@id"),
+        ("packaging", "packagings-csv.csv", "packaging_@id"),
+        ("status", "statuses-csv.csv", "status_@id"),
+    ):
+        path = Path(directory) / filename
+        if path.is_file():
+            mappings[field] = load_reconciliation_csv(path, field, id_column)
+    return mappings
 
 
 def convert_date(date_str: str) -> Literal:
@@ -178,7 +268,7 @@ def process_entity(
     attribute_mapping,
     g,
 ):
-    """Process a single line of JSON data and add it to the RDF graph."""
+    """Convert an entity using field-scoped matches (types also by entity kind)."""
     entity_id = data.get("id")
     if not entity_id:
         return
@@ -201,7 +291,10 @@ def process_entity(
         data.get("primary-type"),
         data.get("type"),
     ]:
-        if t and (converted_type := reconciled_mapping.get(t)):
+        if t:
+            converted_type = (
+                reconciled_mapping.get("type", {}).get(entity_type, {}).get(t)
+            )
             # If the type is a Wikidata ID, use it directly
             if matched_wikidata(converted_type):
                 g.add(
@@ -275,10 +368,8 @@ def process_entity(
             attribute_value := attribute.get("value")
         ):
             if pred := attribute_mapping.get(attribute_type):
-                if (
-                    attribute_type == "Key"
-                    and (key_map := reconciled_mapping.get(attribute_value))
-                    and matched_wikidata(key_map)
+                if attribute_type == "Key" and matched_wikidata(
+                    key_map := reconciled_mapping.get("key", {}).get(attribute_value)
                 ):
                     # If the attribute is the key and it is a Wikidata ID, use it directly
                     attribute_value = URIRef(f"{WD}{key_map}")
@@ -348,8 +439,8 @@ def process_entity(
 
     # Process gender
     if gender := data.get("gender"):
-        if (gender_map := reconciled_mapping.get(gender)) and matched_wikidata(
-            gender_map
+        if matched_wikidata(
+            gender_map := reconciled_mapping.get("gender", {}).get(gender)
         ):
             gender = URIRef(f"{WD}{gender_map}")
         else:
@@ -388,11 +479,12 @@ def process_entity(
 
     # Process languages
     for lang in data.get("languages", []):
-        if lang_map := reconciled_mapping.get(lang):
-            if matched_wikidata(lang_map):
-                lang = URIRef(f"{WD}{lang_map}")
-            else:
-                lang = Literal(lang_map)
+        lang_map = reconciled_mapping.get("language", {}).get(lang)
+        if matched_wikidata(lang_map):
+            lang = URIRef(f"{WD}{lang_map}")
+        elif isinstance(lang_map, str) and lang_map:
+            # Unmatched exports retain the full language name in this column.
+            lang = Literal(lang_map)
         else:
             lang = Literal(lang)
         g.add(
@@ -486,8 +578,8 @@ def process_entity(
 
     # Process packaging
     if packaging := data.get("packaging"):
-        if (packaging_map := reconciled_mapping.get(packaging)) and matched_wikidata(
-            packaging_map
+        if matched_wikidata(
+            packaging_map := reconciled_mapping.get("packaging", {}).get(packaging)
         ):
             packaging = URIRef(f"{WD}{packaging_map}")
         else:
@@ -502,49 +594,29 @@ def process_entity(
 
     # Process relationships
     for relation in data.get("relations", []):
-        # Identify pilot roles by source UUID, including inverse artist records.
         target_type = (relation.get("target-type") or "").replace("_", "-")
+        if target_type == "url":
+            preserve_url(g, subject_uri, entity_type, relation)
+        # Also retain pilot evidence if a contributor UUID has unexpected endpoints.
         if isinstance(relationship_mapping, RelationshipMappings) and (
             relationship_mapping.preserve_role(
                 g, subject_uri, entity_type, target_type, relation
             )
         ):
             continue
-        if not (target_type := relation.get("target-type")) or not (
-            rel_type := relation.get("type")
+        if (
+            not target_type
+            or target_type == "url"
+            or not (rel_type := relation.get("type"))
         ):
             continue
 
+        if target_type == entity_type and (rel_direction := relation.get("direction")):
+            rel_type += f"_{rel_direction}"
+        pred_uri = entity_relationship_mapping.get(target_type, {}).get(rel_type)
         target = None
-        pred_uri = None
-        if target_type == "url" and (url := relation.get("url", {}).get("resource")):
-            pred_uri = entity_mb_schema["url"]
-            if WIKIDATA_REGEX.match(url):
-                # Convert Wikidata URL to URIRef
-                target = URIRef(
-                    re.sub(
-                        r"^https?:\/\/www\.wikidata\.org\/wiki\/(Q\d+)",
-                        f"{WD}\\g<1>",
-                        url,
-                    )
-                )
-            else:
-                # Treat it as a generic URL
-                target = Literal(url)
-
-        target_type = target_type.replace("_", "-")  # Normalize target type
-        if not target:
-            # Handle homogeneous relations
-            if target_type == entity_type and (
-                rel_direction := relation.get("direction")
-            ):
-                rel_type += f"_{rel_direction}"
-            pred_uri = entity_relationship_mapping.get(target_type, {}).get(rel_type)
-
-            # We need the underscores because the release group field will be `release_group`
-            if target_id := relation.get(target_type.replace("-", "_"), {}).get("id"):
-                # If the target is a MusicBrainz entity, create a URIRef
-                target = URIRef(f"{MB}{target_type}/{target_id}")
+        if target_id := relation.get(target_type.replace("-", "_"), {}).get("id"):
+            target = URIRef(f"{MB}{target_type}/{target_id}")
 
         # Handle instrument relationships
         if (
@@ -593,8 +665,8 @@ def process_entity(
 
     # Process status
     if status := data.get("status"):
-        if (status_map := reconciled_mapping.get(status)) and matched_wikidata(
-            status_map
+        if matched_wikidata(
+            status_map := reconciled_mapping.get("status", {}).get(status)
         ):
             status_rdf = URIRef(f"{WD}{status_map}")
         else:
@@ -1020,13 +1092,18 @@ def main(args):
     input_file = args.input_file
     entity_type = Path(input_file).stem  # Get entity type from filename
     type_file = Path(args.type_file) if args.type_file else None
-    if type_file:
-        # Read the types from the type file
-        types = pd.read_csv(type_file, encoding="utf-8")
-        reconciled_mapping = dict(zip(types["type"], types["type_@id"]))
-    else:
-        reconciled_mapping = {}
-    reconciled_mapping.update(RECONCILIATION_MAPPING)
+    # Types belong to this entity kind; global auxiliary labels cannot replace
+    # them, and recursively converted entities cannot inherit the wrong type map.
+    reconciled_mapping = {
+        **RECONCILIATION_MAPPING,
+        "type": {
+            entity_type: (
+                load_reconciliation_csv(type_file, "type", "type_@id")
+                if type_file
+                else {}
+            )
+        },
+    }
 
     # Configure output directory
     output_folder = Path(args.output_folder)
@@ -1121,43 +1198,7 @@ if __name__ == "__main__":
         print("No relationship mapping found in the configuration file.")
         sys.exit(1)
 
-    keys_file_path = Path(args.reconciled_folder) / "keys-csv.csv"
-    if keys_file_path.is_file():
-        with open(keys_file_path, "r", encoding="utf-8") as fi:
-            keys = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(dict(zip(keys["key"], keys["key_@id"])))
-
-    genders_file_path = Path(args.reconciled_folder) / "genders-csv.csv"
-    if genders_file_path.is_file():
-        with open(genders_file_path, "r", encoding="utf-8") as fi:
-            genders = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(genders["gender"], genders["gender_@id"]))
-            )
-
-    languages_file_path = Path(args.reconciled_folder) / "languages-csv.csv"
-    if languages_file_path.is_file():
-        with open(languages_file_path, "r", encoding="utf-8") as fi:
-            languages = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(languages["language"], languages["full_language_@id"]))
-            )
-
-    packagings_file_path = Path(args.reconciled_folder) / "packagings-csv.csv"
-    if packagings_file_path.is_file():
-        with open(packagings_file_path, "r", encoding="utf-8") as fi:
-            packagings = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(packagings["packaging"], packagings["packaging_@id"]))
-            )
-
-    statuses_file_path = Path(args.reconciled_folder) / "statuses-csv.csv"
-    if statuses_file_path.is_file():
-        with open(statuses_file_path, "r", encoding="utf-8") as fi:
-            statuses = pd.read_csv(fi, encoding="utf-8")
-            RECONCILIATION_MAPPING.update(
-                dict(zip(statuses["status"], statuses["status_@id"]))
-            )
+    RECONCILIATION_MAPPING = load_auxiliary_reconciliations(args.reconciled_folder)
 
     bad_files = set()
     if Path(args.output_folder).exists() and not REPROCESSING:
