@@ -47,9 +47,10 @@ date. A constant timestamp alone would not prove its provenance. The
 An indexed is-about kind supplies the local class, but the converter emits it
 only when the record also has its own `rdf:type CTO_0001005` source-item assertion.
 An index entry alone does not guarantee an `lmckg:` type. Resolving media/AAT
-classifier mappings add `wdt:P31`; otherwise the APSearch fallback for indexed
-records is `wd:Q17537576` (creative work). That fallback does not require the
-source-item assertion and therefore does not guarantee a local class.
+classifier mappings add `wdt:P31`. If none resolves, APSearch assigns
+`wdt:P31 wd:Q17537576` (creative work) only to records indexed as `Work`,
+even when the source-item assertion is absent. An indexed `Event` has no
+configured fallback.
 The broad fallback avoids asserting a specific media class without a mapping.
 It is not a claim that all source objects have the same medium.
 

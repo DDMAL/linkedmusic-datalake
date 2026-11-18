@@ -18,15 +18,15 @@ This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-apsearch`](../ckg-apsearch) — each loading as its **own Virtuoso named graph**. The
 CKG's RISM feed (`E5313`) is **excluded by design** (LinkedMusic ingests RISM separately).
 
-Codes like `E6304` are **NFDI4Culture resource identifiers**: every CKG feed — and every
-license and publisher it references — is a registered `E…` entity in the NFDI4Culture
-knowledge graph.
+NFDI4Culture identifies the feed as `E6304` and its publisher as `E2431`.
+Individual records can also reference external resources, including a repository's
+own licence URL.
 
 | | |
 |---|---|
 | CKG feed | `E6304` |
 | Output | `data/rdf/apsearch.ttl` |
-| Record class | `https://linkedmusic.ca/graphs/ckg/Work` |
+| Work class | `https://linkedmusic.ca/graphs/ckg/Work` |
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-apsearch/` |
 
 Why each mapping decision was made — the media-class typing, license/publisher pivots, date
@@ -55,11 +55,11 @@ raw_data/ckg/mnt/data/culture-kg-kitchen/data/production/E6304/nt/E6304.nt
 
 ## 2. Preprocess + crosswalk
 
-**`preprocess.py`** — one streaming pass that builds the **record-kind index** (every record
-is `schema:CreativeWork` → Work), the **classifier index** (record → `CTO_0001049` media
-class / AAT code), and joins each record to its content URL through the `associatedMedia`
-blank node → `CTO_0001021` chain (the URL sits on the bnode, which is never emitted, so it is
-joined back to the record → `wdt:P953`).
+**`preprocess.py`** follows the record's `CTO_0001025` (is about) link to index
+its kind. For example, a linked blank node typed `schema:CreativeWork` gives the
+record the indexed kind `Work`. The same pass indexes media/AAT classifiers and
+joins each available content URL to its record through `schema:associatedMedia`
+and `CTO_0001021`.
 
 ```bash
 python preprocess.py apsearch
@@ -88,11 +88,16 @@ source snapshot used for a conversion; see [the data model](doc/data-model.md).
 
 ## 4. Convert to RDF
 
-**`convert_to_rdf.py`** — the shared two-pass converter (see
-[`doc/data-model.md`](doc/data-model.md)): types every record `lmckg:Work` + `wdt:P31` (media
-class, or the `Q17537576` "creative work" fallback for classifier-less records), emits the
-license/publisher `P2888` pivots, coerces dates to `xsd:gYear`, and emits the joined
-`wdt:P953` content URLs post-loop. No blank nodes survive.
+**`convert_to_rdf.py`** emits the indexed local class when the record has its own
+`rdf:type CTO_0001005` (source item) assertion. A mapped media or AAT classifier
+supplies `wdt:P31`. When none resolves, only an indexed `Work` gets the APSearch
+fallback `wd:Q17537576` (creative work).
+
+A recognized timestamp interval supplies its start year for `wdt:P571`. Other
+date forms can produce a full date, a year and month, a year, or the original
+value. The converter also emits joined content URLs as `wdt:P953` and links
+licence/publisher URIs to Wikidata when the crosswalk supplies a match.
+See the [data model](doc/data-model.md) for examples.
 
 ```bash
 python convert_to_rdf.py apsearch          # -> data/rdf/apsearch.ttl
