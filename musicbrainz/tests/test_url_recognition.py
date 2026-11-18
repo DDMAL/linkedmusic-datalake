@@ -4,13 +4,14 @@ import json
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from rdflib import Graph, Literal, Namespace, RDF, RDFS, URIRef
 from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from convert_to_rdf import process_entity
+from convert_to_rdf import merge_subgraph, process_entity
 from mapping_schema import MappingSchema
 from relationship_mapping import RelationshipMappings, TERMS
 
@@ -210,6 +211,34 @@ class UrlRecognitionTests(unittest.TestCase):
         self.assertFalse(list(restored.objects(SUBJECT, WDT.P2888)))
         for relation, (_, _, target) in zip(relations, examples):
             self.assert_evidence(restored, SUBJECT, relation, target)
+
+    def test_url_targets_survive_the_disk_store_merge(self):
+        targets = [
+            Literal("https://example.org/a[1]"),
+            Literal("https://example.org/?q=[x]"),
+            Literal("https://example.org/#a#b"),
+            Literal("https://example.org/\ue000"),
+            Literal("https://example.org/a\u00a0b"),
+            URIRef("https://[2001:db8::1]:443/é?q=%5Bx%5D#section"),
+            URIRef("https://example.org/?q=\ue000"),
+        ]
+        identity = self.link("https://www.wikidata.org/wiki/Q12003")
+        relations = [self.link(str(target), "discography page") for target in targets]
+        memory = self.convert([*relations, identity])
+        with TemporaryDirectory() as directory:
+            disk = Graph("Oxigraph")
+            disk.open(directory, create=True)
+            try:
+                merge_subgraph(disk, memory)
+                # Oxigraph reads plain string literals back with explicit xsd:string.
+                self.assertEqual(len(disk), len(memory))
+                for triple in memory:
+                    self.assertIn(triple, disk)
+                self.assertEqual(set(disk.objects(SUBJECT, WDT.P2888)), {WD.Q12003})
+            finally:
+                disk.close()
+        for relation, target in zip(relations, targets):
+            self.assert_evidence(memory, SUBJECT, relation, target)
 
     def test_conflicting_incomplete_and_ended_records_keep_evidence(self):
         url = "https://www.wikidata.org/wiki/Q1299"

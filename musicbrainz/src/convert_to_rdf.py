@@ -52,6 +52,7 @@ from urllib.parse import urlsplit
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from isodate.isodatetime import parse_datetime
+from pyoxigraph import NamedNode
 from tqdm import tqdm
 from rdflib import Graph, ConjunctiveGraph, URIRef, Literal, Namespace
 from rdflib.namespace import XSD, RDF
@@ -151,14 +152,14 @@ WIKIDATA_URL_TYPES = {
 
 
 def url_target(value):
-    """Return a web IRI when the original string is safe to emit verbatim."""
-    if not re.search(r'[\s\x00-\x1f\x7f-\x9f<>"{}|\\^`]|%(?![0-9A-Fa-f]{2})', value):
+    """Keep a web address as a link only if both graph stores can use it."""
+    if not re.search(r"\s", value):
         try:
             parts = urlsplit(value)
             if parts.scheme in ("http", "https") and parts.hostname:
                 # Reading the port also validates its spelling and range.
                 _ = parts.port
-                return URIRef(value)
+                return URIRef(NamedNode(value).value)
         except ValueError:
             pass
     return Literal(value)

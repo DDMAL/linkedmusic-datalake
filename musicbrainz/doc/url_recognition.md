@@ -42,10 +42,12 @@ type UUID in `mb:sourceTypeId` and address in `mb:urlTarget`. The observation
 identifier depends on the source entity and the complete relationship. Different
 roles or qualifiers on the same address remain distinguishable after serialization.
 
-Absolute HTTP(S) addresses with a host and a usable port become RDF links with
-their original spelling. Whitespace, control characters, unsafe Turtle IRI
-characters, malformed percent escapes and unparseable addresses are retained
-as text. Other schemes and relative strings are also retained as text. A
+An absolute HTTP(S) address becomes an RDF link when it has a host, a valid
+port if supplied, no whitespace, and Oxigraph accepts the original spelling as
+an IRI. Both in-memory and disk-backed conversion use this rule. For example,
+`https://[::1]/catalog` remains a link, while `https://example.org/a[1]`
+stays queryable as the original text in `mb:urlTarget`. Other schemes,
+relative strings and malformed addresses are also retained as text. A
 missing or non-string address remains available in the source JSON. Official
 homepages, streaming links, discographies and unfamiliar roles are retrievable
 by their MusicBrainz names. For example:
