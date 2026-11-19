@@ -67,8 +67,8 @@ python preprocess.py apsearch
 # -> data/extracted/apsearch.norm.nt, .entities.json (record kind/classifier/content-url maps)
 ```
 
-**`build_crosswalk.py`** — resolves AAT classifier codes via `wdt:P1014` and
-available authority identifiers through the shared pipeline. Inspect the selected
+**`build_crosswalk.py`** looks for Wikidata matches for indexed AAT classifier codes
+via `wdt:P1014` and for available authority identifiers. Inspect the selected
 input and retained crosswalk evidence before making population claims.
 
 ```bash
@@ -76,11 +76,16 @@ python build_crosswalk.py apsearch
 # -> data/mappings/record_types.json (+ shared crosswalk.json)
 ```
 
-Before conversion, check `data/mappings/record_types.json` against the
-[APSearch classifier table](doc/data-model.md#record-typing). The builder
-reports CTO media classes for manual mapping. Enter the documented mappings
-using full classifier IRIs as keys and QID strings as values, preserving the
-other feeds' entries. Leave the two intentionally unmapped classifiers absent.
+After each build, match the APSearch entries in `data/mappings/record_types.json`
+to the [classifier table](doc/data-model.md#record-typing). Use full IRI keys
+and bare QID values for all six mapped terms, including the manual CTO entries
+and the cylinder mapping (`aat:300265798` → `Q691783`). Remove any entries for
+the two intentionally unmapped classifiers and preserve the other feeds' entries.
+
+The builder fills `data/mappings/crosswalk.json` from authority identifiers.
+Keep those entries and manually add the three [licence and publisher mappings](doc/data-model.md#licences-and-publisher).
+For each key, append the E-number to `https://nfdi4culture.de/id/`. Use the
+bare QID as its value.
 
 ## 3. Reconciliation
 

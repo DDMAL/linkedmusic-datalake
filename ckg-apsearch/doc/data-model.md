@@ -14,10 +14,10 @@ phonogram metadata, with BBAW as publisher. The feed uses nfdicore/CTO terms.
 In the E6304.nt snapshot with SHA-256
 `4579a5cec820d87a7d3838e014176c85c6c6c68a863903134e3ee45cf663e891`,
 5,617 of 6,271 distinct `CTO_0001005` source items link to
-`https://www.elararchive.org/legal` via the record-level licence predicate
-`NFDI_0000142` (counted directly from the source triples with RDFLib 7.1.4).
-These assertions document how often the records cite ELAR's terms. E6304
-identifies the feed and its publisher.
+`https://www.elararchive.org/legal` via `NFDI_0000142` asserted on the record
+(counted directly from the source triples with RDFLib 7.1.4). APSearch and
+ELAR are distinct, and these references identify only the cited licence terms.
+Check where each content link resolves and what access it allows at its source.
 
 The converter handles media classifiers and content URLs. It does not run an
 APSearch-specific label-reconciliation workflow. Assess missing fields and access
@@ -73,8 +73,11 @@ In the table, `cto:` expands to `https://nfdi4culture.de/ontology/` and
 | `aat:300234108` ethnographic objects | Intentionally unmapped |
 | `cto:CTO_0001045` media object | Intentionally unmapped |
 
-`build_crosswalk.py` looks up AAT identifiers via `wdt:P1014` and reports CTO
-media classes for manual mapping. An unmapped classifier contributes no
+`build_crosswalk.py` writes each indexed AAT code's `wdt:P1014` match to
+`record_types.json`, replacing any previous value for that code. It silently
+skips AAT codes without a match and reports CTO media classes for manual
+mapping. The cylinder mapping (`aat:300265798` → `Q691783`) is configured by
+hand. An unmapped classifier contributes no
 `wdt:P31` of its own. The converter retains the source AAT URI even when it
 has no mapping. Check changes to these choices against all three feeds.
 
