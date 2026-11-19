@@ -11,9 +11,13 @@ converter revision.
 The primary [NFDI4Culture E6304 record](https://nfdi4culture.de/resource/E6304/about.html)
 identifies APSearch as **Arab Phonogram Search**, a portal aggregating Arabic
 phonogram metadata, with BBAW as publisher. The feed uses nfdicore/CTO terms.
-APSearch is distinct from ELAR. An ELAR legal URI on an individual record is
-retained source metadata; it does not establish that the whole feed is ELAR,
-that every content link resolves there, or that all upstream access is restricted.
+In the E6304.nt snapshot with SHA-256
+`4579a5cec820d87a7d3838e014176c85c6c6c68a863903134e3ee45cf663e891`,
+5,617 of 6,271 distinct `CTO_0001005` source items link to
+`https://www.elararchive.org/legal` via the record-level licence predicate
+`NFDI_0000142` (counted directly from the source triples with RDFLib 7.1.4).
+These assertions document how often the records cite ELAR's terms. E6304
+identifies the feed and its publisher.
 
 The converter handles media classifiers and content URLs. It does not run an
 APSearch-specific label-reconciliation workflow. Assess missing fields and access
@@ -54,13 +58,25 @@ configured fallback.
 The broad fallback avoids asserting a specific media class without a mapping.
 It is not a claim that all source objects have the same medium.
 
-The current configured mapping choices include audio recording (`Q3302947`),
-image (`Q478798`), video recording (`Q30070675`), text (`Q234460`) and phonograph
-cylinder (`Q691783`). These choices and their target validity need independent
-source-backed review when the mapping snapshot changes. An unmapped AAT term
-can remain as an external-classifier URI without acquiring a guessed class.
-A mapping change must be checked against all three feeds even when a sampled
-classifier occurs in only one feed.
+The APSearch entries in `data/mappings/record_types.json` use full IRI keys.
+In the table, `cto:` expands to `https://nfdi4culture.de/ontology/` and
+`aat:` to `http://vocab.getty.edu/aat/`.
+
+| Source classifier | Configured `wdt:P31` |
+| --- | --- |
+| `cto:CTO_0001043` audio object | `Q3302947` audio recording |
+| `cto:CTO_0001044` image object | `Q478798` image |
+| `cto:CTO_0001048` video object | `Q30070675` video recording |
+| `cto:CTO_0001047` text object | `Q234460` text |
+| `aat:300028633` sound recordings | `Q3302947` audio recording |
+| `aat:300265798` cylinder phonographs | `Q691783` phonograph cylinder |
+| `aat:300234108` ethnographic objects | Intentionally unmapped |
+| `cto:CTO_0001045` media object | Intentionally unmapped |
+
+`build_crosswalk.py` looks up AAT identifiers via `wdt:P1014` and reports CTO
+media classes for manual mapping. An unmapped classifier contributes no
+`wdt:P31` of its own. The converter retains the source AAT URI even when it
+has no mapping. Check changes to these choices against all three feeds.
 
 ## Creation dates
 
@@ -72,6 +88,9 @@ ranges such as `1909-01-01/1950-01-01` do not match this interval branch and rem
 unchanged. A valid full date such as `2010-04-20` becomes `xsd:date`; partial
 year/month/day forms use the existing date-coercion rules, including
 `2010-04-00` becoming `xsd:gYearMonth` and `2010` becoming `xsd:gYear`.
+For a date-shaped value with an invalid day, the converter keeps the year and
+a valid month (`2010-02-30` becomes `"2010-02"^^xsd:gYearMonth`). An invalid
+month leaves only the year (`2010-13-05` becomes `"2010"^^xsd:gYear`).
 Unrecognized values remain unchanged. January-01 boundaries alone do not
 establish exact day precision. Creation dates must not become performance dates.
 
@@ -87,16 +106,20 @@ to Wikidata. The existing mapping choices include NFDI resources `E6404` to
 `Q20007257`, `E6429` to `Q18199165`, and `E2431` to `Q219989`.
 An unmapped source URI remains available without a fabricated QID.
 
-Only record-level licence assertions are emitted by this path. A licence on an
-associated-media node is not substituted for a record licence. These RDF links
+The converter emits a licence supplied directly on a record. It skips licences
+on associated-media blank nodes. These RDF links
 preserve the supplied level of description; they do not decide access or reuse
 rights. Compare the exact source and mapping snapshot when auditing the output.
 
 ## Content URLs and queries
 
-Preprocessing joins record → `schema:associatedMedia` → `CTO_0001021` and the
-converter emits the resulting `wdt:P953` URI. A URL hostname alone does not prove
-repository ownership, link availability, or the population's source composition.
+Preprocessing follows `schema:associatedMedia` from a record to a blank node.
+For each such node it keeps the last referring record and the last literal
+`CTO_0001021` value encountered in input order. An IRI object is skipped.
+The converter emits the joined value as a `wdt:P953` URI on that record.
+A record can acquire several URLs through separate media nodes.
+A URL hostname alone does not prove repository ownership, link availability,
+or the population's source composition.
 Keep record counts, link counts and distinct URL counts separate.
 
 ```turtle

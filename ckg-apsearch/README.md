@@ -57,9 +57,10 @@ raw_data/ckg/mnt/data/culture-kg-kitchen/data/production/E6304/nt/E6304.nt
 
 **`preprocess.py`** follows the record's `CTO_0001025` (is about) link to index
 its kind. For example, a linked blank node typed `schema:CreativeWork` gives the
-record the indexed kind `Work`. The same pass indexes media/AAT classifiers and
-joins each available content URL to its record through `schema:associatedMedia`
-and `CTO_0001021`.
+record the indexed kind `Work`. The same pass indexes media/AAT classifiers.
+For each `schema:associatedMedia` blank node, it joins the last literal
+`CTO_0001021` URL to the last record that references that node, in input order.
+It skips IRI-valued URLs.
 
 ```bash
 python preprocess.py apsearch
@@ -74,6 +75,12 @@ input and retained crosswalk evidence before making population claims.
 python build_crosswalk.py apsearch
 # -> data/mappings/record_types.json (+ shared crosswalk.json)
 ```
+
+Before conversion, check `data/mappings/record_types.json` against the
+[APSearch classifier table](doc/data-model.md#record-typing). The builder
+reports CTO media classes for manual mapping. Enter the documented mappings
+using full classifier IRIs as keys and QID strings as values, preserving the
+other feeds' entries. Leave the two intentionally unmapped classifiers absent.
 
 ## 3. Reconciliation
 
