@@ -63,7 +63,7 @@ PERIOD_MODEL_VERSION = "apsearch-creation-period-v1"
 #    (Q25379) and opera (Q1344) -- correct for every record and a strong federation
 #    hub, unlike abstract "creative work" (Q17537576) or play-excluding "composed
 #    musical work" (Q207628).
-#  * APSearch (Arab Phonogram Search sound recordings) -> Q17537576 "creative work":
+#  * APSearch (Arab Phonogram Search) -> Q17537576 "creative work":
 #    retain the broad schema:CreativeWork mapping when no classifier resolves;
 #    the feed identity alone does not establish a specific media class.
 # musiconn records all carry a resolving classifier, so no fallback fires there.
