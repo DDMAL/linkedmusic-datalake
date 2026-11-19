@@ -179,14 +179,9 @@ def coerce_date(obj_token: str, feed: str = "") -> str:
     reduced to the precision its span implies (day/month/year). Falls back to a
     plain literal if nothing parses.
 
-    For APSearch this helper returns only the compatibility start-year projection
-    of a supported, ordered period; unresolved values remain unchanged here.
-    The converter's creation-period branch preserves the source and both bounds
-    separately and withholds P571 for unresolved values.
+    APSearch creation periods use emit_creation_period. Other APSearch date
+    fields keep the existing start-year coercion for timestamp intervals.
     """
-    if feed == "apsearch":
-        start, _, status, _ = creation_period(obj_token)
-        return f'"{start}"^^xsd:gYear' if status == "parsed" else obj_token
     if not obj_token.startswith('"'):
         return obj_token
     val = obj_token[1 : obj_token.rfind('"')]
@@ -205,6 +200,8 @@ def coerce_date(obj_token: str, feed: str = "") -> str:
         return f'"{val}"^^xsd:gYear'
     if m := _DT_INTERVAL.match(val):
         y1, mo1, d1, y2, mo2, d2 = m.groups()
+        if feed == "apsearch":
+            return f'"{y1}"^^xsd:gYear'
         if (y1, mo1, d1) == (y2, mo2, d2):  # single day
             try:
                 parse_date(f"{y1}-{mo1}-{d1}")
