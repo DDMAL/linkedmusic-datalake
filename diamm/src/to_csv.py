@@ -8,6 +8,7 @@ import re
 from pathlib import Path
 import pandas as pd
 from utils import HashableDict
+from external_identifiers import identifier_columns
 
 BASE_PATH = "../data/raw/"
 BASE_CSV_PATH = "../data/csv/"
@@ -33,11 +34,7 @@ for file in (Path(BASE_PATH) / "archives").glob("*.json"):
         line["name"] = data["name"]
         line["siglum"] = data["siglum"]
         line["website"] = data["website"] if "website" in data else ""
-        line["rism_id"] = ""
-        for identifier in data["identifiers"]:
-            if re.search("RISM", identifier["label"], re.IGNORECASE):
-                line["rism_id"] = identifier["identifier"]
-                break
+        line.update(identifier_columns(data, ("rism_id",)))
         for source in data["sources"]:
             source_id = int(source["url"].split("/")[-2])
             relations.add(
@@ -293,12 +290,14 @@ for file in (Path(BASE_PATH) / "people").glob("*.json"):
         line["latest_year_approximate"] = (
             data["latest_year_approximate"] if "latest_year_approximate" in data else ""
         )
-        line["rism_id"] = line["viaf_id"] = ""
-        for identifier in data["identifiers"]:
-            if re.search("RISM", identifier["label"], re.IGNORECASE):
-                line["rism_id"] = identifier["identifier"]
-            elif re.search("VIAF", identifier["label"], re.IGNORECASE):
-                line["viaf_id"] = identifier["identifier"]
+        identifier_cells = identifier_columns(data, ("rism_id", "viaf_id"))
+        line["rism_id"] = identifier_cells["rism_id"]
+        line["viaf_id"] = identifier_cells["viaf_id"]
+        # Keep the display name (including floruit/date text) alongside the
+        # cleaned reconciliation name. Append columns to preserve old positions.
+        line["source_full_name"] = data["full_name"]
+        line["floruit"] = data.get("floruit", "")
+        line["source_identifiers"] = identifier_cells["source_identifiers"]
         for composition in data["compositions"]:
             composition_id = int(composition["url"].split("/")[-2])
             composition_dict = HashableDict(

@@ -746,6 +746,7 @@ class ManifestTests(unittest.TestCase):
                     "musicbrainz/tests",
                     "ckg-apsearch/tests",
                     "shared/tests",
+                    "diamm/tests",
                 },
                 set(suites),
             )

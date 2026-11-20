@@ -8,6 +8,20 @@ During every reconciliation step, if OpenRefine gives an error, select the entri
 
 ## Archives
 
+Keep `name`, `siglum` and `rism_id` as text, with automatic numeric/date parsing
+and whitespace trimming disabled during import. These are project-wide import
+settings. Reconcile the copied `name_@id` below while preserving the original
+name and siglum, including leading zeros and NA-like strings. If additional
+name normalization is needed for matching, apply it only to that copy. See the
+[archive text contract](archive_text.md) for blank behavior and compatibility.
+
+Reconciliation uses `rism_id` as a hint without changing its value.
+New extractions provide it only for one distinct nonblank
+RISM string. Keep the appended `source_identifiers` JSON column untouched and
+use the updated archive export. Multiple IDs remain in that evidence column;
+do not concatenate them into a single hint. See the
+[identifier-list contract](external_identifier_selection.md).
+
 1. Create a column `name_@id` as a copy of `name`
 2. Reconcile `name_@id` against Q43229 using the `siglum` column as P11550 and the `rism_id` column as P5504
 3. Some names might give error messages, in that case select only those that caused errors and re-run the reconciliation
@@ -77,6 +91,27 @@ During every reconciliation step, if OpenRefine gives an error, select the entri
 27. Reset the score window and manually fix the remaining entries, creating new entries where necessary
 
 ## People
+
+For new extractions, keep `source_full_name` and `floruit` as untouched text
+columns. Import without automatic numeric/date parsing or whitespace trimming,
+and use the updated people export template to retain both. Reconciliation uses
+the cleaned `full_name` copy below. Existing projects without those columns
+need matching raw-source values before adding them; see the
+[preservation and compatibility contract](person_name_preservation.md).
+Keep `rism_id` and `viaf_id` as untouched text too, following the
+[external identifier contract](external_identifier_text.md).
+New extractions supply each hint only for one distinct nonblank identifier;
+multiple different values leave that hint empty. Keep `source_identifiers`
+untouched as text, and include it with the updated people export. It retains
+the complete list for RDF conversion under the
+[identifier-list contract](external_identifier_selection.md). Review matches
+whose hints changed; the history still reconciles the copied name, and empty
+hints do not establish that the source had no identifiers.
+
+Import trimming is a project-wide setting: disabling it can also retain leading
+spaces in the cleaned `full_name` compared with older projects. If normalization
+is needed for matching, apply it to the copied `full_name_@id` column, keeping
+the evidence columns unchanged.
 
 1. Create a column `earliest_year_@id` as a copy of `earliest_year`
 2. Reconcile `earliest_year_@id` against Q577

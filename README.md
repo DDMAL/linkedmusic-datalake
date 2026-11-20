@@ -86,6 +86,12 @@ describes complete-ID recognition, literal/local-key precedence and the Global
 Jukebox/SIMSSA mappings. Its offline suite uses synthetic source cells and actual
 tracked configurations; it does not establish historical data quality.
 
+The [DIAMM conversion guide](diamm/README.md#4-transforming-to-rdf-turtle)
+documents complete bare-QID validation, original names and external-identifier
+lists, and paired year/approximation evidence. Its tests cover synthetic
+extraction and conversion; historical source fidelity and deployment require
+separate evidence.
+
 ## Team & contact
 
 LinkedMusic is developed at the [Distributed Digital Music Archives and Libraries Lab (DDMAL)](https://ddmal.ca/) at McGill University.
