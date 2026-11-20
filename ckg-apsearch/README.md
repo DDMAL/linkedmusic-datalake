@@ -38,7 +38,7 @@ under `data/` is **gitignored**.
 
 > APSearch runs the **same machinery** as musiconn/Detmold (same `src/`, same `mapping.json`),
 > exercising the media-feed paths: `CTO_0001049` media classes, `associatedMedia` content-URL
-> join, license/publisher `P2888` pivots, and an APSearch-specific date coercion. No APSearch-specific
+> join, license/publisher `P2888` pivots, and an APSearch-specific creation-period representation. No APSearch-specific
 > OpenRefine pass is configured.
 
 ---
@@ -103,16 +103,20 @@ source snapshot used for a conversion; see [the data model](doc/data-model.md).
 **`convert_to_rdf.py`** emits the indexed local class when the record has its own
 `rdf:type CTO_0001005` (source item) assertion. A mapped media or AAT classifier
 supplies `wdt:P31`. When none resolves, only an indexed `Work` gets the APSearch
-fallback `wd:Q17537576` (creative work).
+fallback `wd:Q17537576` (creative work). The converter also emits joined content
+URLs as `wdt:P953` and links licence/publisher URIs to Wikidata when the
+crosswalk supplies a match.
 
-A recognized timestamp interval supplies its start year for `wdt:P571`. Other
-date forms can produce a full date, a year and month, a year, or the original
-value. The converter also emits joined content URLs as `wdt:P953` and links
-licence/publisher URIs to Wikidata when the crosswalk supplies a match.
-See the [data model](doc/data-model.md) for examples.
+For each creation period, the converter retains the source term and links the
+record to an observation with its parse status, available year bounds and any
+review flags. A parsed period also supplies its start year as `wdt:P571`. Use
+the [paired bounds](doc/creation-period-preservation.md) for overlap queries.
+An unexpected blank-node period stops conversion. Write to a fresh output
+directory and check the exit status and audit before using the Turtle.
 
 ```bash
-python convert_to_rdf.py apsearch          # -> data/rdf/apsearch.ttl
+python convert_to_rdf.py apsearch --outdir /path/to/new-candidate
+# Writes apsearch.ttl and apsearch.creation-period-audit.json
 ```
 
 Validate each candidate by parsing it and comparing its record, type, date,

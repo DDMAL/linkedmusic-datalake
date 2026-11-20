@@ -7,9 +7,9 @@ musiconn.performance (SLUB Dresden) is a German concert-performance database: ev
 organizations and venues involved.
 
 Unlike most LinkedMusic subprojects, CKG is delivered **RDF-native** (per-feed N-Triples
-dumps), so there is **no fetch/scrape step**, and reconciliation is a **deterministic
-authority-ID crosswalk** (GND/VIAF → Wikidata), not column-by-column OpenRefine. OpenRefine
-is used only for the residue (entities with an authority ID but no Wikidata item).
+dumps), so there is **no fetch/scrape step**. Reconciliation starts with a
+GND/VIAF identifier lookup in Wikidata. OpenRefine can supply name matches for
+entities left unresolved by that lookup.
 
 This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-musiconn`](../ckg-musiconn), [`ckg-detmold`](../ckg-detmold),
@@ -29,11 +29,10 @@ knowledge graph.
 | Entities | Person 19,775 · Place 6,160 · Organization 3,499 · Collection 1,336 (distinct, deduped) |
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-musiconn/` |
 
-Why each mapping decision was made — the source CTO model, the predicate table, record
-typing, reconciliation rates, and the emitted schema (for **SESEMMI**, LinkedMusic's
-natural-language→SPARQL query tool) — is in [`doc/data-model.md`](doc/data-model.md). musiconn flattens performer/composer **roles**:
-every person↔event link is role-agnostic, so performer, composer and conductor roles are not
-represented in this dataset.
+The [musiconn data model](doc/data-model.md) describes record typing, predicate
+mappings and reconciliation evidence, with an RDF example for SESEMMI queries.
+The person–event links in this feed leave the performer, composer or conductor
+role unspecified.
 
 All scripts assume **CWD = `ckg-musiconn/src/`** and use the repo-root Poetry env
 (`poetry run python …`). Everything under `data/` is **gitignored**.
@@ -78,8 +77,8 @@ python build_crosswalk.py musiconn
 
 ## 3. Reconciliation
 
-The crosswalk above resolves every authority-linked entity that *is* in Wikidata. The rest
-is handled in two ways:
+For authorities left unresolved by the initial identifier lookup, the pipeline
+fetches names and searches for additional matches.
 
 - **Residue name fetch.** Entity nodes carry **no labels** in the CKG dump (only an
   authority ID), so names are fetched from the authority services for the unresolved IDs:
@@ -96,8 +95,9 @@ is handled in two ways:
 
 Whatever still doesn't resolve stays as an un-reconciled node (a GND/VIAF authority URI, or
 a bare `performance.musiconn.de/…` source URI) with **no `P2888`** — preserved intact, never
-dropped. The residue is genuinely absent from Wikidata (~0.5% ID-hit rate on what's left);
-see [`doc/data-model.md`](doc/data-model.md) for the rates.
+dropped. A missing crosswalk target leaves identity unresolved; it does not prove
+absence from Wikidata or exclude lookup/cache limitations. See the
+[model and evidence limits](doc/data-model.md).
 
 ## 4. Convert to RDF
 
@@ -146,7 +146,7 @@ ckg-musiconn/
 ├── data/                          # gitignored (extracted / mappings / openrefine / rdf)
 ├── openrefine/                    # residue name reconciliation (history + export)
 └── doc/
-    └── data-model.md              # schema + mapping decisions + verified IDs (the "why")
+    └── data-model.md              # predicate mappings, reconciliation evidence and RDF example
 ```
 
 > The `src/` scripts are **shared across all three CKG feeds** (each takes a feed argument)

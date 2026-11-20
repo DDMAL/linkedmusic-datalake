@@ -31,7 +31,7 @@ conditions against the particular source export and repository, not the feed nam
 | `rdfs:label` | preserve labels | `rdfs:label` |
 | `CTO_0001049` | media classifier lookup | configured `wdt:P31` |
 | `CTO_0001026` | AAT classifier lookup | configured `wdt:P31`; retain AAT URI |
-| `CTO_0001073` creation period | date coercion | `wdt:P571` with date-dependent datatype; unrecognized values unchanged |
+| `CTO_0001073` creation period | retain source and paired bounds | named observation; parsed start-year `wdt:P571` projection |
 | `NFDI_0000142` licence | remap and crosswalk | `wdt:P275` source URI; optional `wdt:P2888` target |
 | `NFDI_0000191` publisher | remap and crosswalk | `wdt:P123` source URI; optional `wdt:P2888` target |
 | `CTO_0001021` content URL | join through `schema:associatedMedia` | `wdt:P953` URI |
@@ -83,23 +83,28 @@ has no mapping. Check changes to these choices against all three feeds.
 
 ## Creation dates
 
-The APSearch date branch coerces a recognized creation-period interval to the
-start year as `xsd:gYear`. It does not retain the original interval or the ending
-year. For example, `1909-01-01T00:00:00/1950-01-01T23:59:59` becomes the start
-year and cannot support an interval-overlap answer after conversion. Date-only
-ranges such as `1909-01-01/1950-01-01` do not match this interval branch and remain
-unchanged. A valid full date such as `2010-04-20` becomes `xsd:date`; partial
-year/month/day forms use the existing date-coercion rules, including
-`2010-04-00` becoming `xsd:gYearMonth` and `2010` becoming `xsd:gYear`.
-For a date-shaped value with an invalid day, the converter keeps the year and
-a valid month (`2010-02-30` becomes `"2010-02"^^xsd:gYearMonth`). An invalid
-month leaves only the year (`2010-13-05` becomes `"2010"^^xsd:gYear`).
-Unrecognized values remain unchanged. January-01 boundaries alone do not
-establish exact day precision. Creation dates must not become performance dates.
+The converter retains the original `CTO_0001073` assertion, including its RDF
+datatype or language tag. It links the record to a named observation with the
+same RDF value, a parse status, any available year bounds and any review flags.
+Only a supported, ordered period produces a start-year `wdt:P571` projection.
+Malformed, reversed and unsupported periods retain their source evidence.
+The converter keeps the supplied year `9009` and flags it for review.
 
-The feeds use mixed date datatypes. Queries must inspect the datatype/lexical
-form before applying date functions; `YEAR` is not portable over `xsd:gYear`.
-Do not derive corpus-wide interval or precision counts from this contract.
+In the [validated E6304 snapshot](candidate-validation.md), the source period
+for “Takasim Nahawand” is
+`1909-01-01T00:00:00/1950-01-01T23:59:59` with datatype `schema:DateTime`.
+The observation pairs start year 1909 with end year 1950. A query for 1940
+therefore includes the record, and one for 1960 excludes it. Its `wdt:P571`
+value of 1909 alone cannot answer either overlap question. The January 1
+boundaries support comparison at year precision.
+
+Use the [creation-period contract](creation-period-preservation.md) and
+[named-graph overlap query](queries/creation_period_overlap.rq). Bounds are
+inclusive, remain paired per observation and do not imply an event occurred in
+each year. Creation periods must not be treated as performance dates. This
+APSearch branch does not alter the other feeds' existing date conversion.
+Across feeds, inspect the datatype before applying date functions. The overlap
+query compares the integer values of the two year strings.
 
 ## Licences and publisher
 

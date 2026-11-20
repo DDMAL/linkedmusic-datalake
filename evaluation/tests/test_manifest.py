@@ -738,6 +738,16 @@ class ManifestTests(unittest.TestCase):
             runner.write_bytes((ROOT / "scripts/check_offline.py").read_bytes())
             command = [sys.executable, str(runner)]
             suites = runpy.run_path(str(runner))["SUITES"]
+            # Pin required membership independently of the generic boundary loop.
+            self.assertLessEqual(
+                {
+                    "evaluation/tests",
+                    "rism/tests",
+                    "musicbrainz/tests",
+                    "ckg-apsearch/tests",
+                },
+                set(suites),
+            )
             passing = (
                 "import unittest\nclass Example(unittest.TestCase):\n"
                 "    def test_ok(self): self.assertTrue(True)\n"

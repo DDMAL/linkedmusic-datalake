@@ -28,9 +28,9 @@ poetry run python evaluation/manifest.py validate evaluation/manifests.json
 poetry run python scripts/check_offline.py
 ```
 
-The offline runner explicitly requires `evaluation/tests`, `rism/tests` and
-`musicbrainz/tests`. It fails if a required suite is absent, has zero tests,
-fails to import, or reports a failing test.
+The offline runner explicitly requires `evaluation/tests`, `rism/tests`,
+`musicbrainz/tests` and `ckg-apsearch/tests`. It fails if a required suite is absent,
+has zero tests, fails to import, or reports a failing test.
 Each required suite runs in its own interpreter. The GitHub workflow runs the
 same checks, all 14 synthetic competency queries and formatting. These are
 synthetic controls, not a data census, historical converter-fidelity measurement
