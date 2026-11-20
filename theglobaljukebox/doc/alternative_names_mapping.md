@@ -1,51 +1,54 @@
-# Social-factors alternative names
+# Society alternative names
 
-The [social-factors mapping](../../shared/rdf_config/theglobaljukebox.toml)
-maps all `alternative_names 1` through `alternative_names 19` to `skos:altLabel`
-with `datatype="xsd:string"`. Subjects remain local society IRIs in
-`https://theglobaljukebox.org/culture/`. ID-like names and URLs stay text; no
-language, entity match or separate society is inferred.
+Six [Global Jukebox societies tables](../../shared/rdf_config/theglobaljukebox.toml)
+map the exported alternative-name columns to `skos:altLabel` with datatype
+`xsd:string`. All use the same local society IRI,
+`https://theglobaljukebox.org/culture/{society_id}`. An identical name from
+two tables therefore produces one triple in the converter's RDFLib graph.
+A name such as `Q42` or a URL stays text.
 
-## Mapping evidence
+| Societies export | Alternative-name columns emitted |
+| --- | --- |
+| Cantometrics, ensembles, instrument, social factors | 1–19 |
+| Minutage | 1–12 |
+| Phonotactics | 1–10 |
+| Parlametrics | None. Its mapping omits the alternative-name columns. |
 
-[Reconciliation procedures](reconcile_procedures.md#social-factors) split names
-on semicolons and use them to support society reconciliation. The
-[society history](../openrefine/history/societies_history.json) uses P4970 as a
-reconciliation hint, which does not require emitting that direct RDF property.
-The [export template](../openrefine/export/societies_export.json) includes all
-19 columns with entity-name output, retained unmatched cells and page-link
-settings. Unreconciled cells remain text under this contract; manually reconciled
-cells could export differently. Historical CSV contents are not established by
-the template. Earlier cell-type guessing can also alter text before CSV loading.
+## Preparing the CSV
 
-[SKOS lexical labels](https://www.w3.org/TR/skos-reference/#labels) may label
-resources of any type, so a local Culture does not need to become a SKOS concept.
-[Wikidata P4970](https://www.wikidata.org/wiki/Property:P4970) has a string datatype
-and qualifier/reference scope. [RDF 1.1 literals](https://www.w3.org/TR/rdf11-concepts/#section-Graph-Literal)
-represent untagged strings with `xsd:string`. The selected mapping preserves
-lexical alternatives without asserting identity or inventing a language tag.
+Trim the outside of the raw `alternative_names` cell in OpenRefine, then split
+it using the regular expression `\s*;\s*` with cell-type guessing disabled.
+This removes padding around the semicolon in `First name; Second name`,
+preserves spaces within each name, and keeps values such as `0007` as text.
+The shared converter preserves whitespace in the CSV it receives. An older
+export containing `" Laptan"` needs a fresh export or a verified correction
+before conversion. See the [reconciliation instructions](reconcile_procedures.md#societies-1)
+and the [societies history](../openrefine/history/societies_history.json).
 
-For example, society `culture/Q42` can have labels `"Q42"^^xsd:string` and
-`"Study Q42 (draft)"^^xsd:string`, without a link to Wikidata Q42. Distinct names
-survive, but RDF set semantics do not preserve duplicate occurrences or column
-order. Each alternative-name key is declared once in TOML.
+The [export template](../openrefine/export/societies_export.json) includes up
+to 19 split columns. Check that each exported cell contains the source name.
+Reconciliation or cell-type guessing earlier in the workflow can change it.
+The shared loader also recognizes missing-value tokens such as `NA` and `?`.
+Keep the raw file for comparison.
 
-## Validation and limits
+## Meaning and validation
 
-The [synthetic regression](../../shared/tests/test_identifier_conversion.py)
-uses the actual social-factors table and graph builder. It checks all 19 columns,
-multiple names, blank/sparse societies, Unicode, punctuation, whitespace,
-bare IDs and URLs against an independently specified graph and Turtle round trip.
-All nine tracked TOML configurations participate in the compatibility check.
-Run from the repository root:
+The history uses Wikidata P4970 as a hint when reconciling a society. The RDF
+mapping describes a lexical alternative for that local society. SKOS permits
+labels on resources of any type. Repeated occurrences and source column order
+are lost in an RDF graph. [SKOS lexical labels](https://www.w3.org/TR/skos-reference/#labels)
+· [Wikidata P4970](https://www.wikidata.org/wiki/Property:P4970)
 
-```sh
-poetry run python scripts/check_offline.py
-```
+The [offline tests](../../shared/tests/test_identifier_conversion.py) load all
+nine TOMLs and resolve their predicates. Conversion tests cover Global Jukebox
+societies, DTL performers and SIMSSA people and works. The societies fixtures
+check shared labels, distinct names, the Parlametrics omission and exact RDF
+terms after Turtle serialization. Run `poetry run python scripts/check_offline.py`
+from the repository root.
 
-The shared loader's missing-value tokens and record fill-down still apply.
-Other tables' untyped labels retain their own contracts. These tests do not
-establish historical affected counts, export fidelity or deployed behavior.
-Obtain matching source/export snapshots, retain their hashes and generate a
-separate candidate before replacing stored RDF. Lost names cannot be recovered
-from old entity links without the original source value.
+Before regenerating the Global Jukebox graph, reconcile SESEMMI’s
+[graph schema](https://github.com/DDMAL/SESEMMI/blob/874e77089df425fb56b5eea1f1a6778245143b24/llm-service/app/graph/schema_corpus.py#L447)
+with the candidate: the schema entry for `gj:Culture` advertises `wdt:P4970`,
+while the converter emits `skos:altLabel`. Before rollout, test an exact
+alternative-name query against the candidate and coordinate the schema switch
+with deployment. Record source/export revisions and checksums for the comparison.

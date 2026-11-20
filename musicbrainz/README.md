@@ -24,7 +24,7 @@ This guide details all the steps required to translate raw data from MusicBrainz
 ## Characteristics of the MusicBrainz Dataset
 
 - Given that MusicBrainz data is based on a Relational Database (RDB) model, most entities (e.g., artists and recordings) are already carefully linked with one another. In fact, there are over 800 defined relationship types connecting these entities!
-- Luckily, most Musicbrainz entities are already reconciled with Wikidata (i.e., they have a field containing the matching Wikidata QID). This removes the need for us to reconcile the data with OpenRefine (Ichiro confirmed).
+- MusicBrainz can supply an entity’s Wikidata item through a typed external link. Descriptive values such as artist type use the project’s OpenRefine exports. See the [URL contract](doc/url_recognition.md) and [CSV contract](doc/auxiliary_identifier_validation.md).
 - Please take a look at the [official documentation on basic MusicBrainz entities](https://musicbrainz.org/doc/Terminology) and the [official table of MusicBrainz relationships](https://musicbrainz.org/relationships) before you continue.
 
 ## Data Processing Pipeline

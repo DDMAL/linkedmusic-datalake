@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from convert_to_rdf import load_reconciliation_csv, matched_wikidata, process_entity
 from mapping_schema import MappingSchema
-from relationship_mapping import RelationshipMappings
+from relationship_mapping import RelationshipMappings, TERMS
 
 WD = Namespace("http://www.wikidata.org/entity/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
@@ -278,15 +278,26 @@ class AuxiliaryIdentifierTests(unittest.TestCase):
                 "status": {"Cancelled": float("nan")},
             },
         )
+        subject = MB[f"release/{ENTITY_ID}"]
+
+        node = graph.value(subject, TERMS.urlRelationship)
+        self.assertEqual(graph.value(node, TERMS.sourceTypeName), Literal("wikidata"))
         self.assertEqual(
-            set(graph),
+            graph.value(node, TERMS.urlTarget),
+            Namespace("https://www.wikidata.org/wiki/").Q42,
+        )
+        self.assertEqual(
+            {
+                t
+                for t in graph.triples((subject, None, None))
+                if t[1] != TERMS.urlRelationship
+            },
             self.expected(
                 "release",
                 (WDT.P9813, Literal("Paper sleeve")),
                 (WDT.P1534, Literal("Cancelled")),
                 (WDT.P175, MB["artist/source-artist"]),
                 (WDT.P361, MB["release-group/source-group"]),
-                (WDT.P2888, WD.Q42),
             ),
         )
 
