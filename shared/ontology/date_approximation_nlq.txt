@@ -1,5 +1,5 @@
 <query-notes>
-For a DIAMM graph version with person-year observations, use GRAPH
+For a DIAMM export verified to use lm:approximate on nonblank person years, use GRAPH
 diamm: (https://linkedmusic.ca/graphs/diamm/).
 From the person follow diamm:personYear to one observation. On that observation
 select diamm:dateProperty wdt:P569 for birth or wdt:P570 for death
@@ -8,21 +8,24 @@ original year cell and diamm:sourceApproximate for the original flag cell.
 diamm:year is the parsed xsd:gYear when available. Keep this field optional
 if the question includes unparsed source entries.
 
-Use OPTIONAL { ?obs lm:approximate ?approximate } when listing dates.
+Use OPTIONAL { ?obs lm:approximate ?approximate } within the same GRAPH diamm: block when listing dates.
 This is the shared Boolean for one observed value across all databases.
 Use the birth or death observation to select the right value. For true, report
 “around 1850” if the year is 1850. For false, report “1850” at year precision. An
-unbound flag means the source's approximation status is unknown. For a
+unbound flag on a supplied year means its approximation status is unknown.
+An empty year has no value to qualify. For a
 question restricted to explicitly approximate birth years, require a typed
 year and a true flag on the same birth observation. Direct person P569/P570
-triples cover only explicitly non-approximate supported years. Keep differing
+triples cover only parsed years whose source flag is false (the DIAMM default). Keep differing
 source observations separate. A circa flag supplies no day, range, probability
 or information about the reliability of the answer.
 </query-notes>
 <ontology>
 @prefix lm: <https://linkedmusic.ca/terms/preservation/> .
 diamm:Person
-	diamm:personYear	diamm:PersonYearObservation .
+	diamm:personYear	diamm:PersonYearObservation ;
+	wdt:P569	"birth year (xsd:gYear) when DIAMM gives a parsed year without ca.; use diamm:personYear for all recorded birth years" ;
+	wdt:P570	"death year (xsd:gYear) when DIAMM gives a parsed year without ca.; use diamm:personYear for all recorded death years" .
 diamm:PersonYearObservation
 	diamm:dateProperty	"wdt:P569 for birth or wdt:P570 for death" ;
 	diamm:year	"optional xsd:gYear" ;

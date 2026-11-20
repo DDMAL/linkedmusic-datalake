@@ -10,7 +10,8 @@ web resolver, production schema graph or application migration has been deployed
   alignments, using `lm: <https://linkedmusic.ca/terms/preservation/>`.
 - [Approximate values across databases](date_approximation.md) covers free-text
   and structured source dates, estimated counts, cross-graph SPARQL and answer wording.
-- [shapes.ttl](shapes.ttl): executable SHACL constraints for DIAMM geographic
+- [shapes.ttl](shapes.ttl) checks that a flagged value has at most one Boolean
+  per observation within the data graph being validated. It also checks DIAMM geographic
   provenance and the optional versioned-lineage profile.
 - [DIAMM query templates](../../diamm/doc/source_provenance.md#query-and-answer-contract):
   named-graph discovery, uncertainty selection, qualifier disagreements and counts.
@@ -47,7 +48,7 @@ There is no equivalence between uncertainty and approximation, no blanket
 confidence score, and no subproperty alignment to P131/P276 for manuscript
 provenance. Raw evidence and supported bounds remain attached to the same
 observation. Direct projection rules remain dataset-specific: for example,
-DIAMM person dates require explicit non-approximation; geographic provenance
+direct DIAMM person dates require a parsed year and a false source flag (the DIAMM default); geographic provenance
 does not produce unqualified location assertions. CRMinf is not adopted because
 the available fields do not supply scholarly agents, arguments or belief values.
 

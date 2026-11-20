@@ -134,6 +134,33 @@ class PreservationContractTests(unittest.TestCase):
             ],
         )
 
+    def test_approximation_shape_checks_single_boolean_per_flagged_subject(self):
+        graph = Graph()
+        graph.add((EX.performerCount, LM.approximate, Literal(False)))
+        self.check(graph)
+        graph.add((EX.performerCount, LM.approximate, Literal(True)))
+        self.check(graph, expected=False)
+        graph.set((EX.performerCount, LM.approximate, Literal("true")))
+        self.check(graph, expected=False)
+
+    def test_legacy_year_check_detects_incompatible_diamm_exports(self):
+        query = (ROOT / "diamm/doc/queries/person_year_legacy_flags.rq").read_text()
+        dataset = Dataset(default_union=False)
+        dataset.graph(EX.other).add((EX.birth, DIAMM.approximate, Literal(True)))
+        graph = dataset.graph(URIRef(str(DIAMM)))
+        graph.add((EX.birth, RDF.type, DIAMM.PersonYearObservation))
+        self.assertFalse(bool(dataset.query(query)))
+        graph.add((EX.birth, DIAMM.approximate, Literal(False)))
+        self.assertTrue(bool(dataset.query(query)))
+        graph.remove((EX.birth, DIAMM.approximate, None))
+        graph.add((EX.birth, LM.approximate, Literal(False)))
+        for raw, incompatible in (("", True), ("  ", True), ("c. 1855", False)):
+            with self.subTest(raw=raw):
+                graph.set(
+                    (EX.birth, DIAMM.sourceValue, Literal(raw, datatype=XSD.string))
+                )
+                self.assertEqual(bool(dataset.query(query)), incompatible)
+
     def test_lineage_retains_separate_occurrences_across_conversion_runs(self):
         graph = self.lineage()
         graph.add((EX.run2, RDF.type, LM.Conversion))
