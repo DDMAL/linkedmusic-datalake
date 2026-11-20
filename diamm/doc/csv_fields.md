@@ -70,7 +70,7 @@ Data in `compositions`, `related_sources`, and `copied_sources` will be put in t
 These person years are distinct from role dates and the upstream floruit field.
 OpenRefine adds `earliest_year_@id` and `latest_year_@id` while retaining the
 original year and flag cells. RDF conversion preserves all six cells and emits
-direct birth/death years only when explicitly non-approximate. The two appended
+direct birth/death years only when the exported flag parses as false. The two appended
 text columns follow the [person-name preservation contract](person_name_preservation.md)
 and must pass through reconciliation unchanged.
 The two external identifier columns also require text-preserving import/export;

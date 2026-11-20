@@ -52,8 +52,8 @@ For reconciled descriptive fields such as genre and type, a successful match sup
 
 Person years follow the [year and approximation contract](doc/person_years.md).
 Original year, candidate ID and approximation flag stay together in a source
-observation. P569/P570 contain year literals only when the source explicitly
-marks the year as non-approximate; approximate or unknown values remain
+observation. P569/P570 contain supported year literals when the exported
+flag parses as false. Approximate years and years with unknown flags remain
 queryable through observations. Year-item IRIs are retained only as validated
 reconciliation evidence on those observations. See the contract for query
 examples and the change from the older date-object representation.

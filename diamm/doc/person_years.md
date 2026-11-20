@@ -2,7 +2,7 @@
 
 Person year conversion retains the original year, candidate ID and approximation
 flag together. Direct birth/death values use supported source years only when
-the source explicitly marks them non-approximate. The contract covers exported
+the exported flag parses as false. The contract covers exported
 CSV cells; it does not reconstruct discarded historical evidence.
 
 ## Meaning and evidence
@@ -10,9 +10,11 @@ CSV cells; it does not reconstruct discarded historical evidence.
 The upstream DIAMM website's
 [Person model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/person.py)
 defines nullable integer earliest/latest years, separate Boolean approximation
-flags, and a separate `floruit` field. Its field guidance reserves floruit for
+flags that default to false, and a separate `floruit` field. Its field guidance reserves floruit for
 people without known birth/death dates; its display method renders earliest
-and latest as a lifespan, with `ca.` for the respective approximate endpoints.
+and latest as a lifespan, with `ca.` when the corresponding flag is true.
+False is the model default and displays a plain year. The export cannot tell
+whether an editor selected false or left the default in place.
 The [2023 floruit migration](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/diamm_data/migrations/0013_person_floruit.py)
 contains the same guidance. The
 [person serializer](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/serializers/website/person.py)
@@ -60,7 +62,7 @@ Preservation here means decoded CSV cell values, not CSV quoting or JSON bytes.
   does not verify existence, year class, or agreement with the source year.
   An ID never supplies or overrides the source year.
 - A direct person P569/P570 triple is emitted only for a supported source year
-  whose flag explicitly means **false**. Its object is an `xsd:gYear` literal.
+  whose exported flag parses as **false**. Its object is an `xsd:gYear` literal.
   Approximate or unknown-precision values remain on observations, even when
   their year and reconciled ID parse successfully. A rejected ID does not
   invalidate an independently supported, non-approximate source year.
@@ -72,8 +74,9 @@ ID and flag creates a `diamm:PersonYearObservation`, attached to its source
 person by `diamm:personYear`. The shared prefix `lm:` is
 `https://linkedmusic.ca/terms/preservation/`. Three empty cells produce no
 observation. A flag or ID without a year still creates an observation.
-Consequently, explicit false flags on people without years still produce
-observations. Their population and RDF expansion require snapshot measurement.
+With an empty or whitespace-only year, keep the original cells and validation
+flags and omit `lm:approximate`. A recognized flag can still qualify nonblank
+source text such as `c. 1855`, even when it yields no typed year.
 
 | Observation property | Value |
 | --- | --- |
@@ -84,7 +87,7 @@ observations. Their population and RDF expansion require snapshot measurement.
 | `diamm:sourceIdentifier` | Original ID cell, including empty text, as `xsd:string` |
 | `diamm:sourceApproximate` | Original flag cell, including empty text, as `xsd:string` |
 | `diamm:year` | Supported source year as `xsd:gYear`, when available |
-| `lm:approximate` | Shared Boolean for this year, when the source flag can be interpreted |
+| `lm:approximate` | Boolean for a nonblank source year whose flag can be interpreted |
 | `diamm:reconciledYear` | Canonical Wikidata IRI for a complete bare QID, when available |
 | `diamm:validationFlag` | Zero or more validation status strings listed above |
 
@@ -128,7 +131,7 @@ SELECT ?person ?year ?raw ?candidate ?approximate WHERE {
 This example targets one converted DIAMM graph. Add the deployment's explicit
 `GRAPH` scope in a multi-graph store. Unknown flags leave `?approximate` unbound;
 do not coalesce them to false. Direct `?person wdt:P569 ?year` selects only
-source years explicitly marked non-approximate. A year item join, if needed,
+supported years whose exported flag parses as false. A year item join, if needed,
 goes through the same observation's `diamm:reconciledYear` and retains its flag.
 These `xsd:gYear` values also differ from Wikidata's `xsd:dateTime` values.
 Cross-graph date comparisons need explicit year extraction; do not assume
@@ -136,10 +139,11 @@ Cross-graph date comparisons need explicit year extraction; do not assume
 For this contract's supported years, `xsd:integer(STR(?year))` supplies a numeric
 year for comparisons, while the observation retains uncertainty.
 
-Earlier candidate exports used `diamm:approximate`. When upgrading those
-exports, regenerate from the same CSVs or replace that predicate with
-`lm:approximate` on the person-year observations, preserving its Boolean and
-the raw cells. Use the query above with the matching graph version.
+Earlier candidate exports may use `diamm:approximate` or carry a Boolean on a
+yearless observation. Regenerate from the same CSVs when possible. For a
+migration of existing person-year observations, retain the raw cells and
+observation IRIs, use `lm:approximate` for recognized flags on nonblank
+source years, and omit the derived Boolean otherwise.
 
 Regenerate from matching reconciled CSVs into a separate output directory;
 record source checksums and converter version first. Audit actual year/flag/ID
