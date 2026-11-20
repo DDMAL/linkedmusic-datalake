@@ -143,9 +143,7 @@ def add_person_year(graph, person, row, field):
     approximate = {"true": True, "1": True, "false": False, "0": False}.get(
         raw_approximate.lower()
     )
-    if approximate is not None:
-        graph.add((observation, PRESERVATION.approximate, Literal(approximate)))
-    else:
+    if approximate is None:
         graph.add(
             (
                 observation,
@@ -157,6 +155,8 @@ def add_person_year(graph, person, row, field):
                 ),
             )
         )
+    elif raw_year.strip():
+        graph.add((observation, PRESERVATION.approximate, Literal(approximate)))
 
     if matched_wikidata(raw_identifier):
         graph.add((observation, LMDIAMM.reconciledYear, WD[raw_identifier]))

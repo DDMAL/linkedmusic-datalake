@@ -315,12 +315,35 @@ class PersonYearTests(unittest.TestCase):
     def test_blank_fields_do_not_invent_years_or_observations(self):
         self.write_people({})
         self.assertEqual(set(self.convert()), self.expected_base())
-        self.write_people({"earliest_year_approximate": "False"})
-        graph = self.convert()
-        node = self.observation(graph, "earliest_year")
-        self.assertIn((node, LM.validationFlag, Literal("missing-year")), graph)
-        self.assertEqual(list(graph.objects(PERSON, WDT.P569)), [])
-        self.assertEqual(list(graph.objects(node, LM.year)), [])
+        for raw_year, raw_flag, year_status in (
+            ("", "False", "missing-year"),
+            ("", "True", "missing-year"),
+            ("  ", "False", "invalid-year"),
+            ("c. 1855", "True", "invalid-year"),
+        ):
+            with self.subTest(year=raw_year, flag=raw_flag):
+                self.write_people(
+                    {"earliest_year": raw_year, "earliest_year_approximate": raw_flag}
+                )
+                graph = self.convert()
+                node = self.observation(graph, "earliest_year")
+                self.assertEqual(
+                    set(graph.objects(node, LM.validationFlag)), {Literal(year_status)}
+                )
+                self.assertEqual(
+                    graph.value(node, LM.sourceValue),
+                    Literal(raw_year, datatype=XSD.string),
+                )
+                self.assertEqual(
+                    graph.value(node, LM.sourceApproximate),
+                    Literal(raw_flag, datatype=XSD.string),
+                )
+                flags = set(graph.objects(node, PRESERVATION.approximate))
+                self.assertEqual(
+                    flags, {Literal(True)} if raw_year == "c. 1855" else set()
+                )
+                self.assertEqual(list(graph.objects(PERSON, WDT.P569)), [])
+                self.assertEqual(list(graph.objects(node, LM.year)), [])
 
     def test_duplicate_and_conflicting_rows_keep_year_evidence_together(self):
         exact = {"earliest_year": "1500", "earliest_year_approximate": "False"}
