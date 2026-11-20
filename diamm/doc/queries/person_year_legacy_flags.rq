@@ -1,0 +1,17 @@
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX lm: <https://linkedmusic.ca/terms/preservation/>
+
+# True if this named graph contains either earlier person-year flag mapping.
+ASK {
+  GRAPH diamm: {
+    { ?obs diamm:approximate ?flag }
+    UNION
+    {
+      ?obs a diamm:PersonYearObservation ; lm:approximate ?flag .
+      FILTER NOT EXISTS {
+        ?obs diamm:sourceValue ?raw .
+        FILTER(REGEX(STR(?raw), "\\S"))
+      }
+    }
+  }
+}

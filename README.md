@@ -91,8 +91,11 @@ documents complete bare-QID validation, original names and external-identifier
 lists, and paired year/approximation evidence. Its tests cover synthetic
 extraction and conversion; historical source fidelity and deployment require
 separate evidence. DIAMM also preserves geographic name strings and explicit
-[organization locations](diamm/doc/geographic_relationships.md), with
-parent-type and manuscript-provenance limitations documented separately.
+[organization locations](diamm/doc/geographic_relationships.md).
+[Qualified manuscript provenance](diamm/doc/source_provenance.md) retains
+uncertainty and years on each manuscript/place association. The
+[shared evidence vocabulary and SHACL shapes](shared/ontology/README.md)
+describe these observations and the optional lineage profile.
 
 ## Team & contact
 
