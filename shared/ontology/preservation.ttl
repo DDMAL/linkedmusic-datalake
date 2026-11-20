@@ -28,7 +28,7 @@ lm:sourceUncertain a rdf:Property ;
 lm:dateApproximate a rdf:Property ;
     rdfs:label "Source date approximation flag"@en ;
     rdfs:range xsd:boolean ;
-    rdfs:comment "Source flag about the precision of the particular date. Separate from uncertainty about an association, parsing success, reconciliation quality and answer confidence."@en .
+    rdfs:comment "Qualifies one date observation. True means the source marks that date as approximate, through a flag or a documented expression such as 'c. 1850'. False requires source evidence that the date was given as non-approximate at its stated precision. Omit the property when the status is unknown. Preserve the source wording or flag alongside any supported date value. The Boolean supplies neither a numeric margin nor a confidence score."@en .
 lm:validationFlag a rdf:Property ;
     rdfs:label "Conversion or review flag"@en ;
     rdfs:comment "Repeatable source-specific processing limitation or review condition. Absence is not proof of correctness; flags are not confidence scores."@en .
