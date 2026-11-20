@@ -87,10 +87,13 @@ The shared `crosswalk.json` contains matches from Wikidata identifier lookups
 (GND `P227`, VIAF `P214` and GeoNames `P1566`), name matches imported from
 OpenRefine, and manually entered links such as the
 [Detmold place mappings](../../ckg-detmold/README.md#3-reconciliation).
-The converter emits the same `wdt:P2888` predicate for all three. To audit a
-link, check the identifier response, the name-reconciliation export or the
-evidence for the manual choice. Source nodes without a crosswalk target remain
-in the graph. A missing match can reflect lookup or cache limitations.
+Audit these links against the identifier response, the name-reconciliation export
+or the evidence for the manual choice. For VIAF entries that inherit a GND
+entry’s QID through lobid’s `sameAs` index, verify the GND URI in
+`authority_name_cache.json` and its QID in `crosswalk.json`.
+The converter emits `wdt:P2888` for each crosswalk target. Source nodes
+without a crosswalk target remain in the graph. A missing match can reflect
+lookup or cache limitations.
 Review identity independently under the
 [evaluation protocol](../../evaluation/protocol.md).
 Report distinct-node and relation-weighted coverage separately from correctness.
