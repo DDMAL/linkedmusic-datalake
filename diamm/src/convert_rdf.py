@@ -11,7 +11,7 @@ import re
 import os
 import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import DCTERMS, RDFS, RDF, SKOS, XSD
+from rdflib.namespace import DCTERMS, RDFS, RDF, SDO, SKOS, XSD
 from external_identifiers import identifier_values
 
 BASE_PATH = "../data/reconciled/"
@@ -46,9 +46,8 @@ DIAMM_SCHEMA = {
     "region": WDT["P131"],
     "country": WDT["P17"],
     "location": WDT["P276"],
-    # Source Organization.location exposed by Region.organizations. A DIAMM
-    # region can be cultural rather than administrative; do not infer P131.
-    "organization_location": LMDIAMM.organizationLocation,
+    # All three place types refer to the same DIAMM Organization.location field.
+    "organization_location": SDO.location,
     "type": WDT["P31"],
     "composer": WDT["P86"],
     "genre": WDT["P136"],
@@ -68,6 +67,7 @@ DIAMM_SCHEMA = {
 }
 
 namespaces = {
+    "schema": SDO,
     "wdt": WDT,
     "wd": WD,
     "diamm": LMDIAMM,
@@ -627,7 +627,7 @@ def build_rdf_graph(
                 pred_uri = DIAMM_SCHEMA["country"]
             elif second_type == "organization":
                 second_uri = URIRef(f"{DO}{second_id}")
-                pred_uri = DIAMM_SCHEMA["city"]
+                pred_uri = DIAMM_SCHEMA["organization_location"]
                 reverse = True
             elif second_type == "region":
                 second_uri = URIRef(f"{DR}{second_id}")
@@ -648,7 +648,7 @@ def build_rdf_graph(
             first_uri = URIRef(f"{DN}{first_id}")
             if second_type == "organization":
                 second_uri = URIRef(f"{DO}{second_id}")
-                pred_uri = DIAMM_SCHEMA["country"]
+                pred_uri = DIAMM_SCHEMA["organization_location"]
                 reverse = True
             elif second_type == "region":
                 second_uri = URIRef(f"{DR}{second_id}")

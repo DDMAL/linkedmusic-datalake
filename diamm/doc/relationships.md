@@ -1,7 +1,7 @@
 # Property Mappings for Relationships
 
 For geographic links, use the [geographic relationship contract](geographic_relationships.md).
-It defines `diamm:organizationLocation` for organization/region rows and describes
+It maps an organization’s listed city, region or country to `schema:location` and describes
 parent-type and manuscript-provenance limits. Other relation mappings below
 retain their existing semantics.
 

@@ -42,7 +42,7 @@ The `relationships` field for `sources` is very similar, containing relationship
 - `related_sources` is a list of related sources, that also contains information about the relationship type
 - `copied_sources` is a list of sources that were copied at that organization
 - `source_provenance` is a list of sources whose provenance is this organization
-- `location` is the city in which the organization is located
+- `location` identifies the organization's geographic area. The organization detail record can supply a city or country URL. A region's `organizations` listing identifies organizations located in that region.
 
 ## People
 

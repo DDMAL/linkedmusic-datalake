@@ -61,7 +61,7 @@ URLs in the original name are text, not identity assertions. Whitespace-only
 names remain nonempty. Empty cells emit no label; local subjects, types,
 supplied matches and existing links still survive. No name is inferred from
 a QID or country hint. A supplied `"None"` is retained and differs from an empty
-cell. Previously numeric label objects now become strings.
+cell.
 
 P2888 still uses only `name_@id` and the complete bare-QID check. The existing
 export ambiguity remains: unmatched text such as `Q42` can also occupy that
@@ -72,25 +72,24 @@ City `country` text comes from the supplied `country.name`; region `country`
 text comes from `parent`. Their `country_@id` copies are reconciliation hints,
 not RDF relationships. The RDF converter does not use either hint column to
 create P17, labels or fallback matches. Geographic relationships instead come
-from `relations.csv`, including city-to-country P17, city-to-region P131,
-region-to-country P17, archive/organization-to-city P131, source-to-city P131
-and organization-to-country P17. Their existing mapping and direction are
-unchanged; this name repair does not validate their geographic semantics.
+from `relations.csv`. Cities link to countries with P17 and to regions with
+P131. Regions link to countries with P17. Archives and manuscripts link to
+cities with P131.
 
-The [geographic relationship contract](geographic_relationships.md) preserves
-organization-to-region location rows using `diamm:organizationLocation`, without
-inferring administrative status or manuscript location. Parent routing remains
-limited: city extraction assumes a country endpoint, while the inspected
-serializer constructs that URL from a general geographic parent. Region/source
-provenance rows have no RDF branch, and city/source provenance loses its
-uncertainty/year qualifiers. Names and country hints cannot resolve those
-semantics. Variant names and other unmapped fields retain their own limits.
+Organizations link to the supplied city, region or country with
+`schema:location`. The [geographic relationship contract](geographic_relationships.md)
+covers direct places, queries and migration. City extraction assumes a country
+endpoint, while the inspected serializer constructs that URL from a general
+geographic parent. Region/source provenance rows have no RDF branch, and
+city/source provenance loses its uncertainty/year qualifiers. Names and country
+hints cannot resolve those semantics. Variant names and other unmapped fields
+retain their own limits.
 
 Duplicate triples collapse. Conflicting rows retain all distinct names and
 supplied matches, without preserving name/match pairing by CSV row. No new
 observations, identity inference or reconciliation policy are introduced.
 
-An exact-string query can now join names to the existing local relationships:
+This example joins an exact name to the geographic links for a manuscript.
 
 ```sparql
 PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
