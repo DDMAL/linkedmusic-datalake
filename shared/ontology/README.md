@@ -8,6 +8,8 @@ web resolver, production schema graph or application migration has been deployed
 
 - [preservation.ttl](preservation.ttl): labels, definitions and conservative RDFS
   alignments, using `lm: <https://linkedmusic.ca/terms/preservation/>`.
+- [Approximate values across databases](date_approximation.md) covers free-text
+  and structured source dates, estimated counts, cross-graph SPARQL and answer wording.
 - [shapes.ttl](shapes.ttl): executable SHACL constraints for DIAMM geographic
   provenance and the optional versioned-lineage profile.
 - [DIAMM query templates](../../diamm/doc/source_provenance.md#query-and-answer-contract):
@@ -35,7 +37,7 @@ qualification and projection rules.
 | Quantity | Shared interpretation | Existing source meaning |
 | --- | --- | --- |
 | Source uncertainty | `lm:sourceUncertain` | DIAMM `uncertain` is a subproperty. True explicitly flags an association; false means source-unflagged. Missing is unknown. |
-| Date approximation | `lm:dateApproximate` | DIAMM `approximate` qualifies a person year. It does not measure geographic association uncertainty. |
+| Value approximation | `lm:approximate` | Every dataset uses the same Boolean on the observation of the particular value. DIAMM reads a structured year flag. A catalogue might supply “c. 1850” or “about 20 performers” instead. |
 | Conversion/review flags | `lm:validationFlag` | DIAMM `validationFlag` and CKG `reviewFlag` are subproperties. They report processing limitations or review conditions. |
 | Mapping/parse status | Source-specific | MusicBrainz `mappingStatus` and APSearch `parseStatus` retain their definitions. Successful processing does not establish certainty or independent correctness. |
 | Reconciliation quality | Separate evaluation | A QID match or syntactically valid identifier supplies no confidence score. |

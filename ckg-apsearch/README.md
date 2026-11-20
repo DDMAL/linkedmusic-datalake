@@ -18,15 +18,15 @@ This is one of three CKG feeds ingested as **separate sibling subprojects** —
 [`ckg-apsearch`](../ckg-apsearch) — each loading as its **own Virtuoso named graph**. The
 CKG's RISM feed (`E5313`) is **excluded by design** (LinkedMusic ingests RISM separately).
 
-Codes like `E6304` are **NFDI4Culture resource identifiers**: every CKG feed — and every
-license and publisher it references — is a registered `E…` entity in the NFDI4Culture
-knowledge graph.
+NFDI4Culture identifies the feed as `E6304` and its publisher as `E2431`.
+Individual records can also reference external resources, including a repository's
+own licence URL.
 
 | | |
 |---|---|
 | CKG feed | `E6304` |
 | Output | `data/rdf/apsearch.ttl` |
-| Record class | `https://linkedmusic.ca/graphs/ckg/Work` |
+| Work class | `https://linkedmusic.ca/graphs/ckg/Work` |
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-apsearch/` |
 
 Why each mapping decision was made — the media-class typing, license/publisher pivots, date
@@ -55,25 +55,37 @@ raw_data/ckg/mnt/data/culture-kg-kitchen/data/production/E6304/nt/E6304.nt
 
 ## 2. Preprocess + crosswalk
 
-**`preprocess.py`** — one streaming pass that builds the **record-kind index** (every record
-is `schema:CreativeWork` → Work), the **classifier index** (record → `CTO_0001049` media
-class / AAT code), and joins each record to its content URL through the `associatedMedia`
-blank node → `CTO_0001021` chain (the URL sits on the bnode, which is never emitted, so it is
-joined back to the record → `wdt:P953`).
+**`preprocess.py`** follows the record's `CTO_0001025` (is about) link to index
+its kind. For example, a linked blank node typed `schema:CreativeWork` gives the
+record the indexed kind `Work`. The same pass indexes media/AAT classifiers.
+For each `schema:associatedMedia` blank node, it joins the last literal
+`CTO_0001021` URL to the last record that references that node, in input order.
+It skips IRI-valued URLs.
 
 ```bash
 python preprocess.py apsearch
 # -> data/extracted/apsearch.norm.nt, .entities.json (record kind/classifier/content-url maps)
 ```
 
-**`build_crosswalk.py`** — resolves AAT classifier codes via `wdt:P1014` and
-available authority identifiers through the shared pipeline. Inspect the selected
+**`build_crosswalk.py`** looks for Wikidata matches for indexed AAT classifier codes
+via `wdt:P1014` and for available authority identifiers. Inspect the selected
 input and retained crosswalk evidence before making population claims.
 
 ```bash
 python build_crosswalk.py apsearch
 # -> data/mappings/record_types.json (+ shared crosswalk.json)
 ```
+
+After each build, match the APSearch entries in `data/mappings/record_types.json`
+to the [classifier table](doc/data-model.md#record-typing). Use full IRI keys
+and bare QID values for all six mapped terms, including the manual CTO entries
+and the cylinder mapping (`aat:300265798` → `Q691783`). Remove any entries for
+the two intentionally unmapped classifiers and preserve the other feeds' entries.
+
+The builder fills `data/mappings/crosswalk.json` from authority identifiers.
+Keep those entries and manually add the three [licence and publisher mappings](doc/data-model.md#licences-and-publisher).
+For each key, append the E-number to `https://nfdi4culture.de/id/`. Use the
+bare QID as its value.
 
 ## 3. Reconciliation
 
@@ -88,18 +100,23 @@ source snapshot used for a conversion; see [the data model](doc/data-model.md).
 
 ## 4. Convert to RDF
 
-**`convert_to_rdf.py`** — the shared two-pass converter (see
-[`doc/data-model.md`](doc/data-model.md)): types every record `lmckg:Work` + `wdt:P31` (media
-class, or the `Q17537576` "creative work" fallback for classifier-less records), emits the
-license/publisher `P2888` pivots, retains creation-period source terms and paired
-year bounds with parse/review flags, and emits the joined
-`wdt:P953` content URLs post-loop. Parsed periods also project their start year
-to `wdt:P571`; use [paired bounds](doc/creation-period-preservation.md) for overlap.
-No blank nodes survive a successful conversion. Unexpected blank-node periods
-stop conversion; use a fresh output directory and require a successful exit/audit.
+**`convert_to_rdf.py`** emits the indexed local class when the record has its own
+`rdf:type CTO_0001005` (source item) assertion. A mapped media or AAT classifier
+supplies `wdt:P31`. When none resolves, only an indexed `Work` gets the APSearch
+fallback `wd:Q17537576` (creative work). The converter also emits joined content
+URLs as `wdt:P953` and links licence/publisher URIs to Wikidata when the
+crosswalk supplies a match.
+
+For each creation period, the converter retains the source term and links the
+record to an observation with its parse status, available year bounds and any
+review flags. A parsed period also supplies its start year as `wdt:P571`. Use
+the [paired bounds](doc/creation-period-preservation.md) for overlap queries.
+An unexpected blank-node period stops conversion. Write to a fresh output
+directory and check the exit status and audit before using the Turtle.
 
 ```bash
-python convert_to_rdf.py apsearch          # -> data/rdf/apsearch.ttl
+python convert_to_rdf.py apsearch --outdir /path/to/new-candidate
+# Writes apsearch.ttl and apsearch.creation-period-audit.json
 ```
 
 Validate each candidate by parsing it and comparing its record, type, date,

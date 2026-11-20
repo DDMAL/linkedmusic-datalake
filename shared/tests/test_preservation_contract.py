@@ -1,11 +1,12 @@
 """Executable preservation shapes and optional, explicitly versioned lineage."""
 
+import re
 import unittest
 from pathlib import Path
 
 from owlrl import DeductiveClosure, RDFS_Semantics
 from pyshacl import validate
-from rdflib import Graph, Literal, Namespace, RDF, RDFS
+from rdflib import Dataset, Graph, Literal, Namespace, RDF, RDFS, URIRef, XSD
 
 ROOT = Path(__file__).resolve().parents[2]
 ONTOLOGY = ROOT / "shared/ontology"
@@ -62,7 +63,6 @@ class PreservationContractTests(unittest.TestCase):
             self.assertIn((cls, RDFS.subClassOf, LM.EvidenceObservation), schema)
         for pred, target in (
             (DIAMM.uncertain, LM.sourceUncertain),
-            (DIAMM.approximate, LM.dateApproximate),
             (DIAMM.validationFlag, LM.validationFlag),
             (CKG.reviewFlag, LM.validationFlag),
         ):
@@ -78,7 +78,8 @@ class PreservationContractTests(unittest.TestCase):
         # Even with deliberate RDFS inference, approximation/status must not
         # become association uncertainty, nor observations direct locations.
         graph = schema + Graph()
-        graph.add((EX.date, DIAMM.approximate, Literal(True)))
+        self.assertIn((LM.approximate, RDFS.range, XSD.boolean), schema)
+        graph.add((EX.date, LM.approximate, Literal(True)))
         graph.add((EX.relationship, MB.mappingStatus, Literal("mapped")))
         graph.add((EX.period, CKG.parseStatus, Literal("parsed")))
         graph.add((EX.provenance, DIAMM.uncertain, Literal(False)))
@@ -89,10 +90,49 @@ class PreservationContractTests(unittest.TestCase):
             set(graph.subject_objects(LM.sourceUncertain)),
             {(EX.provenance, Literal(False))},
         )
-        self.assertIn((EX.date, LM.dateApproximate, Literal(True)), graph)
         wdt = Namespace("http://www.wikidata.org/prop/direct/")
         for predicate in (wdt.P131, wdt.P276, wdt.P1071):
             self.assertFalse(list(graph.triples((EX.source, predicate, None))))
+
+    def test_documented_queries_find_approximate_values_without_inference(self):
+        guide = (ONTOLOGY / "date_approximation.md").read_text()
+        (turtle,) = re.findall(r"```turtle\n(.*?)\n```", guide, re.S)
+        discovery, births = re.findall(r"```sparql\n(.*?)\n```", guide, re.S)
+        dataset = Dataset(default_union=False)
+        catalogue = Namespace("https://example.org/")
+        dataset.graph(catalogue.catalogue).parse(data=turtle, format="turtle")
+        diamm_graph = URIRef(str(DIAMM))
+        graph = dataset.graph(diamm_graph)
+        birth_role = URIRef("http://www.wikidata.org/prop/direct/P569")
+        for obs, value, flag in (
+            (EX.approxBirth, "1850", True),
+            (EX.nonApproxBirth, "1851", False),
+            (EX.unknownBirth, "1852", None),
+        ):
+            graph.add((EX.person, DIAMM.personYear, obs))
+            graph.add((obs, DIAMM.dateProperty, birth_role))
+            graph.add((obs, DIAMM.year, Literal(value, datatype=XSD.gYear)))
+            graph.add((obs, DIAMM.sourceValue, Literal(value, datatype=XSD.string)))
+            if flag is not None:
+                graph.add((obs, LM.approximate, Literal(flag)))
+
+        self.assertCountEqual(
+            (tuple(row) for row in dataset.query(discovery)),
+            [
+                (catalogue.catalogue, catalogue.birth7),
+                (catalogue.catalogue, catalogue.count4),
+                (diamm_graph, EX.approxBirth),
+            ],
+        )
+        self.assertCountEqual(
+            ((row.obs, row.approximate) for row in dataset.query(births)),
+            [
+                (catalogue.birth7, Literal(True)),
+                (EX.approxBirth, Literal(True)),
+                (EX.nonApproxBirth, Literal(False)),
+                (EX.unknownBirth, None),
+            ],
+        )
 
     def test_lineage_retains_separate_occurrences_across_conversion_runs(self):
         graph = self.lineage()

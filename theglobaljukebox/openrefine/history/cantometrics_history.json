@@ -2860,17 +2860,30 @@
     "description": "Create column society_literal at index 14 based on column society using expression grel:value"
   },
   {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "record-based"
+    },
+    "columnName": "alternative_names",
+    "expression": "grel:value.trim()",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Trim surrounding whitespace from alternative_names"
+  },
+  {
     "op": "core/column-split",
     "engineConfig": {
       "facets": [],
       "mode": "record-based"
     },
     "columnName": "alternative_names",
-    "guessCellType": true,
+    "guessCellType": false,
     "removeOriginalColumn": true,
     "mode": "separator",
-    "separator": ";",
-    "regex": false,
+    "separator": "\\s*;\\s*",
+    "regex": true,
     "maxColumns": 0,
     "description": "Split column alternative_names by separator"
   },

@@ -1,6 +1,8 @@
 """Offline preservation checks for the shared CSV converter's ID boundary."""
 
 import csv
+import json
+import re
 import sys
 import tempfile
 import tomllib
@@ -83,6 +85,13 @@ class IdentifierConversionTests(unittest.TestCase):
             self.assertEqual(
                 to_rdf_node(value, NS, lang="en"), Literal(value, lang="en")
             )
+        self.assertEqual(
+            to_rdf_node("12", NS, prefix="local", datatype="xsd:string"),
+            Literal("12", datatype=XSD.string),
+        )
+        self.assertEqual(
+            to_rdf_node("12", NS, prefix="local", lang="en"), Literal("12", lang="en")
+        )
         for datatype in ("xsd:anyURI", str(XSD.anyURI), XSD.anyURI):
             value = "https://www.wikidata.org/wiki/Q42"
             self.assertEqual(
@@ -221,6 +230,100 @@ class IdentifierConversionTests(unittest.TestCase):
                 expected,
             )
         )
+
+    def test_global_jukebox_name_split_settings(self):
+        raw = "  First  Name ; Laptan; 0007;Éwé  "
+        for history in ("cantometrics", "minutage", "societies"):
+            path = (
+                ROOT / "theglobaljukebox/openrefine/history" / f"{history}_history.json"
+            )
+            ops = [
+                op
+                for op in json.loads(path.read_text())
+                if op.get("columnName") == "alternative_names"
+            ]
+            with self.subTest(history=history):
+                trim, split = ops
+                self.assertEqual(trim["op"], "core/text-transform")
+                self.assertEqual(trim["expression"], "grel:value.trim()")
+                self.assertFalse(trim["engineConfig"]["facets"])
+                self.assertEqual(split["op"], "core/column-split")
+                self.assertFalse(split["engineConfig"]["facets"])
+                self.assertTrue(split["regex"])
+                self.assertFalse(split["guessCellType"])
+                self.assertEqual(
+                    re.split(split["separator"], raw.strip()),
+                    ["First  Name", "Laptan", "0007", "Éwé"],
+                )
+
+    def test_global_jukebox_societies_share_string_alternative_labels(self):
+        config = tomllib.loads(
+            (ROOT / "shared/rdf_config/theglobaljukebox.toml").read_text()
+        )
+        # Each file has its own exported width. Parlametrics omits alternative names.
+        widths = {
+            "cantometrics": 19,
+            "ensembles": 19,
+            "instrument": 19,
+            "minutage": 12,
+            "phonotactics": 10,
+            "social-factors": 19,
+            "parlametrics": 19,
+        }
+        society = URIRef("https://theglobaljukebox.org/culture/13476")
+        expected = {
+            (
+                society,
+                RDF.type,
+                URIRef("https://linkedmusic.ca/graphs/theglobaljukebox/Culture"),
+            )
+        }
+        selected = {key: config[key] for key in ("general", "namespaces")}
+        with tempfile.TemporaryDirectory() as directory:
+            selected["general"]["csv_folder"] = directory
+            for feed, width in widths.items():
+                table = f"the-global-jukebox-{feed}-societies-csv"
+                selected[table] = config[table]
+                columns = [
+                    f"alternative_names {index}" for index in range(1, width + 1)
+                ]
+                self.assertEqual(
+                    set(columns),
+                    {k for k in config[table] if k.startswith("alternative_names ")},
+                )
+                mapping = (
+                    ""
+                    if feed == "parlametrics"
+                    else {"pred": "skos:altLabel", "datatype": "xsd:string"}
+                )
+                self.assertTrue(
+                    all(config[table][column] == mapping for column in columns), table
+                )
+                # Share the first three names across files. Use distinct values in
+                # later columns so an omitted mapping cannot pass by coincidence.
+                names = ["Q42", "https://example.org/Q42", "Laptan"] + [
+                    f"{feed} {index}" for index in range(4, width + 1)
+                ]
+                with (Path(directory) / f"{table}.csv").open(
+                    "w", newline="", encoding="utf-8"
+                ) as output:
+                    writer = csv.DictWriter(
+                        output,
+                        fieldnames=[k for k in config[table] if k != "PRIMARY_KEY"],
+                    )
+                    writer.writeheader()
+                    writer.writerow(
+                        {"society_id": "13476", **dict(zip(columns, names))}
+                    )
+                if feed != "parlametrics":
+                    expected.update(
+                        (society, SKOS.altLabel, Literal(name, datatype=XSD.string))
+                        for name in names
+                    )
+            graph = build_rdf_graph(rdf_process_predicates(selected))
+        self.assertEqual(set(graph), expected)
+        parsed = Graph().parse(data=graph.serialize(format="turtle"), format="turtle")
+        self.assertEqual(set(parsed), expected)
 
     def test_real_dtl_mapping_preserves_local_subjects_and_unmatched_values(self):
         config = tomllib.loads(

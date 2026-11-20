@@ -83,11 +83,19 @@ record's modification date. Inspect the source and output datatype for each clai
 
 ## 5. Reconciliation evidence
 
-Crosswalks use explicit GND `P227`, VIAF `P214` and GeoNames `P1566` statements.
-Unreturned entities remain unresolved; this does not establish absence from
-Wikidata or exclude lookup/cache limitations. Source nodes remain without a
-fabricated target. Retain source versions and crosswalk responses, and review
-identity independently under the [evaluation protocol](../../evaluation/protocol.md).
+The shared `crosswalk.json` contains matches from Wikidata identifier lookups
+(GND `P227`, VIAF `P214` and GeoNames `P1566`), name matches imported from
+OpenRefine, and manually entered links such as the
+[Detmold place mappings](../../ckg-detmold/README.md#3-reconciliation).
+Audit these links against the identifier response, the name-reconciliation export
+or the evidence for the manual choice. For VIAF entries that inherit a GND
+entry’s QID through lobid’s `sameAs` index, verify the GND URI in
+`authority_name_cache.json` and its QID in `crosswalk.json`.
+The converter emits `wdt:P2888` for each crosswalk target. Source nodes
+without a crosswalk target remain in the graph. A missing match can reflect
+lookup or cache limitations.
+Review identity independently under the
+[evaluation protocol](../../evaluation/protocol.md).
 Report distinct-node and relation-weighted coverage separately from correctness.
 
 ## 6. Emitted schema (SESEMMI reference)
