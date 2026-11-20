@@ -65,7 +65,7 @@
   - Remove both facets.
 - Do the same for the `Subregion` and `Area` columns (split using "/" and then reconcile).
   > Note: They may be a mix of `geographic region` (Q82794) and/or `human settlement` (Q486972).
-- Split the column `alternative_names` into several columns using `;` as the separator.
+- In `alternative_names`, trim leading and trailing whitespace with `value.trim()`. Split into several columns with regular-expression separator `\s*;\s*` and disable cell-type guessing. For example, `First name; Second name` yields `First name` and `Second name`. Keep spaces within each name.
 - Reconcile the cells in column `society` to type `ethnic group` (Q41710) with `alternative_names 1` as property `alternative name` (P4970).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."
@@ -145,7 +145,7 @@
   - Match the cells using `reconcile > actions > match each cell to its best candidate`. - Remove both facets.
 - Do the same for the `Subregion` and `Area` columns (split using "/" and then reconcile).
   > Note: They may be a mix of `geographic region` (Q82794), `sovereign state` (Q3624078), and `human settlement` (Q486972).
-- Split the column `alternative_names` into several columns using `;` as the separator.
+- In `alternative_names`, trim leading and trailing whitespace with `value.trim()`. Split into several columns with regular-expression separator `\s*;\s*` and disable cell-type guessing. For example, `First name; Second name` yields `First name` and `Second name`. Keep spaces within each name.
 - Reconcile the cells in column `society` to type `ethnic group` (Q41710) with `alternative_names 1` as property `alternative name` (P4970).
   - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
   - In the `Best candidate's score` facet, move the slider to 71-101. In the `judgment` facet, choose "none."

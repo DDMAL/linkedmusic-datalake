@@ -81,6 +81,11 @@ local checksum verification, query execution and complete-frame sampling.
 Offline checks include 14 synthetic competency controls and identifier queries.
 The pilot preserves unknown provenance; it is not a census or a measurement of source fidelity or deployed graphs.
 
+The [shared CSV identifier contract](shared/rdf_conversion/identifier_preservation.md)
+describes complete-ID recognition, literal/local-key precedence and the Global
+Jukebox/SIMSSA mappings. Its offline suite uses synthetic source cells and actual
+tracked configurations; it does not establish historical data quality.
+
 ## Team & contact
 
 LinkedMusic is developed at the [Distributed Digital Music Archives and Libraries Lab (DDMAL)](https://ddmal.ca/) at McGill University.
