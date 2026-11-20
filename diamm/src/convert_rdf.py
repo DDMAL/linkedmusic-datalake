@@ -22,6 +22,7 @@ OUTPUT_PATH = "../data/RDF/"
 
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 WD = Namespace("http://www.wikidata.org/entity/")
+PRESERVATION = Namespace("https://linkedmusic.ca/terms/preservation/")
 LMDIAMM = Namespace("https://linkedmusic.ca/graphs/diamm/")
 DIAMM = Namespace("https://www.diamm.ac.uk/")
 DA = Namespace(f"{DIAMM}archives/")
@@ -71,6 +72,7 @@ namespaces = {
     "wdt": WDT,
     "wd": WD,
     "diamm": LMDIAMM,
+    "lm": PRESERVATION,
     "da": DA,
     "di": DI,
     "dm": DM,
@@ -143,7 +145,7 @@ def add_person_year(graph, person, row, field):
         raw_approximate.lower()
     )
     if approximate is not None:
-        graph.add((observation, LMDIAMM.approximate, Literal(approximate)))
+        graph.add((observation, PRESERVATION.approximate, Literal(approximate)))
     else:
         graph.add(
             (

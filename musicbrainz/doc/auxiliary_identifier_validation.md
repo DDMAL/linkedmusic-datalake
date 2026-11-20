@@ -33,7 +33,7 @@ it does not verify item existence or the correctness of the reconciliation.
 Suffixes, multiple IDs, whitespace/newlines, Unicode digits, `Q0`, `Q042`,
 property IDs, prefixed IDs and full URLs are not matches. No trimming,
 substring extraction or URL normalization is applied here. The separately
-documented URL-relationship branch continues to accept its item-URL forms.
+documented URL rule also checks the MusicBrainz relationship type.
 Missing/non-string candidates, including pandas `NaN` supplied by older loaders,
 are rejected without evaluating their truth value or passing them to a regex.
 
@@ -98,6 +98,17 @@ Complete-ID checking prevents malformed candidates from becoming IRIs, while
 literal fallbacks let later fields finish conversion. Source subject IRIs,
 entity relationships and ordinary names remain intact. Validation does not
 change mapping choices or exported CSV files.
+
+## Where an artist type gets its QID
+
+MusicBrainz supplies the artist type text. The project's
+[OpenRefine artist-type history](../openrefine/history/artist-types_history.json)
+records a match from `Group` to musical group (Q215380). It marks `Other`
+as a new item with no existing QID. Using those judgments, the converter emits
+`wdt:P31 wd:Q215380` for Group and `wdt:P31 "Other"` for Other. Separately,
+the CSV isolation test assigns different synthetic QIDs to the same word in
+several fields to reveal incorrect lookups. The [loader tests](../tests/test_reconciliation_loading.py)
+exercise both cases.
 
 ## Validation and remaining limits
 

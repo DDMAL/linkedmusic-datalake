@@ -38,25 +38,25 @@ Subregion_literal = ""
 Area = "P2341"  # indigenous to (P2341)
 society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
-"alternative_names 1" = "skos:altLabel"
-"alternative_names 2" = "skos:altLabel"
-"alternative_names 3" = "skos:altLabel"
-"alternative_names 4" = "skos:altLabel"
-"alternative_names 5" = "skos:altLabel"
-"alternative_names 6" = "skos:altLabel"
-"alternative_names 7" = "skos:altLabel"
-"alternative_names 8" = "skos:altLabel"
-"alternative_names 9" = "skos:altLabel"
-"alternative_names 10" = "skos:altLabel"
-"alternative_names 11" = "skos:altLabel"
-"alternative_names 12" = "skos:altLabel"
-"alternative_names 13" = "skos:altLabel"
-"alternative_names 14" = "skos:altLabel"
-"alternative_names 15" = "skos:altLabel"
-"alternative_names 16" = "skos:altLabel"
-"alternative_names 17" = "skos:altLabel"
-"alternative_names 18" = "skos:altLabel"
-"alternative_names 19" = "skos:altLabel"
+"alternative_names 1" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 2" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 3" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 4" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 5" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 6" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 7" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 8" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 9" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 10" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 11" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 12" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 13" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 14" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 15" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 16" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 17" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 18" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 19" = {pred = "skos:altLabel", datatype = "xsd:string"}
 People = "P361"  # part of (P361)
 People_literal = ""
 People_alternative_names = ""
@@ -359,25 +359,25 @@ Subregion_literal = ""
 Area = "P2341"  # indigenous to (P2341)
 society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
-"alternative_names 1" = "skos:altLabel"
-"alternative_names 2" = "skos:altLabel"
-"alternative_names 3" = "skos:altLabel"
-"alternative_names 4" = "skos:altLabel"
-"alternative_names 5" = "skos:altLabel"
-"alternative_names 6" = "skos:altLabel"
-"alternative_names 7" = "skos:altLabel"
-"alternative_names 8" = "skos:altLabel"
-"alternative_names 9" = "skos:altLabel"
-"alternative_names 10" = "skos:altLabel"
-"alternative_names 11" = "skos:altLabel"
-"alternative_names 12" = "skos:altLabel"
-"alternative_names 13" = "skos:altLabel"
-"alternative_names 14" = "skos:altLabel"
-"alternative_names 15" = "skos:altLabel"
-"alternative_names 16" = "skos:altLabel"
-"alternative_names 17" = "skos:altLabel"
-"alternative_names 18" = "skos:altLabel"
-"alternative_names 19" = "skos:altLabel"
+"alternative_names 1" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 2" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 3" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 4" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 5" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 6" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 7" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 8" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 9" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 10" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 11" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 12" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 13" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 14" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 15" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 16" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 17" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 18" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 19" = {pred = "skos:altLabel", datatype = "xsd:string"}
 People = "P361"  # part of (P361)
 People_literal = ""
 People2 = ""
@@ -517,25 +517,25 @@ Subregion = ""
 Area = "P2341"  # indigenous to (P2341)
 society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
-"alternative_names 1" = "skos:altLabel"
-"alternative_names 2" = "skos:altLabel"
-"alternative_names 3" = "skos:altLabel"
-"alternative_names 4" = "skos:altLabel"
-"alternative_names 5" = "skos:altLabel"
-"alternative_names 6" = "skos:altLabel"
-"alternative_names 7" = "skos:altLabel"
-"alternative_names 8" = "skos:altLabel"
-"alternative_names 9" = "skos:altLabel"
-"alternative_names 10" = "skos:altLabel"
-"alternative_names 11" = "skos:altLabel"
-"alternative_names 12" = "skos:altLabel"
-"alternative_names 13" = "skos:altLabel"
-"alternative_names 14" = "skos:altLabel"
-"alternative_names 15" = "skos:altLabel"
-"alternative_names 16" = "skos:altLabel"
-"alternative_names 17" = "skos:altLabel"
-"alternative_names 18" = "skos:altLabel"
-"alternative_names 19" = "skos:altLabel"
+"alternative_names 1" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 2" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 3" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 4" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 5" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 6" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 7" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 8" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 9" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 10" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 11" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 12" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 13" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 14" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 15" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 16" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 17" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 18" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 19" = {pred = "skos:altLabel", datatype = "xsd:string"}
 People = "P361"  # part of (P361)
 People_literal = ""
 People2 = ""
@@ -760,18 +760,18 @@ Subregion_literal = ""
 "Area 6 literal" = ""
 society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
-"alternative_names 1" = "skos:altLabel"
-"alternative_names 2" = "skos:altLabel"
-"alternative_names 3" = "skos:altLabel"
-"alternative_names 4" = "skos:altLabel"
-"alternative_names 5" = "skos:altLabel"
-"alternative_names 6" = "skos:altLabel"
-"alternative_names 7" = "skos:altLabel"
-"alternative_names 8" = "skos:altLabel"
-"alternative_names 9" = "skos:altLabel"
-"alternative_names 10" = "skos:altLabel"
-"alternative_names 11" = "skos:altLabel"
-"alternative_names 12" = "skos:altLabel"
+"alternative_names 1" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 2" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 3" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 4" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 5" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 6" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 7" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 8" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 9" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 10" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 11" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 12" = {pred = "skos:altLabel", datatype = "xsd:string"}
 People = "P361"  # part of (P361)
 People_literal = ""
 People2 = ""
@@ -1266,16 +1266,16 @@ Area = "P2341"  # indigenous to (P2341)
 Area_literal = ""
 society = {"pred" = "P2888", "if" = "isinstance(obj, URIRef)"}  # exact match (P2888)
 society_literal = "rdfs:label"
-"alternative_names 1" = "skos:altLabel"
-"alternative_names 2" = "skos:altLabel"
-"alternative_names 3" = "skos:altLabel"
-"alternative_names 4" = "skos:altLabel"
-"alternative_names 5" = "skos:altLabel"
-"alternative_names 6" = "skos:altLabel"
-"alternative_names 7" = "skos:altLabel"
-"alternative_names 8" = "skos:altLabel"
-"alternative_names 9" = "skos:altLabel"
-"alternative_names 10" = "skos:altLabel"
+"alternative_names 1" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 2" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 3" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 4" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 5" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 6" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 7" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 8" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 9" = {pred = "skos:altLabel", datatype = "xsd:string"}
+"alternative_names 10" = {pred = "skos:altLabel", datatype = "xsd:string"}
 People = "P361"  # part of (P361)
 People_literal = ""
 People2 = ""

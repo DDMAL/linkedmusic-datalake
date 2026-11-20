@@ -207,6 +207,34 @@ class ReconciliationLoadingTests(unittest.TestCase):
                 )
         return graph
 
+    def test_recorded_artist_type_judgments_through_csv_and_converter(self):
+        history = json.loads(
+            (ROOT / "openrefine/history/artist-types_history.json").read_text()
+        )
+        judgments = {op["similarValue"]: op for op in history if "similarValue" in op}
+        self.assertEqual(judgments["Group"]["judgment"], "matched")
+        self.assertEqual(judgments["Other"]["judgment"], "new")
+        # The export retains unmatched source text in the candidate column.
+        rows = [
+            {
+                "type": label,
+                "type_@id": judgments[label].get("match", {}).get("id", label),
+            }
+            for label in ("Group", "Other")
+        ]
+        self.write_csv("artist-types", rows)
+        (self.inputs / "artist.jsonl").write_text(
+            "".join(
+                json.dumps({"id": label, "type": label}) + "\n"
+                for label in ("Group", "Other")
+            )
+        )
+        graph = self.convert_via_main()
+        self.assertEqual(set(graph.objects(MB["artist/Group"], WDT.P31)), {WD.Q215380})
+        self.assertEqual(
+            set(graph.objects(MB["artist/Other"], WDT.P31)), {Literal("Other")}
+        )
+
     def test_csv_reader_preserves_text_and_empty_candidates(self):
         data = io.StringIO(
             'key,key_@id\nnan,Q42\nNone,None\nNA,NA\nnull,null\n001,001\nblank,\n" spaced "," Q42 "\n,Q43\n'

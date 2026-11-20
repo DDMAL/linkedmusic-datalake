@@ -21,6 +21,7 @@ from convert_rdf import build_rdf_graph
 WD = Namespace("http://www.wikidata.org/entity/")
 WDT = Namespace("http://www.wikidata.org/prop/direct/")
 LM = Namespace("https://linkedmusic.ca/graphs/diamm/")
+PRESERVATION = Namespace("https://linkedmusic.ca/terms/preservation/")
 PERSON = Namespace("https://www.diamm.ac.uk/people/")["1"]
 COMPOSITION = Namespace("https://www.diamm.ac.uk/compositions/")["1"]
 
@@ -134,7 +135,7 @@ class PersonYearTests(unittest.TestCase):
                         Literal(raw_flag, datatype=XSD.string),
                     ),
                     (node, LM.year, Literal(year, datatype=XSD.gYear)),
-                    (node, LM.approximate, Literal(approximate)),
+                    (node, PRESERVATION.approximate, Literal(approximate)),
                     (node, LM.reconciledYear, qid),
                 }
             )
@@ -285,7 +286,7 @@ class PersonYearTests(unittest.TestCase):
                     (node, LM.year, Literal("1560", datatype=XSD.gYear)), graph
                 )
                 self.assertEqual(
-                    set(graph.objects(node, LM.approximate)),
+                    set(graph.objects(node, PRESERVATION.approximate)),
                     {Literal(approximate)} if approximate is not None else set(),
                 )
                 self.assertEqual(
@@ -332,7 +333,7 @@ class PersonYearTests(unittest.TestCase):
             {
                 (
                     str(graph.value(n, LM.sourceValue)),
-                    graph.value(n, LM.approximate).toPython(),
+                    graph.value(n, PRESERVATION.approximate).toPython(),
                 )
                 for n in nodes
             },
@@ -380,14 +381,16 @@ class PersonYearTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         graph = Graph().parse(self.directory / "data/RDF/diamm.ttl", format="turtle")
         self.assertTrue(isomorphic(graph, self.convert()))
-        prefixes = f"PREFIX diamm: <{LM}> PREFIX wdt: <{WDT}>"
+        prefixes = (
+            f"PREFIX diamm: <{LM}> PREFIX lm: <{PRESERVATION}> PREFIX wdt: <{WDT}>"
+        )
         rows = graph.query(
             prefixes
             + """
             SELECT ?person ?year WHERE {
               ?person a diamm:Person; diamm:personYear ?observation .
               ?observation diamm:dateProperty wdt:P569;
-                           diamm:year ?year; diamm:approximate true .
+                           diamm:year ?year; lm:approximate true .
             }
         """
         )

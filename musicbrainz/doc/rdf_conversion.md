@@ -41,7 +41,7 @@ The below rules are to conform with RDF standards and with Wikidata standards
 - Dates are given the type `XSD:date`. If the value has both date and time, it will be in `XSD:datetime`
 - Coordinates (latitude/longitude) are given the `GEO:wktLiteral` type in the format `f"Point({lon} {lat})"`.
 - Durations (in seconds) are given the type `XSD:decimal` since they are numbers,
-- All URLs that are stored as plain URLs in MusicBrainz dataset (instead of having their IDs extracted from the URI) kept as literals. This is because these URLs often lack the proper RDF URI formatting, or because they are links to personal websites (e.g. the link to a band's website).
+- External URL relationships retain their source role and address. The converter emits web links and preserves malformed addresses as text. See the [URL contract](url_recognition.md).
 
 ## Miscellaneous Notes on convert_to_rdf.py
 
@@ -84,7 +84,40 @@ MusicBrainz has a lot of identifiers to other databases, which significantly com
 
 However, since work was already done to map database IDs to properties, removed mappings will be located in the [`musicbrainz/removed_properties/attribute_mapping.json`](/musicbrainz/removed_properties/attribute_mapping.json) file for attributes, and in the [`musicbrainz/removed_properties/mappings.json`](/musicbrainz/removed_properties/mappings.json) file for general mappings. These files follow the same dictionary structure as the files with the same name in the `musicbrainz/src/rdf_conversion_config` folder.
 
-Additionally, all the regex patterns in the [`musicbrainz/removed_properties/url_patterns.py`](/musicbrainz/removed_properties/url_patterns.py) are now irrelevant because they all match external identifiers. As such, it was moved to the `removed_properties` folder.
+### Archived URL-to-identifier mappings
+
+The archived [URL patterns](../removed_properties/url_patterns.py) and
+[property mappings](../removed_properties/mappings.json) share lookup keys.
+For example, the `discogsa` pattern captures `25058` from
+`https://www.discogs.com/artist/25058`, and the `discogsa` mapping assigns
+that identifier to P1953. The current converter retains the supplied Discogs URL and its MusicBrainz
+relationship type. The identity rule for Wikidata is described in the
+[URL contract](url_recognition.md).
+
+| Database | Archived Wikidata properties by identifier |
+| --- | --- |
+| GeoNames | P1566 |
+| SoundCloud | P3040 |
+| YouTube and YouTube Music | Channel P2397, video P1651, playlist P4300 |
+| Discogs | Artist P1953, master P1954, label P1955 |
+| VGMdb | Album P3483, organization P3511 |
+| BookBrainz | Author P2607, publisher P8063 |
+| IMSLP | P839 |
+| IMDb | P345 |
+| Apple Music | Artist P2850, album P2281, label P9550, track P10110 |
+| VIAF | P214 |
+| Last.fm | P3192 |
+| Rate Your Music | Release P8392, label P7313, artist P5404, concert P11622, venue P11600, work P11665, track P13056 |
+| Encyclopaedia Metallum (Metal Archives) | Band P1952, release P2721, label P8166, artist P1989 |
+| Musik-Sammler | Artist P9965 |
+| WorldCat Entities | P10832 |
+| Bibliothèque nationale de France | P268 |
+| RISM | P5504 |
+| Deutsche Nationalbibliothek | P227 |
+| Library of Congress | P244 |
+
+Discogs also has a separate [composition ID (P6080)](https://www.wikidata.org/wiki/Property:P6080).
+The archived `discogsw` pattern covers Discogs master URLs.
 
 ## Attributes
 
@@ -101,11 +134,10 @@ The `work` entity type has an additional field `attributes` that contains a list
 
 ## URLS
 
-The URL relationship branch uses complete positive-ASCII item URLs across
-HTTP/HTTPS, www/non-www and wiki/entity forms. Recognized values become
-canonical Wikidata entity IRIs; other values remain original literals. Source
-nodes, ordinary names and competing targets remain unchanged. See the
-[URL input contract](url_recognition.md).
+A current MusicBrainz `wikidata` relationship to a complete item URL gives the
+source entity a canonical Wikidata exact match. Each URL relationship retains
+its own role and original address, including official sites, streaming pages
+and discographies. See the [URL input contract and example query](url_recognition.md).
 
 Auxiliary CSV exports have a separate [bare-ID contract](auxiliary_identifier_validation.md).
 Read them as text without pandas NA/numeric inference. Lookups remain separate

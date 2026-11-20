@@ -23,6 +23,18 @@ MODEL_DOCUMENT = URIRef(
 )
 
 
+def source_observation(graph, source, relation):
+    """Keep a stable reference to this entity's complete source relationship."""
+    payload = json.dumps(
+        relation, sort_keys=True, ensure_ascii=False, separators=(",", ":")
+    )
+    digest = hashlib.sha256(f"{source}\n{payload}".encode("utf-8")).hexdigest()
+    node = OBSERVATION[digest]
+    graph.add((node, DCTERMS.source, source))
+    graph.add((node, TERMS.sourcePayload, Literal(payload, datatype=RDF.JSON)))
+    return node
+
+
 def predicate_iri(value):
     """Accept a Wikidata PID or an absolute HTTP(S)/URN IRI, never concatenate both."""
     if not isinstance(value, str) or re.search(r'[\s<>"{}|\\^`]', value):
@@ -123,14 +135,13 @@ class RelationshipMappings(dict):
         Unknown IDs never inherit a role solely from a coincident label.
         """
         type_id = relation.get("type-id")
-        role = self.by_id.get(type_id)
-        candidate = (
-            self.get(source_type, {}).get(target_type, {}).get(relation.get("type"))
-        )
+        role = self.by_id.get(type_id) if isinstance(type_id, str) else None
+        name = relation.get("type")
+        if not isinstance(name, str):
+            name = None
+        candidate = self.get(source_type, {}).get(target_type, {}).get(name)
         if not role and source_type == "artist":
-            candidate = (
-                self.get(target_type, {}).get("artist", {}).get(relation.get("type"))
-            )
+            candidate = self.get(target_type, {}).get("artist", {}).get(name)
         if not role and not isinstance(candidate, RoleMapping):
             return False
 
@@ -155,14 +166,8 @@ class RelationshipMappings(dict):
 
         # Include the entire source relationship JSON, without guessing missing
         # attribute identifiers or coercing partial dates to invented full dates.
-        payload = json.dumps(
-            relation, sort_keys=True, ensure_ascii=False, separators=(",", ":")
-        )
-        digest = hashlib.sha256(f"{source}\n{payload}".encode("utf-8")).hexdigest()
-        node = OBSERVATION[digest]
+        node = source_observation(graph, source, relation)
         graph.add((node, RDF.type, TERMS.RelationshipObservation))
-        graph.add((node, DCTERMS.source, source))
-        graph.add((node, TERMS.sourcePayload, Literal(payload, datatype=RDF.JSON)))
         graph.add((node, TERMS.mappingVersion, VERSION))
         graph.add((node, TERMS.mappingStatus, Literal(status)))
         for key, pred in (

@@ -69,8 +69,9 @@ Preservation here means decoded CSV cell values, not CSV quoting or JSON bytes.
 
 `diamm:` is `https://linkedmusic.ca/graphs/diamm/`. Each nonempty group of year,
 ID and flag creates a `diamm:PersonYearObservation`, attached to its source
-person by `diamm:personYear`. All three empty means no observation. A flag or
-ID without a year still creates an observation, but no date.
+person by `diamm:personYear`. The shared prefix `lm:` is
+`https://linkedmusic.ca/terms/preservation/`. Three empty cells produce no
+observation. A flag or ID without a year still creates an observation.
 Consequently, explicit false flags on people without years still produce
 observations. Their population and RDF expansion require snapshot measurement.
 
@@ -83,7 +84,7 @@ observations. Their population and RDF expansion require snapshot measurement.
 | `diamm:sourceIdentifier` | Original ID cell, including empty text, as `xsd:string` |
 | `diamm:sourceApproximate` | Original flag cell, including empty text, as `xsd:string` |
 | `diamm:year` | Supported source year as `xsd:gYear`, when available |
-| `diamm:approximate` | Parsed Boolean, when available |
+| `lm:approximate` | Shared Boolean for this year, when the source flag can be interpreted |
 | `diamm:reconciledYear` | Canonical Wikidata IRI for a complete bare QID, when available |
 | `diamm:validationFlag` | Zero or more validation status strings listed above |
 
@@ -105,7 +106,7 @@ snapshot provenance. Conflicting records retain separate observations; no
 chronology repair or preferred birth/death value is inferred.
 
 For example, year `1500`, candidate `Q42 / Q43` and flag `True` retain all three
-strings, a typed observation year, `diamm:approximate true` and the invalid-ID
+strings, a typed observation year, `lm:approximate true` and the invalid-ID
 flag. They produce neither a reconciled-year IRI nor a direct P569 triple.
 
 ## Query compatibility and regeneration
@@ -117,6 +118,7 @@ approximate births while keeping the uncertainty visible:
 
 ```sparql
 PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX lm: <https://linkedmusic.ca/terms/preservation/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 SELECT ?person ?year ?raw ?candidate ?approximate WHERE {
   ?person a diamm:Person; diamm:personYear ?observation .
@@ -124,7 +126,7 @@ SELECT ?person ?year ?raw ?candidate ?approximate WHERE {
                diamm:sourceValue ?raw;
                diamm:sourceIdentifier ?candidate .
   OPTIONAL { ?observation diamm:year ?year }
-  OPTIONAL { ?observation diamm:approximate ?approximate }
+  OPTIONAL { ?observation lm:approximate ?approximate }
 }
 ```
 
@@ -138,6 +140,11 @@ Cross-graph date comparisons need explicit year extraction; do not assume
 `YEAR()` or direct comparisons support both datatypes in a given query engine.
 For this contract's supported years, `xsd:integer(STR(?year))` supplies a numeric
 year for comparisons, while the observation retains uncertainty.
+
+Earlier candidate exports used `diamm:approximate`. When upgrading those
+exports, regenerate from the same CSVs or replace that predicate with
+`lm:approximate` on the person-year observations, preserving its Boolean and
+the raw cells. Use the query above with the matching graph version.
 
 Regenerate from matching reconciled CSVs into a separate output directory;
 record source checksums and converter version first. Audit actual year/flag/ID

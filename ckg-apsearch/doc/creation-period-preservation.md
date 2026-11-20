@@ -174,8 +174,9 @@ all other conversion inputs there as well.
    separate; a successful conversion is not approval to replace a graph.
 
 The three converter copies are intentionally identical. The new preservation
-branch runs only for APSearch `CTO_0001073`; musiconn/Detmold retain their date
-coercion and output shape. Later SESEMMI integration must explicitly ingest this
+branch runs only for APSearch `CTO_0001073`. Temporal coverage (`CTO_0001070`
+to `wdt:P585`) still uses the existing date coercion, as do date fields in
+musiconn and Detmold. Later SESEMMI integration must explicitly ingest this
 model and the overlap query; no SESEMMI changes are included here.
 
 A [hash-identified candidate comparison](candidate-validation.md) records the

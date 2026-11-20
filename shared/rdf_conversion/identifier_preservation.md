@@ -15,7 +15,10 @@ recover a value lost during loading. This is not a lossless CSV reader.
 For a nonempty string:
 
 1. `datatype` or `lang` selects a literal, including for an entire QID or URL.
-   Existing date handling remains; language and datatype cannot be combined.
+   A literal declaration also takes precedence over a configured prefix.
+   Use one of datatype or language per column. Check partial or approximate
+   dates before export. For example, `c. 1850` with a configured `xsd:date`
+   can produce an ill-typed literal.
 2. A configured `prefix` expands a non-HTTP(S) value into a local identifier.
    For example, `Q42` with the DTL track prefix denotes a local track.
 3. Otherwise, a complete structured Wikidata identifier is normalized. Items
@@ -57,10 +60,11 @@ they support complete IDs/URLs, not ID extraction from display prose. Inspect
 the selected export and actual cells before regeneration: tracked instructions
 do not establish the contents of historical CSVs.
 
-All nine tracked TOML configurations are exercised by the offline suite. Local
-prefixes protect source keys; explicit datatypes protect text and date values.
+The offline suite loads all nine tracked TOMLs and resolves their predicates.
+CSV-to-Turtle tests cover DTL performers, SIMSSA people and works, and the
+Global Jukebox societies tables.
 The [Global Jukebox contract](../../theglobaljukebox/doc/alternative_names_mapping.md)
-uses string alternative labels for all 19 social-factors name columns. The
+uses string alternative labels across the six societies tables that emit names. The
 [SIMSSA person contract](../../simssa/doc/person_identifier_mapping.md) preserves
 original labels and requires canonical item targets for person exact matches.
 These source-specific restrictions do not apply indiscriminately to P2888 in
