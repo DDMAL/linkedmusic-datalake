@@ -80,6 +80,16 @@ leading zeros and NA-like values. Empty cells emit no corresponding statement;
 empty names no longer become `"None"` labels. Import both columns as text in
 OpenRefine. Existing name matches and source/location links remain independent.
 
+City, country and region names follow the
+[geographic name contract](doc/geographic_names.md): nonempty names remain exact
+strings, while empty cells emit no label. Import names as text without trimming.
+Country matching hints are separate from relationships in `relations.csv`.
+The [geographic relationship contract](doc/geographic_relationships.md) maps
+each organization's directly listed city, region or country to `schema:location`.
+A manuscript linked to that organization receives no inferred location.
+City/region provenance qualifiers and
+ambiguous parent types require source evidence beyond names or country hints.
+
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion
 and offline regression coverage. Run `poetry run python scripts/check_offline.py`

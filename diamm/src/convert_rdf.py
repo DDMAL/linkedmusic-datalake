@@ -11,7 +11,7 @@ import re
 import os
 import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
-from rdflib.namespace import DCTERMS, RDFS, RDF, SKOS, XSD
+from rdflib.namespace import DCTERMS, RDFS, RDF, SDO, SKOS, XSD
 from external_identifiers import identifier_values
 
 BASE_PATH = "../data/reconciled/"
@@ -46,6 +46,8 @@ DIAMM_SCHEMA = {
     "region": WDT["P131"],
     "country": WDT["P17"],
     "location": WDT["P276"],
+    # All three place types refer to the same DIAMM Organization.location field.
+    "organization_location": SDO.location,
     "type": WDT["P31"],
     "composer": WDT["P86"],
     "genre": WDT["P136"],
@@ -65,6 +67,7 @@ DIAMM_SCHEMA = {
 }
 
 namespaces = {
+    "schema": SDO,
     "wdt": WDT,
     "wd": WD,
     "diamm": LMDIAMM,
@@ -210,9 +213,15 @@ def build_rdf_graph(
             field: str for field in ("name", "siglum", "rism_id", "source_identifiers")
         },
     )
-    cities = pd.read_csv(os.path.join(base_path, "cities-csv.csv"))
+    # Geographic names are source text; matching hints and other columns
+    # retain their existing parsing. See doc/geographic_names.md.
+    cities = pd.read_csv(
+        os.path.join(base_path, "cities-csv.csv"), converters={"name": str}
+    )
     compositions = pd.read_csv(os.path.join(base_path, "compositions-csv.csv"))
-    countres = pd.read_csv(os.path.join(base_path, "countries-csv.csv"))
+    countries = pd.read_csv(
+        os.path.join(base_path, "countries-csv.csv"), converters={"name": str}
+    )
     organizations = pd.read_csv(os.path.join(base_path, "organizations-csv.csv"))
     people = pd.read_csv(
         os.path.join(base_path, "people-csv.csv"),
@@ -236,7 +245,9 @@ def build_rdf_graph(
             },
         },
     )
-    regions = pd.read_csv(os.path.join(base_path, "regions-csv.csv"))
+    regions = pd.read_csv(
+        os.path.join(base_path, "regions-csv.csv"), converters={"name": str}
+    )
     sets = pd.read_csv(os.path.join(base_path, "sets-csv.csv"))
     sources = pd.read_csv(os.path.join(base_path, "sources-csv.csv"))
 
@@ -315,7 +326,8 @@ def build_rdf_graph(
                     URIRef(f"{WD}{work['name_@id']}"),
                 )
             )
-        g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
+        if work["name"]:
+            g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
 
     print("Processing compositions...")
     json_data = json.loads(compositions.to_json(orient="records"))
@@ -362,7 +374,7 @@ def build_rdf_graph(
                 )
 
     print("Processing countries...")
-    json_data = json.loads(countres.to_json(orient="records"))
+    json_data = json.loads(countries.to_json(orient="records"))
     for work in json_data:
         subject_uri = URIRef(f"{DN}{int(work['id'])}")
 
@@ -384,7 +396,8 @@ def build_rdf_graph(
                     URIRef(f"{WD}{work['name_@id']}"),
                 )
             )
-        g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
+        if work["name"]:
+            g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
 
     print("Processing organizations...")
     json_data = json.loads(organizations.to_json(orient="records"))
@@ -506,7 +519,8 @@ def build_rdf_graph(
                     URIRef(f"{WD}{work['name_@id']}"),
                 )
             )
-        g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
+        if work["name"]:
+            g.add((subject_uri, DIAMM_SCHEMA["name"], Literal(work["name"])))
 
     print("Processing sets...")
     json_data = json.loads(sets.to_json(orient="records"))
@@ -613,7 +627,7 @@ def build_rdf_graph(
                 pred_uri = DIAMM_SCHEMA["country"]
             elif second_type == "organization":
                 second_uri = URIRef(f"{DO}{second_id}")
-                pred_uri = DIAMM_SCHEMA["city"]
+                pred_uri = DIAMM_SCHEMA["organization_location"]
                 reverse = True
             elif second_type == "region":
                 second_uri = URIRef(f"{DR}{second_id}")
@@ -634,7 +648,7 @@ def build_rdf_graph(
             first_uri = URIRef(f"{DN}{first_id}")
             if second_type == "organization":
                 second_uri = URIRef(f"{DO}{second_id}")
-                pred_uri = DIAMM_SCHEMA["country"]
+                pred_uri = DIAMM_SCHEMA["organization_location"]
                 reverse = True
             elif second_type == "region":
                 second_uri = URIRef(f"{DR}{second_id}")
@@ -642,7 +656,10 @@ def build_rdf_graph(
                 reverse = True
         elif first_type == "organization":
             first_uri = URIRef(f"{DO}{first_id}")
-            if second_type == "source":
+            if second_type == "region":
+                second_uri = URIRef(f"{DR}{second_id}")
+                pred_uri = DIAMM_SCHEMA["organization_location"]
+            elif second_type == "source":
                 second_uri = URIRef(f"{DS}{second_id}")
                 reverse = True
                 if work["type"] == "copied":
