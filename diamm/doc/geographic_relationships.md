@@ -1,9 +1,10 @@
 # Geographic relationships and organization locations
 
-Organization/region rows in `relations.csv` produce explicit source-supported
-location assertions. Parent routing retains its limitations;
-[qualified manuscript provenance](source_provenance.md) has its own observation
-contract. Neither establishes complete geographic fidelity.
+DIAMM gives an organization one optional location. The converter links the
+organization to the city, region or country identified by the source using
+`schema:location`. For example, if DIAMM identifies a city, the organization's
+direct location is that city. A query can follow the city's own geographic
+links to look for a wider area.
 
 ## Source evidence and decision
 
@@ -18,58 +19,46 @@ confirmation of the historical snapshot or deployed API version.
 | [Organization serializer](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/serializers/website/organization.py) | Its own `location.url` is supplied only for cities and countries; other geographic types yield null. The region's reverse listing is therefore meaningful evidence, even when the organization record has only location/parent text. |
 | [Geographic-area model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/geographic_area.py) | Types include states and regions/cultural areas/protectorates. A region endpoint does not by itself establish administrative status. |
 
-The [P131 definition](https://www.wikidata.org/wiki/Property:P131) is specific
-to administrative territorial containment. The broader
-[P276 definition](https://www.wikidata.org/wiki/Property:P276) also distinguishes
-other location predicates by use. The converter retains the exact source
-relationship under a DIAMM predicate;
-it does not declare an exact Wikidata alignment or a subproperty rule. This
-avoids choosing geographic semantics absent from the exported region type.
+Schema.org defines [location](https://schema.org/location) for organizations and
+allows a place as its value. [Wikidata P131](https://www.wikidata.org/wiki/Property:P131)
+asserts administrative territorial containment. DIAMM can place an organization
+in a cultural region without making that administrative claim.
 
-## RDF contract
+## RDF mapping
 
-| Item | Contract |
-| --- | --- |
-| Predicate | `https://linkedmusic.ca/graphs/diamm/organizationLocation` |
-| Readable label | DIAMM organization location |
-| Definition | Geographic area supplied as the organization's `location`, exposed by the inverse `Region.organizations` listing. |
-| Direction | Organization → geographic area; this input route has a local region endpoint. |
-| Endpoint resources | `https://www.diamm.ac.uk/organizations/{id}` → `https://www.diamm.ac.uk/regions/{id}` |
-| Input | Existing `relations.csv` row `organization:{id},region:{id},` from region extraction. No reconciliation is needed to assert it. |
-| Supported interpretation | DIAMM assigns this organization to this geographic location. |
-| Unsupported interpretations | The region is administrative; a manuscript was copied, held or performed there; the organization was there during a particular year; a country hint verifies the link. |
+Each row below identifies the organization's direct place. The extractor records
+these endpoints in `relations.csv`. The converter uses the same predicate and
+points from the organization to the place regardless of the CSV column order.
+See the [extractor](../src/to_csv.py) and [converter](../src/convert_rdf.py).
 
-[`to_csv.py`](../src/to_csv.py) already records this relation with organization
-as `key1` and region as `key2`. The organization/region branch in
-[`convert_rdf.py`](../src/convert_rdf.py) preserves those endpoints and direction.
-No extraction, OpenRefine history, export, label or match changes are required.
-As with other relation rows, RDF can contain endpoints whose detail table is
-absent; this does not fabricate a label, type or Wikidata match for that endpoint.
-Duplicate rows collapse to one triple. Distinct supplied regions survive;
-the converter does not choose a preferred location or resolve conflicting rows.
+| Evidence in DIAMM | CSV keys in order | RDF subject → `https://schema.org/location` → object |
+| --- | --- | --- |
+| Organization's city URL or city's organization listing | `city:C,organization:O` | `organizations/O` → `cities/C` |
+| Organization's country URL | `country:C,organization:O` | `organizations/O` → `countries/C` |
+| Region's organization listing | `organization:O,region:R` | `organizations/O` → `regions/R` |
 
-Organization/city P131 and organization/country P17 retain their existing
-behavior. This predicate covers the region route only, so queries for all
-organization locations must include those older
-routes too. This is a compatibility boundary, not a uniform remapping of every
-location field. `country`/`country_@id` are matching hints; shared P2888 matches
-also do not create a location. No transitivity or identity rules are enabled.
+All endpoints use the base `https://www.diamm.ac.uk/`. A relation row is
+sufficient even when the place has no detail record or Wikidata match.
+Duplicate rows give one triple. If an export contains conflicting direct places,
+each distinct supplied place survives. The converter never adds a broader
+location from the place hierarchy or a reconciliation hint such as
+`country_@id`. A shared P2888 match supplies no location evidence.
 
-Example query for the organization/region route:
+Run this query in the DIAMM graph to find the listed place, including places
+whose detail record has no label.
 
 ```sparql
-PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX schema: <https://schema.org/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?organization ?region ?name WHERE {
-  ?organization diamm:organizationLocation ?region .
-  OPTIONAL { ?region rdfs:label ?name }
+SELECT ?organization ?place ?name WHERE {
+  ?organization schema:location ?place .
+  OPTIONAL { ?place rdfs:label ?name }
 }
 ```
 
-Scope it to the DIAMM graph in a shared endpoint. A P131-only or P276-only query
-will not retrieve these new location assertions. An explicit join through an
-organization can expose its stated region alongside manuscript relationships,
-but does not establish a direct manuscript/region relationship or its dates.
+An organization may appear in a separate manuscript relationship. Joining
+through that organization retrieves its listed place. The join supplies no
+evidence of where or when the manuscript was copied, held or performed.
 
 ## Parent and manuscript-provenance limits
 
@@ -82,6 +71,10 @@ repair needs explicit source type/URL evidence or a snapshot-backed crosswalk;
 names and reconciliation hints cannot supply that evidence. The current
 country endpoint must not be silently relabelled as a region. Historical
 occurrence and deployed serializer behavior remain unmeasured.
+
+City-to-region rows use P131. A DIAMM region can be cultural, so check the
+target region's type before interpreting a city-to-region link as
+administrative containment.
 
 The [source-provenance model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/source_provenance.py)
 links a manuscript to geographic areas, with separate uncertainty flags and
@@ -105,7 +98,9 @@ graphs, Turtle round trips and SPARQL checks. They cover legacy relation rows,
 duplicate/conflicting locations, identical numeric IDs in different local
 namespaces, region reverse listings with null organization location URLs,
 supplied name matches, hints/shared matches that must not create relationships,
-and existing city/country/source links. A negative query checks that manuscript
+and all three organization location routes. The query and exact graph checks
+cover city parents, absence of additional organization links and independent
+manuscript relationships. A negative query checks that manuscript
 locations are not inferred through the organization. The tests do not replay
 OpenRefine. Run from the repository root:
 
@@ -113,12 +108,19 @@ OpenRefine. Run from the repository root:
 poetry run python scripts/check_offline.py
 ```
 
-When snapshot access resumes, count organization/region relation rows and
-distinct pairs with explicit denominators. Check them against the source region
-listings and record input checksums and conversion revision. Legacy relation
-CSVs can supply these assertions without re-reconciliation when that source evidence
-is verified; old RDF alone cannot recover the omitted links. Regenerate into a
-separate directory, compare the new triples alongside labels and existing
-relationships, then stage the query before backed-up graph replacement.
-Historical frequency, actual export compatibility and production behavior
-require matching source snapshots and separate deployment evidence.
+## Migrating organization-location queries and RDF
+
+Older conversions used `wdt:P131` for an organization's city and `wdt:P17`
+for its country. The earlier region mapping used
+`https://linkedmusic.ca/graphs/diamm/organizationLocation`. In a regenerated
+DIAMM graph, query all three direct place types with `schema:location`. To look
+up the country recorded for a city, join the city's own `wdt:P17` edge and
+observe the parent-type limitation above. P131 and P17 still have other uses in
+this graph, so a global predicate replacement would corrupt unrelated links.
+
+Regenerate from the matching `relations.csv` into a separate graph. Compare the
+distinct organization/place pairs for each of the three row shapes against the
+new graph, then check the location query before replacing the old graph.
+Appending would retain duplicate legacy predicates. Region links omitted by an
+older converter require the source relation rows. Record the input checksums
+and converter revision for any comparison with historical RDF.

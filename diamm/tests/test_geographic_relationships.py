@@ -1,10 +1,11 @@
-"""Preserve source-supported organization/region locations without inference."""
+"""Preserve explicit organization locations at the geographic level supplied."""
 
 import csv
 import json
 import unittest
 
 from rdflib import Graph, Literal, RDF, RDFS
+from rdflib.namespace import SDO
 
 import test_external_identifier_text as fixtures
 
@@ -28,38 +29,54 @@ class GeographicRelationshipTests(unittest.TestCase):
         self.fixture.assert_graph_and_roundtrip(
             self.fixture.convert(),
             {
-                (DIAMM["organizations/7"], LM.organizationLocation, DIAMM["regions/7"]),
-                (DIAMM["organizations/7"], LM.organizationLocation, DIAMM["regions/8"]),
-                (DIAMM["organizations/8"], LM.organizationLocation, DIAMM["regions/7"]),
+                (DIAMM["organizations/7"], SDO.location, DIAMM["regions/7"]),
+                (DIAMM["organizations/7"], SDO.location, DIAMM["regions/8"]),
+                (DIAMM["organizations/8"], SDO.location, DIAMM["regions/7"]),
             },
         )
 
-    def test_existing_city_country_and_source_links_remain_distinct(self):
+    def test_direct_locations_keep_city_country_region_and_manuscript_links_distinct(
+        self,
+    ):
         self.fixture.write_exports({})
         self.fixture.relations.write_text(
             "key1,key2,type\ncity:2,organization:1,\n"
-            "country:3,organization:1,\norganization:1,region:4,\n"
+            "country:3,organization:2,\norganization:3,region:4,\n"
+            "city:2,country:3,\ncity:2,region:4,\n"
             "organization:1,source:5,copied\n"
             "organization:1,source:6,provenance\n"
         )
         # An organization's location does not imply that a manuscript was
         # copied or held there. Preserve the source's existing assertions only.
         expected = {
-            (DIAMM["organizations/1"], WDT.P131, DIAMM["cities/2"]),
-            (DIAMM["organizations/1"], WDT.P17, DIAMM["countries/3"]),
-            (DIAMM["organizations/1"], LM.organizationLocation, DIAMM["regions/4"]),
+            (DIAMM["organizations/1"], SDO.location, DIAMM["cities/2"]),
+            (DIAMM["organizations/2"], SDO.location, DIAMM["countries/3"]),
+            (DIAMM["organizations/3"], SDO.location, DIAMM["regions/4"]),
+            (DIAMM["cities/2"], WDT.P17, DIAMM["countries/3"]),
+            (DIAMM["cities/2"], WDT.P131, DIAMM["regions/4"]),
             (DIAMM["sources/5"], WDT.P1071, DIAMM["organizations/1"]),
             (DIAMM["sources/6"], WDT.P276, DIAMM["organizations/1"]),
         }
         graph = self.fixture.convert()
         self.fixture.assert_graph_and_roundtrip(graph, expected)
+        locations = graph.query(
+            "SELECT ?org ?place WHERE { ?org <https://schema.org/location> ?place }"
+        )
+        self.assertEqual(
+            {tuple(row) for row in locations},
+            {
+                (DIAMM["organizations/1"], DIAMM["cities/2"]),
+                (DIAMM["organizations/2"], DIAMM["countries/3"]),
+                (DIAMM["organizations/3"], DIAMM["regions/4"]),
+            },
+        )
         self.assertFalse(
             graph.query(
                 f"""
             ASK {{
               VALUES ?source {{ <{DIAMM['sources/5']}> <{DIAMM['sources/6']}> }}
               VALUES ?property {{ <{WDT.P1071}> <{WDT.P276}> <{WDT.P131}>
-                                 <{LM.organizationLocation}> }}
+                                 <{SDO.location}> }}
               ?source ?property <{DIAMM['regions/4']}> .
             }}
         """
@@ -101,7 +118,7 @@ class GeographicRelationshipTests(unittest.TestCase):
             },
         )
 
-    def test_extraction_and_rdf_cli_keep_reverse_region_membership(self):
+    def test_extraction_and_rdf_cli_preserve_direct_organization_locations(self):
         # At the pinned upstream revision an organization located in a region
         # has no URL in its own location object. Region.organizations exposes
         # the same foreign key in the reverse direction with an explicit URL.
@@ -157,6 +174,22 @@ class GeographicRelationshipTests(unittest.TestCase):
                 },
             ],
         }
+        for org_id, place_path in ((9, "cities/7/"), (10, "countries/7/")):
+            records["organizations"].append(
+                {
+                    "pk": org_id,
+                    "name": "Institution with a location URL",
+                    "organization_type": "Institution",
+                    "location": {
+                        "url": f"{DIAMM}{place_path}",
+                        "name": "Listed place",
+                        "parent": "Hint",
+                    },
+                    "related_sources": [],
+                    "copied_sources": [],
+                    "source_provenance": [],
+                }
+            )
         for table, items in records.items():
             (raw / table).mkdir(parents=True)
             for item in items:
@@ -166,10 +199,15 @@ class GeographicRelationshipTests(unittest.TestCase):
         self.fixture.run_script("to_csv.py")
         with self.fixture.relations.open(newline="", encoding="utf-8") as source:
             relations = list(csv.DictReader(source))
-        self.assertEqual(len(relations), 2)
+        self.assertEqual(len(relations), 4)
         self.assertEqual(
             {tuple(row[k] for k in ("key1", "key2", "type")) for row in relations},
-            {("organization:7", "region:7", ""), ("organization:7", "region:8", "")},
+            {
+                ("organization:7", "region:7", ""),
+                ("organization:7", "region:8", ""),
+                ("city:7", "organization:9", ""),
+                ("country:7", "organization:10", ""),
+            },
         )
         rows = {}
         for table in records:
@@ -177,7 +215,7 @@ class GeographicRelationshipTests(unittest.TestCase):
                 newline="", encoding="utf-8"
             ) as source:
                 rows[table] = list(csv.DictReader(source))
-            self.assertEqual(len(rows[table]), 2)
+            self.assertEqual(len(rows[table]), len(records[table]))
             for row in rows[table]:
                 row["name_@id"] = "Q42" if row["id"] == "7" else ""
                 row["country_@id"] = "Q999"  # not evidence for a location
@@ -187,8 +225,10 @@ class GeographicRelationshipTests(unittest.TestCase):
             self.fixture.directory / "data/RDF/diamm.ttl", format="turtle"
         )
         expected = {
-            (DIAMM["organizations/7"], LM.organizationLocation, DIAMM["regions/7"]),
-            (DIAMM["organizations/7"], LM.organizationLocation, DIAMM["regions/8"]),
+            (DIAMM["organizations/7"], SDO.location, DIAMM["regions/7"]),
+            (DIAMM["organizations/9"], SDO.location, DIAMM["cities/7"]),
+            (DIAMM["organizations/10"], SDO.location, DIAMM["countries/7"]),
+            (DIAMM["organizations/7"], SDO.location, DIAMM["regions/8"]),
         }
         for table, kind in (("organizations", LM.Organization), ("regions", LM.Region)):
             for row in rows[table]:
@@ -203,7 +243,7 @@ class GeographicRelationshipTests(unittest.TestCase):
         result = graph.query(
             f"""
             SELECT ?organization ?region ?name WHERE {{
-              ?organization a <{LM.Organization}>; <{LM.organizationLocation}> ?region .
+              ?organization a <{LM.Organization}>; <{SDO.location}> ?region .
               ?region a <{LM.Region}>; <{RDFS.label}> ?name .
             }}
         """

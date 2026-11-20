@@ -90,18 +90,16 @@ City, country and region names follow the
 strings, while empty cells emit no label. Import names as text without trimming.
 Country matching hints are separate from relationships in `relations.csv`.
 The [geographic relationship contract](doc/geographic_relationships.md) maps
-organization/region rows to `diamm:organizationLocation`, without asserting
-administrative status or inferring manuscript locations. Existing city/country
-mappings retain their limitations. [City/region manuscript provenance](doc/source_provenance.md) uses named
-observations retaining raw JSON, supported qualifiers and validation flags.
-Legacy rows remain explicitly unqualified evidence. Source-to-city P131 is
-removed for both new and legacy inputs. Parent-type ambiguity remains unresolved.
+each organization's directly listed city, region or country to `schema:location`.
+A manuscript linked to that organization receives no inferred location.
+[City/region manuscript provenance](doc/source_provenance.md) uses named
+observations that retain the parsed entry, supported qualifiers and validation
+flags. Legacy rows retain the association with qualifiers marked unavailable.
 
 The [shared evidence contract](../shared/ontology/README.md) provides vocabulary
 and executable shapes. Use the [query contract](doc/source_provenance.md#query-and-answer-contract)
 to distinguish uncertain, source-unflagged and unknown evidence, retain
-disagreements, and count manuscripts separately from observations. Optional
-snapshot lineage and candidate NLQ context require separate integration.
+disagreements, and count manuscripts separately from observations.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion

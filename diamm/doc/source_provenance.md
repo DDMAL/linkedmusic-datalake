@@ -118,6 +118,14 @@ organization provenance/location mappings and city/region/country parent
 links retain their behavior and separate limitations. P2888 matches and country
 hints cannot create a provenance entry.
 
+For example, suppose DIAMM lists an organization in Florence and separately
+associates a manuscript with Florence, marked uncertain for 1400–1450. The
+organization links directly to the city with `https://schema.org/location`.
+Follow the manuscript's `diamm:sourceProvenance` link to find an observation
+with Florence as its place, `diamm:uncertain true`, both years and the parsed
+entry. A second manuscript linked only to the organization has no geographic
+provenance observation from that link.
+
 To retrieve supplied provenance together with its available qualifiers:
 
 ```sparql

@@ -90,11 +90,11 @@ For all three geographic tables, empty names emit no RDF label. Nonempty strings
 including whitespace and NA-like text, retain their spelling. JSON null and empty
 strings share an empty CSV cell; extraction does not preserve that distinction.
 
-Region `organizations` supplies organization-to-region location rows, now
-preserved as `diamm:organizationLocation`; see the
-[geographic relationship contract](geographic_relationships.md). City/region
-provenance entries retain complete parsed JSON in the relation row under the
-[qualified provenance contract](source_provenance.md).
+Region `organizations` supplies organization-to-region rows. The RDF converter
+uses `schema:location` for these rows and for direct city and country locations.
+See the [geographic relationship contract](geographic_relationships.md).
+City/region provenance entries retain the complete parsed JSON in the relation
+row under the [qualified provenance contract](source_provenance.md).
 
 ## Relations
 

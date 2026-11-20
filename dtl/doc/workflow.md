@@ -90,7 +90,7 @@ The TOML configuration for DTL1000 is `shared/rdf_config/digthatlick.toml`. You 
 
 Once the config is updated, you may convert the dataset to RDF by following the steps below:
 
-- Change your working directory to `/code`.
+- From the repository root, run `cd shared`.
 
 - Run the following command:
 

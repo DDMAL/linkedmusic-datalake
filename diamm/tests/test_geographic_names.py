@@ -5,6 +5,7 @@ import json
 import unittest
 
 from rdflib import Graph, Literal, RDF, RDFS
+from rdflib.namespace import SDO
 
 import test_external_identifier_text as fixtures
 from test_source_provenance import observation_triples
@@ -31,8 +32,8 @@ class GeographicNameTests(unittest.TestCase):
             (DIAMM["cities/1"], WDT.P17, DIAMM["countries/1"]),
             (DIAMM["cities/1"], WDT.P131, DIAMM["regions/1"]),
             (DIAMM["regions/1"], WDT.P17, DIAMM["countries/1"]),
-            (DIAMM["organizations/1"], WDT.P131, DIAMM["cities/1"]),
-            (DIAMM["organizations/2"], WDT.P17, DIAMM["countries/1"]),
+            (DIAMM["organizations/1"], SDO.location, DIAMM["cities/1"]),
+            (DIAMM["organizations/2"], SDO.location, DIAMM["countries/1"]),
         }
 
     def rows_for(self, values):
@@ -222,7 +223,7 @@ class GeographicNameTests(unittest.TestCase):
             self.links.update(
                 {
                     (DIAMM["archives/1"], WDT.P131, DIAMM[f"cities/{i}"]),
-                    (DIAMM["organizations/1"], WDT.P131, DIAMM[f"cities/{i}"]),
+                    (DIAMM["organizations/1"], SDO.location, DIAMM[f"cities/{i}"]),
                     (DIAMM[f"cities/{i}"], WDT.P17, DIAMM["countries/1"]),
                     (DIAMM[f"cities/{i}"], WDT.P131, DIAMM[f"regions/{i}"]),
                     (DIAMM[f"regions/{i}"], WDT.P17, DIAMM[f"countries/{i}"]),
