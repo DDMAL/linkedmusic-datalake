@@ -27,10 +27,8 @@ knowledge graph.
 | Entities | Person 570 · Place 38 (distinct, deduped) |
 | Graph IRI | `https://linkedmusic.ca/graphs/ckg-detmold/` |
 
-Why each mapping decision was made — the source CTO model, the predicate table, the
-classifier-less typing, the interval-date handling, reconciliation rates, and the emitted
-schema (for **SESEMMI**, LinkedMusic's natural-language→SPARQL query tool) — is in
-[`doc/data-model.md`](doc/data-model.md).
+The [Detmold data model](doc/data-model.md) describes the record predicates,
+fallback type, date conversion and evidence for crosswalk links.
 
 All scripts assume **CWD = `ckg-detmold/src/`** and use the repo-root Poetry env
 (`poetry run python …`). Everything under `data/` is **gitignored**.
@@ -111,8 +109,9 @@ Bulk-load `detmold.ttl` as its own named graph with the Virtuoso loader (`ld_dir
 |---|---|
 | Detmold | `https://linkedmusic.ca/graphs/ckg-detmold/` |
 
-After loading, the dataset's schema must be documented for **SESEMMI**;
-[`doc/data-model.md`](doc/data-model.md) is that reference.
+When writing SESEMMI queries against the loaded graph, use the
+[query guidance](doc/data-model.md#query-boundaries) for work types,
+related entities and date datatypes.
 
 ---
 
@@ -131,7 +130,7 @@ ckg-detmold/
 ├── data/                          # gitignored (extracted / mappings / openrefine / rdf)
 ├── openrefine/                    # residue name reconciliation (history + export)
 └── doc/
-    └── data-model.md              # schema + mapping decisions + verified IDs (the "why")
+    └── data-model.md              # predicates, typing, crosswalks and query guidance
 ```
 
 > The `src/` scripts are **shared across all three CKG feeds** and copied verbatim; `data/`

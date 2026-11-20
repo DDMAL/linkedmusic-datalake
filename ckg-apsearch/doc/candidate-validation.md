@@ -1,11 +1,11 @@
 # Identified CKG candidate validation
 
-These measurements describe candidate files produced with clean converter commit
-`da7150af5c46e26f354b8b34903ae936780e4c32` and the exact source hashes below.
-They are not deployed-graph measurements, reconciliation accuracy estimates, or
-approval to replace existing RDF. Source snapshot dates are unknown; file hashes
-identify the supplied inputs. Existing originals were hash-checked before and
-after conversion and were unchanged.
+All three candidates were generated from the inputs below at commit
+`5e47df31c29b16e2d25fdf54a8c5d03c9e9dde03`. The shared `convert_to_rdf.py`
+had SHA-256 `c7c0799bbee8303cdf4a389eeb3146d8b7aaf9cc157fe3f110df9d7833937fdf`.
+The measurements cover these candidate files and their stored comparators.
+Source snapshot dates are unknown. The original files had matching checksums
+before and after conversion.
 
 | Feed | Raw N-Triples SHA-256 | Candidate Turtle SHA-256 |
 | --- | --- | --- |
@@ -18,8 +18,9 @@ APSearch's stored baseline has SHA-256
 The candidate preserves all 4,214 distinct source creation-period assertions and
 has one paired observation for each. Its 75,702 distinct triples are exactly the
 46,203 baseline triples plus 29,499 preservation triples: no baseline triple was
-removed and no unrelated triple changed. The one supplied `9009` period remains
-unchanged and flagged. It has not been adjudicated as a historical date.
+removed and no unrelated triple changed. The source period for “Sudan Situation”
+has both bounds in `9009`. Its observation carries the `year-9009` review flag.
+A query selecting only `wdt:P571` returns `9009` without the flag.
 
 The independently parsed source intervals and the documented named-graph query
 agree on these record sets:
@@ -32,7 +33,8 @@ agree on these record sets:
 | 1960 | 0 | 0 |
 | 9009 | 1 | 1 |
 
-The comparison is specific to this source's January-01 endpoint syntax. It
+This E6304 input contains no temporal-coverage (`CTO_0001070`) triples.
+The comparison is specific to this source's January-01 creation-period syntax. It
 checks inclusive year overlap, not events occurring in each year. Other syntax
 is covered by synthetic tests rather than inferred from these measurements.
 
