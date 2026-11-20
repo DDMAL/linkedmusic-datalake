@@ -28,7 +28,7 @@ lm:sourceUncertain a rdf:Property ;
 lm:approximate a rdf:Property ;
     rdfs:label "Source marks the observed value as approximate"@en ;
     rdfs:range xsd:boolean ;
-    rdfs:comment "Qualifies the value recorded on one observation, such as a year, count or duration. True means the source marks that value as approximate through a flag or documented wording. False means the source gives it as non-approximate at the stated precision. Omit the property when the status is unknown. Keep the original wording or flag. The Boolean alone supplies no error margin or confidence score."@en .
+    rdfs:comment "An observation carrying this flag describes exactly one supplied value, such as a year, count or duration. Its raw and typed forms may coexist. True means the source marks that value as approximate through a flag or documented wording. False means the source gives it as non-approximate at the stated precision. Omit the property when the value is missing or its approximation status is unknown. Keep the original wording or flag. The Boolean alone supplies no error margin or confidence score."@en .
 lm:validationFlag a rdf:Property ;
     rdfs:label "Conversion or review flag"@en ;
     rdfs:comment "Repeatable source-specific processing limitation or review condition. Absence is not proof of correctness; flags are not confidence scores."@en .

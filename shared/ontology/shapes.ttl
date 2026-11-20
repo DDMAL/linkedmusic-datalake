@@ -9,6 +9,10 @@ lm:EvidenceShape a sh:NodeShape ;
     sh:targetClass lm:EvidenceObservation ;
     sh:nodeKind sh:IRI .
 
+lm:ApproximationShape a sh:NodeShape ;
+    sh:targetSubjectsOf lm:approximate ;
+    sh:property [ sh:path lm:approximate; sh:maxCount 1; sh:datatype xsd:boolean ] .
+
 # Open shapes allow preserved raw evidence and unresolved flags. They validate
 # the representation, not historical truth, JSON contents or source fidelity.
 lm:DiammProvenanceShape a sh:NodeShape ;
