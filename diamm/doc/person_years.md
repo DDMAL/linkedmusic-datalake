@@ -88,10 +88,9 @@ observations. Their population and RDF expansion require snapshot measurement.
 | `diamm:reconciledYear` | Canonical Wikidata IRI for a complete bare QID, when available |
 | `diamm:validationFlag` | Zero or more validation status strings listed above |
 
-The shared vocabulary declares `diamm:approximate` a subproperty of
-`lm:dateApproximate`. Use `diamm:approximate` when querying DIAMM triples
-directly. The [cross-database date guide](../../shared/ontology/date_approximation.md)
-shows how to include catalogues that encode “circa” in the date cell itself.
+The [shared approximation guide](../../shared/ontology/date_approximation.md)
+shows how to query DIAMM together with catalogues that encode “circa” in a
+date cell or qualify other values such as counts.
 
 Raw-cell literals have explicit `xsd:string` datatypes; validation flags are
 plain literals. For datatype-sensitive clients such as RDFLib, match raw cells

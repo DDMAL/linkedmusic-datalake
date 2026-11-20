@@ -1,16 +1,17 @@
-# Approximate dates across databases
+# Approximate values across databases
 
 If a catalogue says **“c. 1850”**, a user should be able to search for the year
 1850 and still see **“around 1850”** in the answer. Keep the source wording, a
 searchable year and the approximation flag together on the observation for
 that particular date. A person's birth and death can have different flags.
 
-The Boolean property is `lm:dateApproximate`, where `lm:` expands to
-`https://linkedmusic.ca/terms/preservation/`. A dataset can use the property
-directly or align an existing property with `rdfs:subPropertyOf`, as DIAMM
-does. Each dataset documents how to reach the observation and identify the
-event, the original evidence and the typed value. See the
-[RDF definition](preservation.ttl) and [RDFS subproperty semantics](https://www.w3.org/TR/rdf-schema/#ch_subpropertyof).
+Use the same Boolean property, `lm:approximate`, for every dataset and every
+kind of value. Its full IRI is `https://linkedmusic.ca/terms/preservation/approximate`.
+It answers “Does the source mark **this value** as approximate?” For “about
+20 performers”, attach it to the count observation. If the same record also
+gives a duration, give that value its own observation when it needs a qualifier.
+Each dataset documents how to find the observation, its source and its value.
+[RDF definition](preservation.ttl)
 
 | What the source supplies | RDF on the observation | What an answer can say |
 | --- | --- | --- |
@@ -26,9 +27,10 @@ text for display. Expressions such as `before 1850`, `1850–1860` and
 them. A circa marker alone supplies no earliest year, latest year, day of the
 month or confidence percentage. PROV-O can identify where evidence came from.
 
-## A catalogue with a free-text birth year
+## A catalogue with a free-text birth year and performer count
 
-This illustrative catalogue recognises `c. YYYY` in its birth-year column.
+This illustrative catalogue recognises `c. YYYY` in its birth-year column
+and “about” in the performer-count field.
 Its example IRIs stand for the catalogue's own fields. In its named graph
 `ex:catalogue`, it could emit the following Turtle.
 
@@ -41,17 +43,35 @@ ex:person7 ex:birthDateObservation ex:birth7 .
 ex:birth7 a lm:EvidenceObservation ;
     ex:sourceText "c. 1850" ;
     ex:year "1850"^^xsd:gYear ;
-    lm:dateApproximate true .
+    lm:approximate true .
+
+ex:concert4 ex:performerCountObservation ex:count4 .
+ex:count4 a lm:EvidenceObservation ;
+    ex:sourceText "about 20 performers" ;
+    ex:performerCount 20 ;
+    lm:approximate true .
 ```
 
 DIAMM has two source cells for this purpose. Its candidate converter keeps
 the original year and flag on a `diamm:PersonYearObservation` and emits
-`diamm:approximate` when it can interpret the flag. Query the observation to
+`lm:approximate` when it can interpret the flag. Query the observation to
 include approximate and unknown-status years. The direct person birth/death
 triples cover only years explicitly flagged non-approximate.
 [DIAMM source fields and conversion rules](../../diamm/doc/person_years.md)
 
-## A query across both catalogues
+## Queries across catalogues
+
+To find every value that a source marked approximate, the same triple pattern
+works in every named data graph. Here it finds the example birth year and
+performer count, as well as any flagged DIAMM years. No inference is required.
+
+```sparql
+PREFIX lm: <https://linkedmusic.ca/terms/preservation/>
+SELECT ?graph ?obs WHERE {
+  GRAPH ?graph { ?obs lm:approximate ?flag }
+  FILTER(?flag = true)
+}
+```
 
 This example retrieves each source's recorded birth years, including those
 with an unknown approximation status. It names the predicates emitted in each
@@ -69,17 +89,16 @@ SELECT ?graph ?person ?obs ?raw ?year ?approximate WHERE {
     GRAPH diamm: {
       ?person diamm:personYear ?obs .
       ?obs diamm:dateProperty wdt:P569 ; diamm:sourceValue ?raw ; diamm:year ?year .
-      OPTIONAL { ?obs diamm:approximate ?approximate }
     }
     BIND(diamm: AS ?graph)
   } UNION {
     GRAPH ex:catalogue {
       ?person ex:birthDateObservation ?obs .
       ?obs ex:sourceText ?raw ; ex:year ?year .
-      OPTIONAL { ?obs lm:dateApproximate ?approximate }
     }
     BIND(ex:catalogue AS ?graph)
   }
+  OPTIONAL { GRAPH ?graph { ?obs lm:approximate ?approximate } }
 }
 ```
 
@@ -96,8 +115,8 @@ SESEMMI selects a database and passes a subset of its schema to the model.
 When enabling a graph version with person-year observations, merge the
 [DIAMM context fragment](date_approximation_nlq.txt) into its
 `ONTOLOGY_CHUNKS["diamm"]` entry. Append the query notes to the existing notes,
-add the `personYear` edge to the existing Person block and add the observation
-class to the same ontology block. Retrieve both classes for person-date
+copy the `lm:` prefix into the ontology, add the `personYear` edge to the
+existing Person block and add the observation class. Retrieve both classes for person-date
 questions so the model sees the stored predicates and their meanings.
 For each additional database, supply its own field paths and graph version.
 The example.org catalogue above is a teaching example.

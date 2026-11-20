@@ -8,6 +8,6 @@ external URLs and configured local identifiers. See the
 with `poetry run python scripts/check_offline.py` from the repository root.
 
 The [shared evidence and lineage contract](ontology/README.md) describes
-source-specific observations, separates uncertainty from date approximation
+source-specific observations, distinguishes association uncertainty from value approximation
 and processing status, and provides vocabulary and SHACL shapes. Its optional
 PROV-O lineage profile requires actual retained snapshots and run metadata.

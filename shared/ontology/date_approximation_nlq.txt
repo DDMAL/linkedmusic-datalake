@@ -8,11 +8,10 @@ original year cell and diamm:sourceApproximate for the original flag cell.
 diamm:year is the parsed xsd:gYear when available. Keep this field optional
 if the question includes unparsed source entries.
 
-Use OPTIONAL { ?obs diamm:approximate ?approximate } when listing dates.
-diamm:approximate is the stored Boolean subproperty of
-https://linkedmusic.ca/terms/preservation/dateApproximate. Query the stored
-predicate even when the endpoint has no inference. For true, report “around
-1850” if the year is 1850. For false, report “1850” at year precision. An
+Use OPTIONAL { ?obs lm:approximate ?approximate } when listing dates.
+This is the shared Boolean for one observed value across all databases.
+Use the birth or death observation to select the right value. For true, report
+“around 1850” if the year is 1850. For false, report “1850” at year precision. An
 unbound flag means the source's approximation status is unknown. For a
 question restricted to explicitly approximate birth years, require a typed
 year and a true flag on the same birth observation. Direct person P569/P570
@@ -21,6 +20,7 @@ source observations separate. A circa flag supplies no day, range, probability
 or information about the reliability of the answer.
 </query-notes>
 <ontology>
+@prefix lm: <https://linkedmusic.ca/terms/preservation/> .
 diamm:Person
 	diamm:personYear	diamm:PersonYearObservation .
 diamm:PersonYearObservation
@@ -28,5 +28,5 @@ diamm:PersonYearObservation
 	diamm:year	"optional xsd:gYear" ;
 	diamm:sourceValue	"original year cell" ;
 	diamm:sourceApproximate	"original approximation flag cell" ;
-	diamm:approximate	"optional Boolean qualifying this date" .
+	lm:approximate	"optional Boolean qualifying this date" .
 </ontology>
