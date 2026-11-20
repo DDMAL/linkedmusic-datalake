@@ -20,7 +20,8 @@ permits any number of datasets and multiple artifacts per population.
 ## Commands
 
 From the repository root, install the locked Python 3.12 dependencies, including
-the development group (`jsonschema` is required by these evaluation tools):
+the development group (`jsonschema` validates manifests and `pySHACL` runs
+the RDF evidence-contract tests):
 
 ```sh
 poetry install --no-interaction --no-root
@@ -29,8 +30,9 @@ poetry run python scripts/check_offline.py
 ```
 
 The offline runner explicitly requires `evaluation/tests`, `rism/tests`,
-`musicbrainz/tests` and `ckg-apsearch/tests`. It fails if a required suite is absent,
-has zero tests, fails to import, or reports a failing test.
+`musicbrainz/tests`, `ckg-apsearch/tests`, `shared/tests` and `diamm/tests`.
+It fails if a required suite is absent, has zero tests,
+fails to import, or reports a failing test.
 Each required suite runs in its own interpreter. The GitHub workflow runs the
 same checks, all 14 synthetic competency queries and formatting. These are
 synthetic controls, not a data census, historical converter-fidelity measurement

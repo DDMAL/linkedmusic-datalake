@@ -8,13 +8,17 @@ A data-ingestion monorepo. Each top-level folder (`acousticbrainz/`, `cantus/`, 
 
 ## Environment
 
-- Python **3.12**, Poetry-managed at the repo root. One venv for everything; no per-subproject envs.
+- Python **3.12**, Poetry-managed at the repo root. One dependency project covers
+  all subprojects. Use separate environments to compare retained lockfiles.
 - Install: `poetry install`. Run scripts via `poetry run python …` or from an activated shell.
 - **Most scripts assume CWD is the subproject's `src/` folder** (paths are relative to it). E.g., for AcousticBrainz: `cd acousticbrainz/src && python extract.py`. Check the subproject README before assuming otherwise.
 
 ## Data is not in the repo
 
-`.gitignore` excludes `*.ttl`, `*.csv`, `*.jsonl`, `*.tar*`, `*.xz`, `store/`, `store-*/`. Every subproject's `data/{archived,extracted,unreconciled,reconciled,rdf}/` lives on disk but is untracked. **Never commit data files.** Some datasets are huge (AcousticBrainz extracted highlevel is ~129 GB).
+`.gitignore` excludes `*.ttl`, `*.csv`, `*.jsonl`, `*.tar*`, `*.xz`, `store/` and
+`store-*/`. Data-directory layouts vary; source dumps and generated RDF stay
+untracked. **Never commit data files.** The maintained vocabulary and SHACL
+files in `shared/ontology/*.ttl` are an explicit schema exception.
 
 The committed `rism-dump.ttl` at the repo root is an exception (a historical artifact); don't follow that pattern for new work.
 
@@ -30,7 +34,9 @@ Reusable code lives here, but it is **not a package** — there's no install ste
 
 - **RISM** starts from RDF (not CSV). It splits via `force_split.py`, reconciles in OpenRefine using the **RDF-transform** extension, then re-emits Turtle. RDF-transform **only works in Chrome** — Firefox/Safari will fail silently.
 - **MusicBrainz** skips OpenRefine. Source data already carries Wikidata QIDs; only auxiliary fields (types, keys, genres, languages) are reconciled separately.
-- **SIMSSA** outputs **JSON-LD**, not Turtle. There's a standing TODO to convert it to Turtle.
+- **SIMSSA** has a shared TOML-to-Turtle route using `shared/rdf_config/simssadb.toml`,
+  alongside a separate JSON-LD converter. Read its README and person-identifier
+  contract; do not infer which route generated a historical artifact.
 - **AcousticBrainz** has separate extraction and RDF conversion steps. Check the actual source/intermediate availability before running a step; script existence does not establish an earlier successful conversion.
 - **CKG** (NFDI4Culture Culture Knowledge Graph) is **RDF-native** (per-feed N-Triples dumps, no fetch step) and is split into **three sibling subprojects** — `ckg-musiconn/`, `ckg-detmold/`, `ckg-apsearch/` — one per feed, because each loads as its own Virtuoso named graph. They **share one pipeline, copied verbatim** into each `src/` (the scripts take a feed argument, so the copies are identical and overlap is intentional). Reconciliation is a **deterministic authority-ID→Wikidata crosswalk** (GND `P227` / VIAF `P214` / GeoNames `P1566`), with OpenRefine only for the residue (musiconn/Detmold; APSearch needs none). The CKG's RISM feed (`E5313`) is excluded — LinkedMusic ingests RISM separately. Each feed's `doc/data-model.md` is the authoritative mapping/schema doc.
 - **DTL, Global Jukebox, Cantus, DIAMM, TheSession** follow the standard pipeline.
@@ -58,9 +64,11 @@ poetry run python evaluation/manifest.py validate evaluation/manifests.json
 poetry run python scripts/check_offline.py
 ```
 
-These checks validate the manifest, identifier queries, sampling and 14
-competency controls with synthetic inputs. They do not measure source fidelity
-or deployment. Measured query runs require explicit population/artifact selection;
+These checks require all six evaluation/converter suites and 14 competency
+controls, using separate interpreter processes. Install the locked development
+group for JSON Schema and SHACL validation. They cover manifest, query, sampler,
+conversion and evidence-contract behavior with synthetic inputs. They do not
+measure source fidelity or deployment. Measured query runs require explicit population/artifact selection;
 use the manifest adapter and retain failed/partial results. Keep large evidence
 and generated data outside Git, with hashes and durable availability recorded
 where known.

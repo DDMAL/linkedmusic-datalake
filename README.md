@@ -78,7 +78,12 @@ poetry run python scripts/check_offline.py
 
 The [manifest guide](evaluation/README.md) documents migration, artifact selection,
 local checksum verification, query execution and complete-frame sampling.
-Offline checks include 14 synthetic competency controls and identifier queries.
+Offline checks run the six required evaluation, RISM, MusicBrainz, CKG, shared
+conversion and DIAMM suites in separate interpreter processes. They also require
+all 14 synthetic competency controls. Missing or empty suites and failed imports
+fail the command. The locked development group supplies JSON Schema and SHACL
+validation; see the [dependency compatibility procedure](shared/ontology/README.md#dependencies-and-converter-compatibility)
+when changing the lock.
 The pilot preserves unknown provenance; it is not a census or a measurement of source fidelity or deployed graphs.
 
 The [shared CSV identifier contract](shared/rdf_conversion/identifier_preservation.md)
