@@ -100,7 +100,6 @@ class CreationPeriodTests(unittest.TestCase):
                     converter.creation_period(token),
                     (start, end, "unresolved", flags),
                 )
-                self.assertEqual(converter.coerce_date(token, "apsearch"), token)
 
     def test_anomalous_9009_is_retained_and_flagged(self):
         token = source_literal("9009-01-01/9009-01-01")
@@ -108,9 +107,11 @@ class CreationPeriodTests(unittest.TestCase):
             converter.creation_period(token),
             ("9009", "9009", "parsed", ["year-9009"]),
         )
-        self.assertEqual(converter.coerce_date(token, "apsearch"), '"9009"^^xsd:gYear')
         with tempfile.TemporaryDirectory() as directory:
             graph, _, _ = run_conversion(directory, [("anomaly", token)])
+        self.assertIn(
+            (EX.anomaly, WDT.P571, Literal("9009", datatype=XSD.gYear)), graph
+        )
         period = graph.value(EX.anomaly, TERM.creationPeriod)
         self.assertIn(
             (period, TERM.endYear, Literal("9009", datatype=XSD.gYear)), graph
@@ -277,6 +278,35 @@ class CreationPeriodTests(unittest.TestCase):
         self.assertIsNone(audit["source_snapshot_date"])
         for key in ("converter_sha256", "mapping_sha256", "output_sha256"):
             self.assertRegex(audit[key], r"^[0-9a-f]{64}$")
+
+    def test_apsearch_temporal_coverage_keeps_existing_date_coercion(self):
+        with tempfile.TemporaryDirectory() as directory:
+            graph, outdir, _ = run_conversion(
+                directory,
+                [
+                    ("day", source_literal("2010-04-20")),
+                    ("month", source_literal("2010-04-00")),
+                    (
+                        "interval",
+                        source_literal("1909-01-01T00:00:00/1950-01-01T23:59:59"),
+                    ),
+                ],
+                predicate=CTO.CTO_0001070,
+            )
+            audit = json.loads(
+                (outdir / "apsearch.creation-period-audit.json").read_text()
+            )
+        self.assertEqual(
+            graph.value(EX.day, WDT.P585), Literal("2010-04-20", datatype=XSD.date)
+        )
+        self.assertEqual(
+            graph.value(EX.month, WDT.P585), Literal("2010-04", datatype=XSD.gYearMonth)
+        )
+        self.assertEqual(
+            graph.value(EX.interval, WDT.P585), Literal("1909", datatype=XSD.gYear)
+        )
+        self.assertFalse(list(graph.triples((None, TERM.creationPeriod, None))))
+        self.assertEqual(audit["counts"]["input_occurrences"], 0)
 
     def test_other_feed_date_coercions_are_unchanged(self):
         for feed, value, expected in (
