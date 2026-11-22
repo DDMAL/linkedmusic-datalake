@@ -91,6 +91,10 @@ source text such as `c. 1855`, even when it yields no typed year.
 | `diamm:reconciledYear` | Canonical Wikidata IRI for a complete bare QID, when available |
 | `diamm:validationFlag` | Zero or more validation status strings listed above |
 
+The [shared approximation guide](../../shared/ontology/date_approximation.md)
+shows how to query DIAMM together with catalogues that encode “circa” in a
+date cell or qualify other values such as counts.
+
 Raw-cell literals have explicit `xsd:string` datatypes; validation flags are
 plain literals. For datatype-sensitive clients such as RDFLib, match raw cells
 with a typed term (e.g. `"True"^^xsd:string`) or compare `STR(?rawFlag)`.

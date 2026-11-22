@@ -13,6 +13,7 @@ import pandas as pd
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import DCTERMS, RDFS, RDF, SDO, SKOS, XSD
 from external_identifiers import identifier_values
+from source_provenance import add_source_provenance
 
 BASE_PATH = "../data/reconciled/"
 RELATIONS_PATH = "../data/csv/relations.csv"
@@ -251,7 +252,9 @@ def build_rdf_graph(
     sets = pd.read_csv(os.path.join(base_path, "sets-csv.csv"))
     sources = pd.read_csv(os.path.join(base_path, "sources-csv.csv"))
 
-    relations = pd.read_csv(relations_path)
+    relations = pd.read_csv(
+        relations_path, converters={"type": str, "source_provenance": str}
+    )
 
     g = Graph()
 
@@ -608,6 +611,9 @@ def build_rdf_graph(
         first_type, first_id = work["key1"].split(":")
         second_type, second_id = work["key2"].split(":")
         first_id, second_id = int(first_id), int(second_id)
+        if first_type in ("city", "region") and second_type == "source":
+            add_source_provenance(g, work, first_type, first_id, second_id)
+            continue
         first_uri = pred_uri = second_uri = None
         reverse = False
 
@@ -632,10 +638,6 @@ def build_rdf_graph(
             elif second_type == "region":
                 second_uri = URIRef(f"{DR}{second_id}")
                 pred_uri = DIAMM_SCHEMA["region"]
-            elif second_type == "source":
-                second_uri = URIRef(f"{DS}{second_id}")
-                pred_uri = DIAMM_SCHEMA["city"]
-                reverse = True
         elif first_type == "composition":
             first_uri = URIRef(f"{DM}{first_id}")
             if second_type == "people":

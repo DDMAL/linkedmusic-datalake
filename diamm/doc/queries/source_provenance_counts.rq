@@ -1,0 +1,14 @@
+# Counts are overlapping uncertainty groups, not source-event counts.
+# One manuscript can occur in multiple groups. Never sum manuscript subtotals.
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+SELECT ?uncertaintyState (COUNT(DISTINCT ?source) AS ?manuscripts)
+       (COUNT(DISTINCT ?observation) AS ?observations) WHERE {
+  GRAPH <https://linkedmusic.ca/graphs/diamm/> {
+    ?source diamm:sourceProvenance ?observation .
+    ?observation a diamm:SourceProvenanceObservation; diamm:place ?place .
+    OPTIONAL { ?observation diamm:uncertain ?uncertain }
+    BIND(IF(!BOUND(?uncertain), "unknown",
+         IF(?uncertain, "uncertain", "source-unflagged")) AS ?uncertaintyState)
+  }
+}
+GROUP BY ?uncertaintyState
