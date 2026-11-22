@@ -5,7 +5,7 @@ import json
 import unittest
 
 from rdflib import Graph, Literal, RDF
-from rdflib.namespace import DCTERMS, XSD
+from rdflib.namespace import DCTERMS, SDO, XSD
 
 import test_external_identifier_text as fixtures
 
@@ -241,7 +241,7 @@ class SourceProvenanceTests(unittest.TestCase):
         graph = self.fixture.convert()
         expected = {
             (DIAMM["sources/5"], WDT.P276, DIAMM["archives/1"]),
-            (DIAMM["organizations/1"], LM.organizationLocation, DIAMM["regions/7"]),
+            (DIAMM["organizations/1"], SDO.location, DIAMM["regions/7"]),
         }
         for field, table in (("city", "cities"), ("region", "regions")):
             expected.update(
@@ -267,7 +267,7 @@ class SourceProvenanceTests(unittest.TestCase):
             expected
             - {
                 (DIAMM["sources/5"], WDT.P276, DIAMM["archives/1"]),
-                (DIAMM["organizations/1"], LM.organizationLocation, DIAMM["regions/7"]),
+                (DIAMM["organizations/1"], SDO.location, DIAMM["regions/7"]),
             },
         )
 
@@ -357,13 +357,13 @@ class SourceProvenanceTests(unittest.TestCase):
                 {
                     "url": f"{DIAMM}sources/5/",
                     "name": '  É, "NA"\n00123  ',
-                    f"{field}_uncertain": False,
+                    f"{field}_uncertain": True,
                     "earliest_year": 1400,
                     "latest_year": 1450,
                 },
                 {
                     "url": f"{DIAMM}sources/5/",
-                    f"{field}_uncertain": True,
+                    f"{field}_uncertain": False,
                     "earliest_year": None,
                     "latest_year": 1550,
                 },
@@ -371,7 +371,7 @@ class SourceProvenanceTests(unittest.TestCase):
             ]
             record = {
                 "pk": 7,
-                "name": "Place",
+                "name": "Florence" if field == "city" else "Tuscany",
                 "organizations": [],
                 "provenance": entries + [entries[0]],
             }
@@ -380,6 +380,7 @@ class SourceProvenanceTests(unittest.TestCase):
                     {
                         "country": {"url": f"{DIAMM}countries/9/", "name": "Hint"},
                         "archives": [],
+                        "organizations": [{"url": f"{DIAMM}organizations/1/"}],
                     }
                 )
             else:
@@ -388,10 +389,25 @@ class SourceProvenanceTests(unittest.TestCase):
             raw.mkdir(parents=True)
             (raw / "7.json").write_text(json.dumps(record), encoding="utf-8")
             expected_entries.extend((field, table, entry) for entry in entries)
+        # Source 5 has independent place and organization evidence. Source 6
+        # is linked only to the organization located in Florence.
+        organizations = self.fixture.directory / "data/raw/organizations"
+        organizations.mkdir(parents=True)
+        organization = {
+            "pk": 1,
+            "name": "Example institution",
+            "organization_type": "Institution",
+            "related_sources": [],
+            "copied_sources": [{"url": f"{DIAMM}sources/6/"}],
+            "source_provenance": [{"url": f"{DIAMM}sources/5/"}],
+        }
+        (organizations / "1.json").write_text(
+            json.dumps(organization), encoding="utf-8"
+        )
         self.fixture.run_script("to_csv.py")
         with self.fixture.relations.open(newline="", encoding="utf-8") as source:
             rows = list(csv.DictReader(source))
-        provenance = [row for row in rows if row["key2"] == "source:5"]
+        provenance = [row for row in rows if row["source_provenance"]]
         self.assertEqual(
             len(provenance), 6
         )  # old pair-only deduplication loses conflicts
@@ -408,7 +424,12 @@ class SourceProvenanceTests(unittest.TestCase):
         graph = Graph().parse(
             self.fixture.directory / "data/RDF/diamm.ttl", format="turtle"
         )
-        expected = {(DIAMM["cities/7"], WDT.P17, DIAMM["countries/9"])}
+        expected = {
+            (DIAMM["cities/7"], WDT.P17, DIAMM["countries/9"]),
+            (DIAMM["organizations/1"], SDO.location, DIAMM["cities/7"]),
+            (DIAMM["sources/5"], WDT.P276, DIAMM["organizations/1"]),
+            (DIAMM["sources/6"], WDT.P1071, DIAMM["organizations/1"]),
+        }
         for field, table, entry in expected_entries:
             raw = next(
                 row["source_provenance"]
@@ -426,12 +447,12 @@ class SourceProvenanceTests(unittest.TestCase):
                 }
             elif entry["earliest_year"] is None:
                 qualifiers = {
-                    "uncertain": True,
+                    "uncertain": False,
                     "latest": "1550",
                     "flags": ("null-earliest-year",),
                 }
             else:
-                qualifiers = {"uncertain": False, "earliest": "1400", "latest": "1450"}
+                qualifiers = {"uncertain": True, "earliest": "1400", "latest": "1450"}
             expected.update(
                 observation_triples(
                     graph,

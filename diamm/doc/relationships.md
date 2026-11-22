@@ -1,10 +1,9 @@
 # Property Mappings for Relationships
 
 For geographic links, use the [geographic relationship contract](geographic_relationships.md).
-It defines `diamm:organizationLocation` for organization/region rows and describes
-parent-type limits. The [qualified provenance contract](source_provenance.md)
+It maps an organization’s listed city, region or country to `schema:location`
+and describes the parent-type limits. The [qualified provenance contract](source_provenance.md)
 defines city/region manuscript observations and replaces source-to-city P131.
-The person/organization mappings below retain their existing semantics.
 
 In the DIAMM database, there are more complex relationships between `people` and `sources` and between `organizations` and `sources`. They are modeled with a `related_sources` field in the `people` and `organizations` entity types, and with a `relationships` field in the `sources` entity type.
 

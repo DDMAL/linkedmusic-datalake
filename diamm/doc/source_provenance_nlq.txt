@@ -17,6 +17,13 @@ Count DISTINCT manuscripts or DISTINCT observations explicitly. One manuscript
 can have multiple observations and uncertainty states. Missing bounds are not
 infinite. Exclude reversed-year-bounds from ordered-interval queries. Provenance
 does not establish creation, administrative containment or present storage.
+Organization source_provenance comes from the same DIAMM provenance model.
+Its manuscript-to-organization wdt:P276 link omits the source uncertainty flags.
+Following that link through https://schema.org/location gives the organization's
+listed place. Do not use this path to assert a manuscript location or certainty.
+To filter by sourceField, bind the value to ?field and use
+FILTER(STR(?field) = "city") or FILTER(STR(?field) = "region").
+Check the graph version before interpreting an empty observation result.
 The dcterms:source link is coarse origin context, not a versioned source record.
 </query-notes>
 <ontology>

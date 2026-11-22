@@ -90,18 +90,16 @@ City, country and region names follow the
 strings, while empty cells emit no label. Import names as text without trimming.
 Country matching hints are separate from relationships in `relations.csv`.
 The [geographic relationship contract](doc/geographic_relationships.md) maps
-organization/region rows to `diamm:organizationLocation`, without asserting
-administrative status or inferring manuscript locations. Existing city/country
-mappings retain their limitations. [City/region manuscript provenance](doc/source_provenance.md) uses named
-observations retaining raw JSON, supported qualifiers and validation flags.
-Legacy rows remain explicitly unqualified evidence. Source-to-city P131 is
-removed for both new and legacy inputs. Parent-type ambiguity remains unresolved.
+each organization's directly listed city, region or country to `schema:location`.
+A manuscript linked to that organization receives no inferred location.
+[City/region manuscript provenance](doc/source_provenance.md) uses named
+observations that retain the parsed entry, supported qualifiers and validation
+flags. Legacy rows retain the association with qualifiers marked unavailable.
 
 The [shared evidence contract](../shared/ontology/README.md) provides vocabulary
 and executable shapes. Use the [query contract](doc/source_provenance.md#query-and-answer-contract)
 to distinguish uncertain, source-unflagged and unknown evidence, retain
-disagreements, and count manuscripts separately from observations. Optional
-snapshot lineage and candidate NLQ context require separate integration.
+disagreements, and count manuscripts separately from observations.
 
 The [identifier validation contract](doc/identifier_validation.md) documents
 complete bare-QID matching, preserved unmatched names, import-safe conversion
@@ -114,7 +112,7 @@ Some properties of interest:
 
 - RDFS:label is used instead of P2561 to indicate the name of places/objects, as that's what Wikidata uses for the primary label for items, including for the title of compositions
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
-- Existing archive/organization city locations and city/region parent links use P131; country links use P17. Parent types require source review. Manuscript city/region provenance uses qualified observations.
+- Archives link to cities with P131. Cities link to regions with P131, and cities and regions link to countries with P17. Parent types require source review. An organization's directly listed city, region or country uses `schema:location`.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
 - The legacy organization-provenance branch still emits P276 (location), with its separate semantic limits. City/region manuscript provenance uses observations without direct location projection. Inspect the original source relation before interpreting any route as physical location.

@@ -142,9 +142,10 @@ must check generated SPARQL, returned evidence columns and answer wording for
 uncertain, source-unflagged, unknown and disagreeing cases. Measure accuracy and
 query cost separately; deterministic parser checks do not establish either.
 
-The next converter repair remains geographic parent evidence/type routing.
-The shared contract supplies representation rules; it does not establish that
-a country URL identifies the true parent type or justify administrative P131.
+DIAMM's city serializer can construct a country URL from a general geographic
+parent. The URL alone cannot establish the parent's type. A city-to-region
+P131 link also needs [evidence of the region's type](../../diamm/doc/geographic_relationships.md#parent-and-manuscript-provenance-limits)
+to support an administrative interpretation.
 
 ## Dependencies and converter compatibility
 
