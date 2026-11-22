@@ -21,6 +21,29 @@ MODEL_DOCUMENT = URIRef(
     "https://github.com/DDMAL/linkedmusic-datalake/blob/main/"
     "musicbrainz/doc/relationship_preservation.md"
 )
+REMIXER_TYPE_IDS = {
+    "7950be4d-13a3-48e7-906b-5af562e39544",  # artist–recording
+    "ac6a86db-f757-4815-a07e-744428d2382b",  # artist–release
+}
+ADDITIONAL_ATTRIBUTE_ID = "0a5341f8-3b1d-4f99-a0c6-26b7f4e42c7f"
+
+
+def supports_remix_adaptation(relation):
+    """A plain or additional remixer is credited with adapting this version."""
+    attributes = relation.get("attributes")
+    if attributes == []:
+        expected_ids = {}
+    elif attributes == ["additional"]:
+        expected_ids = {"additional": ADDITIONAL_ATTRIBUTE_ID}
+    else:
+        return False
+    # MusicBrainz serializes these qualifiers as flags. Keep contradictory IDs
+    # and uninterpreted credit text on the observation alone.
+    return (
+        relation.get("attribute-ids", {}) in ({}, expected_ids)
+        and relation.get("attribute-credits", {}) == {}
+        and relation.get("attribute-values", {}) == {}
+    )
 
 
 def source_observation(graph, source, relation):
@@ -180,8 +203,10 @@ class RelationshipMappings(dict):
         ):
             if key in relation and relation[key] is not None:
                 graph.add((node, pred, Literal(relation[key])))
-        for attribute in relation.get("attributes") or []:
-            graph.add((node, TERMS.attribute, Literal(attribute)))
+        attributes = relation.get("attributes")
+        if isinstance(attributes, list):
+            for attribute in attributes:
+                graph.add((node, TERMS.attribute, Literal(attribute)))
         for key, pred in (
             ("attribute-ids", TERMS.attributeIds),
             ("attribute-values", TERMS.attributeValues),
@@ -205,13 +230,13 @@ class RelationshipMappings(dict):
 
         subject, obj = (target, source) if source_type == "artist" else (source, target)
         graph.add((subject, role.predicate, obj))
+        if role.type_id in REMIXER_TYPE_IDS and supports_remix_adaptation(relation):
+            graph.add((subject, WDT.P5202, obj))
         graph.add((node, RDF.type, RDF.Statement))
         graph.add((node, RDF.subject, subject))
         graph.add((node, RDF.predicate, role.predicate))
         graph.add((node, RDF.object, obj))
         graph.add((node, TERMS.sourceRelationshipType, role.source))
-        # The pilot does not materialize broader assertions. Schema-path queries
-        # expose the reviewed alignment without claiming every contributor is an engineer.
         return True
 
     def schema_graph(self):

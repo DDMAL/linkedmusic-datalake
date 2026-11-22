@@ -53,7 +53,7 @@ source, direction, payload and observation IRI when qualifiers matter.
 
 | Route | Evidence and compatibility requirements |
 | --- | --- |
-| Explicit schema query (current) | Separate named data/schema scopes; matching configuration; no additional base assertions. Ordinary P767-only queries need adaptation. |
+| Explicit contributor query (current) | Joins the data graph to the matching schema graph for P767. The base graph also carries [P5202 for supported remix credits](relationship_preservation.md#remix-credits-and-adapted-by-queries). |
 | Derived contributor graph | Requires a concrete compatibility need, reviewed rules, source-observation links, rule/version provenance and retraction policy. Existing queries must include the derived graph. |
 | Engine inference | Requires an isolated engine experiment with explicit rule scope, answer provenance and measured performance. No production inference is configured by these tools. |
 

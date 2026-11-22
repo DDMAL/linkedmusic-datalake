@@ -109,6 +109,31 @@ This pilot does not preserve qualifiers on nonpilot mappings. It does not move
 recording-level mastering or photography credits onto releases, infer
 unsupplied roles, or reconcile new people.
 
+### Remix credits and adapted-by queries
+
+For a mapped recording or release remixer credit, the base graph also contains
+`?version wdt:P5202 ?artist` when the credit identifies a plain or additional
+remixer. The assertion points from the credited version to the artist in
+either source direction. A credit on a recording inside a release applies to
+that recording. A release-level assertion requires its own credit.
+
+The [MusicBrainz JSON serializer](https://github.com/metabrainz/musicbrainz-server/blob/42caf9ae663cef43ec489853786b866f3dbe6316/lib/MusicBrainz/Server/WebService/Serializer/JSON/2/Relationship.pm#L27-L50)
+represents unqualified credits with an empty `attributes` list. The converter
+also accepts `["additional"]`, including its matching attribute UUID when
+supplied. An assistant, a missing or unknown qualifier list, conflicting IDs,
+or extra attribute values or credit text leaves only the exact remix role and
+its source observation. The [role inventory](relationship_inventory.md) links
+the recording and release definitions and their attributes.
+
+For “who adapted this version?”, query `wdt:P5202` on that version. The results
+can include arrangers. For “who received a remix credit?”, query the
+recording or release remixer UUID and read the attributes on its observation.
+Even when one artist has both an arrangement and an assistant remix credit
+on the same recording, the adaptation triple alone cannot identify which
+credit supplied it. Older conversions may retain a remix observation without
+the direct adaptation triple. Check the converter revision when comparing
+graphs. [Wikidata property definition](https://www.wikidata.org/wiki/Property:P5202)
+
 ## Configuration and query compatibility
 
 [`relations.json`](../src/rdf_conversion_config/relations.json) accepts:
@@ -160,7 +185,7 @@ recording-engineering answer.
 
 The sample command evaluates separate named data/schema graphs locally using
 the same explicit contributor query above. Production graph scoping, named inference rules, and
-materialized broader assertions remain a separate experiment. Ordinary
+materialized P767 assertions remain a separate experiment. Ordinary
 `rdfs:comment` triples are descriptions, not inference rules.
 
 ## Reproduce offline
