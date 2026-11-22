@@ -8,15 +8,21 @@ A data-ingestion monorepo. Each top-level folder (`acousticbrainz/`, `cantus/`, 
 
 ## Environment
 
-- Python **3.12**, Poetry-managed at the repo root. One venv for everything; no per-subproject envs.
+- Python **3.12**, Poetry-managed at the repo root. One dependency project covers
+  all subprojects. To compare retained lockfiles, install each in its own
+  environment outside the checkout. The comparison includes imported Python
+  files under the checkout when checking converter code identity.
 - Install: `poetry install`. Run scripts via `poetry run python …` or from an activated shell.
 - **Most scripts assume CWD is the subproject's `src/` folder** (paths are relative to it). E.g., for AcousticBrainz: `cd acousticbrainz/src && python extract.py`. Check the subproject README before assuming otherwise.
 
-## Data is not in the repo
+## Data files in Git
 
-`.gitignore` excludes `*.ttl`, `*.csv`, `*.jsonl`, `*.tar*`, `*.xz`, `store/`, `store-*/`. Every subproject's `data/{archived,extracted,unreconciled,reconciled,rdf}/` lives on disk but is untracked. **Never commit data files.** Some datasets are huge (AcousticBrainz extracted highlevel is ~129 GB).
-
-The committed `rism-dump.ttl` at the repo root is an exception (a historical artifact); don't follow that pattern for new work.
+`.gitignore` excludes `*.ttl`, `*.csv`, `*.jsonl`, `*.tar*`, `*.xz`, `store/` and
+`store-*/`. The Turtle rule makes an exception for the maintained vocabulary
+and SHACL shapes in `shared/ontology/*.ttl`. Git also tracks historical JSON-LD
+outputs under `*/jsonld_approach/`, including the `compact.jsonld` file that
+the SIMSSA converter overwrites. Keep source dumps and newly generated RDF out
+of commits.
 
 ## `shared/`
 
@@ -30,7 +36,10 @@ Reusable code lives here, but it is **not a package** — there's no install ste
 
 - **RISM** starts from RDF (not CSV). It splits via `force_split.py`, reconciles in OpenRefine using the **RDF-transform** extension, then re-emits Turtle. RDF-transform **only works in Chrome** — Firefox/Safari will fail silently.
 - **MusicBrainz** skips OpenRefine. Source data already carries Wikidata QIDs; only auxiliary fields (types, keys, genres, languages) are reconciled separately.
-- **SIMSSA** outputs **JSON-LD**, not Turtle. There's a standing TODO to convert it to Turtle.
+- **SIMSSA** has a shared TOML-to-Turtle route using `shared/rdf_config/simssadb.toml`,
+  alongside a separate JSON-LD converter. See the [SIMSSA conversion guide](simssa/README.md#6-shared-csv-to-rdf-route)
+  and [person identifier mapping](simssa/doc/person_identifier_mapping.md).
+  Identifying the route used for a historical artifact requires a conversion record.
 - **AcousticBrainz** has separate extraction and RDF conversion steps. Check the actual source/intermediate availability before running a step; script existence does not establish an earlier successful conversion.
 - **CKG** (NFDI4Culture Culture Knowledge Graph) is **RDF-native** (per-feed N-Triples dumps, no fetch step) and is split into **three sibling subprojects** — `ckg-musiconn/`, `ckg-detmold/`, `ckg-apsearch/` — one per feed, because each loads as its own Virtuoso named graph. They **share one pipeline, copied verbatim** into each `src/` (the scripts take a feed argument, so the copies are identical and overlap is intentional). Reconciliation is a **deterministic authority-ID→Wikidata crosswalk** (GND `P227` / VIAF `P214` / GeoNames `P1566`), with OpenRefine only for the residue (musiconn/Detmold; APSearch needs none). The CKG's RISM feed (`E5313`) is excluded — LinkedMusic ingests RISM separately. Each feed's `doc/data-model.md` is the authoritative mapping/schema doc.
 - **DTL, Global Jukebox, Cantus, DIAMM, TheSession** follow the standard pipeline.
@@ -58,10 +67,13 @@ poetry run python evaluation/manifest.py validate evaluation/manifests.json
 poetry run python scripts/check_offline.py
 ```
 
-These checks validate the manifest, identifier queries, sampling and 14
-competency controls with synthetic inputs. They do not measure source fidelity
-or deployment. Measured query runs require explicit population/artifact selection;
-use the manifest adapter and retain failed/partial results. Keep large evidence
+The runner starts a fresh interpreter for each of six required suites, then
+checks all 14 competency controls in one fixture run. Install the locked
+development dependencies for JSON Schema and SHACL validation. The suites cover
+manifest, query, sampler, conversion and evidence-contract behavior with synthetic
+inputs. Assessing source fidelity or deployment requires separate evidence.
+For measured query runs, select the population and artifact explicitly
+with the manifest adapter and retain failed or partial results. Keep large evidence
 and generated data outside Git, with hashes and durable availability recorded
 where known.
 
