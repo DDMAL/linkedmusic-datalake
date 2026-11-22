@@ -80,10 +80,10 @@ The [manifest guide](evaluation/README.md) documents migration, artifact selecti
 local checksum verification, query execution and complete-frame sampling.
 Offline checks run the six required evaluation, RISM, MusicBrainz, CKG, shared
 conversion and DIAMM suites in separate interpreter processes. They also require
-all 14 synthetic competency controls. Missing or empty suites and failed imports
-fail the command. The locked development group supplies JSON Schema and SHACL
-validation; see the [dependency compatibility procedure](shared/ontology/README.md#dependencies-and-converter-compatibility)
-when changing the lock.
+all 14 synthetic competency controls. A missing or empty suite, a failed import
+or a failing test stops the run. The locked development group supplies JSON
+Schema and SHACL validation. When changing the lock, use separate environments
+outside the checkout and follow the [dependency compatibility procedure](shared/ontology/README.md#dependencies-and-converter-compatibility).
 The pilot preserves unknown provenance; it is not a census or a measurement of source fidelity or deployed graphs.
 
 The [shared CSV identifier contract](shared/rdf_conversion/identifier_preservation.md)
