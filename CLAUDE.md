@@ -15,12 +15,14 @@ A data-ingestion monorepo. Each top-level folder (`acousticbrainz/`, `cantus/`, 
 - Install: `poetry install`. Run scripts via `poetry run python …` or from an activated shell.
 - **Most scripts assume CWD is the subproject's `src/` folder** (paths are relative to it). E.g., for AcousticBrainz: `cd acousticbrainz/src && python extract.py`. Check the subproject README before assuming otherwise.
 
-## Data is not in the repo
+## Data files in Git
 
 `.gitignore` excludes `*.ttl`, `*.csv`, `*.jsonl`, `*.tar*`, `*.xz`, `store/` and
-`store-*/`. Data-directory layouts vary; source dumps and generated RDF stay
-untracked. **Never commit data files.** The maintained vocabulary and SHACL
-files in `shared/ontology/*.ttl` are an explicit schema exception.
+`store-*/`. The Turtle rule makes an exception for the maintained vocabulary
+and SHACL shapes in `shared/ontology/*.ttl`. Git also tracks historical JSON-LD
+outputs under `*/jsonld_approach/`, including the `compact.jsonld` file that
+the SIMSSA converter overwrites. Keep source dumps and newly generated RDF out
+of commits.
 
 ## `shared/`
 
