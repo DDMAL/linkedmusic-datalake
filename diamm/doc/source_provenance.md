@@ -3,7 +3,7 @@
 City and region `provenance` entries survive extraction and RDF conversion with
 their uncertainty and year bounds paired. Both routes emit named observations;
 neither emits a direct source-to-city P131 assertion, including for legacy CSVs.
-Queries over older direct-location output need the observation route instead.
+Check the [graph version](#checking-the-graph-version) before using the observation queries.
 
 ## Definition evidence and scope
 
@@ -126,6 +126,13 @@ with Florence as its place, `diamm:uncertain true`, both years and the parsed
 entry. A second manuscript linked only to the organization has no geographic
 provenance observation from that link.
 
+The [organization serializer](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/serializers/website/organization.py)
+draws its `source_provenance` entries from the same DIAMM provenance model.
+Extraction keeps the manuscript URL and drops the uncertainty flags. Following
+`wdt:P276` from the manuscript to the organization and `schema:location` on
+to Florence retrieves the organization's listed place. That path cannot
+establish that the manuscript was in Florence or how certain DIAMM was.
+
 To retrieve supplied provenance together with its available qualifiers:
 
 ```sparql
@@ -160,6 +167,36 @@ pair. The path `diamm:sourceProvenance/diamm:place` is useful for broad discover
 but includes uncertain and legacy entries. Count distinct observations or pairs
 explicitly: multiple flags can multiply result rows. Neither query establishes
 independently verified identity, manuscript creation or uninterrupted presence.
+
+To select city observations, bind `?observation diamm:sourceField ?field`
+and apply `FILTER(STR(?field) = "city")`. Use `"region"` for region observations.
+This compares the text of the stored `xsd:string` on both RDFLib and Oxigraph.
+
+### Checking the graph version
+
+Before running the observation queries, check the export's converter revision
+and run both probes on the DIAMM named graph. The first detects the older
+direct P131 pattern on typed manuscripts.
+
+```sparql
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+ASK { GRAPH diamm: { ?source a diamm:Source ; wdt:P131 ?place . } }
+```
+
+The second detects manuscript provenance observations.
+
+```sparql
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+ASK { GRAPH diamm: { ?source diamm:sourceProvenance ?observation . } }
+```
+
+| Direct P131 | Observation | Interpretation |
+| --- | --- | --- |
+| true | false | The old path is present. Observation queries miss those associations. |
+| false | true | Observations are present. Use the observation queries with the matching export. |
+| true | true | Both patterns are present. Check which exports were loaded before interpreting counts. |
+| false | false | The probes cannot identify the version. Check the graph IRI, export revision and source relation rows before interpreting an empty result. |
 
 ## Query and answer contract
 

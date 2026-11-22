@@ -112,7 +112,7 @@ Some properties of interest:
 
 - RDFS:label is used instead of P2561 to indicate the name of places/objects, as that's what Wikidata uses for the primary label for items, including for the title of compositions
 - P2888 (exact match) is used to indicate a Wikidata ID when the object itself (like an archive) has been reconciled against Wikidata
-- Existing archive/organization city locations and city/region parent links use P131; country links use P17. Parent types require source review. Manuscript city/region provenance uses qualified observations.
+- Archives link to cities with P131. Cities link to regions with P131, and cities and regions link to countries with P17. Parent types require source review. An organization's directly listed city, region or country uses `schema:location`.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
 - The legacy organization-provenance branch still emits P276 (location), with its separate semantic limits. City/region manuscript provenance uses observations without direct location projection. Inspect the original source relation before interpreting any route as physical location.
