@@ -18,7 +18,7 @@ This script is not optimized to convert very large datasets (i.e., any dataset t
 
 ### 1.1 Note: Column Fill-Down
 
-When exporting from OpenRefine in record mode, you may notice that some rows contain empty cells. This is expected (see [OpenRefine documentation on Records](https://openrefine.org/docs/manual/exploring#rows-vs-records)). The RDF conversion script automatically performs a _fill-down_ to ensure each row is complete.
+An [OpenRefine record](https://openrefine.org/docs/manual/exploring#rows-vs-records) can span several CSV rows. A populated primary key starts a record. Later rows with a blank key use that record's subject, and empty cells inherit the last value in their column within the record. Keep the rows in export order.
 
 For example:
 
@@ -42,7 +42,7 @@ Bob,b@example.com,789-001
 Charlie,c@example.com,
 ```
 
-- Note: A more detailed explanation of the fill-down logic can be found in the [Guide to RDF Config File Syntax](./rdf_config_syntax.md#211-note-primary_key-and-fill-down); the reader does not need to consult it now, as they will be directed to it later in this guide.
+With `Name` as the primary key, Alice has both email addresses and Bob has both phone numbers. Charlie has no phone number. See [primary keys and fill-down](./rdf_config_syntax.md#211-note-primary_key-and-fill-down) for how to choose the key.
 
 ## 2. Completing The Configuration File
 
@@ -140,7 +140,7 @@ python -m rdfconv.labels rdf_config/thesession.toml
 
 - Under the `[general]` table, set `test_mode` to `true` (no uppercase).
 
-- A test run will sample 20 rows from each CSV file instead of trying to convert entire files.
+- A test run samples up to 20 rows per CSV after resolving their record context. It can show only some of a record’s values. To verify all links for a record, use a small CSV containing its rows in export order and set `test_mode` to `false`.
 
 - Run the following command to start RDF conversion
 

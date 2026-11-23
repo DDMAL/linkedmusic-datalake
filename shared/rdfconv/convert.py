@@ -330,32 +330,17 @@ def rdf_transform_csv(
 
 
 def fill_down_until_key(df: pd.DataFrame, primary_key: str) -> pd.DataFrame:
+    """Carry values forward within each record, including its subject.
+
+    Each populated key starts a new record, even when the key value repeats.
+    Leading rows without a key have no primary subject.
     """
-    Fill down all columns in the DataFrame, but only until a non-empty value is encountered
-    in the PRIMARY_KEY column.
-
-    - Implements the fill-down logic required for OpenRefine record exports, as described in
-      the user guide.
-    - Each block of rows with the same PRIMARY_KEY is filled down from the last non-empty
-      value.
-
-    Args:
-        df (pd.DataFrame): The input DataFrame.
-        primary_key (str): The column name to use as the block marker for fill-down.
-
-    Returns:
-        pd.DataFrame: The DataFrame with fill-down applied.
-    """
-    df = df.copy()
-    # Any value not None and not empty string becomes True
-    mask = df[primary_key].notna() & (df[primary_key] != "")
-    group = mask.cumsum()
-
-    filled_df = df.groupby(group).ffill()
-    # Restore original primary key column to avoid overwriting with filled values
-    filled_df[primary_key] = df[primary_key]
-
-    return filled_df
+    # Normalize empty-string keys without mutating the caller's frame.
+    df = df.copy(deep=False)
+    key = df[primary_key]
+    df[primary_key] = key.mask(key.eq(""))
+    record_starts = df[primary_key].notna()
+    return df.groupby(record_starts.cumsum()).ffill()
 
 
 def build_rdf_graph(
@@ -437,14 +422,17 @@ def build_rdf_graph(
         except Exception as e:
             logger.error("Error reading '%s'. Skipping. %s", csv_file, e)
             continue
-        if test_mode is True:
-            df = df.sample(n=min(20, len(df)))
         logger.info("Processing %s...", csv_file.name)
-        # === Convert entire csv to rdf node ===
-        df = rdf_transform_csv(df, csv_schema, rdf_ns)
-        # === Fill down records using PRIMARY_KEY as block marker ===
         primary_key = csv_schema["PRIMARY_KEY"]
-        df = fill_down_until_key(df, primary_key)
+        if test_mode is True:
+            # Resolve record context in file order, but convert only the sampled rows.
+            df = fill_down_until_key(df, primary_key)
+            sample = df.sample(n=min(20, len(df)))
+            df = rdf_transform_csv(sample, csv_schema, rdf_ns)
+        else:
+            # Convert source cells once and carry the resulting RDF nodes forward.
+            df = rdf_transform_csv(df, csv_schema, rdf_ns)
+            df = fill_down_until_key(df, primary_key)
         # === Make sure that Pandas does not store any NaN ===
         df = df.where(pd.notna(df), None)
         # === Iterate through all the rows of the CSV file ===

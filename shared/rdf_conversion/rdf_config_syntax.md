@@ -234,9 +234,7 @@ Bob,b@example.com,789-001
 Charlie,c@example.com,
 ```
 
-- In the general RDF conversion script, fill-down continues only until a non-empty value is encountered in the column set to be `PRIMARY_KEY`.
-
-  - When setting a `PRIMARY_KEY`, you need to ensure that values in this column is **central** to the record. This means that, for each record, there is guaranteed to be **exactly one** value in this column. 
+Each populated `PRIMARY_KEY` starts a record. Simple predicates and inline mappings without `subj` use that key as their subject on every row of the record. Rows before the first key have no default subject. A mapping with an explicit `subj` uses its chosen column, which also fills down within the record.
 
 - In the example above, the `PRIMARY_KEY` needs to be set to `Name`:
 
@@ -302,7 +300,7 @@ Below is a list of keywords that can be used in a inline dictionary:
   - Available variables within the condition:
     - `subj` — the subject value for the triple (either from `PRIMARY_KEY` column or `subj` column defined in inline dictionary)
     - `obj` — the object value from the current column
-    - `row` — a dictionary representing the entire CSV row (column names as keys)
+    - `row` — the row after record fill-down, indexed by column name. In the contact example, `row["Name"]` contains Alice’s subject on her second email row.
   - Values are transformed into `URIRef` or `Literal` before triples are created. Use Python's `isinstance(obj, URIRef)` or `isinstance(obj, Literal)` in a mapping guard to distinguish them.
     - The general RDF conversion script treats HTTP(S) URLs as `URIRef` unless `datatype` or `lang` selects a literal. Specify the datatype to be `xsd:anyURI` if you wish for values in a column to remain `Literal` URLs.
 
