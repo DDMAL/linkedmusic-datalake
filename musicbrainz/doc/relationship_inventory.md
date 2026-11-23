@@ -1,15 +1,15 @@
 # MusicBrainz contributor-role inventory
 
-This lists **33 configuration entries** (16 recording, 17 release), not observed
-relationship-instance counts. The role UUIDs and definitions are retained in the
+The **35 configured roles** cover 16 recording-to-artist, 18 release-to-artist
+and one release-to-label relationship type. The role UUIDs and definitions are retained in the
 configuration; linked source pages and attribute lists are reference leads for
 snapshot validation. Historical dump and archived definition/API evidence are
 not supplied here, so this is not a fresh source-definition verification or a
 claim about today's permissible attributes.
 
-Every RDF role points from the **recording or release to the artist**. MusicBrainz defines these relationship pairs in artist-first order: a recording/release record supplies `direction: backward`, and an artist record supplies `forward`. Names shared across the two endpoint pairs have different UUIDs. The converter retains supplied begin/end values without inventing missing dates; validate their source meaning for the selected snapshot.
+Every RDF role points from the **recording or release to the credited artist or label**. The recording or release supplies `direction: backward`. The artist or label supplies `forward`. A name shared across endpoint pairs can have different UUIDs. The converter retains supplied begin/end values without inventing missing dates; validate their source meaning for the selected snapshot.
 
-The predicate for each row is `https://linkedmusic.ca/terms/musicbrainz/relationship/{UUID}`. Labels, local definitions, endpoint types and the configured broader `P767` alignment live in [`relations.json`](../src/rdf_conversion_config/relations.json). These are LinkedMusic terms, not an official MusicBrainz RDF ontology. Definitions explain both supported and unsupported interpretations.
+The predicate for each row is `https://linkedmusic.ca/terms/musicbrainz/relationship/{UUID}`. Labels, local definitions, endpoint types and any configured broader `P767` alignment live in [`relations.json`](../src/rdf_conversion_config/relations.json). These are LinkedMusic terms, not an official MusicBrainz RDF ontology. Definitions explain both supported and unsupported interpretations.
 
 | RDF subject → object | Source name and definition | Stable type UUID | Source attribute leads (verify for snapshot) |
 | --- | --- | --- | --- |
@@ -46,6 +46,8 @@ The predicate for each row is `https://linkedmusic.ca/terms/musicbrainz/relation
 | release → artist | [booklet editor](https://musicbrainz.org/relationship/74518a6b-589d-460e-8dd7-a8383851040a) | `74518a6b-589d-460e-8dd7-a8383851040a` | none |
 | release → artist | [production coordinator](https://musicbrainz.org/relationship/65e417c8-c76b-4fef-af6d-6a5a515d181f) | `65e417c8-c76b-4fef-af6d-6a5a515d181f` | none |
 | release → artist | [remixer](https://musicbrainz.org/relationship/ac6a86db-f757-4815-a07e-744428d2382b) | `ac6a86db-f757-4815-a07e-744428d2382b` | additional, assistant |
+| release → artist | [photography](https://musicbrainz.org/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf) | `0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf` | additional, task |
+| release → label | [photography](https://musicbrainz.org/relationship/813919d5-a93d-4334-89df-ffa2f9b8ff43) | `813919d5-a93d-4334-89df-ffa2f9b8ff43` | additional |
 
 ## Attribute definitions
 
@@ -66,18 +68,18 @@ These links identify the official attribute definitions. The converter preserves
 
 ## Interpretation and alignment
 
-Each retained role describes a contribution from the artist to the recording/release, so its record-to-artist predicate is aligned with `wdt:P767` using `rdfs:subPropertyOf`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. The configuration describes recording mastering as deprecated; the converter retains credits on the supplied recording rather than relocating them. Verify lifecycle details against the selected source definitions.
+The schema aligns 33 artist roles with `wdt:P767` using `rdfs:subPropertyOf`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. The configuration describes recording mastering as deprecated; the converter retains credits on the supplied recording rather than relocating them. Verify lifecycle details against the selected source definitions.
 
 The [representation rationale](representation_review.md) explains the mapping
 and its source-validation limits. An `Artist` endpoint may represent a person,
 group or organization; a contributor answer does not establish an individual
 person.
 
-Existing release photography uses a different Wikidata mapping and is outside this P767 pilot. Existing inverse `null` mappings outside the pilot remain unchanged. The pilot recognizes inverse records by UUID and emits the same work-to-artist role.
+The two release photography predicates have no broader alignment. Query their UUIDs to find credits for included photographs. [Release photography query](relationship_preservation.md#release-photography)
 
 ## Snapshot validation
 
-Validate recording, release (including embedded recordings), and inverse artist
+Validate recording, release (including embedded recordings), and inverse artist or label
 records against an identified source snapshot. Compare UUIDs, directions,
 qualifier keys and date precision with the configuration. Retain missing IDs and
 unexpected directions as unresolved evidence. Measure each outcome with an

@@ -1097,7 +1097,16 @@
                 "source": "https://musicbrainz.org/relationship/01323b4f-7aba-410c-8c91-cb224b963a40",
                 "broader": "P767"
             },
-            "photography": "P344",
+            "photography": {
+                "type_id": "0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf",
+                "predicate": "https://linkedmusic.ca/terms/musicbrainz/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf",
+                "subject_type": "release",
+                "object_type": "artist",
+                "label": "has photography by artist (release)",
+                "definition": "Artist credited for photographs included with this release.",
+                "source": "https://musicbrainz.org/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf",
+                "broader": null
+            },
             "performing orchestra": "P175",
             "instrument technician": {
                 "type_id": "bd780597-0b67-4b97-a4a0-671a70e1182d",
@@ -1215,7 +1224,16 @@
             "manufactured": "P176",
             "art direction": "P3174",
             "licensee": null,
-            "photography": "P344",
+            "photography": {
+                "type_id": "813919d5-a93d-4334-89df-ffa2f9b8ff43",
+                "predicate": "https://linkedmusic.ca/terms/musicbrainz/relationship/813919d5-a93d-4334-89df-ffa2f9b8ff43",
+                "subject_type": "release",
+                "object_type": "label",
+                "label": "has photography by agency (release)",
+                "definition": "MusicBrainz label credited as the agency providing photographs included with this release.",
+                "source": "https://musicbrainz.org/relationship/813919d5-a93d-4334-89df-ffa2f9b8ff43",
+                "broader": null
+            },
             "publishing": "P123",
             "glass mastered": "P176",
             "licensor": "P3931",

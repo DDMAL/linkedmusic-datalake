@@ -25,18 +25,15 @@ def checksum(path):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    for kind in ("recording", "release", "artist"):
+    entity_types = ("recording", "release", "artist", "label")
+    for kind in entity_types:
         parser.add_argument(f"--{kind}", type=Path, action="append", default=[])
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument(
         "--source-kind", choices=("synthetic", "api", "dump"), default=None
     )
     args = parser.parse_args(argv)
-    inputs = [
-        (kind, path)
-        for kind in ("recording", "release", "artist")
-        for path in getattr(args, kind)
-    ]
+    inputs = [(kind, path) for kind in entity_types for path in getattr(args, kind)]
     if not inputs:
         if args.source_kind not in (None, "synthetic"):
             parser.error("Provide JSON input files for API/dump evidence")

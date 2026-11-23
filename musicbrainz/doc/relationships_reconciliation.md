@@ -1,8 +1,10 @@
 # MusicBrainz: Reconciling Relationships between Entities
 
 The [contributor-role pilot](relationship_preservation.md) supersedes the older
-P767 generalization for 33 recording/release-to-artist roles. It preserves stable
-source type IDs, specific roles, direction, and relationship qualifiers. Consult
+P767 generalization for 33 recording/release-to-artist roles. The same
+model covers [release photography](relationship_preservation.md#release-photography)
+credited to artists and labels. Each mapped observation retains its source type
+ID, direction and qualifiers. Consult
 the [mapping inventory](relationship_inventory.md) before changing those entries.
 The remaining sections describe legacy mappings outside that bounded pilot.
 
@@ -113,7 +115,7 @@ To solve this problem:
 
 ### Coverage and remaining limits
 
-- The [configuration inventory](relationship_inventory.md) and [representation rationale](representation_review.md) cover 33 specific contributor mappings. They do not establish complete relationship coverage or historical dump fidelity.
+- The [configuration inventory](relationship_inventory.md) and [representation rationale](representation_review.md) describe the configured role mappings. They do not establish complete relationship coverage or historical dump fidelity.
 - Legacy null/inverse mappings outside the pilot retain their behavior. Review them against source type definitions and [directionality](#understanding-directionality), preserving distinctions that a broader predicate would discard. Historical prevalence and conversion cost await snapshot access.
 
 ### The Relationships Reconciliation Process
@@ -147,7 +149,7 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
   - Contrasting Example: For school director, I would map to "place -> `director / manager(P1037)` -> artist" instead. I avoid using `employer(P108)` whenever there is a more specific relationship.
 
-  - Qualifier preservation for employment and other nonpilot relationships remains separate work. The 33-role contributor pilot already retains supplied dates, attributes, credit text and full relationship JSON on named observations; it does not add that representation to all legacy employment mappings.
+  - Qualifier preservation for employment and other nonpilot relationships remains separate work. The structured contributor mappings retain supplied dates, attributes, credit text and full relationship JSON on named observations.
 
 - part of(P361) & has part(s)(P527)
 
