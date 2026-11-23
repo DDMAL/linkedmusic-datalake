@@ -125,14 +125,43 @@ or extra attribute values or credit text leaves only the exact remix role and
 its source observation. The [role inventory](relationship_inventory.md) links
 the recording and release definitions and their attributes.
 
-For “who adapted this version?”, query `wdt:P5202` on that version. The results
-can include arrangers. For “who received a remix credit?”, query the
-recording or release remixer UUID and read the attributes on its observation.
-Even when one artist has both an arrangement and an assistant remix credit
-on the same recording, the adaptation triple alone cannot identify which
-credit supplied it. Older conversions may retain a remix observation without
-the direct adaptation triple. Check the converter revision when comparing
-graphs. [Wikidata property definition](https://www.wikidata.org/wiki/Property:P5202)
+To find artists credited with adapting a recording or release, query `wdt:P5202`
+on that version and restrict the result to MusicBrainz artist IRIs. The legacy
+“arranged for” mapping also emits P5202 for the label that commissioned the
+arrangement. That credit identifies the client. [Recording credit](https://musicbrainz.org/relationship/1a26bf37-1f34-4c9a-97d5-b96bc49e9153) · [Release credit](https://musicbrainz.org/relationship/c395de60-b84b-4a09-99b2-30b222fda04e)
+
+This query runs against the sample converter’s `base.ttl`. For another version,
+replace the recording IRI in `VALUES` with the recording or release IRI.
+
+```sparql
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT DISTINCT ?agent WHERE {
+  VALUES ?version { <https://musicbrainz.org/recording/00000000-0000-4000-8000-000000000001> }
+  ?version wdt:P5202 ?agent .
+  FILTER(STRSTARTS(STR(?agent), "https://musicbrainz.org/artist/"))
+}
+```
+
+The artist results can include arrangers and remixers. To find remix credits
+specifically, query the recording or release remixer UUID and inspect its
+observation attributes. An artist who assisted on a remix and also arranged
+the recording can qualify through the arrangement. MusicBrainz also credits
+mash-ups and sample-based remixes under the remixer role. The P5202 triple
+identifies the credited artist and leaves the original material unspecified.
+[Wikidata property definition](https://www.wikidata.org/wiki/Property:P5202)
+
+| Converter used for the graph | Output for a remixer credit on a recording or release |
+| --- | --- |
+| Before exact role preservation | A generic P767 contributor triple. The graph cannot distinguish that credit from other contributions. |
+| With exact roles, before the remix-to-P5202 mapping | The remixer UUID and its observation, including any qualifiers. |
+| With the remix-to-P5202 mapping | The exact role and observation, plus P5202 for a plain or additional remixer when the qualifiers support it. |
+
+Both exact-role converters emit the same `mbterm:mappingVersion` value,
+`mapping/contributor-pilot-v1`. Identify the converter from the graph’s run
+record. For sample conversions, match the `implementation_sha256` and
+`configuration_sha256` entries in the accompanying `audit.json` to the source
+revision. For a batch export, use the recorded converter revision and
+configuration for that export. If those records are missing, its revision is unknown.
 
 ## Configuration and query compatibility
 
@@ -201,7 +230,10 @@ poetry run python musicbrainz/src/convert_relationship_sample.py \
 The default input is a small synthetic recording with an engineer, photographer
 and remixer. Expected results: three observations, three distinct role
 assertions, one engineering answer, one photography answer, and three distinct
-contributor answers. Tests additionally cover both source directions, different
+contributor answers. Running the [adapted-by query](#remix-credits-and-adapted-by-queries)
+on the default sample’s `base.ttl` returns the additional remixer,
+`https://musicbrainz.org/artist/00000000-0000-4000-8000-000000000004`.
+Tests additionally cover both source directions, different
 endpoint-specific UUIDs, missing/conflicting evidence, partial dates, attributes,
 stable observation IDs, embedded recordings, legacy mappings, and worker
 serialization.

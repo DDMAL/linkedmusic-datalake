@@ -159,6 +159,6 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
 - adapted by(P5202)
 
-  - Used for arrangers and for [individually supported remixer credits](relationship_preservation.md#remix-credits-and-adapted-by-queries) on the credited recording or release.
+  - On a recording or release, P5202 can identify an arranger, a credited remixer, or the label that commissioned an arrangement through the legacy “arranged for” mapping. To find artists, restrict the object with `FILTER(STRSTARTS(STR(?agent), "https://musicbrainz.org/artist/"))`. Use the exact MusicBrainz role and its attributes for remix-specific credits. [Query example and graph versions](relationship_preservation.md#remix-credits-and-adapted-by-queries)
 
   - `orchestrator(P10806)` can only be used if the musical work is being adapted for orchestra.
