@@ -134,6 +134,144 @@ class RelationshipPreservationTests(unittest.TestCase):
         )
         return graph
 
+    def test_recording_remix_qualifiers_control_adaptation(self):
+        remix = self.record["relations"][2]
+        artist = MB[f"artist/{remix['artist']['id']}"]
+        role = ROLE["7950be4d-13a3-48e7-906b-5af562e39544"]
+        additional_id = "0a5341f8-3b1d-4f99-a0c6-26b7f4e42c7f"
+        assistant_id = "8c4196b1-7053-4b16-921a-f22b2898ed44"
+        for qualifiers, adapted in (
+            ({"attributes": []}, True),
+            ({"attributes": ["additional"]}, True),
+            (
+                {
+                    "attributes": ["additional"],
+                    "attribute-ids": {"additional": additional_id},
+                },
+                True,
+            ),
+            ({"attributes": ["assistant"]}, False),
+            ({"attributes": ["additional", "assistant"]}, False),
+            ({"attributes": ["unknown"]}, False),
+            ({}, False),
+            ({"attributes": None}, False),
+            ({"attributes": True}, False),
+            ({"attributes": [], "attribute-ids": {"assistant": assistant_id}}, False),
+            (
+                {
+                    "attributes": ["additional"],
+                    "attribute-ids": {"additional": assistant_id},
+                },
+                False,
+            ),
+            (
+                {
+                    "attributes": [],
+                    "attribute-credits": {"assistant": "assistant remixer"},
+                },
+                False,
+            ),
+            ({"attributes": [], "attribute-values": {"task": "one track only"}}, False),
+        ):
+            with self.subTest(qualifiers=qualifiers):
+                relation = {k: v for k, v in remix.items() if k != "attributes"}
+                relation.update(qualifiers)
+                graph = self.convert(self.record | {"relations": [relation]})
+                self.assertEqual((self.subject, WDT.P5202, artist) in graph, adapted)
+                self.assertIn((self.subject, role, artist), graph)
+                node = next(graph.subjects(RDF.predicate, role))
+                self.assertEqual(
+                    json.loads(str(graph.value(node, TERMS.sourcePayload))), relation
+                )
+
+    def test_remix_credit_is_scoped_to_its_recording_or_release(self):
+        remix = self.record["relations"][2]
+        artist = MB[f"artist/{remix['artist']['id']}"]
+        release_id = "synthetic-release"
+        release = {
+            "id": release_id,
+            "media": [
+                {
+                    "tracks": [
+                        {"recording": self.record},
+                        {"recording": {"id": "uncredited-track"}},
+                    ]
+                }
+            ],
+        }
+        graph = self.convert(release, "release")
+        self.assertEqual(
+            set(graph.subject_objects(WDT.P5202)), {(self.subject, artist)}
+        )
+
+        release_type = "ac6a86db-f757-4815-a07e-744428d2382b"
+        release_credit = remix | {
+            "type-id": release_type,
+            "attributes": [],
+            "artist": {"id": "release-remixer"},
+        }
+        release_artist = MB["artist/release-remixer"]
+        graph = self.convert(release | {"relations": [release_credit]}, "release")
+        release_uri = MB[f"release/{release_id}"]
+        self.assertEqual(
+            set(graph.subject_objects(WDT.P5202)),
+            {(self.subject, artist), (release_uri, release_artist)},
+        )
+        self.assertIn((release_uri, ROLE[release_type], release_artist), graph)
+
+        inverse = {k: v for k, v in release_credit.items() if k != "artist"}
+        inverse.update(
+            {
+                "target-type": "release",
+                "release": {"id": release_id},
+                "direction": "forward",
+            }
+        )
+        graph = self.convert(
+            {"id": "release-remixer", "relations": [inverse]}, "artist"
+        )
+        self.assertEqual(
+            set(graph.subject_objects(WDT.P5202)), {(release_uri, release_artist)}
+        )
+
+    def test_adaptation_and_remix_role_have_distinct_answers(self):
+        remix = self.record["relations"][2]
+        role = ROLE["7950be4d-13a3-48e7-906b-5af562e39544"]
+        credits = [
+            remix | {"type": "renamed role", "artist": {"id": "remixer"}},
+            remix | {"attributes": ["assistant"], "artist": {"id": "assistant"}},
+            remix
+            | {
+                "type": "mix",
+                "type-id": "3e3102e1-1896-4f50-b5b2-dd9824e46efe",
+                "attributes": [],
+                "artist": {"id": "mixer"},
+            },
+            {
+                "type": "arranger",
+                "target-type": "artist",
+                "direction": "backward",
+                "artist": {"id": "arranger"},
+            },
+            remix | {"type-id": "unrecognized", "artist": {"id": "unknown"}},
+            remix | {"direction": "forward", "artist": {"id": "wrong-direction"}},
+        ]
+        graph = self.convert(self.record | {"relations": credits})
+        self.assertEqual(
+            set(graph.objects(self.subject, WDT.P5202)),
+            {MB["artist/remixer"], MB["artist/arranger"]},
+        )
+        self.assertEqual(
+            set(graph.objects(self.subject, role)),
+            {MB["artist/remixer"], MB["artist/assistant"]},
+        )
+        schema = self.mapping.schema_graph()
+        for remix_role in (role, ROLE["ac6a86db-f757-4815-a07e-744428d2382b"]):
+            self.assertEqual(
+                set(schema.objects(remix_role, RDFS.subPropertyOf)), {WDT.P767}
+            )
+            self.assertNotIn((WDT.P5202, RDFS.subPropertyOf, remix_role), schema)
+
     def test_precise_and_broad_queries_have_different_answers(self):
         graph = self.convert()
         graph += self.mapping.schema_graph()

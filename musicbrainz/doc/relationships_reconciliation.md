@@ -131,7 +131,7 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
 - contributor to the creative work or subject(P767)
 
-  - A generic property for contributors whose role is too specific to exist in Wikidata (e.g. "field recordist", "mix-DJ", "remixer").
+  - A broad property for contributors such as field recordists, mix DJs and remixers. The role schema provides the P767 alignment.
 
   - The release, recording, or work is the **subject**; its contributor is the **object**. Do not reverse this direction. Employer relationships have different semantics and must be checked independently.
 
@@ -159,6 +159,6 @@ Below, I will explain a few Wikidata properties that I have frequently mapped on
 
 - adapted by(P5202)
 
-  - Commonly used Wikidata property for "arranger".
+  - On a recording or release, P5202 can identify an arranger, a credited remixer, or the label that commissioned an arrangement through the legacy “arranged for” mapping. To find artists, restrict the object with `FILTER(STRSTARTS(STR(?agent), "https://musicbrainz.org/artist/"))`. Use the exact MusicBrainz role and its attributes for remix-specific credits. [Query example and graph versions](relationship_preservation.md#remix-credits-and-adapted-by-queries)
 
   - `orchestrator(P10806)` can only be used if the musical work is being adapted for orchestra.

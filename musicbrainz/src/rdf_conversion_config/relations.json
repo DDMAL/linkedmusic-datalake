@@ -472,7 +472,7 @@
                 "subject_type": "recording",
                 "object_type": "artist",
                 "label": "has remixer (recording)",
-                "definition": "Artist credited with substantially reworking existing tracks or samples into this recording; distinct from the original mix engineer.",
+                "definition": "Credit for substantially reworking existing tracks or samples into this recording, including assistance with the remix. A plain or additional remixer credit supports an adapted-by (P5202) assertion for this recording.",
                 "source": "https://musicbrainz.org/relationship/7950be4d-13a3-48e7-906b-5af562e39544",
                 "broader": "P767"
             },
@@ -1152,7 +1152,7 @@
                 "subject_type": "release",
                 "object_type": "artist",
                 "label": "has remixer (release)",
-                "definition": "Artist credited with substantially reworking existing tracks or samples into this release; distinct from the original mix engineer.",
+                "definition": "Credit for substantially reworking existing tracks or samples into this release, including assistance with the remix. A plain or additional remixer credit on the release itself supports an adapted-by (P5202) assertion for this release.",
                 "source": "https://musicbrainz.org/relationship/ac6a86db-f757-4815-a07e-744428d2382b",
                 "broader": "P767"
             },
