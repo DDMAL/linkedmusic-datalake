@@ -68,14 +68,14 @@ These links identify the official attribute definitions. The converter preserves
 
 ## Interpretation and alignment
 
-The schema aligns 33 artist roles with `wdt:P767` using `rdfs:subPropertyOf`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. The configuration describes recording mastering as deprecated; the converter retains credits on the supplied recording rather than relocating them. Verify lifecycle details against the selected source definitions.
+Each of the 34 artist roles identifies a contribution to the credited recording or release. The schema expresses this with `rdfs:subPropertyOf wdt:P767`. No role is equivalent to `P767`, and no reverse implication is declared. Generic engineering is not promoted to recording engineering. Photography and instrument maintenance do not imply performance. The configuration describes recording mastering as deprecated; the converter retains credits on the supplied recording rather than relocating them. Verify lifecycle details against the selected source definitions.
 
 The [representation rationale](representation_review.md) explains the mapping
 and its source-validation limits. An `Artist` endpoint may represent a person,
 group or organization; a contributor answer does not establish an individual
 person.
 
-The two release photography predicates have no broader alignment. Query their UUIDs to find credits for included photographs. [Release photography query](relationship_preservation.md#release-photography)
+An artist who supplies photographs contributes to the release, as do its booklet editor and liner-note writer. The contributor query therefore includes artist photography credits on both releases and recordings. Agency credits have a MusicBrainz `Label` endpoint and fall outside this artist query. Query both release role UUIDs for the credited artists and agencies. [Release photography query](relationship_preservation.md#release-photography)
 
 ## Snapshot validation
 

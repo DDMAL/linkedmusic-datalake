@@ -114,6 +114,8 @@ unsupplied roles, or reconcile new people.
 MusicBrainz credits an artist or an agency for photographs included with a
 release. The release is the RDF subject. Each predicate identifies the type of
 credit, including when the source relationship appears on the artist or label.
+A credit named `photography` on either endpoint pair with a missing or
+unrecognized type UUID is kept as an unresolved observation.
 [Artist definition](https://musicbrainz.org/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf) · [Agency definition](https://musicbrainz.org/relationship/813919d5-a93d-4334-89df-ffa2f9b8ff43)
 
 Run this query on the converted data graph to retrieve both credits. For
@@ -121,25 +123,40 @@ additional photography, also match an observation with the same `rdf:subject`,
 `rdf:predicate` and `rdf:object` and the attribute `mbterm:attribute "additional"`.
 
 ```sparql
-PREFIX mbrel: <https://linkedmusic.ca/terms/musicbrainz/relationship/>
 SELECT ?release ?creditType ?credited WHERE {
   VALUES ?creditType {
-    mbrel:0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf
-    mbrel:813919d5-a93d-4334-89df-ffa2f9b8ff43
+    <https://linkedmusic.ca/terms/musicbrainz/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf>
+    <https://linkedmusic.ca/terms/musicbrainz/relationship/813919d5-a93d-4334-89df-ffa2f9b8ff43>
   }
   ?release ?creditType ?credited .
 }
 ```
 
-Recording photography has its own UUID in the [inventory](relationship_inventory.md).
-The release predicates have no broader alignment. Use `wdt:P344` for a video
-recording’s cinematographer. Wikidata’s photographer property, `P14574`, takes
-an individual photograph as its subject.
+An artist whose photographs are included with a release contributed to that
+release. With the matching schema, the [contributor query](queries/pilot_contributors.rq)
+returns that artist, just as it returns a photographer credited on a recording.
+The agency role has a MusicBrainz label endpoint and no P767 alignment in this
+artist query. The photography query above returns both release roles.
+
+Use `wdt:P344` for a video recording’s cinematographer. Wikidata’s photographer
+property, `P14574`, takes an individual photograph as its subject.
 [MusicBrainz cinematographer](https://musicbrainz.org/relationship/4b290951-ab5e-4605-a304-650aa1f35377) · [Wikidata photographer](https://www.wikidata.org/wiki/Property:P14574)
 
-Exports made with the earlier mapping can contain `?release wdt:P344 ?credited`
-for either photography credit supplied on a release. The inverse artist and label
-entries were skipped. A legacy triple omits the source UUID and qualifiers.
+In exports made with the earlier mapping, select P344 on resources typed as
+releases to retrieve the artist and agency credits. A release export can also
+contain video recordings with their own P344 credits.
+
+```sparql
+PREFIX mb: <https://linkedmusic.ca/graphs/musicbrainz/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT ?release ?credited WHERE {
+  ?release a mb:Release ;
+           wdt:P344 ?credited .
+}
+```
+
+The earlier mapping skipped the inverse artist and label entries. Its P344
+triple omits the source UUID and qualifiers.
 Use the export’s converter revision and configuration to interpret it. Recover
 the exact source observations by converting the corresponding MusicBrainz records.
 
@@ -190,9 +207,10 @@ identifies the credited artist and leaves the original material unspecified.
 | With exact roles, before the remix-to-P5202 mapping | The remixer UUID and its observation, including any qualifiers. |
 | With the remix-to-P5202 mapping | The exact role and observation, plus P5202 for a plain or additional remixer when the qualifiers support it. |
 
-Both exact-role converters emit the same `mbterm:mappingVersion` value,
-`mapping/contributor-pilot-v1`. Identify the converter from the graph’s run
-record. For sample conversions, match the `implementation_sha256` and
+The exact-role revisions described here, including the release photography
+mapping, all record `mapping/contributor-pilot-v1` as the `mbterm:mappingVersion`.
+Identify the converter from the graph’s run record. For sample conversions,
+match the `implementation_sha256` and
 `configuration_sha256` entries in the accompanying `audit.json` to the source
 revision. For a batch export, use the recorded converter revision and
 configuration for that export. If those records are missing, its revision is unknown.

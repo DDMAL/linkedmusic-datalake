@@ -137,8 +137,10 @@ class RelationshipPreservationTests(unittest.TestCase):
 
     def test_release_photography_and_video_cinematography(self):
         release = MB["release/album"]
-        graph = Graph()
-        schema = self.mapping.schema_graph()
+        dataset = Dataset()
+        graph = dataset.graph(URIRef("urn:linkedmusic:pilot:data"))
+        schema = dataset.graph(URIRef("urn:linkedmusic:pilot:schema"))
+        schema += self.mapping.schema_graph()
         for kind, type_id, identifier, range_class in (
             (
                 "artist",
@@ -170,7 +172,10 @@ class RelationshipPreservationTests(unittest.TestCase):
                     set(schema.objects(role, RDFS.domain)), {ENTITY.Release}
                 )
                 self.assertEqual(set(schema.objects(role, RDFS.range)), {range_class})
-                self.assertFalse(list(schema.objects(role, RDFS.subPropertyOf)))
+                self.assertEqual(
+                    set(schema.objects(role, RDFS.subPropertyOf)),
+                    {WDT.P767} if kind == "artist" else set(),
+                )
                 observation = graph.value(predicate=RDF.predicate, object=role)
                 self.assertIn((observation, RDF.subject, release), graph)
                 self.assertIn((observation, RDF.object, endpoint), graph)
@@ -202,6 +207,15 @@ class RelationshipPreservationTests(unittest.TestCase):
             {(MB["recording/video"], MB["artist/cinematographer"])},
         )
         self.assertFalse(list(graph.subject_objects(WDT.P14574)))
+        self.assertFalse(list(graph.subject_objects(WDT.P767)))
+        query = (ROOT / "doc/queries/pilot_contributors.rq").read_text()
+        self.assertEqual(
+            {tuple(row) for row in dataset.query(query)},
+            {
+                (release, MB["artist/photographer"]),
+                (MB["recording/video"], MB[f"artist/{photo['artist']['id']}"]),
+            },
+        )
 
     def test_inverse_label_photography_withholds_invalid_credits(self):
         inverse = {

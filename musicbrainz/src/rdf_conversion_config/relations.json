@@ -1105,7 +1105,7 @@
                 "label": "has photography by artist (release)",
                 "definition": "Artist credited for photographs included with this release.",
                 "source": "https://musicbrainz.org/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf",
-                "broader": null
+                "broader": "P767"
             },
             "performing orchestra": "P175",
             "instrument technician": {
