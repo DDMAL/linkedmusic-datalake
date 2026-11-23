@@ -18,7 +18,7 @@ This script is not optimized to convert very large datasets (i.e., any dataset t
 
 ### 1.1 Note: Column Fill-Down
 
-An [OpenRefine record](https://openrefine.org/docs/manual/exploring#rows-vs-records) can span several CSV rows. A populated primary key starts a record. Later rows with a blank key use that record's subject, and empty cells inherit the last value in their column within the record. Keep the rows in export order.
+An [OpenRefine record](https://openrefine.org/docs/manual/exploring#rows-vs-records) can span several CSV rows. Keep the rows in export order and check that the first row of every record has a usable primary key. A blank key or a missing-value token such as `?` or `NA` on a later record’s first row can attach its values to the previous subject. Within a record, empty cells inherit the last value in their column. See the [primary key requirements](./rdf_config_syntax.md#211-note-primary_key-and-fill-down).
 
 For example:
 
@@ -42,7 +42,7 @@ Bob,b@example.com,789-001
 Charlie,c@example.com,
 ```
 
-With `Name` as the primary key, Alice has both email addresses and Bob has both phone numbers. Charlie has no phone number. See [primary keys and fill-down](./rdf_config_syntax.md#211-note-primary_key-and-fill-down) for how to choose the key.
+With `Name` as the primary key, Alice has both email addresses and Bob has both phone numbers. Charlie has no phone number.
 
 ## 2. Completing The Configuration File
 

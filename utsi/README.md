@@ -14,7 +14,10 @@ The database is not publicly downloadable. A complete copy of the dataset was ob
 2. Obtain a copy of the database CSV.
 3. Reconcile and clean using OpenRefine (see [reconciliation procedures](./doc/reconciliation_procedures.md)).
 4. Store the reconciled CSV under `/utsi/data/reconciled`.
-5. Review `shared/rdf_config/utsi.toml` to ensure it matches the reconciled CSV structure.
+5. Review `shared/rdf_config/utsi.toml` against the reconciled CSV. OpenRefine splits authors on `Column`, while the converter identifies a song by its title-derived `uri`.
+
+   Before conversion, check each row whose `uri` is blank or a loader missing-value token such as `?` or `NA`. Use `Column` and the original song records to distinguish an additional author from the first row of a separate song. A composer, first line or anthology call number can help identify rows to inspect. Count any songs that start without a usable URI. Correct their keys or set those records aside before converting the rest. See the [primary key requirements](../shared/rdf_conversion/rdf_config_syntax.md#211-note-primary_key-and-fill-down).
+
 6. After reviewing the TOML file, run the general RDF conversion script using the following command from the `/shared` directory:
 
 ```bash

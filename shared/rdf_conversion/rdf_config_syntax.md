@@ -234,7 +234,11 @@ Bob,b@example.com,789-001
 Charlie,c@example.com,
 ```
 
-Each populated `PRIMARY_KEY` starts a record. Simple predicates and inline mappings without `subj` use that key as their subject on every row of the record. Rows before the first key have no default subject. A mapping with an explicit `subj` uses its chosen column, which also fills down within the record.
+**The first row of every record must have a primary key that the CSV loader reads as present.** The loader treats an empty cell, a single space and tokens such as `?` and `NA` as missing. The full list is in the CSV reader’s [`na_values` argument](../rdfconv/convert.py).
+
+Each populated key starts a record, even if the same key appears again. Every subsequent row with a missing key belongs to that record until the next populated key. If the key is derived from another field, such as a title, check the exported key on each record’s first row before conversion. A missing key there can attach the new record’s values to the previous subject.
+
+Simple predicates and inline mappings without `subj` use the record key as their subject. An explicit `subj` uses its chosen column, which also fills down within the record. Before the first key, rows have no default subject. They can still emit links from a populated explicit subject and `rdf:type` triples for populated object columns with a configured `type`.
 
 - In the example above, the `PRIMARY_KEY` needs to be set to `Name`:
 
