@@ -10,8 +10,8 @@ record/artist pairs and does not materialize generic assertions. A generic
 contributor, photographer or generic engineer does not establish recording
 engineering; use the exact recording-engineer UUID for that question.
 
-This model covers the 33 configured recording/release contributor mappings.
-Their [inventory](relationship_inventory.md) links source definitions; it is
+The model also preserves both [release photography credits](relationship_preservation.md#release-photography)
+through exact predicates with artist and label ranges. The [inventory](relationship_inventory.md) links source definitions; it is
 not a population measurement or a fresh verification of an unavailable dump.
 The [model contract](relationship_preservation.md) defines endpoints, retained
 qualifiers and unresolved evidence. Source references need snapshot validation.
@@ -53,7 +53,7 @@ source, direction, payload and observation IRI when qualifiers matter.
 
 | Route | Evidence and compatibility requirements |
 | --- | --- |
-| Explicit contributor query (current) | A direct P767 query misses the exact roles. Join the data graph to its matching role schema to include them. The base graph also carries [P5202 for supported remix credits](relationship_preservation.md#remix-credits-and-adapted-by-queries). |
+| Explicit contributor query (current) | Join the data graph to its matching role schema to include the exact roles aligned to P767. The base graph also carries [P5202 for supported remix credits](relationship_preservation.md#remix-credits-and-adapted-by-queries). |
 | Derived contributor graph | Requires a concrete compatibility need, reviewed rules, source-observation links, rule/version provenance and retraction policy. Existing queries must include the derived graph. |
 | Engine inference | Requires an isolated engine experiment with explicit rule scope, answer provenance and measured performance. No production inference is configured by these tools. |
 

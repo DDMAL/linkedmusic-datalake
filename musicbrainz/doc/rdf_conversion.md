@@ -5,8 +5,8 @@ This documents any choices for properties in the RDF conversion process, as well
 
 ## Contributor-role preservation
 
-The [role model](relationship_preservation.md) preserves 33 configured recording
-and release contributor types as specific predicates. Named observations retain
+The [role model](relationship_preservation.md) preserves configured recording
+and release contributor types, including [release photography](relationship_preservation.md#release-photography), as specific predicates. Named observations retain
 source UUID/direction, relationship dates, attributes and the complete supplied
 relationship payload. Generic contributors never imply a specific role.
 
@@ -164,7 +164,7 @@ For other properties in other fields:
 - To indicate that a release is a part of a release group, I use P361 "part of", because release groups are just groups of releases
 - To attribute a release, release group or recording to an artist, I use P175 "performer"
 - To indicate that a release was released in a country (this is what release events are), I use P495 "country of origin" as it is used to indicate where a work is from
-- The 33 configured contributor relationship types emit specific role predicates and source observations. Broad P767 queries traverse the separately loaded role schema; the converter does not also emit generic P767 edges for these roles. See [role querying](relationship_preservation.md).
+- The configured contributor relationship types emit specific role predicates and source observations. Broad P767 queries traverse the aligned roles in the separately loaded schema. See [role querying](relationship_preservation.md).
 - To indicate musical genres, I use P136 "genre", as it is an exact match for what we want
 - To indicate types, I use P31 "instance of" instead of RDF:type because our goal is to mach against wikidata, so we should use its properties as much as possible
 - To indicate the area for artists, I use P27 "country of citizenship", as it is already used for this purpose on wikidata

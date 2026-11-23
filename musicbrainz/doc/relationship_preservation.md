@@ -2,9 +2,9 @@
 
 ## Scope and representation
 
-The 33 configured recording/release-to-artist mappings retain their distinct
-MusicBrainz relationship types instead of emitting only `P767`. This addresses
-**conversion loss**, not source-data cleanup. The
+The converter retains exact MusicBrainz roles for 33 artist relationships
+previously mapped to `P767` and two release photography relationships
+previously mapped to `P344`. The
 [inventory](relationship_inventory.md) records UUIDs, endpoint pairs, source
 attribute leads, definition references, and the limits of available evidence.
 Other mappings retain their existing behavior; this is not a complete
@@ -23,7 +23,7 @@ https://linkedmusic.ca/terms/musicbrainz/relationship/{MusicBrainz type UUID}
 
 These are **LinkedMusic predicates**, not official MusicBrainz RDF terms.
 The schema generator supplies a readable label, definition with interpretation
-limits, source-definition link, domain, range, and configured `rdfs:subPropertyOf`
+limits, source-definition link, domain, range, and any configured `rdfs:subPropertyOf`
 alignment to `wdt:P767`. A generic contributor never implies a specific role.
 No `owl:equivalentProperty`, `owl:sameAs`, or automatic identity rule is added.
 
@@ -109,6 +109,57 @@ This pilot does not preserve qualifiers on nonpilot mappings. It does not move
 recording-level mastering or photography credits onto releases, infer
 unsupplied roles, or reconcile new people.
 
+### Release photography
+
+MusicBrainz credits an artist or an agency for photographs included with a
+release. The release is the RDF subject. Each predicate identifies the type of
+credit, including when the source relationship appears on the artist or label.
+A credit named `photography` on either endpoint pair with a missing or
+unrecognized type UUID is kept as an unresolved observation.
+[Artist definition](https://musicbrainz.org/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf) · [Agency definition](https://musicbrainz.org/relationship/813919d5-a93d-4334-89df-ffa2f9b8ff43)
+
+Run this query on the converted data graph to retrieve both credits. For
+additional photography, also match an observation with the same `rdf:subject`,
+`rdf:predicate` and `rdf:object` and the attribute `mbterm:attribute "additional"`.
+
+```sparql
+SELECT ?release ?creditType ?credited WHERE {
+  VALUES ?creditType {
+    <https://linkedmusic.ca/terms/musicbrainz/relationship/0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf>
+    <https://linkedmusic.ca/terms/musicbrainz/relationship/813919d5-a93d-4334-89df-ffa2f9b8ff43>
+  }
+  ?release ?creditType ?credited .
+}
+```
+
+An artist whose photographs are included with a release contributed to that
+release. With the matching schema, the [contributor query](queries/pilot_contributors.rq)
+returns that artist, just as it returns a photographer credited on a recording.
+The agency role has a MusicBrainz label endpoint and no P767 alignment in this
+artist query. The photography query above returns both release roles.
+
+Use `wdt:P344` for a video recording’s cinematographer. Wikidata’s photographer
+property, `P14574`, takes an individual photograph as its subject.
+[MusicBrainz cinematographer](https://musicbrainz.org/relationship/4b290951-ab5e-4605-a304-650aa1f35377) · [Wikidata photographer](https://www.wikidata.org/wiki/Property:P14574)
+
+In exports made with the earlier mapping, select P344 on resources typed as
+releases to retrieve the artist and agency credits. A release export can also
+contain video recordings with their own P344 credits.
+
+```sparql
+PREFIX mb: <https://linkedmusic.ca/graphs/musicbrainz/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT ?release ?credited WHERE {
+  ?release a mb:Release ;
+           wdt:P344 ?credited .
+}
+```
+
+The earlier mapping skipped the inverse artist and label entries. Its P344
+triple omits the source UUID and qualifiers.
+Use the export’s converter revision and configuration to interpret it. Recover
+the exact source observations by converting the corresponding MusicBrainz records.
+
 ### Remix credits and adapted-by queries
 
 For a mapped recording or release remixer credit, the base graph also contains
@@ -156,9 +207,10 @@ identifies the credited artist and leaves the original material unspecified.
 | With exact roles, before the remix-to-P5202 mapping | The remixer UUID and its observation, including any qualifiers. |
 | With the remix-to-P5202 mapping | The exact role and observation, plus P5202 for a plain or additional remixer when the qualifiers support it. |
 
-Both exact-role converters emit the same `mbterm:mappingVersion` value,
-`mapping/contributor-pilot-v1`. Identify the converter from the graph’s run
-record. For sample conversions, match the `implementation_sha256` and
+The exact-role revisions described here, including the release photography
+mapping, all record `mapping/contributor-pilot-v1` as the `mbterm:mappingVersion`.
+Identify the converter from the graph’s run record. For sample conversions,
+match the `implementation_sha256` and
 `configuration_sha256` entries in the accompanying `audit.json` to the source
 revision. For a batch export, use the recorded converter revision and
 configuration for that export. If those records are missing, its revision is unknown.
@@ -174,7 +226,7 @@ configuration for that export. If those records are missing, its revision is unk
 
 Malformed configuration fails before batch conversion. Existing nonpilot null
 inverse mappings remain null. The pilot explicitly recognizes either source
-direction by UUID, including an inverse artist record.
+direction by UUID, including an inverse artist or label record.
 
 New pilot conversion outputs **specific role triples**. It does not materialize
 the former generic P767 triples. An old P767-only query against newly converted
@@ -207,8 +259,7 @@ rows for one observation. Count distinct observation IRIs for observations,
 and distinct record/artist pairs for contributors. CQ07–CQ09 are bounded to
 25 rows in the evaluation runner; they do not certify complete live results.
 
-This route covers the configured pilot roles and explicit P767 assertions, not
-every conceivable contribution in all MusicBrainz mappings. For exact-role
+This route covers the P767-aligned roles and explicit P767 assertions. For exact-role
 queries, name the desired role predicate directly; photography is never a
 recording-engineering answer.
 
@@ -246,7 +297,7 @@ poetry run python musicbrainz/src/convert_relationship_sample.py \
   --output-dir /tmp/musicbrainz-api-pilot
 ```
 
-Repeat `--recording`, `--release`, or `--artist` for additional saved records.
+Repeat `--recording`, `--release`, `--artist`, or `--label` for additional saved records.
 The command makes **no network or model calls**. It requires a new output
 directory and writes `base.ttl`, `schema.ttl`, `audit.json` and exact input copies
 separately. Explicit input paths require `--source-kind synthetic`, `api` or

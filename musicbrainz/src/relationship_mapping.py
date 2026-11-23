@@ -101,8 +101,12 @@ class RoleMapping:
         if not isinstance(type_id, str) or str(UUID(type_id)) != type_id:
             raise ValueError(f"Invalid relationship type UUID: {type_id!r}")
         if (
-            subject_type not in ("recording", "release")
-            or object_type != "artist"
+            (subject_type, object_type)
+            not in (
+                ("recording", "artist"),
+                ("release", "artist"),
+                ("release", "label"),
+            )
             or value["subject_type"] != subject_type
             or value["object_type"] != object_type
         ):
@@ -153,34 +157,36 @@ class RelationshipMappings(dict):
     def preserve_role(self, graph, source, source_type, target_type, relation):
         """Return True if this is pilot evidence (including unresolved evidence).
 
-        MusicBrainz orders these endpoints artist -> recording/release. RDF roles
-        are deliberately defined in the reverse direction: work -> artist.
+        MusicBrainz orders the credited artist or label first. The RDF role
+        points from the recording or release to the credited entity.
         Unknown IDs never inherit a role solely from a coincident label.
         """
         type_id = relation.get("type-id")
         role = self.by_id.get(type_id) if isinstance(type_id, str) else None
-        name = relation.get("type")
-        if not isinstance(name, str):
-            name = None
-        candidate = self.get(source_type, {}).get(target_type, {}).get(name)
-        if not role and source_type == "artist":
-            candidate = self.get(target_type, {}).get("artist", {}).get(name)
-        if not role and not isinstance(candidate, RoleMapping):
-            return False
+        inverse = source_type in ("artist", "label")
+        endpoints = (
+            (target_type, source_type) if inverse else (source_type, target_type)
+        )
+        if role is None:
+            # A matching name on either endpoint preserves unresolved evidence.
+            name = relation.get("type")
+            if not isinstance(name, str):
+                return False
+            subject_type, object_type = endpoints
+            candidate = self.get(subject_type, {}).get(object_type, {}).get(name)
+            if not isinstance(candidate, RoleMapping):
+                return False
 
         target_data = relation.get(target_type.replace("-", "_")) or {}
         target_id = target_data.get("id") if isinstance(target_data, dict) else None
         target = URIRef(f"{MB}{target_type}/{target_id}") if target_id else None
-        expected_direction = "forward" if source_type == "artist" else "backward"
+        expected_direction = "forward" if inverse else "backward"
         status = "mapped"
         if not type_id:
             status = "missing-type-id"
         elif role is None:
             status = "unrecognized-type-id"
-        elif (source_type, target_type) not in (
-            (role.subject_type, role.object_type),
-            (role.object_type, role.subject_type),
-        ):
+        elif endpoints != (role.subject_type, role.object_type):
             status = "unexpected-endpoints"
         elif relation.get("direction") != expected_direction:
             status = "unexpected-direction"
@@ -228,7 +234,7 @@ class RelationshipMappings(dict):
         if status != "mapped":
             return True
 
-        subject, obj = (target, source) if source_type == "artist" else (source, target)
+        subject, obj = (target, source) if inverse else (source, target)
         graph.add((subject, role.predicate, obj))
         if role.type_id in REMIXER_TYPE_IDS and supports_remix_adaptation(relation):
             graph.add((subject, WDT.P5202, obj))
@@ -253,7 +259,7 @@ class RelationshipMappings(dict):
             graph.add((role.predicate, DCTERMS.source, role.source))
             graph.add((role.predicate, DCTERMS.isPartOf, VERSION))
             graph.add((role.predicate, RDFS.domain, ENTITY[role.subject_type.title()]))
-            graph.add((role.predicate, RDFS.range, ENTITY.Artist))
+            graph.add((role.predicate, RDFS.range, ENTITY[role.object_type.title()]))
             if role.broader:
                 graph.add((role.predicate, RDFS.subPropertyOf, role.broader))
         for term, label, description in (

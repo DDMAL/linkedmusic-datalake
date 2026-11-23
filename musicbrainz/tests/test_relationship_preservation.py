@@ -18,6 +18,7 @@ from convert_to_rdf import process_entity
 from convert_relationship_sample import main as sample_main
 from mapping_schema import MappingSchema
 from relationship_mapping import (
+    ENTITY,
     MB,
     ROLE,
     TERMS,
@@ -133,6 +134,120 @@ class RelationshipPreservationTests(unittest.TestCase):
             graph,
         )
         return graph
+
+    def test_release_photography_and_video_cinematography(self):
+        release = MB["release/album"]
+        dataset = Dataset()
+        graph = dataset.graph(URIRef("urn:linkedmusic:pilot:data"))
+        schema = dataset.graph(URIRef("urn:linkedmusic:pilot:schema"))
+        schema += self.mapping.schema_graph()
+        for kind, type_id, identifier, range_class in (
+            (
+                "artist",
+                "0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf",
+                "photographer",
+                ENTITY.Artist,
+            ),
+            ("label", "813919d5-a93d-4334-89df-ffa2f9b8ff43", "agency", ENTITY.Label),
+        ):
+            with self.subTest(kind=kind):
+                credit = {
+                    "type": "photography",
+                    "type-id": type_id,
+                    "direction": "backward",
+                    "target-type": kind,
+                    kind: {"id": identifier},
+                    "attributes": ["additional"],
+                    "attribute-ids": {
+                        "additional": "0a5341f8-3b1d-4f99-a0c6-26b7f4e42c7f"
+                    },
+                }
+                self.convert({"id": "album", "relations": [credit]}, "release", graph)
+                role = ROLE[type_id]
+                endpoint = MB[f"{kind}/{identifier}"]
+                self.assertEqual(
+                    set(graph.subject_objects(role)), {(release, endpoint)}
+                )
+                self.assertEqual(
+                    set(schema.objects(role, RDFS.domain)), {ENTITY.Release}
+                )
+                self.assertEqual(set(schema.objects(role, RDFS.range)), {range_class})
+                self.assertEqual(
+                    set(schema.objects(role, RDFS.subPropertyOf)),
+                    {WDT.P767} if kind == "artist" else set(),
+                )
+                observation = graph.value(predicate=RDF.predicate, object=role)
+                self.assertIn((observation, RDF.subject, release), graph)
+                self.assertIn((observation, RDF.object, endpoint), graph)
+                self.assertIn(
+                    (observation, TERMS.attribute, Literal("additional")), graph
+                )
+                self.assertEqual(
+                    json.loads(str(graph.value(observation, TERMS.sourcePayload))),
+                    credit,
+                )
+
+        photo = self.record["relations"][1]
+        cinema = {
+            "type": "cinematographer",
+            "type-id": "4b290951-ab5e-4605-a304-650aa1f35377",
+            "direction": "backward",
+            "target-type": "artist",
+            "artist": {"id": "cinematographer"},
+        }
+        self.convert(
+            {"id": "video", "video": True, "relations": [photo, cinema]}, graph=graph
+        )
+        self.assertEqual(
+            set(graph.subject_objects(PHOTOGRAPHER)),
+            {(MB["recording/video"], MB[f"artist/{photo['artist']['id']}"])},
+        )
+        self.assertEqual(
+            set(graph.subject_objects(WDT.P344)),
+            {(MB["recording/video"], MB["artist/cinematographer"])},
+        )
+        self.assertFalse(list(graph.subject_objects(WDT.P14574)))
+        self.assertFalse(list(graph.subject_objects(WDT.P767)))
+        query = (ROOT / "doc/queries/pilot_contributors.rq").read_text()
+        self.assertEqual(
+            {tuple(row) for row in dataset.query(query)},
+            {
+                (release, MB["artist/photographer"]),
+                (MB["recording/video"], MB[f"artist/{photo['artist']['id']}"]),
+            },
+        )
+
+    def test_inverse_label_photography_withholds_invalid_credits(self):
+        inverse = {
+            "type": "photography",
+            "type-id": "813919d5-a93d-4334-89df-ffa2f9b8ff43",
+            "direction": "forward",
+            "target-type": "release",
+            "release": {"id": "album"},
+            "attributes": ["additional"],
+        }
+        for changes, status in (
+            ({"direction": "backward"}, "unexpected-direction"),
+            ({"type-id": None}, "missing-type-id"),
+            ({"type-id": "unknown"}, "unrecognized-type-id"),
+            (
+                {"type-id": "0b58dc9b-9c49-4b19-bb58-9c06d41c8fbf"},
+                "unexpected-endpoints",
+            ),
+        ):
+            with self.subTest(changes=changes):
+                credit = inverse | changes
+                graph = self.convert({"id": "agency", "relations": [credit]}, "label")
+                node = next(graph.subjects(TERMS.mappingStatus, Literal(status)))
+                self.assertIn((node, DCTERMS.source, MB["label/agency"]), graph)
+                self.assertEqual(
+                    json.loads(str(graph.value(node, TERMS.sourcePayload))), credit
+                )
+                self.assertFalse(list(graph.subjects(RDF.type, RDF.Statement)))
+                self.assertFalse(
+                    list(graph.triples((MB["release/album"], None, MB["label/agency"])))
+                )
+                self.assertFalse(list(graph.subject_objects(WDT.P344)))
 
     def test_recording_remix_qualifiers_control_adaptation(self):
         remix = self.record["relations"][2]
@@ -368,25 +483,26 @@ class RelationshipPreservationTests(unittest.TestCase):
     def test_every_inventoried_role_accepts_both_source_endpoints(self):
         inventory = (ROOT / "doc/relationship_inventory.md").read_text()
         entries = re.findall(
-            r"\| (recording|release) → artist \| \[([^]]+)\].*?`([0-9a-f-]{36})`",
+            r"\| (recording|release) → (artist|label) \| \[([^]]+)\].*?`([0-9a-f-]{36})`",
             inventory,
         )
-        self.assertEqual(len(entries), 33)
-        self.assertEqual({entry[2] for entry in entries}, set(self.mapping.by_id))
+        self.assertEqual(len(entries), 35)
+        self.assertEqual({entry[3] for entry in entries}, set(self.mapping.by_id))
         graph = Graph()
-        for kind, label, type_id in entries:
-            with self.subTest(kind=kind, label=label):
-                record_id, artist_id = f"synthetic-{type_id}", "synthetic-artist"
+        for kind, target_kind, label, type_id in entries:
+            with self.subTest(kind=kind, target_kind=target_kind, label=label):
+                record_id = f"synthetic-{type_id}"
+                target_id = f"synthetic-{target_kind}"
                 relation = {
                     "type": label,
                     "type-id": type_id,
-                    "target-type": "artist",
+                    "target-type": target_kind,
                     "direction": "backward",
-                    "artist": {"id": artist_id},
+                    target_kind: {"id": target_id},
                 }
                 self.convert({"id": record_id, "relations": [relation]}, kind, graph)
                 inverse = {
-                    key: value for key, value in relation.items() if key != "artist"
+                    key: value for key, value in relation.items() if key != target_kind
                 }
                 inverse.update(
                     {
@@ -395,14 +511,16 @@ class RelationshipPreservationTests(unittest.TestCase):
                         kind: {"id": record_id},
                     }
                 )
-                self.convert({"id": artist_id, "relations": [inverse]}, "artist", graph)
+                self.convert(
+                    {"id": target_id, "relations": [inverse]}, target_kind, graph
+                )
                 self.assertEqual(
                     list(graph.triples((None, ROLE[type_id], None))),
                     [
                         (
                             MB[f"{kind}/{record_id}"],
                             ROLE[type_id],
-                            MB[f"artist/{artist_id}"],
+                            MB[f"{target_kind}/{target_id}"],
                         )
                     ],
                 )
@@ -410,7 +528,8 @@ class RelationshipPreservationTests(unittest.TestCase):
                     len(list(graph.subjects(RDF.predicate, ROLE[type_id]))), 2
                 )
         self.assertEqual(
-            len(list(graph.subjects(TERMS.mappingStatus, Literal("mapped")))), 66
+            len(list(graph.subjects(TERMS.mappingStatus, Literal("mapped")))),
+            2 * len(entries),
         )
         self.assertFalse(list(graph.triples((None, WDT.P767, None))))
 
@@ -679,8 +798,7 @@ class RelationshipPreservationTests(unittest.TestCase):
             with self.subTest(key=key), self.assertRaises(ValueError):
                 RelationshipMappings(raw)
 
-    def test_inventory_and_worker_serialization(self):
-        self.assertEqual(len(self.mapping.by_id), 33)
+    def test_worker_serialization_preserves_schema(self):
         restored = pickle.loads(pickle.dumps(self.mapping))
         self.assertEqual(restored.by_id, self.mapping.by_id)
         schema = restored.schema_graph()

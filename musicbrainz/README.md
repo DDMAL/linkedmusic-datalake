@@ -1,7 +1,7 @@
 # MusicBrainz Data Pipeline Documentation
 
-The [contributor-role model](doc/relationship_preservation.md) retains 33
-recording/release roles as specific predicates with source relationship
+The [contributor-role model](doc/relationship_preservation.md) retains recording and release
+credits, including [release photography](doc/relationship_preservation.md#release-photography), as specific predicates with source relationship
 observations. The [representation rationale](doc/representation_review.md)
 explains explicit schema joins and qualifier-sensitive queries.
 
