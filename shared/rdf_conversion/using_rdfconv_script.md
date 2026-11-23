@@ -140,7 +140,7 @@ python -m rdfconv.labels rdf_config/thesession.toml
 
 - Under the `[general]` table, set `test_mode` to `true` (no uppercase).
 
-- A test run samples up to 20 rows per CSV after resolving their record context. It can show only some of a record’s values. To verify all links for a record, use a small CSV containing its rows in export order and set `test_mode` to `false`.
+- A test run samples up to 20 rows per CSV after resolving their record context. It can show only some of a record’s values. To verify all links for one record, save the header and that record’s rows in export order under the original CSV filename in a fresh scratch directory, then run a copy of the config with both `csv_folder` and `rdf_output_folder` set to that directory’s absolute path and `test_mode = false`.
 
 - Run the following command to start RDF conversion
 
