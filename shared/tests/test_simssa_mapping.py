@@ -11,8 +11,9 @@ from rdflib import Graph, Literal, Namespace, RDF, RDFS, XSD
 from rdflib.compare import isomorphic
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "shared"))
-from rdfconv.convert import build_rdf_graph, rdf_process_predicates
+sys.path.insert(0, str(ROOT))
+from shared.rdfconv.convert import build_rdf_graph, rdf_process_predicates
+from simssa.src.merge import merge_person_data
 
 SP = Namespace("https://db.simssa.ca/persons/")
 SW = Namespace("https://db.simssa.ca/musicalworks/")
@@ -51,6 +52,45 @@ class SimssaMappingTests(unittest.TestCase):
                 expected,
             )
         )
+
+    def test_raw_person_name_parts_reach_original_labels(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            raw = root / "person"
+            raw.mkdir()
+            (raw / "person.csv").write_text(
+                "id,given_name,surname,birth_date_range_year_only,"
+                "death_date_range_year_only,authority_control_url\n"
+                "1,Josquin,,,,\n"
+                "2,,Machaut,,,\n"
+                "3,Two,Names,,,\n"
+                "4,,,,,\n"
+                '5,,"  Éwé, name  ",,,\n',
+                encoding="utf-8",
+            )
+            merged = root / "merged.csv"
+            merge_person_data(root).to_csv(merged, index=False)
+            with merged.open(newline="", encoding="utf-8") as stream:
+                rows = list(csv.DictReader(stream))
+
+        names = [
+            ("1", "Josquin"),
+            ("2", "Machaut"),
+            ("3", "Two Names"),
+            ("4", ""),
+            ("5", "  Éwé, name  "),
+        ]
+        self.assertCountEqual([(r["person_id"], r["person_name"]) for r in rows], names)
+
+        # Model the history's original-cell copy with every name left unmatched.
+        for row in rows:
+            row["person_name_original"] = row["person_name"]
+        expected = Graph()
+        for key, name in names:
+            expected.add((SP[key], RDF.type, LMS.Person))
+            if name:
+                expected.add((SP[key], RDFS.label, Literal(name, datatype=XSD.string)))
+        self.assert_round_trip(self.convert(rows), expected)
 
     def test_wikidata_matches_retain_local_people_and_original_labels(self):
         values = ["Q42", "wd:Q42"] + [

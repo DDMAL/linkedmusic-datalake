@@ -212,8 +212,10 @@ def merge_person_data(input_dir):
             regex=True,
         )
     )
-    # Combine given_name and surname into person_name
-    person_df["person_name"] = person_df["given_name"] + " " + person_df["surname"]
+    given = person_df["given_name"]
+    surname = person_df["surname"]
+    full_name = given + " " + surname
+    person_df["person_name"] = full_name.combine_first(given).combine_first(surname)
 
     for field in ("birth", "death"):
         person_df[f"{field}_year"] = person_df[f"{field}_date_range_year_only"].map(

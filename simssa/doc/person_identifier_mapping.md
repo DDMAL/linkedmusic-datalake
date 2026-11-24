@@ -8,7 +8,9 @@ retain their SIMSSA namespaces.
 
 ## Export contract
 
-The [merge script](../src/merge.py) constructs names from given name and surname.
+The [merge script](../src/merge.py) joins a supplied given name and surname
+with one space. If only one field has a value, it copies that value verbatim.
+If both fields are missing, the merged `person_name` cell is empty.
 The [person history](../openrefine/history/history_person.json) reconciles names
 against Wikidata humans, using VIAF as supporting evidence, then copies the
 cell value into `person_name_original` without a facet restriction. This supports
@@ -42,7 +44,11 @@ QID existence or add identity inference.
 [Offline tests](../../shared/tests/test_simssa_mapping.py) use actual person/work
 mappings and temporary CSVs. Exact expected graphs and Turtle round trips cover
 all accepted item forms, rejected URLs/IDs, Unicode/whitespace, blank cells,
-ID-like names and local author/composer links. Run from the repository root:
+ID-like names and local author/composer links. The name regression writes and
+rereads the merged CSV, models the history's original-cell copy for unmatched
+names, and checks the resulting string labels. A person with both name fields
+missing still has a local subject and no label. Run the checks from the
+repository root.
 
 ```sh
 poetry run python scripts/check_offline.py
@@ -52,6 +58,6 @@ Blank original-name cells produce no label; this route cannot reconstruct lost
 text. Audit missing originals and export shapes before regeneration. The shared
 loader's existing missing-value and fill-down conventions remain limits. Work
 title guards, other mappings and the separate JSON-LD route retain their own
-contracts. Tests do not establish which route produced a historical graph or
-validate the preceding merge/export steps. Regenerate separately from originals
-and inspect source-backed changes before any replacement.
+contracts. The offline checks use synthetic records. Verify historical merges
+and OpenRefine exports against the original data, regenerate separately, and
+inspect the changes before replacing a graph.
