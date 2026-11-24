@@ -215,4 +215,8 @@ Wikidata match validation, original-name preservation, required export settings
 and offline tests. Historical use of this route is not established by these
 checks; the separate `jsonld_approach/` files are unchanged.
 
+For person birth and death, the merge retains a single year or the original
+range text. Rebuild older merged CSVs from the source ranges before using them
+for date queries. [Temporal mapping and regeneration checks](../shared/rdf_conversion/identifier_preservation.md#date-precision)
+
 Run `poetry run python scripts/check_offline.py` from the repository root.

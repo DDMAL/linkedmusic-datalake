@@ -11,6 +11,7 @@ Generates the following merged CSV files:
 
 import argparse
 import logging
+import re
 from pathlib import Path
 import pandas as pd
 
@@ -171,6 +172,18 @@ def merge_source_data(input_dir):
     return source_df
 
 
+def person_year(value: str) -> str:
+    """Unwrap a single CE year from an integer range and keep other text verbatim."""
+    match = re.fullmatch(r"\[([0-9]{1,4}), *([0-9]{1,4}|10000)(\]|\))", value)
+    if match:
+        lower, upper, closing = match.groups()
+        year = int(lower)
+        last_year = int(upper) if closing == "]" else int(upper) - 1
+        if year > 0 and year == last_year:
+            return f"{year:04d}"
+    return value
+
+
 def merge_person_data(input_dir):
     """Merge person-related CSV files into a single DataFrame."""
     # Load and process person/person.csv
@@ -202,18 +215,10 @@ def merge_person_data(input_dir):
     # Combine given_name and surname into person_name
     person_df["person_name"] = person_df["given_name"] + " " + person_df["surname"]
 
-    # Extract the year and convert to xsd:date compatible format (YYYY-01-01)
-    person_df["birth_year"] = (
-        person_df["birth_date_range_year_only"]
-        .str.extract(r"\[(\d{4})")[0]
-        .apply(lambda y: f"{y}-01-01" if pd.notnull(y) else None)
-    )
-
-    person_df["death_year"] = (
-        person_df["death_date_range_year_only"]
-        .str.extract(r"\[(\d{4})")[0]
-        .apply(lambda y: f"{y}-01-01" if pd.notnull(y) else None)
-    )
+    for field in ("birth", "death"):
+        person_df[f"{field}_year"] = person_df[f"{field}_date_range_year_only"].map(
+            person_year, na_action="ignore"
+        )
 
     # Drop unnecessary name and date_range columns
     person_df = person_df[

@@ -281,7 +281,8 @@ Below is a list of keywords that can be used in a inline dictionary:
 - `datatype`: the datatype of the object. Specifying it selects literal handling, including for values that look like Wikidata IDs or URLs. As per RDF rule, you can't specify both `datatype` and `lang` at the same time.
 
   - You can use prefixes instead of full URI as long as the prefixes are defined in `[namespaces]`
-  - Common datatypes are: `xsd:date`, `xsd:dateTime`, and `geo:wktLiteral`
+  - Use `xsd:gYear` for year fields, `xsd:date` for calendar dates and `xsd:dateTime` for timestamps. Partial or uncertain cells may produce a year, a date or a plain literal. [Date precision and examples](identifier_preservation.md#date-precision)
+  - Use `geo:wktLiteral` for coordinates in Well-Known Text format.
 
   ```toml
   coordinates = {pred = "P625", datatype = "geo:wktLiteral"}

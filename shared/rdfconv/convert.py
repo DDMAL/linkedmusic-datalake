@@ -10,6 +10,7 @@ for loading into a triple store.
 """
 
 import time
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Union, Any
 import logging
@@ -20,9 +21,6 @@ import pandas as pd
 import tomli
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace, XSD, RDF
-from isodate.isoerror import ISO8601Error
-from isodate.isodates import parse_date
-from isodate.isodatetime import parse_datetime
 
 # Conversion accepts complete structured identifiers, never IDs found inside
 # prose, labels, ambiguous lists or another site's URL. Keep the permissive
@@ -36,6 +34,20 @@ WD_PROPERTY = re.compile(
 )
 
 
+# XSD offsets range from -14:00 to +14:00, including on a date without a time.
+ZONE = r"(?:Z|[+-](?:(?:0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"
+FOUR_DIGIT_YEAR = re.compile(rf"(?!0000)[0-9]{{4}}{ZONE}")
+XSD_YEAR = re.compile(rf"-?(?:[0-9]{{4}}|[1-9][0-9]{{4,}}){ZONE}")
+CALENDAR_DATE = r"[0-9]{4}-[0-9]{2}-[0-9]{2}"
+DATE = re.compile(rf"{CALENDAR_DATE}{ZONE}")
+TIMESTAMP = re.compile(
+    rf"{CALENDAR_DATE}[T ]"
+    rf"(?:(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\.[0-9]+)?|24:00:00(?:\.0+)?)"
+    rf"{ZONE}"
+)
+TEMPORAL_TYPES = {str(XSD.date), str(XSD.dateTime), str(XSD.gYear)}
+
+
 # === Setup Logger ===
 logger = logging.getLogger(__name__)
 if not logger.hasHandlers():
@@ -43,6 +55,34 @@ if not logger.hasHandlers():
 
 # === Suppress rdflib Warnings ===
 logging.getLogger("rdflib").setLevel(logging.ERROR)
+
+
+def temporal_literal(value: str, datatype: str) -> Literal:
+    """Emit the precision present in a temporal cell, keeping other text verbatim."""
+    year_pattern = XSD_YEAR if datatype == str(XSD.gYear) else FOUR_DIGIT_YEAR
+    if year_pattern.fullmatch(value):
+        return Literal(value, datatype=XSD.gYear, normalize=False)
+    if datatype == str(XSD.gYear):
+        return Literal(value)
+
+    is_timestamp = (
+        datatype == str(XSD.dateTime) and TIMESTAMP.fullmatch(value) is not None
+    )
+    if not is_timestamp and not DATE.fullmatch(value):
+        return Literal(value)
+    try:
+        day = date.fromisoformat(value[:10])
+        if is_timestamp:
+            clock = value[11:]
+            if clock.startswith("24:"):
+                day += timedelta(days=1)
+                clock = "00" + clock[2:]
+            value = f"{day.isoformat()}T{clock}"
+            return Literal(value, datatype=XSD.dateTime, normalize=False)
+    except (ValueError, OverflowError):
+        return Literal(value)
+    # RDFLib's normalized Python date drops the source timezone.
+    return Literal(value, datatype=XSD.date, normalize=False)
 
 
 def to_rdf_node(
@@ -61,7 +101,7 @@ def to_rdf_node(
       over bare Wikidata IDs.
     - Returns None if the value is empty or NaN.
     - Otherwise, returns a Literal, optionally with language or datatype.
-    - Handles special logic for date and datetime datatypes.
+    - Date, timestamp and year mappings preserve the precision of the source cell.
 
     Args:
         val (str): The value to convert.
@@ -96,20 +136,8 @@ def to_rdf_node(
         ns_uri = namespaces.get(prefix)
         if ns_uri:
             datatype = f"{ns_uri}{body}"
-    # Special logic for handling date datatype
-    if datatype == XSD.date:
-        try:
-            # Validate the date string, and catch any exception that might occur
-            return Literal(parse_date(val), datatype=XSD.date)
-        except (ISO8601Error, ValueError):
-            return Literal(val)  # Fallback to a plain literal if conversion fails
-    # Special logic for handling datetime datatype
-    if datatype == XSD.dateTime:
-        try:
-            # Validate the datetime string, and catch any exception that might occur
-            return Literal(parse_datetime(val), datatype=XSD.dateTime)
-        except (ISO8601Error, ValueError):
-            return Literal(val)  # Fallback to a plain literal if conversion fails
+    if datatype is not None and str(datatype) in TEMPORAL_TYPES:
+        return temporal_literal(val, str(datatype))
     return Literal(str(val), lang=lang, datatype=datatype)
 
 

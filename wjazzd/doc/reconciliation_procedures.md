@@ -134,74 +134,16 @@ return str(num)
 
   7. Reconcile both the `instrument` and `lineup` column
 
-- The `recordingdate` column has many entity that needs to be cleaned up:
-
-  1. Apply the following Jython command to clean up most of the badly formatted cells:
-
-  ```python
-  import re
-
-  def extract_date(value):
-      g = re.search(r"(\d{1,2})\s*\.\s*(\d{1,2})\s*\.\s*(\d{4})$", value)
-
-      if g:
-          day = g.group(1).zfill(2)
-          month = g.group(2).zfill(2)
-          year = g.group(3)
-          return year + "-" + month + "-" + day
-      else:
-          return value
-
-  return extract_date(value)
-  ```
-
-  2. Apply the following Jython command to clean up a few remaining cells in the format of `January, 1999`
-
-  ```python
-  import re
-
-  def extract_date(value):
-      month_dict = {
-      "january":   "01",
-      "february":  "02",
-      "march":     "03",
-      "april":     "04",
-      "may":       "05",
-      "june":      "06",
-      "july":      "07",
-      "august":    "08",
-      "september": "09",
-      "october":   "10",
-      "november":  "11",
-      "december":  "12"
-      }
-
-      g = re.search(r"([A-Za-z]+)\s*(\d{4})$", value)
-
-      if g:
-          day = "01"
-          month = month_dict[g.group(1).lower()]
-          year = g.group(2)
-          return year + "-" + month + "-" + day
-      else:
-          return value
-
-  return extract_date(value)
-  ```
-
-  3. Apply the following command to expand years (e.g. `1999`) to a date (e.g. `1999-01-01`)
-
-  ```python
-  import re
-
-  def extract_date(value):
-      g = re.match(r"\d{4}", value)
-
-      if g:
-          return g.group(1)+"-01-01"
-      else:
-          return value
-
-  return extract_date(value)
-  ```
-
+- Import `recordingdate` as text. Apply the date transform in the
+  [track history](../openrefine/history/track_info_history.json) to convert a
+  complete dotted date such as `15.6.1850` to `1850-06-15`. Keep years,
+  month names, qualifiers and lists of recording days as supplied. For example,
+  `September 1964?` and `25, 26 & 30.09 1983` carry evidence about uncertainty
+  or multiple days.
+- Before regeneration, compare every exported `recordingdate` with the original
+  cell for the same track. Earlier reconciliation padded a year to January 1
+  and a month to its first day. It also reduced `25, 26 & 30.09 1983` to
+  `1983-09-30` and dropped text before dotted dates, turning `c. 15.6.1850`
+  into `1850-06-15`. Use the original export or database to distinguish
+  genuine dates from dates produced by these steps, then rerun the revised history.
+  [Date precision in the shared converter](../../shared/rdf_conversion/identifier_preservation.md#date-precision)

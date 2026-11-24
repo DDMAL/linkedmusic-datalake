@@ -45,32 +45,6 @@
     "description": "Text transform on cells in column coordinate using expression jython:if str(value)==\"\": return None \nelse: return \"Point(\" + value + \")\""
   },
   {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "columnName": "dtstart",
-    "expression": "jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column dtstart using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
-  },
-  {
-    "op": "core/text-transform",
-    "engineConfig": {
-      "facets": [],
-      "mode": "row-based"
-    },
-    "columnName": "dtend",
-    "expression": "jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None",
-    "onError": "keep-original",
-    "repeat": false,
-    "repeatCount": 10,
-    "description": "Text transform on cells in column dtend using expression jython:if value is not None: return value[0:10] + \"T\" + value[11:]\nelse: return None"
-  },
-  {
     "op": "core/recon",
     "engineConfig": {
       "facets": [],
