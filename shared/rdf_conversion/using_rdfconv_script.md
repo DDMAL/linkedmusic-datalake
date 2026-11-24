@@ -18,7 +18,7 @@ This script is not optimized to convert very large datasets (i.e., any dataset t
 
 ### 1.1 Note: Column Fill-Down
 
-When exporting from OpenRefine in record mode, you may notice that some rows contain empty cells. This is expected (see [OpenRefine documentation on Records](https://openrefine.org/docs/manual/exploring#rows-vs-records)). The RDF conversion script automatically performs a _fill-down_ to ensure each row is complete.
+An [OpenRefine record](https://openrefine.org/docs/manual/exploring#rows-vs-records) can span several CSV rows. Keep the rows in export order and check that the first row of every record has a usable primary key. A blank key or a missing-value token such as `?` or `NA` on a later record’s first row can attach its values to the previous subject. Within a record, empty cells inherit the last value in their column. See the [primary key requirements](./rdf_config_syntax.md#211-note-primary_key-and-fill-down).
 
 For example:
 
@@ -42,7 +42,7 @@ Bob,b@example.com,789-001
 Charlie,c@example.com,
 ```
 
-- Note: A more detailed explanation of the fill-down logic can be found in the [Guide to RDF Config File Syntax](./rdf_config_syntax.md#211-note-primary_key-and-fill-down); the reader does not need to consult it now, as they will be directed to it later in this guide.
+With `Name` as the primary key, Alice has both email addresses and Bob has both phone numbers. Charlie has no phone number.
 
 ## 2. Completing The Configuration File
 
@@ -140,7 +140,7 @@ python -m rdfconv.labels rdf_config/thesession.toml
 
 - Under the `[general]` table, set `test_mode` to `true` (no uppercase).
 
-- A test run will sample 20 rows from each CSV file instead of trying to convert entire files.
+- A test run samples up to 20 rows per CSV after resolving their record context. It can show only some of a record’s values. To verify all links for one record, save the header and that record’s rows in export order under the original CSV filename in a fresh scratch directory, then run a copy of the config with both `csv_folder` and `rdf_output_folder` set to that directory’s absolute path and `test_mode = false`.
 
 - Run the following command to start RDF conversion
 

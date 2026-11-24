@@ -234,9 +234,11 @@ Bob,b@example.com,789-001
 Charlie,c@example.com,
 ```
 
-- In the general RDF conversion script, fill-down continues only until a non-empty value is encountered in the column set to be `PRIMARY_KEY`.
+**The first row of every record must have a primary key that the CSV loader reads as present.** The loader treats an empty cell, a single space and tokens such as `?` and `NA` as missing. The full list is in the CSV reader’s [`na_values` argument](../rdfconv/convert.py).
 
-  - When setting a `PRIMARY_KEY`, you need to ensure that values in this column is **central** to the record. This means that, for each record, there is guaranteed to be **exactly one** value in this column. 
+Each populated key starts a record, even if the same key appears again. Every subsequent row with a missing key belongs to that record until the next populated key. If the key is derived from another field, such as a title, check the exported key on each record’s first row before conversion. A missing key there can attach the new record’s values to the previous subject.
+
+Simple predicates and inline mappings without `subj` use the record key as their subject. An explicit `subj` uses its chosen column, which also fills down within the record. Before the first key, rows have no default subject. They can still emit links from a populated explicit subject and `rdf:type` triples for populated object columns with a configured `type`.
 
 - In the example above, the `PRIMARY_KEY` needs to be set to `Name`:
 
@@ -302,7 +304,7 @@ Below is a list of keywords that can be used in a inline dictionary:
   - Available variables within the condition:
     - `subj` — the subject value for the triple (either from `PRIMARY_KEY` column or `subj` column defined in inline dictionary)
     - `obj` — the object value from the current column
-    - `row` — a dictionary representing the entire CSV row (column names as keys)
+    - `row` — the row after record fill-down, indexed by column name. In the contact example, `row["Name"]` contains Alice’s subject on her second email row.
   - Values are transformed into `URIRef` or `Literal` before triples are created. Use Python's `isinstance(obj, URIRef)` or `isinstance(obj, Literal)` in a mapping guard to distinguish them.
     - The general RDF conversion script treats HTTP(S) URLs as `URIRef` unless `datatype` or `lang` selects a literal. Specify the datatype to be `xsd:anyURI` if you wish for values in a column to remain `Literal` URLs.
 
