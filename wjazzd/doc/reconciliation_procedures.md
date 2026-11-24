@@ -140,9 +140,10 @@ return str(num)
   month names, qualifiers and lists of recording days as supplied. For example,
   `September 1964?` and `25, 26 & 30.09 1983` carry evidence about uncertainty
   or multiple days.
-- For an existing export, compare the original recording date for each track
-  before reusing it. Earlier reconciliation could expand a year to January 1,
-  a month to its first day, or a list to its last day. A genuine January 1 has
-  the same spelling as a padded year. Recover the source from the original
-  export or database and rerun the revised history before regeneration.
+- Before regeneration, compare every exported `recordingdate` with the original
+  cell for the same track. Earlier reconciliation padded a year to January 1
+  and a month to its first day. It also reduced `25, 26 & 30.09 1983` to
+  `1983-09-30` and dropped text before dotted dates, turning `c. 15.6.1850`
+  into `1850-06-15`. Use the original export or database to distinguish
+  genuine dates from dates produced by these steps, then rerun the revised history.
   [Date precision in the shared converter](../../shared/rdf_conversion/identifier_preservation.md#date-precision)

@@ -67,9 +67,10 @@ query can use. For display, include the text. These rules apply to loaded cells.
 
 The date and timestamp profiles accept calendar years 0001 through 9999.
 An explicit `xsd:gYear` column also accepts signed and extended XML Schema
-years. An eight-digit cell in a date column stays text because it could be a
-compact date. A calendar date requires a real month and day. Timestamps also require hours, minutes and
-seconds, separated from the date by `T` or one space. The output keeps
+years. For example, `18500615` is an extended year in a year column. In a
+date or timestamp column it stays text because it could be a compact date.
+A calendar date requires a real month and day. Timestamps also require hours,
+minutes and seconds, separated from the date by `T` or one space. The output keeps
 fractional seconds and any supplied `Z` or numeric offset (up to ±14:00).
 End-of-day `24:00:00` denotes midnight on the following day when that day is
 in range. Other spellings and values more precise than the declared column
@@ -85,8 +86,8 @@ interpretation and a date observation to carry the qualifier.
 
 | Profile | Source fields and preparation to check |
 | --- | --- |
-| [Weimar](../../wjazzd/doc/reconciliation_procedures.md#track_infocsv) | Track `recordingdate` (P10135) accepts full dates or years. Record `releasedate` (P577) expects a year. Earlier track histories padded partial dates and collapsed multi-day text. Compare January 1 and first-of-month dates with the original track cells. |
-| [SIMSSA](../../simssa/src/merge.py) | Person `birth_year` (P569) and `death_year` (P570) expect years. The merge reads year-only ranges. For example, `[1850, 1851)` and `[1850, 1850]` each specify one year. Wider or open-ended ranges and uncertain text keep their wording. Earlier merges extracted a lower bound and padded it to January 1. Recover the original ranges before using those exports. |
+| [Weimar](../../wjazzd/doc/reconciliation_procedures.md#track_infocsv) | Track `recordingdate` (P10135) accepts full dates or years. Compare every exported recording date with the original cell for that track. Earlier histories padded partial dates, selected the last day from a list, and dropped qualifiers before dotted dates. Record `releasedate` (P577) expects a year. |
+| [SIMSSA](../../simssa/src/merge.py) | Person `birth_year` (P569) and `death_year` (P570) come from year ranges. `[1850, 1851)` specifies 1850. The merge keeps wider ranges and uncertain text as supplied. In `[1850, 1853)` the upper bound is exclusive, so the possible years are 1850, 1851 and 1852. Earlier merges extracted the lower bound and padded it to January 1. Recover the original ranges before using those exports. |
 | [DTL](../../dtl/doc/digthatlick_data_schema.md) | Track `session_date` (P10135) is documented as a calendar date. Compare partial or malformed cells with the recording date in the source. |
 | [Global Jukebox](../rdf_config/theglobaljukebox.toml) | Cantometrics song `Year` (P585), instrument source `Year` (P577) and Parlametrics conversation `Date` (P585) use the date mapping. Check the exported display values and cell types against the source. |
 | [The Session](../../thesession/doc/thesession_data_schema.md) | Event `dtstart` (P580), `dtend` (P582) and set `date` (P571) use timestamp mappings. Earlier event histories replaced the eleventh character unconditionally. Compare partial or malformed exports with their original cells. |
