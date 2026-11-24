@@ -1,10 +1,11 @@
-"""Archive name/siglum fidelity through extraction, CSV loading and RDF."""
+"""Archive text and website fidelity through CSV conversion to RDF."""
 
 import csv
 import json
 import unittest
 
-from rdflib import Graph, Literal, RDF, RDFS
+from pyoxigraph import RdfFormat, Store
+from rdflib import Graph, Literal, RDF, RDFS, URIRef
 from rdflib.namespace import XSD
 
 import test_external_identifier_text as fixtures
@@ -46,6 +47,55 @@ class ArchiveTextTests(unittest.TestCase):
     def convert(self, rows):
         self.fixture.write_exports({"archives": rows})
         return self.fixture.convert()
+
+    def test_archive_website_cli_loads_without_a_base(self):
+        rows = [
+            {"id": "570", "name": "Rijksmuseum", "website": "www.rijksmuseum.nl/"},
+            {"id": "1", "name": "Archive A", "website": "https://www.rijksmuseum.nl/"},
+            {"id": "2", "name": "Archive B", "website": ""},
+            {"id": "3", "name": "Archive C", "website": "HTTP://example.org/É?q=%20#x"},
+        ]
+        self.fixture.write_exports({"archives": rows})
+        self.fixture.run_script("convert_rdf.py")
+        turtle = (self.fixture.directory / "data/RDF/diamm.ttl").read_bytes()
+        # Passing bytes avoids the implicit file base used by some Turtle readers.
+        Store().load(turtle, format=RdfFormat.TURTLE)
+        expected = self.expected_graph(rows) | {
+            (DIAMM["archives/570"], LM.sourceWebsite, Literal("www.rijksmuseum.nl/")),
+            (DIAMM["archives/1"], WDT.P856, URIRef("https://www.rijksmuseum.nl/")),
+            (DIAMM["archives/3"], WDT.P856, URIRef("HTTP://example.org/É?q=%20#x")),
+        }
+        self.assertEqual(set(Graph().parse(data=turtle, format="turtle")), expected)
+
+    def test_unusable_website_cells_preserve_exact_text(self):
+        for values in (
+            ("00123", "00000"),
+            (
+                "NA",
+                " ",
+                "//example.org/site",
+                "example.org:8080",
+                "mailto:info@example.org",
+                "https:///path",
+                "http://[unclosed",
+                "https://example.org:70000",
+                "https://example.org/%XX",
+                "https://example.org/a\tb",
+                "https://example.org/a\u00a0b",
+                "https://example.org/\u3000",
+                '  https://example.org/a "quote"\n',
+            ),
+        ):
+            with self.subTest(values=values):
+                rows = [
+                    {"id": str(i), "website": value}
+                    for i, value in enumerate(values, 1)
+                ]
+                expected = self.expected_graph(rows) | {
+                    (DIAMM[f"archives/{i}"], LM.sourceWebsite, Literal(value))
+                    for i, value in enumerate(values, 1)
+                }
+                self.fixture.assert_graph_and_roundtrip(self.convert(rows), expected)
 
     def test_numeric_columns_preserve_zeros_precision_and_lexical_forms(self):
         # Use separate numeric-only columns: ordinary text masks inference.

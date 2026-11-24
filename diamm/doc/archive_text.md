@@ -1,4 +1,4 @@
-# Archive names and sigla
+# Archive names, sigla and websites
 
 Archive names and sigla load as text and retain their exact nonempty strings
 in RDF. Empty cells emit no corresponding statement. Numeric-looking and
@@ -42,7 +42,7 @@ reconciliation service.
 
 ## RDF behavior and compatibility
 
-Archive `name`, `siglum`, `rism_id` and `source_identifiers` use text converters.
+Archive `name`, `siglum`, `website`, `rism_id` and `source_identifiers` use text converters.
 Other archive columns retain default pandas inference. Local subjects
 remain `https://www.diamm.ac.uk/archives/{id}` with type
 `https://linkedmusic.ca/graphs/diamm/Archive`.
@@ -53,8 +53,8 @@ remain `https://www.diamm.ac.uk/archives/{id}` with type
 | `siglum` | `wdt:P11550` (RISM siglum) | Nonempty source siglum as a string literal; no syntax or identity validation |
 | Empty name or siglum | Corresponding property above | No statement for that cell; the archive subject and its other statements remain |
 
-The converter keeps its existing plain-string literal representation, serialized
-as quoted strings in Turtle. Numeric-looking values now become strings rather
+Names and sigla use plain string literals, serialized as quoted strings in
+Turtle. Numeric-looking values now become strings rather
 than numeric RDF objects. `00123`, `9007199254740993`, `1e3`, `NA`, `None`, QIDs,
 URLs, Unicode, punctuation and whitespace retain their supplied spelling.
 Whitespace-only strings are nonempty and survive; no trimming is performed.
@@ -71,14 +71,17 @@ The export's `blankUnmatchedCells: false` setting can also copy an unmatched
 name such as `Q42` into `name_@id`, where it still passes the existing syntax
 check. This pre-existing reconciliation ambiguity is explicitly tested and is
 not resolved by text preservation. A syntactically valid ID is not verified
-identity. Supplied matches, city links (P131), source-to-archive links (P276),
-websites and external-identifier handling retain their existing roles.
+identity. Supplied matches, city links (P131), source-to-archive links (P276)
+and external-identifier handling retain their existing roles.
 
 Duplicate rows collapse identical RDF assertions. Conflicting rows for one
 archive retain all distinct names and sigla as sets; these direct triples do
 not encode which name and siglum appeared together in a particular CSV row.
-Other tables and columns, including other labels and website handling, remain
-outside this text contract. Former archive names and former sigla are not newly mapped.
+Former archive names and former sigla are outside this mapping.
+
+Website values also accumulate across rows. If one row supplies a complete
+website link and another supplies a scheme-less address for the same archive,
+the archive has both a `wdt:P856` link and a `diamm:sourceWebsite` literal.
 
 Exact-string queries can now use the supplied spelling, for example:
 
@@ -96,15 +99,34 @@ Scope the query to the DIAMM named graph in a shared endpoint. Numeric-literal
 filters for formerly coerced values need updating. Optional labels accommodate
 archives whose exported name is empty.
 
+## Archive websites
+
+The converter preserves an absolute HTTP or HTTPS website IRI as a `wdt:P856`
+link in its original spelling. The address must have a host, contain no
+whitespace and use a valid port if one is supplied.
+For any other nonempty `website` cell, it records the exact string on
+`diamm:sourceWebsite` (`https://linkedmusic.ca/graphs/diamm/sourceWebsite`).
+An empty cell omits both properties.
+
+For example, `https://www.rijksmuseum.nl/` produces a P856 link.
+`www.rijksmuseum.nl/` produces the literal `"www.rijksmuseum.nl/"` on
+`diamm:sourceWebsite`. Query this property to find website cells kept as text.
+P856 links pass a syntax check only. A doubled scheme or two addresses joined
+by a comma can pass. Confirming that a link reaches the intended archive
+requires a separate lookup. Resolving older relative P856 values against a Turtle
+file path or dataset base can give them an unrelated destination.
+
 ## Validation and regeneration
 
-Six [tests](../tests/test_archive_text.py) cover real CSV loading, extraction and
+The [archive tests](../tests/test_archive_text.py) cover real CSV loading, extraction and
 RDF CLIs, tracked export projection, independently specified full graphs,
 Turtle round trips and an exact-string SPARQL join through supplied name matches
 and source/location relationships. Cases include numeric-only columns,
 precision loss, NA-like strings, null/empty/whitespace-only cells, Unicode,
 quotes/newlines, QIDs/URLs, invalid match candidates and duplicate/conflicting
-rows. Run from the repository root:
+rows. The website regression loads the converter's Turtle bytes in PyOxigraph
+without a base IRI and compares the parsed triples with the expected archive
+subjects, links and literals. Run from the repository root:
 
 ```sh
 poetry run python scripts/check_offline.py

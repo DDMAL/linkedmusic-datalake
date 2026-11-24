@@ -12,7 +12,7 @@ Data in `sources` and `city` will be in the relations CSV
 
 - `name`: original archive name, kept as text
 - `siglum`: original archive siglum, kept as text
-- `website`
+- `website` holds the original archive website text. [RDF mapping](archive_text.md#archive-websites)
 - `rism_id`: exact string hint when one distinct nonblank RISM value is supplied
 - `source_identifiers`: complete source identifier list serialized as JSON text;
   see the [identifier-list contract](external_identifier_selection.md)
