@@ -106,7 +106,11 @@ def add_archive_website(graph, archive, value):
         return
     try:
         parts = urlsplit(value)
-        if parts.scheme in ("http", "https") and parts.hostname:
+        if (
+            parts.scheme in ("http", "https")
+            and parts.hostname
+            and not re.search(r"\s", value)
+        ):
             # Accessing port checks its syntax and range. Validate the original
             # IRI too, since urlsplit can silently strip control characters.
             _ = parts.port

@@ -81,6 +81,8 @@ class ArchiveTextTests(unittest.TestCase):
                 "https://example.org:70000",
                 "https://example.org/%XX",
                 "https://example.org/a\tb",
+                "https://example.org/a\u00a0b",
+                "https://example.org/\u3000",
                 '  https://example.org/a "quote"\n',
             ),
         ):

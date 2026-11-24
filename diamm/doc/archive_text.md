@@ -79,6 +79,10 @@ archive retain all distinct names and sigla as sets; these direct triples do
 not encode which name and siglum appeared together in a particular CSV row.
 Former archive names and former sigla are outside this mapping.
 
+Website values also accumulate across rows. If one row supplies a complete
+website link and another supplies a scheme-less address for the same archive,
+the archive has both a `wdt:P856` link and a `diamm:sourceWebsite` literal.
+
 Exact-string queries can now use the supplied spelling, for example:
 
 ```sparql
@@ -97,16 +101,19 @@ archives whose exported name is empty.
 
 ## Archive websites
 
-The converter preserves an absolute HTTP or HTTPS website IRI with a host and
-a valid port (if supplied) as a `wdt:P856` link, with the original spelling.
+The converter preserves an absolute HTTP or HTTPS website IRI as a `wdt:P856`
+link in its original spelling. The address must have a host, contain no
+whitespace and use a valid port if one is supplied.
 For any other nonempty `website` cell, it records the exact string on
 `diamm:sourceWebsite` (`https://linkedmusic.ca/graphs/diamm/sourceWebsite`).
 An empty cell omits both properties.
 
 For example, `https://www.rijksmuseum.nl/` produces a P856 link.
 `www.rijksmuseum.nl/` produces the literal `"www.rijksmuseum.nl/"` on
-`diamm:sourceWebsite`. To find archives whose website address needs review,
-query this property. Resolving older relative P856 values against a Turtle
+`diamm:sourceWebsite`. Query this property to find website cells kept as text.
+P856 links pass a syntax check only. A doubled scheme or two addresses joined
+by a comma can pass. Confirming that a link reaches the intended archive
+requires a separate lookup. Resolving older relative P856 values against a Turtle
 file path or dataset base can give them an unrelated destination.
 
 ## Validation and regeneration
