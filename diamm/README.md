@@ -85,6 +85,9 @@ leading zeros and NA-like values. Empty cells emit no corresponding statement;
 empty names no longer become `"None"` labels. Import both columns as text in
 OpenRefine. Existing name matches and source/location links remain independent.
 
+Complete HTTP(S) archive websites are P856 links. Other nonempty website cells
+retain their exact text on `diamm:sourceWebsite`. [Archive website examples](doc/archive_text.md#archive-websites)
+
 City, country and region names follow the
 [geographic name contract](doc/geographic_names.md): nonempty names remain exact
 strings, while empty cells emit no label. Import names as text without trimming.

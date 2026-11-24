@@ -9,7 +9,10 @@ import hashlib
 import json
 import re
 import os
+from urllib.parse import urlsplit
+
 import pandas as pd
+from pyoxigraph import NamedNode
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import DCTERMS, RDFS, RDF, SDO, SKOS, XSD
 from external_identifiers import identifier_values
@@ -96,6 +99,23 @@ PERSON_SOURCE_TEXT = {
 def matched_wikidata(field: str) -> bool:
     """Accept only complete bare item IDs from reconciled entity-ID columns."""
     return isinstance(field, str) and re.fullmatch(r"Q[1-9][0-9]*", field) is not None
+
+
+def add_archive_website(graph, archive, value):
+    if not value:
+        return
+    try:
+        parts = urlsplit(value)
+        if parts.scheme in ("http", "https") and parts.hostname:
+            # Accessing port checks its syntax and range. Validate the original
+            # IRI too, since urlsplit can silently strip control characters.
+            _ = parts.port
+            website = NamedNode(value)
+            graph.add((archive, DIAMM_SCHEMA["website"], URIRef(website.value)))
+            return
+    except ValueError:
+        pass
+    graph.add((archive, LMDIAMM.sourceWebsite, Literal(value)))
 
 
 def add_person_year(graph, person, row, field):
@@ -207,11 +227,12 @@ def build_rdf_graph(
 
     archives = pd.read_csv(
         os.path.join(base_path, "archives-csv.csv"),
-        # Names, sigla and external identifiers are source text, including
+        # Names, sigla, websites and external identifiers are source text, including
         # leading zeros and NA-like strings. See doc/archive_text.md and
         # doc/external_identifier_text.md. Other columns retain their loading.
         converters={
-            field: str for field in ("name", "siglum", "rism_id", "source_identifiers")
+            field: str
+            for field in ("name", "siglum", "website", "rism_id", "source_identifiers")
         },
     )
     # Geographic names are source text; matching hints and other columns
@@ -296,14 +317,7 @@ def build_rdf_graph(
                     Literal(work["siglum"]),
                 )
             )
-        if work["website"] is not None:
-            g.add(
-                (
-                    subject_uri,
-                    DIAMM_SCHEMA["website"],
-                    URIRef(work["website"]),
-                )
-            )
+        add_archive_website(g, subject_uri, work["website"])
         add_external_identifiers(g, subject_uri, work, ("rism_id",))
 
     print("Processing cities...")
