@@ -64,11 +64,7 @@
 if str(value)=="": return None 
 else: return "Point(" + value + ")"
 ```
-- Text transform the cells with Jython in column `dtstart` and `dtend` to
-```
-if value is not None: return value[0:10] + "T" + value[11:]
-else: return None
-```
+- Export `dtstart` and `dtend` as supplied. The shared converter accepts complete timestamps with either a space or `T` between the date and time. It preserves partial values and uncertain wording. [Date precision in the shared converter](../../shared/rdf_conversion/identifier_preservation.md#date-precision)
 - Reconcile the `country` column against the type "country" (Q6256).
 - Create a `reconcile > facet > By judgment` facet and a `reconcile > facet > Best candidate's score` facet if they are not already present.
 - In the `judgment` facet, choose "none" and move the score to 54-101 in the score facet.

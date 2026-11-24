@@ -16,9 +16,8 @@ For a nonempty string:
 
 1. `datatype` or `lang` selects a literal, including for an entire QID or URL.
    A literal declaration also takes precedence over a configured prefix.
-   Use one of datatype or language per column. Check partial or approximate
-   dates before export. For example, `c. 1850` with a configured `xsd:date`
-   can produce an ill-typed literal.
+   Use one of datatype or language per column. Temporal mappings preserve the
+   [precision of the supplied value](#date-precision).
 2. A configured `prefix` expands a non-HTTP(S) value into a local identifier.
    For example, `Q42` with the DTL track prefix denotes a local track.
 3. Otherwise, a complete structured Wikidata identifier is normalized. Items
@@ -49,6 +48,54 @@ text such as `performer P175` raises a configuration error.
 An untyped label consisting only of `Q42` is ambiguous. Configure a datatype or
 language for text columns. A syntactically valid ID does not establish a correct
 reconciliation, and this converter does not infer a column's meaning.
+
+## Date precision
+
+The `datatype` setting describes the expected precision of the column. The
+shared converter uses the same subject and predicate for a typed value and for
+source text. For chronological queries, filter by the temporal datatypes your
+query can use. For display, include the text. These rules apply to loaded cells.
+
+| Source cell | Column declaration | Turtle object |
+| --- | --- | --- |
+| `1850` | `xsd:gYear`, `xsd:date` or `xsd:dateTime` | `"1850"^^xsd:gYear` |
+| `1850-01-01` | `xsd:date` or `xsd:dateTime` | `"1850-01-01"^^xsd:date` |
+| `2000-02-29-03:30` | `xsd:date` | `"2000-02-29-03:30"^^xsd:date` |
+| `2000-02-29 12:34:56.123456789+05:30` | `xsd:dateTime` | `"2000-02-29T12:34:56.123456789+05:30"^^xsd:dateTime` |
+| `c. 1850`, `1850-06`, `1900-02-29` or `abc` | Any of the three | Plain literal with the complete cell text |
+| Blank on a new record | Any of the three | No date triple |
+
+The date and timestamp profiles accept calendar years 0001 through 9999.
+An explicit `xsd:gYear` column also accepts signed and extended XML Schema
+years. An eight-digit cell in a date column stays text because it could be a
+compact date. A calendar date requires a real month and day. Timestamps also require hours, minutes and
+seconds, separated from the date by `T` or one space. The output keeps
+fractional seconds and any supplied `Z` or numeric offset (up to ±14:00).
+End-of-day `24:00:00` denotes midnight on the following day when that day is
+in range. Other spellings and values more precise than the declared column
+remain plain text. The CSV reader's missing tokens and within-record fill-down
+apply as described above.
+
+These direct mappings retain qualifiers in text such as `c. 1850`. A mapping
+that also extracts a searchable year from that wording needs a source-specific
+interpretation and a date observation to carry the qualifier.
+[Shared approximation contract](../ontology/date_approximation.md)
+
+### Checking inputs before regeneration
+
+| Profile | Source fields and preparation to check |
+| --- | --- |
+| [Weimar](../../wjazzd/doc/reconciliation_procedures.md#track_infocsv) | Track `recordingdate` (P10135) accepts full dates or years. Record `releasedate` (P577) expects a year. Earlier track histories padded partial dates and collapsed multi-day text. Compare January 1 and first-of-month dates with the original track cells. |
+| [SIMSSA](../../simssa/src/merge.py) | Person `birth_year` (P569) and `death_year` (P570) expect years. The merge reads year-only ranges. For example, `[1850, 1851)` and `[1850, 1850]` each specify one year. Wider or open-ended ranges and uncertain text keep their wording. Earlier merges extracted a lower bound and padded it to January 1. Recover the original ranges before using those exports. |
+| [DTL](../../dtl/doc/digthatlick_data_schema.md) | Track `session_date` (P10135) is documented as a calendar date. Compare partial or malformed cells with the recording date in the source. |
+| [Global Jukebox](../rdf_config/theglobaljukebox.toml) | Cantometrics song `Year` (P585), instrument source `Year` (P577) and Parlametrics conversation `Date` (P585) use the date mapping. Check the exported display values and cell types against the source. |
+| [The Session](../../thesession/doc/thesession_data_schema.md) | Event `dtstart` (P580), `dtend` (P582) and set `date` (P571) use timestamp mappings. Earlier event histories replaced the eleventh character unconditionally. Compare partial or malformed exports with their original cells. |
+
+Compare each affected subject and predicate across the original source,
+reconciled CSV and candidate Turtle. Count complete, reduced-precision,
+uncertain, invalid and missing cells separately. An exported January 1 alone
+cannot identify padding. Keep genuine January 1 dates. Resolve ambiguous
+legacy values against source records before replacing a graph.
 
 ## Source and mapping contracts
 
