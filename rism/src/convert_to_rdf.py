@@ -45,6 +45,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
+from pyoxigraph import NamedNode
 from tqdm import tqdm
 from rdflib import Graph, URIRef, Literal, Namespace
 from rdflib.namespace import XSD, RDFS, DCTERMS, RDF
@@ -83,8 +84,6 @@ EXACT_MATCH_PREDICATES = (
 TYPED_PATTERN = re.compile(r"^(.*)\^\^(.*)$")
 LANG_PATTERN = re.compile(r"^(.*)@(.*)$")
 URI_PATTERN = re.compile(r"^https?://")
-# Characters that cannot appear verbatim inside a Turtle <IRIREF>.
-UNSAFE_IRI_CHAR = re.compile(r'[\x00-\x20<>"{}|^`\\]')
 # Entities matching this pattern will not be put in the intermediate graph
 INTERMEDIATE_GRAPH_IGNORE_PATTERN = re.compile(
     r"^https://rism.online/(?:sources|institutions|people)/\d+$"
@@ -105,15 +104,20 @@ def convert_date(date_str: str) -> Literal:
 
 def convert_literal(lit: str) -> Literal:
     """Convert a string into a Literal object, with the datatype or language tag."""
-    if "^^" in lit and (m := TYPED_PATTERN.match(lit)):
-        # Handle literals that contain "^^" but that don't have a datatype
-        if not URI_PATTERN.match(m.group(2)):
+    if "^^" in lit:
+        m = TYPED_PATTERN.fullmatch(lit)
+        if not m or not URI_PATTERN.match(m.group(2)):
             return Literal(lit)
-        return Literal(m.group(1), datatype=m.group(2))
+        return Literal(m.group(1), datatype=NamedNode(m.group(2)).value)
     elif "@" in lit and (m := LANG_PATTERN.match(lit)):
         return Literal(m.group(1), lang=m.group(2))
     else:
         return Literal(lit)
+
+
+def is_reference_cell(value: str) -> bool:
+    """An untyped HTTP(S) cell can name an intermediate row by its exact spelling."""
+    return URI_PATTERN.match(value) is not None and "^^" not in value
 
 
 def convert_rdf_object(obj: str) -> URIRef | Literal:
@@ -123,13 +127,11 @@ def convert_rdf_object(obj: str) -> URIRef | Literal:
     On error,  it will convert the object to a plain literal, with no language tag or datatype.
     """
     try:
-        if URI_PATTERN.match(obj) and "^^" not in obj:
+        if is_reference_cell(obj):
             if m := WIKIDATA_PATTERN.fullmatch(obj):
                 # Normalize item IRIs only; never rewrite literal contents.
                 return WD[m.group(1)]
-            if UNSAFE_IRI_CHAR.search(obj):
-                return Literal(obj)
-            return URIRef(obj)
+            return URIRef(NamedNode(obj).value)
         return convert_literal(obj)
     except ValueError:
         return Literal(obj)
@@ -140,21 +142,20 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
     # Make RDF Objects
     s_rdf = URIRef(s)
     p_rdf = URIRef(p)
-    o_rdf = convert_rdf_object(o)
     p_map = mapping.get(p, None)
 
     if p_rdf == RDF.type:
         g.add((s_rdf, RDF.type, LMRISM[o.removeprefix(str(RISM_API))]))
 
     elif p_rdf == RISM_API["hasEncoding"]:
-        if not isinstance(o_rdf, URIRef) or not p_map:
+        if not p_map or not is_reference_cell(o):
             return
         # Traverse the blank node
         for obj in old_graph.get((o, str(RDFS.label)), []):
             g.add((s_rdf, p_map, convert_rdf_object(obj)))
 
     elif p_rdf == RISM_API["hasRelationship"]:
-        if not isinstance(o_rdf, URIRef):
+        if not is_reference_cell(o):
             return
         for role in old_graph.get((o, str(RISM_API["hasRole"])), []):
             if not (role_map := roles.get(role, None)):
@@ -164,14 +165,14 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
                 g.add((s_rdf, role_map, convert_rdf_object(obj)))
 
     elif p_rdf == RISM_API["hasHolding"]:
-        if not isinstance(o_rdf, URIRef) or not p_map:
+        if not p_map or not is_reference_cell(o):
             return
         # Traverse the blank node
         for obj in old_graph.get((o, str(WDT["P195"])), []):
             g.add((s_rdf, p_map, convert_rdf_object(obj)))
 
     elif p_rdf == WDT["P921"]:
-        if not isinstance(o_rdf, URIRef) or not p_map:
+        if not p_map or not is_reference_cell(o):
             return
         # Traverse the blank node
         matches = [
@@ -186,7 +187,7 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
         pass  # TODO: handle, see issue #444
 
     elif p_rdf == WDT["P585"]:
-        if not isinstance(o_rdf, URIRef):
+        if not is_reference_cell(o):
             return
         # Traverse the blank node
         first_prop = mapping.get(str(WDT["P1319"]), None)
@@ -211,7 +212,7 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
                 )
 
     elif p_map:
-        g.add((s_rdf, p_map, o_rdf))
+        g.add((s_rdf, p_map, convert_rdf_object(o)))
 
 
 def process_file(path, mapping, roles, output_file, namespaces):

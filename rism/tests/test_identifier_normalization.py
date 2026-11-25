@@ -7,6 +7,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from pyoxigraph import Literal as OxLiteral
+from pyoxigraph import RdfFormat, parse
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import RDF, RDFS, XSD
 
@@ -68,6 +70,7 @@ class IdentifierNormalizationTests(unittest.TestCase):
             "https://www.wikidata.org/entity/Q1339?oldid=1",
             "https://www.wikidata.org/entity/Q1339#label",
             "https://www.wikidata.org/entity/Q1339%20",
+            "https://www.wikidata.org/entity/Q1339\u00a0",
             "https://www.wikidata.org/entity/Q1339suffix",
             "https://wikidata.org/prop/direct/P2888",
         ):
@@ -78,6 +81,18 @@ class IdentifierNormalizationTests(unittest.TestCase):
         url = "https://www.wikidata.org/wiki/Q1339"
         values = [url + char for char in ' \t\n\r<>"{}|^`\\']
         values.extend([url + "\r\n", url + "\x01", url + " with spaces@en"])
+        values.extend(
+            [
+                url + "%2",
+                url + "%zz",
+                url + "#a#b",
+                url + "\x7f",
+                "https://example.org:abc/a",
+                "text^^https://example.org/a b",
+                "text^^https://example.org/%zz",
+                "text^^https://example.org/type\n",
+            ]
+        )
         person = URIRef("https://rism.online/people/1")
         with tempfile.TemporaryDirectory() as directory:
             part = Path(directory) / "part-1-ttl.csv"
@@ -88,10 +103,41 @@ class IdentifierNormalizationTests(unittest.TestCase):
                 writer.writerows((person, value) for value in values)
             converter.process_file(part, mappings(), {}, turtle, {})
             graph = Graph().parse(turtle)
+            self.assertEqual(
+                {q.object for q in parse(path=turtle, format=RdfFormat.TURTLE)},
+                {OxLiteral(value) for value in values},
+            )
         self.assertEqual(
             set(graph.objects(person, converter.WDT.P2888)),
             {Literal(value) for value in values},
         )
+
+    def test_holding_lookup_uses_exact_untyped_reference(self):
+        source = "https://rism.online/sources/1"
+        node = "http://dummy.org/bnode/holding"
+        institution = "https://rism.online/institutions/2"
+        typed = f"{node}^^{XSD.anyURI}"
+        mapping = mappings()
+        holding = {(URIRef(source), converter.WDT.P276, URIRef(institution))}
+        for ref, key, expected in (
+            (node, node, holding),
+            (node + " ", node + " ", holding),
+            (node + " ", node, set()),
+            (typed, typed, set()),
+            ("holding", "holding", set()),
+        ):
+            with self.subTest(ref=ref, key=key):
+                graph = Graph()
+                converter.process_triple(
+                    source,
+                    str(converter.RISM_API.hasHolding),
+                    ref,
+                    mapping,
+                    {},
+                    {(key, str(converter.WDT.P195)): [institution]},
+                    graph,
+                )
+                self.assertEqual(set(graph), expected)
 
     def test_topic_lookup_aliases_and_literal_fallback(self):
         subject = "https://rism.online/sources/1"

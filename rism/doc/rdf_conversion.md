@@ -16,6 +16,11 @@ The following list contains decisions made for specific roles:
 
 ## Blank nodes
 
+The converter follows an intermediate row when the untyped HTTP(S) reference
+in a CSV cell exactly matches that row's subject in the same file. Whitespace
+is part of the lookup key. The mapped triple carries the value found on the
+intermediate row.
+
 A vast quantity of data in RISM's original graph is stored in blank nodes. In order to reduce the amount of blank nodes and dummy URIs, the following actions are taken:
 
 - For the <https://rism.online/api/v1#hasEncoding> property, we take the RDFS:label value of the blank node as the object for the triple, since we ignore the URL to the file.
@@ -45,10 +50,10 @@ Recognized item IRIs in CSV object fields use the canonical
 `http://www.wikidata.org/entity/Q…` form. HTTP/HTTPS, www/non-www, and
 `wiki`/`entity` spellings are accepted only when the entire value matches
 `Q[1-9][0-9]*`. Other IRIs retain their spelling, including unrelated hosts,
-source-record IRIs and item URLs with a query or fragment. For an untyped HTTP(S)
-object containing a character forbidden in a Turtle IRI reference, the emitted
-object is a plain literal containing the exact field text. Explicitly typed
-literals, including `xsd:anyURI`, retain their usual handling.
+source-record IRIs and item URLs with a query or fragment. If an HTTP(S) object
+or its datatype address fails Oxigraph's IRI syntax check, the converter emits
+the whole CSV cell as a plain literal. A value explicitly typed as
+`xsd:anyURI` remains a typed literal.
 
 This fixes conversion behavior, not previously generated or loaded data. See
 [identifier normalization](identifier_normalization.md) for bounded audit commands,
@@ -60,6 +65,9 @@ this role conversion is supported by the source. Review roles and qualifiers
 separately before interpreting a returned source as an explicit composition.
 
 ## General notes on the RDF conversion script
+
+The CSV reader preserves embedded line endings in all quoted fields, including
+labels. A quoted CRLF in a label reaches the emitted text as CRLF.
 
 - The script will process each file in its own process. The number of processes/workers is currently set to 6 and can be edited at the top of the script.
 - The `convert_rdf_object` function is made to be a one-stop shop to convert fields from the CSV files to the relevant RDFlib objects, handling all the necessary edge cases for the script to function as intended.
