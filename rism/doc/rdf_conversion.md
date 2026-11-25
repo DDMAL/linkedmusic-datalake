@@ -44,10 +44,11 @@ The list of types is:
 Recognized item IRIs in CSV object fields use the canonical
 `http://www.wikidata.org/entity/Q…` form. HTTP/HTTPS, www/non-www, and
 `wiki`/`entity` spellings are accepted only when the entire value matches
-`Q[1-9][0-9]*`. Literals (including typed `xsd:anyURI`), unrelated hosts,
-source-record IRIs, query strings/fragments, and malformed identifiers are not
-rewritten. A URL-shaped CSV value without literal metadata is interpreted as an
-IRI under the existing CSV convention.
+`Q[1-9][0-9]*`. Other IRIs retain their spelling, including unrelated hosts,
+source-record IRIs and item URLs with a query or fragment. For an untyped HTTP(S)
+object containing a character forbidden in a Turtle IRI reference, the emitted
+object is a plain literal containing the exact field text. Explicitly typed
+literals, including `xsd:anyURI`, retain their usual handling.
 
 This fixes conversion behavior, not previously generated or loaded data. See
 [identifier normalization](identifier_normalization.md) for bounded audit commands,

@@ -27,8 +27,8 @@ Exception Handling:
 
     - Skips any lines that raise errors, after logging the error.
     - Handles missing or malformed data gracefully, logging errors to the terminal without crashing the script.
-    - Unexpected exceptions that cause workers to stop are logged, the worker will mark the problematic task
-    as complete so that other workers don't get stuck, and the worker will exit.
+    - File processing and publication failures are reported per part. Other parts continue,
+      and the command exits nonzero if any part failed.
 
 Potential improvements: Handle a dummy node being in a different file than the subject
 """
@@ -42,6 +42,7 @@ import argparse
 import asyncio
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from isodate.isoerror import ISO8601Error
 from isodate.isodates import parse_date
 from tqdm import tqdm
@@ -82,6 +83,8 @@ EXACT_MATCH_PREDICATES = (
 TYPED_PATTERN = re.compile(r"^(.*)\^\^(.*)$")
 LANG_PATTERN = re.compile(r"^(.*)@(.*)$")
 URI_PATTERN = re.compile(r"^https?://")
+# Characters that cannot appear verbatim inside a Turtle <IRIREF>.
+UNSAFE_IRI_CHAR = re.compile(r'[\x00-\x20<>"{}|^`\\]')
 # Entities matching this pattern will not be put in the intermediate graph
 INTERMEDIATE_GRAPH_IGNORE_PATTERN = re.compile(
     r"^https://rism.online/(?:sources|institutions|people)/\d+$"
@@ -124,6 +127,8 @@ def convert_rdf_object(obj: str) -> URIRef | Literal:
             if m := WIKIDATA_PATTERN.fullmatch(obj):
                 # Normalize item IRIs only; never rewrite literal contents.
                 return WD[m.group(1)]
+            if UNSAFE_IRI_CHAR.search(obj):
+                return Literal(obj)
             return URIRef(obj)
         return convert_literal(obj)
     except ValueError:
@@ -217,7 +222,7 @@ def process_file(path, mapping, roles, output_file, namespaces):
     # Create a dict with the current data for easier blank node traversal
     # This is more memory-efficient than a full Graph because it stores less indices
     old_graph = {}
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         properties = [x for x in reader.fieldnames if x != "subject"]
         subject = None
@@ -241,7 +246,7 @@ def process_file(path, mapping, roles, output_file, namespaces):
     with tqdm.get_lock():
         tqdm.write(f"Converting {path} to RDF...")
     g = Graph()
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         s = None
         for i, line in enumerate(reader):
@@ -277,84 +282,41 @@ def process_file(path, mapping, roles, output_file, namespaces):
 
     with tqdm.get_lock():
         tqdm.write(f"Serializing graph to {output_file}...")
-    try:
-        for prefix, ns in namespaces.items():
-            g.bind(prefix, ns)
-        with open(output_file, "wb") as f:
-            g.serialize(f, format="turtle", encoding="utf-8")
-        with tqdm.get_lock():
-            tqdm.write(f"Finished processing {path} to {output_file}")
-    except Exception as e:
-        with tqdm.get_lock():
-            tqdm.write(f"Error serializing graph: {type(e).__name__}: {e}")
+    for prefix, ns in namespaces.items():
+        g.bind(prefix, ns)
+    output_file = Path(output_file)
+    with TemporaryDirectory(dir=output_file.parent, prefix=".rism-") as staging_dir:
+        staged_file = Path(staging_dir) / "export.tmp"
+        with staged_file.open("wb") as stream:
+            g.serialize(stream, format="turtle", encoding="utf-8")
+        staged_file.replace(output_file)
+    with tqdm.get_lock():
+        tqdm.write(f"Finished processing {path} to {output_file}")
 
 
 async def worker(
-    output_folder,
-    graph_queue,
-    mapping,
-    roles,
-    file_bar,
-    namespaces,
-    executor,
+    output_folder, graph_queue, mapping, roles, file_bar, namespaces, executor
 ):
-    """
-    Worker function to process the files.
-    This function will load a CSV file, create a graph from it, and serialize the graph to a Turtle file,
-    and do so in a separate process to increase efficiency.
-    """
-    loop = asyncio.get_event_loop()
-    graph_started = False
-    try:
-        while not graph_queue.empty():
-            path = await graph_queue.get()
-            graph_started = True
-
-            output_file = (
-                output_folder / f"{path.stem.removesuffix('-ttl')}.ttl"
-            )  # Remove the "-ttl" suffix robustly
-
-            # Process the file in a separate process to speed up the processing
-            g = await asyncio.gather(
-                loop.run_in_executor(
-                    executor,
-                    process_file,
-                    path,
-                    mapping,
-                    roles,
-                    str(output_file),
-                    namespaces,
-                ),
-                return_exceptions=True,
+    """Process queued CSVs in the pool and count failures for the batch exit status."""
+    loop = asyncio.get_running_loop()
+    failures = 0
+    while not graph_queue.empty():
+        path = graph_queue.get_nowait()
+        output_file = output_folder / f"{path.stem.removesuffix('-ttl')}.ttl"
+        try:
+            await loop.run_in_executor(
+                executor, process_file, path, mapping, roles, output_file, namespaces
             )
-            g = g[0]
-
-            # Handle any exceptions raised by the process
-            if isinstance(g, Exception):
-                graph_queue.task_done()
-                with tqdm.get_lock():
-                    tqdm.write(f"Error processing graph: {type(g).__name__}: {g}")
-                    file_bar.update(1)
-                graph_started = False
-                continue
-
-            with tqdm.get_lock():
-                file_bar.update(1)
-
+        except Exception as exc:
+            failures += 1
+            tqdm.write(
+                f"Failed to export {path} to {output_file}: {type(exc).__name__}: {exc}",
+                file=sys.stderr,
+            )
+        finally:
             graph_queue.task_done()
-            graph_started = False
-    except asyncio.CancelledError:
-        pass
-    except Exception as e:
-        with tqdm.get_lock():
-            tqdm.write(f"Error processing graph: {type(e).__name__}: {e}")
-    finally:
-        # Ensure all tasks are marked as done
-        if graph_started:
-            graph_queue.task_done()
-            # If the graph was not processed, we still need to update the progress bar
-            with tqdm.get_lock():
-                file_bar.update(1)
+            file_bar.update(1)
+    return failures
 
 
 async def main(paths, output_folder, mapping, roles):
@@ -380,31 +342,27 @@ async def main(paths, output_folder, mapping, roles):
     for p in paths:
         graph_queue.put_nowait(p)
 
-    # Create the progress bars
-    file_bar = tqdm(total=len(paths), desc="Processing files", position=0)
-
-    with ProcessPoolExecutor(max_workers=MAX_PROCESSES) as executor:
-        try:
-            workers = [
-                asyncio.create_task(
-                    worker(
-                        output_folder,
-                        graph_queue,
-                        mapping,
-                        roles,
-                        file_bar,
-                        namespaces,
-                        executor,
-                    )
-                )
-                for _ in range(min(MAX_WORKERS, len(paths)))
-            ]
-
-            await asyncio.gather(*workers)
-
-            file_bar.close()
-        except KeyboardInterrupt:
-            executor.shutdown(wait=False, cancel_futures=True)
+    with (
+        tqdm(total=len(paths), desc="Processing files", position=0) as file_bar,
+        ProcessPoolExecutor(max_workers=MAX_PROCESSES) as executor,
+    ):
+        workers = [
+            worker(
+                output_folder,
+                graph_queue,
+                mapping,
+                roles,
+                file_bar,
+                namespaces,
+                executor,
+            )
+            for _ in range(min(MAX_PROCESSES, len(paths)))
+        ]
+        failures = sum(await asyncio.gather(*workers))
+    if failures:
+        print(f"{failures} of {len(paths)} exports failed.", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
@@ -470,13 +428,12 @@ if __name__ == "__main__":
         else:
             roles[k] = None
 
-    bad_files = set()
+    completed_parts = set()
     output_folder = Path(args.output_folder)
     if output_folder.exists() and not REPROCESSING:
         for file in output_folder.iterdir():
-            # Grab the numbers for ttl files
-            if file.is_file() and (m := re.match(r"^part-(\d+)$", file.stem)):
-                bad_files.add(m.group(1))
+            if file.is_file() and (m := re.fullmatch(r"part-(\d+)\.ttl", file.name)):
+                completed_parts.add(m.group(1))
 
     paths = []
     for input_file in input_folder.iterdir():
@@ -484,11 +441,11 @@ if __name__ == "__main__":
             continue
         if (
             not REPROCESSING
-            and (m := re.match(r"^part-(\d+)-ttl$", input_file.stem))
-            and m.group(1) in bad_files
+            and (m := re.fullmatch(r"part-(\d+)-ttl", input_file.stem))
+            and m.group(1) in completed_parts
         ):
             print(f"Skipping {input_file} as it is already processed.")
             continue
         paths.append(input_file)
     if paths:
-        asyncio.run(main(paths, output_folder, mapping, roles))
+        sys.exit(asyncio.run(main(paths, output_folder, mapping, roles)))

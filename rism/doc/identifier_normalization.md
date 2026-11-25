@@ -4,10 +4,14 @@
 
 The converter normalizes complete HTTP/HTTPS × www/non-www × wiki/entity
 Wikidata item IRIs to `http://www.wikidata.org/entity/Q…`. Only positive ASCII
-IDs matching `Q[1-9][0-9]*` are recognized. Literal text/language/datatypes,
-unrelated URLs, source-record identifiers and malformed/suffixed IDs remain
-unchanged. A URL-shaped CSV field without literal metadata follows the existing
-IRI convention. See [#462](https://github.com/DDMAL/linkedmusic-datalake/issues/462).
+IDs matching `Q[1-9][0-9]*` are recognized. Other IRI spellings, including
+items with a query, fragment or leading zero, keep their original form.
+If an HTTP(S) object field without a datatype marker contains a character
+forbidden in a Turtle IRI reference, such as a space or newline, the converter
+preserves the entire field as a plain literal. For example, a trailing space
+produces the Turtle literal `"https://wikidata.org/wiki/Q42 "`. Percent-encoded
+characters stay encoded. Literal text, language tags and explicit datatypes
+follow the existing CSV literal rules. See [#462](https://github.com/DDMAL/linkedmusic-datalake/issues/462).
 
 Topic traversal accepts four explicit P2888 predicate spellings and retains all
 supplied matches. It falls back to `rdf:value` only when no match exists. This

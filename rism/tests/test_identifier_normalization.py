@@ -52,7 +52,7 @@ class IdentifierNormalizationTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertEqual(converter.convert_rdf_object(value), expected)
 
-    def test_unrelated_and_malformed_iris_are_unchanged(self):
+    def test_unrelated_iris_and_unrecognized_item_ids_are_unchanged(self):
         for value in (
             "https://rism.online/people/40005939",
             "https://example.org/entity/Q1339",
@@ -67,12 +67,31 @@ class IdentifierNormalizationTests(unittest.TestCase):
             "https://www.wikidata.org/entity/Q1339/",
             "https://www.wikidata.org/entity/Q1339?oldid=1",
             "https://www.wikidata.org/entity/Q1339#label",
+            "https://www.wikidata.org/entity/Q1339%20",
             "https://www.wikidata.org/entity/Q1339suffix",
-            "https://www.wikidata.org/wiki/Q1339\n",
             "https://wikidata.org/prop/direct/P2888",
         ):
             with self.subTest(value=value):
                 self.assertEqual(converter.convert_rdf_object(value), URIRef(value))
+
+    def test_unsafe_url_objects_round_trip_as_exact_literals(self):
+        url = "https://www.wikidata.org/wiki/Q1339"
+        values = [url + char for char in ' \t\n\r<>"{}|^`\\']
+        values.extend([url + "\r\n", url + "\x01", url + " with spaces@en"])
+        person = URIRef("https://rism.online/people/1")
+        with tempfile.TemporaryDirectory() as directory:
+            part = Path(directory) / "part-1-ttl.csv"
+            turtle = part.with_suffix(".ttl")
+            with part.open("w", newline="", encoding="utf-8") as stream:
+                writer = csv.writer(stream)
+                writer.writerow(["subject", str(converter.WDT.P2888)])
+                writer.writerows((person, value) for value in values)
+            converter.process_file(part, mappings(), {}, turtle, {})
+            graph = Graph().parse(turtle)
+        self.assertEqual(
+            set(graph.objects(person, converter.WDT.P2888)),
+            {Literal(value) for value in values},
+        )
 
     def test_topic_lookup_aliases_and_literal_fallback(self):
         subject = "https://rism.online/sources/1"
