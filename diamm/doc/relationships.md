@@ -3,7 +3,7 @@
 For geographic links, use the [geographic relationship contract](geographic_relationships.md).
 It maps an organization’s listed city, region or country to `schema:location`
 and describes the parent-type limits. The [qualified provenance contract](source_provenance.md)
-defines city/region manuscript observations and replaces source-to-city P131.
+defines city, region and organization manuscript observations.
 
 In the DIAMM database, there are more complex relationships between `people` and `sources` and between `organizations` and `sources`. They are modeled with a `related_sources` field in the `people` and `organizations` entity types, and with a `relationships` field in the `sources` entity type.
 
@@ -19,11 +19,9 @@ The `diamm/src/relations.json` file contains a mapping of relations to propertie
 Relationships mapped to `null`/`None` are ignored by the RDF conversion script.
 
 The converter implements only its recognized key/type branches; extraction
-into `relations.csv` does not guarantee an RDF assertion. In particular, the
-legacy organization-provenance branch emits P276. City/region manuscript
-provenance instead retains qualified observations without a direct location
-projection. Organization provenance remains a separate mapping whose physical
-location interpretation requires source review.
+into `relations.csv` does not guarantee an RDF assertion. Organization provenance entries use
+`diamm:organizationProvenance`. Read their [entry-local names and flags](source_provenance.md#organization-provenance)
+separately from copyist, typed related-source and archive-holding links.
 
 The mappings below document existing choices, including approximate semantic
 matches. They are not independent verification of each source relationship:

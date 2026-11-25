@@ -38,6 +38,10 @@ diamm:SourceProvenanceObservation a rdfs:Class ;
     rdfs:subClassOf lm:EvidenceObservation ;
     rdfs:label "Manuscript geographic provenance observation"@en ;
     rdfs:comment "One retained city/source or region/source association and its paired qualifiers. Does not establish creation, present storage or administrative containment."@en .
+diamm:OrganizationProvenanceObservation a rdfs:Class ;
+    rdfs:subClassOf lm:EvidenceObservation ;
+    rdfs:label "Manuscript provenance entry from an organization"@en ;
+    rdfs:comment "One association from a DIAMM organization's manuscript provenance listing. The listing organization is identified by dcterms:source. Each geographic name and uncertainty flag describes this entry."@en .
 diamm:PersonYearObservation a rdfs:Class ;
     rdfs:subClassOf lm:EvidenceObservation ;
     rdfs:label "Person year observation"@en ;
@@ -55,6 +59,42 @@ diamm:sourceProvenance a rdf:Property ;
     rdfs:label "Has geographic provenance evidence"@en ;
     rdfs:range diamm:SourceProvenanceObservation ;
     rdfs:comment "Manuscript to an observation. Retains uncertain and legacy associations without asserting a direct geographic location."@en .
+diamm:organizationProvenance a rdf:Property ;
+    rdfs:range diamm:OrganizationProvenanceObservation ;
+    rdfs:label "Has organization provenance evidence"@en ;
+    rdfs:comment "Connects a manuscript to an entry in an organization's provenance listing."@en .
+diamm:cityName a rdf:Property ;
+    rdfs:range xsd:string ;
+    rdfs:label "Provenance city name"@en ;
+    rdfs:comment "Text supplied in the city field of this organization provenance entry."@en .
+diamm:regionName a rdf:Property ;
+    rdfs:range xsd:string ;
+    rdfs:label "Provenance region name"@en ;
+    rdfs:comment "Text supplied in the region field of this organization provenance entry."@en .
+diamm:countryName a rdf:Property ;
+    rdfs:range xsd:string ;
+    rdfs:label "Provenance country name"@en ;
+    rdfs:comment "Text supplied in the country field of this organization provenance entry."@en .
+diamm:protectorateName a rdf:Property ;
+    rdfs:range xsd:string ;
+    rdfs:label "Provenance protectorate name"@en ;
+    rdfs:comment "Text supplied in the protectorate field of this organization provenance entry."@en .
+diamm:entityUncertain a rdf:Property ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "DIAMM entity uncertainty"@en ;
+    rdfs:comment "Explicit entity_uncertain flag for this entry's association with the listing organization. Absence leaves its uncertainty unknown."@en .
+diamm:cityUncertain a rdf:Property ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "DIAMM city uncertainty"@en ;
+    rdfs:comment "Boolean supplied for the city named on this entry. False means DIAMM left that association unflagged. Without a named city, the source flag is retained only in the JSON."@en .
+diamm:regionUncertain a rdf:Property ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "DIAMM region uncertainty"@en ;
+    rdfs:comment "Boolean supplied for the region named on this entry. False means DIAMM left that association unflagged. Without a named region, the source flag is retained only in the JSON."@en .
+diamm:countryUncertain a rdf:Property ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "DIAMM country uncertainty"@en ;
+    rdfs:comment "Boolean supplied for the country named on this entry. False means DIAMM left that association unflagged. Without a named country, the source flag is retained only in the JSON."@en .
 diamm:place a rdf:Property ;
     rdfs:label "Place mentioned by provenance evidence"@en ;
     rdfs:comment "Observation to its local city or region endpoint. Does not entail a place type, name or Wikidata identity."@en .

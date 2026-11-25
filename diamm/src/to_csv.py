@@ -246,15 +246,8 @@ for file in (Path(BASE_PATH) / "organizations").glob("*.json"):
                 )
             )
         for source in data["source_provenance"]:
-            source_id = int(source["url"].split("/")[-2])
             relations.add(
-                HashableDict(
-                    {
-                        "key1": f"organization:{line['id']}",
-                        "key2": f"source:{source_id}",
-                        "type": "provenance",
-                    }
-                )
+                HashableDict(provenance_relation("organization", line["id"], source))
             )
         rows.append(line)
 df = pd.DataFrame(rows)

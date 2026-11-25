@@ -409,7 +409,7 @@ class SourceProvenanceTests(unittest.TestCase):
             rows = list(csv.DictReader(source))
         provenance = [row for row in rows if row["source_provenance"]]
         self.assertEqual(
-            len(provenance), 6
+            len(provenance), 7
         )  # old pair-only deduplication loses conflicts
         for field, table, entry in expected_entries:
             self.assertTrue(
@@ -424,10 +424,28 @@ class SourceProvenanceTests(unittest.TestCase):
         graph = Graph().parse(
             self.fixture.directory / "data/RDF/diamm.ttl", format="turtle"
         )
+        (organization_entry,) = graph.objects(
+            DIAMM["sources/5"], LM.organizationProvenance
+        )
+        (organization_json,) = (
+            row["source_provenance"]
+            for row in provenance
+            if row["key1"] == "organization:1"
+        )
+        self.assertEqual(
+            json.loads(organization_json), organization["source_provenance"][0]
+        )
         expected = {
             (DIAMM["cities/7"], WDT.P17, DIAMM["countries/9"]),
             (DIAMM["organizations/1"], SDO.location, DIAMM["cities/7"]),
-            (DIAMM["sources/5"], WDT.P276, DIAMM["organizations/1"]),
+            (DIAMM["sources/5"], LM.organizationProvenance, organization_entry),
+            (organization_entry, RDF.type, LM.OrganizationProvenanceObservation),
+            (organization_entry, DCTERMS.source, DIAMM["organizations/1"]),
+            (
+                organization_entry,
+                LM.sourceProvenanceJson,
+                Literal(organization_json, datatype=XSD.string),
+            ),
             (DIAMM["sources/6"], WDT.P1071, DIAMM["organizations/1"]),
         }
         for field, table, entry in expected_entries:

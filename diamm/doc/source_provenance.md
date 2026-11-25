@@ -1,8 +1,10 @@
-# Qualified city/region source provenance
+# Qualified manuscript provenance
 
 City and region `provenance` entries survive extraction and RDF conversion with
 their uncertainty and year bounds paired. Both routes emit named observations;
 neither emits a direct source-to-city P131 assertion, including for legacy CSVs.
+Organization `source_provenance` entries use a separate [organization observation](#organization-provenance)
+that keeps each co-listed place name and its own uncertainty flag.
 Check the [graph version](#checking-the-graph-version) before using the observation queries.
 
 ## Definition evidence and scope
@@ -27,13 +29,13 @@ Pinned definition evidence does not establish live records, historical
 snapshots, the deployed serializer or the input snapshot version.
 Other model fields (country, protectorate, note, person/organization links and
 their uncertainty) are not recovered when absent from these serialized entries.
-Other provenance routes and geographic parent routing remain separate work.
+The organization listing exposes a different set of fields, described below.
 
 ## Extraction and CSV boundary
 
 [`to_csv.py`](../src/to_csv.py), using
 [`source_provenance.py`](../src/source_provenance.py), appends the
-`source_provenance` column to `relations.csv`. City/source and region/source
+`source_provenance` column to `relations.csv`. City/source, region/source and organization/source provenance
 rows use `type=provenance`; the evidence cell contains the complete parsed
 entry as sorted, compact JSON. Unknown fields, strings, explicit nulls and
 absent keys remain distinguishable. String whitespace, Unicode, quotes and
@@ -42,7 +44,7 @@ the original file's whitespace, numeric token spelling or duplicate object keys.
 
 The complete evidence participates in relation deduplication. Identical entries
 collapse; differing qualifiers or metadata survive as distinct rows, even for
-the same source/place pair. List order and multiplicity are not retained.
+the same source and listing record. List order and multiplicity are not retained.
 The fixed four-column header is written even for an empty relation table.
 Unrelated relation rows have an empty evidence cell and retain their mappings.
 
@@ -58,10 +60,13 @@ trailing slash. The RDF converter also checks agreement with `key2`. Other
 URL forms require source-backed review; they stop conversion rather than being
 interpreted as another endpoint. Non-object entries, malformed evidence JSON,
 duplicate JSON keys and non-JSON numeric constants in CSV evidence also stop
-conversion with relation context. Unexpected nonempty relation types are rejected.
-Invalid qualifier values within a valid object are retained and flagged instead.
+conversion with relation context. City/source and region/source rows reject unexpected relation types. For
+organization/source rows, only `type=provenance` selects this mapping.
+Unsupported qualifier values survive in the raw JSON.
 
 ## RDF contract
+
+### City and region provenance
 
 `diamm:` below is `https://linkedmusic.ca/graphs/diamm/`. Local endpoints remain
 `https://www.diamm.ac.uk/sources/{id}` and `/cities/{id}` or `/regions/{id}`.
@@ -108,13 +113,72 @@ Fresh entries with absent qualifier keys instead retain their JSON and the
 individual missing-field flags. Mixed legacy/qualified rows remain separate;
 the converter does not infer that one supersedes another.
 
+## Organization provenance
+
+Each manuscript links through `diamm:organizationProvenance` to a named
+`diamm:OrganizationProvenanceObservation`. Its `dcterms:source` identifies
+the local `/organizations/{id}` that supplied the listing. The observation
+IRI uses the same hash rule as the geographic routes, with the organization
+IRI as the second endpoint. The complete entry, including the manuscript
+display text and any additional fields, is available as `diamm:sourceProvenanceJson`.
+
+| Source fields | RDF properties on this observation |
+| --- | --- |
+| `entity_uncertain` | `diamm:entityUncertain` qualifies the association with the listing organization. |
+| `city`, `city_uncertain` | `diamm:cityName`, `diamm:cityUncertain` |
+| `region`, `region_uncertain` | `diamm:regionName`, `diamm:regionUncertain` |
+| `country`, `country_uncertain` | `diamm:countryName`, `diamm:countryUncertain` |
+| `protectorate` | `diamm:protectorateName` |
+
+DIAMM's model defaults each uncertainty flag to false and allows a missing
+geographic reference. An entry can therefore supply `city_uncertain: false`
+without naming a city. [SourceProvenance model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/source_provenance.py)
+
+Each nonempty place name keeps its exact spelling as an `xsd:string`.
+A city, region or country flag becomes an `xsd:boolean` only when the same
+entry names that place and supplies a JSON boolean. A missing, null, empty,
+whitespace-only or non-string name leaves the flag in the raw JSON alone.
+The entity flag qualifies the listing organization even on an entry with no
+named places. False means DIAMM left that association unflagged. Independent
+verification would require other evidence. A missing, null or unsupported
+flag leaves its query variable unbound. The organization listing supplies neither a
+protectorate uncertainty flag nor year bounds. Its place names supply text
+only. Joining on equal names cannot identify a geographic record or establish
+a shared event with a city or region listing. [Organization serializer](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/serializers/website/organization.py#L25-L40)
+
+Use the [organization provenance query](queries/organization_provenance.rq)
+to retrieve one row per observation. For an institution listed in Florence,
+a manuscript entry naming Siena with `city_uncertain=false` and
+`entity_uncertain=true` returns Siena with its explicit false flag.
+A second entry naming Bologna with reversed flags returns its own row.
+The organization's own listed place remains available through `schema:location`.
+
+An older three-column `organization:O,source:S,provenance` row or an empty
+evidence cell yields a named observation with the organization endpoint and
+`legacy-unqualified-provenance`. Its names, booleans and JSON are absent.
+Re-extraction from the matching raw organization records is needed to recover
+the original entries. A fresh entry containing only the manuscript URL still
+has JSON and can be distinguished from a legacy row.
+
+Earlier converters emitted manuscript-to-organization `wdt:P276` for this
+route. In those graphs, following `wdt:P276/schema:location` can retrieve
+the organization's listed place. The path supplies no manuscript place or
+certainty. In newly converted graphs, query the observation to identify the
+organization and read its entry. Check the export revision and graph IRI
+before interpreting an empty result. A P276 edge alone cannot identify a
+converter version because archive holdings also use P276. The
+[graph-version checks](#checking-the-graph-version) distinguish the two target namespaces. Copyist rows use
+P1071 and typed related-source rows follow their own [relationship mappings](relationships.md).
+
 ## Query compatibility
+
+For organization listings, use the [organization provenance query](queries/organization_provenance.rq).
 
 City/source P131 was an unqualified administrative-containment claim. It is
 not retained even when uncertainty is explicitly false: provenance alone
 does not establish that meaning. No replacement direct P131/P276/P1071/P571
-assertion is emitted for either geographic route. Existing archive locations,
-organization provenance/location mappings and city/region/country parent
+assertion is emitted for either geographic route. Existing archive holdings,
+organization locations and city/region/country parent
 links retain their behavior and separate limitations. P2888 matches and country
 hints cannot create a provenance entry.
 
@@ -125,13 +189,6 @@ Follow the manuscript's `diamm:sourceProvenance` link to find an observation
 with Florence as its place, `diamm:uncertain true`, both years and the parsed
 entry. A second manuscript linked only to the organization has no geographic
 provenance observation from that link.
-
-The [organization serializer](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/serializers/website/organization.py)
-draws its `source_provenance` entries from the same DIAMM provenance model.
-Extraction keeps the manuscript URL and drops the uncertainty flags. Following
-`wdt:P276` from the manuscript to the organization and `schema:location` on
-to Florence retrieves the organization's listed place. That path cannot
-establish that the manuscript was in Florence or how certain DIAMM was.
 
 To retrieve supplied provenance together with its available qualifiers:
 
@@ -175,7 +232,8 @@ This compares the text of the stored `xsd:string` on both RDFLib and Oxigraph.
 ### Checking the graph version
 
 Before running the observation queries, check the export's converter revision
-and run both probes on the DIAMM named graph. The first detects the older
+and run the probes for the relevant listing on the DIAMM named graph.
+For city and region listings, the first probe detects the older
 direct P131 pattern on typed manuscripts.
 
 ```sparql
@@ -184,7 +242,7 @@ PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 ASK { GRAPH diamm: { ?source a diamm:Source ; wdt:P131 ?place . } }
 ```
 
-The second detects manuscript provenance observations.
+The second detects city and region manuscript provenance observations.
 
 ```sparql
 PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
@@ -194,16 +252,42 @@ ASK { GRAPH diamm: { ?source diamm:sourceProvenance ?observation . } }
 | Direct P131 | Observation | Interpretation |
 | --- | --- | --- |
 | true | false | The old path is present. Observation queries miss those associations. |
-| false | true | Observations are present. Use the observation queries with the matching export. |
+| false | true | City or region observations are present. Use the city/region queries with the matching export. |
 | true | true | Both patterns are present. Check which exports were loaded before interpreting counts. |
 | false | false | The probes cannot identify the version. Check the graph IRI, export revision and source relation rows before interpreting an empty result. |
+
+For organization listings, check for a P276 edge to a local organization.
+The target namespace excludes archive holdings.
+
+```sparql
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+ASK { GRAPH diamm: {
+  ?source wdt:P276 ?organization .
+  FILTER(isIRI(?organization) && STRSTARTS(STR(?organization), "https://www.diamm.ac.uk/organizations/"))
+} }
+```
+
+Then check for organization observations.
+
+```sparql
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+ASK { GRAPH diamm: { ?source diamm:organizationProvenance ?observation . } }
+```
+
+A positive first result identifies the older organization link. A positive
+second result identifies the observation route. If both occur, check for mixed
+exports before counting. If both are absent, consult the export and input
+records. City and region observations can occur alongside either representation.
 
 ## Query and answer contract
 
 The [shared contract](../../shared/ontology/README.md) supplies the evidence vocabulary.
 The executable templates scope every data pattern to the DIAMM named graph:
 
-- [Broad discovery and uncertainty selection](queries/source_provenance.rq)
+- [Organization provenance](queries/organization_provenance.rq) returns the listing organization,
+  entry names, field-specific flags and raw evidence, including rows with unknowns.
+- [City and region discovery and uncertainty selection](queries/source_provenance.rq)
   returns source, place, observation identity, uncertainty state, supported
   bounds, validation flags and a qualifier-disagreement indicator. Its `VALUES`
   list selects all three states; restrict it to `"uncertain"`,
@@ -249,7 +333,7 @@ model-generated answer confidence. A source-unflagged association is not
 independent verification.
 
 Historical manuscript provenance is separate from RDF lineage. The coarse
-`dcterms:source` place link does not identify a snapshot or conversion execution.
+`dcterms:source` link to a place or listing organization does not identify a snapshot or conversion execution.
 The optional PROV-O profile requires actual retained artifacts, source-record
 selectors and run manifests; converters do not fabricate or currently emit it.
 Shape validation cannot prove that the external artifacts exist or that their
@@ -290,14 +374,15 @@ historical population measurements. The dependency lock includes RDFLib 7.6.0;
 see the [dependency validation contract](../../shared/ontology/README.md#dependencies-and-converter-compatibility)
 before regenerating output from a different runtime.
 
-When snapshot access resumes, identify the matching raw city/region records,
+When snapshot access resumes, identify the matching raw city, region and organization records,
 checksums and serializer version. Count original entries, distinct evidence
 observations, duplicates, missing/unsupported qualifiers and changed assertions
 with explicit denominators. Re-extract `relations.csv` to recover qualifiers;
-old relation rows or RDF cannot supply lost years/certainty. Other tables still
+old relation rows or RDF cannot supply lost names or qualifiers. Other tables still
 need their matching reconciled exports. Regenerate into a separate directory,
 check exact and uncertain queries in staging, and back up before replacement.
-Do not append to old RDF: obsolete city/source P131 statements would remain.
+Appending would retain obsolete city/source P131 and manuscript/organization
+P276 statements. Confirm that independently supported archive P276 links survive.
 Record deployment version, graph and rollback snapshot before claiming live
 behavior. Historical prevalence, real export compatibility and RDF-size cost
 require matching snapshots and separate deployment evidence.

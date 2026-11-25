@@ -11,7 +11,7 @@ web resolver, production schema graph or application migration has been deployed
 - [Approximate values across databases](date_approximation.md) covers free-text
   and structured source dates, estimated counts, cross-graph SPARQL and answer wording.
 - [shapes.ttl](shapes.ttl) checks that a flagged value has at most one Boolean
-  per observation within the data graph being validated. It also checks DIAMM geographic
+  per observation within the data graph being validated. It also checks DIAMM geographic and organization
   provenance and the optional versioned-lineage profile.
 - [DIAMM query templates](../../diamm/doc/source_provenance.md#query-and-answer-contract):
   named-graph discovery, uncertainty selection, qualifier disagreements and counts.
@@ -37,7 +37,7 @@ qualification and projection rules.
 
 | Quantity | Shared interpretation | Existing source meaning |
 | --- | --- | --- |
-| Source uncertainty | `lm:sourceUncertain` | DIAMM `uncertain` is a subproperty. True explicitly flags an association; false means source-unflagged. Missing is unknown. |
+| Source uncertainty | `lm:sourceUncertain` | DIAMM `uncertain` is a subproperty. True explicitly flags an association; false means source-unflagged. Missing is unknown. DIAMM organization entries carry separate entity, city, region and country flags. Each applies only to its named field. |
 | Value approximation | `lm:approximate` | Every dataset uses the same Boolean on the observation of the particular value. DIAMM reads a structured year flag. A catalogue might supply “c. 1850” or “about 20 performers” instead. |
 | Conversion/review flags | `lm:validationFlag` | DIAMM `validationFlag` and CKG `reviewFlag` are subproperties. They report processing limitations or review conditions. |
 | Mapping/parse status | Source-specific | MusicBrainz `mappingStatus` and APSearch `parseStatus` retain their definitions. Successful processing does not establish certainty or independent correctness. |
@@ -56,7 +56,7 @@ the available fields do not supply scholarly agents, arguments or belief values.
 
 Manuscript provenance describes a historical association. Data lineage identifies
 the source artifact and transformation that produced an RDF representation.
-The existing DIAMM `dcterms:source` place link is only a coarse origin reference,
+The existing DIAMM `dcterms:source` link to a place or listing organization is only a coarse origin reference,
 including on legacy rows. It is not a versioned source document, retrieval
 record or conversion identity. Passing the evidence shape does not upgrade it.
 

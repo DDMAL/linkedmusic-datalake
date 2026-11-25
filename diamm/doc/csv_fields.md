@@ -103,9 +103,9 @@ This will hold all relationships between objects. `key1` will contain the object
 - `key1` and `key2` will have the format `type:pk` (for example `archive:1`) and denote the keys linked by the relationship
 - `type` will be used to differentiate between relationship types between the same 2 entity types: for example for people-source relationships, where a person can have different types of relationships with a source (sources that they copied, sources that they are related to, etc). For the `people`-`sources` and `organizations`-`sources` relationships that have types, the value in the type field will be `f"related:{relationship_type}"`, to be able to conveniently store the relationship type
 
-- `source_provenance`: appended JSON evidence for city/source and region/source
-  rows (`type=provenance`), retaining each complete parsed entry with its
-  uncertainty and years. Other rows leave it empty. Complete evidence participates
+- `source_provenance`: appended JSON evidence for city/source, region/source and organization/source
+  rows (`type=provenance`), retaining each complete parsed entry. Organization entries
+  include the co-listed geographic names and field-specific uncertainty flags. Other rows leave it empty. Complete evidence participates
   in deduplication, retaining differing entries for one pair. The file bypasses
   OpenRefine. Legacy three-column rows load as explicitly unqualified evidence.
 

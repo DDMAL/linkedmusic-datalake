@@ -44,6 +44,50 @@ lm:DiammProvenanceShape a sh:NodeShape ;
               sh:hasValue "legacy-unqualified-provenance"; sh:maxCount 1 ] ]
     ) .
 
+lm:DiammOrganizationProvenanceShape a sh:NodeShape ;
+    sh:targetClass diamm:OrganizationProvenanceObservation ;
+    sh:targetObjectsOf diamm:organizationProvenance ;
+    sh:class diamm:OrganizationProvenanceObservation ;
+    sh:nodeKind sh:IRI ;
+    sh:property [ sh:path [ sh:inversePath diamm:organizationProvenance ];
+        sh:minCount 1; sh:maxCount 1; sh:nodeKind sh:IRI ] ;
+    sh:property [ sh:path dcterms:source; sh:minCount 1; sh:maxCount 1; sh:nodeKind sh:IRI;
+        sh:pattern "^https://www[.]diamm[.]ac[.]uk/organizations/" ] ;
+    sh:property [ sh:path diamm:sourceProvenanceJson; sh:maxCount 1; sh:datatype xsd:string; sh:minLength 1 ] ;
+    sh:property [ sh:path diamm:cityName; sh:maxCount 1; sh:datatype xsd:string ] ;
+    sh:property [ sh:path diamm:regionName; sh:maxCount 1; sh:datatype xsd:string ] ;
+    sh:property [ sh:path diamm:countryName; sh:maxCount 1; sh:datatype xsd:string ] ;
+    sh:property [ sh:path diamm:protectorateName; sh:maxCount 1; sh:datatype xsd:string ] ;
+    sh:property [ sh:path diamm:entityUncertain; sh:maxCount 1; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path diamm:cityUncertain; sh:maxCount 1; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path diamm:regionUncertain; sh:maxCount 1; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path diamm:countryUncertain; sh:maxCount 1; sh:datatype xsd:boolean ] ;
+    sh:property [ sh:path [ sh:alternativePath ( diamm:place diamm:sourceField diamm:uncertain ) ]; sh:maxCount 0 ] ;
+    sh:property [ sh:path diamm:validationFlag; sh:datatype xsd:string ] ;
+    sh:xone (
+        [ sh:property [ sh:path diamm:sourceProvenanceJson; sh:minCount 1 ];
+          sh:not [ sh:property [ sh:path diamm:validationFlag;
+              sh:hasValue "legacy-unqualified-provenance" ] ] ]
+        [ sh:property [ sh:path [ sh:alternativePath ( diamm:sourceProvenanceJson
+              diamm:cityName diamm:regionName diamm:countryName diamm:protectorateName
+              diamm:entityUncertain diamm:cityUncertain diamm:regionUncertain diamm:countryUncertain ) ];
+              sh:maxCount 0 ];
+          sh:property [ sh:path diamm:validationFlag;
+              sh:hasValue "legacy-unqualified-provenance"; sh:maxCount 1 ] ]
+    ) .
+
+lm:DiammCityUncertaintyShape a sh:NodeShape ;
+    sh:targetSubjectsOf diamm:cityUncertain ;
+    sh:property [ sh:path diamm:cityName; sh:minCount 1; sh:datatype xsd:string; sh:pattern "\\S" ] .
+
+lm:DiammRegionUncertaintyShape a sh:NodeShape ;
+    sh:targetSubjectsOf diamm:regionUncertain ;
+    sh:property [ sh:path diamm:regionName; sh:minCount 1; sh:datatype xsd:string; sh:pattern "\\S" ] .
+
+lm:DiammCountryUncertaintyShape a sh:NodeShape ;
+    sh:targetSubjectsOf diamm:countryUncertain ;
+    sh:property [ sh:path diamm:countryName; sh:minCount 1; sh:datatype xsd:string; sh:pattern "\\S" ] .
+
 # Optional, deliberately separate from the current evidence-only profile.
 # No shape requires invented lineage on existing observations.
 lm:SnapshotShape a sh:NodeShape ;
