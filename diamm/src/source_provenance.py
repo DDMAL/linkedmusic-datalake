@@ -1,4 +1,4 @@
-"""City/region provenance evidence; see doc/source_provenance.md."""
+"""Manuscript provenance evidence; see doc/source_provenance.md."""
 
 import hashlib
 import json
@@ -9,7 +9,11 @@ from rdflib.namespace import DCTERMS, XSD
 
 LM = Namespace("https://linkedmusic.ca/graphs/diamm/")
 DIAMM = Namespace("https://www.diamm.ac.uk/")
-PLACE_TABLES = {"city": "cities", "region": "regions"}
+PROVENANCE_TABLES = {
+    "city": "cities",
+    "region": "regions",
+    "organization": "organizations",
+}
 
 
 def _unique_object(pairs):
@@ -37,7 +41,7 @@ def provenance_source_id(entry):
     return int(match[1])
 
 
-def provenance_relation(field, place_id, entry):
+def provenance_relation(field, endpoint_id, entry):
     """Keep the complete parsed entry in the relation's deduplication key."""
     try:
         source_id = provenance_source_id(entry)
@@ -50,23 +54,23 @@ def provenance_relation(field, place_id, entry):
         )
     except (ValueError, TypeError) as error:
         raise ValueError(
-            f"Invalid provenance for {field}:{place_id}: {error}"
+            f"Invalid provenance for {field}:{endpoint_id}: {error}"
         ) from error
     return {
-        "key1": f"{field}:{place_id}",
+        "key1": f"{field}:{endpoint_id}",
         "key2": f"source:{source_id}",
         "type": "provenance",
         "source_provenance": evidence,
     }
 
 
-def add_source_provenance(graph, row, field, place_id, source_id):
+def add_source_provenance(graph, row, field, endpoint_id, source_id):
     """Preserve a qualified observation, or explicitly mark a legacy relation."""
     context = f"{row['key1']} -> {row['key2']}"
     if row.get("type") not in (None, "", "provenance"):
         raise ValueError(f"Unsupported provenance relation type for {context}")
     source = DIAMM[f"sources/{source_id}"]
-    place = DIAMM[f"{PLACE_TABLES[field]}/{place_id}"]
+    endpoint = DIAMM[f"{PROVENANCE_TABLES[field]}/{endpoint_id}"]
     evidence = row.get("source_provenance") or ""
     entry = None
     if evidence:
@@ -86,25 +90,52 @@ def add_source_provenance(graph, row, field, place_id, source_id):
     # Identity includes both typed endpoints and the exact CSV evidence. It is
     # independent of input order; conflicting entries cannot exchange qualifiers.
     identity = json.dumps(
-        [str(source), str(place), evidence], ensure_ascii=False, separators=(",", ":")
+        [str(source), str(endpoint), evidence],
+        ensure_ascii=False,
+        separators=(",", ":"),
     )
     digest = hashlib.sha256(identity.encode("utf-8")).hexdigest()
     observation = LM[f"source-provenance/{digest}"]
-    graph.add((source, LM.sourceProvenance, observation))
-    graph.add((observation, RDF.type, LM.SourceProvenanceObservation))
-    graph.add((observation, LM.place, place))
-    graph.add((observation, DCTERMS.source, place))
-    graph.add((observation, LM.sourceField, Literal(field, datatype=XSD.string)))
-
-    def flag(value):
-        graph.add((observation, LM.validationFlag, Literal(value)))
+    if field == "organization":
+        graph.add((source, LM.organizationProvenance, observation))
+        graph.add((observation, RDF.type, LM.OrganizationProvenanceObservation))
+    else:
+        graph.add((source, LM.sourceProvenance, observation))
+        graph.add((observation, RDF.type, LM.SourceProvenanceObservation))
+        graph.add((observation, LM.place, endpoint))
+        graph.add((observation, LM.sourceField, Literal(field, datatype=XSD.string)))
+    graph.add((observation, DCTERMS.source, endpoint))
 
     if entry is None:
-        flag("legacy-unqualified-provenance")
+        graph.add(
+            (observation, LM.validationFlag, Literal("legacy-unqualified-provenance"))
+        )
         return
     graph.add(
         (observation, LM.sourceProvenanceJson, Literal(evidence, datatype=XSD.string))
     )
+    if field == "organization":
+        _add_organization_fields(graph, observation, entry)
+    else:
+        _add_place_qualifiers(graph, observation, field, entry)
+
+
+def _add_organization_fields(graph, observation, entry):
+    for field in ("city", "region", "country", "protectorate"):
+        name = entry.get(field)
+        if isinstance(name, str) and name:
+            graph.add(
+                (observation, LM[f"{field}Name"], Literal(name, datatype=XSD.string))
+            )
+    for field in ("entity", "city", "region", "country"):
+        uncertain = entry.get(f"{field}_uncertain")
+        if type(uncertain) is bool:
+            graph.add((observation, LM[f"{field}Uncertain"], Literal(uncertain)))
+
+
+def _add_place_qualifiers(graph, observation, field, entry):
+    def flag(value):
+        graph.add((observation, LM.validationFlag, Literal(value)))
 
     uncertain_field = f"{field}_uncertain"
     if type(entry.get(uncertain_field)) is bool:

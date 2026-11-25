@@ -64,7 +64,6 @@ DIAMM_SCHEMA = {
     "holding_archive": WDT["P276"],
     "composition_in_source": WDT["P361"],
     "copied_organization": WDT["P1071"],
-    "provenance_organization": WDT["P276"],
     "copied_people": WDT["P11603"],
     "set_in_source": WDT["P361"],
     "display_name": RDFS.label,
@@ -629,7 +628,10 @@ def build_rdf_graph(
         first_type, first_id = work["key1"].split(":")
         second_type, second_id = work["key2"].split(":")
         first_id, second_id = int(first_id), int(second_id)
-        if first_type in ("city", "region") and second_type == "source":
+        if second_type == "source" and (
+            first_type in ("city", "region")
+            or (first_type == "organization" and work["type"] == "provenance")
+        ):
             add_source_provenance(g, work, first_type, first_id, second_id)
             continue
         first_uri = pred_uri = second_uri = None
@@ -684,8 +686,6 @@ def build_rdf_graph(
                 reverse = True
                 if work["type"] == "copied":
                     pred_uri = DIAMM_SCHEMA["copied_organization"]
-                elif work["type"] == "provenance":
-                    pred_uri = DIAMM_SCHEMA["provenance_organization"]
                 elif work["type"].startswith("related:"):
                     if pred_map := relations_mapping["organizations"].get(
                         work["type"].split(":")[1]

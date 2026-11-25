@@ -1,0 +1,20 @@
+# One row per distinct organization entry, including legacy observations.
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+SELECT ?source ?observation ?organization ?entityUncertain
+       ?city ?cityUncertain ?region ?regionUncertain ?country ?countryUncertain
+       ?protectorate ?evidence WHERE {
+  GRAPH diamm: {
+    ?source diamm:organizationProvenance ?observation .
+    ?observation a diamm:OrganizationProvenanceObservation ; dcterms:source ?organization .
+    OPTIONAL { ?observation diamm:entityUncertain ?entityUncertain }
+    OPTIONAL { ?observation diamm:cityName ?city }
+    OPTIONAL { ?observation diamm:cityUncertain ?cityUncertain }
+    OPTIONAL { ?observation diamm:regionName ?region }
+    OPTIONAL { ?observation diamm:regionUncertain ?regionUncertain }
+    OPTIONAL { ?observation diamm:countryName ?country }
+    OPTIONAL { ?observation diamm:countryUncertain ?countryUncertain }
+    OPTIONAL { ?observation diamm:protectorateName ?protectorate }
+    OPTIONAL { ?observation diamm:sourceProvenanceJson ?evidence }
+  }
+}

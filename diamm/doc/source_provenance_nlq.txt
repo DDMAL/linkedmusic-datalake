@@ -1,8 +1,8 @@
 <database name="DIAMM provenance candidate" graph-iri="https://linkedmusic.ca/graphs/diamm/" contract="preservation-v1">
 <description>
 Candidate context fragment for the qualified-provenance graph version. Merge
-into the full DIAMM corpus only with that graph's rollout. It replaces the
-Source/P131/City provenance route; it is not the complete DIAMM schema.
+into the full DIAMM corpus only with that graph's rollout. It covers the replacements for the
+Source/P131/City and Source/P276/Organization provenance routes.
 </description>
 <query-notes>
 Selecting sourceProvenance requires the SourceProvenanceObservation block and
@@ -17,10 +17,12 @@ Count DISTINCT manuscripts or DISTINCT observations explicitly. One manuscript
 can have multiple observations and uncertainty states. Missing bounds are not
 infinite. Exclude reversed-year-bounds from ordered-interval queries. Provenance
 does not establish creation, administrative containment or present storage.
-Organization source_provenance comes from the same DIAMM provenance model.
-Its manuscript-to-organization wdt:P276 link omits the source uncertainty flags.
-Following that link through https://schema.org/location gives the organization's
-listed place. Do not use this path to assert a manuscript location or certainty.
+Selecting organizationProvenance requires the OrganizationProvenanceObservation
+block. Return its listing organization, co-listed names and individual flags
+from the same observation. Missing flags are unknown. The organization listing
+supplies no protectorate flag or year bounds. In older graphs, following
+wdt:P276 and https://schema.org/location retrieves the organization's own
+listed place and supplies no evidence of the manuscript's location.
 To filter by sourceField, bind the value to ?field and use
 FILTER(STR(?field) = "city") or FILTER(STR(?field) = "region").
 Check the graph version before interpreting an empty observation result.
@@ -30,7 +32,20 @@ The dcterms:source link is coarse origin context, not a versioned source record.
 @prefix diamm: <https://linkedmusic.ca/graphs/diamm/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 diamm:Source
-	diamm:sourceProvenance	diamm:SourceProvenanceObservation .
+	diamm:sourceProvenance	diamm:SourceProvenanceObservation ;
+	diamm:organizationProvenance	diamm:OrganizationProvenanceObservation .
+diamm:OrganizationProvenanceObservation
+	dcterms:source	diamm:Organization ;
+	diamm:cityName	"city name text" ;
+	diamm:cityUncertain	"optional city flag" ;
+	diamm:regionName	"region name text" ;
+	diamm:regionUncertain	"optional region flag" ;
+	diamm:countryName	"country name text" ;
+	diamm:countryUncertain	"optional country flag" ;
+	diamm:protectorateName	"protectorate name text" ;
+	diamm:entityUncertain	"optional flag for the listing organization" ;
+	diamm:sourceProvenanceJson	"retained JSON; absent for legacy evidence" ;
+	diamm:validationFlag	"legacy-unqualified-provenance on legacy evidence" .
 diamm:SourceProvenanceObservation
 	diamm:place	diamm:City, diamm:Region ;
 	dcterms:source	diamm:City, diamm:Region ;

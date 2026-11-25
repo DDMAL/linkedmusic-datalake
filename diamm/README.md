@@ -40,9 +40,9 @@ when one distinct nonblank string is available. The
 [identifier-list contract](doc/external_identifier_selection.md) describes
 classification, multiple values, evidence retention and legacy compatibility.
 
-City/region provenance entries retain their complete parsed JSON in the
+City, region and organization provenance entries retain their complete parsed JSON in the
 `source_provenance` column of `relations.csv`, which bypasses OpenRefine.
-Uncertainty and year bounds stay paired with source/place endpoints under the
+Each entry keeps its supplied names, uncertainty flags or year bounds under the
 [qualified provenance contract](doc/source_provenance.md).
 
 ## 3. Reconciling Data
@@ -118,7 +118,7 @@ Some properties of interest:
 - Archives link to cities with P131. Cities link to regions with P131, and cities and regions link to countries with P17. Parent types require source review. An organization's directly listed city, region or country uses `schema:location`.
 - RDFS:label is used for shelfmarks for sets, as it essentially is the name/label for the set
 - skos:altLabel is used for the variant names, as it's what Wikidata uses
-- The legacy organization-provenance branch still emits P276 (location), with its separate semantic limits. City/region manuscript provenance uses observations without direct location projection. Inspect the original source relation before interpreting any route as physical location.
+- Archive holdings use P276. For manuscript associations listed by organizations, the [organization provenance query](doc/queries/organization_provenance.rq) returns the co-listed place names and their separate flags.
 - P11603 (transcribed by) is used to indicate people that copied a source as one of the alternate uses is to indicate copying
 - P361 (part of) is used to indicate sets or compositions that are contained in sources
 

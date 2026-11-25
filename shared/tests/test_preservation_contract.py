@@ -56,6 +56,7 @@ class PreservationContractTests(unittest.TestCase):
         schema = Graph().parse(ONTOLOGY / "preservation.ttl")
         for cls in (
             DIAMM.SourceProvenanceObservation,
+            DIAMM.OrganizationProvenanceObservation,
             DIAMM.PersonYearObservation,
             MB.RelationshipObservation,
             CKG.CreationPeriod,
@@ -85,6 +86,9 @@ class PreservationContractTests(unittest.TestCase):
         graph.add((EX.provenance, DIAMM.uncertain, Literal(False)))
         graph.add((EX.source, DIAMM.sourceProvenance, EX.provenance))
         graph.add((EX.provenance, DIAMM.place, EX.city))
+        graph.add((EX.source, DIAMM.organizationProvenance, EX.orgEntry))
+        graph.add((EX.orgEntry, DIAMM.cityUncertain, Literal(False)))
+        graph.add((EX.orgEntry, DIAMM.entityUncertain, Literal(True)))
         DeductiveClosure(RDFS_Semantics).expand(graph)
         self.assertEqual(
             set(graph.subject_objects(LM.sourceUncertain)),

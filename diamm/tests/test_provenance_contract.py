@@ -1,9 +1,12 @@
 """Validate real converter output and uncertainty-aware query behavior."""
 
+import csv
+import json
 import unittest
 
 from pyshacl import validate
-from rdflib import Dataset, Graph, Literal, Namespace, RDF
+from rdflib import Dataset, Graph, Literal, Namespace, RDF, URIRef
+from rdflib.namespace import DCTERMS, SDO, XSD
 
 import test_source_provenance as provenance
 
@@ -13,7 +16,18 @@ ONTOLOGY = ROOT / "shared/ontology"
 QUERIES = ROOT / "diamm/doc/queries"
 
 
-class ProvenanceContractTests(unittest.TestCase):
+class ShapeTestCase(unittest.TestCase):
+    def check_shape(self, graph, expected=True):
+        conforms, _, report = validate(
+            graph,
+            shacl_graph=str(ONTOLOGY / "shapes.ttl"),
+            ont_graph=str(ONTOLOGY / "preservation.ttl"),
+            inference="none",
+        )
+        self.assertEqual(conforms, expected, report)
+
+
+class ProvenanceContractTests(ShapeTestCase):
     def setUp(self):
         self.case = provenance.SourceProvenanceTests()
         self.case.setUp()
@@ -54,20 +68,11 @@ class ProvenanceContractTests(unittest.TestCase):
         for node in self.graph.objects(DIAMM["sources/2"], LM.sourceProvenance):
             poison.add((node, LM.uncertain, Literal(False)))
 
-    def check(self, graph, expected=True):
-        conforms, _, report = validate(
-            graph,
-            shacl_graph=str(ONTOLOGY / "shapes.ttl"),
-            ont_graph=str(ONTOLOGY / "preservation.ttl"),
-            inference="none",
-        )
-        self.assertEqual(conforms, expected, report)
-
     def query(self, name):
         return self.dataset.query((QUERIES / name).read_text())
 
     def test_actual_converter_output_satisfies_shapes_including_unknown_evidence(self):
-        self.check(self.graph)
+        self.check_shape(self.graph)
         self.assertEqual(
             len(set(self.graph.subjects(RDF.type, LM.SourceProvenanceObservation))),
             11,
@@ -89,7 +94,7 @@ class ProvenanceContractTests(unittest.TestCase):
             with self.subTest(triple=triple):
                 graph = self.graph + Graph()
                 graph.add(triple)
-                self.check(graph, False)
+                self.check_shape(graph, False)
         legacy = next(
             self.graph.subjects(
                 LM.validationFlag, Literal("legacy-unqualified-provenance")
@@ -97,10 +102,10 @@ class ProvenanceContractTests(unittest.TestCase):
         )
         graph = self.graph + Graph()
         graph.add((legacy, LM.uncertain, Literal(False)))
-        self.check(graph, False)
+        self.check_shape(graph, False)
         graph = self.graph + Graph()
         graph.remove((node, LM.place, None))
-        self.check(graph, False)
+        self.check_shape(graph, False)
 
     def test_broad_query_preserves_unknowns_and_returns_qualifiers_with_evidence(self):
         rows = list(self.query("source_provenance.rq"))
@@ -166,6 +171,179 @@ class ProvenanceContractTests(unittest.TestCase):
             },
             {"uncertain": (1, 1), "source-unflagged": (3, 6), "unknown": (1, 4)},
         )
+
+
+class OrganizationProvenanceTests(ShapeTestCase):
+    def setUp(self):
+        self.case = provenance.SourceProvenanceTests()
+        self.case.setUp()
+        self.addCleanup(self.case.doCleanups)
+        self.fixture = self.case.fixture
+
+    def test_organization_entries_survive_both_clis_and_query_in_pairs(self):
+        first = {
+            "url": f"{DIAMM}sources/5/",
+            "city": "Siena",
+            "city_uncertain": False,
+            "entity_uncertain": True,
+            "region": "Tuscany",
+            "region_uncertain": False,
+            "country": "Italy",
+            "country_uncertain": True,
+            "protectorate": "A",
+            "source": "MS A",
+            "extra": ["001"],
+        }
+        second = dict(
+            first,
+            city="Bologna",
+            city_uncertain=True,
+            entity_uncertain=False,
+            region="Emilia-Romagna",
+            region_uncertain=True,
+            country_uncertain=False,
+            protectorate="B",
+        )
+        unknown = {
+            "url": f"{DIAMM}sources/6/",
+            "city": '  É, "NA"  ',
+            "region_uncertain": None,
+            "country_uncertain": "false",
+        }
+        record = {
+            "pk": 1,
+            "name": "Institution",
+            "organization_type": "Institution",
+            "location": {
+                "name": "Florence",
+                "url": f"{DIAMM}cities/7/",
+                "parent": "Italy",
+            },
+            "source_provenance": [
+                first,
+                second,
+                dict(reversed(first.items())),
+                unknown,
+            ],
+            "copied_sources": [{"url": f"{DIAMM}sources/7/"}],
+            "related_sources": [{"url": f"{DIAMM}sources/8/", "relationship": "owner"}],
+        }
+        raw = self.fixture.directory / "data/raw/organizations"
+        raw.mkdir(parents=True)
+        (raw / "1.json").write_text(json.dumps(record))
+        self.fixture.run_script("to_csv.py")
+        with self.fixture.relations.open(newline="") as stream:
+            rows = list(csv.DictReader(stream))
+        self.assertCountEqual(
+            [
+                json.loads(row["source_provenance"])
+                for row in rows
+                if row["source_provenance"]
+            ],
+            [first, second, unknown],
+        )
+        self.fixture.run_script("convert_rdf.py")
+        graph = Graph().parse(
+            self.fixture.directory / "data/RDF/diamm.ttl", format="turtle"
+        )
+        dataset = Dataset()
+        target = dataset.graph(URIRef(str(LM)))
+        target += graph
+        # A different named graph must not fill in the missing source flag.
+        (unknown_node,) = graph.objects(DIAMM["sources/6"], LM.organizationProvenance)
+        dataset.graph(URIRef("urn:other")).add(
+            (unknown_node, LM.cityUncertain, Literal(False))
+        )
+        query = (QUERIES / "organization_provenance.rq").read_text()
+        answers = list(dataset.query(query))
+        self.assertEqual(len(answers), 3)
+        self.assertEqual(len({row.observation for row in answers}), 3)
+        self.assertEqual(
+            {row.organization for row in answers}, {DIAMM["organizations/1"]}
+        )
+        self.assertCountEqual(
+            [json.loads(row.evidence) for row in answers], [first, second, unknown]
+        )
+        for row in answers:
+            entry = json.loads(row.evidence)
+            self.assertEqual(row.source, URIRef(entry["url"].rstrip("/")))
+            for field in ("city", "region", "country", "protectorate"):
+                expected = (
+                    Literal(entry[field], datatype=XSD.string)
+                    if field in entry
+                    else None
+                )
+                self.assertEqual(row[field], expected, field)
+            for field in ("city", "entity", "region", "country"):
+                value = entry.get(f"{field}_uncertain")
+                expected = Literal(value) if type(value) is bool else None
+                self.assertEqual(row[f"{field}Uncertain"], expected, field)
+        org = DIAMM["organizations/1"]
+        self.assertIn((org, SDO.location, DIAMM["cities/7"]), graph)
+        for source in (5, 6):
+            self.assertEqual(
+                set(graph.predicates(DIAMM[f"sources/{source}"])),
+                {LM.organizationProvenance},
+            )
+        self.assertEqual(
+            set(graph.predicate_objects(DIAMM["sources/7"])),
+            {(provenance.WDT.P1071, org)},
+        )
+        self.assertEqual(
+            set(graph.predicate_objects(DIAMM["sources/8"])),
+            {(provenance.WDT.P127, org)},
+        )
+        self.check_shape(graph)
+
+    def test_legacy_organization_evidence_and_mixed_rows(self):
+        legacy = {"key1": "organization:7", "key2": "source:5", "type": "provenance"}
+        self.fixture.relations.write_text(
+            "key1,key2,type\norganization:7,source:5,provenance\n"
+        )
+        graph = self.fixture.convert()
+        source = DIAMM["sources/5"]
+        (node,) = graph.objects(source, LM.organizationProvenance)
+        self.assertEqual(
+            set(graph),
+            {
+                (source, LM.organizationProvenance, node),
+                (node, RDF.type, LM.OrganizationProvenanceObservation),
+                (node, DCTERMS.source, DIAMM["organizations/7"]),
+                (node, LM.validationFlag, Literal("legacy-unqualified-provenance")),
+            },
+        )
+        fresh = self.case.relation(
+            "organization", {"url": f"{DIAMM}sources/5/", "country_uncertain": False}
+        )
+        self.case.write_relations([legacy, fresh, legacy, fresh])
+        mixed = self.fixture.convert()
+        self.assertTrue(all(triple in mixed for triple in graph))
+        self.assertEqual(len(set(mixed.objects(source, LM.organizationProvenance))), 2)
+        dataset = Dataset()
+        target = dataset.graph(URIRef(str(LM)))
+        target += mixed
+        rows = list(dataset.query((QUERIES / "organization_provenance.rq").read_text()))
+        self.assertCountEqual(
+            [(row.evidence, row.country, row.countryUncertain) for row in rows],
+            [
+                (None, None, None),
+                (
+                    Literal(fresh["source_provenance"], datatype=XSD.string),
+                    None,
+                    Literal(False),
+                ),
+            ],
+        )
+        self.check_shape(mixed)
+        mixed.add((node, LM.cityName, Literal("Florence", datatype=XSD.string)))
+        self.check_shape(mixed, False)
+
+    def test_organization_provenance_requires_matching_source_endpoint(self):
+        self.case.write_relations(
+            [self.case.relation("organization", {"url": f"{DIAMM}sources/6/"})]
+        )
+        with self.assertRaisesRegex(ValueError, "organization:7.*source:5"):
+            self.fixture.convert()
 
 
 if __name__ == "__main__":

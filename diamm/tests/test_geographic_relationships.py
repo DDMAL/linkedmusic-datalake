@@ -5,7 +5,7 @@ import json
 import unittest
 
 from rdflib import Graph, Literal, RDF, RDFS
-from rdflib.namespace import SDO
+from rdflib.namespace import DCTERMS, SDO
 
 import test_external_identifier_text as fixtures
 
@@ -48,6 +48,8 @@ class GeographicRelationshipTests(unittest.TestCase):
         )
         # An organization's location does not imply that a manuscript was
         # copied or held there. Preserve the source's existing assertions only.
+        graph = self.fixture.convert()
+        (legacy,) = graph.objects(DIAMM["sources/6"], LM.organizationProvenance)
         expected = {
             (DIAMM["organizations/1"], SDO.location, DIAMM["cities/2"]),
             (DIAMM["organizations/2"], SDO.location, DIAMM["countries/3"]),
@@ -55,9 +57,11 @@ class GeographicRelationshipTests(unittest.TestCase):
             (DIAMM["cities/2"], WDT.P17, DIAMM["countries/3"]),
             (DIAMM["cities/2"], WDT.P131, DIAMM["regions/4"]),
             (DIAMM["sources/5"], WDT.P1071, DIAMM["organizations/1"]),
-            (DIAMM["sources/6"], WDT.P276, DIAMM["organizations/1"]),
+            (DIAMM["sources/6"], LM.organizationProvenance, legacy),
+            (legacy, RDF.type, LM.OrganizationProvenanceObservation),
+            (legacy, DCTERMS.source, DIAMM["organizations/1"]),
+            (legacy, LM.validationFlag, Literal("legacy-unqualified-provenance")),
         }
-        graph = self.fixture.convert()
         self.fixture.assert_graph_and_roundtrip(graph, expected)
         locations = graph.query(
             "SELECT ?org ?place WHERE { ?org <https://schema.org/location> ?place }"
