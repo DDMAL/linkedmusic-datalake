@@ -130,11 +130,18 @@ display text and any additional fields, is available as `diamm:sourceProvenanceJ
 | `country`, `country_uncertain` | `diamm:countryName`, `diamm:countryUncertain` |
 | `protectorate` | `diamm:protectorateName` |
 
-Each nonempty string keeps its exact spelling as an `xsd:string`. Each JSON
-boolean becomes an `xsd:boolean` for that field, including when the place
-name is absent. False means the source left that field unflagged. A missing,
-null or unsupported flag leaves the query variable unbound. Inspect the JSON
-to distinguish these cases. The organization listing supplies neither a
+DIAMM's model defaults each uncertainty flag to false and allows a missing
+geographic reference. An entry can therefore supply `city_uncertain: false`
+without naming a city. [SourceProvenance model](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/models/data/source_provenance.py)
+
+Each nonempty place name keeps its exact spelling as an `xsd:string`.
+A city, region or country flag becomes an `xsd:boolean` only when the same
+entry names that place and supplies a JSON boolean. A missing, null, empty,
+whitespace-only or non-string name leaves the flag in the raw JSON alone.
+The entity flag qualifies the listing organization even on an entry with no
+named places. False means DIAMM left that association unflagged. Independent
+verification would require other evidence. A missing, null or unsupported
+flag leaves its query variable unbound. The organization listing supplies neither a
 protectorate uncertainty flag nor year bounds. Its place names supply text
 only. Joining on equal names cannot identify a geographic record or establish
 a shared event with a city or region listing. [Organization serializer](https://github.com/diamm/diamm/blob/052004f86960a5dc4d1e7446be8d5a6ac8594bd1/diamm/serializers/website/organization.py#L25-L40)
@@ -159,7 +166,8 @@ the organization's listed place. The path supplies no manuscript place or
 certainty. In newly converted graphs, query the observation to identify the
 organization and read its entry. Check the export revision and graph IRI
 before interpreting an empty result. A P276 edge alone cannot identify a
-converter version because archive holdings also use P276. Copyist rows use
+converter version because archive holdings also use P276. The
+[graph-version checks](#checking-the-graph-version) distinguish the two target namespaces. Copyist rows use
 P1071 and typed related-source rows follow their own [relationship mappings](relationships.md).
 
 ## Query compatibility
@@ -224,7 +232,8 @@ This compares the text of the stored `xsd:string` on both RDFLib and Oxigraph.
 ### Checking the graph version
 
 Before running the observation queries, check the export's converter revision
-and run both probes on the DIAMM named graph. The first detects the older
+and run the probes for the relevant listing on the DIAMM named graph.
+For city and region listings, the first probe detects the older
 direct P131 pattern on typed manuscripts.
 
 ```sparql
@@ -243,9 +252,33 @@ ASK { GRAPH diamm: { ?source diamm:sourceProvenance ?observation . } }
 | Direct P131 | Observation | Interpretation |
 | --- | --- | --- |
 | true | false | The old path is present. Observation queries miss those associations. |
-| false | true | Observations are present. Use the observation queries with the matching export. |
+| false | true | City or region observations are present. Use the city/region queries with the matching export. |
 | true | true | Both patterns are present. Check which exports were loaded before interpreting counts. |
 | false | false | The probes cannot identify the version. Check the graph IRI, export revision and source relation rows before interpreting an empty result. |
+
+For organization listings, check for a P276 edge to a local organization.
+The target namespace excludes archive holdings.
+
+```sparql
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+ASK { GRAPH diamm: {
+  ?source wdt:P276 ?organization .
+  FILTER(isIRI(?organization) && STRSTARTS(STR(?organization), "https://www.diamm.ac.uk/organizations/"))
+} }
+```
+
+Then check for organization observations.
+
+```sparql
+PREFIX diamm: <https://linkedmusic.ca/graphs/diamm/>
+ASK { GRAPH diamm: { ?source diamm:organizationProvenance ?observation . } }
+```
+
+A positive first result identifies the older organization link. A positive
+second result identifies the observation route. If both occur, check for mixed
+exports before counting. If both are absent, consult the export and input
+records. City and region observations can occur alongside either representation.
 
 ## Query and answer contract
 

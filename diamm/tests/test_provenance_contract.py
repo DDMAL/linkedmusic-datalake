@@ -210,6 +210,14 @@ class OrganizationProvenanceTests(ShapeTestCase):
             "region_uncertain": None,
             "country_uncertain": "false",
         }
+        entity_only = {
+            "url": f"{DIAMM}sources/9/",
+            "source": "MS entity-only",
+            "entity_uncertain": False,
+            "city_uncertain": False,
+            "region_uncertain": False,
+            "country_uncertain": False,
+        }
         record = {
             "pk": 1,
             "name": "Institution",
@@ -224,6 +232,7 @@ class OrganizationProvenanceTests(ShapeTestCase):
                 second,
                 dict(reversed(first.items())),
                 unknown,
+                entity_only,
             ],
             "copied_sources": [{"url": f"{DIAMM}sources/7/"}],
             "related_sources": [{"url": f"{DIAMM}sources/8/", "relationship": "owner"}],
@@ -240,7 +249,7 @@ class OrganizationProvenanceTests(ShapeTestCase):
                 for row in rows
                 if row["source_provenance"]
             ],
-            [first, second, unknown],
+            [first, second, unknown, entity_only],
         )
         self.fixture.run_script("convert_rdf.py")
         graph = Graph().parse(
@@ -256,13 +265,14 @@ class OrganizationProvenanceTests(ShapeTestCase):
         )
         query = (QUERIES / "organization_provenance.rq").read_text()
         answers = list(dataset.query(query))
-        self.assertEqual(len(answers), 3)
-        self.assertEqual(len({row.observation for row in answers}), 3)
+        self.assertEqual(len(answers), 4)
+        self.assertEqual(len({row.observation for row in answers}), 4)
         self.assertEqual(
             {row.organization for row in answers}, {DIAMM["organizations/1"]}
         )
         self.assertCountEqual(
-            [json.loads(row.evidence) for row in answers], [first, second, unknown]
+            [json.loads(row.evidence) for row in answers],
+            [first, second, unknown, entity_only],
         )
         for row in answers:
             entry = json.loads(row.evidence)
@@ -276,8 +286,19 @@ class OrganizationProvenanceTests(ShapeTestCase):
                 self.assertEqual(row[field], expected, field)
             for field in ("city", "entity", "region", "country"):
                 value = entry.get(f"{field}_uncertain")
-                expected = Literal(value) if type(value) is bool else None
+                has_target = field == "entity" or field in entry
+                expected = (
+                    Literal(value) if has_target and type(value) is bool else None
+                )
                 self.assertEqual(row[f"{field}Uncertain"], expected, field)
+        # A direct filter on the graph must also exclude entity-only entries.
+        unflagged_city = dataset.query(
+            f"""PREFIX d: <{LM}>
+            SELECT DISTINCT ?source WHERE {{ GRAPH d: {{
+              ?source d:organizationProvenance ?entry . ?entry d:cityUncertain false
+            }} }}"""
+        )
+        self.assertEqual([row.source for row in unflagged_city], [DIAMM["sources/5"]])
         org = DIAMM["organizations/1"]
         self.assertIn((org, SDO.location, DIAMM["cities/7"]), graph)
         for source in (5, 6):
@@ -313,7 +334,13 @@ class OrganizationProvenanceTests(ShapeTestCase):
             },
         )
         fresh = self.case.relation(
-            "organization", {"url": f"{DIAMM}sources/5/", "country_uncertain": False}
+            "organization",
+            {
+                "url": f"{DIAMM}sources/5/",
+                "country_uncertain": False,
+                "city": " \u00a0 ",
+                "city_uncertain": True,
+            },
         )
         self.case.write_relations([legacy, fresh, legacy, fresh])
         mixed = self.fixture.convert()
@@ -324,19 +351,50 @@ class OrganizationProvenanceTests(ShapeTestCase):
         target += mixed
         rows = list(dataset.query((QUERIES / "organization_provenance.rq").read_text()))
         self.assertCountEqual(
-            [(row.evidence, row.country, row.countryUncertain) for row in rows],
             [
-                (None, None, None),
+                (
+                    row.evidence,
+                    row.city,
+                    row.cityUncertain,
+                    row.country,
+                    row.countryUncertain,
+                )
+                for row in rows
+            ],
+            [
+                (None, None, None, None, None),
                 (
                     Literal(fresh["source_provenance"], datatype=XSD.string),
+                    Literal(" \u00a0 ", datatype=XSD.string),
                     None,
-                    Literal(False),
+                    None,
+                    None,
                 ),
             ],
         )
         self.check_shape(mixed)
         mixed.add((node, LM.cityName, Literal("Florence", datatype=XSD.string)))
         self.check_shape(mixed, False)
+
+    def test_organization_shape_requires_a_named_place_for_each_place_flag(self):
+        self.case.write_relations(
+            [self.case.relation("organization", {"url": f"{DIAMM}sources/5/"})]
+        )
+        graph = self.fixture.convert()
+        (node,) = graph.objects(DIAMM["sources/5"], LM.organizationProvenance)
+        for field in ("city", "region", "country"):
+            with self.subTest(field=field):
+                flagged = graph + Graph()
+                flagged.add((node, LM[f"{field}Uncertain"], Literal(False)))
+                self.check_shape(flagged, False)
+                flagged.add(
+                    (node, LM[f"{field}Name"], Literal("  ", datatype=XSD.string))
+                )
+                self.check_shape(flagged, False)
+                flagged.set(
+                    (node, LM[f"{field}Name"], Literal(" Pavia ", datatype=XSD.string))
+                )
+                self.check_shape(flagged)
 
     def test_organization_provenance_requires_matching_source_endpoint(self):
         self.case.write_relations(

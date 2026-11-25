@@ -19,8 +19,17 @@ infinite. Exclude reversed-year-bounds from ordered-interval queries. Provenance
 does not establish creation, administrative containment or present storage.
 Selecting organizationProvenance requires the OrganizationProvenanceObservation
 block. Return its listing organization, co-listed names and individual flags
-from the same observation. Missing flags are unknown. The organization listing
-supplies no protectorate flag or year bounds. In older graphs, following
+from the same observation. Each city, region or country flag qualifies only
+the name on that entry. A place flag in the raw JSON without a corresponding
+nonblank name provides no place evidence. The entity flag qualifies the listing
+organization independently. For all four booleans, true means DIAMM flagged
+that association as uncertain, false means DIAMM left it unflagged, and an
+absent flag leaves uncertainty unknown. Never report false as verified.
+Treat the place names as text. Do not join them to City or Region labels to
+identify a place or infer a Wikidata match. Count observations per listing
+route because one upstream association can occur in several listings.
+The organization listing supplies no protectorate flag or year bounds.
+In older graphs, following
 wdt:P276 and https://schema.org/location retrieves the organization's own
 listed place and supplies no evidence of the manuscript's location.
 To filter by sourceField, bind the value to ?field and use
@@ -37,13 +46,13 @@ diamm:Source
 diamm:OrganizationProvenanceObservation
 	dcterms:source	diamm:Organization ;
 	diamm:cityName	"city name text" ;
-	diamm:cityUncertain	"optional city flag" ;
+	diamm:cityUncertain	"optional boolean for the named city. False is source-unflagged. Absent is unknown." ;
 	diamm:regionName	"region name text" ;
-	diamm:regionUncertain	"optional region flag" ;
+	diamm:regionUncertain	"optional boolean for the named region. False is source-unflagged. Absent is unknown." ;
 	diamm:countryName	"country name text" ;
-	diamm:countryUncertain	"optional country flag" ;
+	diamm:countryUncertain	"optional boolean for the named country. False is source-unflagged. Absent is unknown." ;
 	diamm:protectorateName	"protectorate name text" ;
-	diamm:entityUncertain	"optional flag for the listing organization" ;
+	diamm:entityUncertain	"optional boolean for the listing organization. False is source-unflagged. Absent is unknown." ;
 	diamm:sourceProvenanceJson	"retained JSON; absent for legacy evidence" ;
 	diamm:validationFlag	"legacy-unqualified-provenance on legacy evidence" .
 diamm:SourceProvenanceObservation

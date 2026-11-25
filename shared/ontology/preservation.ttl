@@ -86,15 +86,15 @@ diamm:entityUncertain a rdf:Property ;
 diamm:cityUncertain a rdf:Property ;
     rdfs:range xsd:boolean ;
     rdfs:label "DIAMM city uncertainty"@en ;
-    rdfs:comment "Explicit city_uncertain flag for this entry's city field. Absence leaves its uncertainty unknown."@en .
+    rdfs:comment "Boolean supplied for the city named on this entry. False means DIAMM left that association unflagged. Without a named city, the source flag is retained only in the JSON."@en .
 diamm:regionUncertain a rdf:Property ;
     rdfs:range xsd:boolean ;
     rdfs:label "DIAMM region uncertainty"@en ;
-    rdfs:comment "Explicit region_uncertain flag for this entry's region field. Absence leaves its uncertainty unknown."@en .
+    rdfs:comment "Boolean supplied for the region named on this entry. False means DIAMM left that association unflagged. Without a named region, the source flag is retained only in the JSON."@en .
 diamm:countryUncertain a rdf:Property ;
     rdfs:range xsd:boolean ;
     rdfs:label "DIAMM country uncertainty"@en ;
-    rdfs:comment "Explicit country_uncertain flag for this entry's country field. Absence leaves its uncertainty unknown."@en .
+    rdfs:comment "Boolean supplied for the country named on this entry. False means DIAMM left that association unflagged. Without a named country, the source flag is retained only in the JSON."@en .
 diamm:place a rdf:Property ;
     rdfs:label "Place mentioned by provenance evidence"@en ;
     rdfs:comment "Observation to its local city or region endpoint. Does not entail a place type, name or Wikidata identity."@en .

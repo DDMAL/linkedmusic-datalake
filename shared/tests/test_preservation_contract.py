@@ -87,6 +87,7 @@ class PreservationContractTests(unittest.TestCase):
         graph.add((EX.source, DIAMM.sourceProvenance, EX.provenance))
         graph.add((EX.provenance, DIAMM.place, EX.city))
         graph.add((EX.source, DIAMM.organizationProvenance, EX.orgEntry))
+        graph.add((EX.orgEntry, DIAMM.cityName, Literal("Siena", datatype=XSD.string)))
         graph.add((EX.orgEntry, DIAMM.cityUncertain, Literal(False)))
         graph.add((EX.orgEntry, DIAMM.entityUncertain, Literal(True)))
         DeductiveClosure(RDFS_Semantics).expand(graph)

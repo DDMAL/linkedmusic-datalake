@@ -95,7 +95,7 @@ Country matching hints are separate from relationships in `relations.csv`.
 The [geographic relationship contract](doc/geographic_relationships.md) maps
 each organization's directly listed city, region or country to `schema:location`.
 A manuscript linked to that organization receives no inferred location.
-[City/region manuscript provenance](doc/source_provenance.md) uses named
+[City, region and organization manuscript provenance](doc/source_provenance.md) uses named
 observations that retain the parsed entry, supported qualifiers and validation
 flags. Legacy rows retain the association with qualifiers marked unavailable.
 

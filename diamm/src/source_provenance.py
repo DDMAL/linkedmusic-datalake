@@ -121,15 +121,17 @@ def add_source_provenance(graph, row, field, endpoint_id, source_id):
 
 
 def _add_organization_fields(graph, observation, entry):
+    entity_uncertain = entry.get("entity_uncertain")
+    if type(entity_uncertain) is bool:
+        graph.add((observation, LM.entityUncertain, Literal(entity_uncertain)))
+
     for field in ("city", "region", "country", "protectorate"):
         name = entry.get(field)
-        if isinstance(name, str) and name:
-            graph.add(
-                (observation, LM[f"{field}Name"], Literal(name, datatype=XSD.string))
-            )
-    for field in ("entity", "city", "region", "country"):
+        if not isinstance(name, str) or not name:
+            continue
+        graph.add((observation, LM[f"{field}Name"], Literal(name, datatype=XSD.string)))
         uncertain = entry.get(f"{field}_uncertain")
-        if type(uncertain) is bool:
+        if field != "protectorate" and type(uncertain) is bool and name.strip():
             graph.add((observation, LM[f"{field}Uncertain"], Literal(uncertain)))
 
 
