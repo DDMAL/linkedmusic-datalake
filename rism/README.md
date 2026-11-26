@@ -97,7 +97,12 @@ poetry run python rism/src/convert_to_rdf.py --input_folder rism/data/reconciled
 Each `part-N-ttl.csv` produces `part-N.ttl` in the output folder. The converter
 writes and closes a temporary file before moving it into place. If a part fails,
 the command reports its path, finishes the other parts, and exits nonzero.
-Fix the reported cause and rerun the same command. It skips numbered inputs
+If a record subject or a class generated from `rdf:type` has invalid IRI syntax,
+the diagnostic includes the offending CSV value. A trailing tab appears as
+`\t`. Correct the cell in the reported CSV. The converter publishes the part
+only when all its emitted subjects and classes pass validation.
+
+Rerun the same command after fixing the error. It skips numbered inputs
 whose corresponding `.ttl` files already exist. A killed process can leave a
 hidden `.rism-*` directory containing temporary output. Resume ignores these
 directories. You can remove them once all conversions in that folder have stopped.
@@ -116,9 +121,10 @@ Existing files and loaded graphs require a separate operation; see the
 
 ### Retrying an incomplete export from an older converter
 
-Older runs could leave a partial `part-N.ttl` after a write error or an
-interruption. The old serialization error message omitted the part path, and
-messages from concurrent workers could interleave. If completeness is
+Older runs could publish unreadable Turtle for an invalid subject or class and
+still exit successfully. They could also leave a partial `part-N.ttl` after a
+write error or an interruption. The old serialization error message omitted the
+part path, and messages from concurrent workers could interleave. If completeness is
 uncertain, keep the old files and run the conversion command above with the
 original reconciled CSVs, the same mappings, and a new, empty
 `--output_folder`. Check the exit status and compare the regenerated parts
@@ -141,6 +147,7 @@ PY
 A parse error identifies an unreadable part. An empty file or a prefix of a
 longer export can also parse successfully. If you can identify the affected
 parts and establish that the others are complete, move the suspect `.ttl` files
-to a backup directory. Rerun the conversion with the same input, mappings and
-output folders. Check the exit status, parse each replacement and compare its
-contents with the corresponding source records.
+to a backup directory. Correct any invalid subject or class cells in the input.
+Rerun the conversion with the same input, mappings and output folders. Check
+the exit status, parse each replacement and compare its contents with the
+corresponding source records.

@@ -25,8 +25,8 @@ Usage:
 
 Exception Handling:
 
-    - Skips any lines that raise errors, after logging the error.
-    - Handles missing or malformed data gracefully, logging errors to the terminal without crashing the script.
+    - An invalid subject or generated class IRI fails the part. Other row errors
+      are logged and skipped.
     - File processing and publication failures are reported per part. Other parts continue,
       and the command exits nonzero if any part failed.
 
@@ -137,22 +137,40 @@ def convert_rdf_object(obj: str) -> URIRef | Literal:
         return Literal(obj)
 
 
+class InvalidRecordIRI(ValueError):
+    """An emitted subject or class cannot be represented as an RDF IRI."""
+
+
+def required_iri(value: str, position: str, csv_value: str | None = None) -> URIRef:
+    try:
+        return URIRef(NamedNode(value).value)
+    except ValueError as exc:
+        message = f"Invalid {position} IRI {value!r}"
+        if csv_value is not None:
+            message += f" (CSV value {csv_value!r})"
+        raise InvalidRecordIRI(message) from exc
+
+
 def process_triple(s, p, o, mapping, roles, old_graph, g):
     """Process a single triple from the file, and add it to the graph."""
-    # Make RDF Objects
-    s_rdf = URIRef(s)
+
+    def add(predicate, obj):
+        # An intermediate lookup key only needs to be an IRI if emitted.
+        g.add((required_iri(s, "subject"), predicate, obj))
+
     p_rdf = URIRef(p)
     p_map = mapping.get(p, None)
 
     if p_rdf == RDF.type:
-        g.add((s_rdf, RDF.type, LMRISM[o.removeprefix(str(RISM_API))]))
+        class_iri = str(LMRISM) + o.removeprefix(str(RISM_API))
+        add(RDF.type, required_iri(class_iri, "class", csv_value=o))
 
     elif p_rdf == RISM_API["hasEncoding"]:
         if not p_map or not is_reference_cell(o):
             return
         # Traverse the blank node
         for obj in old_graph.get((o, str(RDFS.label)), []):
-            g.add((s_rdf, p_map, convert_rdf_object(obj)))
+            add(p_map, convert_rdf_object(obj))
 
     elif p_rdf == RISM_API["hasRelationship"]:
         if not is_reference_cell(o):
@@ -162,14 +180,14 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
                 continue
             # Add the relationship with the role
             for obj in old_graph.get((o, str(DCTERMS.relation)), []):
-                g.add((s_rdf, role_map, convert_rdf_object(obj)))
+                add(role_map, convert_rdf_object(obj))
 
     elif p_rdf == RISM_API["hasHolding"]:
         if not p_map or not is_reference_cell(o):
             return
         # Traverse the blank node
         for obj in old_graph.get((o, str(WDT["P195"])), []):
-            g.add((s_rdf, p_map, convert_rdf_object(obj)))
+            add(p_map, convert_rdf_object(obj))
 
     elif p_rdf == WDT["P921"]:
         if not p_map or not is_reference_cell(o):
@@ -181,7 +199,7 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
             for obj in old_graph.get((o, predicate), [])
         ]
         for obj in matches or old_graph.get((o, str(RDF.value)), []):
-            g.add((s_rdf, p_map, convert_rdf_object(obj)))
+            add(p_map, convert_rdf_object(obj))
 
     elif p_rdf == RISM_API["hasMaterialGroup"]:
         pass  # TODO: handle, see issue #444
@@ -193,26 +211,20 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
         first_prop = mapping.get(str(WDT["P1319"]), None)
         if first_prop:
             for obj in old_graph.get((o, str(WDT["P1319"])), []):
-                g.add(
-                    (
-                        s_rdf,
-                        first_prop,
-                        convert_date(f"{convert_rdf_object(obj).value}-01-01"),
-                    )
+                add(
+                    first_prop,
+                    convert_date(f"{convert_rdf_object(obj).value}-01-01"),
                 )
         second_prop = mapping.get(str(WDT["P1326"]), None)
         if second_prop:
             for obj in old_graph.get((o, str(WDT["P1326"])), []):
-                g.add(
-                    (
-                        s_rdf,
-                        second_prop,
-                        convert_date(f"{convert_rdf_object(obj).value}-12-31"),
-                    )
+                add(
+                    second_prop,
+                    convert_date(f"{convert_rdf_object(obj).value}-12-31"),
                 )
 
     elif p_map:
-        g.add((s_rdf, p_map, convert_rdf_object(o)))
+        add(p_map, convert_rdf_object(o))
 
 
 def process_file(path, mapping, roles, output_file, namespaces):
@@ -270,6 +282,8 @@ def process_file(path, mapping, roles, output_file, namespaces):
                     if not o:
                         continue
                     process_triple(s, p, o, mapping, roles, old_graph, g)
+            except InvalidRecordIRI:
+                raise
             except (KeyError, AttributeError) as e:
                 with tqdm.get_lock():
                     tqdm.write(f"{type(e).__name__} in line {i} of file {path}: {e}")
