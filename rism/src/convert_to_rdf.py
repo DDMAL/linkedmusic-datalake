@@ -227,6 +227,15 @@ def process_triple(s, p, o, mapping, roles, old_graph, g):
         add(p_map, convert_rdf_object(o))
 
 
+def rows_with_subject(reader):
+    """Pair each row with the last explicit subject in this CSV pass."""
+    subject = ""
+    for row in reader:
+        if row["subject"] != "":
+            subject = row["subject"]
+        yield subject, row
+
+
 def process_file(path, mapping, roles, output_file, namespaces):
     """Process an entire file, loading it, creating a graph, and serializing it."""
     with tqdm.get_lock():
@@ -238,16 +247,10 @@ def process_file(path, mapping, roles, output_file, namespaces):
     with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         properties = [x for x in reader.fieldnames if x != "subject"]
-        subject = None
-        for line in reader:
+        for subject, line in rows_with_subject(reader):
             # Skip basic RISM entities, we only want blank nodes
             # and sub-entities (like holdings) in this graph
-            if INTERMEDIATE_GRAPH_IGNORE_PATTERN.match(line["subject"]):
-                continue
-
-            # Handle propagating down the subject to deal with record view
-            subject = line["subject"] if line["subject"] else subject
-            if not subject:
+            if subject == "" or INTERMEDIATE_GRAPH_IGNORE_PATTERN.match(subject):
                 continue
 
             for prop in properties:
@@ -261,19 +264,13 @@ def process_file(path, mapping, roles, output_file, namespaces):
     g = Graph()
     with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
-        s = None
-        for i, line in enumerate(reader):
+        for i, (subject, line) in enumerate(rows_with_subject(reader)):
             try:
                 # Only process RISM entities, blank nodes will be handled elsewhere
-                if not re.match(r"https://rism.online/", line["subject"]):
+                if not re.match(r"https://rism.online/", subject):
                     continue
                 # We ignore entities that start with the (fake) API endpoint
-                if re.match(r"https://rism.online/api", line["subject"]):
-                    continue
-
-                # Handle propagating down the subject to deal with record view
-                s = line["subject"] if line["subject"] else s
-                if not s:
+                if re.match(r"https://rism.online/api", subject):
                     continue
 
                 for p in properties:
@@ -281,7 +278,7 @@ def process_file(path, mapping, roles, output_file, namespaces):
                     # Skip empty objects
                     if not o:
                         continue
-                    process_triple(s, p, o, mapping, roles, old_graph, g)
+                    process_triple(subject, p, o, mapping, roles, old_graph, g)
             except InvalidRecordIRI:
                 raise
             except (KeyError, AttributeError) as e:

@@ -51,6 +51,73 @@ def run_converter(inputs, output):
 
 
 class PartExportTests(unittest.TestCase):
+    def test_continuation_labels_follow_the_latest_explicit_subject(self):
+        first = NamedNode("https://rism.online/sources/1")
+        second = NamedNode("https://rism.online/sources/2")
+        label = NamedNode(str(RDFS.label))
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "out"
+            write_csv(
+                root / "part-1-ttl.csv",
+                [
+                    ["subject", label.value],
+                    ["", "before any subject"],
+                    [first.value, "first"],
+                    ["", "second"],
+                    ["", "third"],
+                    [str(converter.RISM_API.Source), ""],
+                    ["", "belongs to the API row"],
+                    [second.value, ""],
+                    ["", "new record"],
+                    [" ", ""],
+                    ["", "belongs to the space key"],
+                ],
+            )
+            result = run_converter(root, output)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(
+                set(parse(path=output / "part-1.ttl", format=RdfFormat.TURTLE)),
+                {
+                    Quad(first, label, Literal("first")),
+                    Quad(first, label, Literal("second")),
+                    Quad(first, label, Literal("third")),
+                    Quad(second, label, Literal("new record")),
+                },
+            )
+
+    def test_holding_lookup_stops_at_the_next_main_record(self):
+        source = NamedNode("https://rism.online/sources/1")
+        holding = source.value + "/holdings/2"
+        institutions = "https://rism.online/institutions/"
+        location = NamedNode(str(converter.WDT.P276))
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "out"
+            write_csv(
+                root / "part-1-ttl.csv",
+                [
+                    [
+                        "subject",
+                        str(converter.RISM_API.hasHolding),
+                        str(converter.WDT.P195),
+                    ],
+                    [holding, "", institutions + "10"],
+                    ["", "", institutions + "11"],
+                    [source.value, holding, ""],
+                    ["", "", institutions + "99"],
+                ],
+            )
+            result = run_converter(root, output)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(
+                set(parse(path=output / "part-1.ttl", format=RdfFormat.TURTLE)),
+                {
+                    Quad(source, location, NamedNode(institutions + "10")),
+                    Quad(source, location, NamedNode(institutions + "11")),
+                },
+            )
+
     def test_cli_retries_invalid_subject_and_class(self):
         subject = "https://rism.online/sources/1%20A"
         bad_subject = subject + "%zz"

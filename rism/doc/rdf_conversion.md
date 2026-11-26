@@ -14,6 +14,17 @@ The following list contains decisions made for specific roles:
 - "is complemented by" is mapped to P527 "has part" because it's the closest thing I could find
 - "dubious author" is mapped to P50 "author" because there's no dedicated property for a dubious author, that information would be contained in a statement/blank node
 
+## Record-view CSV rows
+
+An empty `subject` cell continues the most recent explicit subject in the same
+CSV file. Each nonempty subject starts a new group, including a holding or
+other intermediate node. A row before the first subject has no record to
+contribute to. Both the intermediate lookup and the final RDF use these same
+boundaries.
+
+To regenerate an older export, use the original CSVs and mappings with a fresh
+output directory. The converter skips numbered parts that already exist.
+
 ## Blank nodes
 
 The converter follows an intermediate row when the untyped HTTP(S) reference
