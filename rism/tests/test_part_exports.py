@@ -58,11 +58,14 @@ class PartExportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             output = root / "out"
+            part = root / "part-1-ttl.csv"
             write_csv(
-                root / "part-1-ttl.csv",
+                part,
                 [
                     ["subject", label.value],
+                    ["", ""],
                     ["", "before any subject"],
+                    ["", "another leading label"],
                     [first.value, "first"],
                     ["", "second"],
                     ["", "third"],
@@ -76,6 +79,10 @@ class PartExportTests(unittest.TestCase):
             )
             result = run_converter(root, output)
             self.assertEqual(result.returncode, 0, result.stderr)
+            warning = (
+                f"Skipped populated rows before the first subject in {part} (count=2)"
+            )
+            self.assertEqual(result.stderr.count(warning), 1, result.stderr)
             self.assertEqual(
                 set(parse(path=output / "part-1.ttl", format=RdfFormat.TURTLE)),
                 {
@@ -89,6 +96,7 @@ class PartExportTests(unittest.TestCase):
     def test_holding_lookup_stops_at_the_next_main_record(self):
         source = NamedNode("https://rism.online/sources/1")
         holding = source.value + "/holdings/2"
+        second_holding = source.value + "/holdings/3"
         institutions = "https://rism.online/institutions/"
         location = NamedNode(str(converter.WDT.P276))
         with tempfile.TemporaryDirectory() as directory:
@@ -105,16 +113,21 @@ class PartExportTests(unittest.TestCase):
                     [holding, "", institutions + "10"],
                     ["", "", institutions + "11"],
                     [source.value, holding, ""],
-                    ["", "", institutions + "99"],
+                    ["", second_holding, institutions + "99"],
+                    [second_holding, "", institutions + "20"],
                 ],
             )
             result = run_converter(root, output)
             self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertNotIn(
+                "Skipped populated rows before the first subject", result.stderr
+            )
             self.assertEqual(
                 set(parse(path=output / "part-1.ttl", format=RdfFormat.TURTLE)),
                 {
                     Quad(source, location, NamedNode(institutions + "10")),
                     Quad(source, location, NamedNode(institutions + "11")),
+                    Quad(source, location, NamedNode(institutions + "20")),
                 },
             )
 

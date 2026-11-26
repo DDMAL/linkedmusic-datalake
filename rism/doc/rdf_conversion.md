@@ -18,12 +18,16 @@ The following list contains decisions made for specific roles:
 
 An empty `subject` cell continues the most recent explicit subject in the same
 CSV file. Each nonempty subject starts a new group, including a holding or
-other intermediate node. A row before the first subject has no record to
-contribute to. Both the intermediate lookup and the final RDF use these same
-boundaries.
+other intermediate node. Both the intermediate lookup and the final RDF use
+these boundaries. The converter skips rows before the first subject. If any
+of those rows contain data, it reports their count and the CSV path.
 
-To regenerate an older export, use the original CSVs and mappings with a fresh
-output directory. The converter skips numbered parts that already exist.
+Older exports can omit values on continuation rows or attach them to the
+preceding holding and link a source to the wrong institution. Regenerate from
+the original CSVs and mappings into a fresh output directory, since the
+converter skips numbered parts that already exist. Validate each regenerated
+part and use it to replace its older counterpart in full. Adding its triples
+to the older export would retain incorrect links.
 
 ## Blank nodes
 

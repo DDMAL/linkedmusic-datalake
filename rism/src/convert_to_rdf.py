@@ -244,13 +244,18 @@ def process_file(path, mapping, roles, output_file, namespaces):
     # Create a dict with the current data for easier blank node traversal
     # This is more memory-efficient than a full Graph because it stores less indices
     old_graph = {}
+    leading_populated_rows = 0
     with open(path, "r", encoding="utf-8", newline="") as f:
         reader = csv.DictReader(f)
         properties = [x for x in reader.fieldnames if x != "subject"]
         for subject, line in rows_with_subject(reader):
+            if subject == "":
+                if any(line[prop] for prop in properties):
+                    leading_populated_rows += 1
+                continue
             # Skip basic RISM entities, we only want blank nodes
             # and sub-entities (like holdings) in this graph
-            if subject == "" or INTERMEDIATE_GRAPH_IGNORE_PATTERN.match(subject):
+            if INTERMEDIATE_GRAPH_IGNORE_PATTERN.match(subject):
                 continue
 
             for prop in properties:
@@ -259,6 +264,11 @@ def process_file(path, mapping, roles, output_file, namespaces):
                     continue
                 old_graph.setdefault((subject, prop), []).append(line[prop])
 
+    if leading_populated_rows:
+        tqdm.write(
+            f"Skipped populated rows before the first subject in {path} (count={leading_populated_rows})",
+            file=sys.stderr,
+        )
     with tqdm.get_lock():
         tqdm.write(f"Converting {path} to RDF...")
     g = Graph()
