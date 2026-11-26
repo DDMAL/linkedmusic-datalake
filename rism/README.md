@@ -94,7 +94,13 @@ Then, from the `linkedmusic-datalake` directory, run the following command to co
 poetry run python rism/src/convert_to_rdf.py --input_folder rism/data/reconciled/ --mappings_folder rism/src/mappings/ --output_folder rism/data/rdf/
 ```
 
-Each CSV file will be converted into a Turtle file in the `rism/data/rdf/` folder.
+Each `part-N-ttl.csv` produces `part-N.ttl` in the output folder. The converter
+writes and closes a temporary file before moving it into place. If a part fails,
+the command reports its path, finishes the other parts, and exits nonzero.
+Fix the reported cause and rerun the same command. It skips numbered inputs
+whose corresponding `.ttl` files already exist. A killed process can leave a
+hidden `.rism-*` directory containing temporary output. Resume ignores these
+directories. You can remove them once all conversions in that folder have stopped.
 
 For more details on the RDF conversion process, read [`rdf_conversion.md`](./doc/rdf_conversion.md)
 
@@ -107,3 +113,34 @@ poetry run python -m unittest discover -s rism/tests -v
 The converter normalizes recognized Wikidata item IRIs on new conversions.
 Existing files and loaded graphs require a separate operation; see the
 [identifier audit and migration procedure](doc/identifier_normalization.md).
+
+### Retrying an incomplete export from an older converter
+
+Older runs could leave a partial `part-N.ttl` after a write error or an
+interruption. The old serialization error message omitted the part path, and
+messages from concurrent workers could interleave. If completeness is
+uncertain, keep the old files and run the conversion command above with the
+original reconciled CSVs, the same mappings, and a new, empty
+`--output_folder`. Check the exit status and compare the regenerated parts
+with the expected source records.
+
+If the error includes an offending value, search the CSVs to locate candidate
+parts. To check a suspect file's Turtle syntax, run this from the repository
+root, substituting the part's path.
+
+```sh
+poetry run python - rism/data/rdf/part-1.ttl <<'PY'
+import sys
+from pyoxigraph import RdfFormat, parse
+
+triples = parse(path=sys.argv[1], format=RdfFormat.TURTLE)
+print(sum(1 for _ in triples), "triples parsed")
+PY
+```
+
+A parse error identifies an unreadable part. An empty file or a prefix of a
+longer export can also parse successfully. If you can identify the affected
+parts and establish that the others are complete, move the suspect `.ttl` files
+to a backup directory. Rerun the conversion with the same input, mappings and
+output folders. Check the exit status, parse each replacement and compare its
+contents with the corresponding source records.

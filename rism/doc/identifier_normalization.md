@@ -4,10 +4,16 @@
 
 The converter normalizes complete HTTP/HTTPS × www/non-www × wiki/entity
 Wikidata item IRIs to `http://www.wikidata.org/entity/Q…`. Only positive ASCII
-IDs matching `Q[1-9][0-9]*` are recognized. Literal text/language/datatypes,
-unrelated URLs, source-record identifiers and malformed/suffixed IDs remain
-unchanged. A URL-shaped CSV field without literal metadata follows the existing
-IRI convention. See [#462](https://github.com/DDMAL/linkedmusic-datalake/issues/462).
+IDs matching `Q[1-9][0-9]*` are recognized. Other IRI spellings, including
+items with a query, fragment or leading zero, keep their original form.
+If an untyped HTTP(S) object fails Oxigraph's IRI syntax check, the converter
+preserves the entire field as a plain literal. For example, a trailing space
+produces the Turtle literal `"https://wikidata.org/wiki/Q42 "`. A valid escape
+such as `%20` stays encoded. An incomplete escape such as `%2` makes the field
+a literal. The same check applies to an explicit HTTP(S) datatype. If the
+datatype is malformed, the plain literal retains the value, the `^^` marker
+and the exact datatype text. Valid datatypes and language tags keep their
+existing handling. See [#462](https://github.com/DDMAL/linkedmusic-datalake/issues/462).
 
 Topic traversal accepts four explicit P2888 predicate spellings and retains all
 supplied matches. It falls back to `rdf:value` only when no match exists. This
